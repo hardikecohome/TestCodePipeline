@@ -17,10 +17,12 @@
     totalBorrowingCostLabel.text('-');
     //
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
-    if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) { return; }
-	var hst = 0;
-	//Matt's request to map new contract
-	//var hst = taxRate / 100 * equipmentCashPrice;
+    if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) {
+        return;
+    }
+    var hst = 0;
+    //Matt's request to map new contract
+    //var hst = taxRate / 100 * equipmentCashPrice;
     hstLabel.text(formatNumber(hst));
     var totalCashPrice = equipmentCashPrice + hst;
     totalCashPriceLabel.text(formatNumber(totalCashPrice));
@@ -37,8 +39,10 @@
     var loanTerm = parseInt($("#loan-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
-	if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return; }
-	var totalMonthlyPayment = customerRate > 0 ? (Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) / 100) : (totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0));
+    if (isNaN(loanTerm) || loanTerm <= 0 || isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) {
+        return;
+    }
+    var totalMonthlyPayment = customerRate > 0 ? (Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) / 100) : (totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0));
     isCalculationValid = totalMonthlyPayment > 0;
     loanTotalMonthlyPaymentLabel.text(formatNumber(totalMonthlyPayment));
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
@@ -47,16 +51,18 @@
     if (loanTerm !== amortizationTerm) {
         residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
-	residualBalanceLabel.text(formatNumber(residualBalance));
-	var totalObligation = totalAllMonthlyPayments + residualBalance + adminFee;
-	totalObligationLabel.text(formatNumber(totalObligation));
-	var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced - adminFee);
+    residualBalanceLabel.text(formatNumber(residualBalance));
+    var totalObligation = totalAllMonthlyPayments + residualBalance + adminFee;
+    totalObligationLabel.text(formatNumber(totalObligation));
+    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced - adminFee);
     totalBorrowingCostLabel.text(formatNumber(totalBorrowingCost));
 }
 
 function checkCalculationValidity(inputCashPrice, inputTaxRate) {
     var equipmentCashPrice = typeof inputCashPrice !== 'undefined' && inputCashPrice !== null ? inputCashPrice : parseFloat($("#equipment-cash-price").text());
-    if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) { return false; }
+    if (isNaN(equipmentCashPrice) || equipmentCashPrice <= 0) {
+        return false;
+    }
     var testTaxRate = typeof inputTaxRate !== 'undefined' && inputTaxRate !== null ? inputTaxRate : taxRate;
     var hst = testTaxRate / 100 * equipmentCashPrice;
     var totalCashPrice = equipmentCashPrice + hst;
@@ -71,8 +77,10 @@ function checkCalculationValidity(inputCashPrice, inputTaxRate) {
     var totalAmountFinanced = totalCashPrice - downPayment;
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
-	if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) { return false; }
-	var totalMonthlyPayment = Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) /100;
+    if (isNaN(amortizationTerm) || amortizationTerm <= 0 || isNaN(customerRate) || customerRate < 0) {
+        return false;
+    }
+    var totalMonthlyPayment = Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) / 100;
     return totalMonthlyPayment > 0;
 }
 
@@ -89,6 +97,10 @@ function calculateClarityTotalCashPrice() {
     var loantTermDisplay = $("#displayLoanTerm");
     var amortTermDisplay = $("#displayAmortTem");
     var displayCustRate = $('#displayCustRate');
+    var displayMonthlyCostNoTax = $('#totalMonthlyCostNoTax');
+    var displayTotalHst = $('#total-hst');
+    var displayTotalMonthlyCostTax = $('#totalMonthlyCostTax');
+    var displaytotalMonthlyCostTaxDP = $('#totalMonthlyCostTaxDP')
 
     hstLabel.text('-');
     totalAmountFinancedLabel.text('-');
@@ -97,6 +109,10 @@ function calculateClarityTotalCashPrice() {
     borrowerCost.text('-');
     yourCost.text('-');
     balanceOwning.text('-');
+    displayMonthlyCostNoTax.text('-');
+    displayTotalHst.text('-');
+    displayTotalMonthlyCostTax.text('-');
+    displaytotalMonthlyCostTaxDP.text('-');
 
     var equipmentCashPrice = parseFloat($("#equipment-cash-price").text());
     var packageCashPrice = parseFloat($("#package-cash-price").text());
@@ -128,7 +144,7 @@ function calculateClarityTotalCashPrice() {
     hstLabel.text(formatNumber(clarityCalcualtions.tax(data)));
     totalAmountFinancedLabel.text(formatNumber(clarityCalcualtions.totalAmountFinanced(data)));
     totalMonthlyPaymentsLabel.text(formatNumber(clarityCalcualtions.totalMonthlyPayments(data)));
-	totalObligationLabel.text(formatNumber(clarityCalcualtions.totalObligation(data)));
+    totalObligationLabel.text(formatNumber(clarityCalcualtions.totalObligation(data)));
     borrowerCost.text(formatNumber(clarityCalcualtions.totalBorrowingCost(data)));
     balanceOwning.text(formatNumber(clarityCalcualtions.residualBalance(data)));
     yourCost.text(formatNumber(clarityCalcualtions.yourCost(data)));
@@ -137,4 +153,10 @@ function calculateClarityTotalCashPrice() {
     amortTermDisplay.text(amortizationTerm + ' months');
     amortTermDisplay.text(amortizationTerm + ' months');
     displayDealerCost.text(0 + ' %');
+    displayMonthlyCostNoTax.text(formatNumber(clarityCalcualtions.totalMCONoTax(data)));
+    displayTotalHst.text(formatNumber(clarityCalcualtions.tax(data)));
+    displaytotalMonthlyCostTaxDP.text(formatNumber(clarityCalcualtions.totalMonthlyPaymentsLessDownPayment(data)));
+
+    displayTotalMonthlyCostTax.text(formatNumber(clarityCalcualtions.totalMCOLessDownPaymentNoTax(data)));
+
 }

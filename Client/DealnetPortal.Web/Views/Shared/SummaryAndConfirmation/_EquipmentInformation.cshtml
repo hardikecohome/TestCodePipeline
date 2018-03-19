@@ -25,10 +25,10 @@
                 <h3 class="dealnet-section-title">
                     @Resources.NewEquipment
                     @Html.ActionLink(Resources.Edit,
-                                                                               "EquipmentInformation",
-                                                                               "NewRental",
-                                                                               new { contractId = Model.BasicInfo.ContractId },
-                                                                               new { @class = "dealnet-section-edit-link pull-right" })
+                                                                                                        "EquipmentInformation",
+                                                                                                        "NewRental",
+                                                                                                        new { contractId = Model.BasicInfo.ContractId },
+                                                                                                        new { @class = "dealnet-section-edit-link pull-right" })
                 </h3>
 
             </div>
@@ -57,13 +57,13 @@
                                 })
                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                     @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                          ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                                                          {
-                                                                                              Value = x.Type,
-                                                                                              Text = x.Description,
-                                                                                              Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                          }),
-                                                                                          new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                                                                    {
+                                                                                                        Value = x.Type,
+                                                                                                        Text = x.Description,
+                                                                                                        Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                                                    }),
+                                                                                                    new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 </div>
                             </div>
                         </div>
@@ -90,14 +90,11 @@
                             {
                                 <div class="form-group">
                                     <div class="row">
-                                        @*@Html.Label($"{Resources.MonthlyCostOfOwnership} ({Resources.TaxExcl})", new
+                                        @Html.Label(Resources.MonthlyCostOfOwnership + " (" + Resources.TaxExcl + ")", new
                                         {
-                                            @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
-                                        })*@
-                                        <div class="dealnet-field-caption col-xs-8 col-sm-9">
-                                            @Resources.MonthlyCostOfOwnership (@Resources.TaxExcl)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-4 col-sm-3">
+                                            @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-6"
+                                        })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-6">
                                             @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCost, new
                                             {
                                                 id = "",
@@ -108,16 +105,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="row">                                        
-                                        <div class="dealnet-field-caption col-xs-8 col-sm-9">
-                                            @Resources.MCOReducedDownPayment (@Resources.TaxExcl)
-                                        </div>
-                                        <div class="dealnet-field-holder col-xs-4 col-sm-3">
+                                    <div class="row">
+                                        @Html.Label(Resources.MCOReducedDownPayment + " (" + Resources.TaxExcl + ")", new
+                                        {
+                                            @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-6"
+                                        })
+                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-6">
                                             @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].MonthlyCostLessDP, new
                                             {
                                                 id = "",
                                                 @readonly = "readonly",
-                                                @class = "dealnet-disabled-input has-cost-sign monthly-cost"
+                                                @class = "dealnet-disabled-input has-cost-sign reduced-monthly-cost"
                                             })
                                         </div>
                                     </div>
@@ -230,16 +228,32 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new
+                                @Html.Label(Resources.MonthlyCost + " (" + Resources.TaxExcl + ")", new
                                 {
-                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-6"
                                 })
-                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-6">
                                     @Html.TextBoxFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new
                                     {
                                         id = "",
                                         @readonly = "readonly",
                                         @class = "dealnet-disabled-input has-cost-sign package-cost"
+                                    })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.Label(Resources.MCOReducedDownPayment + " (" + Resources.TaxExcl + ")", new
+                                {
+                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-6"
+                                })
+                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-6">
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCostLessDP, new
+                                    {
+                                        id = "",
+                                        @readonly = "readonly",
+                                        @class = "dealnet-disabled-input has-cost-sign reduced-monthly-cost"
                                     })
                                 </div>
                             </div>

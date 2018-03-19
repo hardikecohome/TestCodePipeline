@@ -7,12 +7,18 @@
             return (data.packagesSum + data.equipmentSum) * data.tax / 100;
         };
 
-        var totalMonthlyCostOfOwnership = function (data) {
-            var t = clarityTax(data);
+        var totalMCONoTax = function (data) {
             var equipmentSum = data.equipmentSum;
             var packagesSum = data.packagesSum;
 
-            return packagesSum + equipmentSum + t;
+            return equipmentSum + packagesSum;
+        }
+
+        var totalMonthlyCostOfOwnership = function (data) {
+            var t = clarityTax(data);
+            var mcoNoTax = totalMCONoTax(data);
+
+            return mcoNoTax + t;
         };
 
         var totalClarityAmountFinanced = function (data) {
@@ -80,12 +86,22 @@
         }
 
         var totalClarityMonthlyPaymentsLessDownPayment = function (data) {
-            var priceOfEquipment = totalClarityAmountFinanced(data);
+            var totalAmountFinanced = totalClarityAmountFinanced(data);
 
-            return priceOfEquipment * clarityPaymentFactor;
+            return totalAmountFinanced * clarityPaymentFactor;
+        }
+
+        var totalClarityMCOLessDownPaymentNoTax = function (data) {
+            var downPayment = data.downPayment;
+            var tMCONoTax = totalClarityMCONoTax(data);
+            var totalPriceOfEquipmentNoTax = tMCONoTax / clarityPaymentFactor;
+            var totalAmountFinancedNoTax = totalPriceOfEquipmentNoTax - downPayment;
+
+            return totalAmountFinancedNoTax * clarityPaymentFactor;
         }
 
         return {
+            totalMCONoTax: totalMCONoTax,
             totalMonthlyCostOfOwnership: totalMonthlyCostOfOwnership,
             totalObligation: totalClarityObligation,
             totalBorrowingCost: totalClarityBorrowingCost,
@@ -95,6 +111,7 @@
             yourCost: clarityYourCost,
             totalPriceOfEquipment: totalPriceOfEquipment,
             tax: clarityTax,
-            totalMonthlyPaymentsLessDownPayment: totalClarityMonthlyPaymentsLessDownPayment
+            totalMonthlyPaymentsLessDownPayment: totalClarityMonthlyPaymentsLessDownPayment,
+            totalMCOLessDownPaymentNoTax: totalClarityMCOLessDownPaymentNoTax
         };
     });
