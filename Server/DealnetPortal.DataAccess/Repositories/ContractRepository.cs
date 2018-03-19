@@ -1192,6 +1192,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.RateCardId = equipmentInfo.RateCardId;
             }
+            if (equipmentInfo.IsFeePaidByCutomer.HasValue)
+            {
+                dbEquipment.IsFeePaidByCutomer = equipmentInfo.IsFeePaidByCutomer;
+            }
             if (equipmentInfo.DealerCost.HasValue)
             {
                 dbEquipment.DealerCost = equipmentInfo.DealerCost;
