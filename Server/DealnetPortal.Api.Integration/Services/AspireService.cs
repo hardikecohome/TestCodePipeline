@@ -1814,8 +1814,8 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AdminFee,
-                    Value = contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ??
-                        contract.Equipment?.AdminFee?.ToString() ?? "0.0"
+                    Value = contract.Equipment.IsFeePaidByCutomer ?? false ? contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ??
+                        contract.Equipment?.AdminFee?.ToString() : "0.0"
                 });
 
                 udfList.Add(new UDF()
