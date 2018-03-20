@@ -51,9 +51,9 @@
             </div>
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("negotiated-contract-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?
-                             (object)new { id = "negotiated-contract-checkbox", @checked = "true", value = true } :
-                             new { id = "negotiated-contract-checkbox", value = false })
+                    @Html.CheckBox("negotiated-agreement-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?
+                             (object)new { id = "negotiated-agreement-checkbox", @checked = "true", value = true } :
+                             new { id = "negotiated-agreement-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -64,9 +64,9 @@
             </div>
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("concluded-contract-checkbox", Model.SalesRepInformation.ConcludedAgreement ?
-                             (object)new { id = "concluded-contract-checkbox", @checked = "true", value = true } :
-                             new { id = "concluded-contract-checkbox", value = false })
+                    @Html.CheckBox("concluded-agreement-checkbox", Model.SalesRepInformation.ConcludedAgreement ?
+                             (object)new { id = "concluded-agreement-checkbox", @checked = "true", value = true } :
+                             new { id = "concluded-agreement-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
