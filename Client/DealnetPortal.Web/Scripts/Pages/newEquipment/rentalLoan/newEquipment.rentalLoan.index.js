@@ -210,9 +210,15 @@
             $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
 
-            $('#initiated-contract-checkbox').on('click', function(e) { $('#initiated-contract').val(e.target.checked); _toggleSalesRepErrors(false); });
-            $('#negotiated-contract-checkbox').on('click', function(e) { $('#negotiated-contract').val(e.target.checked); _toggleSalesRepErrors(false); });
-            $('#concluded-contract-checkbox').on('click', function(e) { $('#concluded-contract').val(e.target.checked);  _toggleSalesRepErrors(false); });
+            $('#initiated-contract-checkbox').on('click', function (e) {
+                $('#initiated-contract').val(e.target.checked); _toggleSalesRepErrors(false);
+            });
+            $('#negotiated-agreement-checkbox').on('click', function (e) {
+                $('#negotiated-agreement').val(e.target.checked); _toggleSalesRepErrors(false);
+            });
+            $('#concluded-agreement-checkbox').on('click', function (e) {
+                $('#concluded-agreement').val(e.target.checked); _toggleSalesRepErrors(false);
+            });
             $('.custom-radio').on('click', _setAdminFeeCoveredBy);
         }
 
