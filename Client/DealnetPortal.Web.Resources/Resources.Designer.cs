@@ -304,6 +304,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Mortgage &amp; Employment Information.
+        /// </summary>
+        public static string AdditionalApplicantEmploymentInformation {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantEmploymentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Information.
         /// </summary>
         public static string AdditionalApplicantInformation {
@@ -952,7 +961,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Borrower Employment Information.
+        ///   Looks up a localized string similar to Borrower Mortgage &amp; Employment Information.
         /// </summary>
         public static string BorrowerEmploymentInformation {
             get {

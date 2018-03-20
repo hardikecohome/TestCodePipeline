@@ -2348,7 +2348,7 @@ changing contract terms or signing contract on paper.</value>
     <value>Annual Salary/Income</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Borrower Employment Information</value>
+    <value>Borrower Mortgage &amp; Employment Information</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
     <value>Company Address</value>
@@ -2571,5 +2571,8 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
     <value>Monthly Mortgage Payment is in incorrect format</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Additional Applicant Mortgage &amp; Employment Information</value>
   </data>
 </root>
