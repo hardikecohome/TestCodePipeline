@@ -59,8 +59,8 @@
         var totalClarityObligation = function (data) {
             var tMonthlyPayments = totalClarityMonthlyPayments(data);
             var rBalance = clarityResidualBalance(data);
-            var adminFee = data.AdminFee;
-            return tMonthlyPayments + rBalance + adminFee;
+
+            return tMonthlyPayments + rBalance;
         };
 
         var totalClarityBorrowingCost = function (data) {
@@ -86,9 +86,10 @@
         }
 
         var totalClarityMonthlyPaymentsLessDownPayment = function (data) {
-            var totalAmountFinanced = totalClarityAmountFinanced(data);
+            var tPrice = totalMonthlyCostOfOwnership(data);
+            var downPayment = data.downPayment;
 
-            return totalAmountFinanced * clarityPaymentFactor;
+            return tPrice.toFixed(2) - downPayment * clarityPaymentFactor;
         }
 
         var totalClarityMCOLessDownPaymentNoTax = function (data) {
