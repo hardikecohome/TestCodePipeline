@@ -11,7 +11,8 @@
                     id = "requested-term",
                     @readonly = "readonly",
                     @class = "form-control dealnet-input",
-                    placeholder = Resources.RequestedTerm
+                    placeholder = Resources.RequestedTerm,
+                    tabindex="-1"
                 })
                 @Html.ValidationMessageFor(m => m.RequestedTerm, "", new { @class = "text-danger" })
             </div>
