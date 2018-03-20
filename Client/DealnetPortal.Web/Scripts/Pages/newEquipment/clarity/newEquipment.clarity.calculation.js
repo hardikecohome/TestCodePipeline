@@ -151,27 +151,30 @@
     }
 
     var _recalculateAndRenderMCOLessDownPayment = function (data) {
-        var downPayment = state.downPayment;
+        var downPayment = state.downPayment; //D20
         var dpTax = downPayment * constants.clarityPaymentFactor / (1 + state.tax / 100);
-        var packageSum =  Object.keys(state.packages).reduce(function (acc, x) { return acc += state.packages[x].monthlyCost }, 0);
-        var totalMonthlyCost = data.equipmentSum + packageSum;
+
+        var totalMonthlyCost = formatNumber(data.equipmentSum + data.packagesSum) //d12 - downPayment * constants.clarityPaymentFactor;
+
 
         for (var id in state.equipments) {
+            var equipment = state.equipments[id];
             var percentageOfEqMonthlyCost = (state.equipments[id].monthlyCost * 100 / totalMonthlyCost) / 100;
             var percentageOfEqDpTax = dpTax * percentageOfEqMonthlyCost;
 
-            state.equipments[id].monthlyCostLessDp = state.equipments[id].monthlyCost - percentageOfEqDpTax;
+            equipment.monthlyCostLessDp = equipment.monthlyCost - dpTax / totalMonthlyCost * equipment.monthlyCost;
             $('#NewEquipment_' + id + '__MonthlyCostLessDP')
-                .val(state.equipments[id].monthlyCostLessDp.toFixed(2));
+                .val(formatNumber(equipment.monthlyCostLessDp));
         }
 
         for (var id in state.packages) {
+            var package = state.packages[id];
             var percentageOfPckMonthlyCost = (state.packages[id].monthlyCost * 100 / totalMonthlyCost) / 100;
             var percentageOfPckDpTax = dpTax * percentageOfPckMonthlyCost;
 
-            state.packages[id].monthlyCostLessDp = state.packages[id].monthlyCost - percentageOfPckDpTax;
+            package.monthlyCostLessDp = package.monthlyCost - dpTax / totalMonthlyCost * package.monthlyCost;
             $('#InstallationPackages_' + id + '__MonthlyCostLessDP')
-                .val(state.packages[id].monthlyCostLessDp.toFixed(2));
+                .val(formatNumber(state.packages[id].monthlyCostLessDp));
         }
     }
 
