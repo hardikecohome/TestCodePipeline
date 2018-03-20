@@ -1817,6 +1817,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ??
                         contract.Equipment?.AdminFee?.ToString() ?? "0.0"
                 });
+
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.FeePaidBy,
+                    Value = contract.Equipment.IsFeePaidByCutomer ?? false ? "C":"D"
+                });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DownPayment,
