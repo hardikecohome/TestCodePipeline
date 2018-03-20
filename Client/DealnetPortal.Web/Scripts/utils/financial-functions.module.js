@@ -30,9 +30,9 @@
 
         var yourCost = function (data) {
             var includeAdminFeeForDealer = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
-            var yCost = includeAdminFeeForDealer ? data.DealerCost + data.AdminFee : data.DealerCost;
+            var yCost = data.DealerCost * totalAmountFinanced(data) / 100;
 
-            return yCost * totalAmountFinanced(data) / 100;
+            return includeAdminFeeForDealer ? yCost + data.AdminFee : yCost;
         }
 
         var monthlyPayment = function(data) {
