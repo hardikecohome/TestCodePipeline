@@ -78,7 +78,8 @@
             tax: state.tax,
             packagesSum: packagesSum,
             numEquipment: countItems(state.equipments),
-            numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0
+            numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0,
+            includeAdminFee: state.isCoveredByCustomer
         }, idToValue(state)('clarity'));
 
         var briefData = rateCardsCalculator.caclulateClarityBriefValues(totalMonthlyData);

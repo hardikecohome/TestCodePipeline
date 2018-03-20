@@ -131,6 +131,7 @@
         input.prop('disabled', false);
         input[0].form && input.rules('add', 'required');
         toggleExistingEquipment();
+        _toggleSalesRepSection();
     };
 
     function _disableNewEquipment(row) {
@@ -143,6 +144,7 @@
         input.prop('disabled', true);
         input[0].form && input.rules('remove', 'required');
         toggleExistingEquipment();
+        _toggleSalesRepSection();
     };
 
     function _toggleSalesRepSection() {
@@ -157,16 +159,14 @@
     }
 
     function _disableSalesRepSection() {
-        if ($(settings.salesRepTypesId).is(':visible')) {
-            $(settings.salesRepTypesId).addClass('hidden');
-            $(settings.salesRepTitleId).addClass('hidden');
-            $(settings.initiatedContractId).val(null);
-            $(settings.initiatedContractCheckboxId).prop('checked', false);
-            $(settings.negotiatedAgreementId).val(null);
-            $(settings.negotiatedAgreementCheckboxId).prop('checked', false);
-            $(settings.concludedAgreementId).val(null);
-            $(settings.concludedAgreementCheckboxId).prop('checked', false);
-        }
+        $(settings.salesRepTypesId).addClass('hidden');
+        $(settings.salesRepTitleId).addClass('hidden');
+        $(settings.initiatedContractId).val('False');
+        $(settings.initiatedContractCheckboxId).prop('checked', false);
+        $(settings.negotiatedAgreementId).val('False');
+        $(settings.negotiatedAgreementCheckboxId).prop('checked', false);
+        $(settings.concludedAgreementId).val('False');
+        $(settings.concludedAgreementCheckboxId).prop('checked', false);
     }
 
     function _isSalesRepInfoHidden() {

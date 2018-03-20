@@ -30,9 +30,9 @@
 
         var yourCost = function (data) {
             var includeAdminFeeForDealer = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
-            var yCost = includeAdminFeeForDealer ? data.DealerCost + data.AdminFee : data.DealerCost;
+            var yCost = data.DealerCost * totalAmountFinanced(data) / 100;
 
-            return yCost * totalAmountFinanced(data) / 100;
+            return includeAdminFeeForDealer ? yCost + data.AdminFee : yCost;
         }
 
         var monthlyPayment = function(data) {
@@ -69,14 +69,17 @@
         var totalObligation = function(data) {
             var tMonthlyPayments = totalMonthlyPayments(data);
             var rBalance = residualBalance(data);
-			var adminFee = data.AdminFee;
+            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+			var adminFee = includeAdminFee ? data.AdminFee : 0;
 			return tMonthlyPayments + rBalance + adminFee;
         };
 
         var totalBorrowingCost = function(data) {
             var tObligation = totalObligation(data);
 			var tAmountFinanced = totalAmountFinanced(data);
-			var adminFee = data.AdminFee;
+            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var adminFee = includeAdminFee ? data.AdminFee : 0;
+
 			var borrowingCost = tObligation - tAmountFinanced - adminFee;
             if (borrowingCost < 0)
                 borrowingCost = 0;

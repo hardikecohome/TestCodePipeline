@@ -66,7 +66,8 @@
         var totalClarityBorrowingCost = function (data) {
             var tObligation = totalClarityObligation(data);
             var tAmountFinanced = totalClarityAmountFinanced(data);
-            var adminFee = data.AdminFee;
+            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var adminFee = includeAdminFee ? data.AdminFee : 0;
             var borrowingCost = tObligation - tAmountFinanced - adminFee;
             if (borrowingCost < 0)
                 borrowingCost = 0;
