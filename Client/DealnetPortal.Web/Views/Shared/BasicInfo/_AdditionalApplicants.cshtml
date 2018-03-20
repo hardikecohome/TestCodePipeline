@@ -355,7 +355,7 @@
         <!--Borrower Employment Information-->
 		<div id="add@(i+1)-employment-info"
 			 @(Model.HomeOwner?.AddressInformation?.Province.ToUpper() != "QC" ? "class=hidden" : "") class="personal-info-section">
-			<h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.AdditionalApplicant @Resources.EmploymentInformation</h2>
+			<h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.AdditionalApplicantEmploymentInformation</h2>
 			<div class="row">
 				<div class="col-md-4 form-group">
 					@Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment)
