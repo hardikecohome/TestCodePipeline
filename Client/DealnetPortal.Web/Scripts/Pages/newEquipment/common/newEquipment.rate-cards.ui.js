@@ -3,7 +3,6 @@
     var state = require('state').state;
     var constants = require('state').constants;
     var validateCustomCard = require('validation').validateCustomCard;
-    var bill59 = require('bill59');
 
     var setEqualHeightRows = require('setEqualHeightRows');
 
@@ -53,7 +52,6 @@
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
-            bill59.disableForAll();
         } else {
             $(".equipment-cost").each(function () {
                 var input = $(this);
@@ -67,13 +65,12 @@
                 input.prop("disabled", false).parents('.monthly-cost-col').show();
                 input[0].form && input.rules("add", "required");
             });
-            bill59.enableForAll();
         }
     }
     var toggleIsAdminFeeCovered = function (isCovered) {
         if (isCovered == null) return;
 
-        constants.rateCards.forEach(function(option) {
+        constants.rateCards.forEach(function (option) {
             $('#' + option.name + 'AFee').parent().removeClass('hidden');
             var text = isCovered ? translations.coveredByCustomer : translations.coveredByDealer;
             $('#' + option.name + 'AdminFeeHolder').text('(' + text + ')');

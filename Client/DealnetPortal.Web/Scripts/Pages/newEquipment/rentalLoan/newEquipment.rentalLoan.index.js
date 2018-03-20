@@ -39,6 +39,8 @@
             rentalMonthlyPaymentId: '#rentalTMPayment',
             dealProvinceId: '#DealProvince',
             coveredByCustomerId: '#isCoveredByCustomer',
+            passAdminFeeId: '#isPassAdminFee',
+            adminFeeSectionId: '#admin-fee-section',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
@@ -65,10 +67,19 @@
 
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
+            state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
+
+            if (state.isDisplayAdminFee) {
+                $(settings.adminFeeSectionId).removeClass('hidden');
+                state.isCoveredByCustomer = $(settings.coveredByCustomerId).val() !== ''
+                    ? $(settings.coveredByCustomerId).val().toLowerCase() === 'true'
+                    : undefined;
+            } else {
+                state.isCoveredByCustomer = undefined;
+            }
 
             state.bill59Equipment = bill59Equipment;
             state.isOntario = $(settings.dealProvinceId).val().toLowerCase() == 'on';
-            state.isCoveredByCustomer = $(settings.coveredByCustomerId).val() !== '' ? $(settings.coveredByCustomerId).val().toLowerCase() === 'true' : undefined;
 
             _initHandlers();
             _initDatepickers();

@@ -38,9 +38,9 @@
             @*@Html.Label(Resources.RoleOfSalesRep, new { @class = "visible-sm visible-xs" })*@
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?? false ?
-                        (object) new {id = "initiated-contract-checkbox", @checked = "true", value = true} :
-                        new {id = "initiated-contract-checkbox", value = false})
+                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?
+                             (object)new { id = "initiated-contract-checkbox", @checked = "true", value = true } :
+                             new { id = "initiated-contract-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -51,9 +51,9 @@
             </div>
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("negotiated-contract-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?? false ?
-                        (object) new {id = "negotiated-contract-checkbox", @checked = "true", value = true} :
-                        new {id = "negotiated-contract-checkbox", value = false})
+                    @Html.CheckBox("negotiated-contract-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?
+                             (object)new { id = "negotiated-contract-checkbox", @checked = "true", value = true } :
+                             new { id = "negotiated-contract-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -64,9 +64,9 @@
             </div>
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("concluded-contract-checkbox", Model.SalesRepInformation.ConcludedAgreement ?? false ?
-                        (object) new {id = "concluded-contract-checkbox", @checked = "true", value = true} :
-                        new {id = "concluded-contract-checkbox", value = false})
+                    @Html.CheckBox("concluded-contract-checkbox", Model.SalesRepInformation.ConcludedAgreement ?
+                             (object)new { id = "concluded-contract-checkbox", @checked = "true", value = true } :
+                             new { id = "concluded-contract-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>

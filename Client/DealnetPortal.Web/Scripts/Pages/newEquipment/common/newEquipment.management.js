@@ -140,7 +140,7 @@
         $('#existing-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
         if (!state.isClarity) {
-            require('bill59').enableExistingEquipment();
+            require('bill59').toggleExistingEquipment();
         }
     };
 
@@ -360,7 +360,7 @@
         _initExistingEquipment();
         _initNewEquipment();
         if (!state.isClarity) {
-            require('bill59').enableExistingEquipment();
+            require('bill59').init();
         }
     }
 

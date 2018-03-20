@@ -334,8 +334,14 @@ function showTable () {
 
             $('#check-all').on('click', function () {
                 var checked = this.checked;
-                var rows = table.rows('tr', { page: 'current' }).nodes();
-                $(rows).find('input[type="checkbox"]')
+                var indexes = table.rows('tr', { page: 'current' }).
+                    eq(0).filter(function (rowIdx) {
+
+                        return table.row(rowIdx).id() !== '0' ? true : false;
+
+                    });
+                var pageRows = table.rows(indexes).nodes();
+                $(pageRows).find('input[type="checkbox"]')
                     .prop('checked', !checked).click();
             });
         }
