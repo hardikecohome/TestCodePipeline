@@ -2566,4 +2566,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="HourlyRateIncorrectFormat" xml:space="preserve">
     <value>Hourly Rate is in incorrect format</value>
   </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Monthly Mortgage Payment (principal &amp; interest)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Monthly Mortgage Payment is in incorrect format</value>
+  </data>
 </root>

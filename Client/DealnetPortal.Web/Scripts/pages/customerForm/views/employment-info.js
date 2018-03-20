@@ -85,6 +85,11 @@
             dispatch(createAction(customerActions.SET_CPOSTAL_CODE, e.target.value));
         });
 
+		var monthlyMortgage = $('#emp-monthly-mortgage');
+		monthlyMortgage.on('change', function (e) {
+			dispatch(createAction(customerActions.SET_MONTHLYMORTGAGEPAYMENT, e.target.value));
+		}).rules('add', 'required');
+
         $('#cclear-address').on('click', function (e) {
             e.preventDefault();
             dispatch(createAction(customerActions.CLEAR_CADDRESS, e.target.value));
@@ -224,7 +229,8 @@
             ccity: city,
             cprovince: province,
             cpostalCode: postal,
-            isQuebecDealer: $('#isQuebecDealer')
+			isQuebecDealer: $('#isQuebecDealer'),
+			monthlyMortgagePayment: monthlyMortgage
         };
 
         dispatch(createAction(customerActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
@@ -255,7 +261,8 @@
         })(function (props) {
             if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
                 $('#employmentInfoForm').removeClass('hidden');
-                status.val('0').change().prop('disabled', false);
+				status.val('0').change().prop('disabled', false);
+				monthlyMortgage.prop('disabled', false).change();
             } else {
                 $('#employmentInfoForm').addClass('hidden').find('input, select').each(function () {
                     $(this).prop('disabled', true);

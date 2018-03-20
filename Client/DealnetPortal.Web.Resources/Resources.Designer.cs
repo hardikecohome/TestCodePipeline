@@ -4202,6 +4202,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monthly Mortgage Payment (principal &amp; interest).
+        /// </summary>
+        public static string MonthlyMortgagePayment {
+            get {
+                return ResourceManager.GetString("MonthlyMortgagePayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Mortgage Payment is in incorrect format.
+        /// </summary>
+        public static string MonthlyMortgagePaymentIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MonthlyMortgagePaymentIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monthly Payment.
         /// </summary>
         public static string MonthlyPayment {

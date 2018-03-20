@@ -2653,4 +2653,10 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="HourlyRateIncorrectFormat" xml:space="preserve">
     <value>Le format du Salaire Horaire est incorrect</value>
   </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Paiement Hypothécaire Mensuel (montant initial &amp; intérêts)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Le format du Paiement Hypothécaire Mensuel est incorrect</value>
+  </data>
 </root>

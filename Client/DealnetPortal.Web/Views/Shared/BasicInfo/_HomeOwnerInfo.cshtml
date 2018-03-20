@@ -423,6 +423,16 @@ else
      @(Model.HomeOwner?.AddressInformation?.Province.ToUpper() != "QC" ? "class=hidden" : "")>
     <div>
         <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.BorrowerEmploymentInformation</h2>
+		<div class="row">
+			<div class="col-md-4 form-group">
+				@Html.LabelFor(m => m.HomeOwner.EmploymentInformation.MonthlyMortgagePayment)
+				<div class="control-group has-addon-left">
+					<div class="control-group-addon">$</div>
+					@Html.TextBoxFor(m => m.HomeOwner.EmploymentInformation.MonthlyMortgagePayment, new { @class = "form-control dealnet-input", id = "ho-employment-monthly-mortgage" })
+					@Html.ValidationMessageFor(m => m.HomeOwner.EmploymentInformation.MonthlyMortgagePayment, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
         <div class="row">
             <div class="col-md-2 col-sm-6 form-group">
                 @Html.LabelFor(m => m.HomeOwner.EmploymentInformation.EmploymentStatus)

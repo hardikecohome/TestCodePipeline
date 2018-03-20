@@ -5,6 +5,10 @@ namespace DealnetPortal.Web.Models
 {
     public class EmploymentInformationViewModel
     {
+        [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyMortgagePayment")]
+        [RegularExpression(@"^[1-9]\d{0,4}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyMortgagePaymentIncorrectFormat")]
+        public double MonthlyMortgagePayment { get; set; }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmploymentStatus")]
         public EmploymentStatus EmploymentStatus { get; set; }
 
