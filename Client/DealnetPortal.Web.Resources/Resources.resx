@@ -2348,7 +2348,7 @@ changing contract terms or signing contract on paper.</value>
     <value>Annual Salary/Income</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Borrower Employment Information</value>
+    <value>Borrower Mortgage &amp; Employment Information</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
     <value>Company Address</value>
@@ -2559,5 +2559,20 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
     <value>Some special characters like ', &lt;, &gt;, &amp; are not allowed</value>
+  </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Annual Salary/Income is in incorrect format</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Hourly Rate is in incorrect format</value>
+  </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Monthly Mortgage Payment (principal &amp; interest)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Monthly Mortgage Payment is in incorrect format</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Additional Applicant Mortgage &amp; Employment Information</value>
   </data>
 </root>

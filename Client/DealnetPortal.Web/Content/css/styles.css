@@ -367,7 +367,9 @@
     .header__support-links-list li a {
       color: #97c501;
       text-decoration: underline;
-      margin-right: 10px; }
+      margin-right: 10px;
+	  font-size: 10px;
+    }
 
 .header__select {
   border: 0;
