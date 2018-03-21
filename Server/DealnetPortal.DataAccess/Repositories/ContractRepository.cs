@@ -1259,26 +1259,44 @@ namespace DealnetPortal.DataAccess.Repositories
                     updated = true;
                 }
                 else
-                {
-                    ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
-                    if (ne.AssetNumber == null)
+                {                    
+                    if (!string.IsNullOrEmpty(ne.InstalledModel))
                     {
-                        ne.AssetNumber = curEquipment.AssetNumber;
+                        curEquipment.InstalledModel = ne.InstalledModel;
                     }
-                    if (string.IsNullOrEmpty(ne.InstalledModel))
+                    if (!string.IsNullOrEmpty(ne.InstalledSerialNumber))
                     {
-                        ne.InstalledModel = curEquipment.InstalledModel;
+                        curEquipment.InstalledSerialNumber = ne.InstalledSerialNumber;
                     }
-                    if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
+                    if (ne.EstimatedInstallationDate.HasValue)
                     {
-                        ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
+                        curEquipment.EstimatedInstallationDate = ne.EstimatedInstallationDate;
                     }
-                    if (!ne.EstimatedInstallationDate.HasValue)
+                    if (ne.EstimatedInstallationDate.HasValue)
                     {
-                        ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
+                        curEquipment.EstimatedInstallationDate = ne.EstimatedInstallationDate;
                     }
-                    _dbContext.NewEquipment.AddOrUpdate(ne);
-                    updated |= _dbContext.Entry(ne).State != EntityState.Unchanged;
+                    if (!string.IsNullOrEmpty(ne.Type))
+                    {
+                        curEquipment.Type = ne.Type;
+                    }
+                    if (!string.IsNullOrEmpty(ne.Description))
+                    {
+                        curEquipment.Description = ne.Description;
+                    }
+                    if (ne.Cost.HasValue)
+                    {
+                        curEquipment.Cost = ne.Cost;
+                    }
+                    if (ne.MonthlyCost.HasValue)
+                    {
+                        curEquipment.MonthlyCost = ne.MonthlyCost;
+                    }
+                    if (ne.EstimatedRetailCost.HasValue)
+                    {
+                        curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
+                    }                    
+                    updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
             return updated;

@@ -628,19 +628,19 @@ namespace DealnetPortal.Api.Integration.Services
                                 {
                                     if (email.EmailType == EmailType.Main)
                                     {
-                                        customersUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                        customersUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
                                             new List<Email>(){ email });
                                     }
                                     else
                                     {
-                                        customersMailsUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                        customersMailsUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
                                             new List<Email>() { email });
                                     }
                                 });                                
                             }
                             else
                             {
-                                customersUpdated = _contractRepository.UpdateCustomerData(c.Id,
+                                customersUpdated |= _contractRepository.UpdateCustomerData(c.Id,
                                     Mapper.Map<Customer>(c.CustomerInfo),
                                     Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
                                     Mapper.Map<IList<Email>>(c.Emails));
