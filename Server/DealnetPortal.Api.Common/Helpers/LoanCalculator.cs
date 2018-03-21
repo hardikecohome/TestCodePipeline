@@ -68,7 +68,7 @@ namespace DealnetPortal.Api.Common.Helpers
                     output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;                             
                     output.PriceOfEquipmentWithHst = output.TotalMonthlyPayment / clarityPaymentFactor;
                     output.TotalAmountFinanced = output.PriceOfEquipmentWithHst + input.AdminFee - input.DownPayment;
-                    mco = output.TotalAmountFinanced * clarityPaymentFactor;
+                    mco = Math.Round(output.TotalMonthlyPayment, 2) - input.DownPayment * clarityPaymentFactor;
                     output.TotalAllMonthlyPayments = Math.Round(mco, 2) * input.LoanTerm;                    
                 }
                 output.TotalMCO = mco;

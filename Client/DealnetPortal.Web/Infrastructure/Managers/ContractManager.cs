@@ -948,23 +948,21 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
                 if(summary.IsClarityDealer && !summary.IsOldClarityDeal)
                 {
-                    var dpWithTax = ((double?)contract.Equipment?.DownPayment ?? 0.0) * PortalConstants.ClarityFactor /
+                    double dpWithTax = contract.Equipment==null|| !contract.Equipment.DownPayment.HasValue ? 0.0 :
+                        (double)contract.Equipment?.DownPayment * PortalConstants.ClarityFactor /
                                        (1.0 + (summary.ProvinceTaxRate?.Rate ?? 0) / 100);
-                    var total = (decimal?)summary.EquipmentInfo?.NewEquipment.Sum(ne => ne.MonthlyCost) + summary.EquipmentInfo?.InstallationPackages?.Sum(i => i.MonthlyCost);
+                    var total = summary.EquipmentInfo?.NewEquipment.Sum(ne => ne.MonthlyCost) + (double)summary.EquipmentInfo?.InstallationPackages?.Sum(i => i.MonthlyCost);
 
                     summary.EquipmentInfo?.NewEquipment?.ForEach(ne => {
-                        var percentageOfEqMonthlyCost = (ne.MonthlyCost * 100 / (double)total) / 100;
-                        var reducedValue = dpWithTax * percentageOfEqMonthlyCost;
-                        ne.MonthlyCostLessDP =
-                            ne.MonthlyCost.HasValue ? (decimal)Math.Round(ne.MonthlyCost.Value - reducedValue.Value, 2) : (decimal?)null;
+                        double lessDp = ne.MonthlyCost.HasValue ? (double)(ne.MonthlyCost.Value - dpWithTax / total * ne.MonthlyCost.Value): 0.0;
+
+                        ne.MonthlyCostLessDP = Math.Round(lessDp,2);
                     });
 
                     summary.EquipmentInfo?.InstallationPackages?.ForEach(ne => {
-                        var percentageOfEqMonthlyCost = (ne.MonthlyCost * 100 / total) / 100;
-                        var reducedValue = (decimal)dpWithTax * percentageOfEqMonthlyCost;
+                        double lessDp = ne.MonthlyCost.HasValue ? (double)(ne.MonthlyCost.Value - dpWithTax / total * ne.MonthlyCost.Value) : 0.0;
 
-                        ne.MonthlyCostLessDP =
-                            ne.MonthlyCost.HasValue ? Math.Round(ne.MonthlyCost.Value - reducedValue.Value, 2) : (decimal?)null;
+                        ne.MonthlyCostLessDP = Math.Round(lessDp, 2);
                     });
                 }
             }

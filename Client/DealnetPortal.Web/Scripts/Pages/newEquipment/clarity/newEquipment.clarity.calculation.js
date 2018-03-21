@@ -159,8 +159,6 @@
 
         for (var id in state.equipments) {
             var equipment = state.equipments[id];
-            var percentageOfEqMonthlyCost = (state.equipments[id].monthlyCost * 100 / totalMonthlyCost) / 100;
-            var percentageOfEqDpTax = dpTax * percentageOfEqMonthlyCost;
 
             equipment.monthlyCostLessDp = equipment.monthlyCost - dpTax / totalMonthlyCost * equipment.monthlyCost;
             $('#NewEquipment_' + id + '__MonthlyCostLessDP')
@@ -169,8 +167,6 @@
 
         for (var id in state.packages) {
             var package = state.packages[id];
-            var percentageOfPckMonthlyCost = (state.packages[id].monthlyCost * 100 / totalMonthlyCost) / 100;
-            var percentageOfPckDpTax = dpTax * percentageOfPckMonthlyCost;
 
             package.monthlyCostLessDp = package.monthlyCost - dpTax / totalMonthlyCost * package.monthlyCost;
             $('#InstallationPackages_' + id + '__MonthlyCostLessDP')
