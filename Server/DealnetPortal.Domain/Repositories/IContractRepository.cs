@@ -83,16 +83,7 @@ namespace DealnetPortal.Domain.Repositories
         /// </summary>
         /// <param name="contractData">Structure with data related to contract</param>
         /// <returns>Result of update</returns>
-        Contract UpdateContractData(ContractData contractData, string contractOwnerId);
-
-        /// <summary>
-        /// Update contract customers data
-        /// </summary>
-        /// <param name="contractId">Contract Id</param>
-        /// <param name="addresses">Updated addresses list, or null</param>
-        /// <param name="customers">Updated cutomers list, or null</param>
-        /// <returns>Updated contract record</returns>
-        //Contract UpdateContractPrimaryClientData(int contractId, IList<Location> locations, IList<Phone> phones);
+        Contract UpdateContractData(ContractData contractData, string contractOwnerId);        
 
         /// <summary>
         /// Update customer
@@ -108,6 +99,7 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="locations">locations to set</param>
         /// <param name="phones">phones to set</param>
         /// <param name="emails">emails to set</param>
+        /// <returns>Is customer updated</returns>
         bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
         bool UpdateCustomerEmails(int customerId, IList<Email> emails);
