@@ -2390,7 +2390,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Meilleure façon de communiquer avec vous</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>L'information sur l'emploi de l'emprunteur</value>
+    <value>Information sur l'hypothèque et l'emploi de l'emprunteur</value>
   </data>
   <data name="ByidCard" xml:space="preserve">
     <value>Carte BYID</value>
@@ -2646,5 +2646,20 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Page d’accueil</value>
+  </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Le format du salaire annuel/revenue est incorrect</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Le format du Salaire Horaire est incorrect</value>
+  </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Paiement Hypothécaire Mensuel (montant initial &amp; intérêts)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Le format du Paiement Hypothécaire Mensuel est incorrect</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Renseignements supplémentaires sur l'hypothèque et l'emploi du demandeur</value>
   </data>
 </root>

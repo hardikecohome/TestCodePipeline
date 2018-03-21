@@ -304,6 +304,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Mortgage &amp; Employment Information.
+        /// </summary>
+        public static string AdditionalApplicantEmploymentInformation {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantEmploymentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Information.
         /// </summary>
         public static string AdditionalApplicantInformation {
@@ -606,6 +615,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AnnualSalaryIncome {
             get {
                 return ResourceManager.GetString("AnnualSalaryIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Annual Salary/Income is in incorrect format.
+        /// </summary>
+        public static string AnnualSalaryIncomeIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AnnualSalaryIncomeIncorrectFormat", resourceCulture);
             }
         }
         
@@ -943,7 +961,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Borrower Employment Information.
+        ///   Looks up a localized string similar to Borrower Mortgage &amp; Employment Information.
         /// </summary>
         public static string BorrowerEmploymentInformation {
             get {
@@ -3329,6 +3347,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hourly Rate is in incorrect format.
+        /// </summary>
+        public static string HourlyRateIncorrectFormat {
+            get {
+                return ResourceManager.GetString("HourlyRateIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to House Size.
         /// </summary>
         public static string HouseSize {
@@ -4180,6 +4207,24 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyFinancedValueIncorrectFormat {
             get {
                 return ResourceManager.GetString("MonthlyFinancedValueIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Mortgage Payment (principal &amp; interest).
+        /// </summary>
+        public static string MonthlyMortgagePayment {
+            get {
+                return ResourceManager.GetString("MonthlyMortgagePayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Mortgage Payment is in incorrect format.
+        /// </summary>
+        public static string MonthlyMortgagePaymentIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MonthlyMortgagePaymentIncorrectFormat", resourceCulture);
             }
         }
         
