@@ -15,6 +15,7 @@
     @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
     @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate, new { id = "customer-rate" })
     @Html.HiddenFor(m => m.EquipmentInfo.AdminFee, new { id = "admin-fee" })
+    @Html.HiddenFor(m => m.EquipmentInfo.IsFeePaidByCutomer, new { id = "fee-paid-by-customer" })
     @Html.HiddenFor(m => m.EquipmentInfo.DownPayment, new { id = "down-payment" })
     @Html.HiddenFor(m => m.EquipmentInfo.CreditAmount)
 
@@ -25,10 +26,10 @@
                 <h3 class="dealnet-section-title">
                     @Resources.NewEquipment
                     @Html.ActionLink(Resources.Edit,
-                                                                                                        "EquipmentInformation",
-                                                                                                        "NewRental",
-                                                                                                        new { contractId = Model.BasicInfo.ContractId },
-                                                                                                        new { @class = "dealnet-section-edit-link pull-right" })
+                        "EquipmentInformation",
+                        "NewRental",
+                        new { contractId = Model.BasicInfo.ContractId },
+                        new { @class = "dealnet-section-edit-link pull-right" })
                 </h3>
 
             </div>
@@ -57,13 +58,13 @@
                                 })
                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                     @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                                                                    {
-                                                                                                        Value = x.Type,
-                                                                                                        Text = x.Description,
-                                                                                                        Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                                    }),
-                                                                                                    new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                                             ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                                                                                             {
+                                                                                                                                 Value = x.Type,
+                                                                                                                                 Text = x.Description,
+                                                                                                                                 Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                                                                             }),
+                                                                                                                             new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 </div>
                             </div>
                         </div>
@@ -378,10 +379,10 @@
                                 {
                                     <div class="row form-group">
                                         <div class="col-xs-8 col-sm-9">
-                                            @Resources.AdminFee (@(Model.EquipmentInfo.DealerPaysAdminFee ?? true ? Resources.CoveredByDealer : Resources.CoveredByCustomer))
+                                            @Resources.AdminFee (@(Model.EquipmentInfo.IsFeePaidByCutomer ?? false ? Resources.CoveredByCustomer : Resources.CoveredByDealer))
                                         </div>
                                         <div class="col-xs-4 col-sm-3 text-right text-semibold">
-                                            $ <span id="admin-fee">@Model.EquipmentInfo.AdminFee</span>
+                                            $ <span id="admin-fee-display">@Model.EquipmentInfo.AdminFee</span>
                                         </div>
                                     </div>
                                 }

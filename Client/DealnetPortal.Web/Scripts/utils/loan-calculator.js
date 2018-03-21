@@ -26,16 +26,18 @@
     hstLabel.text(formatNumber(hst));
     var totalCashPrice = equipmentCashPrice + hst;
     totalCashPriceLabel.text(formatNumber(totalCashPrice));
+    var isFeePaidByCustomer = $('#fee-paid-by-customer').val().toLowerCase() == 'true';
     var adminFee = parseFloat($("#admin-fee").val());
-    if (isNaN(adminFee) || adminFee < 0) {
+    if (isNaN(adminFee) || adminFee < 0 || !isFeePaidByCustomer) {
         adminFee = 0;
     }
     var downPayment = parseFloat($("#down-payment").val());
     if (isNaN(downPayment) || downPayment < 0) {
         downPayment = 0;
     }
-    var totalAmountFinanced = totalCashPrice - downPayment;
+    var totalAmountFinanced = totalCashPrice - downPayment + adminFee;
     totalAmountFinancedLabel.text(formatNumber(totalAmountFinanced));
+
     var loanTerm = parseInt($("#loan-term").val());
     var amortizationTerm = parseInt($("#amortization-term").val());
     var customerRate = parseFloat($("#customer-rate").val());
@@ -45,15 +47,19 @@
     var totalMonthlyPayment = customerRate > 0 ? (Math.round(totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0) * 100) / 100) : (totalAmountFinanced * pmt(customerRate / 100 / 12, amortizationTerm, -1, 0, 0));
     isCalculationValid = totalMonthlyPayment > 0;
     loanTotalMonthlyPaymentLabel.text(formatNumber(totalMonthlyPayment));
+
     var totalAllMonthlyPayments = totalMonthlyPayment * loanTerm;
     loanTotalAllMonthlyPaymentsLabel.text(formatNumber(totalAllMonthlyPayments));
+
     var residualBalance = 0;
     if (loanTerm !== amortizationTerm) {
         residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
     }
     residualBalanceLabel.text(formatNumber(residualBalance));
+
     var totalObligation = totalAllMonthlyPayments + residualBalance + adminFee;
     totalObligationLabel.text(formatNumber(totalObligation));
+
     var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced - adminFee);
     totalBorrowingCostLabel.text(formatNumber(totalBorrowingCost));
 }

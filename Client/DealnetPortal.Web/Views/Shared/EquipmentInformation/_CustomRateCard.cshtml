@@ -1,7 +1,7 @@
 ﻿@using DealnetPortal.Web.Models.Enumeration
 <li>
   @*<div class="rate-card table-mode shown-card" id="custom-rate-card">*@
-      <div @(!@ViewBag.LoanOnly ? "class=rate-card table-mode shown-card" : "class=rate-card table-mode shown-card hidden" ) id="custom-rate-card" @*id="IFileReaderWithResolverstom-rate-card"*@>
+      <div class="@(!@ViewBag.LoanOnly ? "rate-card table-mode shown-card" : "rate-card table-mode shown-card hidden" )" id="custom-rate-card" @*id="IFileReaderWithResolverstom-rate-card"*@>
         <div class="rate-card-header equal-height-row-1">
           <h4 class="card-title">@Resources.RatesApproved:<br> @Resources.Pre Oct 3, 2017</h4>
         </div>
@@ -125,7 +125,7 @@
             </div>
             <div class="row form-group">
               <div class="col-xs-6">@Resources.BalanceOwingEndOfPaymentsRes</div>
-              <div class="col-xs-6 text-right text-stronger custom-mt-mobile" id="CustomRBalance">-</div>
+              <div class="col-xs-6 text-right text-stronger" id="CustomRBalance">-</div>
             </div>
             <div class="row form-group">
               <div class="col-xs-6">@Resources.TotalObligation</div>
