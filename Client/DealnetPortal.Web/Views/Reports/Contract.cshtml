@@ -1408,18 +1408,33 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.Label(Resources.MonthlyCostOfOwnership +" ("+Resources.TaxExcl+")", new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                    @Html.Label(Resources.MonthlyCostOfOwnership + " (" + Resources.TaxExcl + ")", new
+                                    {
+                                        @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                    })
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.DisplayFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "has-cost-sign package-cost", id = "" })
+                                        @Html.DisplayFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCost, new
+                                        {
+                                            @readonly = "readonly",
+                                            @class = "has-cost-sign package-cost",
+                                            id = ""
+                                        })
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.Label(Resources.MCOReducedDownPayment, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                    @Html.Label(Resources.MCOReducedDownPayment + " (" + Resources.TaxExcl + ")", new
+                                    {
+                                        @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                    })
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.DisplayFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCostLessDP, new {
-                                       @readonly = "readonly", @class = "has-cost-sign reduced-monthly-cost", id = "" })
+                                        @Html.DisplayFor(m => m.EquipmentInfo.InstallationPackages[i].MonthlyCostLessDP, new
+                                        {
+                                            @readonly = "readonly",
+                                            @class = "has-cost-sign reduced-monthly-cost",
+                                            id = ""
+                                        })
                                     </div>
                                 </div>
                             </div>
@@ -1433,64 +1448,64 @@
                 <div class="form-group summary-payment-info well">
                     @if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
                     {
-                    <div class="row">
-                        <div class="col-md-3 col-xs-12 summary-payment-info-item">
-                            <div class="row">
-                                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    <div>
-                                        @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                        <div class="row">
+                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxExcl)
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment - Model.PaymentSummary.Hst ?? 0, 2))
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                    <div class="inline-children">
-                                        $@(Math.Round(Model.PaymentSummary.MonthlyPayment - Model.PaymentSummary.Hst ?? 0, 2))
+                            </div>
+                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Model.ProvinceTaxRate.Description
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
+                                <div class="row">
+                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                        <div>
+                                            @Resources.TotalMCOReducedDownPayment (@Resources.TaxIncl)
+                                        </div>
+                                    </div>
+                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                        <div class="inline-children">
+                                            $@(Math.Round(Model.LoanCalculatorOutput.TotalMCO, 2))
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-xs-12 summary-payment-info-item">
-                            <div class="row">
-                                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    <div>
-                                        @Model.ProvinceTaxRate.Description
-                                    </div>
-                                </div>
-                                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                    <div class="inline-children">
-                                        $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-xs-12 summary-payment-info-item">
-                            <div class="row">
-                                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    <div>
-                                        @Resources.TotalMonthlyCostOfOwnership (@Resources.TaxIncl)
-                                    </div>
-                                </div>
-                                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                    <div class="inline-children">
-                                        $@(Math.Round(Model.PaymentSummary.MonthlyPayment ?? 0, 2))
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-xs-12 summary-payment-info-item">
-                            <div class="row">
-                                <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
-                                    <div>
-                                        @Resources.TotalMCOReducedDownPayment (@Resources.TaxIncl)
-                                    </div>
-                                </div>
-                                <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                    <div class="inline-children">
-                                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMCO, 2))
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     }
                     else
                     {

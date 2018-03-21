@@ -33,7 +33,7 @@
 
     var onAggrementChange = function (e) {
         var value = +e.target.value;
-        value === 0 ? _disableForAll() : _enableForAll();
+        _shouldEnable() ? _enableForAll() : _disableForAll();
     }
     var onEquipmentChange = function (e) {
         _toggleNewEquipment($(e.target).parents(settings.newEuqipmentClass));
