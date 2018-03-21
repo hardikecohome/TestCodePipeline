@@ -124,10 +124,16 @@ function showTable () {
                                 if (row.IsInternal)
                                     return '';
                                 if (row.Id != 0) {
-                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' +
+                                        urlContent +
+                                        'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                                 } else {
-                                    return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                    return '';
                                 }
+
+                                //else {
+                                //    return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                //}
                             },
                             className: 'checkbox-cell',
                             orderable: false
