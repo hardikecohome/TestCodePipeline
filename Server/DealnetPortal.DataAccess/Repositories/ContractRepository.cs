@@ -1100,7 +1100,7 @@ namespace DealnetPortal.DataAccess.Repositories
                             LoanTerm = contract.Equipment?.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
                             PriceOfEquipment = (double?)priceOfEquipment ?? 0.0,
-                            AdminFee = (double)(contract.Equipment?.AdminFee ?? 0),
+                            AdminFee = contract.Equipment?.IsFeePaidByCutomer == true ? (double)(contract.Equipment?.AdminFee ?? 0) : 0.0,
                             DownPayment = (double)(contract.Equipment?.DownPayment ?? 0),
                             CustomerRate = (double)(contract.Equipment?.CustomerRate ?? 0),
                             IsClarity = contract.Dealer?.Tier?.Name ==

@@ -50,6 +50,7 @@ namespace DealnetPortal.Api.Common.Helpers
             output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
             var customerRate = input.CustomerRate / 100 / 12;
             var mco = 0.0;
+            var admeenFee = input.AdminFee;
             if (input.IsClarity == true)
             {
                 if (input.IsOldClarityDeal)
@@ -64,10 +65,11 @@ namespace DealnetPortal.Api.Common.Helpers
                 }
                 else
                 {
+                    admeenFee = 0.0;
                     const double clarityPaymentFactor = 0.010257;
                     output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;                             
                     output.PriceOfEquipmentWithHst = output.TotalMonthlyPayment / clarityPaymentFactor;
-                    output.TotalAmountFinanced = output.PriceOfEquipmentWithHst + input.AdminFee - input.DownPayment;
+                    output.TotalAmountFinanced = output.PriceOfEquipmentWithHst + admeenFee - input.DownPayment;
                     mco = Math.Round(output.TotalMonthlyPayment, 2) - input.DownPayment * clarityPaymentFactor;
                     output.TotalAllMonthlyPayments = Math.Round(mco, 2) * input.LoanTerm;                    
                 }
@@ -82,13 +84,13 @@ namespace DealnetPortal.Api.Common.Helpers
                 output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
                 mco = output.TotalMonthlyPayment;
             }
-            output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
+            output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)
             {
                 output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, mco) * (1 + customerRate),2);
             }
-            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + input.AdminFee;
-            output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - input.AdminFee,2);
+            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + admeenFee;
+            output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - admeenFee, 2);
             return output;
         }
     }
