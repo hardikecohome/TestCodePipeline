@@ -361,6 +361,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
                 {RateCardType.NoInterest, Resources.Resources.EqualPayments},
                 {RateCardType.Deferral, Resources.Resources.Deferral},
+                {RateCardType.Custom, Resources.Resources.Custom},
             };
 
             model.Plans = model.DealerTier.RateCards
@@ -370,7 +371,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Select(card => new KeyValuePair<string, string>(card.ToString(), planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
-            model.Plans.Add("Custom", Resources.Resources.Custom);
+            //model.Plans.Add("Custom", Resources.Resources.Custom);
 
             model.DeferralPeriods = model.DealerTier.RateCards
                 .Where(x => x.CardType == RateCardType.Deferral)

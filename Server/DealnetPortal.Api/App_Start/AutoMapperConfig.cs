@@ -171,8 +171,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(x => x.Name, d => d.MapFrom(s => s.Name))
                 .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards))
-                .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false))
-                ;
+                .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false));
+            mapperConfig.CreateMap<CustomerRiskGroup, CustomerRiskGroupDTO>();
             mapperConfig.CreateMap<DealerEquipment, DealerEquipmentDTO>()
                 .ForMember(x => x.Equipment, d => d.MapFrom(src => src.Equipment))
                 .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.ProfileId));
