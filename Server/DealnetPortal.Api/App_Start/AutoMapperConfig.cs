@@ -59,6 +59,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Replies, s => s.MapFrom(src => src.Replies))
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => 
                     src.IsCustomerComment != true ? src.Dealer.UserName : $"{src.Contract?.PrimaryCustomer?.FirstName} {src.Contract?.PrimaryCustomer?.LastName}"));
+            mapperConfig.CreateMap<CustomerCreditReport, CustomerCreditReportDTO>();
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
@@ -353,6 +354,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d=> d.VerificationIdName, s=> s.Ignore())
                 .ForMember(d=> d.DealerInitial, s=> s.Ignore())
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore())
+                .ForMember(d => d.CreditReport, s => s.Ignore())
                 .ForMember(d => d.RelationshipToMainBorrower, s => s.Ignore());
                 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
@@ -419,6 +421,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.VerificationIdName, s => s.MapFrom(m => m.VerificationIdName))
                 .ForMember(x => x.DealerInitial, s => s.MapFrom(m => m.DealerInitial))
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
+                .ForMember(x => x.CreditReport, d => d.Ignore())
                 .ForMember(x => x.AccountId, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerInfoDTO, Customer>()
@@ -428,6 +431,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Phones, d => d.Ignore())
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
                 .ForMember(x => x.EmploymentInfo, d => d.Ignore())
+                .ForMember(x => x.CreditReport, d => d.Ignore())
                 .ForMember(x => x.RelationshipToMainBorrower, d => d.Ignore());
 
             mapperConfig.CreateMap<EmploymentInfoDTO, EmploymentInfo>()

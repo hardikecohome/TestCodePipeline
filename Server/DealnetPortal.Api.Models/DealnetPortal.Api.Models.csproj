@@ -50,6 +50,7 @@
     <Compile Include="Contract\ContractDocumentDTO.cs" />
     <Compile Include="Contract\ContractorDTO.cs" />
     <Compile Include="Contract\ContractSalesRepInfoDTO.cs" />
+    <Compile Include="Contract\CustomerCreditReportDTO.cs" />
     <Compile Include="Contract\CustomerFormDTO.cs" />
     <Compile Include="Contract\CustomerContractInfoDTO.cs" />
     <Compile Include="Contract\CustomerInfoDTO.cs" />
