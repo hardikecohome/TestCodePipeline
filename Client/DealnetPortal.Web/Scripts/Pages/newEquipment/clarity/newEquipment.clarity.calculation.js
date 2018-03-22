@@ -163,7 +163,7 @@
 
             equipment.monthlyCostLessDp = equipment.monthlyCost - dpTax / totalMonthlyCost * equipment.monthlyCost;
             $('#NewEquipment_' + id + '__MonthlyCostLessDP')
-                .val(formatNumber(equipment.monthlyCostLessDp));
+                .val(formatNumber(equipment.monthlyCostLessDp)).change();
         }
 
         for (var id in state.packages) {
@@ -171,7 +171,7 @@
 
             package.monthlyCostLessDp = package.monthlyCost - dpTax / totalMonthlyCost * package.monthlyCost;
             $('#InstallationPackages_' + id + '__MonthlyCostLessDP')
-                .val(formatNumber(state.packages[id].monthlyCostLessDp));
+                .val(formatNumber(state.packages[id].monthlyCostLessDp)).change();
         }
     }
 
