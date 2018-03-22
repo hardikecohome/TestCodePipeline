@@ -2,6 +2,7 @@
 @using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 
 @model DealnetPortal.Web.Models.ContractViewModel
@@ -1222,6 +1223,11 @@
             <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
 
             <div class="row credit-check-info-hold equipment-info no-top-margin">
+                @{
+                    var bill59EquipTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type);
+                    var displayResponsibility = Model.ProvinceTaxRate.Province.ToUpper() == "ON" &&
+                        Model.EquipmentInfo.NewEquipment.Any(n => bill59EquipTypes.Contains(n.Type));
+                }
                 @foreach(var equipment in Model.EquipmentInfo.NewEquipment)
                 {
                     <div class="col-md-6 grid-column">
@@ -1308,7 +1314,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                if(equipment.EstimatedRetailCost.HasValue)
+                                if(displayResponsibility)
                                 {
                                     <div class="form-group">
                                         <div class="row">

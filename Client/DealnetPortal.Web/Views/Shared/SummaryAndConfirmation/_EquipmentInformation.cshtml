@@ -37,6 +37,11 @@
     </div>
     <div id="new-equipment-info-section">
         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
+            @{ 
+                var bill59EquipTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type);
+                var displayResponsibility = Model.ProvinceTaxRate.Province.ToUpper() == "ON" &&
+                    Model.EquipmentInfo.NewEquipment.Any(n => bill59EquipTypes.Contains(n.Type));
+            }
             @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
             {
                 <div class="col-md-6 grid-column">
@@ -160,7 +165,7 @@
                                     </div>
                                 </div>
                             </div>
-                            if(Model.EquipmentInfo.NewEquipment[i].EstimatedRetailCost.HasValue)
+                            if(displayResponsibility)
                             {
                                 <div class="form-group">
                                     <div class="row">
