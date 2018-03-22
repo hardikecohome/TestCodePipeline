@@ -475,14 +475,17 @@ namespace DealnetPortal.Aspire.Integration.Storage
                     ContractId = ConvertFromDbVal<string>(dr["contractoid"])
                 };
 
-                creditReport.DateOfBirth = ConvertFromDbVal<DateTime>(dr["date_of_birth"]);
-                creditReport.CrtdTime = ConvertFromDbVal<string>(dr["crtd_datetime"]);
+                creditReport.DateOfBirth = ConvertFromDbVal<DateTime?>(dr["date_of_birth"]);
+                creditReport.CreatedTime = ConvertFromDbVal<DateTime?>(dr["crtd_datetime"]);
 
-                creditReport.LastUpdateTime = ConvertFromDbVal<DateTime>(dr["lupd_datetime"]);
+                creditReport.LastUpdatedTime = ConvertFromDbVal<DateTime?>(dr["lupd_datetime"]);
                 creditReport.LastUpdateUser = ConvertFromDbVal<string>(dr["lupd_user"]);
 
                 creditReport.CreditId = ConvertFromDbVal<string>(dr["creditoid"]);
-                creditReport.Beacon = ConvertFromDbVal<int>(dr["Beacon"]);
+                var strBeacon = ConvertFromDbVal<string>(dr["Beacon"]);
+                int beacon = 0;
+                int.TryParse(strBeacon, out beacon);
+                creditReport.Beacon = beacon;
                 return creditReport;
             }
             catch (Exception ex)

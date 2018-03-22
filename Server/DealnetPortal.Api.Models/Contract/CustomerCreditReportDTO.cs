@@ -9,6 +9,7 @@ namespace DealnetPortal.Api.Models.Contract
     public class CustomerCreditReportDTO
     {
         public int Beacon { get; set; }
+        public bool BeaconUpdated { get; set; }
         public DateTime CreditLastUpdateTime { get; set; }
     }
 }

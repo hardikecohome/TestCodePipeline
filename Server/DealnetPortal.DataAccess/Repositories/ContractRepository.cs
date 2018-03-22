@@ -229,8 +229,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.WasDeclined = false;
                 }
 
-                contract.LastUpdateTime = DateTime.UtcNow;
-                contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+                if (_dbContext.Entry(contract).State != EntityState.Unchanged)
+                {
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+                }
             }
             return contract;
         }
@@ -598,7 +601,17 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (!string.IsNullOrWhiteSpace(customerInfo.VerificationIdName))
                     {
                         dbCustomer.VerificationIdName = customerInfo.VerificationIdName;
-                    }                                        
+                    }
+
+                    if (customerInfo.EmploymentInfo != null)
+                    {
+                        AddOrUpdateEmploymentInfo(dbCustomer, customerInfo.EmploymentInfo);
+                    }
+
+                    if (customerInfo.CreditReport != null)
+                    {
+                        AddOrUpdateCustomerCreditReport(dbCustomer, customerInfo.CreditReport);
+                    }
                 }
 
                 updated = _dbContext.Entry(dbCustomer).State != EntityState.Unchanged;

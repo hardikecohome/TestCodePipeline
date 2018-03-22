@@ -59,7 +59,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Replies, s => s.MapFrom(src => src.Replies))
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => 
                     src.IsCustomerComment != true ? src.Dealer.UserName : $"{src.Contract?.PrimaryCustomer?.FirstName} {src.Contract?.PrimaryCustomer?.LastName}"));
-            mapperConfig.CreateMap<CustomerCreditReport, CustomerCreditReportDTO>();
+            mapperConfig.CreateMap<CustomerCreditReport, CustomerCreditReportDTO>()
+                .ForMember(x => x.BeaconUpdated, d => d.UseValue(false));
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
@@ -112,6 +113,11 @@ namespace DealnetPortal.Api.App_Start
                     if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(c.Details?.Status))
                     {
                         d.OnCreditReview = creditReviewStates.Contains(c.Details?.Status);
+                    }
+                    if (d?.PrimaryCustomer?.CreditReport?.CreditLastUpdateTime != null)
+                    {
+                        d.PrimaryCustomer.CreditReport.BeaconUpdated =
+                            d.PrimaryCustomer.CreditReport.CreditLastUpdateTime > d.LastUpdateTime;
                     }
                 });
             mapperConfig.CreateMap<Contract, SignatureSummaryDTO>()
