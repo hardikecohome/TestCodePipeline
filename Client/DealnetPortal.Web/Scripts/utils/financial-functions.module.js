@@ -69,9 +69,9 @@
         var totalObligation = function(data) {
             var tMonthlyPayments = totalMonthlyPayments(data);
             var rBalance = residualBalance(data);
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
-			var adminFee = includeAdminFee ? data.AdminFee : 0;
-			return tMonthlyPayments + rBalance + adminFee;
+   //         var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+			//var adminFee = includeAdminFee ? data.AdminFee : 0;
+			return tMonthlyPayments + rBalance/* + adminFee*/;
         };
 
         var totalBorrowingCost = function(data) {
