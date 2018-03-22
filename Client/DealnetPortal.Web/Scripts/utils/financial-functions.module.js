@@ -29,7 +29,7 @@
         };
 
         var yourCost = function (data) {
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var includeAdminFee = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
             var yCost = data.DealerCost * totalAmountFinanced(data) / 100;
 
             return includeAdminFee ? yCost + data.AdminFee : yCost;
@@ -77,10 +77,10 @@
         var totalBorrowingCost = function(data) {
             var tObligation = totalObligation(data);
 			var tAmountFinanced = totalAmountFinanced(data);
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
-            var adminFee = includeAdminFee ? data.AdminFee : 0;
+            //var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            //var adminFee = includeAdminFee ? data.AdminFee : 0;
 
-			var borrowingCost = tObligation - tAmountFinanced - adminFee;
+			var borrowingCost = tObligation - tAmountFinanced/* - adminFee*/;
             if (borrowingCost < 0)
                 borrowingCost = 0;
             return borrowingCost;
