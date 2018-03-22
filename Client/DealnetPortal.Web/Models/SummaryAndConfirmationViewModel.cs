@@ -19,5 +19,6 @@ namespace DealnetPortal.Web.Models
         public bool RateCardValid { get; set; }
         public bool IsClarityDealer { get; set; }
         public bool IsOldClarityDeal { get; set; }
+        public TierViewModel DealerTier { get; set; }
     }
 }
