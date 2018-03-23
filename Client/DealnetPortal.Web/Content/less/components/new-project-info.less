@@ -1,0 +1,618 @@
+﻿.new-project-info {
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
+    padding: 24px;
+    margin: 12px 0;
+
+    &--editing {
+        background-color: #fbfbfb;
+        border-left: 8px solid #e4e4e4;
+        display: flex;
+        flex-basis: 100%;
+        flex-direction: column;
+        padding: 24px 48px;
+        margin: 12px 22px;
+    }
+
+
+
+    .new-input-group {
+        margin-right: 24px;
+    }
+
+    &__content-row {
+        margin: 8px 0;
+        display: flex;
+        align-items: center;
+
+        .new-input-group {
+            flex-basis: 20%;
+            margin-right: 24px;
+        }
+
+        .small-cell {
+            margin-right: 24px;
+            flex-basis: 15%;
+        }
+
+        .middle-cell {
+            margin-right: 24px;
+            flex-basis: 19%;
+        }
+    }
+
+    &__title {
+        font-size: 24px;
+        font-weight: 300;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        margin-top: 24px;
+
+        &--main {
+            margin-bottom: 0;
+            margin-top: 0;
+            margin-left: -16px;
+            font-weight: 500;
+        }
+    }
+
+    &__number {
+        margin-top: -16px;
+    }
+
+    &__project-desc {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #ccdbec;
+        padding-bottom: 24px;
+
+        &__project-type {
+            flex-basis: 15%;
+        }
+
+        &__description {
+            flex-basis: 44%;
+        }
+
+        &__cost {
+            flex-basis: 15%;
+        }
+
+        &__add-project {
+            flex-basis: 10%;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &__price {
+        display: flex;
+        border-bottom: 1px solid #ccdbec;
+        padding-bottom: 24px;
+        margin-top: 24px;
+        align-items: flex-start;
+
+        &__info {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            margin-right: 40px;
+
+            .i-letter-ico {
+                background-size: 16px 16px;
+                min-width: 16px;
+                min-height: 16px;
+            }
+        }
+
+        &__sum {
+            margin-top: 10px;
+            font-weight: bold;
+            margin-right: 64px;
+        }
+
+        &__payment {
+            width: 184px;
+        }
+    }
+
+    .table-block {
+        justify-content: space-between;
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 45%;
+        margin-right: 24px;
+
+        &__name,
+        &__value {
+            align-items: center;
+            margin: 4px 0;
+            font-size: 13px;
+        }
+
+        &__name {
+            flex-basis: 65%;
+        }
+
+        &__value {
+            flex-basis: 35%;
+            text-align: right;
+            font-weight: bold;
+        }
+    }
+
+
+    &__fin-options-title {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 24px;
+
+        &--qb {
+            margin: 16px 0;
+            font-weight: 300;
+        }
+
+        &__info {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+
+            .i-letter-ico {
+                margin-left: 4px;
+            }
+        }
+    }
+
+    &__options-wp {
+        display: flex;
+        margin-top: 16px;
+
+        &__info-tables {
+            align-items: flex-start;
+            box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+            padding: 24px 16px 24px 16px;
+            margin: 2px 16px;
+            display: flex;
+            flex-wrap: wrap;
+
+            .icon-link-green {
+                margin-top: 24px;
+            }
+        }
+
+        .financing-option {
+            flex-basis: 100%;
+            display: flex;
+            flex-direction: column;
+            min-height: 508px;
+            box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+            padding: 24px 16px 24px 16px;
+            margin: 3px 16px;
+
+            &__title {
+                border-bottom: 1px solid #ccdbec;
+                text-transform: uppercase;
+                font-size: 18px;
+                height: 42px;
+                padding-bottom: 16px;
+            }
+
+            &--error {
+                .financing-option__title {
+                    border-bottom: 3px solid #ff3258;
+                }
+            }
+
+            &__additional-desc {
+                display: none;
+            }
+
+            &--view-more {
+
+                .financing-option__additional-desc {
+                    display: block;
+                }
+            }
+
+            &__description {
+                margin-top: 6px;
+                font-size: 13px;
+                color: #5d5d5d;
+                height: 70px;
+                margin-bottom: 14px;
+            }
+
+            &__input-row {
+                display: flex;
+                margin: 0 0 23px 0;
+                min-height: 48px;
+
+
+                .custom-text-input-group {
+                    width: 100%;
+                    margin-top: -3px;
+                }
+
+                .new-input-group {
+                    //min-width: 80px;
+                    margin-right: 0;
+                    flex-basis: 100%;
+
+                    span.label {
+                        white-space: normal;
+                    }
+                }
+
+                &--double {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .new-input-group {
+                        flex-basis: 48%;
+
+                        &:nth-child(odd) {
+                            margin-right: 12px;
+                        }
+
+                        &:nth-child(even) {
+                            margin-left: 12px;
+                        }
+                    }
+                }
+            }
+
+            &__desc-row {
+                min-height: 27px;
+                margin: 5px 0;
+                display: flex;
+                justify-content: space-between;
+
+                &__value {
+                    font-weight: bold;
+                }
+            }
+
+            &__view-more {
+                margin: auto 0 16px 0;
+                align-self: center;
+            }
+
+            .new-btn-solid-green {
+                max-width: 140px;
+                width: 100%;
+                align-self: center;
+            }
+
+            &--single {
+                padding: 0;
+                flex-direction: row;
+                min-height: 212px;
+
+                .financing-option__title-block {
+                    min-width: 200px;
+                    padding: 24px;
+                    flex-basis: 24%;
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid #ccdbec;
+
+                    &__title {
+                        font-size: 18px;
+                        text-transform: uppercase;
+                    }
+
+                    &__description {
+                        margin-top: 19px;
+                        font-size: 13px;
+                    }
+                }
+
+                .financing-option__content-block {
+                    display: flex;
+                    flex-direction: column;
+                    flex-basis: 76%;
+                    padding: 24px;
+
+                    &__input-row {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 24px;
+
+                        .new-input-group.big-input {
+                            flex-basis: 23%;
+                        }
+
+                        .new-input-group.small-input {
+                            flex-basis: 13%;
+                        }
+
+                        .financing-option__desc-row {
+                            flex-basis: 40%;
+                        }
+                    }
+
+                    .financing-option__desc-row {
+                        width: 35%;
+                    }
+
+                    &__buttons {
+                        margin-top: auto;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
+
+    &__additional-info {
+        display: flex;
+        margin-bottom: 10px;
+
+        &__sales-rep,
+        &__date {
+            flex-basis: 20%;
+
+            .custom-text-input-group {
+                width: 100%;
+            }
+        }
+
+        &__house-size {
+            flex-basis: 15.5%;
+        }
+
+        &__comment {
+            flex-basis: 40%;
+        }
+    }
+}
+@media @tablet-only {
+    .new-project-info {
+        width: 94%;
+
+        &__project-desc {
+            flex-wrap: wrap;
+
+            &__description.new-input-group {
+                flex-basis: 72%;
+                margin-right: 0;
+            }
+
+
+            &__project-type,
+            &__cost,
+            &__add-project {
+                margin-top: 16px;
+                flex-basis: 23%;
+            }
+
+            &__project-type {
+                margin-top: 0;
+            }
+        }
+
+
+        &__options-wp {
+            display: flex;
+            margin-top: 16px;
+            overflow: auto;
+
+            .financing-option {
+                min-width: 270px;
+
+                &--single {
+                    .financing-option__content-block {
+
+
+                        &__input-row {
+                            flex-wrap: wrap;
+                            margin-bottom: 0;
+
+                            .new-input-group.small-input,
+                            .new-input-group.big-input {
+                                flex-basis: 27%;
+                                margin-bottom: 16px;
+                            }
+                        }
+
+                        .financing-option__desc-row {
+                            width: 40%;
+                        }
+                    }
+                }
+            }
+        }
+
+        &__additional-info {
+            flex-wrap: wrap;
+
+            &__sales-rep {
+                flex-basis: 30.5%;
+            }
+
+            &__date {
+                flex-basis: 36%;
+            }
+
+            &__house-size {
+                flex-basis: 25%;
+
+                &.new-input-group {
+                    margin-right: 0;
+                }
+            }
+
+            &__comment {
+                margin-top: 16px;
+                flex-basis: 99%;
+
+                &.new-input-group {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+@media @mobile {
+    .new-project-info {
+        width: 87%;
+        padding: 16px;
+
+        .new-input-group {
+            margin-top: 16px;
+            flex-basis: 100%;
+            margin-right: 0;
+        }
+
+        &__content-row {
+            flex-wrap: wrap;
+
+            .middle-cell,
+            .small-cell {
+                margin-top: 16px;
+                flex-basis: 100%;
+                margin-right: 0;
+            }
+        }
+
+        .table-block {
+            flex-basis: 100%;
+            margin-right: 0;
+        }
+
+        &__project-desc {
+            flex-wrap: wrap;
+
+            &__add-project,
+            .new-input-group {
+                flex-basis: 100%;
+                margin-top: 16px;
+            }
+        }
+
+        &__price {
+            flex-wrap: wrap;
+
+            &__info,
+            &__sum {
+                flex-basis: 45%;
+                margin-right: 0;
+            }
+
+            &__sum {
+                text-align: right;
+            }
+        }
+
+        &__fin-options-title {
+            margin-left: 0;
+            flex-wrap: wrap;
+
+            &__info {
+                flex-basis: 100%;
+                font-size: 20px;
+            }
+
+            &__calculator {
+                margin-top: 16px;
+            }
+        }
+
+        &__options-wp {
+            overflow: auto;
+
+            &__info-tables {
+                margin: 3px 4px;
+                min-width: 230px;
+            }
+
+            .financing-option {
+                min-width: 230px;
+                margin: 3px 16px 3px -8px;
+
+                .new-input-group {
+                    margin-top: 0;
+                    margin-right: 0;
+                }
+
+                &__input-row {
+                    &--double {
+                        flex-wrap: wrap;
+
+                        .new-input-group {
+                            flex-basis: 100%;
+
+                            &:nth-child(odd) {
+                                margin-right: 0;
+                                margin-bottom: 23px;
+                            }
+
+                            &:nth-child(even) {
+                                margin-left: 0;
+                            }
+                        }
+                    }
+                }
+
+                &--single {
+                    flex-direction: column;
+
+                    .financing-option__title-block {
+                        border-right: none;
+                        border-bottom: 1px solid #ccdbec;
+                        flex-basis: unset;
+                    }
+
+                    .financing-option__content-block {
+                        flex-basis: unset;
+
+                        &__input-row {
+                            flex-wrap: wrap;
+                            margin-bottom: 0;
+
+                            .new-input-group.small-input,
+                            .new-input-group.big-input {
+                                flex-basis: 100%;
+                                margin-bottom: 16px;
+                            }
+
+                            .financing-option__desc-row {
+                                flex-basis: unset;
+                            }
+                        }
+
+                        .financing-option__desc-row {
+                            width: 100%;
+                        }
+
+                        &__buttons {
+                            .financing-option__content-block__view-more {
+                                margin-bottom: 16px;
+                            }
+
+                            flex-direction: column;
+                        }
+                    }
+                }
+            }
+        }
+
+        &__additional-info {
+            flex-wrap: wrap;
+
+            &__house-size {
+                &.new-input-group {
+                    margin-top: 44px;
+                }
+            }
+        }
+    }
+}

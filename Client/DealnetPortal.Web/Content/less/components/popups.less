@@ -1,4 +1,5 @@
-﻿.how-can-we-help-popup,
+﻿.scan-license-popup,
+.how-can-we-help-popup,
 .deal-status-details-popup,
 .signature-status-popup,
 .customer-comment-popup,
@@ -474,5 +475,103 @@
         max-width: 335px;
         width: 335px;
         min-width: 335px;
+    }
+}
+
+.scan-license-popup {
+    padding: 32px 24px 24px;
+    max-width: 660px;
+    min-width: 660px;
+    width: 660px;
+    // height: 524px;
+    border-radius: 0;
+
+    &__title {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    &__legend {
+        margin-top: 16px;
+        font-size: 16px;
+    }
+
+    &__options {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        border-bottom: 1px solid #ccdbec;
+        display: flex;
+
+        li {
+            margin-top: 16px;
+            font-size: 14px;
+            padding: 8px 39px 14px 39px;
+
+            &:hover {
+                font-weight: bold;
+                cursor: pointer;
+                padding: 8px 38px 10px 38px;
+                border-bottom: 4px solid #ccdbec;
+            }
+        }
+    }
+
+    &__camera-block,
+    &__upload-block {
+        padding: 40px;
+
+        &--uploaded {
+            .scan-license-popup__camera-block__image,
+            .scan-license-popup__upload-block__image {
+                i {
+                    display: none;
+                }
+
+                img {
+                    display: block;
+                }
+            }
+        }
+
+        &__image {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+
+            img {
+                display: none;
+                width: 360px;
+                height: 223px;
+            }
+
+            i {
+                margin: 32px 32px 0 32px;
+            }
+        }
+    }
+
+    &__upload-block {
+        padding: 40px;
+    }
+
+
+    &__buttons {
+        margin-top: auto;
+        display: flex;
+        justify-content: center;
+
+        div {
+            width: 168px;
+            margin: 12px;
+        }
+    }
+}
+
+@media @mobile {
+    .scan-license-popup {
+        max-width: 360px;
+        width: 360px;
+        min-width: 360px;
     }
 }

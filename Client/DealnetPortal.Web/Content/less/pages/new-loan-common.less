@@ -1,0 +1,1050 @@
+﻿.nw-loan-wp {
+    .nw-loan {
+        margin-bottom: 125px;
+        display: flex;
+        flex-direction: column;
+
+        &__header {
+            margin: 12px 16px;
+            display: flex;
+
+            &__title {
+                font-size: 40px;
+                color: #525252;
+                margin-right: 15px;
+            }
+
+            &__learn-more {
+                i, a {
+                    margin: 0 8px;
+                }
+            }
+        }
+
+        &__steps {
+            margin: 12px 16px 40px;
+            display: flex;
+
+            &__step {
+                background-color: #f9f9f9;
+                min-height: 60px;
+                display: flex;
+                align-items: center;
+                flex-basis: 34%;
+
+                i {
+                    display: none;
+                }
+
+                &__text {
+                    min-height: 60px;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    color: #7a7a7a;
+                    padding: 0 8px;
+
+                    span {
+                        font-size: 18px;
+
+                        &:first-child {
+                            margin-right: 16px;
+                            font-size: 30px;
+                            font-weight: 800;
+                        }
+                    }
+                }
+
+                &__arrow-right {
+                    visibility: hidden;
+                    width: 0;
+                    height: 0;
+                    border-top: 30px solid transparent;
+                    border-left: 20px solid #a4e402;
+                    border-bottom: 30px solid transparent;
+                    margin-left: auto;
+                }
+
+                &--active {
+
+                    .nw-loan__steps__step__text {
+                        color: white;
+                        background-image: linear-gradient(125deg, #7cc501, #a4e402);
+                    }
+
+                    .nw-loan__steps__step__arrow-right {
+                        visibility: visible;
+                    }
+                }
+
+                &--passed {
+                    i {
+                        display: inline-block;
+                        margin-left: auto;
+                    }
+
+                    .nw-loan__steps__step__arrow-right {
+                        visibility: visible;
+                        border-top: 30px solid #7cc501;
+                        border-left: 20px solid transparent;
+                        border-bottom: 30px solid #7cc501;
+                    }
+                }
+            }
+        }
+
+        &__notification {
+            display: flex;
+            padding: 24px 0 24px 24px;
+            box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
+            margin: 12px 48px 40px 80px;
+            align-items: center;
+
+            &__message {
+                flex-basis: 29%;
+                font-size: 16px;
+                margin-right: 14px;
+            }
+
+            &__info {
+                flex-basis: 59%;
+                font-size: 20px;
+
+                &__sum {
+                    font-weight: 800;
+                }
+            }
+
+            &__icon {
+                position: absolute;
+                background-image: url(../../images/redesign_icons/check-mark-2.svg);
+                background-size: 145px 150px;
+                width: 115px;
+                height: 80px;
+                background-position: -15px -53px;
+                display: inline-block;
+                cursor: pointer;
+                right: 50px;
+                margin-top: 1px;
+                margin-right: 11px;
+            }
+        }
+
+        .nw-basic-info,
+        .nw-category-options,
+        .nw-payment-info {
+            margin-bottom: 125px;
+            flex-direction: column;
+            display: flex;
+            margin-left: 16px;
+            margin-right: 48px;
+
+            &__block {
+                display: flex;
+
+                &--in-action {
+                    .nw-basic-info__block__state {
+                        &__circle {
+                            background-image: url('../../images/redesign_icons/circle-in-action.svg');
+                        }
+                    }
+                }
+
+                &--passed {
+                    .nw-basic-info__block__state {
+                        &__circle {
+                            background-image: url('../../images/redesign_icons/circle-success.svg');
+                        }
+                    }
+                }
+
+                &__state {
+                    margin: 0 30px 0 8px;
+
+                    &__circle {
+                        margin-top: 32px;
+                        width: 24px;
+                        height: 100%;
+                        display: block;
+                        cursor: pointer;
+                        background-repeat: no-repeat;
+                        background-image: url('../../images/redesign_icons/circle-empty.svg');
+                        overflow: hidden;
+
+                        &__icon {
+                            display: block;
+                            background-size: 24px 24px;
+                            width: 24px;
+                            height: 24px;
+                        }
+
+                        &__dots {
+                            height: 100%;
+                            background-image: linear-gradient(#bcc6d9 20%, rgba(255,255,255,0) 0%);
+                            background-position: left;
+                            background-size: 1px 5px;
+                            background-repeat: repeat-y;
+                            width: 2px;
+                            position: relative;
+                            left: 11px;
+                        }
+                    }
+                }
+
+                &__content {
+                    display: flex;
+                    flex-basis: 100%;
+                    flex-direction: column;
+                    box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
+                    padding: 24px;
+                    margin: 12px 0;
+
+                    &__devider-line {
+                        display: none;
+                    }
+
+                    &__content-row {
+                        margin: 8px 0;
+                        display: flex;
+                        align-items: center;
+
+                        .new-input-group {
+                            flex-basis: 20%;
+                            margin-right: 24px;
+                        }
+
+                        .small-cell {
+                            margin-right: 24px;
+                            flex-basis: 15%;
+                        }
+
+                        .middle-cell {
+                            margin-right: 24px;
+                            flex-basis: 19%;
+                        }
+                    }
+
+                    .table-block {
+                        justify-content: space-between;
+                        display: flex;
+                        flex-wrap: wrap;
+                        flex-basis: 45%;
+                        margin-right: 24px;
+
+                        &__name,
+                        &__value {
+                            align-items: center;
+                            margin: 4px 0;
+                            font-size: 13px;
+                        }
+
+                        &__name {
+                            flex-basis: 65%;
+                        }
+
+                        &__value {
+                            flex-basis: 35%;
+                            text-align: right;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .cross-ico {
+                        position: relative;
+                        margin-left: auto;
+                    }
+
+                    .new-input-group {
+                        margin-right: 24px;
+                    }
+
+                    &__title {
+                        font-size: 24px;
+                        font-weight: 300;
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 24px;
+
+                        &--small {
+                            font-size: 20px;
+                        }
+
+                        &__info {
+                            font-size: 14px;
+                            display: flex;
+                            align-items: center;
+                            margin-right: 35px;
+                        }
+                    }
+
+                    &__sub-dealer {
+                        width: 190px;
+                    }
+
+                    &__license-wp {
+                        display: flex;
+
+                        &--additional {
+                            border-bottom: 1px solid #ccdbec;
+                            padding-bottom: 24px;
+                            margin-bottom: 24px;
+                        }
+
+                        .nw-basic-info__block__content__license {
+                            display: flex;
+                            justify-content: space-between;
+                            flex-basis: 62%;
+
+                            &__example,
+                            &__scan {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                flex-basis: 48%;
+                                margin-right: 24px;
+
+                                .new-btn-solid-red {
+                                    width: 100%;
+                                    margin-bottom: 24px;
+
+                                    span {
+                                        font-size: 13px;
+                                        font-weight: 500;
+                                        color: white;
+                                    }
+                                }
+
+                                span {
+                                    font-size: 10px;
+                                    color: #525252;
+                                }
+                            }
+
+                            &__example {
+                                i {
+                                    margin-bottom: 24px;
+                                }
+
+                                & > span {
+                                    color: #395369;
+
+                                    & > span {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+
+                        .nw-basic-info__block__content__person-info {
+                            margin-top: -9px;
+                            display: flex;
+                            flex-wrap: wrap;
+
+                            &__last-name,
+                            &__first-name {
+                                flex-basis: 21%;
+                            }
+
+                            &__birth-date {
+                                display: flex;
+                                justify-content: flex-start;
+                                flex-basis: 48%;
+                                align-items: center;
+
+                                .new-input-group {
+                                    margin-right: 0;
+                                }
+
+                                span {
+                                    margin-right: 19px;
+                                    font-size: 14px;
+                                }
+
+                                &__month,
+                                &__day {
+                                    min-width: 60px;
+                                }
+
+                                &__year {
+                                    min-width: 90px;
+                                }
+                            }
+
+                            &__deal-initial,
+                            &__id-type {
+                                margin-top: 13px;
+                                flex-basis: 32.5%;
+                            }
+                        }
+                    }
+
+                    &__qc-borrower-info,
+                    &__company-info,
+                    &__location {
+                        display: flex;
+                        align-items: center;
+                        border-bottom: 1px solid #ccdbec;
+                        padding-bottom: 24px;
+                        margin-bottom: 20px;
+
+                        &--borrower-extended {
+                            padding-bottom: 0;
+                            margin-bottom: 0;
+                            border-bottom: none;
+                        }
+
+                        &__get-location {
+                            flex-basis: 12%;
+                            margin-right: 40px;
+                            display: flex;
+                            align-items: center;
+                            font-size: 12px;
+                            font-weight: 500;
+                            text-decoration: underline;
+
+                            i, a {
+                                color: #97c501;
+                                cursor: pointer;
+                                margin-left: 8px;
+                                text-decoration: underline;
+
+                                &:hover {
+                                    color: #97c501;
+                                }
+                            }
+                        }
+
+                        &__street {
+                            flex-basis: 17.5%;
+                        }
+
+                        &__unit,
+                        &__province,
+                        &__postal-code {
+                            flex-basis: 8%;
+                        }
+
+                        &__city {
+                            flex-basis: 13%;
+                        }
+
+                        &__clear {
+                            margin-left: 8px;
+                            display: flex;
+                            align-items: center;
+                            font-size: 12px;
+                            font-weight: 500;
+
+                            i, a {
+                                color: #395369;
+                                cursor: pointer;
+                                margin: 0 8px;
+                                text-decoration: none;
+
+                                &:hover {
+                                    color: #395369;
+                                }
+                            }
+                        }
+                    }
+
+                    &__company-info {
+                        border-bottom: none;
+                        padding-bottom: 0;
+                        margin-bottom: 24px;
+
+                        .new-input-group {
+                            flex-basis: 25%;
+
+                            &:last-child {
+                                margin-right: 0;
+                            }
+                        }
+                    }
+
+                    &__qc-borrower-info {
+                        .new-input-group {
+                            flex-basis: 18%;
+
+                            &:last-child {
+                                margin-right: 0;
+                            }
+                        }
+                    }
+
+                    &__checkbox {
+                        display: flex;
+                        justify-content: flex-start;
+                        margin: 10px 0;
+                        align-items: flex-start;
+                        font-size: 13px;
+
+                        .customized-checkbox-icon {
+                            margin-bottom: 0;
+                            margin-right: 4px;
+
+                            & + span {
+                                margin-top: 6px;
+                            }
+                        }
+                    }
+
+                    &__concent-btns {
+                        margin-top: 14px;
+                        display: flex;
+
+                        .new-btn-green {
+                            margin-right: 24px;
+                            flex-basis: 23%;
+                        }
+                    }
+                }
+            }
+
+            &__footer {
+                display: flex;
+                flex-direction: column;
+
+                &__add-applicant {
+                    margin-top: 38px;
+                    display: flex;
+                    align-items: center;
+                    margin-left: 100px;
+
+                    span {
+                        font-size: 13px;
+                        color: #61a2f6;
+                    }
+                }
+
+                .new-btn-solid-red {
+                    margin-top: 30px;
+                    margin-left: auto;
+                    width: 184px;
+                }
+            }
+        }
+    }
+}
+
+
+@media @tablet-only {
+    .nw-loan-wp {
+        .nw-loan {
+            &__header {
+                &__learn-more {
+                    a {
+                        display: none;
+                    }
+                }
+            }
+
+            &__steps {
+                margin: 12px -16px 40px;
+            }
+
+            &__notification {
+                margin: 12px 0 40px 80px;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px 0 20px 24px;
+
+                &__info {
+                    margin-top: 16px;
+                }
+
+                &__icon {
+                    height: 86px;
+                    background-position: 5px -44px;
+                    margin-right: -36px;
+                }
+            }
+
+
+            .nw-basic-info,
+            .nw-category-options,
+            .nw-payment-info {
+                margin-right: 0;
+
+                &__block {
+                    &__state {
+                        margin: 0 30px 0 0;
+                    }
+
+                    &__content {
+                        &__title {
+                            &__info {
+                                margin-right: 12px;
+                            }
+                        }
+
+                        &__sub-dealer {
+                            width: 208px;
+                        }
+
+                        &__license-wp {
+                            flex-wrap: wrap;
+
+                            .nw-basic-info__block__content__license {
+                                flex-basis: 100%;
+
+                                &__scan {
+                                    flex-basis: 30.5%;
+                                }
+
+                                &__example {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: flex-start;
+                                    flex-basis: 53%;
+
+                                    span {
+                                        margin-top: 10px;
+                                        margin-left: 24px;
+                                    }
+                                }
+                            }
+
+                            .nw-basic-info__block__content__person-info {
+                                margin-top: 16px;
+                                display: flex;
+                                flex-wrap: wrap;
+
+                                &__last-name,
+                                &__first-name {
+                                    flex-basis: 30.5%;
+                                }
+
+                                &__birth-date {
+                                    display: flex;
+                                    justify-content: flex-start;
+                                    flex-basis: 24%;
+                                    align-items: center;
+
+                                    .new-input-group {
+                                        margin-right: 0;
+                                    }
+
+                                    & > span {
+                                        display: none;
+                                    }
+
+                                    &__month,
+                                    &__day {
+                                        min-width: 43px;
+                                    }
+
+                                    &__year {
+                                        min-width: 82px;
+                                    }
+
+                                    &__month,
+                                    &__day,
+                                    &__year {
+                                        .selectric .button {
+                                            width: 18px;
+                                        }
+                                    }
+                                }
+
+                                &__deal-initial,
+                                &__id-type {
+                                    margin-top: 13px;
+                                    flex-basis: 30.5%;
+                                }
+
+                                &__deal-initial {
+                                    flex-basis: 30.5%;
+                                }
+                            }
+                        }
+
+                        div.nw-basic-info__block__content__location__unit {
+                            margin-right: 0;
+                        }
+
+                        &__qc-borrower-info,
+                        &__company-info,
+                        &__location {
+                            flex-wrap: wrap;
+
+                            &--borrower-extended {
+                                padding-bottom: 0;
+                                margin-bottom: 0;
+                                border-bottom: none;
+                            }
+
+                            .new-input-group {
+                                &:nth-child(2) {
+                                    margin-right: 24px;
+                                }
+
+                                &:nth-child(3) {
+                                    margin-top: 0;
+                                    margin-right: 0;
+                                }
+                            }
+
+                            &__get-location {
+                                flex-basis: 23.5%;
+                                margin-right: 24px;
+                            }
+
+                            &__street {
+                                flex-basis: 48%;
+                            }
+
+                            &__unit {
+                                flex-basis: 20%;
+                            }
+
+                            &__city,
+                            &__province,
+                            &__postal-code {
+                                margin-top: 16px;
+                                flex-basis: 23.8%;
+                            }
+
+                            &__clear {
+                                margin-left: 0;
+                                margin-top: 22px;
+                            }
+                        }
+
+                        &__company-info {
+                            flex-wrap: wrap;
+
+                            .new-input-group {
+                                flex-basis: 48%;
+
+                                &:nth-child(2) {
+                                    margin-right: 0;
+                                }
+
+                                &:last-child {
+                                    flex-basis: 35%;
+                                    margin-right: 0;
+                                    margin-top: 16px;
+                                }
+                            }
+                        }
+
+                        &__qc-borrower-info {
+                            flex-wrap: wrap;
+
+                            &__salary-income.new-input-group {
+                                margin-right: 0;
+                            }
+
+                            &__empl-length,
+                            &__empl-type {
+                                margin-top: 16px;
+                            }
+
+                            .new-input-group {
+                                flex-basis: 30%;
+
+                                &:last-child {
+                                    margin-right: 0;
+                                }
+                            }
+                        }
+
+
+                        &__concent-btns {
+                            .new-btn-green {
+                                margin-right: 24px;
+                                flex-basis: 40%;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@media @mobile {
+    .nw-loan-wp {
+        .nw-loan {
+            &__header {
+                &__learn-more {
+                    a {
+                        display: none;
+                    }
+                }
+            }
+
+            &__steps {
+                margin: 12px -16px 40px;
+
+                &__step {
+                    min-width: 255px;
+                }
+            }
+
+            &__notification {
+                margin: 12px 0 40px 40px;
+                flex-direction: column;
+                align-items: flex-start;
+                overflow: hidden;
+                padding: 20px 0 20px 24px;
+
+                &__message {
+                    flex-basis: 29%;
+                    margin-right: 14px;
+                }
+
+                &__info {
+                    margin-top: 16px;
+                    margin-right: 80px;
+                }
+
+                &__icon {
+                    height: 86px;
+                    background-position: 5px -44px;
+                    margin-top: 30px;
+                    margin-right: -36px;
+                }
+            }
+
+            .nw-basic-info,
+            .nw-category-options,
+            .nw-payment-info {
+                margin-right: 0;
+                margin-left: 0;
+
+                &__block {
+                    &__state {
+                        margin: 0 15px 0 0;
+                    }
+
+                    &__content {
+                        padding: 16px;
+
+                        .new-input-group {
+                            margin-top: 16px;
+                            flex-basis: 100%;
+                            margin-right: 0;
+                        }
+
+                        &__content-row {
+                            flex-wrap: wrap;
+
+                            .middle-cell,
+                            .small-cell {
+                                margin-top: 16px;
+                                flex-basis: 100%;
+                                margin-right: 0;
+                            }
+                        }
+
+                        .table-block {
+                            flex-basis: 100%;
+                            margin-right: 0;
+                        }
+
+
+                        &__checkbox {
+                            .customized-checkbox-icon {
+                                align-self: flex-start;
+                            }
+                        }
+
+                        &__title {
+                            display: inline-block;
+                            font-size: 20px;
+                            margin-bottom: 12px;
+
+                            &__info {
+                                width: 100%;
+                                margin-top: 16px;
+                                margin-right: 12px;
+                            }
+
+                            .cross-ico {
+                                position: absolute;
+                            }
+                        }
+
+                        &__sub-dealer {
+                            width: 100%;
+                        }
+
+                        &__license-wp {
+                            flex-wrap: wrap;
+
+                            &--additional {
+                                border-bottom: 1px solid #ccdbec;
+                                padding-bottom: 24px;
+                                margin-bottom: 24px;
+                            }
+
+                            .nw-basic-info__block__content__license {
+                                flex-basis: 100%;
+                                flex-wrap: wrap;
+
+                                &__scan {
+                                    flex-basis: 100%;
+                                    margin-right: 0px;
+
+                                    & > span {
+                                        display: none;
+                                    }
+                                }
+
+                                &__example {
+                                    align-items: center;
+                                    justify-content: center;
+                                    flex-basis: 100%;
+                                    margin-right: 0px;
+
+                                    i.dw-license-ico {
+                                        margin-top: 0;
+                                        margin-bottom: 0;
+                                    }
+
+                                    & > span {
+                                        margin-top: 10px;
+                                        margin-left: 0;
+
+                                        & > span {
+                                            color: #525252;
+                                            margin-top: 24px;
+                                            display: inline-block;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .nw-basic-info__block__content__person-info {
+                                &__last-name,
+                                &__first-name,
+                                &__deal-initial,
+                                &__id-type,
+                                &__birth-date {
+                                    margin-top: 16px;
+                                    flex-basis: 100%;
+                                }
+
+                                &__birth-date {
+                                    .new-input-group {
+                                        margin-right: 0;
+                                    }
+
+                                    & > span {
+                                        display: none;
+                                    }
+
+                                    &__month,
+                                    &__day {
+                                        min-width: 10px;
+                                        flex-basis: 25%;
+                                    }
+
+                                    &__year {
+                                        min-width: 10px;
+                                        flex-basis: 50%;
+                                    }
+
+                                    &__month,
+                                    &__day,
+                                    &__year {
+                                        .selectric .button {
+                                            width: 18px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        div.nw-basic-info__block__content__location__unit {
+                            margin-right: 0;
+                        }
+
+                        &__qc-borrower-info,
+                        &__company-info,
+                        &__location {
+                            flex-wrap: wrap;
+
+                            &--borrower-extended {
+                                padding-bottom: 0;
+                                margin-bottom: 0;
+                                border-bottom: none;
+                            }
+
+                            &__get-location {
+                                margin-top: 16px;
+                                flex-basis: 100%;
+                            }
+
+                            &__get-location {
+                                margin-top: 0;
+
+                                i {
+                                    margin-left: 0;
+                                }
+                            }
+
+                            &__clear {
+                                margin-top: 24px;
+                                margin-left: 0;
+
+                                i {
+                                    margin-left: 0;
+                                }
+                            }
+                        }
+
+                        &__company-info {
+                            .new-input-group:first-child {
+                                margin-top: 0;
+                            }
+                        }
+
+                        &__concent-btns {
+                            flex-wrap: wrap;
+
+                            .new-btn-green {
+                                margin-right: 0;
+                                flex-basis: 100%;
+
+                                &:last-child {
+                                    margin-top: 24px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &__footer {
+                    &__add-applicant,
+                    .new-btn-solid-red {
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
+                }
+            }
+
+            .nw-category-options {
+                &__block {
+                    &__content {
+                        width: 87%;
+
+                        &__additional-info {
+                            flex-wrap: wrap;
+
+                            &__house-size {
+                                &.new-input-group {
+                                    margin-top: 44px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

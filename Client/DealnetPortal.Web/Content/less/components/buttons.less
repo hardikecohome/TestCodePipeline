@@ -550,6 +550,7 @@ a.disabled{
     }
 }
 
+.icon-link-grey,
 .icon-link-green {
     display: flex;
     align-items: center;
@@ -564,6 +565,25 @@ a.disabled{
         &:hover {
             cursor: pointer;
             color: @green-link-color;
+        }
+    }
+}
+
+
+.icon-link-grey {
+    display: flex;
+    align-items: center;
+
+    a {
+        font-family: Mukta;
+        font-size: 14px;
+        margin-left: 6px;
+        color: #8f8f8f;
+        text-decoration: underline;
+
+        &:hover {
+            cursor: pointer;
+            color: #8f8f8f;
         }
     }
 }

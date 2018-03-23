@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -599,6 +599,7 @@
     <Content Include="Content\images\redesign_icons\sort-arrow-bottom-grey.svg" />
     <Content Include="Content\images\redesign_icons\sort-arrow-top-green.svg" />
     <Content Include="Content\images\redesign_icons\sort-arrow-top-grey.svg" />
+    <Content Include="Content\images\redesign_icons\sort-button-red.svg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
@@ -930,11 +931,17 @@
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
-	<Content Include="Content\less\components\notifications.less" />
+    <Content Include="Content\less\components\notifications.less" />
     <Content Include="Content\less\pages\my-deals-page.less" />
     <Content Include="Content\less\pages\leads-page.less" />
     <Content Include="Content\less\components\help-bar.less" />
     <Content Include="Content\less\components\popups.less" />
+    <Content Include="Content\less\pages\new-loan-step-one.less" />
+    <Content Include="Content\less\pages\new-loan-step-two.less" />
+    <Content Include="Content\less\pages\new-loan-step-three.less" />
+    <Content Include="Content\less\pages\agreement-submission.less" />
+    <Content Include="Content\less\pages\new-loan-common.less" />
+    <Content Include="Content\less\components\new-project-info.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
