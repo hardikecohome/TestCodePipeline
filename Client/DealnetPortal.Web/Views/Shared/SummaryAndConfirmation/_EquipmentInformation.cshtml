@@ -26,10 +26,10 @@
                 <h3 class="dealnet-section-title">
                     @Resources.NewEquipment
                     @Html.ActionLink(Resources.Edit,
-                             "EquipmentInformation",
-                             "NewRental",
-                             new { contractId = Model.BasicInfo.ContractId },
-                             new { @class = "dealnet-section-edit-link pull-right" })
+                                       "EquipmentInformation",
+                                       "NewRental",
+                                       new { contractId = Model.BasicInfo.ContractId },
+                                       new { @class = "dealnet-section-edit-link pull-right" })
                 </h3>
 
             </div>
@@ -37,13 +37,14 @@
     </div>
     <div id="new-equipment-info-section">
         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
-            @{ 
-                var bill59EquipTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type);
-                var displayResponsibility = Model.ProvinceTaxRate.Province.ToUpper() == "ON" &&
-                    Model.EquipmentInfo.NewEquipment.Any(n => bill59EquipTypes.Contains(n.Type));
+            @{
+                var bill59EquipTypes = Model.ProvinceTaxRate.Province.ToUpper() == "ON" ?
+                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) : 
+                    new List<string>();
             }
             @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
             {
+                var displayResponsibility = bill59EquipTypes.Contains(Model.EquipmentInfo.NewEquipment[i].Type);
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
                         @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
@@ -63,13 +64,13 @@
                                 })
                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                     @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                                                                  ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                                                                                                  {
-                                                                                                                                      Value = x.Type,
-                                                                                                                                      Text = x.Description,
-                                                                                                                                      Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                                                                  }),
-                                                                                                                                  new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                                                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                                                                                                            {
+                                                                                                                                                Value = x.Type,
+                                                                                                                                                Text = x.Description,
+                                                                                                                                                Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                                                                                            }),
+                                                                                                                                            new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 </div>
                             </div>
                         </div>
