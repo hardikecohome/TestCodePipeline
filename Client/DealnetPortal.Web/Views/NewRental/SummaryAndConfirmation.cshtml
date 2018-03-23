@@ -531,6 +531,7 @@
                             @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
                             <div class="dealnet-credit-check-section" id="contact-info-section">
                                 @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
+                                @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.AllowCommunicate)
                                 <h3 class="dealnet-section-title">
                                     @Resources.ContactInformation
                                     <a href="#"
@@ -1665,6 +1666,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.CustomerId)
+                                        @Html.HiddenFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.AllowCommunicate)
                                         @Html.LabelFor(m => m.ContactAndPaymentInfo.HomeOwnerContactInfo.HomePhone, new
                                         {
                                             @class = "dealnet-field-caption"
