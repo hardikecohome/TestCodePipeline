@@ -1282,12 +1282,13 @@
 
                         <div class="row credit-check-info-hold equipment-info no-top-margin">
                             @{
-                                var bill59EquipTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type);
-                                var displayResponsibility = contract.ProvinceTaxRate.Province.ToUpper() == "ON" &&
-                                    contract.EquipmentInfo.NewEquipment.Any(n => bill59EquipTypes.Contains(n.Type));
+                                var bill59EquipTypes = contract.ProvinceTaxRate.Province.ToUpper() == "ON" ? 
+                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) : 
+                                    new List<string>();
                             }
                             @foreach(var equipment in contract.EquipmentInfo.NewEquipment)
                             {
+                                var displayResponsibility = bill59EquipTypes.Contains(equipment.Type);
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
                                         <div class="form-group">
