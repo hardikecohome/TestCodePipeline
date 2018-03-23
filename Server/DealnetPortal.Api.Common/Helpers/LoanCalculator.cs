@@ -89,7 +89,7 @@ namespace DealnetPortal.Api.Common.Helpers
             {
                 output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, mco) * (1 + customerRate),2);
             }
-            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + admeenFee;
+            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments; // + admeenFee;
             output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - admeenFee, 2);
             return output;
         }
