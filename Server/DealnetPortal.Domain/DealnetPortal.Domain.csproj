@@ -64,6 +64,7 @@
     <Compile Include="ContractDocument.cs" />
     <Compile Include="ContractSalesRepInfo.cs" />
     <Compile Include="ContractSigner.cs" />
+    <Compile Include="CustomerCreditReport.cs" />
     <Compile Include="DealerArea.cs" />
     <Compile Include="DealerEquipment.cs" />
     <Compile Include="DealerProfile.cs" />

@@ -96,5 +96,8 @@
         public static readonly string CLARITY_TIER_NAME = "ClarityTierName";
 
         public static readonly string QUEBEC_POSTAL_CODES = "QuebecPostalCodes";
+
+        //
+        public static readonly string USE_TEST_ASPIRE = "UseTestAspire";
     }
 }

@@ -10,5 +10,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId);
 
         Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId);
+
+        CustomerCreditReportDTO CheckCustomerCreditReport(int contractId, string contractOwnerId);
     }
 }

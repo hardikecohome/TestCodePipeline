@@ -178,6 +178,60 @@ namespace DealnetPortal.Aspire.Integration.Storage
             return null;
         }
 
+        public CreditReport GetCustomerCreditReport(string customerId)
+        {
+            string sqlStatement = _queriesStorage.GetQuery("GetCustomerBeaconById");
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                try
+                {
+                    sqlStatement = string.Format(sqlStatement, customerId);
+                    var list = GetListFromQuery(sqlStatement, _databaseService, ReadCreditReportItem);
+                    if (list?.Any() ?? false)
+                    {
+                        return list[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError("Cannot get GetCustomerBeaconById query", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetCustomerBeaconById query for request");
+            }
+            return null;
+        }
+
+        public CreditReport GetCustomerCreditReport(string firstName, string lastName, DateTime dateOfBirth,
+            string postalCode)
+        {
+            string sqlStatement = _queriesStorage.GetQuery("GetCustomerBeacon.dev");
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                try
+                {
+                    var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);
+                    sqlStatement = string.Format(sqlStatement, firstName, lastName, dob, postalCode?.Replace(" ", ""));
+                    var list = GetListFromQuery(sqlStatement, _databaseService, ReadCreditReportItem);
+                    if (list?.Any() ?? false)
+                    {
+                        return list[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError("Cannot get GetCustomerBeacon query", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetCustomerBeacon query for request");
+            }
+            return null;
+        }
+
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
         {
             //Define list
@@ -407,6 +461,38 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 }
             }
             return null;
+        }
+
+        private CreditReport ReadCreditReportItem(IDataReader dr)
+        {
+            try
+            {
+                var creditReport = new CreditReport()
+                {
+                    FirstName = ConvertFromDbVal<string>(dr["fname"]),
+                    LastName = ConvertFromDbVal<string>(dr["lname"]),
+                    CustomerId = ConvertFromDbVal<string>(dr["customer_id"]),
+                    ContractId = ConvertFromDbVal<string>(dr["contractoid"])
+                };
+
+                creditReport.DateOfBirth = ConvertFromDbVal<DateTime?>(dr["date_of_birth"]);
+                creditReport.CreatedTime = ConvertFromDbVal<DateTime?>(dr["crtd_datetime"]);
+
+                creditReport.LastUpdatedTime = ConvertFromDbVal<DateTime?>(dr["lupd_datetime"]);
+                creditReport.LastUpdateUser = ConvertFromDbVal<string>(dr["lupd_user"]);
+
+                creditReport.CreditId = ConvertFromDbVal<string>(dr["creditoid"]);
+                var strBeacon = ConvertFromDbVal<string>(dr["Beacon"]);
+                int beacon = 0;
+                int.TryParse(strBeacon, out beacon);
+                creditReport.Beacon = beacon;
+                return creditReport;
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot read credit report record from Aspire DB", ex);
+                return null;
+            }
         }
 
         public static T ConvertFromDbVal<T>(object obj)

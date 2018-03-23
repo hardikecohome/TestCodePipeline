@@ -32,9 +32,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         AgreementDocument  GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId, int? timeZoneOffset = null);
 
         IList<Alert> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData, string contractOwnerId);
-
         
-
         Tuple<CreditCheckDTO, IList<Alert>> SubmitContract(int contractId, string contractOwnerId);
 
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
@@ -45,15 +43,9 @@ namespace DealnetPortal.Api.Integration.Interfaces
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId, string contractOwnerId);
 
-        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetDealerEquipmentTypes(string dealerId);        
-
-        //IList<EquipmentTypeDTO> GetDocumentTypes();
-
-        //IList<string> GetContractDocumentsList();        
+        Tuple<IList<EquipmentTypeDTO>, IList<Alert>> GetDealerEquipmentTypes(string dealerId);                
 
         Tuple<ProvinceTaxRateDTO, IList<Alert>> GetProvinceTaxRate(string province);
-
-        Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id);
 
         CustomerDTO GetCustomer(int customerId);
 
