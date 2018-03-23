@@ -30,5 +30,7 @@ namespace DealnetPortal.Api.Models.Contract
         public DateTime? ValidTo { get; set; }
 
         public bool IsPromo { get; set; }
+
+        public CustomerRiskGroupDTO CustomerRiskGroup { get; set; }
     }
 }

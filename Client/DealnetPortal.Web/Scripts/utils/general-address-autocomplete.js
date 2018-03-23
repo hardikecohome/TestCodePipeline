@@ -10,6 +10,8 @@
 function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
     var streetInput = document.getElementById(streetId);
     var cityInput = document.getElementById(cityId);
+    var streetAutoAttr = streetInput && streetInput.autocomplete || 'false';
+    var cityAutoAttr = cityInput && cityInput.autocomplete || 'false';
     var provenceInput = document.getElementById(provenceId);
     var postalCodeInput = document.getElementById(postalCodeId);
     if (streetInput == null || cityInput == null || provenceInput == null || postalCodeInput == null) {
@@ -93,4 +95,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
             $(streetInput).placeholder();
         }
     });
+
+    streetInput.autocomplete = streetAutoAttr;
+    cityInput.autocomplete = cityAutoAttr;
 }

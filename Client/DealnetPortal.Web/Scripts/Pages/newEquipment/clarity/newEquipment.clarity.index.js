@@ -49,7 +49,14 @@
         if (!state.isNewContract) {
             $(settings.loanRateCardToggleId).click();
             calculate();
+            $('.reduced-monthly-cost').each(function () {
+                $(this).siblings('.dealnet-disabled-input-value').text(this.value);
+            })
         }
+
+        $('body').on('change', '.reduced-monthly-cost', function (e) {
+            $(this).siblings('.dealnet-disabled-input-value').text(e.target.value);
+        });
     }
 
     function _initHandlers() {

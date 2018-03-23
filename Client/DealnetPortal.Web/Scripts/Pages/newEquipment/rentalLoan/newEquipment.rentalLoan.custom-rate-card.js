@@ -33,15 +33,22 @@
 
     var setAdminFeeByEquipmentSum = function(eSum) {
         if($.isEmptyObject(state.customRateCardBoundaires)) return;
+        var keys = Object.keys(state.customRateCardBoundaires);
+        for (var i = 0; i < keys.length; i++) {
 
-        Object.keys(state.customRateCardBoundaires).map(function(bound) {
-            var numbers = bound.split('-');
+            var numbers = keys[i].split('-');
             var lowBound = +numbers[0];
             var highBound = +numbers[1];
-            if (lowBound <= eSum && highBound >= eSum) {
-                state[settings.customRateCardName].AdminFee = +state.customRateCardBoundaires[bound].adminFee;
+
+            if (eSum <= lowBound || eSum >= highBound) {
+                state[settings.customRateCardName].AdminFee = 0;
             }
-        });
+
+            if (lowBound <= eSum && highBound >= eSum) {
+                state[settings.customRateCardName].AdminFee = +state.customRateCardBoundaires[keys[i]].adminFee;
+                break;
+            }
+        }
     }
 
     /**
