@@ -144,7 +144,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             _checkboxTabs.Add(new Checkbox()
                             {
-                                TabLabel = ff.Name,
+                                TabLabel = "\\*" + ff.Name,
                                 Selected = ff.Value
                             });
                         }
@@ -152,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             _textTabs.Add(new Text()
                             {
-                                TabLabel = ff.Name,
+                                TabLabel = "\\*" + ff.Name,
                                 Value = ff.Value
                             });
                         }
