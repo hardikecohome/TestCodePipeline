@@ -1821,7 +1821,9 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.FeePaidBy,
-                    Value = contract.Equipment.IsFeePaidByCutomer ?? false ? "C":"D"
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
+                        (contract.Equipment.IsFeePaidByCutomer ?? false ? "C":"D")
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
