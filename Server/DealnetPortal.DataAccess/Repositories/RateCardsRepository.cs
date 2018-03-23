@@ -14,7 +14,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
         }
 
-        public Tier GetTierByDealerId(string dealerId, DateTime? validDate )
+        public Tier GetTierByDealerId(string dealerId, int? beacons, DateTime? validDate )
         {
             var dealer = _dbContext.Users
                 .Include(x => x.Tier)
@@ -26,6 +26,11 @@ namespace DealnetPortal.DataAccess.Repositories
             (x.ValidFrom <= date && x.ValidTo > date) ||
             (x.ValidFrom <= date && x.ValidTo == null) ||
             (x.ValidFrom == null && x.ValidTo > date)).ToList();
+            if (beacons.HasValue)
+            {
+                dealer.Tier.RateCards = dealer.Tier.RateCards.Where(x =>!x.CustomerRiskGroupId.HasValue ||
+                (x.CustomerRiskGroup.BeaconScoreFrom <= beacons && beacons <= x.CustomerRiskGroup.BeaconScoreTo)).ToList();
+            }
 
             return dealer.Tier;
         }
