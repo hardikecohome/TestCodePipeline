@@ -567,7 +567,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = _rateCardsService.GetRateCardsByDealerId(contractId, LoggedInUser?.UserId);
+                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
 
                 return Ok(submitResult);
             }

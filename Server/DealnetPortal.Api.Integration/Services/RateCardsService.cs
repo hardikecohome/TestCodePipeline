@@ -23,7 +23,7 @@ namespace DealnetPortal.Api.Integration.Services
             return Mapper.Map<TierDTO>(tier);
         }
 
-        public TierDTO GetRateCardsByDealerId(int contractId, string dealerId)
+        public TierDTO GetRateCardsForContract(int contractId, string dealerId)
         {
             var contract = _contractRepository.GetContract(contractId, dealerId);
             int beacons = contract.PrimaryCustomer.CreditReport?.Beacon ?? 0;
