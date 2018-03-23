@@ -25,6 +25,7 @@ namespace DealnetPortal.Api.Tests.Services
         private ILoggingService _loggingService;
         private IAspireService _aspireService;
         private ICustomerWalletService _customerWalletService;
+        private ICreditCheckService _creditCheckService;
         private IAspireStorageReader _aspireStorageReader;
         private IMailService _mailService;
         private IDealerRepository _dealerRepository;
@@ -36,8 +37,8 @@ namespace DealnetPortal.Api.Tests.Services
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
-            _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader, 
-                _customerWalletService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _documentService);
+            _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader,
+                _creditCheckService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _documentService);
         }
 
         private void SetupMocks()
@@ -49,6 +50,7 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IMailService> mailServiceMock = new Mock<IMailService>();
             Mock<IAspireService> aspireServiceMock = new Mock<IAspireService>();
             Mock<IAspireStorageReader> aspireStorageServiceMock = new Mock<IAspireStorageReader>();
+            Mock<ICreditCheckService> creditCheckServiceMock = new Mock<ICreditCheckService>();
             Mock<ICustomerWalletService> customerWalletServiceMock = new Mock<ICustomerWalletService>();
             Mock<IDealerRepository> dealerRepositoryMock = new Mock<IDealerRepository>();
             Mock<IAppConfiguration> appConfigurationMock = new Mock<IAppConfiguration>();
@@ -78,6 +80,7 @@ namespace DealnetPortal.Api.Tests.Services
             _mailService = mailServiceMock.Object;
             _aspireStorageReader = aspireStorageServiceMock.Object;
             _customerWalletService = customerWalletServiceMock.Object;
+            _creditCheckService = creditCheckServiceMock.Object;
             _dealerRepository = dealerRepositoryMock.Object;
             _appConfiguration = appConfigurationMock.Object;
             _documentService = signatureServiceMock.Object;

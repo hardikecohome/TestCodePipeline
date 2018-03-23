@@ -322,6 +322,8 @@
     <Content Include="Global.asax" />
     <Content Include="Queries\DealerRoleInformation.sql" />
     <Content Include="Queries\FindCustomer.sql" />
+    <Content Include="Queries\GetCustomerBeacon.dev.sql" />
+    <Content Include="Queries\GetCustomerBeaconById.sql" />
     <Content Include="Queries\GetCustomerById.sql" />
     <Content Include="Queries\GetDealerDeals.dev.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

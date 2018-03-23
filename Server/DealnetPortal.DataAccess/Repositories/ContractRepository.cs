@@ -229,8 +229,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.WasDeclined = false;
                 }
 
-                contract.LastUpdateTime = DateTime.UtcNow;
-                contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+                if (_dbContext.Entry(contract).State != EntityState.Unchanged)
+                {
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+                }
             }
             return contract;
         }
@@ -241,6 +244,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.EmploymentInfo)
+                .Include(c => c.PrimaryCustomer.CreditReport)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
                 .Include(c => c.HomeOwners)
@@ -264,6 +268,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.EmploymentInfo)
+                .Include(c => c.PrimaryCustomer.CreditReport)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
@@ -596,7 +601,17 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (!string.IsNullOrWhiteSpace(customerInfo.VerificationIdName))
                     {
                         dbCustomer.VerificationIdName = customerInfo.VerificationIdName;
-                    }                                        
+                    }
+
+                    if (customerInfo.EmploymentInfo != null)
+                    {
+                        AddOrUpdateEmploymentInfo(dbCustomer, customerInfo.EmploymentInfo);
+                    }
+
+                    if (customerInfo.CreditReport != null)
+                    {
+                        AddOrUpdateCustomerCreditReport(dbCustomer, customerInfo.CreditReport);
+                    }
                 }
 
                 updated = _dbContext.Entry(dbCustomer).State != EntityState.Unchanged;
@@ -1569,6 +1584,12 @@ namespace DealnetPortal.DataAccess.Repositories
             }
         }
 
+        private void AddOrUpdateCustomerCreditReport(Customer customer, CustomerCreditReport creditReport)
+        {
+            creditReport.Customer = customer;
+            _dbContext.CustomerCreditReports.AddOrUpdate(creditReport);
+        }
+
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = customer.Id == 0 ? null : _dbContext.Customers.Find(customer.Id);
@@ -1594,6 +1615,11 @@ namespace DealnetPortal.DataAccess.Repositories
             if (customer.EmploymentInfo != null)
             {
                 AddOrUpdateEmploymentInfo(dbCustomer, customer.EmploymentInfo);
+            }
+
+            if (customer.CreditReport != null)
+            {
+                AddOrUpdateCustomerCreditReport(dbCustomer, customer.CreditReport);
             }
 
             return dbCustomer;

@@ -55,5 +55,7 @@ namespace DealnetPortal.Domain
         public string RelationshipToMainBorrower { get; set; }
 
         public EmploymentInfo EmploymentInfo { get; set; }
+
+        public CustomerCreditReport CreditReport { get; set; }
     }
 }
