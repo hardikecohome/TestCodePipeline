@@ -340,6 +340,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 var contractViewModel = new ContractViewModel();
                 await MapContract(contractViewModel, contract, contract.Id);
+                contractViewModel.EquipmentInfo.ValueOfDeal = (double)contract.Equipment.ValueOfDeal;
                 contracts.Add(contractViewModel);
             }
             return contracts;
