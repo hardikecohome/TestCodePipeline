@@ -60,7 +60,7 @@
     var totalObligation = totalAllMonthlyPayments + residualBalance;
     totalObligationLabel.text(formatNumber(totalObligation));
 
-    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced);
+    var totalBorrowingCost = Math.abs(totalObligation - totalAmountFinanced + adminFee);
     totalBorrowingCostLabel.text(formatNumber(totalBorrowingCost));
 }
 
