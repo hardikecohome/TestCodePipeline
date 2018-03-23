@@ -90,7 +90,8 @@
 		postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
 		monthlyMortgagePayment = $('#ho-employment-monthly-mortgage');
-		
+		monthlyMortgagePayment.prop('disabled', disabled);
+
         if (!disabled) {
             enable();
         }
