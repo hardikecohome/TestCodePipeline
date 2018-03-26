@@ -897,14 +897,26 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             _signers.ForEach(signer =>
             {
-                rolesList.Add(new TemplateRole()
+                if (signer.RoleName == "Signer1")
                 {
-                    Name = signer.Name,
-                    Email = signer.Email,
-                    //RoutingOrder = signer.RoutingOrder, //?
-                    RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}",
-                    Tabs = signer.Tabs
-                });
+                    rolesList.Add(new TemplateRole()
+                    {
+                        Name = signer.Name,
+                        Email = signer.Email,
+                        //RoutingOrder = signer.RoutingOrder, //?
+                        RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}",
+                        Tabs = signer.Tabs
+                    });
+                }
+                else
+                {
+                    rolesList.Add(new TemplateRole()
+                    {
+                        Name = signer.Name,
+                        Email = signer.Email,
+                        RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}"
+                    });
+                }
             });            
 
             _copyViewers.ForEach(viewer =>
