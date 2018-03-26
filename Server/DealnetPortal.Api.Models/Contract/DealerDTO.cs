@@ -12,7 +12,6 @@ namespace DealnetPortal.Api.Models.Contract
         public string ProductType { get; set; }
         public string ChannelType { get; set; }
         public string Ratecard { get; set; }
-        public string DealerNotPaidFee { get; set; }
         public string Role { get; set; }
     }
 }

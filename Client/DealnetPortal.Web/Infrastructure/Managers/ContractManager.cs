@@ -237,7 +237,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 return summaryAndConfirmation;
             }
-            await MapSummary(summaryAndConfirmation, contractResult, contractId);
+
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             summaryAndConfirmation.RateCardValid = !(contractResult.Equipment?.RateCardId.HasValue ?? false) ||
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
@@ -248,6 +248,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             summaryAndConfirmation.IsOldClarityDeal = isOldClarityDeal;
 
             summaryAndConfirmation.IsClarityDealer = dealerTier.Name == _clarityProgramTier;
+
+            await MapSummary(summaryAndConfirmation, contractResult, contractId);
+
             //correction for value of a deal
             if(summaryAndConfirmation.EquipmentInfo != null)
             {
@@ -287,13 +290,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     {
                         priceOfEquipment = contract.Equipment?.NewEquipment?.Sum(x => x.Cost) ?? 0;
                     }
+
                     var loanCalculatorInput = new LoanCalculator.Input
                     {
                         TaxRate = (double?)taxRate ?? 0,
                         LoanTerm = contract.Equipment?.LoanTerm ?? 0,
                         AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
                         PriceOfEquipment = (double)priceOfEquipment,
-                        AdminFee = (double)(contract.Equipment?.AdminFee ?? 0),
+                        AdminFee = (double)(contract.Equipment?.IsFeePaidByCutomer == true ? (double)(contract.Equipment?.AdminFee ?? 0) : 0.0),
                         DownPayment = (double)(contract.Equipment?.DownPayment ?? 0),
                         CustomerRate = (double)(contract.Equipment?.CustomerRate ?? 0),
                         IsClarity = isClarity,
@@ -336,6 +340,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 var contractViewModel = new ContractViewModel();
                 await MapContract(contractViewModel, contract, contract.Id);
+                contractViewModel.EquipmentInfo.ValueOfDeal = (double)contract.Equipment.ValueOfDeal;
                 contracts.Add(contractViewModel);
             }
             return contracts;
@@ -357,6 +362,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
                 {RateCardType.NoInterest, Resources.Resources.EqualPayments},
                 {RateCardType.Deferral, Resources.Resources.Deferral},
+                {RateCardType.Custom, Resources.Resources.Custom},
             };
 
             model.Plans = model.DealerTier.RateCards
@@ -366,7 +372,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Select(card => new KeyValuePair<string, string>(card.ToString(), planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
-            model.Plans.Add("Custom", Resources.Resources.Custom);
+            //model.Plans.Add("Custom", Resources.Resources.Custom);
 
             model.DeferralPeriods = model.DealerTier.RateCards
                 .Where(x => x.CardType == RateCardType.Deferral)
@@ -894,21 +900,23 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
+                summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
+                summary.DealerTier = Mapper.Map<TierViewModel>(await _contractServiceAgent.GetDealerTier());
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
 
             summary.AdditionalInfo.SalesRepRole = new List<string>();
 
-            if (contract.SalesRepInfo?.InitiatedContact == true)
+            if(contract.SalesRepInfo?.InitiatedContact == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.InitiatedContract);
             }
-            if (contract.SalesRepInfo?.NegotiatedAgreement == true)
+            if(contract.SalesRepInfo?.NegotiatedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.NegotiatedAgreement);
             }
-            if (contract.SalesRepInfo?.ConcludedAgreement == true)
+            if(contract.SalesRepInfo?.ConcludedAgreement == true)
             {
                 summary.AdditionalInfo.SalesRepRole.Add(Resources.Resources.ConcludedAgreement);
             }
@@ -939,17 +947,31 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             summary.AdditionalInfo.IsCreatedByCustomer = contract.IsCreatedByCustomer ?? false;
             if(contract.Equipment != null && contract.Equipment.AgreementType == AgreementType.LoanApplication)
             {
-                var loanCalculatorInput = new LoanCalculator.Input
+                var paymentSummary = GetPaymentSummary(contract,
+                    (decimal?)summary.ProvinceTaxRate?.Rate ?? 0.0m, summary.IsClarityDealer, summary.IsOldClarityDeal);
+                summary.LoanCalculatorOutput = paymentSummary.LoanDetails;
+
+                if(summary.IsClarityDealer && !summary.IsOldClarityDeal)
                 {
-                    TaxRate = 0,/* summary.ProvinceTaxRate.Rate,*/
-                    LoanTerm = contract.Equipment.LoanTerm ?? 0,
-                    AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
-                    PriceOfEquipment = (double?)contract.Equipment?.NewEquipment.Sum(x => x.Cost) ?? 0,
-                    AdminFee = (double)(contract.Equipment.AdminFee ?? 0),
-                    DownPayment = (double)(contract.Equipment.DownPayment ?? 0),
-                    CustomerRate = (double)(contract.Equipment.CustomerRate ?? 0)
-                };
-                summary.LoanCalculatorOutput = loanCalculatorInput.AmortizationTerm > 0 ? LoanCalculator.Calculate(loanCalculatorInput) : new LoanCalculator.Output();
+                    double dpWithTax = contract.Equipment == null || !contract.Equipment.DownPayment.HasValue ? 0.0 :
+                        (double)contract.Equipment?.DownPayment * PortalConstants.ClarityFactor /
+                                       (1.0 + (summary.ProvinceTaxRate?.Rate ?? 0) / 100);
+                    var total = summary.EquipmentInfo?.NewEquipment.Sum(ne => ne.MonthlyCost) + (double)summary.EquipmentInfo?.InstallationPackages?.Sum(i => i.MonthlyCost);
+
+                    summary.EquipmentInfo?.NewEquipment?.ForEach(ne =>
+                    {
+                        double lessDp = ne.MonthlyCost.HasValue ? (double)(ne.MonthlyCost.Value - dpWithTax / total * ne.MonthlyCost.Value) : 0.0;
+
+                        ne.MonthlyCostLessDP = Math.Round(lessDp, 2);
+                    });
+
+                    summary.EquipmentInfo?.InstallationPackages?.ForEach(ne =>
+                    {
+                        double lessDp = ne.MonthlyCost.HasValue ? (double)(ne.MonthlyCost.Value - dpWithTax / total * ne.MonthlyCost.Value) : 0.0;
+
+                        ne.MonthlyCostLessDP = Math.Round(lessDp, 2);
+                    });
+                }
             }
         }
 

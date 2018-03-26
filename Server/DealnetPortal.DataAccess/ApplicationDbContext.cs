@@ -27,6 +27,7 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<EmploymentInfo> EmploymentInfoes { get; set; }
+        public virtual DbSet<CustomerCreditReport> CustomerCreditReports { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
 
         public virtual DbSet<Phone> Phones { get; set; }
@@ -73,6 +74,7 @@ namespace DealnetPortal.DataAccess
 
         public virtual DbSet<RateCard> RateCards { get; set; }
         public virtual DbSet<Tier> Tiers { get; set; }
+        public virtual DbSet<CustomerRiskGroup> CustomerRiskGroups { get; set; }
 
         public virtual DbSet<DealerInfo> DealerInfos { get; set; }
         public virtual DbSet<CompanyInfo> CompanyInfos { get; set; }

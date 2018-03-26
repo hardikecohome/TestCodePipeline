@@ -29,7 +29,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? MonthlyCost { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "MCOReducedDownPayment")]
-        public decimal? MonthlyCostLessDP { get; set; }
+        public double? MonthlyCostLessDP { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "EstimatedRetailCost")]

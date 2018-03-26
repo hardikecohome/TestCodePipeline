@@ -4,18 +4,20 @@
             equipments: {},
             plan: 0,
             downPayment: 0,
-            equipmentNextIndex: 0
+            equipmentNextIndex: 0,
+            includeAdminFee: false        
         },
         tax: 0,
-        description: translations.tax
+        description: translations.tax,
+        customRateCardBoundaires: { }
     };
 
     var constants = {
         rateCards: [{ id: 0, name: 'FixedRate' }, { id: 1, name: 'NoInterest' }, { id: 2, name: 'Deferral' }, { id: 3, name: 'Custom' }],
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
-        customInputsToShow: ['-customYCostWrapper', '-customAFeeWrapper', '-customCRateWrapper', '-deferralDropdownWrapper', '-customLoanAmortWrapper'],
-        inputsToHide: ['-cRate', '-yCostVal', '-aFee'],
+        customInputsToShow: ['-customYCostWrapper', '-customCRateWrapper', '-deferralDropdownWrapper', '-customLoanAmortWrapper'],
+        inputsToHide: ['-cRate', '-yCostVal'],
         emptyRateCard: {
             Id: '',
             LoanTerm: '',

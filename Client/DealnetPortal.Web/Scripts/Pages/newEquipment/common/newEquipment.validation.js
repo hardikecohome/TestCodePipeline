@@ -12,7 +12,7 @@
     }
 
     var validateOnSelect = function (reset) {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal' ].reduce(function (acc, field) {
             var $field = $('#' + field);
             var valid = $field.valid();
             if (reset) {
@@ -55,14 +55,14 @@
             }
         });
 
-        $(settings.customAdminFeeId).rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.adminFeeFormat
-            }
-        });
+        //$(settings.customAdminFeeId).rules('add', {
+        //    regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
+        //    number: true,
+        //    min: 0,
+        //    messages: {
+        //        regex: translations.adminFeeFormat
+        //    }
+        //});
 
         $(settings.customAmortTermId).rules('add', {
             required: true,

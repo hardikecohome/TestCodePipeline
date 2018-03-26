@@ -24,6 +24,7 @@ using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 using Unity.Interception.Utilities;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
+using Microsoft.VisualBasic;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -1402,6 +1403,16 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
             }
+
+            if (contract.PrimaryCustomer.AllowCommunicate == true)
+            {
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.CheckBox,
+                    Name = PdfFormFields.AllowCommunicate,
+                    Value = "true"
+                });
+            }
         }
 
         private void FillApplicantsFields(List<FormField> formFields, Contract contract)
@@ -1433,6 +1444,16 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = "ID2",
                     Value = addApplicant.DealerInitial
                 });
+
+                if (addApplicant.AllowCommunicate == true)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = PdfFormFields.AllowCommunicate2,
+                        Value = "true"
+                    });
+                }
 
                 if (addApplicant.VerificationIdName == "Driver’s license")
                 {
@@ -1806,16 +1827,7 @@ namespace DealnetPortal.Api.Integration.Services
                         case "ECO13": // Windows
                             othersEq.Add(eq);
                             break;
-                        case "ECO38": // Sunrooms
-                            othersEq.Add(eq);
-                            break;                       
-                        case "ECO42": // Flooring
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO43": // Porch Enclosure
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO44": // Water Treatment System
+                        case "ECO23": // Air/Water Filtration
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterFiltration))
                             {
                                 formFields.Add(new FormField()
@@ -1841,6 +1853,18 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 othersEq.Add(eq);
                             }
+                            break;
+                        case "ECO38": // Sunrooms
+                            othersEq.Add(eq);
+                            break;                       
+                        case "ECO42": // Flooring
+                            othersEq.Add(eq);
+                            break;                        
+                        case "ECO43": // Porch Enclosure
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO44": // Water Treatment System
+                            othersEq.Add(eq);
                             break;
                         case "ECO45": // Heat Pump
                             othersEq.Add(eq);
@@ -1996,22 +2020,41 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.DownPayment,
                     Value = contract.Equipment.DownPayment?.ToString("F", CultureInfo.InvariantCulture)
                 });
-                formFields.Add(new FormField()
+
+                if (contract.Equipment.IsFeePaidByCutomer.HasValue && contract.Equipment.IsFeePaidByCutomer.Value)
                 {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.AdmeenFee,
-                    Value = contract.Equipment.AdminFee?.ToString("F", CultureInfo.InvariantCulture)
-                });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.AdmeenFee,
+                        Value = contract.Equipment.AdminFee?.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerRate2,
+                        Value = (Financial.Rate(contract.Equipment.AmortizationTerm.Value,(double)-paySummary.TotalMonthlyPayment.Value, paySummary.LoanDetails.TotalAmountFinanced -(double)contract.Equipment.AdminFee)*12).ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
+                else
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.AdmeenFee,
+                        Value = "n/a"
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CustomerRate2,
+                        Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.CustomerRate,
-                    Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
-                });
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.CustomerRate2,
                     Value = contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture)
                 });
 

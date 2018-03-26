@@ -136,17 +136,19 @@
             tax: state.tax
         });
 
-        return $.extend({}, data, {
-            monthlyPayment: monthlyPayment(data),
-            costOfBorrowing: totalBorrowingCost(data),
-            totalAmountFinanced: totalAmountFinanced(data),
-            totalMonthlyPayments: totalMonthlyPayments(data),
-            residualBalance: residualBalance(data),
-            totalObligation: totalObligation(data),
-            yourCost: yourCost(data),
-            loanTerm: data.LoanTerm,
-            amortTerm: data.AmortizationTerm
-        });
+        return $.extend({}, data,
+            {
+                monthlyPayment: monthlyPayment(data),
+                costOfBorrowing: totalBorrowingCost(data),
+                totalAmountFinanced: totalAmountFinanced(data),
+                totalMonthlyPayments: totalMonthlyPayments(data),
+                residualBalance: residualBalance(data),
+                totalObligation: totalObligation(data),
+                yourCost: yourCost(data),
+                loanTerm: data.LoanTerm,
+                amortTerm: data.AmortizationTerm,
+                adminFee: data.AdminFee
+            });
     }
 
     /**

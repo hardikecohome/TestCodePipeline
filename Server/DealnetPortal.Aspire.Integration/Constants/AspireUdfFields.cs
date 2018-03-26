@@ -68,6 +68,7 @@
         public static string InstallPackageDescr = "Install Package Descr";
 
         public static string AdminFee = "Admin Fee";
+        public static string FeePaidBy = "fee paid by";
         public static string DownPayment = "Down Payment";
         public static string CustomerRate = "Customer Rate";
         public static string DealerCost = "Dealer Cost";

@@ -2,6 +2,7 @@
 @using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
+@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 
 @model System.Collections.Generic.IList<DealnetPortal.Web.Models.ContractViewModel>
@@ -47,7 +48,7 @@
                             <div class="col-xs-12 col-sm-8 col-md-7 col-lg-8 dealnet-field-caption">@Resources.TotalValue</div>
                             <div class="col-xs-12 col-sm-4 col-md-5 col-lg-4 dealnet-field-holder">
                                 <div class="control-group">
-                                    $ @($"{Model.Where(x => x.EquipmentInfo != null).Sum(c => c.EquipmentInfo.ValueOfDeal):0.00}")
+                                    $ @($"{Model.Sum(c => c.EquipmentInfo == null ? 0 : c.EquipmentInfo.AgreementType == AgreementType.LoanApplication ? c.EquipmentInfo.ValueOfDeal : (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) + (c.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (c.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")
                                 </div>
                             </div>
                         </div>
@@ -849,23 +850,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            @if(!string.IsNullOrEmpty(contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower))
+                                            {
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower, new { @class = "dealnet-field-caption col-xs-6" })
+                                                        <div class="dealnet-field-holder col-xs-6">
+                                                            <div class="control-group">
+                                                                @contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                             <div class="form-group">
                                                 <div class="row">
                                                     <label for="" class="dealnet-field-caption col-xs-6">@Resources.HomeOwner</label>
                                                     <div class="dealnet-field-holder col-xs-6">
                                                         <div class="control-group">
                                                             <input type="text" readonly="readonly" class="dealnet-disabled-input" value=@(contract.BasicInfo.AdditionalApplicants[i].IsHomeOwner ? Resources.Yes : Resources.No)>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    @Html.LabelFor(m => contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower, new { @class = "dealnet-field-caption col-xs-6" })
-                                                    <div class="dealnet-field-holder col-xs-6">
-                                                        <div class="control-group">
-                                                            @contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1278,8 +1281,14 @@
                         <h3 class="dealnet-section-title">@Resources.EquipmentInformation</h3>
 
                         <div class="row credit-check-info-hold equipment-info no-top-margin">
+                            @{
+                                var bill59EquipTypes = contract.ProvinceTaxRate.Province.ToUpper() == "ON" ? 
+                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) : 
+                                    new List<string>();
+                            }
                             @foreach(var equipment in contract.EquipmentInfo.NewEquipment)
                             {
+                                var displayResponsibility = bill59EquipTypes.Contains(equipment.Type);
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
                                         <div class="form-group">
@@ -1289,7 +1298,10 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.TypeDescription, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                @Html.LabelFor(m => equipment.TypeDescription, new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
                                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                     <div class="control-group">
                                                         @equipment.TypeDescription
@@ -1299,7 +1311,10 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => equipment.Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                @Html.LabelFor(m => equipment.Description, new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
                                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                     <div class="control-group">
                                                         @equipment.Description
@@ -1313,10 +1328,26 @@
                                             {
                                                 <div class="form-group">
                                                     <div class="row">
-                                                        @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                        @Html.Label(Resources.MonthlyCostOfOwnership + " (" + Resources.TaxExcl + ")", new
+                                                        {
+                                                            @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                        })
                                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                             <div class="control-group">
                                                                 @equipment.MonthlyCost
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        @Html.Label(Resources.MCOReducedDownPayment + " (" + Resources.TaxExcl + ")", new
+                                                        {
+                                                            @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                        })
+                                                        <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                            <div class="control-group">
+                                                                @equipment.MonthlyCostLessDP
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1348,7 +1379,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            if(equipment.EstimatedRetailCost.HasValue)
+                                            if(displayResponsibility && equipment.EstimatedRetailCost.HasValue)
                                             {
                                                 <div class="form-group">
                                                     <div class="row">
@@ -1445,17 +1476,48 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.LabelFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                @Html.LabelFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
                                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new { @readonly = "readonly", id = "" })
+                                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].Description, new
+                                                    {
+                                                        @readonly = "readonly",
+                                                        id = ""
+                                                    })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="row">
-                                                @Html.Label(Resources.MonthlyCostOfOwnership, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                                @Html.Label(Resources.MonthlyCostOfOwnership + " (" + Resources.TaxExcl + ")", new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
                                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCost, new { @readonly = "readonly", @class = "has-cost-sign package-cost", id = "" })
+                                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCost, new
+                                                    {
+                                                        @readonly = "readonly",
+                                                        @class = "has-cost-sign package-cost",
+                                                        id = ""
+                                                    })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.Label(Resources.MCOReducedDownPayment + " (" + Resources.TaxExcl + ")", new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
+                                                <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                    @Html.DisplayFor(m => contract.EquipmentInfo.InstallationPackages[i].MonthlyCostLessDP, new
+                                                    {
+                                                        @readonly = "readonly",
+                                                        @class = "has-cost-sign reduce-monthly-cost",
+                                                        id = ""
+                                                    })
                                                 </div>
                                             </div>
                                         </div>
@@ -1470,7 +1532,7 @@
                                     @if(contract.IsClarityDealer && !contract.IsClarityDealer)
                                     {
                                         <div class="row">
-                                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
                                                 <div class="row">
                                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                                         <div>
@@ -1484,7 +1546,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
                                                 <div class="row">
                                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                                         <div>
@@ -1498,7 +1560,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
                                                 <div class="row">
                                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                                         <div>
@@ -1508,6 +1570,20 @@
                                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                                                         <div class="inline-children">
                                                             $@(Math.Round(contract.PaymentSummary.MonthlyPayment ?? 0, 2))
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-xs-12 summary-payment-info-item">
+                                                <div class="row">
+                                                    <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
+                                                        <div>
+                                                            @Resources.TotalMCOReducedDownPayment (@Resources.TaxIncl)
+                                                        </div>
+                                                    </div>
+                                                    <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                                        <div class="inline-children">
+                                                            $@(Math.Round(contract.LoanCalculatorOutput.TotalMCO, 2))
                                                         </div>
                                                     </div>
                                                 </div>

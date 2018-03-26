@@ -62,12 +62,10 @@
                                 <div class="control-group-addon">$</div>
                                 @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCostLessDP, new
                                 {
-                                    @class = "form-control dealnet-input reduced-monthly-cost",
+                                    @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                     type = "text",
                                     placeholder = Resources.MCOReducedDownPayment,
-                                    @readonly = "readonly",
                                     @Value = "",
-                                    tabindex = "-1"
                                 })
                             </div>
                         </div>
@@ -303,17 +301,15 @@
                 </div>
                 <div class="col-md-3 col-xs-12 monthly-cost-col">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.InstallationPackages[0])
+                        @Html.LabelFor(m => m.InstallationPackages[0].MonthlyCostLessDP)
                         <div class="control-group has-addon-left">
                             <div class="control-group-addon">$</div>
                             @Html.TextBoxFor(m => m.InstallationPackages[0].MonthlyCostLessDP, new
                             {
-                                @class = "form-control dealnet-input reduced-monthly-cost",
+                                @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                 type = "text",
                                 placeholder = Resources.MCOReducedDownPayment,
-                                @readonly = "readonly",
                                 @Value = "",
-                                tabindex = "-1"
                             })
                         </div>
                     </div>

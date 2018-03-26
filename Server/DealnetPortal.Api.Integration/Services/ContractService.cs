@@ -37,7 +37,8 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
-        private readonly ICustomerWalletService _customerWalletService;
+        private readonly ICreditCheckService _creditCheckService;
+        //private readonly ICustomerWalletService _customerWalletService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
         private readonly IDocumentService _documentService;
@@ -46,8 +47,8 @@ namespace DealnetPortal.Api.Integration.Services
             IContractRepository contractRepository, 
             IUnitOfWork unitOfWork, 
             IAspireService aspireService,
-            IAspireStorageReader aspireStorageReader, 
-            ICustomerWalletService customerWalletService,
+            IAspireStorageReader aspireStorageReader,            
+            ICreditCheckService creditCheckService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
             IAppConfiguration configuration, IDocumentService documentService)
@@ -56,9 +57,9 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
             _dealerRepository = dealerRepository;
             _unitOfWork = unitOfWork;
+            _creditCheckService = creditCheckService;
             _aspireService = aspireService;
-            _aspireStorageReader = aspireStorageReader;
-            _customerWalletService = customerWalletService;
+            _aspireStorageReader = aspireStorageReader;            
             _mailService = mailService;
             _configuration = configuration;
             _documentService = documentService;
@@ -144,6 +145,14 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            //check credit report status and update if needed
+            if (contract.PrimaryCustomer != null && 
+                contract.ContractState > ContractState.CustomerInfoInputted &&
+                contract.PrimaryCustomer.CreditReport == null)
+            {
+                _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+            }
 
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
@@ -562,34 +571,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
                 throw;
             }
-        }
-
-        public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id)
-        {
-            var alerts = new List<Alert>();
-            try
-            {
-                var verificationid = _contractRepository.GetVerficationId(id);
-                var verificationidsDto = Mapper.Map<ProvinceTaxRateDTO>(verificationid);
-                if (verificationid == null)
-                {
-                    var errorMsg = "Cannot retrieve Verification Id";
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
-                        Message = errorMsg
-                    });
-                    _loggingService.LogError(errorMsg);
-                }
-                return new Tuple<ProvinceTaxRateDTO, IList<Alert>>(verificationidsDto, alerts);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
-                throw;
-            }
-        }
+        }        
 
         public CustomerDTO GetCustomer(int customerId)
         {
@@ -628,19 +610,19 @@ namespace DealnetPortal.Api.Integration.Services
                                 {
                                     if (email.EmailType == EmailType.Main)
                                     {
-                                        customersUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                        customersUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
                                             new List<Email>(){ email });
                                     }
                                     else
                                     {
-                                        customersMailsUpdated = _contractRepository.UpdateCustomerEmails(c.Id,
+                                        customersMailsUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
                                             new List<Email>() { email });
                                     }
                                 });                                
                             }
                             else
                             {
-                                customersUpdated = _contractRepository.UpdateCustomerData(c.Id,
+                                customersUpdated |= _contractRepository.UpdateCustomerData(c.Id,
                                     Mapper.Map<Customer>(c.CustomerInfo),
                                     Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
                                     Mapper.Map<IList<Email>>(c.Emails));
@@ -1136,7 +1118,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     alerts.AddRange(submitRes.Item2);
                 }
-                var contract = GetContract(contractId, contractOwnerId);
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                 if (contract != null)
                 {
                     if (contract.Details.SignatureStatus != null ||

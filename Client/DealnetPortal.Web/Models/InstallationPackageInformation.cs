@@ -15,9 +15,9 @@ namespace DealnetPortal.Web.Models
         [CustomRequired]
         [RegularExpression(@"^[1-9]\d{0,5}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "MonthlyCostIncorrectFormat")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "MonthlyCostOfOwnership")]
-        public decimal? MonthlyCost { get; set; }
+        public double? MonthlyCost { get; set; }
 
         [Display(ResourceType =typeof(Resources.Resources), Name = "MCOReducedDownPayment")]
-        public decimal? MonthlyCostLessDP { get; set; }
+        public double? MonthlyCostLessDP { get; set; }
     }
 }

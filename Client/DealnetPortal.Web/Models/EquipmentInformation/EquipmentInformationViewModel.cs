@@ -51,7 +51,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "AdminFee")]
         public double? AdminFee { get; set; }
 
-        public bool? DealerPaysAdminFee { get; set; }
+        public bool? IsFeePaidByCutomer { get; set; }
 
         [RegularExpression(@"(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "DownPaymentIncorrectFormat")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "DownPayment")]

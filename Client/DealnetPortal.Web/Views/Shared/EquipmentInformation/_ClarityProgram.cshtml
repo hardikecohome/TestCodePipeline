@@ -49,7 +49,7 @@
                                                              new { @class = "form-control" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-md-5">
+                        <div class="col-xs-12 col-md-4">
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Description)
                                 <div class="control-group">
@@ -77,18 +77,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 col-xs-12 monthly-cost-col">
+                        <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].MonthlyCostLessDP)
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
                                     @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCostLessDP, new
                                     {
-                                        @class = "form-control dealnet-input reduced-monthly-cost",
+                                        @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                         type = "text",
-                                        @readonly = "readonly",
-                                        name = "",
-                                        tabindex = "-1"
+                                        placeholder = Resources.MCOReducedDownPayment,
+                                        name = ""
                                     })
                                 </div>
                             </div>
@@ -158,11 +157,9 @@
                                     <div class="control-group-addon">$</div>
                                     @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCostLessDP, new
                                     {
-                                        @class = "form-control dealnet-input reduced-monthly-cost",
+                                        @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                         type = "text",
-                                        @readonly = "",
                                         name = "",
-                                        tabindex = "-1"
                                     })
                                 </div>
                             </div>

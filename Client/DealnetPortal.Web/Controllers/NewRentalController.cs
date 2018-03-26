@@ -203,6 +203,8 @@ namespace DealnetPortal.Web.Controllers
             return View(contractId);
         }
 
+
+        //TODO: review and deleted if no longer needed
         public async Task<ActionResult> CheckCreditStatus(int contractId)
         {
             //Initiate credit status check

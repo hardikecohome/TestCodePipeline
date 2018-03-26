@@ -8,20 +8,19 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain
 {
-    public class Tier
+    public class CustomerRiskGroup
     {
-        public Tier()
-        {
-            RateCards = new HashSet<RateCard>();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string GroupName { get; set; }
 
-        public bool? PassAdminFee { get; set; }
+        public int BeaconScoreFrom { get; set; }
 
-        public ICollection<RateCard> RateCards { get; set; }
+        public int BeaconScoreTo { get; set; }
+
+        public DateTime? ValidFrom { get; set; }
+
+        public DateTime? ValidTo { get; set; }
     }
 }

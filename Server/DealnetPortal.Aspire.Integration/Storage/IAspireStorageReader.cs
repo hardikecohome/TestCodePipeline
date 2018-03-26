@@ -25,5 +25,8 @@ namespace DealnetPortal.Aspire.Integration.Storage
         DealerRoleEntity GetDealerRoleInfo(string dealerUserName);
 
         string GetDealStatus(string transactionId);
+
+        CreditReport GetCustomerCreditReport(string customerId);
+        CreditReport GetCustomerCreditReport(string firstName, string lastName, DateTime dateOfBirth, string postalCode);
     }
 }

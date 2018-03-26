@@ -46,9 +46,11 @@
     @Html.HiddenFor(x => x.IsNewContract)
     @Html.HiddenFor(x => x.DealerCost)
     @Html.HiddenFor(x => x.RateCardValid)
-    @Html.HiddenFor(x => x.SalesRepInformation.IniatedContract, new { id = "initiated-contract"})
-    @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-contract"})
-    @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-contract"})
+    @Html.HiddenFor(x => x.SalesRepInformation.IniatedContract, new { id = "initiated-contract" })
+    @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-agreement" })
+    @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-agreement" })
+    @Html.HiddenFor(x => x.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
+    @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
     <div class="form-container">
         <div class="form-section">
             @if(Model.CustomerComments != null && Model.CustomerComments.Any())
@@ -67,8 +69,8 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                                                                Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                                                                Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                                                        Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                                                        Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })

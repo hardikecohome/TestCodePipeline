@@ -124,10 +124,16 @@ function showTable () {
                                 if (row.IsInternal)
                                     return '';
                                 if (row.Id != 0) {
-                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' +
+                                        urlContent +
+                                        'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                                 } else {
-                                    return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                    return '';
                                 }
+
+                                //else {
+                                //    return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                //}
                             },
                             className: 'checkbox-cell',
                             orderable: false
@@ -334,8 +340,14 @@ function showTable () {
 
             $('#check-all').on('click', function () {
                 var checked = this.checked;
-                var rows = table.rows('tr', { page: 'current' }).nodes();
-                $(rows).find('input[type="checkbox"]')
+                var indexes = table.rows('tr', { page: 'current' }).
+                    eq(0).filter(function (rowIdx) {
+
+                        return table.row(rowIdx).id() !== '0' ? true : false;
+
+                    });
+                var pageRows = table.rows(indexes).nodes();
+                $(pageRows).find('input[type="checkbox"]')
                     .prop('checked', !checked).click();
             });
         }

@@ -9,10 +9,13 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Models.AspireDb;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
+using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -20,14 +23,20 @@ namespace DealnetPortal.Api.Integration.Services
     public class CreditCheckService : ICreditCheckService
     {
         private readonly IAspireService _aspireService;
+        private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
+        private readonly IAppConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreditCheckService(IAspireService aspireService, IContractRepository contractRepository, IUnitOfWork unitOfWork, ILoggingService loggingService)
+        public CreditCheckService(IAspireService aspireService, IAspireStorageReader aspireStorageReader,
+            IContractRepository contractRepository, IUnitOfWork unitOfWork, IAppConfiguration configuration,
+            ILoggingService loggingService)
         {
             _aspireService = aspireService;
+            _aspireStorageReader = aspireStorageReader;
             _contractRepository = contractRepository;
+            _configuration = configuration;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
         }
@@ -41,10 +50,9 @@ namespace DealnetPortal.Api.Integration.Services
                 var scorecardPoints = checkResult.Item1.ScorecardPoints > 0
                     ? checkResult.Item1.ScorecardPoints
                     : (int?)null;
-
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
                 if (creditAmount.HasValue || scorecardPoints.HasValue)
-                {
-                    var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                {                    
                     _contractRepository.UpdateContractData(new ContractData()
                     {
                         Id = contractId,
@@ -76,6 +84,9 @@ namespace DealnetPortal.Api.Integration.Services
                         _unitOfWork.Save();
                         break;
                 }
+
+                checkResult.Item1.Beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
+                                           CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon ?? 0;                
             }
 
             return checkResult;
@@ -124,6 +135,64 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Failed to initiate a credit check for contract [{contractId}]", ex);
                 throw;
             }
+        }
+
+        public CustomerCreditReportDTO CheckCustomerCreditReport(int contractId, string contractOwnerId)
+        {
+            CustomerCreditReportDTO creditReport = null;
+
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            if (contract?.PrimaryCustomer != null)
+            {
+                if (contract.PrimaryCustomer.CreditReport != null)
+                {
+                    creditReport =
+                        AutoMapper.Mapper.Map<CustomerCreditReportDTO>(contract.PrimaryCustomer.CreditReport);
+                }
+                else
+                {
+                    var useTestAspire = false;
+                    bool.TryParse(_configuration.GetSetting(WebConfigKeys.USE_TEST_ASPIRE), out useTestAspire);
+                    CreditReport dbCreditReport = null;
+                    if (useTestAspire)
+                    {
+                        //check user on Aspire
+                        var postalCode =
+                            contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
+                            contract.PrimaryCustomer.Locations?.FirstOrDefault()?.PostalCode;
+                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.FirstName,
+                            contract.PrimaryCustomer.LastName,
+                            contract.PrimaryCustomer.DateOfBirth, postalCode);
+
+                    }
+                    else
+                    {
+                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.Id.ToString());
+                    }
+                    if (dbCreditReport != null)
+                    {
+                        var customer = new Customer()
+                        {
+                            Id = contract.PrimaryCustomer.Id,
+                            CreditReport = new CustomerCreditReport()
+                            {
+                                Beacon = dbCreditReport.Beacon,
+                                CreditLastUpdateTime = DateTime.UtcNow
+                            }
+                        };
+                        _contractRepository.UpdateCustomerData(customer.Id, customer, null, null, null);
+                        _unitOfWork.Save();
+
+                        creditReport = new CustomerCreditReportDTO()
+                        {
+                            Beacon = dbCreditReport.Beacon,
+                            CreditLastUpdateTime = dbCreditReport.LastUpdatedTime ?? DateTime.UtcNow
+                        };
+                    }
+                }
+            }
+
+            return creditReport;
         }
     }
 

@@ -47,9 +47,9 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<Email, EmailDTO>()
                 .ForMember(x => x.CustomerId, o => o.MapFrom(src => src.Customer != null ? src.Customer.Id : 0));
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>()
-                .ForMember(x => x.NewEquipment, d => d.ResolveUsing(
-                    src => src.NewEquipment?.Where(ne => ne.IsDeleted != true)))
-                .ForMember(x => x.IsCustomRateCard, d => d.MapFrom(src => src.IsCustomRateCard));
+                .ForMember(x => x.NewEquipment, d => d.ResolveUsing(src => src.NewEquipment?.Where(ne => ne.IsDeleted != true)))
+                .ForMember(x => x.IsCustomRateCard, d => d.MapFrom(src => src.IsCustomRateCard))
+                .ForMember(x => x.IsFeePaidByCutomer, d => d.MapFrom(src => src.IsFeePaidByCutomer ?? false));
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());
@@ -59,6 +59,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Replies, s => s.MapFrom(src => src.Replies))
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => 
                     src.IsCustomerComment != true ? src.Dealer.UserName : $"{src.Contract?.PrimaryCustomer?.FirstName} {src.Contract?.PrimaryCustomer?.LastName}"));
+            mapperConfig.CreateMap<CustomerCreditReport, CustomerCreditReportDTO>()
+                .ForMember(x => x.BeaconUpdated, d => d.UseValue(false));
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
@@ -111,6 +113,11 @@ namespace DealnetPortal.Api.App_Start
                     if (creditReviewStates?.Any() == true && !string.IsNullOrEmpty(c.Details?.Status))
                     {
                         d.OnCreditReview = creditReviewStates.Contains(c.Details?.Status);
+                    }
+                    if (d?.PrimaryCustomer?.CreditReport?.CreditLastUpdateTime != null)
+                    {
+                        d.PrimaryCustomer.CreditReport.BeaconUpdated =
+                            d.PrimaryCustomer.CreditReport.CreditLastUpdateTime > d.LastUpdateTime;
                     }
                 });
             mapperConfig.CreateMap<Contract, SignatureSummaryDTO>()
@@ -170,7 +177,9 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<Tier, TierDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(x => x.Name, d => d.MapFrom(s => s.Name))
-                .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards));
+                .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards))
+                .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false));
+            mapperConfig.CreateMap<CustomerRiskGroup, CustomerRiskGroupDTO>();
             mapperConfig.CreateMap<DealerEquipment, DealerEquipmentDTO>()
                 .ForMember(x => x.Equipment, d => d.MapFrom(src => src.Equipment))
                 .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.ProfileId));
@@ -351,6 +360,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d=> d.VerificationIdName, s=> s.Ignore())
                 .ForMember(d=> d.DealerInitial, s=> s.Ignore())
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore())
+                .ForMember(d => d.CreditReport, s => s.Ignore())
                 .ForMember(d => d.RelationshipToMainBorrower, s => s.Ignore());
                 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
@@ -362,7 +372,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.Ignore())
                 .ForMember(d => d.Role, s => s.Ignore())
                 .ForMember(d => d.Ratecard, s => s.Ignore())
-                .ForMember(d => d.DealerNotPaidFee, s => s.Ignore())
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.DealerRoleEntity, DealerDTO>()
@@ -374,7 +383,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
                 .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
                 .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard))
-                .ForMember(d => d.DealerNotPaidFee, s => s.MapFrom(src => src.DealerNotPaidFee))
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
         }
 
@@ -419,6 +427,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.VerificationIdName, s => s.MapFrom(m => m.VerificationIdName))
                 .ForMember(x => x.DealerInitial, s => s.MapFrom(m => m.DealerInitial))
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
+                .ForMember(x => x.CreditReport, d => d.Ignore())
                 .ForMember(x => x.AccountId, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerInfoDTO, Customer>()
@@ -428,6 +437,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Phones, d => d.Ignore())
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
                 .ForMember(x => x.EmploymentInfo, d => d.Ignore())
+                .ForMember(x => x.CreditReport, d => d.Ignore())
                 .ForMember(x => x.RelationshipToMainBorrower, d => d.Ignore());
 
             mapperConfig.CreateMap<EmploymentInfoDTO, EmploymentInfo>()

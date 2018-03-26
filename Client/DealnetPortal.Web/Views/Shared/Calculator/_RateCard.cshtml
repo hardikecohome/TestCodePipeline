@@ -79,7 +79,28 @@
             </div>
         </div>
     </div>
-
+    <div class="row form-group align-middle" id="option1-aFeeOptionsHolder">
+        <div class="col-xs-6">
+            @Resources.AdminFee
+        </div>
+        <div class="col-xs-6 afee-group">
+            <div class="form-group">
+                <label for="" class="align-middle custom-radio">
+                    @Html.RadioButton("option1-coveredAdminFee", false, new { @class = "afee-is-covered", id = "option1-radioNotPay" })
+                    <span class="icon custom-radio-icon"></span>
+                    <span>@Resources.PassAdminFeeToDealer</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="" class="align-middle custom-radio">
+                    @Html.RadioButton("option1-coveredAdminFee", true, new { @class = "afee-is-covered", id = "option1-radioWillPay" })
+                    <span class="icon custom-radio-icon"></span>
+                    <span>@Resources.PassAdminFeeToCustomer</span>
+                </label>
+            </div>
+            <span class="field-validation-error text-danger hidden" style="text-align: center;" data-valmsg-for="option1-coveredAdminFee" id="option1-errorAdminFee" data-valmsg-replace="true">@Resources.ThisFieldIsRequired</span>
+        </div>
+    </div>
     <div class="row form-group align-middle">
         <div class="col-xs-6">
             @Resources.DeferralPeriod
@@ -133,17 +154,10 @@
 <hr>
     <div class="row form-group align-middle hidden">
         <div class="col-xs-6">
-            @Resources.CustomerFee
+            @Resources.AdminFee <div id="option1-aFeeHolder"></div>
         </div>
         <div class="col-xs-6 text-right text-stronger" id="option1-aFee">
             $-
-        </div>
-        <div class="col-xs-6 hidden" id="option1-customAFeeWrapper">
-            <div class="control-group has-addon-left">
-                <div class="control-group-addon">$</div>
-                <input type="text" id="option1-customAFee" name="option1-customAFee" class="form-control form-control-not-clear" />
-                <span class="field-validation-error text-danger" data-valmsg-for="option1-customAFee" data-valmsg-replace="true"></span>
-            </div>
         </div>
     </div>
 </div>

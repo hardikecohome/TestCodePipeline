@@ -1,6 +1,7 @@
 ﻿module.exports('newEquipment.clairty.calculation', function (require) {
     var rateCardsCalculator = require('rateCards.index');
     var state = require('state').state;
+    var constants = require('state').constants;
     var tax = require('financial-functions').tax;
     var totalRentalPrice = require('financial-functions').totalRentalPrice;
 
@@ -77,7 +78,8 @@
             tax: state.tax,
             packagesSum: packagesSum,
             numEquipment: countItems(state.equipments),
-            numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0
+            numPackages: !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0,
+            includeAdminFee: state.isCoveredByCustomer
         }, idToValue(state)('clarity'));
 
         var briefData = rateCardsCalculator.caclulateClarityBriefValues(totalMonthlyData);
@@ -87,7 +89,7 @@
 
         _renderCalculatedInfo(data);
 
-        _recalculateAndRenderMCOLessDownPayment();
+        _recalculateAndRenderMCOLessDownPayment(briefData);
     }
 
     function _renderCalculatedInfo(data) {
@@ -149,25 +151,27 @@
         }
     }
 
-    var _recalculateAndRenderMCOLessDownPayment = function () {
-        var downPayment = state.downPayment;
-        var numEquipment = countItems(state.equipments);
-        var numPackages = !$.isEmptyObject(state.packages) ? countItems(state.packages) : 0;
+    var _recalculateAndRenderMCOLessDownPayment = function (data) {
+        var downPayment = state.downPayment; //D20
+        var dpTax = downPayment * constants.clarityPaymentFactor / (1 + state.tax / 100);
 
-        var clarityPaymentFactor = 0.010257;
+        var totalMonthlyCost = formatNumber(data.equipmentSum + data.packagesSum) //d12 - downPayment * constants.clarityPaymentFactor;
 
-        var dpTax = downPayment * clarityPaymentFactor / (1 + state.tax / 100);
-
-        var dpTaxPerItem = (dpTax / (numEquipment + numPackages) || 0).toFixed(2);
 
         for (var id in state.equipments) {
-            state.equipments[id].monthlyCostLessDp = state.equipments[id].monthlyCost - dpTaxPerItem;
-            state.equipments[id].template.find('.reduced-monthly-cost').val(state.equipments[id].monthlyCostLessDp.toFixed(2));
+            var equipment = state.equipments[id];
+
+            equipment.monthlyCostLessDp = equipment.monthlyCost - dpTax / totalMonthlyCost * equipment.monthlyCost;
+            $('#NewEquipment_' + id + '__MonthlyCostLessDP')
+                .val(formatNumber(equipment.monthlyCostLessDp)).change();
         }
 
         for (var id in state.packages) {
-            state.packages[id].monthlyCostLessDp = state.packages[id].monthlyCost - dpTaxPerItem;
-            state.packages[id].template.find('.reduced-monthly-cost').val(state.packages[id].monthlyCostLessDp.toFixed(2));
+            var package = state.packages[id];
+
+            package.monthlyCostLessDp = package.monthlyCost - dpTax / totalMonthlyCost * package.monthlyCost;
+            $('#InstallationPackages_' + id + '__MonthlyCostLessDP')
+                .val(formatNumber(state.packages[id].monthlyCostLessDp)).change();
         }
     }
 

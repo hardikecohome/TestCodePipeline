@@ -102,7 +102,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public double? ValueOfDeal { get; set; }
 
         public int? SelectedRateCardId { get; set; }
-
+	    [CustomRequired]
         public bool? IsAdminFeePaidByCustomer { get; set; }
 
         public TierViewModel DealerTier { get; set; }
@@ -123,8 +123,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]
         public string SalesRep { get; set; }
 
-        public bool? IniatedContract { get; set; }
-        public bool? NegotiatedAgreement { get; set; }
-        public bool? ConcludedAgreement { get; set; }
+        public bool IniatedContract { get; set; }
+        public bool NegotiatedAgreement { get; set; }
+        public bool ConcludedAgreement { get; set; }
     }
 }

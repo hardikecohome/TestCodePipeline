@@ -15,7 +15,8 @@ module.exports('rate-cards', function (require) {
             'TMPayments': 'totalMonthlyPayments',
             'RBalance': 'residualBalance',
             'TObligation': 'totalObligation',
-            'YCost': 'yourCost'
+            'YCost': 'yourCost',
+            'AFee': 'adminFee'
         },
         totalPriceFields: {
             'totalEquipmentPrice': 'equipmentSum',
@@ -122,14 +123,13 @@ module.exports('rate-cards', function (require) {
                 });
             }
 
-            var includeAdminFeeInCalc = false;
+            var includeAdminFeeInCalc = state.isCoveredByCustomer;
             if (option.name === 'Custom') {
                 customRateCard.setAdminFeeByEquipmentSum(eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
-                includeAdminFeeInCalc = true;
             }
 
             var data = rateCardsCalculator.calculateValuesForRender($.extend({ includeAdminFee: includeAdminFeeInCalc }, idToValue(state)(option.name)));
-
+            
             rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
         });
     };

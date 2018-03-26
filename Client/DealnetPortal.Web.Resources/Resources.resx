@@ -2611,4 +2611,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="TotalMCOReducedDownPayment" xml:space="preserve">
     <value>Total MCO reduced by down payment</value>
   </data>
+  <data name="PassAdminFeeToCustomer" xml:space="preserve">
+    <value>Pass the administration fee to the customer</value>
+  </data>
+  <data name="PassAdminFeeToDealer" xml:space="preserve">
+    <value>I will pay the administration fee</value>
+  </data>
 </root>
