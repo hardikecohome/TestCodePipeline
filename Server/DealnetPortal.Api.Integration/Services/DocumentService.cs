@@ -1991,7 +1991,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.MonthlyPayment,
-                    Value = paySummary.MonthlyPayment?.ToString("F", CultureInfo.InvariantCulture)
+                    Value = paySummary.LoanDetails?.TotalMCO.ToString("F", CultureInfo.InvariantCulture)
                 });
                 formFields.Add(new FormField()
                 {
