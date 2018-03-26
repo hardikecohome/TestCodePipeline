@@ -69,28 +69,19 @@
     };
 
     var renderDropdownValues = function (dataObject) {
-        var totalCash = constants.minimumLoanValue;
-
-        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
-
-        var totalAmountFinanced = isStandalone ? dataObject.totalAmountFinanced : state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
-
-        if (totalAmountFinanced > 1000) {
-            totalCash = totalAmountFinanced;
-        }
-
-        if (totalCash >= constants.maxRateCardLoanValue) {
-            totalCash = constants.maxRateCardLoanValue;
-        }
-
-        var items = state.rateCards[dataObject.rateCardPlan];
+        var resultObj = _getItemsByPrice(dataObject);
+        var totalCash = resultObj.totalCash;
+        var items = resultObj.items;
 
         if (!items)
             return;
 
-        var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
+        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
 
-        var dropdown = $('#' + selectorName + '-amortDropdown')[0];
+        var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
+        var dropdownSelector = selectorName + '-amortDropdown';
+        var dropdown = $('#' + dropdownSelector)[0];
+
         if (!dropdown || !dropdown.options) return;
 
         var dropdowns = [];
@@ -117,14 +108,54 @@
             }
         });
 
-        var e = document.getElementById(selectorName + '-amortDropdown');
+        _buildDropdownValues(dropdownSelector, dropdown, dropdowns, false);
+
+        //var options = dropdown.options;
+        //var tooltip = $('a#' + selectorName + 'Notify');
+
+        //if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
+        //    toggleDisabledAttributeOnOption(options, tooltip, false);
+        //} else {
+        //    toggleDisabledAttributeOnOption(options, tooltip, true);
+        //}
+    }
+
+    var renderProgramDropdownValues = function(dataObject) {
+        var resultObj = _getItemsByPrice(dataObject);
+        var totalCash = resultObj.totalCash;
+        var items = resultObj.items;
+
+        var selectorName = dataObject.hasOwnProperty('standaloneOption') ? dataObject.standaloneOption : dataObject.rateCardPlan;
+        var dropdownSelector = selectorName + '-programDropdown';
+        var dropdown = $('#' + dropdownSelector)[0];
+
+        if (!dropdown || !dropdown.options) return;
+
+        var dropdowns = [];
+
+        $.each(items, function () {
+            if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
+                if (this.CustomerRiskGroup !== null) {
+                    var dropdownValue = this.CustomerRiskGroup.GroupName;
+                    if (dropdowns.indexOf(dropdownValue) === -1) {
+                        dropdowns.push(dropdownValue);
+                    }
+                }
+            }
+        });
+
+        _buildDropdownValues(dropdownSelector, dropdown, dropdowns, true);
+    }
+
+    function _buildDropdownValues(selector, dropdown, items, isProgram) {
+        var e = document.getElementById(selector);
         if (e !== undefined) {
             var selected = e.selectedIndex !== -1 ? e.options[e.selectedIndex].value : '';
 
             $(dropdown).empty();
-            $(dropdowns).each(function () {
+            $(items).each(function () {
                 $("<option />", {
-                    val: this.split('/')[1].trim(),
+                    val: isProgram ? this : this.split('/')[1].trim(),
                     text: this
                 }).appendTo(dropdown);
             });
@@ -136,21 +167,35 @@
 
             if (values.indexOf(selected) !== -1) {
                 e.value = selected;
-                $('#' + selectorName + '-amortDropdown option[value=' + selected + ']').attr("selected", selected);
+                $('#' + selector + ' option[value=' + selected + ']').attr("selected", selected);
             } else {
                 e.value = values[0];
-                $('#' + selectorName + '-amortDropdown option[value=' + values[0] + ']').attr("selected", selected);
+                $('#' + selector + ' option[value=' + values[0] + ']').attr("selected", selected);
             }
         }
+    }
 
-        //var options = dropdown.options;
-        //var tooltip = $('a#' + selectorName + 'Notify');
+    function _getItemsByPrice(dataObject) {
+        var totalCash = constants.minimumLoanValue;
 
-        //if (+totalCash >= constants.totalAmountFinancedFor180amortTerm) {
-        //    toggleDisabledAttributeOnOption(options, tooltip, false);
-        //} else {
-        //    toggleDisabledAttributeOnOption(options, tooltip, true);
-        //}
+        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
+
+        var totalAmountFinanced = isStandalone ? dataObject.totalAmountFinanced : state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+
+        if (totalAmountFinanced > 1000) {
+            totalCash = totalAmountFinanced;
+        }
+
+        if (totalCash >= constants.maxRateCardLoanValue) {
+            totalCash = constants.maxRateCardLoanValue;
+        }
+
+        var items = state.rateCards[dataObject.rateCardPlan];
+
+        return {
+            items: items,
+            totalCash: totalCash
+        }
     }
 
     /**
@@ -206,6 +251,7 @@
         init: init,
         renderAfterFiltration: renderAfterFiltration,
         renderDropdownValues: renderDropdownValues,
+        renderProgramDropdownValues: renderProgramDropdownValues,
         renderOption: renderOption,
         renderTotalPrice: renderTotalPrice
     };

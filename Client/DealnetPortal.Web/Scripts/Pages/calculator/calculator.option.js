@@ -49,6 +49,7 @@
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
         $('#' + option + '-aFeeOptionsHolder').find('.custom-radio').on('click', _setAdminFeeCoveredBy(option, callback));
+        $('#' + option + '-programDropdown').on('change', setters.setProgram(option, callback));
 
         if (option === 'option1') {
             var nextIndex = state[option].equipmentNextIndex;
@@ -322,6 +323,14 @@
                     var e = document.getElementById(option + '-amortDropdown');
                     e.selectedIndex = -1;
                 }
+                if (state.programsAvailable) {
+                    rateCardsRenderEngine.renderProgramDropdownValues({
+                        rateCardPlan: state[option].plan,
+                        standaloneOption: option,
+                        totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced()
+                    });
+                    state[option].Program = $('#' + option + '-programDropdown option:selected').val();
+                }
 
                 rateCardsRenderEngine.renderDropdownValues({
                     rateCardPlan: state[option].plan,
@@ -349,6 +358,8 @@
             var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
                 ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
                 : '';
+            delete data.CustomerRiskGroup;
+            delete data.Program;
 
             rateCardsRenderEngine.renderOption(option, selectedRateCard, data);
         });
@@ -357,14 +368,22 @@
     function _setAdminFeeByEquipmentSum(option, eSum) {
         if($.isEmptyObject(state.customRateCardBoundaires)) return;
 
-        Object.keys(state.customRateCardBoundaires).map(function(bound) {
-            var numbers = bound.split('-');
+        var keys = Object.keys(state.customRateCardBoundaires);
+        for (var i = 0; i < keys.length; i++) {
+
+            var numbers = keys[i].split('-');
             var lowBound = +numbers[0];
             var highBound = +numbers[1];
-            if (lowBound <= eSum && highBound >= eSum) {
-                state[option].AdminFee = +state.customRateCardBoundaires[bound].adminFee;
+
+            if (eSum <= lowBound || eSum >= highBound) {
+                state[option].AdminFee = 0;
             }
-        });
+
+            if (lowBound <= eSum && highBound >= eSum) {
+                state[option].AdminFee  = +state.customRateCardBoundaires[keys[i]].adminFee;
+                break;
+            }
+        }
     }
 
     function _initHandlers() {

@@ -16,6 +16,11 @@
         state.cards = rateCards;
         state.taxes = taxes;
         rateCardsCalculator.init(rateCards);
+        state.programsAvailable = $('#programs-available').val().toLowerCase() === 'true';
+
+        if (!state.programsAvailable) {
+            $('#option1-programDropdown').closest('.row').addClass('hidden');
+        }
 
         $('#option1-taxDescription').text(state.description);
 

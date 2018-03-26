@@ -91,6 +91,7 @@
         EnumHelper.GetSelectList(typeof(LoanDeferralType)),
         new { @class = "form-control hidden", @id= "deferralDropdownForCustomRc" })
     @Html.DropDownList("deferralDropdownForDeferralRc", Model.DeferralPeriods.Select(x => new SelectListItem { Value = x.Key, Text = x.Value }), new { @class = "hidden" })
+    @Html.HiddenFor(x => x.RateCardProgramsAvailable, new {id="programs-available"});
 </div>
 
 @section Translations
