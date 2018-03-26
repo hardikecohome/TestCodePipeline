@@ -318,7 +318,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.RequiredDocuments, d => d.MapFrom(src => src.RequiredDocuments))
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
                 .ForMember(x => x.LeadSource, d => d.Ignore());
-            cfg.CreateMap<TierViewModel, TierDTO>();
+            cfg.CreateMap<TierViewModel, TierDTO>()
+                .ForMember(x => x.PassAdminFee, d => d.MapFrom(src => src.AdditionalDocuments));
             cfg.CreateMap<RateCardViewModel, RateCardDTO>();
 
             cfg.CreateMap<EmploymentInformationViewModel, EmploymentInfoDTO>()
