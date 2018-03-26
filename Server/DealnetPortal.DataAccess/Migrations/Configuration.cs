@@ -68,6 +68,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetSettingItems(context);
                 SetUserSettings(context);                
                 SetRateCards(context);
+                SetCreditAmountConfiguration(context);
             }
             //read updated pdf templates anyway
             SetExistingPdfTemplates(context);
@@ -3152,6 +3153,14 @@ namespace DealnetPortal.DataAccess.Migrations
                     // ignored
                 }
             });
+        }
+
+        private void SetCreditAmountConfiguration(ApplicationDbContext context)
+        {
+            if (!context.CreditAmountSettings.Any())
+            {
+                
+            }
         }
 
         private void SetSettingItems(ApplicationDbContext context)
