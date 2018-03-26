@@ -7,6 +7,8 @@ using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
 
 using DealnetPortal.Utilities.Logging;
+using log4net;
+using DealnetPortal.Web.ServiceAgent;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Infrastructure.Managers;
@@ -17,13 +19,14 @@ namespace DealnetPortal.Web.Controllers
     public class SettingsController : Controller
     {
         private readonly ISettingsManager _settingsManager;
-
+        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly ILoggingService _loggingService;
 
-        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService)
+        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent)
         {
             _settingsManager = settingsManager;
             _loggingService = loggingService;
+            _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
@@ -41,8 +44,15 @@ namespace DealnetPortal.Web.Controllers
                 return File(image.ValueBytes, "image/png");
             }
             //fallback:
+            bool IsQuebecDealer = false;
+            if (hashDealerName != null)
+            {
+                var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, CultureHelper.CurrentCultureType == CultureType.French ? "fr" : "en");
+                IsQuebecDealer = languageOptions.QuebecDealer;
+            }
             Stream stream;
-            if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True"))))
+            if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name) && string.IsNullOrEmpty(hashDealerName)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))) || (!string.IsNullOrEmpty(hashDealerName) && IsQuebecDealer==false))
+//            if ((CultureHelper.CurrentCultureType != CultureType.French && string.IsNullOrEmpty(User?.Identity?.Name)) || (!string.IsNullOrEmpty(User?.Identity?.Name) && !((bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True"))))
             {
                 switch (ApplicationSettingsManager.PortalType)
                 {

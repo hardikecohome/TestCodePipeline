@@ -3,6 +3,7 @@
 @using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
 @{
@@ -433,87 +434,97 @@
                 {
                     <div class="credit-check-info-hold fit-to-next-grid">
                         <div class="col-md-6 grid-column">
-                            <div class="dealnet-credit-check-section">
-                                <h3 class="dealnet-section-title">
-                                    @Resources.BorrowerEmploymentInformation
-                                    <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
-                                </h3>
-                                <div class="form-group">
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "dealnet-field-caption col-xs-6" })
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            <div class="control-group">
-                                                <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType, new { @class = "dealnet-field-caption col-xs-6" })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.GetEnumDescription()" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "dealnet-field-caption col-xs-6" })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input"
-                                                           id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)"
-                                                           name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)"
-                                                           value="@formatIncome(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                @if(!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "dealnet-field-caption col-xs-6" })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <input readonly="readonly" class="dealnet-disabled-input"
-                                                           id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)"
-                                                           name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)"
-                                                           value="@formatIncome(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+							<div class="dealnet-credit-check-section">
+								<h3 class="dealnet-section-title">
+									@Resources.BorrowerEmploymentInformation
+									<a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})" class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+								</h3>
+								<div class="form-group">
+									<div class="row">
+										@Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.MonthlyMortgagePayment, new { @class = "dealnet-field-caption col-xs-6" })
+										<div class="dealnet-field-holder col-xs-6">
+											<div class="control-group">
+												<input readonly="readonly" class="dealnet-disabled-input has-cost-sign" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.MonthlyMortgagePayment)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.MonthlyMortgagePayment)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthlyMortgagePayment" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										@Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus, new { @class = "dealnet-field-caption col-xs-6" })
+										<div class="dealnet-field-holder col-xs-6">
+											<div class="control-group">
+												<input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus.GetEnumDescription()" />
+											</div>
+										</div>
+									</div>
+								</div>
+								@if (Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
+	{
+							<div class="form-group">
+								<div class="row">
+									@Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType, new { @class = "dealnet-field-caption col-xs-6" })
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<input readonly="readonly" class="dealnet-disabled-input" id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.IncomeType)" value="@Model.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.GetEnumDescription()" />
+										</div>
+									</div>
+								</div>
+							</div>
+}
+								@if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
+	{
+							<div class="form-group">
+								<div class="row">
+									@Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary, new { @class = "dealnet-field-caption col-xs-6" })
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<input readonly="readonly" class="dealnet-disabled-input"
+												   id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)"
+												   name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)"
+												   value="@formatIncome(Model.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary)" />
+										</div>
+									</div>
+								</div>
+							</div>
+}
+								@if (!string.IsNullOrWhiteSpace(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
+	{
+							<div class="form-group">
+								<div class="row">
+									@Html.LabelFor(m => m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate, new { @class = "dealnet-field-caption col-xs-6" })
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<input readonly="readonly" class="dealnet-disabled-input"
+												   id="@Html.IdFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)"
+												   name="@Html.NameFor(m=>m.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)"
+												   value="@formatIncome(Model.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate)" />
+										</div>
+									</div>
+								</div>
+							</div>
+}
 
-                                @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
-                                {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label class="dealnet-field-caption col-xs-6">@Resources.LengthOfEmployment</label>
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                <div class="control-group">
-                                                    <div class="dealnet-disabled-input">
-                                                        <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)</span>
-                                                        @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
-                                                        {
-                                                            <span>@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)</span>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
+								@if (Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+	{
+							<div class="form-group">
+								<div class="row">
+									<label class="dealnet-field-caption col-xs-6">@Resources.LengthOfEmployment</label>
+									<div class="dealnet-field-holder col-xs-6">
+										<div class="control-group">
+											<div class="dealnet-disabled-input">
+												<span>@Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)</span>
+												@if (!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
+					{
+							<span>@Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)</span>
+}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+}
+							</div>
                         </div>
                         @if(Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || Model.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                         {
@@ -673,7 +684,7 @@
                                 </div>
                             </div>
                         </div>
-						@if (Model.ContactAndPaymentInfo.IsAllPaymentTypesAvailable)
+						@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
 						{
                         <div class="form-group pap-payment-form">
                             <div class="row">
@@ -1225,12 +1236,54 @@
                                     </div>
                                 </div>
                             </div>
+							@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
+							{
                             <div class="col-sm-12 col-md-6 pap-payment">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new { @class = "dealnet-field-caption" })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
                                             @Html.EnumDropDownListFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, null, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							}
+							<div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
+                                            {
+                                                @class = "form-control dealnet-input",
+                                                type = "text",
+                                                id = "account-number",
+                                                placeholder = Resources.AccountNumber
+                                            })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-sm-12 col-md-6 pap-payment">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption" })
+                                    <div class="dealnet-field-holder">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number", type = "text", placeholder = Resources.BlankNumber })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -1262,49 +1315,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row pap-payment">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
-                                            {
-                                                @class = "form-control dealnet-input",
-                                                type = "text",
-                                                id = "account-number",
-                                                placeholder = Resources.AccountNumber
-                                            })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pap-payment">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "dealnet-field-caption" })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number", type = "text", placeholder = Resources.BlankNumber })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     }
                 </div>
 

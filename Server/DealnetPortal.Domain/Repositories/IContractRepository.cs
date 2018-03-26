@@ -108,7 +108,7 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="locations">locations to set</param>
         /// <param name="phones">phones to set</param>
         /// <param name="emails">emails to set</param>
-        Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
+        bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
         Customer GetCustomer(int customerId);
 

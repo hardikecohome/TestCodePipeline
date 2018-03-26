@@ -602,7 +602,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             Type = doc.Type,
                             Name = doc.Name
                         };                        
-                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, doc.DocumentId);
+                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, "combined");
                         document.DocumentRaw = new byte[docStream.Length];
                         await docStream.ReadAsync(document.DocumentRaw, 0, (int)docStream.Length);
                     }                    
@@ -618,7 +618,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
-        public async Task<IList<Alert>> CancelSignature()
+        public async Task<IList<Alert>> CancelSignature(string cancelReason = null)
         {
             var alerts = new List<Alert>();
             try
@@ -630,7 +630,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     envelope = new Envelope
                     {
                         Status = "voided",
-                        VoidedReason = Resources.Resources.DealerCancelledEsign
+                        VoidedReason = cancelReason ?? Resources.Resources.DealerCancelledEsign
                     };
                     var updateEnvelopeRes = await
                         envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);

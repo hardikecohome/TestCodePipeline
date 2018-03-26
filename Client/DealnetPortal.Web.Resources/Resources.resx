@@ -2348,7 +2348,7 @@ changing contract terms or signing contract on paper.</value>
     <value>Annual Salary/Income</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Borrower Employment Information</value>
+    <value>Borrower Mortgage &amp; Employment Information</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
     <value>Company Address</value>
@@ -2510,7 +2510,7 @@ changing contract terms or signing contract on paper.</value>
     <value>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
-    <value>By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425, boul de Maisonneuve O, Montréal, QC H3A 3G5</value>
+    <value>By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425 Boul. De Maisonneuve O. Montréal, Quebec, H3A 3G5</value>
   </data>
   <data name="Pre" xml:space="preserve">
     <value>Pre</value>
@@ -2539,6 +2539,9 @@ changing contract terms or signing contract on paper.</value>
   <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
     <value>Total Monthly Cost of Ownership</value>
   </data>
+  <data name="ConditionalApprovalFor" xml:space="preserve">
+    <value>Conditional Approval for</value>
+  </data>
   <data name="Credit" xml:space="preserve">
     <value>Credit</value>
   </data>
@@ -2553,5 +2556,23 @@ changing contract terms or signing contract on paper.</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
+    <value>Some special characters like ', &lt;, &gt;, &amp; are not allowed</value>
+  </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Annual Salary/Income is in incorrect format</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Hourly Rate is in incorrect format</value>
+  </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Monthly Mortgage Payment (principal &amp; interest)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Monthly Mortgage Payment is in incorrect format</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Additional Applicant Mortgage &amp; Employment Information</value>
   </data>
 </root>

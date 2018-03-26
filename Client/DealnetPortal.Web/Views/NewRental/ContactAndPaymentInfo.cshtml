@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
-@using System.Security.Claims;
+@using System.Security.Claims
 @model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
 <div class="dealnet-large-header">@Resources.ContactAndPaymentInfo</div>
@@ -68,13 +68,14 @@
 
 			<div class="row">
 				<div class="col-md-4 col-lg-4">
-					<div class="form-group">
-						@Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
-						<div class="control-group">
-							@Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
-							@Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
-						</div>
-					</div>
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.HomeOwnerContactInfo.NotificationEmailAddress)
+                        @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
+                            @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 				</div>
 			</div>
 
@@ -88,7 +89,7 @@
 						else
 						{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP } | 
 						@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
-						{<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>}
+						{<a target="_blank" href="http://www.servicesfinanciersecohome.com/" class="link-color-inherit">www.servicesfinanciersecohome.com</a>}
 						else
 						{ <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a> }					
 				.</span>
@@ -133,13 +134,14 @@
 
 				<div class="row">
 					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
-							<div class="control-group">
-								@Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
-								@Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
-							</div>
-						</div>
+                        <div class="form-group">
+                            @Html.HiddenFor(m => m.CoBorrowersContactInfo[i].NotificationEmailAddress)
+                            @Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new { @class = "form-control dealnet-input", id = "email-address", placeholder = Resources.EmailAddress, type = "email" })
+                                @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 					</div>
 				</div>
 
@@ -153,7 +155,7 @@
 							else
 							{ @Resources.ConsentToReceiveCommercialElectronicMessagesDP}  |
 							@if ((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True"))
-							{<a target="_blank" href="http://www.financementecohome.com/" class="link-color-inherit">www.financementecohome.com</a>}
+							{<a target="_blank" href="http://www.servicesfinanciersecohome.com/" class="link-color-inherit">www.servicesfinanciersecohome.com</a>}
 							else
 							{ <a target="_blank" href="http://ecohomefinancial.com/" class="link-color-inherit">www.ecohomefinancial.com</a>}
 						.</span>
@@ -174,7 +176,7 @@
 					</div>
 				</div>
 			</div>
-			@if (Model.IsAllPaymentTypesAvailable)
+			@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
 	{
 		<div class="col-xs-12 col-md-4 pap-payment">
 			<div class="form-group">

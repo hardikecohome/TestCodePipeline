@@ -167,40 +167,38 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var contractData = Mapper.Map<ContractData>(contract);
+                var lastUpdateTime = _contractRepository.GetContract(contract.Id, contractOwnerId)?.LastUpdateTime;
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
                 {
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+                    var contractUpdated = updatedContract.LastUpdateTime > lastUpdateTime || string.IsNullOrEmpty(updatedContract.Details?.TransactionId);
 
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                    if (contractUpdated && (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null))
                     {
                         var aspireAlerts = 
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
-                    if (updatedContract.ContractState != ContractState.Completed &&
+                    if (contractUpdated && updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
-                    else if (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue)
+                    else if (contractUpdated && (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue))
                     {
                         //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
                         //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
-                        var submitRes = SubmitContract(contract.Id, contractOwnerId);
-                        if (submitRes?.Item2?.Any() == true)
+                        var submitResTask =
+                            Task.Run(async () =>
+                                await ReSubmitContract(contract.Id, contractOwnerId));
+                        var submitRes = submitResTask.GetAwaiter().GetResult();
+                        if (submitRes?.Any() == true)
                         {
-                            alerts.AddRange(submitRes.Item2);
+                            alerts.AddRange(submitRes);
                         }
-                    }
-
-                    //check contract signature status and clean if needed
-                    if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
-                        updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
-                    {
-                        _documentService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
-                    }
+                    }                    
                 }
                 else
                 {
@@ -269,7 +267,8 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var stream = new MemoryStream();
             var contracts = GetContracts(ids, contractOwnerId);
-            XlsxExporter.Export(contracts, stream, timeZoneOffset);
+            var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();
+            XlsxExporter.Export(contracts, stream, provincialTaxRates);
             var report = new AgreementDocument()
             {
                 DocumentRaw = stream.ToArray(),
@@ -620,17 +619,16 @@ namespace DealnetPortal.Api.Integration.Services
                         if (contract == null || contract.WasDeclined != true ||
                             (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
+                            customersUpdated = _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
                                 Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
-                                Mapper.Map<IList<Email>>(c.Emails));
-                            customersUpdated = true;
+                                Mapper.Map<IList<Email>>(c.Emails));                            
                         }
                     });
 
+                    _unitOfWork.Save();
+
                     if (customersUpdated == true)
                     {
-                        _unitOfWork.Save();
-
                         // get latest contract changes
                         if (contractId.HasValue)
                         {
@@ -642,6 +640,19 @@ namespace DealnetPortal.Api.Integration.Services
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
+
+                            if (contract.ContractState == ContractState.Completed ||
+                                contract.DateOfSubmit.HasValue)
+                            {
+                                var submitResTask =
+                                    Task.Run(async () =>
+                                        await ReSubmitContract(contract.Id, contractOwnerId));
+                                var submitRes = submitResTask.GetAwaiter().GetResult();
+                                if (submitRes?.Any() == true)
+                                {
+                                    alerts.AddRange(submitRes);
+                                }
+                            }
                         }
                     }
                 }
@@ -1085,6 +1096,37 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
             return isChanged;
+        }
+
+        private async Task<IList<Alert>> ReSubmitContract(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();            
+            var submitRes = SubmitContract(contractId, contractOwnerId);            
+            //check contract signature status and clean if needed
+            if (submitRes != null)
+            {
+                if (submitRes.Item2?.Any() == true)
+                {
+                    alerts.AddRange(submitRes.Item2);
+                }
+                var contract = GetContract(contractId, contractOwnerId);
+                if (contract != null)
+                {
+                    if (contract.Details.SignatureStatus != null ||
+                                            !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
+                                            contract.LastUpdateTime >
+                                            contract.Details.SignatureInitiatedTime)
+                    {
+                        var cancelRes = await _documentService.CancelSignatureProcess(contractId, contractOwnerId, Resources.Resources.ContractChangedCancelledEsign);
+                        if (cancelRes?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(cancelRes.Item2);
+                        }
+                        _documentService.CleanSignatureInfo(contractId, contractOwnerId);
+                    }
+                }
+            }            
+            return alerts;
         }
 
         private bool IsSentToAuditValid(Contract contract)

@@ -646,6 +646,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditional Approval.
+        /// </summary>
+        public static string _ConditionalApproval {
+            get {
+                return ResourceManager.GetString("_ConditionalApproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CVC Confirmed.
         /// </summary>
         public static string _CVCConfirmed {
@@ -1092,6 +1101,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Contract {
             get {
                 return ResourceManager.GetString("Contract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contract was changed.
+        /// </summary>
+        public static string ContractChangedCancelledEsign {
+            get {
+                return ResourceManager.GetString("ContractChangedCancelledEsign", resourceCulture);
             }
         }
         
