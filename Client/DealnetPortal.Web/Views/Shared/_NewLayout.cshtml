@@ -8,25 +8,25 @@
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
 <!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="true">
-    <meta name="format-detection" content="telephone=no">
-    <title>@ViewBag.Title - DealNet</title>
-    <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
-    @switch(ApplicationSettingsManager.PortalType)
-    {
-        case PortalType.Odi:
-            @Styles.Render("~/Content/less/main-dealer.less")
-            break;
-        default:
-            @Styles.Render("~/Content/less/main-new.less")
-            break;
-    }
-    @RenderSection("Styles", false)
-    <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
-    <script type="text/javascript">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="HandheldFriendly" content="true">
+	<meta name="format-detection" content="telephone=no">
+	<title>@ViewBag.Title - DealNet</title>
+	<link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
+	@switch (ApplicationSettingsManager.PortalType)
+	{
+		case PortalType.Odi:
+			@Styles.Render("~/Content/less/main-dealer.less")
+			break;
+		default:
+			@Styles.Render("~/Content/less/main-new.less")
+			break;
+	}
+	@RenderSection("Styles", false)
+	<link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
+	<script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
 		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
@@ -41,29 +41,39 @@
         translations['Cancel'] = "@Resources.Cancel";
         translations['new'] = '@Resources.New';
         @RenderSection("Translations", false)
-    </script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/dealnet")
-    @Scripts.Render("~/bundles/jqueryval")
+	</script>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/dealnet")
+	@Scripts.Render("~/bundles/jqueryval")
 
-    @switch(CultureHelper.CurrentCultureType)
-    {
-        case CultureType.French:
-            <script type="text/javascript"
-                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
-            </script>
-            <script type="text/javascript">
-                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
-                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
-                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-                $.datepicker.setDefaults($.datepicker.regional['fr']);
-            </script>
-            break;
-    }
+	@switch (CultureHelper.CurrentCultureType)
+	{
+		case CultureType.French:
+			<script type="text/javascript"
+					src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+			</script>
+			<script type="text/javascript">
+				$.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+				$.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+					"juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+				$.datepicker.setDefaults($.datepicker.regional['fr']);
+			</script>
+			break;
+	}
 
-    @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+	@*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src=@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', '@System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"]');
+	</script>
+
 
 </head>
 @{
