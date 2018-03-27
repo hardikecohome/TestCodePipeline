@@ -172,21 +172,21 @@ namespace DealnetPortal.Web.ServiceAgent
             }            
         }
 
-        public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
-        {
-            try
-            {
-                return
-                    await
-                        Client.PutAsyncEx<string, IList<Alert>>(
-                            $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
-                throw;
-            }
-        }
+        //public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
+        //{
+        //    try
+        //    {
+        //        return
+        //            await
+        //                Client.PutAsyncEx<string, IList<Alert>>(
+        //                    $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
+        //        throw;
+        //    }
+        //}
 
         public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
         {
@@ -255,7 +255,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.GetAsyncEx<Tuple<CreditCheckDTO, IList<Alert>>>(
-                            $"{_fullUri}/GetCreditCheckResult?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/{contractId}/creditcheck", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

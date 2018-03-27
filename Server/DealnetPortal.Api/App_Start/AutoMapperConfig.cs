@@ -126,7 +126,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Status, d => d.MapFrom(src => src.Details.SignatureStatus))
                 .ForMember(x => x.StatusQualifier, d => d.MapFrom(src => src.Details.SignatureStatusQualifier))
                 .ForMember(x => x.StatusTime, d => d.ResolveUsing(src => src.Details.SignatureLastUpdateTime));
-            //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
                 ForMember(x => x.Description,
                     s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));

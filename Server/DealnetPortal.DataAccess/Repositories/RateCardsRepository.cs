@@ -39,5 +39,10 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             return _dbContext.Tiers.SingleOrDefault(t => t.Name == tierName);
         }
+
+        public decimal? GetCreditAmount(int creditScore)
+        {
+            return _dbContext.CreditAmountSettings.FirstOrDefault(ca => creditScore >= ca.CreditScoreFrom && creditScore <= ca.CreditScoreTo)?.CreditAmount;
+        }
     }
 }
