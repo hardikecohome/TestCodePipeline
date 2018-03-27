@@ -88,6 +88,13 @@
         callback([optionKey]);
     }
 
+    var setProgram = function(optionKey, callback) {
+        return function(e) {
+            state[optionKey].Program = e.target.value;
+            callback([optionKey]);
+        }
+    }
+
     var setRateCardPlan = function (optionKey, callback) {
         return function (e) {
             var planType = $.grep(constants.rateCards, function (c) {
@@ -112,6 +119,7 @@
                     state[optionKey].DealerCost = '';
 
                     $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
+                    $('#' + optionKey + '-programDropdown').closest('.row').addClass('hidden');
                     var defDropdown = $('#' + optionKey + '-deferralDropdown');
                     defDropdown.empty();
                     $('#deferralDropdownForCustomRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
@@ -135,6 +143,11 @@
                     $('#' + optionKey + '-customYCostVal').val('');
 
                     $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
+
+                    if (state.programsAvailable) {
+                        $('#' + optionKey + '-programDropdown').closest('.row').removeClass('hidden');
+                    }
+
                     $.grep(constants.inputsToHide, function (field) {
                         $('#' + optionKey + field).removeClass('hidden');
                     });
@@ -294,6 +307,7 @@
         setEquipmentDescription: setEquipmentDescription,
         setNewEquipment: setNewEquipment,
         removeEquipment: removeEquipment,
+        setProgram: setProgram,
         //setTax: setTax,
         setLoanTerm: setLoanTerm,
         setAmortTerm: setAmortTerm,

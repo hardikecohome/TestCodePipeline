@@ -16,6 +16,16 @@
         state.cards = rateCards;
         state.taxes = taxes;
         rateCardsCalculator.init(rateCards);
+        state.programsAvailable = $('#programs-available').val().toLowerCase() === 'true';
+        state.isDisplayAdminFee = $('#isPassAdminFee').val().toLowerCase() === 'true';
+
+        if (!state.programsAvailable) {
+            $('#option1-programDropdown').closest('.row').addClass('hidden');
+        }
+
+        if (state.isDisplayAdminFee) {
+            $('#option1-aFeeOptionsHolder').removeClass('hidden');
+        }
 
         $('#option1-taxDescription').text(state.description);
 

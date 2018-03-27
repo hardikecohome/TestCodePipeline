@@ -239,11 +239,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
+            summaryAndConfirmation.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
             summaryAndConfirmation.RateCardValid = !(contractResult.Equipment?.RateCardId.HasValue ?? false) ||
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
-
             var isOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
             summaryAndConfirmation.IsOldClarityDeal = isOldClarityDeal;
 
@@ -356,7 +356,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
-
+            
             var planDict = new Dictionary<RateCardType, string>
             {
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
@@ -372,14 +372,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Select(card => new KeyValuePair<string, string>(card.ToString(), planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
-            //model.Plans.Add("Custom", Resources.Resources.Custom);
-
             model.DeferralPeriods = model.DealerTier.RateCards
                 .Where(x => x.CardType == RateCardType.Deferral)
                 .Select(q => Convert.ToInt32(q.DeferralPeriod))
                 .Distinct()
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
+	        model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
             if(model.DealerTier != null && model.DealerTier.Id ==
                 Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
@@ -901,7 +900,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-                summary.DealerTier = Mapper.Map<TierViewModel>(await _contractServiceAgent.GetDealerTier());
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();

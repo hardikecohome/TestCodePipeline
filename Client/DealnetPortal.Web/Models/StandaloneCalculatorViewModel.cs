@@ -18,5 +18,6 @@ namespace DealnetPortal.Web.Models
         public string ProvinceTaxRate { get; set; }
         public IList<ProvinceTaxRateDTO> ProvinceTaxRates { get; set; }
         public TierDTO DealerTier { get; set; }
+		public bool RateCardProgramsAvailable { get; set; }
     }
 }

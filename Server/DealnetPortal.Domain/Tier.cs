@@ -22,6 +22,8 @@ namespace DealnetPortal.Domain
 
         public bool? PassAdminFee { get; set; }
 
+        public bool? IsCustomerRisk { get; set; }
+
         public ICollection<RateCard> RateCards { get; set; }
     }
 }

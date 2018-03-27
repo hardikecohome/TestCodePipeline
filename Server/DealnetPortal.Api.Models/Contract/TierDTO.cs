@@ -14,6 +14,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public bool PassAdminFee { get; set; }
 
+        public bool IsCustomerRisk { get; set; }
+
         public List<RateCardDTO> RateCards { get; set; }
     }
 }

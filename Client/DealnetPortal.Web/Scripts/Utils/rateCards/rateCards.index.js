@@ -159,9 +159,10 @@
      */
     function _filterRateCardByValues(dataObject, totalCash) {
         var selectedValues;
-
+        var groupName;
         if (dataObject.hasOwnProperty('standaloneOption')) {
             selectedValues = $('#' + dataObject.standaloneOption + '-amortDropdown option:selected').text().split('/');
+            groupName = $('#' + dataObject.standaloneOption + '-programDropdown option:selected').val();
         } else {
             selectedValues = $('#' + dataObject.rateCardPlan + '-amortDropdown option:selected').text().split('/');
         }
@@ -181,14 +182,26 @@
                 deferralPeriod = +$('#' + dataObject.standaloneOption + '-deferralDropdown').val();
             }
         }
+        var card;
+        if (dataObject.hasOwnProperty('standaloneOption')) {
+            card = $.grep(items, function (i) {
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return (i.CustomerRiskGroup === null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return (i.CustomerRiskGroup === null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
+            })[0];
 
-        var card = $.grep(items, function (i) {
-            if (totalCash >= constants.maxRateCardLoanValue) {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
-            } else {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            }
-        })[0];
+        } else {
+            card = $.grep(items, function (i) {
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
+            })[0];
+
+        }
 
         if ((card !== undefined && card !== null) && (card.ValidFrom !== null || card.ValidTo !== null)) {
             card.ValidFrom = null;
