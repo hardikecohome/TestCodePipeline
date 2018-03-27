@@ -2105,11 +2105,31 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer’s credit details are currently unavailable; default Prime program rates apply. 
+        ///Additional program options may become available when customer’s credit details are obtained/updated..
+        /// </summary>
+        public static string CustomerCoveredByBureauLoan {
+            get {
+                return ResourceManager.GetString("CustomerCoveredByBureauLoan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Fee.
         /// </summary>
         public static string CustomerFee {
             get {
                 return ResourceManager.GetString("CustomerFee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We were not able to match the Customer’s credit details. 
+        ///Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license).
+        /// </summary>
+        public static string CustomerNotFoundInBureau {
+            get {
+                return ResourceManager.GetString("CustomerNotFoundInBureau", resourceCulture);
             }
         }
         
@@ -2668,6 +2688,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit customer information.
+        /// </summary>
+        public static string EditCustomerInformation {
+            get {
+                return ResourceManager.GetString("EditCustomerInformation", resourceCulture);
             }
         }
         
@@ -5449,6 +5478,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProductsForFinancing {
             get {
                 return ResourceManager.GetString("ProductsForFinancing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program.
+        /// </summary>
+        public static string Program {
+            get {
+                return ResourceManager.GetString("Program", resourceCulture);
             }
         }
         
