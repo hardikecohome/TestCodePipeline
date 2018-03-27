@@ -26,16 +26,19 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
+        private readonly IRateCardsRepository _rateCardsRepository;
         private readonly IAppConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreditCheckService(IAspireService aspireService, IAspireStorageReader aspireStorageReader,
-            IContractRepository contractRepository, IUnitOfWork unitOfWork, IAppConfiguration configuration,
+            IContractRepository contractRepository, IRateCardsRepository rateCardsRepository,
+            IUnitOfWork unitOfWork, IAppConfiguration configuration,
             ILoggingService loggingService)
         {
             _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
             _contractRepository = contractRepository;
+            _rateCardsRepository = rateCardsRepository;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
@@ -45,27 +48,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
             if (checkResult?.Item1 != null)
-            {
-                var creditAmount = checkResult.Item1.CreditAmount > 0 ? checkResult.Item1.CreditAmount : (decimal?)null;
-                var scorecardPoints = checkResult.Item1.ScorecardPoints > 0
-                    ? checkResult.Item1.ScorecardPoints
-                    : (int?)null;
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-                if (creditAmount.HasValue || scorecardPoints.HasValue)
-                {                    
-                    _contractRepository.UpdateContractData(new ContractData()
-                    {
-                        Id = contractId,
-                        Details = new ContractDetails()
-                        {
-                            CreditAmount = creditAmount,
-                            ScorecardPoints = scorecardPoints,
-                            HouseSize = contract.Details.HouseSize,
-                            Notes = contract.Details.Notes
-                        }
-                    }, contractOwnerId);
-                }
-
+            {                
                 switch (checkResult.Item1.CreditCheckState)
                 {
                     case CreditCheckState.Approved:
@@ -83,6 +66,26 @@ namespace DealnetPortal.Api.Integration.Services
                             ContractState.CreditConfirmed);
                         _unitOfWork.Save();
                         break;
+                }
+
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                var creditAmount = checkResult.Item1.CreditAmount > 0 ? checkResult.Item1.CreditAmount : (decimal?)null;
+                var scorecardPoints = checkResult.Item1.ScorecardPoints > 0
+                    ? checkResult.Item1.ScorecardPoints
+                    : (int?)null;                
+                if (creditAmount.HasValue || scorecardPoints.HasValue)
+                {
+                    _contractRepository.UpdateContractData(new ContractData()
+                    {
+                        Id = contractId,
+                        Details = new ContractDetails()
+                        {
+                            CreditAmount = creditAmount,
+                            ScorecardPoints = scorecardPoints,
+                            HouseSize = contract.Details.HouseSize,
+                            Notes = contract.Details.Notes
+                        }
+                    }, contractOwnerId);
                 }
 
                 checkResult.Item1.Beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
