@@ -239,11 +239,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
+            summaryAndConfirmation.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
             summaryAndConfirmation.RateCardValid = !(contractResult.Equipment?.RateCardId.HasValue ?? false) ||
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
-
             var isOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
             summaryAndConfirmation.IsOldClarityDeal = isOldClarityDeal;
 
@@ -900,7 +900,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-                summary.DealerTier = Mapper.Map<TierViewModel>(await _contractServiceAgent.GetDealerTier());
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
