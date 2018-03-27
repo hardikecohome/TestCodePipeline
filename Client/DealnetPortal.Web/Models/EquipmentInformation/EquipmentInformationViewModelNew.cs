@@ -115,6 +115,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsCustomRateCardSelected { get; set; }
 
         public bool IsBeaconUpdated { get; set; }
+        public bool IsCustomerFoundInCreditBureau { get; set; }
     }
 
     public class SalesRepInformation

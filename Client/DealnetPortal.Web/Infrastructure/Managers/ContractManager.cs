@@ -150,6 +150,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
+            equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer != null;
 
             equipmentInfo.IsBeaconUpdated = result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
 
