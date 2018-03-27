@@ -460,10 +460,6 @@ break;
     </header>
     <div class="clearfix"></div>
     @{
-        var viewPath = ((RazorView)ViewContext.View).ViewPath;
-    }
-    @if(viewPath.Contains("Home/Index"))
-    {
         var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
         var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
 

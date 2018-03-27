@@ -2617,4 +2617,10 @@ changing contract terms or signing contract on paper.</value>
   <data name="PassAdminFeeToDealer" xml:space="preserve">
     <value>I will pay the administration fee</value>
   </data>
+  <data name="AskForHelp" xml:space="preserve">
+    <value>Ask for help</value>
+  </data>
+  <data name="LearnMoreAboutThisPage" xml:space="preserve">
+    <value>Learn more about this page</value>
+  </data>
 </root>

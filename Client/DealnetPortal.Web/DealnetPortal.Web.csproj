@@ -951,6 +951,8 @@
     <Content Include="Scripts\pages\basicInfo\additionalApplicants\employment.js" />
     <Content Include="Scripts\pages\basicInfo\homeOwner\employment.js" />
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
+    <Content Include="Scripts\pages\homePage\homePageTable.js" />
+    <Content Include="Scripts\pages\homePage\index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.calculation.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.packages.js" />
@@ -1205,6 +1207,7 @@
     <Content Include="Scripts\vendor\modernizr-2.8.3.js" />
     <Content Include="Scripts\vendor\respond.js" />
     <Content Include="Scripts\vendor\svgxuse.min.js" />
+    <Content Include="Scripts\components\ko.paginator.js" />
     <None Include="Scripts\_references.js" />
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />

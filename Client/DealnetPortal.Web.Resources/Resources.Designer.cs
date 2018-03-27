@@ -772,6 +772,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ask for help.
+        /// </summary>
+        public static string AskForHelp {
+            get {
+                return ResourceManager.GetString("AskForHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to At current address.
         /// </summary>
         public static string AtCurrentAddress {
@@ -3829,6 +3838,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LeadWasAcceptedYouCanFind {
             get {
                 return ResourceManager.GetString("LeadWasAcceptedYouCanFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learn more about this page.
+        /// </summary>
+        public static string LearnMoreAboutThisPage {
+            get {
+                return ResourceManager.GetString("LearnMoreAboutThisPage", resourceCulture);
             }
         }
         
