@@ -5453,6 +5453,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Program.
+        /// </summary>
+        public static string Program {
+            get {
+                return ResourceManager.GetString("Program", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Program services required.
         /// </summary>
         public static string ProgramServiceRequired {

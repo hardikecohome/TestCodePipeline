@@ -340,7 +340,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 var contractViewModel = new ContractViewModel();
                 await MapContract(contractViewModel, contract, contract.Id);
-                contractViewModel.EquipmentInfo.ValueOfDeal = (double)contract.Equipment.ValueOfDeal;
+                if(contractViewModel.EquipmentInfo != null)
+                {
+                    contractViewModel.EquipmentInfo.ValueOfDeal = contract.Equipment != null && contract.Equipment.ValueOfDeal.HasValue ?
+                        (double?)contract.Equipment.ValueOfDeal :
+                        null;
+                }
                 contracts.Add(contractViewModel);
             }
             return contracts;
@@ -378,7 +383,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Distinct()
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
-	        model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
+            model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
             if(model.DealerTier != null && model.DealerTier.Id ==
                 Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
@@ -900,6 +905,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
+
+                var dealerTier = await _contractServiceAgent.GetDealerTier();
+                var rateCard = dealerTier.RateCards.FirstOrDefault(rc => rc.Id == contract.Equipment.RateCardId);
+
+                summary.EquipmentInfo.CustomerRiskGroup = rateCard?.CustomerRiskGroup != null ?
+                    new CustomerRiskGroupViewModel { GroupName = rateCard.CustomerRiskGroup.GroupName } :
+                    null;
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
