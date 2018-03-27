@@ -2082,46 +2082,113 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetTestProvinceTaxRates(ApplicationDbContext context)
         {
-            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
-            var taxRates = new List<ProvinceTaxRate>
+            if (!context.ProvinceTaxRates.Any())
             {
-                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "GST", Name = "Alberta"},
-                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GST + PST", Name = "British Columbia"},
-                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GST + PST", Name = "Manitoba"},
-                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "HST", Name = "New Brunswick"},
-                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "HST", Name = "Newfoundland and Labrador"},
-                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "GST", Name = "Northwest Territories"},
-                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "HST", Name = "Nova Scotia"},
-                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "GST", Name = "Nunavut"},
-                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "HST", Name = "Ontario"},
-                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "HST", Name = "Prince Edward Island"},
-                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GST + QST", Name = "Quebec"},
-                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GST + PST", Name = "Saskatchewan"},
-                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "GST", Name = "Yukon"}
-            };
-            //leave existing data
-            taxRates.RemoveAll(t => context.ProvinceTaxRates.ToList().Any(dbt => dbt.Province == t.Province && dbt.Name == t.Name && dbt.Description == t.Description));
-            context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+                //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+                var taxRates = new List<ProvinceTaxRate>
+                {
+                    new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "GST", Name = "Alberta"},
+                    new ProvinceTaxRate
+                    {
+                        Province = "BC",
+                        Rate = 12,
+                        Description = "GST + PST",
+                        Name = "British Columbia"
+                    },
+                    new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GST + PST", Name = "Manitoba"},
+                    new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "HST", Name = "New Brunswick"},
+                    new ProvinceTaxRate
+                    {
+                        Province = "NL",
+                        Rate = 15,
+                        Description = "HST",
+                        Name = "Newfoundland and Labrador"
+                    },
+                    new ProvinceTaxRate
+                    {
+                        Province = "NT",
+                        Rate = 5,
+                        Description = "GST",
+                        Name = "Northwest Territories"
+                    },
+                    new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "HST", Name = "Nova Scotia"},
+                    new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "GST", Name = "Nunavut"},
+                    new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "HST", Name = "Ontario"},
+                    new ProvinceTaxRate
+                    {
+                        Province = "PE",
+                        Rate = 15,
+                        Description = "HST",
+                        Name = "Prince Edward Island"
+                    },
+                    new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GST + QST", Name = "Quebec"},
+                    new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GST + PST", Name = "Saskatchewan"},
+                    new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "GST", Name = "Yukon"}
+                };
+                //leave existing data
+                taxRates.RemoveAll(t => context.ProvinceTaxRates.ToList().Any(dbt =>
+                    dbt.Province == t.Province && dbt.Name == t.Name && dbt.Description == t.Description));
+                context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+            }
         }
 
         private void SetTestVerficationIds(ApplicationDbContext context)
         {
-            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
-            var VerificationIds = new List<VerifiactionId>
+            if (context.VerificationIds.Any())
             {
-                new VerifiactionId {VerificationIdName = "Driver’s license", VerificationIdNameResource = "DriverLicense"},
-                new VerifiactionId {VerificationIdName = "BYID card", VerificationIdNameResource = "ByidCard"},
-                new VerifiactionId {VerificationIdName = "Canadian or foreign passport", VerificationIdNameResource = "CanadianPassport"},
-                new VerifiactionId {VerificationIdName = "Canadian citizenship card", VerificationIdNameResource = "CanadianCitizenshipCard" },
-                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)", VerificationIdNameResource = "PalCard" },
-                new VerifiactionId {VerificationIdName = "Permanent Residency Card", VerificationIdNameResource = "PermanentResidencyCard"},
-                new VerifiactionId {VerificationIdName = "Certificate of Indian Status", VerificationIdNameResource = "CertificateInidanStatus" },
-                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card", VerificationIdNameResource = "CanadianBlindIdentificationCard" },
-                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card ", VerificationIdNameResource = "CanadianMilitaryCard" },
-                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card", VerificationIdNameResource = "CanadianFamilyMilitaryCard" }
+                //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+                var VerificationIds = new List<VerifiactionId>
+                {
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Driver’s license",
+                        VerificationIdNameResource = "DriverLicense"
+                    },
+                    new VerifiactionId {VerificationIdName = "BYID card", VerificationIdNameResource = "ByidCard"},
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian or foreign passport",
+                        VerificationIdNameResource = "CanadianPassport"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian citizenship card",
+                        VerificationIdNameResource = "CanadianCitizenshipCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Possession and Acquisition License (PAL card)",
+                        VerificationIdNameResource = "PalCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Permanent Residency Card",
+                        VerificationIdNameResource = "PermanentResidencyCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Certificate of Indian Status",
+                        VerificationIdNameResource = "CertificateInidanStatus"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian National Institute for the Blind identification card",
+                        VerificationIdNameResource = "CanadianBlindIdentificationCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian Military Employment Card ",
+                        VerificationIdNameResource = "CanadianMilitaryCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian Military Family Identification Card",
+                        VerificationIdNameResource = "CanadianFamilyMilitaryCard"
+                    }
 
-            };
-            context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
+                };
+                context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
+            }
         }
 
         private void SetAspireStatuses(ApplicationDbContext context)
@@ -3159,7 +3226,26 @@ namespace DealnetPortal.DataAccess.Migrations
         {
             if (!context.CreditAmountSettings.Any())
             {
-                
+                List<CreditAmountSetting> settings = new List<CreditAmountSetting>();
+                settings.Add(new CreditAmountSetting()
+                {
+                    CreditScoreFrom = 0,
+                    CreditScoreTo = 699,
+                    CreditAmount = 7500
+                });
+                settings.Add(new CreditAmountSetting()
+                {
+                    CreditScoreFrom = 700,
+                    CreditScoreTo = 799,
+                    CreditAmount = 12500
+                });
+                settings.Add(new CreditAmountSetting()
+                {
+                    CreditScoreFrom = 800,
+                    CreditScoreTo = 999,
+                    CreditAmount = 20000
+                });
+                context.CreditAmountSettings.AddOrUpdate(ca => new {ca.CreditScoreFrom, ca.CreditScoreTo}, settings.ToArray());
             }
         }
 
