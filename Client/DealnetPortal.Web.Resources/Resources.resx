@@ -2617,7 +2617,27 @@ changing contract terms or signing contract on paper.</value>
   <data name="PassAdminFeeToDealer" xml:space="preserve">
     <value>I will pay the administration fee</value>
   </data>
+  <data name="CustomerCoveredByBureauLoan" xml:space="preserve">
+    <value>Customer’s credit details are currently unavailable; default Prime program rates apply. 
+Additional program options may become available when customer’s credit details are obtained/updated.</value>
+  </data>
+  <data name="CustomerNotFoundInBureau" xml:space="preserve">
+    <value>We were not able to match the Customer’s credit details. 
+Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license)</value>
+  </data>
+  <data name="EditCustomerInformation" xml:space="preserve">
+    <value>Edit customer information</value>
+  </data>
+  <data name="CustomerCreditUpdated" xml:space="preserve">
+    <value>Customer’s credit information has been updated.</value>
+  </data>
   <data name="Program" xml:space="preserve">
     <value>Program</value>
+  </data>
+  <data name="YouCanNowReviewFinancingBelow" xml:space="preserve">
+    <value>You can now review financing options below.</value>
+  </data>
+  <data name="YouCanNowReviewFinancingHere" xml:space="preserve">
+    <value>You can now review financing options {0}here{1}.</value>
   </data>
 </root>

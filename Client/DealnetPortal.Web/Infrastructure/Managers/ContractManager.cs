@@ -150,6 +150,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
+            equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer != null;
+
+            equipmentInfo.IsBeaconUpdated = result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
@@ -434,7 +437,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 PaymentSummary = paymentSummary,
                 Notes = summaryViewModel.Notes,
                 IsClarityDealer = summaryViewModel.IsClarityDealer,
-                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal
+                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal,
+                IsBeaconUpdated = contractsResult.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false
             };
 
             if(contractsResult.Item1.Comments != null)
