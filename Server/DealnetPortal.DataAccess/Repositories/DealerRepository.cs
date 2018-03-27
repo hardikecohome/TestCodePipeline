@@ -36,8 +36,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<string> GetUserRoles(string dealerId)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_dbContext));
-            return userManager.GetRoles(dealerId);
+            var userRoles = _dbContext.Users.Find(dealerId)?.Roles.Select(r => _dbContext.Roles.Find(r.RoleId)?.Name).ToList();
+            return userRoles;            
         }
 
         public string GetDealerNameByCustomerLinkId(int customerLinkId)
