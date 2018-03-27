@@ -164,7 +164,7 @@
             return;
         }
 
-        if (!$('#' + optionToCopy + '-aFeeOptionsHolder').find('input:checked').length) {
+        if ($('#' + optionToCopy + '-aFeeOptionsHolder').is(':visible') && !$('#' + optionToCopy + '-aFeeOptionsHolder').find('input:checked').length) {
             $('#' + optionToCopy + '-errorAdminFee').removeClass('hidden');
             return;
         } else {
