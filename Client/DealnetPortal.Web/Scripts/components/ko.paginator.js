@@ -21,9 +21,7 @@
             var pages = [];
             var maxPageIndex = this.maxPageIndex()
             for (var i = 0; i <= maxPageIndex; i++) {
-                pages.push({
-                    pageNumber: (i + 1)
-                });
+                pages.push(i);
             }
             return pages;
         }, this);
@@ -44,9 +42,9 @@
             this.moveToPage(this.pageIndex() - 1);
         }
 
-        this.moveToPage = function (index) {
+        this.moveToPage = (function (index) {
             this.pageIndex(index);
-        }
+        }).bind(this);
     };
 
     return Paginator;

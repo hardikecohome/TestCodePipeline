@@ -481,11 +481,9 @@
                     <a data-bind="click: goToPreviousPage">
                         <i class="pagination-left-ico"></i>
                     </a>
-                    <ul class="new-pagination__pages">
-                        <li data-bind="foreach: allPages,
-                            class:{ active: $parent.pageIndex() == ($data.pageNumber -1) },
-                            click: $parent.moveToPage">
-                            <a data-bind="text: $data.pageNumber"></a>
+                    <ul class="new-pagination__pages" data-bind="foreach: allPages">
+                        <li data-bind="css: { active: $parent.pageIndex() == $data }">
+                            <a data-bind="text: $data + 1, click: $parent.moveToPage"></a>
                         </li>
                         @*<li class="active"><a>2</a></li>
                             <li><a>...</a></li>
