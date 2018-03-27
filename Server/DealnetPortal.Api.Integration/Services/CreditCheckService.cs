@@ -69,10 +69,27 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
                 var creditAmount = checkResult.Item1.CreditAmount > 0 ? checkResult.Item1.CreditAmount : (decimal?)null;
                 var scorecardPoints = checkResult.Item1.ScorecardPoints > 0
                     ? checkResult.Item1.ScorecardPoints
-                    : (int?)null;                
+                    : (int?)null;
+
+                if (contract.Dealer?.Tier?.IsCustomerRisk == true)
+                {
+                    var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
+                                               CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon;
+                    checkResult.Item1.Beacon = beacon ?? 0;
+                    if (beacon.HasValue)
+                    {
+                        creditAmount = _rateCardsRepository.GetCreditAmount(beacon.Value) ?? creditAmount;
+                        if (creditAmount.HasValue)
+                        {
+                            checkResult.Item1.CreditAmount = creditAmount.Value;
+                        }
+                    }
+                }                
+                
                 if (creditAmount.HasValue || scorecardPoints.HasValue)
                 {
                     _contractRepository.UpdateContractData(new ContractData()
@@ -86,10 +103,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Notes = contract.Details.Notes
                         }
                     }, contractOwnerId);
-                }
-
-                checkResult.Item1.Beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
-                                           CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon ?? 0;                
+                }                
             }
 
             return checkResult;
@@ -166,7 +180,6 @@ namespace DealnetPortal.Api.Integration.Services
                         dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.FirstName,
                             contract.PrimaryCustomer.LastName,
                             contract.PrimaryCustomer.DateOfBirth, postalCode);
-
                     }
                     else
                     {
