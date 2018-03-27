@@ -2105,7 +2105,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer’s credit information has been updated. You can now review financing options {0}here{1}..
+        ///   Looks up a localized string similar to Customer’s credit information has been updated..
         /// </summary>
         public static string CustomerCreditUpdated {
             get {
@@ -7403,6 +7403,24 @@ namespace DealnetPortal.Web.Resources {
         public static string YouCannotProceedUntilAllAgree {
             get {
                 return ResourceManager.GetString("YouCannotProceedUntilAllAgree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can now review financing options below..
+        /// </summary>
+        public static string YouCanNowReviewFinancingBelow {
+            get {
+                return ResourceManager.GetString("YouCanNowReviewFinancingBelow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can now review financing options {0}here{1}..
+        /// </summary>
+        public static string YouCanNowReviewFinancingHere {
+            get {
+                return ResourceManager.GetString("YouCanNowReviewFinancingHere", resourceCulture);
             }
         }
         
