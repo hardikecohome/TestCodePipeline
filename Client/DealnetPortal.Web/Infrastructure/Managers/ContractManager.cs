@@ -434,7 +434,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 PaymentSummary = paymentSummary,
                 Notes = summaryViewModel.Notes,
                 IsClarityDealer = summaryViewModel.IsClarityDealer,
-                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal
+                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal,
+                IsBeaconUpdated = contractsResult.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false
             };
 
             if(contractsResult.Item1.Comments != null)
