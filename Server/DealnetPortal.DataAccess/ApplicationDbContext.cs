@@ -62,6 +62,8 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<SettingValue> SettingValues { get; set; }
         public virtual DbSet<UserSettings> UserSettings { get; set; }        
 
+        public virtual DbSet<CreditAmountSetting> CreditAmountSettings { get; set; }
+
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<CustomerLink> CustomerLinks { get; set; }
         public virtual DbSet<DealerService> DealerServices { get; set; }

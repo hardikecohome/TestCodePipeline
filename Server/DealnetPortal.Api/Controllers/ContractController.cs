@@ -190,7 +190,9 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                //TODO: remove after CW review
+                //var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                var alerts = new List<Alert>();
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -289,13 +291,13 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCreditCheckResult")]
+        [Route("{contractId}/creditcheck")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)
         {
             try
             {
-                var result = _creditCheckService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                var result = _creditCheckService.ContractCreditCheck(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)

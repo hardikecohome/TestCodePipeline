@@ -2628,4 +2628,10 @@ Please ensure that the Customer information provided matches their Government is
   <data name="EditCustomerInformation" xml:space="preserve">
     <value>Edit customer information</value>
   </data>
+  <data name="CustomerCreditUpdated" xml:space="preserve">
+    <value>Customer’s credit information has been updated. You can now review financing options {0}here{1}.</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Program</value>
+  </data>
 </root>

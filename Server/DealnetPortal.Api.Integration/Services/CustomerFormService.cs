@@ -231,13 +231,8 @@ namespace DealnetPortal.Api.Integration.Services
                     if (c.ContractState < ContractState.CreditConfirmed)
                     {
                         //Start credit check for this contract                            
-                        var creditCheckAlerts = new List<Alert>();
-                        var initAlerts = _creditCheckService.InitiateCreditCheck(c.Id, c.DealerId);
-                        if (initAlerts?.Any() ?? false)
-                        {
-                            creditCheckAlerts.AddRange(initAlerts);
-                        }
-                        var checkResult = _creditCheckService.GetCreditCheckResult(c.Id, c.DealerId);
+                        var creditCheckAlerts = new List<Alert>();                        
+                        var checkResult = _creditCheckService.ContractCreditCheck(c.Id, c.DealerId);
                         if (checkResult != null)
                         {
                             creditCheckAlerts.AddRange(checkResult.Item2);
@@ -396,12 +391,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _loggingService.LogInfo($"Start credit check for contract [{contract.Id}]");
                     var creditCheckAlerts = new List<Alert>();
-                    var initAlerts = _creditCheckService.InitiateCreditCheck(contract.Id, dealerId);
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
-                    var checkResult = _creditCheckService.GetCreditCheckResult(contract.Id, dealerId);
+                    var checkResult = _creditCheckService.ContractCreditCheck(contract.Id, dealerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);

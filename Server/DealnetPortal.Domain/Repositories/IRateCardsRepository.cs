@@ -6,5 +6,12 @@ namespace DealnetPortal.Domain.Repositories
     {
         Tier GetTierByDealerId(string dealerId, int? beacons, DateTime? validDate);
         Tier GetTierByName(string tierName);
+
+        /// <summary>
+        /// Get credit amount value for creditScore (beacon)
+        /// </summary>
+        /// <param name="creditScore">Beacon</param>
+        /// <returns>Credit amount value</returns>
+        decimal? GetCreditAmount(int creditScore);
     }
 }
