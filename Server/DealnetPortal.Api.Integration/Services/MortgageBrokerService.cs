@@ -117,16 +117,9 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError($"Cannot submit deal {contractResult.Item1.Id} in Aspire", ex);
-                    }
+                    }                    
 
-                    var initAlerts = _creditCheckService.InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
-
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
-
-                    var checkResult = _creditCheckService.GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
+                    var checkResult = _creditCheckService.ContractCreditCheck(contractResult.Item1.Id, contractOwnerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);

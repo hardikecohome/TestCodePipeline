@@ -44,115 +44,100 @@ namespace DealnetPortal.Api.Integration.Services
             _loggingService = loggingService;
         }
 
-        public Tuple<CreditCheckDTO, IList<Alert>> GetCreditCheckResult(int contractId, string contractOwnerId)
+        public Tuple<CreditCheckDTO, IList<Alert>> ContractCreditCheck(int contractId, string contractOwnerId)
         {
-            var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
-            if (checkResult?.Item1 != null)
-            {                
-                switch (checkResult.Item1.CreditCheckState)
+            CreditCheckDTO creditCheck = null;
+            List<Alert> alerts = new List<Alert>();
+            var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+
+            if (contract?.ContractState == null)
+            {
+                alerts.Add(new Alert()
                 {
-                    case CreditCheckState.Approved:
-                        _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditConfirmed);
-                        _unitOfWork.Save();
-                        break;
-                    case CreditCheckState.Declined:
-                        _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditCheckDeclined);
-                        _unitOfWork.Save();
-                        break;
-                    case CreditCheckState.MoreInfoRequired:
-                        _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditConfirmed);
-                        _unitOfWork.Save();
-                        break;
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.CreditCheckFailed,
+                    Message = "Cannot find a contract [{contractId}] for initiate credit check"
+                });
+            }
+            else
+            {
+                if (contract.ContractState == ContractState.CustomerInfoInputted)
+                {
+                    _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                        ContractState.CreditCheckInitiated);
+                    _unitOfWork.Save();
                 }
+                _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
 
-                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-
-                var creditAmount = checkResult.Item1.CreditAmount > 0 ? checkResult.Item1.CreditAmount : (decimal?)null;
-                var scorecardPoints = checkResult.Item1.ScorecardPoints > 0
-                    ? checkResult.Item1.ScorecardPoints
-                    : (int?)null;
-
-                if (contract.Dealer?.Tier?.IsCustomerRisk == true)
+                var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter()
+                    .GetResult();
+                creditCheck = checkResult?.Item1;
+                if (checkResult?.Item2?.Any() == true)
                 {
-                    var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
-                                               CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon;
-                    checkResult.Item1.Beacon = beacon ?? 0;
-                    if (beacon.HasValue)
+                    alerts.AddRange(checkResult.Item2);
+                }
+                if (checkResult?.Item1 != null)
+                {
+                    switch (checkResult.Item1.CreditCheckState)
                     {
-                        creditAmount = _rateCardsRepository.GetCreditAmount(beacon.Value) ?? creditAmount;
-                        if (creditAmount.HasValue)
+                        case CreditCheckState.Approved:
+                            _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                                ContractState.CreditConfirmed);
+                            _unitOfWork.Save();
+                            break;
+                        case CreditCheckState.Declined:
+                            _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                                ContractState.CreditCheckDeclined);
+                            _unitOfWork.Save();
+                            break;
+                        case CreditCheckState.MoreInfoRequired:
+                            _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                                ContractState.CreditConfirmed);
+                            _unitOfWork.Save();
+                            break;
+                    }
+
+                    var creditAmount = checkResult.Item1.CreditAmount > 0
+                        ? checkResult.Item1.CreditAmount
+                        : (decimal?) null;
+                    var scorecardPoints = checkResult.Item1.ScorecardPoints > 0
+                        ? checkResult.Item1.ScorecardPoints
+                        : (int?) null;
+
+                    if (contract.Dealer?.Tier?.IsCustomerRisk == true)
+                    {
+                        var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
+                                     CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon;
+                        checkResult.Item1.Beacon = beacon ?? 0;
+                        if (beacon.HasValue)
                         {
-                            checkResult.Item1.CreditAmount = creditAmount.Value;
+                            creditAmount = _rateCardsRepository.GetCreditAmount(beacon.Value) ?? creditAmount;
+                            if (creditAmount.HasValue)
+                            {
+                                checkResult.Item1.CreditAmount = creditAmount.Value;
+                            }
                         }
                     }
-                }                
-                
-                if (creditAmount.HasValue || scorecardPoints.HasValue)
-                {
-                    _contractRepository.UpdateContractData(new ContractData()
+
+                    if (creditAmount.HasValue || scorecardPoints.HasValue)
                     {
-                        Id = contractId,
-                        Details = new ContractDetails()
+                        _contractRepository.UpdateContractData(new ContractData()
                         {
-                            CreditAmount = creditAmount,
-                            ScorecardPoints = scorecardPoints,
-                            HouseSize = contract.Details.HouseSize,
-                            Notes = contract.Details.Notes
-                        }
-                    }, contractOwnerId);
-                }                
-            }
-
-            return checkResult;
-        }
-
-        public IList<Alert> InitiateCreditCheck(int contractId, string contractOwnerId)
-        {
-            try
-            {
-                var alerts = new List<Alert>();
-                var contractState = _contractRepository.GetContractState(contractId, contractOwnerId);
-
-                if (contractState == null)
-                {
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.CreditCheckFailed,
-                        Message = "Cannot find a contract [{contractId}] for initiate credit check"
-                    });
-                }
-                else
-                {
-                    if (contractState.Value > ContractState.Started)
-                    {
-                        _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                            ContractState.CreditCheckInitiated);
-                        _unitOfWork.Save();
-                        _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
-                    }
-                    else
-                    {
-                        alerts.Add(new Alert()
-                        {
-                            Type = AlertType.Error,
-                            Header = ErrorConstants.CreditCheckFailed,
-                            Message = "Cannot initiate credit check for contract with lack of customers information"
-                        });
+                            Id = contractId,
+                            Details = new ContractDetails()
+                            {
+                                CreditAmount = creditAmount,
+                                ScorecardPoints = scorecardPoints,
+                                HouseSize = contract.Details.HouseSize,
+                                Notes = contract.Details.Notes
+                            }
+                        }, contractOwnerId);
                     }
                 }
+            }
 
-                return alerts;
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError($"Failed to initiate a credit check for contract [{contractId}]", ex);
-                throw;
-            }
-        }
+            return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
+        }       
 
         public CustomerCreditReportDTO CheckCustomerCreditReport(int contractId, string contractOwnerId)
         {
