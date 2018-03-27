@@ -372,7 +372,7 @@ namespace DealnetPortal.Api.Integration.Services
                             break;
                         default:
                             var aspireStatus = _contractRepository.GetAspireStatus(_contractRepository.GetContract(contractId).Details?.Status);
-                            contract = (aspireStatus.ContractState == ContractState.Closed) ? _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Closed)
+                            contract = (aspireStatus != null && aspireStatus.ContractState == ContractState.Closed) ? _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Closed)
                                 : _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
                             break;
                     }
