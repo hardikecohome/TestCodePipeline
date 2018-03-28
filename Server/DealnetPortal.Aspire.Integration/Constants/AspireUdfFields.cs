@@ -71,6 +71,7 @@
         public static string FeePaidBy = "fee paid by";
         public static string DownPayment = "Down Payment";
         public static string CustomerRate = "Customer Rate";
+        public static string CustomerApr = "customerapr";
         public static string DealerCost = "Dealer Cost";
         public static string DealerRate = "Dealer Rate";
         public static string RateCardType = "Rate Card Type";

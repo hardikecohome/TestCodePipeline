@@ -1849,7 +1849,8 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                         (contract.Equipment?.RateCard?.CustomerRate.ToString(CultureInfo.InvariantCulture) ?? contract.Equipment?.CustomerRate?.ToString() ?? "0.0")
                         : "0.0"
-                });                            
+                });
+
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.RateCardType,
@@ -1911,6 +1912,13 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.PstRate,
                             Value = "0.0"
                         });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.CustomerApr,
+                            Value = contract.Equipment?.IsFeePaidByCutomer == true ? 
+                                (paymentInfo.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
+                                : (contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
+                        });
                     }
                     else
                     {
@@ -1957,6 +1965,11 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Name = AspireUdfFields.PstRate,
                             Value = ((taxRate?.Rate ?? 0.0)/100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.CustomerApr,
+                            Value = "0.0"
                         });
                     }                    
 
