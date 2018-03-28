@@ -93,7 +93,7 @@
 
         var totalClarityMCOLessDownPaymentNoTax = function (data) {
             var downPayment = data.downPayment;
-            var tMCONoTax = totalClarityMCONoTax(data);
+            var tMCONoTax = totalMCONoTax(data);
             var totalPriceOfEquipmentNoTax = tMCONoTax / clarityPaymentFactor;
             var totalAmountFinancedNoTax = totalPriceOfEquipmentNoTax - downPayment;
 

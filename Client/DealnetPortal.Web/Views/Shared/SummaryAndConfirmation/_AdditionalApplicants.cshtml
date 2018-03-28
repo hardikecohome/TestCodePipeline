@@ -36,7 +36,7 @@
                                 @Resources.AdditionalApplicant
                                 <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
                                    class="dealnet-section-edit-link pull-right editToStep1"
-                                   @*onclick="copyFormData($('#contact-info-section'), $('#contact-info-section-modal'), false); $('#contact-info-modal').modal();"*@>@Resources.Edit</a>
+                                   data-step="1">@Resources.Edit</a>
                             </h3>
                             <div class="form-group">
                                 <div class="row">
@@ -469,7 +469,8 @@
                             <h3 class="dealnet-section-title">
                                 @Resources.AdditionalApplicant @Resources.EmploymentInformation
                                 <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
-                                   class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                   class="dealnet-section-edit-link pull-right editToStep1"
+                                   data-step="1">@Resources.Edit</a>
                             </h3>
                             <div class="form-group">
                                 <div class="row">
@@ -556,15 +557,15 @@
                                                     <span>
                                                         @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
                                                         @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                            Resources.Year :
-                                            Resources.Years)
+                                                    Resources.Year :
+                                                    Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
                                                             @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                            Resources.Month : Resources.Months)
+                                                                                                                    Resources.Month : Resources.Months)
                                                         </span>
                                                     }
                                                 </div>
@@ -582,7 +583,8 @@
                                 <h3 class="dealnet-section-title">
                                     &nbsp;
                                     <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
-                                       class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                       class="dealnet-section-edit-link pull-right editToStep1"
+                                       data-step="1">@Resources.Edit</a>
                                 </h3>
                                 @if(Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                 {
@@ -674,7 +676,8 @@
                                 <h3 class="dealnet-section-title">
                                     @Resources.CompanyAddress
                                     <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
-                                       class="dealnet-section-edit-link pull-right editToStep1">@Resources.Edit</a>
+                                       class="dealnet-section-edit-link pull-right editToStep1"
+                                       data-step="1">@Resources.Edit</a>
                                 </h3>
                                 <div class="form-group">
                                     <div class="row">
