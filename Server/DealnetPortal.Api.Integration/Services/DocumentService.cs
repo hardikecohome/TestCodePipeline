@@ -2033,7 +2033,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.CustomerRate2,
-                        Value = (Financial.Rate(contract.Equipment.AmortizationTerm.Value,(double)-paySummary.TotalMonthlyPayment.Value, paySummary.LoanDetails.TotalAmountFinanced -(double)contract.Equipment.AdminFee)*12).ToString("F", CultureInfo.InvariantCulture)
+                        Value = (Financial.Rate(contract.Equipment.AmortizationTerm.Value,(double)-paySummary.TotalMonthlyPayment.Value, paySummary.LoanDetails.TotalAmountFinanced -(double)contract.Equipment.AdminFee)*1200).ToString("F", CultureInfo.InvariantCulture)
                     });
                 }
                 else
