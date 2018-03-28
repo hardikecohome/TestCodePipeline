@@ -1,0 +1,100 @@
+.custom-select-wrap {
+  position: relative;
+
+  label {
+    font-weight: 400;
+    font-size: 12px;
+    position: absolute;
+    z-index: 1000;
+    top: -8px;
+    left: 9px;
+    background: white;
+  }
+
+  .selectric {
+    background-color: #ffffff;
+  	border: solid 1px #ccdbec;
+    height: 40px;
+
+    .label {
+      text-align: left;
+      font-weight: 400;
+      font-size: 13px;
+      color: black;
+      line-height: 20px;
+      margin: 0 38px 0 0;
+      height: 40px;
+      border-radius: 0;
+      vertical-align: middle;
+      padding: 9px;
+    }
+
+    .button {
+      background-color: white;
+
+      &:after {
+        border-top-color: #525251;
+      }
+    }
+  }
+
+  .selectric-open {
+    z-index: 999;
+  }
+
+  .selectric-open,
+  .selectric-items {
+    box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+  }
+
+  .selectric-items {
+    li {
+      border-bottom: 1px solid #ccdbec;
+      background-color: white;
+      color: black;
+      font-size: 13px;
+    }
+    li.highlighted,
+    li:hover {
+      background-color: #ccdcec0a;
+    }
+  }
+
+}
+
+
+.selectric-items .selectric-scroll li {
+    display: flex;
+    align-items: center;
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico::before {
+    content: '';
+    margin-right: 10px;
+    background-size: 24px 24px;
+    min-width: 24px;
+    min-height: 24px;
+    display: inline-block;
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--green::before {
+    background-image: url('../images/redesign_icons/info-green.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--grey::before {
+    background-image: url('../../images/redesign_icons/info-grey.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--yellow::before {
+    background-image: url('../images/redesign_icons/info-yellow.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--red::before {
+    background-image: url('../images/redesign_icons/info-red.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--grass::before {
+    background-image: url('../images/redesign_icons/info-grass.svg');
+}
