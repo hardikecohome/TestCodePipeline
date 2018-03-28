@@ -171,6 +171,11 @@
                 if (dropdownParentDiv.is(':visible')) {
                     dropdownParentDiv.addClass('hidden');
                 }
+
+                if (state.programsAvailable) {
+                    $('#' + optionKey + '-programDropdown').closest('.row').removeClass('hidden');
+                }
+
                 $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
 
                 $.grep(constants.inputsToHide, function (field) {
