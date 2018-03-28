@@ -452,16 +452,19 @@
                 <div class="main-table__block main-table__block--total">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__grand-total">
-                            @Resources.GrandTotal:
+                            @Resources.GrandTotal
                         </div>
                         <div class="main-table__block__row__grand-total-value">
                             <span class="main-table__block__row__grand-total-value__total-container">$ <span data-bind="text: selectedTotal"></span></span>
-                            <span>$ <span data-bind="text: grandTotal.toFixed(2)"></span></span>
+                            <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
                         <div class="main-table__block__row__entries-number new-input-group">
                             <div class="custom-select-wrap">
                                 <label for="entries-number">Numbers of entries</label>
-                                <select name="entries-number" id="entries-number" class="custom-select" data-bind="options: pager.pageSizes, value:pager.pageSize"></select>
+                                <select name="entries-number" 
+                                        id="entries-number" 
+                                        class="custom-select" 
+                                        data-bind="options: pager.pageSizes, value:pager.pageSize"></select>
                             </div>
                         </div>
                     </div>
@@ -481,10 +484,6 @@
                         <li data-bind="css: { active: $parent.pageIndex() == $data }">
                             <a data-bind="text: $data + 1, click: $parent.moveToPage"></a>
                         </li>
-                        @*<li class="active"><a>2</a></li>
-                            <li><a>...</a></li>
-                            <li><a>10</a></li>
-                            <li><a>11</a></li>*@
                     </ul>
                     <a data-bind="click: goToNextPage">
                         <i class="pagination-right-ico"></i>

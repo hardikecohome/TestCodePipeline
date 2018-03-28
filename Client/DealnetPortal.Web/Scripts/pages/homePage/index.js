@@ -3,15 +3,21 @@
     var Table = require('table');
 
     var HomeViewModel = function (data) {
-        this.table = ko.observable(new Table(data));
+        var table = new Table(data);
+
+        this.updateTableList = function (list) {
+            this.table.setList(list);
+        }
     }
 
     var init = function init() {
+        var vm = new HomeViewModel([]);
+        ko.applyBindings(vm, document.getElementById('home-body'));
         $.ajax(itemsUrl, {
             cache: false,
             mode: 'GET'
         }).done(function (data) {
-            ko.applyBindings(new HomeViewModel(data), document.getElementById('home-body'));
+            vm.updateTableList(data);
             $('select.custom-select').selectric('refresh');
         }).fail(function (jqXHR, textStatus, errorThrown) {
             debugger;

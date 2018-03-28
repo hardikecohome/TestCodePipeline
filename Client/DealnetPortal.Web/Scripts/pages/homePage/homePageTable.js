@@ -21,17 +21,18 @@ module.exports('table', function (require) {
     }
 
     function filterAndSortList(list, type) {
-        return list.map(mapValue(type))
+        return [' '].concat(list.map(mapValue(type))
             .filter(filterNull)
             .reduce(concatIfNotInArray, [])
-            .sort(sortAssending);
+            .sort(sortAssending));
     }
 
     var HomePageTable = function (list) {
-        this.agreementOptions = filterAndSortList(list, 'AgreementType');
-        this.statusOptions = filterAndSortList(list, 'LocalizedStatus');
-        this.salesRepOptions = filterAndSortList(list, 'SalesRep');
-        this.equipmentOptions = filterAndSortList(list, 'Equipment');
+        // properties
+        this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
+        this.statusOptions = ko.observableArray(filterAndSortList(list, 'LocalizedStatus'));
+        this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
+        this.equipmentOptions = ko.observableArray(filterAndSortList(list, 'Equipment'));
         this.agreementType = ko.observable('');
         this.status = ko.observable('');
         this.salesRep = ko.observable('');
@@ -39,24 +40,45 @@ module.exports('table', function (require) {
         this.dateFrom = ko.observable('');
         this.dateTo = ko.observable('');
 
-        this.list = list;
+        this.list = ko.observableArray(list);
 
-        this.pager = new Paginator(this.list);
+        this.pager = new Paginator(this.list());
 
+        // functions
         this.editUrl = function (id) {
             return editContractUrl + '/' + id;
         }
 
-        this.grandTotal = this.list.reduce(function (sum, curr) {
-            return sum + (parseFloat(curr.Value.substr(2)) || 0);
-        }, 0)
+        this.grandTotal = ko.computed(function () {
+            return this.list().reduce(function (sum, curr) {
+                return sum + (parseFloat(curr.Value.substr(2)) || 0);
+            }, 0).toFixed(2);
+        }, this);
 
         this.selectedTotal = ko.computed(function () {
             return this.pager.pagedList().reduce(function (sum, curr) {
-                return curr.isSelected ?
+                return curr.isSelected() ?
                     sum + (parseFloat(curr.Value.substr(2)) || 0) :
                     sum;
             }, 0).toFixed(2);
+        }, this);
+
+        this.setList = function (list) {
+            var list = list.map(function (item) {
+                return Object.assign({}, item, {
+                    isSelected: ko.observable(false)
+                });
+            });
+            this.list(list);
+        }
+
+        // subscritions
+        this.list.subscribe(function (newValue) {
+            this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
+            this.statusOptions(filterAndSortList(newValue, 'LocalizedStatus'));
+            this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
+            this.equipmentOptions(filterAndSortList(newValue, 'Equipment'));
+            this.pager.list(newValue);
         }, this);
     }
     return HomePageTable;
