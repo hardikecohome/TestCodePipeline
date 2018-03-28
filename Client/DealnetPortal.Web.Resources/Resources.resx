@@ -2646,4 +2646,74 @@ Please ensure that the Customer information provided matches their Government is
   <data name="LearnMoreAboutThisPage" xml:space="preserve">
     <value>Learn more about this page</value>
   </data>
+  <data name="Amort" xml:space="preserve">
+    <value>Amort</value>
+    <comment>Amortization</comment>
+  </data>
+  <data name="ApplicantName" xml:space="preserve">
+    <value>Applicant name</value>
+  </data>
+  <data name="ApplicantNameAtoZ" xml:space="preserve">
+    <value>Applicant name from A to Z</value>
+  </data>
+  <data name="ApplicantNameZtoA" xml:space="preserve">
+    <value>Applicant name from Z to A</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CreditApprovalExpiry" xml:space="preserve">
+    <value>Credit approval expiry</value>
+  </data>
+  <data name="CreditExpiryAsc" xml:space="preserve">
+    <value>Credit approval expiry from 1 to ...</value>
+  </data>
+  <data name="CreditExpiryDesc" xml:space="preserve">
+    <value>Credit approval expiry from ... to 1</value>
+  </data>
+  <data name="EnteredBy" xml:space="preserve">
+    <value>Entered by</value>
+  </data>
+  <data name="Esign" xml:space="preserve">
+    <value>E-sign</value>
+  </data>
+  <data name="EsignStatus" xml:space="preserve">
+    <value>E-sign status</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="ForNextTime" xml:space="preserve">
+    <value>For next time</value>
+  </data>
+  <data name="FundedAmount" xml:space="preserve">
+    <value>Funded amount</value>
+  </data>
+  <data name="LastActivity" xml:space="preserve">
+    <value>Last activity</value>
+  </data>
+  <data name="Lead" xml:space="preserve">
+    <value>Lead</value>
+  </data>
+  <data name="LoanAmount" xml:space="preserve">
+    <value>Loan amount</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="ProgramOption" xml:space="preserve">
+    <value>Program option</value>
+  </data>
+  <data name="ProjectDescription" xml:space="preserve">
+    <value>Project description</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Term" xml:space="preserve">
+    <value>Term</value>
+  </data>
+  <data name="TypeOfProject" xml:space="preserve">
+    <value>Type of project</value>
+  </data>
 </root>

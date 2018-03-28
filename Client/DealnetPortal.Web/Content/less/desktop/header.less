@@ -4,12 +4,21 @@
     min-height: 78px;
     position: relative;
     padding: 13px 0 0;
+    .container {
+        display: flex;
+    }
 }
 
+.header__logo {
+    display: flex;
+        align-items: center;
+        max-width: 140px;
+        height: 60px;
+        order: 1;
+}
 .header__logo-img {
     float: left;
-    margin-top: 10px;
-    max-width: 105px;
+    max-width: 100%;
 }
 
 :lang(fr),
@@ -21,7 +30,8 @@
 
 .header__navigation {
     float: left;
-    margin-left: 66px;
+    margin-left: 40px;
+    order: 2;
     &.has-about {
         &:lang(fr),
         &:lang(fr-CA) {
@@ -112,6 +122,8 @@
     float: right;
     min-width: 30%;
     position: relative;
+    order: 3;
+    margin-left: auto;
     &:before {
         display: block;
         position: absolute;
