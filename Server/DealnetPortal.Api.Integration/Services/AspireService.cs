@@ -1475,6 +1475,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
+                var adminFee = contract.Equipment?.IsFeePaidByCutomer == true
+                    ? contract.Equipment?.AdminFee : null;
+
                 if (IsClarityProgram(contract))
                 {
                     decimal? installPackagesCost =
@@ -1483,7 +1486,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                     eqCost = installPackagesCost.HasValue && eqCount > 0 ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount) : equipment.MonthlyCost;
-                    var totalAmount = (decimal?)_contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.LoanDetails?.PriceOfEquipmentWithHst;
+                    var totalAmount = (decimal?)_contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.LoanDetails?.PriceOfEquipmentWithHst;                    
                     if (isFirstEquipment && totalAmount.HasValue)
                     {
                         totalAmount = totalAmount - (decimal?) contract.Equipment?.DownPayment ?? 0.0m;
@@ -1492,7 +1495,6 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-
                     var rate = _contractRepository.GetProvinceTaxRate(
                             (contract.PrimaryCustomer?.Locations.FirstOrDefault(
                                  l => l.AddressType == AddressType.MainAddress) ??
@@ -1504,6 +1506,11 @@ namespace DealnetPortal.Api.Integration.Services
                             : equipment.Cost)
                         : (equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100));
                 }
+                if (isFirstEquipment && eqCost.HasValue && adminFee.HasValue)
+                {
+                    eqCost += adminFee;
+                }
+
             }            
             return eqCost;
         }
