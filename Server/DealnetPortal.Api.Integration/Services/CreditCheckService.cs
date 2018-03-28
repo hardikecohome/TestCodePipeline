@@ -27,11 +27,12 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly ILoggingService _loggingService;
         private readonly IContractRepository _contractRepository;
         private readonly IRateCardsRepository _rateCardsRepository;
+        private readonly IDealerRepository _dealerRepository;
         private readonly IAppConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreditCheckService(IAspireService aspireService, IAspireStorageReader aspireStorageReader,
-            IContractRepository contractRepository, IRateCardsRepository rateCardsRepository,
+            IContractRepository contractRepository, IRateCardsRepository rateCardsRepository, IDealerRepository dealerRepository,
             IUnitOfWork unitOfWork, IAppConfiguration configuration,
             ILoggingService loggingService)
         {
@@ -39,6 +40,7 @@ namespace DealnetPortal.Api.Integration.Services
             _aspireStorageReader = aspireStorageReader;
             _contractRepository = contractRepository;
             _rateCardsRepository = rateCardsRepository;
+            _dealerRepository = dealerRepository;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _loggingService = loggingService;
@@ -104,7 +106,10 @@ namespace DealnetPortal.Api.Integration.Services
                         ? checkResult.Item1.ScorecardPoints
                         : (int?) null;
 
-                    if (contract.Dealer?.Tier?.IsCustomerRisk == true)
+                    var dealerRoles = _dealerRepository.GetUserRoles(contract.DealerId);
+                    if (contract.Dealer?.Tier?.IsCustomerRisk == true
+                        || dealerRoles?.Contains(UserRole.MortgageBroker.ToString()) == true
+                        || dealerRoles?.Contains(UserRole.CustomerCreator.ToString()) == true)
                     {
                         var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
                                      CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon;
@@ -132,6 +137,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 Notes = contract.Details.Notes
                             }
                         }, contractOwnerId);
+                        _unitOfWork.Save();
                     }
                 }
             }
