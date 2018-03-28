@@ -3,7 +3,6 @@ DISTINCT
 
 	COALESCE(parent_d_type.value,d_type.value) as Product_Type,
 	COALESCE(parent_c_type.value,c_type.value) as Channel_Type,
-	isnull(COALESCE(parent_fee.value,fee.value),'Yes') as Pass_Admin_fee,
 	case when COALESCE(parent_ratecard.Value, ratecard.value) is null then 'Tier 1'  when COALESCE(parent_ratecard.Value, ratecard.value) = 'Rate Card Tier 2' then 'Tier 1' when
 	COALESCE(parent_ratecard.Value, ratecard.value) = 'Rate Card Tier 1' then 'Tier 1'
 	 else COALESCE(parent_ratecard.Value, ratecard.value) end as ratecard,
@@ -36,10 +35,10 @@ LEFT JOIN Phone (nolock) as fax
  LEFT JOIN [DocGenAccOtherUDF-Dealer Type] d_type (NOLOCK) ON e.oid = d_type.oid
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] c_type (NOLOCK) ON e.oid = c_type.oid
  LEFT JOIN [DocGenAccOtherUDF-RateCard] ratecard (NOLOCK) ON e.oid = ratecard.oid
- LEFT JOIN [DocGenAccOtherUDF-pass admin fee] fee (nolock) ON e.oid = fee.oid
+ 
 
  LEFT JOIN [DocGenAccOtherUDF-RateCard] parent_ratecard (NOLOCK) ON e.parent_oid = parent_ratecard.oid
  LEFT JOIN [DocGenAccOtherUDF-Dealer Type] parent_d_type (NOLOCK) ON e.parent_oid = parent_d_type.oid
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] parent_c_type (NOLOCK) ON e.parent_oid = parent_c_type.oid
- LEFT JOIN [DocGenAccOtherUDF-pass admin fee] parent_fee (nolock) ON e.parent_oid = parent_fee.oid
+ 
  where sc.user_id  = '{0}';
