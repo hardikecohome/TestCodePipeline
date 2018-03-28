@@ -114,13 +114,10 @@ namespace DealnetPortal.Api.Integration.Services
                         var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
                                      CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon;
                         checkResult.Item1.Beacon = beacon ?? 0;
-                        if (beacon.HasValue)
+                        creditAmount = _rateCardsRepository.GetCreditAmount(checkResult.Item1.Beacon) ?? creditAmount;
+                        if (creditAmount.HasValue)
                         {
-                            creditAmount = _rateCardsRepository.GetCreditAmount(beacon.Value) ?? creditAmount;
-                            if (creditAmount.HasValue)
-                            {
-                                checkResult.Item1.CreditAmount = creditAmount.Value;
-                            }
+                            checkResult.Item1.CreditAmount = creditAmount.Value;
                         }
                     }
 
