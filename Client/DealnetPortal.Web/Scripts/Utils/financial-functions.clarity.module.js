@@ -45,15 +45,13 @@
             var amortizationTerm = data.AmortizationTerm;
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
-            var mPayment = totalClarityMonthlyPaymentsLessDownPayment(data);
+            var mPayment = formatNumber(totalClarityMonthlyPaymentsLessDownPayment(data));
 
-            var rbalance = 0;
-            if (loanTerm !== amortizationTerm) {
-                rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
-                    (1 + customerRate / 100 / 12);
-            }
+            var rbalance = loanTerm !== amortizationTerm ?
+                -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
+                (1 + customerRate / 100 / 12) : 0;
 
-            return +rbalance.toFixed(2);
+            return +formatNumber(rbalance);
         };
 
         var totalClarityObligation = function (data) {
@@ -95,7 +93,7 @@
 
         var totalClarityMCOLessDownPaymentNoTax = function (data) {
             var downPayment = data.downPayment;
-            var tMCONoTax = totalClarityMCONoTax(data);
+            var tMCONoTax = totalMCONoTax(data);
             var totalPriceOfEquipmentNoTax = tMCONoTax / clarityPaymentFactor;
             var totalAmountFinancedNoTax = totalPriceOfEquipmentNoTax - downPayment;
 

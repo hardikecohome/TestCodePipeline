@@ -126,7 +126,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Status, d => d.MapFrom(src => src.Details.SignatureStatus))
                 .ForMember(x => x.StatusQualifier, d => d.MapFrom(src => src.Details.SignatureStatusQualifier))
                 .ForMember(x => x.StatusTime, d => d.ResolveUsing(src => src.Details.SignatureLastUpdateTime));
-            //.ForMember(x => x.Documents, d => d.Ignore());
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
                 ForMember(x => x.Description,
                     s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));
@@ -178,7 +177,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(x => x.Name, d => d.MapFrom(s => s.Name))
                 .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards))
-                .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false));
+                .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false))
+                .ForMember(x => x.IsCustomerRisk, d => d.MapFrom(s => s.IsCustomerRisk ?? false));
             mapperConfig.CreateMap<CustomerRiskGroup, CustomerRiskGroupDTO>();
             mapperConfig.CreateMap<DealerEquipment, DealerEquipmentDTO>()
                 .ForMember(x => x.Equipment, d => d.MapFrom(src => src.Equipment))

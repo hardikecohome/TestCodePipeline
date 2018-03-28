@@ -276,6 +276,19 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication && contract.EquipmentInfo.CustomerRiskGroup != null)
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
+                                        <div class="dealnet-field-holder col-xs-6">
+                                            <div class="control-group">
+                                                @(contract.EquipmentInfo.CustomerRiskGroup.GroupName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div class="form-group">
                                 <div class="row">
                                     @Html.LabelFor(m => contract.AdditionalInfo.LastUpdateTime, new { @class = "dealnet-field-caption col-xs-6" })
@@ -1282,8 +1295,8 @@
 
                         <div class="row credit-check-info-hold equipment-info no-top-margin">
                             @{
-                                var bill59EquipTypes = contract.ProvinceTaxRate.Province.ToUpper() == "ON" ? 
-                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) : 
+                                var bill59EquipTypes = contract.ProvinceTaxRate.Province.ToUpper() == "ON" ?
+                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) :
                                     new List<string>();
                             }
                             @foreach(var equipment in contract.EquipmentInfo.NewEquipment)

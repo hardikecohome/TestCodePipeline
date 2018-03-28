@@ -122,25 +122,7 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             var updatedContract = updatedContractResult.Item1;
             Assert.AreEqual(updatedContract.ContractState, ContractState.CustomerInfoInputted);
             Assert.IsNotNull(updatedContract.PrimaryCustomer);
-        }
-
-        [TestMethod]
-        public async Task TestInitiateCreditCheck()
-        {
-            ISecurityServiceAgent securityServiceAgent = new SecurityServiceAgent(_client, _loggingService.Object);
-            var authResult = await securityServiceAgent.Authenicate(DefUserName, DefUserPassword, DefPortalId);
-            securityServiceAgent.SetAuthorizationHeader(authResult.Item1);
-
-            // Create a contract
-            IContractServiceAgent contractServiceAgent = new ContractServiceAgent(_client, _loggingService.Object, _authenticationManagerMock.Object);
-            var contractResult = await contractServiceAgent.CreateContract();
-            Assert.IsNotNull(contractResult);
-            Assert.IsNotNull(contractResult.Item1);
-            var checkAlerts = await contractServiceAgent.InitiateCreditCheck(contractResult.Item1.Id);
-            // should be an error result, as we can't perfom credit check with contract without client data
-            Assert.IsNotNull(checkAlerts);
-            Assert.IsTrue(checkAlerts.First().Type == AlertType.Error);
-        }
+        }        
 
         [TestMethod]
         public async Task TestGetCreditCheckResult()

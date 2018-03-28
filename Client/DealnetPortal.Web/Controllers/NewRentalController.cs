@@ -155,10 +155,7 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
 
                 return RedirectToAction("Error", "Info");
-            }
-
-            //Initiate a credit check here!
-            await _contractServiceAgent.InitiateCreditCheck(result.Item1.Id);
+            }            
 
             return RedirectToAction("CreditCheck", new { contractId = result.Item1.Id });
         }

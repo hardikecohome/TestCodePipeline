@@ -72,7 +72,11 @@
     <div class="row">
         <div class="col-xs-10 col-sm-6 col-md-4">
             <h3 class="dealnet-middle-header">
-                @Resources.FinancingOptions
+                @Resources.FinancingOptions 
+                @if(Model.DealerTier.CustomerRiskGroup != null)
+                { 
+                    <text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
+                }
                 <span class="financing-arrow" id="loanRateCardToggle">
                     <i class="glyphicon glyphicon-chevron-down"></i>
                 </span>

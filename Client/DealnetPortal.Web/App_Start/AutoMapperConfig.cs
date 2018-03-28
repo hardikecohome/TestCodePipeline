@@ -727,7 +727,12 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AdditionalDocuments, d => d.MapFrom(src => src.AdditionalDocuments))
                 .ForMember(x => x.DictionariesData, d => d.Ignore());
 
-            cfg.CreateMap<TierDTO, TierViewModel>();
+            cfg.CreateMap<TierDTO, TierViewModel>()
+                .ForMember(x => x.CustomerRiskGroup, d => d.ResolveUsing(src =>
+                {
+                    var cGroup = src.RateCards.FirstOrDefault(x => x.CustomerRiskGroup != null)?.CustomerRiskGroup;
+                    return cGroup != null ? new CustomerRiskGroupViewModel() { GroupName = cGroup?.GroupName } : null;
+                }));
             cfg.CreateMap<RateCardDTO, RateCardViewModel>();
 
             cfg.CreateMap<EmploymentInfoDTO, EmploymentInformationViewModel>()

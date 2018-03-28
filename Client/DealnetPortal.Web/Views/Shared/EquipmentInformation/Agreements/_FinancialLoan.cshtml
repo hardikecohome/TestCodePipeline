@@ -1,4 +1,5 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
+@using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
 
 <div class="rate-cards-container rate-card-grid row loan-element hidden" id="paymentInfo">
   <div class="col-md-6">
@@ -34,6 +35,12 @@
         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
     </svg>
     @Resources.FinProgramUnavailable
+</div>
+<div class="well well-info position-well bureau-well-length clear-border @(Model.IsCustomerFoundInCreditBureau && Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
+    <svg aria-hidden="true" class="icon icon-info-well">
+        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+    </svg>
+    @Resources.CustomerCoveredByBureauLoan
 </div>
 <div class="rate-cards-padding">
   <div class="jcarousel-wrapper rate-cards-container steps-carousel" id="rateCardsBlock">

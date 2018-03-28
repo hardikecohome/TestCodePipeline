@@ -1475,6 +1475,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
+                var adminFee = contract.Equipment?.IsFeePaidByCutomer == true
+                    ? contract.Equipment?.AdminFee : null;
+
                 if (IsClarityProgram(contract))
                 {
                     decimal? installPackagesCost =
@@ -1483,7 +1486,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                     eqCost = installPackagesCost.HasValue && eqCount > 0 ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount) : equipment.MonthlyCost;
-                    var totalAmount = (decimal?)_contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.LoanDetails?.PriceOfEquipmentWithHst;
+                    var totalAmount = (decimal?)_contractRepository.GetContractPaymentsSummary(contract.Id, eqCost)?.LoanDetails?.PriceOfEquipmentWithHst;                    
                     if (isFirstEquipment && totalAmount.HasValue)
                     {
                         totalAmount = totalAmount - (decimal?) contract.Equipment?.DownPayment ?? 0.0m;
@@ -1492,7 +1495,6 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-
                     var rate = _contractRepository.GetProvinceTaxRate(
                             (contract.PrimaryCustomer?.Locations.FirstOrDefault(
                                  l => l.AddressType == AddressType.MainAddress) ??
@@ -1504,6 +1506,11 @@ namespace DealnetPortal.Api.Integration.Services
                             : equipment.Cost)
                         : (equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100));
                 }
+                if (isFirstEquipment && eqCost.HasValue && adminFee.HasValue)
+                {
+                    eqCost += adminFee;
+                }
+
             }            
             return eqCost;
         }
@@ -1747,14 +1754,19 @@ namespace DealnetPortal.Api.Integration.Services
                     contract.Equipment?.InstallationPackages?.Aggregate(0.0m,
                         (sum, ip) => sum + ip.MonthlyCost ?? 0.0m);
 
+                var paymentSummary = _contractRepository.GetContractPaymentsSummary(contract.Id);
+                var paymentFactor = paymentSummary.LoanDetails.TotalMCO != 0.0 ? paymentSummary.LoanDetails.TotalMCO / paymentSummary.LoanDetails.TotalMonthlyPayment
+                        : 1.0;
                 int eqCount = contract.Equipment?.NewEquipment?.Count(ne => ne.IsDeleted != true) ?? 0;
                 eqCost = installPackagesCost.HasValue && eqCount > 0
                     ? equipment.MonthlyCost + (installPackagesCost.Value / eqCount)
                     : equipment.MonthlyCost;
+                eqCost = (eqCost ?? 0m ) * (decimal)paymentFactor;
+
                 udfList.Add(new UDF
                 {
                     Name = AspireUdfFields.MonthlyPayment,
-                    Value = eqCost?.ToString() ?? "0.0"
+                    Value = eqCost?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                 });
             }
             else
@@ -1762,7 +1774,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF
                 {
                     Name = AspireUdfFields.EstimatedRetailPrice,
-                    Value = equipment.EstimatedRetailCost?.ToString() ?? "0.0"
+                    Value = equipment.EstimatedRetailCost?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                 });
             }            
             return udfList;
@@ -2034,33 +2046,35 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Equipment.NewEquipment.First(ne => ne.IsDeleted != true).Type
                     });
                 }
-            }
 
-            if (IsClarityProgram(contract))
-            {
-                const int maxPackages = 3;
-                int packageNum = 1;
-                var packages = contract.Equipment?.InstallationPackages?.Take(3).ToList() ?? new List<InstallationPackage>();
-                for (int i = packages.Count(); i < maxPackages; i++)
+                if (IsClarityProgram(contract))
                 {
-                    packages.Add(null);
+                    var paymentFactor = (paymentInfo?.LoanDetails.TotalMCO / paymentInfo?.LoanDetails.TotalMonthlyPayment) ?? 1.0;
+
+                    const int maxPackages = 3;
+                    int packageNum = 1;
+                    var packages = contract.Equipment?.InstallationPackages?.Take(3).ToList() ?? new List<InstallationPackage>();
+                    for (int i = packages.Count(); i < maxPackages; i++)
+                    {
+                        packages.Add(null);
+                    }
+
+                    packages.ForEach(ip =>
+                    {
+                        udfList.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.InstallPackageDescr}{packageNum}",
+                            Value = ip?.Description ?? BlankValue
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = $"{AspireUdfFields.InstallMonthlyPay}{packageNum}",
+                            Value = ((double)(ip?.MonthlyCost ?? 0) * paymentFactor).ToString("F", CultureInfo.InvariantCulture)
+                        });
+                        packageNum++;
+                    });
                 }
-
-                packages.ForEach(ip =>
-                {
-                    udfList.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.InstallPackageDescr}{packageNum}",
-                        Value = ip?.Description ?? BlankValue
-                    });
-                    udfList.Add(new UDF()
-                    {
-                        Name = $"{AspireUdfFields.InstallMonthlyPay}{packageNum}",
-                        Value = (ip?.MonthlyCost ?? 0).ToString(CultureInfo.InvariantCulture)
-                    });
-                    packageNum++;
-                });
-            }
+            }            
 
             if (contract?.PaymentInfo != null)
             {

@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
-        Task<IList<Alert>> InitiateCreditCheck(int contractId);
+        //Task<IList<Alert>> InitiateCreditCheck(int contractId);
 
         /// <summary>
         /// Initiate a process of digital signature of contract

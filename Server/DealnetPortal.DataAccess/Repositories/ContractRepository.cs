@@ -453,7 +453,8 @@ namespace DealnetPortal.DataAccess.Repositories
                         if (homeOwner != null)
                         {
                             contract.PrimaryCustomer = homeOwner;
-                            var userUpdated = _dbContext.Entry(contract.PrimaryCustomer).State != EntityState.Unchanged;                            
+                            var userUpdated = _dbContext.Entry(contract.PrimaryCustomer).State != EntityState.Unchanged
+                                        || contract.PrimaryCustomer?.EmploymentInfo != null && _dbContext.Entry(contract.PrimaryCustomer?.EmploymentInfo).State != EntityState.Unchanged;
                             updated |= (userUpdated || _dbContext.Locations.Local.Any(l => _dbContext.Entry(l).State != EntityState.Unchanged)
                                         || _dbContext.Phones.Local.Any(p => _dbContext.Entry(p).State != EntityState.Unchanged)
                                         || _dbContext.Emails.Local.Any(e => _dbContext.Entry(e).State != EntityState.Unchanged)

@@ -6,11 +6,11 @@
 }
 
 @{
-    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
@@ -21,7 +21,7 @@
 <div class="form-container">
     <div class="form-section">
 
-        @if (TempData["MaxCreditAmount"] != null)
+        @if(TempData["MaxCreditAmount"] != null)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -30,7 +30,21 @@
                 <span>@Resources.CreditCheckProcessedSuccessfully</span>
             </p>
 
-            <p class="text-semibold preapproved-text">@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</p>
+            <p class="text-semibold preapproved-text">
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+            </p>
+        }
+        else
+        {
+            if(Model.IsBeaconUpdated)
+            {
+                <p class="align-middle equipment-proceed-success">
+                    <svg aria-hidden="true" class="icon icon-success">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                    </svg>
+                    <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
+                </p>
+            }
         }
     </div>
 </div>

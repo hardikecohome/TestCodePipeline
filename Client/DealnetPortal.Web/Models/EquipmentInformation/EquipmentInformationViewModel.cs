@@ -14,6 +14,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
+        public CustomerRiskGroupViewModel CustomerRiskGroup { get; set; }
+
         public List<NewEquipmentInformation> NewEquipment { get; set; }
         public List<InstallationPackageInformation> InstallationPackages { get; set; }
 

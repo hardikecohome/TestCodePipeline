@@ -147,8 +147,9 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             //check credit report status and update if needed
-            if (contract.PrimaryCustomer != null && 
+            if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
+                contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
             {
                 _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);

@@ -83,6 +83,7 @@ namespace DealnetPortal.Api.Common.Helpers
                         : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
                 output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
                 mco = output.TotalMonthlyPayment;
+                output.TotalMCO = mco;
             }
             output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)

@@ -150,6 +150,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
+            equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer != null;
+
+            equipmentInfo.IsBeaconUpdated = result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
@@ -239,11 +242,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
+            summaryAndConfirmation.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
             summaryAndConfirmation.RateCardValid = !(contractResult.Equipment?.RateCardId.HasValue ?? false) ||
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
                                                    dealerTier.RateCards.Any(
                                                            x => x.Id == contractResult.Equipment.RateCardId.Value);
-
             var isOldClarityDeal = contractResult.Equipment?.IsClarityProgram == null && dealerTier.Name == _clarityProgramTier;
             summaryAndConfirmation.IsOldClarityDeal = isOldClarityDeal;
 
@@ -340,7 +343,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 var contractViewModel = new ContractViewModel();
                 await MapContract(contractViewModel, contract, contract.Id);
-                contractViewModel.EquipmentInfo.ValueOfDeal = (double)contract.Equipment.ValueOfDeal;
+                if(contractViewModel.EquipmentInfo != null)
+                {
+                    contractViewModel.EquipmentInfo.ValueOfDeal = contract.Equipment != null && contract.Equipment.ValueOfDeal.HasValue ?
+                        (double?)contract.Equipment.ValueOfDeal :
+                        null;
+                }
                 contracts.Add(contractViewModel);
             }
             return contracts;
@@ -356,7 +364,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
-
+            
             var planDict = new Dictionary<RateCardType, string>
             {
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
@@ -372,14 +380,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Select(card => new KeyValuePair<string, string>(card.ToString(), planDict[card]))
                 .ToDictionary(card => card.Key, card => card.Value);
 
-            //model.Plans.Add("Custom", Resources.Resources.Custom);
-
             model.DeferralPeriods = model.DealerTier.RateCards
                 .Where(x => x.CardType == RateCardType.Deferral)
                 .Select(q => Convert.ToInt32(q.DeferralPeriod))
                 .Distinct()
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
+            model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
             if(model.DealerTier != null && model.DealerTier.Id ==
                 Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
@@ -430,7 +437,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 PaymentSummary = paymentSummary,
                 Notes = summaryViewModel.Notes,
                 IsClarityDealer = summaryViewModel.IsClarityDealer,
-                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal
+                IsOldClarityDeal = summaryViewModel.IsOldClarityDeal,
+                IsBeaconUpdated = contractsResult.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false
             };
 
             if(contractsResult.Item1.Comments != null)
@@ -901,7 +909,13 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-                summary.DealerTier = Mapper.Map<TierViewModel>(await _contractServiceAgent.GetDealerTier());
+
+                var dealerTier = await _contractServiceAgent.GetDealerTier();
+                var rateCard = dealerTier.RateCards.FirstOrDefault(rc => rc.Id == contract.Equipment.RateCardId);
+
+                summary.EquipmentInfo.CustomerRiskGroup = rateCard?.CustomerRiskGroup != null ?
+                    new CustomerRiskGroupViewModel { GroupName = rateCard.CustomerRiskGroup.GroupName } :
+                    null;
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
