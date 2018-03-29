@@ -1474,10 +1474,7 @@ namespace DealnetPortal.Api.Integration.Services
                 eqCost = 0.0m;
             }
             else
-            {
-                var adminFee = contract.Equipment?.IsFeePaidByCutomer == true
-                    ? contract.Equipment?.AdminFee : null;
-
+            {                
                 if (IsClarityProgram(contract))
                 {
                     decimal? installPackagesCost =
@@ -1506,6 +1503,8 @@ namespace DealnetPortal.Api.Integration.Services
                             : equipment.Cost)
                         : (equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100));
                 }
+                var adminFee = contract.Details?.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true
+                    ? contract.Equipment?.AdminFee : null;
                 if (isFirstEquipment && eqCost.HasValue && adminFee.HasValue)
                 {
                     eqCost += adminFee;
@@ -1826,8 +1825,9 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AdminFee,
-                    Value = contract.Equipment.IsFeePaidByCutomer ?? false ? contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ??
-                        contract.Equipment?.AdminFee?.ToString() : "0.0"
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true ? 
+                        contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ?? contract.Equipment?.AdminFee?.ToString() 
+                        : "0.0"
                 });
 
                 udfList.Add(new UDF()
