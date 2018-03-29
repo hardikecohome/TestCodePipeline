@@ -63,6 +63,7 @@
         public static string InstallPackageDescr = "Install Package Descr";
 
         #region Dealer onboarding UDFs        
+        public static string LegalName = "Legal Name";
         public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
         public static string NumberOfSalesPeople = "Number of Sales People";

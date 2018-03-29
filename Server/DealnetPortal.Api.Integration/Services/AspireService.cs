@@ -1276,7 +1276,7 @@ namespace DealnetPortal.Api.Integration.Services
                 Role = companyRole,
                 IsIndividual = false,
                 IsPrimary = true,
-                Legalname = companyInfo.FullLegalName,                
+                Legalname = companyInfo.OperatingName,                
                 //Dba = companyInfo.OperatingName,
                 EmailAddress = companyInfo.EmailAddress,                
                 CreditReleaseObtained = true,
@@ -2288,6 +2288,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.LegalName,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.FullLegalName) ? dealerInfo.CompanyInfo.FullLegalName : BlankValue
+            });
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.OperatingName,
