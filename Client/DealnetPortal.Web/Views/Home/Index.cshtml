@@ -136,72 +136,89 @@
                         <div class="main-table__block__row__cell contract-number">
                             <span>@Resources.ContractNumber</span>
                             <span class="filter-ico filter-ico--asc">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span>
+                            <span class="icon">
+                            <i class="info-ico info-ico--green"></i>
+                            </span>
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
                             <span>@Resources.Esign</span>
                         </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>@Resources.ApplicantName</span>
-                            <span class="filter-ico filter-ico--desc">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
-                            </span>
-                        </div>
                         <div class="main-table__block__row__cell last-activity">
                             <span>@Resources.LastActivity</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
+                        <div class="main-table__block__row__cell applicant-name">
+                            <span>@Resources.ApplicantName</span>
+                            <span class="filter-ico filter-ico--desc">
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell days-left">
                             <span>@Resources.CreditApprovalExpiry</span>
                             <span class="filter-ico filter-ico--asc">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
-                            </span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>@Resources.LoanAmount</span>
-                            <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell program-option">
                             <span>@Resources.ProgramOption</span>
                         </div>
+                        <div class="main-table__block__row__cell loan-amount">
+                            <span>@Resources.LoanAmount</span>
+                            <span class="filter-ico filter-ico--default">
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
                         <div class="main-table__block__row__cell term">
                             <span>@Resources.Term</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell amort">
                             <span>@Resources.Amort</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount">
                             <span>@Resources.Payment</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell funded-amount">
-                            <span>@Resources.FundedAmount</span>
-                            <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
-                            </span>
-                        </div>
+                        @*<div class="main-table__block__row__cell funded-amount">
+            <span>@Resources.FundedAmount</span>
+            <span class="filter-ico filter-ico--default">
+                <i class="sort-arrow-top"></i>
+                <i class="sort-arrow-bottom"></i>
+            </span>
+        </div>*@
                         <div class="main-table__block__row__cell project-desc">
-                            <span>@Resources.ProjectDescription</span>
+                            <span>@Resources.ProjectType</span>
                         </div>
                         <div class="main-table__block__row__cell address">
                             <span>@Resources.Address</span>
+                        </div>
+                        <div class="main-table__block__row__cell email">
+                            <span>@Resources.Email</span>
+                        </div>
+                        <div class="main-table__block__row__cell phone">
+                            <span>@Resources.Phone</span>
                         </div>
                         <div class="main-table__block__row__cell sales-rep">
                             <span>@Resources.SalesRep</span>
@@ -250,20 +267,20 @@
                             <span data-bind="text: $data.SignatureStatus"></span>
                             <!-- /ko -->
                         </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span data-bind="text: $data.CustomerName"></span>
-                        </div>
                         <div class="main-table__block__row__cell last-activity">
                             <span data-bind="text: $data.Date"></span>
+                        </div>
+                        <div class="main-table__block__row__cell applicant-name">
+                            <span data-bind="text: $data.CustomerName"></span>
                         </div>
                         <div class="main-table__block__row__cell days-left">
                             <span data-bind="text: $data.CreditExpiry"></span>
                         </div>
+                        <div class="main-table__block__row__cell program-option">
+                            <span data-bind="text: $data.ProgramOption"></span>
+                        </div>
                         <div class="main-table__block__row__cell loan-amount">
                             <span data-bind="text: $data.Value"></span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span data-bind="text: $data.Program"></span>
                         </div>
                         <div class="main-table__block__row__cell term">
                             <span data-bind="text: $data.LoanTerm"></span>
@@ -274,14 +291,20 @@
                         <div class="main-table__block__row__cell payment-amount">
                             <span data-bind="text: $data.MonthlyPayment"></span>
                         </div>
-                        <div class="main-table__block__row__cell funded-amount">
-                            <span data-bind="text: $data.LoanAmount"></span>
-                        </div>
+                        @*<div class="main-table__block__row__cell funded-amount">
+            <span data-bind="text: $data.LoanAmount"></span>
+        </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span data-bind="text: $data.Equipment"></span>
                         </div>
                         <div class="main-table__block__row__cell address">
                             <span data-bind="text: $data.Address"></span>
+                        </div>
+                        <div class="main-table__block__row__cell email">
+                            <span data-bind="text: $data.Email"></span>
+                        </div>
+                        <div class="main-table__block__row__cell phone">
+                            <span data-bind="text: $data.Phone"></span>
                         </div>
                         <div class="main-table__block__row__cell sales-rep">
                             <span data-bind="text: $data.SalesRep"></span>
@@ -290,10 +313,10 @@
                             <span data-bind="text: $data.EnteredBy"></span>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
+                            <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i data-bind="css:{'check-mark-ico':$data.Lead}" ></i>
+                            <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
                             <i class="gear-ico"></i>
