@@ -988,4 +988,7 @@
   <data name="StandardRate" xml:space="preserve">
     <value>Taux Standard</value>
   </data>
+  <data name="_ConditionalApproval" xml:space="preserve">
+    <value>Approbation conditionnelle</value>
+  </data>
 </root>

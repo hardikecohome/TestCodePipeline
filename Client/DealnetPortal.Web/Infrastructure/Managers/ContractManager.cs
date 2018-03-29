@@ -388,8 +388,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .ToDictionary(s => s.Key, s => s.Value);
             model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
-            if(model.DealerTier != null && model.DealerTier.Id ==
-                Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            if(model.DealerTier != null && model.DealerTier.Name == _clarityProgramTier)
             {
                 model.TotalAmountFinancedFor180AmortTerm = 4999;
             }

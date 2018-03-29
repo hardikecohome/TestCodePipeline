@@ -1146,6 +1146,19 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.LastName,
                     Value = contract.PrimaryCustomer.LastName
                 });
+                // Hiren testing temporary code
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.DSFirstName,
+                    Value = contract.PrimaryCustomer.FirstName
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.DSLastName,
+                    Value = contract.PrimaryCustomer.LastName
+                });
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
@@ -1430,6 +1443,19 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.LastName2,
+                    Value = addApplicant.LastName
+                });
+                // Hiren testing Temporary code
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.DSFirstName2,
+                    Value = addApplicant.FirstName
+                });
+                formFields.Add(new FormField()
+                {
+                    FieldType = FieldType.Text,
+                    Name = PdfFormFields.DSLastName2,
                     Value = addApplicant.LastName
                 });
                 formFields.Add(new FormField()
@@ -2091,6 +2117,12 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = PdfFormFields.LoanTotalBorowingCost,
                         Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
                     });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.DSLoanTotalBorowingCost,
+                        Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
+                    });
                 }
 
                 if (contract.Equipment.DeferralType != DeferralType.NoDeferral)
@@ -2391,7 +2423,13 @@ namespace DealnetPortal.Api.Integration.Services
                                 Name = PdfFormFields.DealerName,
                                 Value = dealerInfo.FirstName
                             });
-
+                            // Hiren testing temporary
+                            formFields.Add(new FormField()
+                            {
+                                FieldType = FieldType.Text,
+                                Name = PdfFormFields.DSDealerName,
+                                Value = dealerInfo.FirstName
+                            });
                             var dealerAddress =
                                 dealerInfo.Locations?.FirstOrDefault();
                             if (dealerAddress != null)

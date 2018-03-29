@@ -51,6 +51,7 @@
         SET_CPROVINCE: 'set_cprovince',
         SET_CPOSTAL_CODE: 'set_cpostal_code',
         CLEAR_CADDRESS: 'clear_caddress',
-        SET_CADDRESS: 'set_caddress'
+		SET_CADDRESS: 'set_caddress',
+		SET_MONTHLYMORTGAGEPAYMENT: 'set_monthlymortgagepayment'
     };
 });
