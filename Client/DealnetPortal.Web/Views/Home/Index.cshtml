@@ -58,14 +58,16 @@
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealType</label>
-                            <select name="project-type" id="project-type" class="custom-select"></select>
+                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:agreementOptions, value:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealStatus</label>
                             <select name="project-type" id="project-type" class="custom-select"
-                                    data-bind="options:statusOptions, value:status"></select>
+                                    data-bind="foreach:statusOptions, value:status">
+                                <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
+                            </select>
                         </div>
                     </div>
 

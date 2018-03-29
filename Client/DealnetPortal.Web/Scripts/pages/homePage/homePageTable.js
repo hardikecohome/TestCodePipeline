@@ -21,16 +21,35 @@ module.exports('table', function (require) {
     }
 
     function filterAndSortList(list, type) {
-        return [''].concat(list.map(mapValue(type))
+        return list.map(mapValue(type))
             .filter(filterNull)
-            .reduce(concatIfNotInArray, [])
-            .sort(sortAssending));
+            .reduce(concatIfNotInArray, [''])
+            .sort(sortAssending);
+    }
+
+    function prepareStatusList(list) {
+        return list.map(function (item) {
+                return item.LocalizedStatus ? {
+                    icon: item.StatusColor,
+                    text: item.LocalizedStatus
+                } : null;
+            }).filter(filterNull)
+            .reduce(function (acc, curr) {
+                return acc.map(function (item) {
+                        return item.text;
+                    }).indexOf(curr.text) === -1 ?
+                    acc.concat(curr) :
+                    acc;
+            }, [{}])
+            .sort(function (a, b) {
+                return a.text == b.text ? 0 : a.text > b.text ? 1 : -1;
+            });
     }
 
     var HomePageTable = function (list) {
         // properties
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
-        this.statusOptions = ko.observableArray(filterAndSortList(list, 'LocalizedStatus'));
+        this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
         this.equipmentOptions = ko.observableArray(filterAndSortList(list, 'Equipment'));
         this.agreementType = ko.observable('');
@@ -75,7 +94,7 @@ module.exports('table', function (require) {
         // subscritions
         this.list.subscribe(function (newValue) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
-            this.statusOptions(filterAndSortList(newValue, 'LocalizedStatus'));
+            this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
             this.equipmentOptions(filterAndSortList(newValue, 'Equipment'));
             this.pager.list(newValue);
