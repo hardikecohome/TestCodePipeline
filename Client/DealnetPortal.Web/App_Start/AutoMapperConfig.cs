@@ -575,7 +575,7 @@ namespace DealnetPortal.Web.App_Start
 
                     return src.Details.SignatureStatus.GetEnumDescription();
                 }))
-                .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src=> {
+                .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src => {
                     var status = src.Details.SignatureStatus;
                     if(!status.HasValue)
                         return string.Empty;
@@ -596,7 +596,7 @@ namespace DealnetPortal.Web.App_Start
                     }
 
                     return "grey";
-                })                      )
+                }))
                 .ForMember(d => d.Address, s => s.ResolveUsing(src =>
                 {
                     var location = src.PrimaryCustomer?.Locations?.FirstOrDefault(c => c.AddressType == AddressType.InstallationAddress);
@@ -605,7 +605,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
                 .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm.ToString() : string.Empty))
                 .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm.ToString() : string.Empty))
-                .ForMember(d => d.MonthlyPayment, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.TotalMonthlyPayment.ToString() : string.Empty))
+                .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src => {
+                    return src.Equipment != null ? FormattableString.Invariant($"$ {src.Equipment.TotalMonthlyPayment:0.00}") : string.Empty;
+
+                }))
                 .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.SalesRep : string.Empty))
                 .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
                 .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
@@ -615,7 +618,11 @@ namespace DealnetPortal.Web.App_Start
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }
                     return string.Empty;
-                }));
+                }))
+                .ForMember(d => d.StatusColor,
+                    s => s.ResolveUsing(src => {
+                        return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-'); 
+                    }));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
