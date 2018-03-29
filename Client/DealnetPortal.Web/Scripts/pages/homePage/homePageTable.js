@@ -46,12 +46,24 @@ module.exports('table', function (require) {
             });
     }
 
+    function prepareEquipmentList(list) {
+        return equipment = list.map(mapValue('Equipment'))
+            .filter(filterNull)
+            .reduce(function (acc, item) {
+                return acc.concat(item.indexOf(',') > -1 ? item.split(',').map(function (i) {
+                    return i.trim();
+                }) : item);
+            }, [])
+            .reduce(concatIfNotInArray, [''])
+            .sort(sortAssending);
+    }
+
     var HomePageTable = function (list) {
         // properties
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
-        this.equipmentOptions = ko.observableArray(filterAndSortList(list, 'Equipment'));
+        this.equipmentOptions = ko.observableArray(prepareEquipmentList(list));
         this.agreementType = ko.observable('');
         this.status = ko.observable('');
         this.salesRep = ko.observable('');
@@ -96,7 +108,7 @@ module.exports('table', function (require) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
-            this.equipmentOptions(filterAndSortList(newValue, 'Equipment'));
+            this.equipmentOptions(prepareEquipmentList(newValue));
             this.pager.list(newValue);
         }, this);
     }
