@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Web;
 using AutoMapper;
 using AutoMapper.Mappers;
 using DealnetPortal.Api.Common.Enumeration;
@@ -162,14 +161,15 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(x => x.Emails, d => d.ResolveUsing(src =>
                 {
-                    var emails = new List<EmailDTO>();
-                    emails.Add(
+                    var emails = new List<EmailDTO>
+                    {
                         new EmailDTO()
                         {
                             CustomerId = src.CustomerId,
                             EmailType = EmailType.Main,
                             EmailAddress = src.EmailAddress
-                        });
+                        }
+                    };
                     if(!string.IsNullOrEmpty(src.NotificationEmailAddress))
                     {
                         emails.Add(
@@ -235,11 +235,10 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src =>
-                src.DealerEquipments != null ?
-                src.DealerEquipments.Select(s => new DealerEquipmentDTO()
+                src.DealerEquipments?.Select(s => new DealerEquipmentDTO()
                 {
                     Equipment = s
-                }).ToList() : null))
+                }).ToList()))
                 .ForMember(d => d.PostalCodesList, d => d.MapFrom(src => src.PostalCodes))
                 .ForMember(x => x.DealerId, d => d.Ignore());
             cfg.CreateMap<DealerAreaViewModel, DealerAreaDTO>();
@@ -586,30 +585,47 @@ namespace DealnetPortal.Web.App_Start
 
                     return src.Details.SignatureStatus.ToString().ToLower();
                 }))
-                .ForMember(d => d.Address, s => s.ResolveUsing(src =>
+                .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src=> {
+                    var status = src.Details.SignatureStatus;
+                    if(!status.HasValue)
+                        return string.Empty;
+
+                    if(status == SignatureStatus.Declined || status == SignatureStatus.Deleted)
+                        return "red";
+
+                    if(status == SignatureStatus.Completed || status == SignatureStatus.Signed)
+                        return "green";
+
+                    if(status == SignatureStatus.Sent)
                     {
-                        var location = src.PrimaryCustomer?.Locations?.FirstOrDefault(c => c.AddressType == AddressType.InstallationAddress);
-                        return location != null ? $"{location.Street} {location.Unit} {location.City} {location.State} {location.PostalCode}" : string.Empty;
-                    }))
-                    .ForMember(d => d.CreditExpiry, s => s.Ignore())
-                    .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ?
-                    src.Equipment.LoanTerm.ToString() :
-                    string.Empty))
-                    .ForMember(d => d.Amort,
-                    s => s.MapFrom(src => src.Equipment != null ?
-                        src.Equipment.AmortizationTerm.ToString() :
-                        string.Empty)
-                        )
-                        .ForMember(d => d.MonthlyPayment, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.TotalMonthlyPayment.ToString() : string.Empty))
-                        .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.SalesRep : string.Empty))
-                        .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
-                        .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src => {
-                            if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
-                            {
-                                return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
-                            }
-                            return string.Empty;
-                        }));
+                        var borrower = src.Signers.FirstOrDefault(x => x.SignerType == SignatureRole.HomeOwner);
+                        if(borrower?.StatusLastUpdateTime == null || (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays >= 3)
+                        {
+                            return "yellow";
+                        }
+                    }
+
+                    return "grey";
+                })                      )
+                .ForMember(d => d.Address, s => s.ResolveUsing(src =>
+                {
+                    var location = src.PrimaryCustomer?.Locations?.FirstOrDefault(c => c.AddressType == AddressType.InstallationAddress);
+                    return location != null ? $"{location.Street} {location.Unit} {location.City} {location.State} {location.PostalCode}" : string.Empty;
+                }))
+                .ForMember(d => d.CreditExpiry, s => s.Ignore())
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm.ToString() : string.Empty))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm.ToString() : string.Empty))
+                .ForMember(d => d.MonthlyPayment, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.TotalMonthlyPayment.ToString() : string.Empty))
+                .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.SalesRep : string.Empty))
+                .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
+                .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
+                {
+                    if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                    {
+                        return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
+                    }
+                    return string.Empty;
+                }));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
