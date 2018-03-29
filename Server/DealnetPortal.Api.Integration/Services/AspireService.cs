@@ -2517,6 +2517,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 udfList.Add(new UDF()
                 {
+                    Name = AspireUdfFields.MonthlyMortgage,
+                    Value = customer.EmploymentInfo.MonthlyMortgagePayment.ToString(CultureInfo.InvariantCulture) ?? BlankValue
+                });
+                udfList.Add(new UDF()
+                {
                     Name = AspireUdfFields.EmploymentType,
                     Value = customer.EmploymentInfo.EmploymentType.HasValue ? (customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P") : BlankValue
                 });

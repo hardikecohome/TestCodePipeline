@@ -602,7 +602,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             Type = doc.Type,
                             Name = doc.Name
                         };                        
-                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, doc.DocumentId);
+                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, "combined");
                         document.DocumentRaw = new byte[docStream.Length];
                         await docStream.ReadAsync(document.DocumentRaw, 0, (int)docStream.Length);
                     }                    

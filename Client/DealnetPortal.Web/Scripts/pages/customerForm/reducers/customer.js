@@ -46,7 +46,8 @@
         ccity: '',
         cprovince: '',
         cpostalCode: '',
-        isQuebecDealer: false
+		isQuebecDealer: false,
+		monthlyMortgagePayment: 0.00
     };
 
     var setFormField = function (field) {
@@ -176,7 +177,8 @@
     reducerObj[customerActions.SET_CUNIT] = setFormField('cunit');
     reducerObj[customerActions.SET_CCITY] = setFormField('ccity');
     reducerObj[customerActions.SET_CPROVINCE] = setFormField('cprovince');
-    reducerObj[customerActions.SET_CPOSTAL_CODE] = setFormField('cpostalCode');
+	reducerObj[customerActions.SET_CPOSTAL_CODE] = setFormField('cpostalCode');
+	reducerObj[customerActions.SET_MONTHLYMORTGAGEPAYMENT] = setFormField('monthlyMortgagePayment');
     reducerObj[customerActions.CLEAR_CADDRESS] = function () {
         return {
             cstreet: '',

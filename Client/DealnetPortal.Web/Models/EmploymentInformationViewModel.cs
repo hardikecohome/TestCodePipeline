@@ -5,6 +5,10 @@ namespace DealnetPortal.Web.Models
 {
     public class EmploymentInformationViewModel
     {
+        [Display(ResourceType = typeof(Resources.Resources), Name = "MonthlyMortgagePayment")]
+        [RegularExpression(@"^[0-9]\d{0,4}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MonthlyMortgagePaymentIncorrectFormat")]
+        public double MonthlyMortgagePayment { get; set; }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmploymentStatus")]
         public EmploymentStatus EmploymentStatus { get; set; }
 
@@ -12,9 +16,11 @@ namespace DealnetPortal.Web.Models
         public IncomeType? IncomeType { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "AnnualSalaryIncome")]
+        [RegularExpression(@"^[0-9]\d{0,5}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "AnnualSalaryIncomeIncorrectFormat")]
         public string AnnualSalary { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "HourlyRate")]
+        [RegularExpression(@"^[0-9]\d{0,2}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "HourlyRateIncorrectFormat")]
         public string HourlyRate { get; set; }
 
         public string YearsOfEmployment { get; set; }
