@@ -573,17 +573,7 @@ namespace DealnetPortal.Web.App_Start
                     if(src.Details.SignatureStatus == null)
                         return string.Empty;
 
-                    if(src.Details.SignatureStatus == SignatureStatus.Sent)
-                    {
-                        var borrower = src.Signers.FirstOrDefault(x => x.SignerType == SignatureRole.HomeOwner);
-
-                        if(borrower?.StatusLastUpdateTime != null && (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays < 3)
-                        {
-                            return src.Details.SignatureStatus.ToString().ToLower() + "less3";
-                        }
-                    }
-
-                    return src.Details.SignatureStatus.ToString().ToLower();
+                    return src.Details.SignatureStatus.GetEnumDescription();
                 }))
                 .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src=> {
                     var status = src.Details.SignatureStatus;
