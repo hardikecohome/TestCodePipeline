@@ -128,6 +128,31 @@ namespace DealnetPortal.Web.Controllers
                     .ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+
+            var tier = await _contractServiceAgent.GetDealerTier();
+            contractsVms.ForEach(c =>
+            {
+                if(c.RateCardId.HasValue)
+                {
+                    var rateCard = tier.RateCards.FirstOrDefault(r => r.Id == c.RateCardId);
+                    switch(rateCard.CardType)
+                    {
+                        case Api.Common.Enumeration.RateCardType.Custom:
+                            c.ProgramOption = Resources.Resources.Custom;
+                            break;
+                        case Api.Common.Enumeration.RateCardType.FixedRate:
+                            c.ProgramOption = Resources.Resources.StandardRate;
+                            break;
+                        case Api.Common.Enumeration.RateCardType.NoInterest:
+                            c.ProgramOption = Resources.Resources.EqualPayments;
+                            break;
+                        case Api.Common.Enumeration.RateCardType.Deferral:
+                            c.ProgramOption = $"{rateCard.DeferralPeriod} {Resources.Resources.Days} {Resources.Resources.Deferral}";
+                            break;
+                    }
+                }
+            });
+
             var identity = (ClaimsIdentity) User.Identity;
             var province = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? ContractProvince.QC : ContractProvince.ON;
             var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(province.ToString());

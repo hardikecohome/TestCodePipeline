@@ -961,6 +961,9 @@
     <Content Include="Content\less\modules\mixins.scss" />
     <Content Include="Content\less\tablet\banner.less" />
     <Content Include="Content\less\tablet\header.less" />
+    <Content Include="Content\less\mobile\application-mobile.less" />
+    <Content Include="Content\less\desktop\application.less" />
+    <Content Include="Content\less\tablet\application-tablet.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />

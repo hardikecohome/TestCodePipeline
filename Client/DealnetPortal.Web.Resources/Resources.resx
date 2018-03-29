@@ -2716,4 +2716,7 @@ Please ensure that the Customer information provided matches their Government is
   <data name="TypeOfProject" xml:space="preserve">
     <value>Type of project</value>
   </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
 </root>

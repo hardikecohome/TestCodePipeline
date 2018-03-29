@@ -21,7 +21,7 @@ module.exports('table', function (require) {
     }
 
     function filterAndSortList(list, type) {
-        return [' '].concat(list.map(mapValue(type))
+        return [''].concat(list.map(mapValue(type))
             .filter(filterNull)
             .reduce(concatIfNotInArray, [])
             .sort(sortAssending));

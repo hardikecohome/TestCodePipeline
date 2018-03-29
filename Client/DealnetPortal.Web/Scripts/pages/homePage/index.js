@@ -3,10 +3,10 @@
     var Table = require('table');
 
     var HomeViewModel = function (data) {
-        var table = new Table(data);
+        this.table = ko.observable(new Table(data));
 
         this.updateTableList = function (list) {
-            this.table.setList(list);
+            this.table().setList(list);
         }
     }
 

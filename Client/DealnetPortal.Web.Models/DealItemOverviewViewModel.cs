@@ -11,9 +11,11 @@ namespace DealnetPortal.Web.Models
         public string CustomerName { get; set; }
 
         public string Status { get; set; }
+        public string StatusColor { get; set; }
 
         public string LocalizedStatus { get; set; }
         public string SignatureStatus { get; set; }
+        public string SignatureStatusColor { get; set; }
         /// <summary>
         /// ?
         /// </summary>
@@ -39,5 +41,16 @@ namespace DealnetPortal.Web.Models
         public string PreApprovalAmount { get; set; }
         public string CustomerComment { get; set; }
         public bool IsInternal { get; set; }
+        public int? RateCardId { get; set; }
+
+        public string CreditExpiry { get; set; }
+        public string Address { get; set; }
+        public string ProgramOption { get; set; }
+        public string LoanAmount { get; set; }
+        public string Term { get; set; }
+        public string Amort { get; set; }
+        public string MonthlyPayment { get; set; }
+        public string EnteredBy { get; set; }
+        public bool Lead { get; set; }
     }
 }

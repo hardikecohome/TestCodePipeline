@@ -170,7 +170,7 @@ namespace DealnetPortal.Web.App_Start
                             EmailType = EmailType.Main,
                             EmailAddress = src.EmailAddress
                         });
-                    if (!string.IsNullOrEmpty(src.NotificationEmailAddress))
+                    if(!string.IsNullOrEmpty(src.NotificationEmailAddress))
                     {
                         emails.Add(
                             new EmailDTO()
@@ -251,7 +251,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerComment, d => d.MapFrom(src => src.CustomerComment))
                 .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo))
-                .ForMember(x => x.LeadSource, d => d.Ignore());            
+                .ForMember(x => x.LeadSource, d => d.Ignore());
 
             cfg.CreateMap<SalesRepInformation, EquipmentInfoDTO>()
                 .ForMember(x => x.SalesRep, d => d.MapFrom(src => src.SalesRep))
@@ -272,7 +272,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
                 .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
                 .ForMember(x => x.IsFeePaidByCutomer, s => s.MapFrom(d => d.IsAdminFeePaidByCustomer))
-                .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))                
+                .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
                 {
                     if(d.PrefferedInstallDate.HasValue)
@@ -585,7 +585,31 @@ namespace DealnetPortal.Web.App_Start
                     }
 
                     return src.Details.SignatureStatus.ToString().ToLower();
-                }));
+                }))
+                .ForMember(d => d.Address, s => s.ResolveUsing(src =>
+                    {
+                        var location = src.PrimaryCustomer?.Locations?.FirstOrDefault(c => c.AddressType == AddressType.InstallationAddress);
+                        return location != null ? $"{location.Street} {location.Unit} {location.City} {location.State} {location.PostalCode}" : string.Empty;
+                    }))
+                    .ForMember(d => d.CreditExpiry, s => s.Ignore())
+                    .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ?
+                    src.Equipment.LoanTerm.ToString() :
+                    string.Empty))
+                    .ForMember(d => d.Amort,
+                    s => s.MapFrom(src => src.Equipment != null ?
+                        src.Equipment.AmortizationTerm.ToString() :
+                        string.Empty)
+                        )
+                        .ForMember(d => d.MonthlyPayment, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.TotalMonthlyPayment.ToString() : string.Empty))
+                        .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.SalesRep : string.Empty))
+                        .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
+                        .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src => {
+                            if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                            {
+                                return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
+                            }
+                            return string.Empty;
+                        }));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
