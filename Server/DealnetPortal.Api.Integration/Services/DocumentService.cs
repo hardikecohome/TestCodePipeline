@@ -2028,12 +2028,12 @@ namespace DealnetPortal.Api.Integration.Services
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.AdmeenFee,
                         Value = contract.Equipment.AdminFee?.ToString("F", CultureInfo.InvariantCulture)
-                    });
+                    });                    
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.CustomerRate2,
-                        Value = (Financial.Rate(contract.Equipment.AmortizationTerm.Value,(double)-paySummary.TotalMonthlyPayment.Value, paySummary.LoanDetails.TotalAmountFinanced -(double)contract.Equipment.AdminFee)*12).ToString("F", CultureInfo.InvariantCulture)
+                        Value = paySummary.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                     });
                 }
                 else

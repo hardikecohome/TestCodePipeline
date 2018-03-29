@@ -150,7 +150,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsApplicantsInfoEditAvailable = result.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
-            equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer != null;
+            equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer.CreditReport != null;
 
             equipmentInfo.IsBeaconUpdated = result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
 
@@ -364,7 +364,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var dealerTier = await _contractServiceAgent.GetDealerTier();
             model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
-            
+
             var planDict = new Dictionary<RateCardType, string>
             {
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},

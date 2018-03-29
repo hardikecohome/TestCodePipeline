@@ -144,7 +144,16 @@
             }
         });
 
-        _buildDropdownValues(dropdownSelector, dropdown, dropdowns, true);
+        if (!dropdowns.length) {
+            if ($('#' + dropdownSelector).is(':visible')) {
+                $('#' + dropdownSelector).closest('.row').addClass('hidden');
+            }
+        } else {
+            if (!$('#' + dropdownSelector).is(':visible')) {
+                $('#' + dropdownSelector).closest('.row').removeClass('hidden');
+            }
+            _buildDropdownValues(dropdownSelector, dropdown, dropdowns, true);
+        }
     }
 
     function _buildDropdownValues(selector, dropdown, items, isProgram) {
@@ -165,12 +174,12 @@
                 values.push($(i).attr('value'));
             });
 
-            if (values.indexOf(selected) !== -1) {
-                e.value = selected;
-                $('#' + selector + ' option[value=' + selected + ']').attr("selected", selected);
-            } else {
-                e.value = values[0];
-                $('#' + selector + ' option[value=' + values[0] + ']').attr("selected", selected);
+            e.value = values.indexOf(selected) !== -1 ? selected : values[0];
+            var $selectedOption = $('#' + selector + ' option[value="' + e.value + '"]');
+            $selectedOption.attr("selected", selected);
+
+            if ($('#' + selector).hasClass('not-selected')) {
+                $('#' + selector).removeClass('not-selected');
             }
         }
     }

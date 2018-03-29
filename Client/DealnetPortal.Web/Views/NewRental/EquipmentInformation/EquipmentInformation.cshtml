@@ -52,14 +52,20 @@
     @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-agreement" })
     @Html.HiddenFor(x => x.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
+    @Html.HiddenFor(x => x.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
+
     <div class="form-container">
         <div class="form-section">
-            <div class="bureau-well-info well well-info position-well @(!Model.IsCustomerFoundInCreditBureau && Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
-                <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-                </svg>
-                @Resources.CustomerNotFoundInBureau @Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new {contractId = Model.ContractId})
-            </div>
+            @if (!Model.IsClarityDealer)
+            {
+                <div class="bureau-well-info well well-info position-well @(!Model.IsCustomerFoundInCreditBureau && Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
+                    <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                    </svg>
+                    @Resources.CustomerNotFoundInBureau @Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new {contractId = Model.ContractId})
+                </div>
+            }
+
             @if (Model.CustomerComments != null && Model.CustomerComments.Any())
             {
                 <div class="customer-comments form-group">

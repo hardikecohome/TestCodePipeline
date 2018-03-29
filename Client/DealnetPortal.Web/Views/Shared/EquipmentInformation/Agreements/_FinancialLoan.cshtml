@@ -36,8 +36,8 @@
     </svg>
     @Resources.FinProgramUnavailable
 </div>
-<div class="well well-info position-well bureau-well-length clear-border @(Model.IsCustomerFoundInCreditBureau && Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
-    <svg aria-hidden="true" class="icon icon-info-well">
+<div id="bureau-program" class="well well-info position-well bureau-well-length clear-border @(Model.IsCustomerFoundInCreditBureau && Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
+    <svg aria-hidden="true" class="icon icon-info-well" style="top: 23px;">
         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
     </svg>
     @Resources.CustomerCoveredByBureauLoan
