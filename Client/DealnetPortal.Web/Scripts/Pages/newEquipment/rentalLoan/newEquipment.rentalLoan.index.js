@@ -41,6 +41,7 @@
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
             adminFeeSectionId: '#admin-fee-section',
+            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
@@ -68,6 +69,7 @@
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
+            state.isCustomerFoundInCreditBureau = $(settings.isCustomerFoundInCreditBureauId).val().toLowerCase() === 'true';
 
             if (state.isDisplayAdminFee) {
                 $(settings.adminFeeSectionId).removeClass('hidden');

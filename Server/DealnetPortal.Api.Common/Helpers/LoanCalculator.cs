@@ -35,6 +35,7 @@ namespace DealnetPortal.Api.Common.Helpers
             public double TotalMonthlyPayment { get; set; }
             //Monthly cost of ownership - for clarity = MOC reduced by Down payment
             public double TotalMCO { get; set; }
+            public double AnnualPercentageRate { get; set; }
             public double TotalAllMonthlyPayments { get; set; }
             public double ResidualBalance { get; set; }
             public double TotalObligation { get; set; }
@@ -80,10 +81,12 @@ namespace DealnetPortal.Api.Common.Helpers
                 output.TotalAmountFinanced = input.PriceOfEquipment + admeenFee - input.DownPayment;
                 output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
-                        : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+                        : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);                
                 output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
                 mco = output.TotalMonthlyPayment;
                 output.TotalMCO = mco;
+
+                output.AnnualPercentageRate = Financial.Rate(input.AmortizationTerm, -mco, output.TotalAmountFinanced - admeenFee) * 1200;
             }
             output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)

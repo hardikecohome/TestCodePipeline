@@ -19,6 +19,16 @@
         if (!$('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').addClass('hidden');
         }
+
+        if (!$('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').addClass('hidden');
+        }
+
+        if (state.agreementType === 0 && state.isCustomerFoundInCreditBureau) {
+            if ($('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').removeClass('hidden');
+            }
+        }
     }
 
     var hideRateCardBlock = function () {
@@ -31,6 +41,12 @@
 
         if ($('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').removeClass('hidden');
+        }
+
+        if (state.agreementType === 0 && state.isCustomerFoundInCreditBureau) {
+            if (!$('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').addClass('hidden');
+            }
         }
     }
 

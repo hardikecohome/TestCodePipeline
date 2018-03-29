@@ -144,7 +144,16 @@
             }
         });
 
-        _buildDropdownValues(dropdownSelector, dropdown, dropdowns, true);
+        if (!dropdowns.length) {
+            if ($('#' + dropdownSelector).is(':visible')) {
+                $('#' + dropdownSelector).closest('.row').addClass('hidden');
+            }
+        } else {
+            if (!$('#' + dropdownSelector).is(':visible')) {
+                $('#' + dropdownSelector).closest('.row').removeClass('hidden');
+            }
+            _buildDropdownValues(dropdownSelector, dropdown, dropdowns, true);
+        }
     }
 
     function _buildDropdownValues(selector, dropdown, items, isProgram) {
