@@ -966,6 +966,8 @@
     <Content Include="Content\less\tablet\application-tablet.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
+    <Content Include="Scripts\common\ko.datepicker.js" />
+    <Content Include="Scripts\common\ko.selectric.js" />
     <Content Include="Scripts\components\addressInformation.js" />
     <Content Include="Scripts\components\employmentInformation.js" />
     <Content Include="Scripts\index.js" />

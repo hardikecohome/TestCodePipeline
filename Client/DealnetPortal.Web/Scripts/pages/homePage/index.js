@@ -21,7 +21,7 @@
             $('select.custom-select').selectric('refresh');
         }).fail(function (jqXHR, textStatus, errorThrown) {
             debugger;
-        })
+        });
     }
 
     return {

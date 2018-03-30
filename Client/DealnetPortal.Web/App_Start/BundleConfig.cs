@@ -13,7 +13,9 @@ namespace DealnetPortal.Web
 
             bundles.Add(new ScriptBundle("~/bundles/knockout")
                 .Include("~/Scripts/vendor/knockout-3.4.2.debug.js",
-                "~/Scripts/vendor/knockout.validation.js"));
+                "~/Scripts/vendor/knockout.validation.js",
+                "~/Scripts/common/ko.selectric.js",
+                "~/Scripts/common/ko.datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include(
@@ -73,9 +75,11 @@ namespace DealnetPortal.Web
                 .Include(
                 "~/Scripts/vendor/js.cookie.js",
                 "~/Scripts/vendor/chart.js",
-                "~/Scripts/vendor/jquery.form.js",
+                "~/Scripts/vendor/jquery.form.js",  
+                "~/Scripts/vendor/datejs.js",
                 "~/Scripts/utils/loader.js",
                 "~/Scripts/utils/tables.js",
+                "~/Scripts/utils/datepicker.js",
                 "~/Scripts/components/ko.paginator.js",
                 "~/Scripts/pages/homePage/homePageTable.js",
                 "~/Scripts/pages/homePage/index.js"));

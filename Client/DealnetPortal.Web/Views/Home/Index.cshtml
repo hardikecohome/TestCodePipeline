@@ -33,7 +33,7 @@
                         <i class="lamp-ico"></i>
                         <a>@Resources.LearnMoreAboutThisPage</a>
                     </div>
-                    <div class="filters-head__clear-btn new-btn-grey">
+                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
                     <div class="filters-head__save-btn">
@@ -58,30 +58,33 @@
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealType</label>
-                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:agreementOptions, value:agreementType"></select>
+                            <select name="project-type" 
+                                    id="project-type" 
+                                    class="custom-select" 
+                                    data-bind="options:agreementOptions, value:agreementType, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealStatus</label>
                             <select name="project-type" id="project-type" class="custom-select"
-                                    data-bind="foreach:statusOptions, value:status">
+                                    data-bind="foreach:statusOptions, value:status, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__date-from new-input-group">
-                        <div class="custom-text-input-group icon">
-                            <input type="text" required data-bind="value:dateFrom">
+                        <div class="custom-text-input-group icon date-group">
+                            <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateFrom</label>
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__date-to new-input-group">
-                        <div class="custom-text-input-group icon">
-                            <input type="text" required data-bind="value:dateTo">
+                        <div class="custom-text-input-group icon date-group">
+                            <input type="text" class="date-input" required data-bind="datePicker: dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
                             <span class="icon-calendar"></span>
                         </div>
@@ -90,14 +93,17 @@
                     <div class="filters-advanced__created-by new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.TypeOfProject</label>
-                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:equipmentOptions, value: equipment"></select>
+                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:equipmentOptions, value: salesRep, selectic:salesRep"></select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__sales-rep new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.SalesRep</label>
-                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:salesRepOptions, salesRep"></select>
+                            <select name="project-type" 
+                                    id="project-type" 
+                                    class="custom-select" 
+                                    data-bind="options:salesRepOptions, value: salesRep, selectric:salesRep"></select>
                         </div>
                     </div>
 
@@ -110,10 +116,10 @@
                         <div class="filters-advanced__days-left">@Resources.CreditExpiryDesc<i class="cross-ico"></i></div>
                     </div>
 
-                    <div class="filters-advanced__clear-btn new-btn-grey">
+                    <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
-                    <div class="filters-advanced__apply-btn new-btn-solid-red">
+                    <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
                         <span>@Resources.Apply</span>
                     </div>
                 </div>

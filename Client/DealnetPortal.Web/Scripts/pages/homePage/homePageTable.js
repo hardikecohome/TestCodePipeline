@@ -1,6 +1,7 @@
 module.exports('table', function (require) {
 
     var Paginator = require('paginator');
+    var assignDatepicker = require('datepicker').assignDatepicker;
 
     function filterNull(item) {
         return item != null;
@@ -60,6 +61,11 @@ module.exports('table', function (require) {
 
     var HomePageTable = function (list) {
         // properties
+        this.datePickerOptions = {
+            yearRange: '1900:' + new Date().getFullYear(),
+            minDate: new Date("1900-01-01"),
+            maxDate: new Date(),
+        }
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
@@ -73,15 +79,12 @@ module.exports('table', function (require) {
 
         this.list = ko.observableArray(list);
 
-        this.pager = new Paginator(this.list());
+        this.filteredList = ko.observableArray(this.list());
 
-        // functions
-        this.editUrl = function (id) {
-            return editContractUrl + '/' + id;
-        }
+        this.pager = new Paginator(this.filteredList());
 
         this.grandTotal = ko.computed(function () {
-            return this.list().reduce(function (sum, curr) {
+            return this.filteredList().reduce(function (sum, curr) {
                 return sum + (parseFloat(curr.Value.substr(2)) || 0);
             }, 0).toFixed(2);
         }, this);
@@ -94,6 +97,45 @@ module.exports('table', function (require) {
             }, 0).toFixed(2);
         }, this);
 
+        // functions
+        this.clearFilters = function () {
+            this.agreementType('');
+            this.status('');
+            this.salesRep('');
+            this.equipment('');
+            this.dateFrom('');
+            this.dateTo('');
+            this.filterList();
+        }
+
+        this.editUrl = function (id) {
+            return editContractUrl + '/' + id;
+        }
+
+        this.filterList = function () {
+            var stat = this.status();
+            var equip = this.equipment();
+            var type = this.agreementType();
+            var sales = this.salesRep();
+            var to = Date.parseExact(this.dateTo(), 'M/d/yyyy');
+            var from = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
+
+            var tempList = this.list().reduce(function (acc, item) {
+
+                var itemDate = Date.parseExact(item.Date, 'M/d/yyyy');
+                if ((!stat || stat === item.LocalizedStatus) &&
+                    (!type || type === item.AgreementType) &&
+                    (!sales || sales === item.SalesRep) &&
+                    (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
+                    (!to || !itemDate || itemDate <= to) &&
+                    (!from || !itemDate || itemDate >= from))
+                    return acc.concat(item);
+
+                return acc;
+            }, []);
+            this.filteredList(tempList);
+        }
+
         this.setList = function (list) {
             var list = list.map(function (item) {
                 return Object.assign({}, item, {
@@ -103,14 +145,35 @@ module.exports('table', function (require) {
             this.list(list);
         }
 
-        // subscritions
+        // subscriptions
         this.list.subscribe(function (newValue) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
             this.equipmentOptions(prepareEquipmentList(newValue));
+            this.filterList();
+        }, this);
+
+        this.filteredList.subscribe(function (newValue) {
             this.pager.list(newValue);
         }, this);
+
+        // assignDatepicker('.filters-advanced__date-from input', {
+        //     yearRange: '1900:' + new Date().getFullYear(),
+        //     minDate: new Date("1900-01-01"),
+        //     maxDate: new Date(),
+        //     onSelect: (function (day) {
+        //         this.dateFrom(day);
+        //     }).bind(this)
+        // });
+        // assignDatepicker('.filters-advanced__date-to input', {
+        //     yearRange: '1900:' + new Date().getFullYear(),
+        //     minDate: new Date("1900-01-01"),
+        //     maxDate: new Date(),
+        //     onSelect: (function (day) {
+        //         this.dateTo(day);
+        //     }).bind(this)
+        // });
     }
     return HomePageTable;
 });
