@@ -53,8 +53,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 var isNewlyCreated = contractResult.Item1.IsNewlyCreated;
 
-                if (contractResult.Item1.IsNewlyCreated == true
-                    || contractResult.Item1.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
+                if (contractResult.Item1.IsNewlyCreated == true)
                 {
                     var result = await _contractServiceAgent.NotifyContractEdit(contractId);
 
