@@ -6,7 +6,6 @@ using System.Linq;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace DealnetPortal.Aspire.Integration.Storage
 {
@@ -25,7 +24,10 @@ namespace DealnetPortal.Aspire.Integration.Storage
             SetupDefaulQueryNames();
             if (queryNames?.Any() == true)
             {
-                queryNames.ForEach(qn => _queryNames[qn.Key] = qn.Value);
+                foreach (var qn in queryNames)
+                {
+                    _queryNames[qn.Key] = qn.Value;
+                }
             }
         }
 
