@@ -2142,7 +2142,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer’s credit information has been updated. You can now review financing options {0}here{1}..
+        ///   Looks up a localized string similar to Customer’s credit information has been updated..
         /// </summary>
         public static string CustomerCreditUpdated {
             get {
@@ -2796,6 +2796,15 @@ namespace DealnetPortal.Web.Resources {
         public static string EmploymentStatus {
             get {
                 return ResourceManager.GetString("EmploymentStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enbridge payment option is available at a Dealer fee of $99.
+        /// </summary>
+        public static string EnbrideFeeNotification {
+            get {
+                return ResourceManager.GetString("EnbrideFeeNotification", resourceCulture);
             }
         }
         
