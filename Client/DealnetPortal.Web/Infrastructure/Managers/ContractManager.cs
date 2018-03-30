@@ -172,6 +172,17 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 || dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
             }
 
+            // do not show warn for submitted deals
+            if (!equipmentInfo.IsCustomerFoundInCreditBureau && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
+            {
+                if (equipmentInfo.AgreementType == Models.Enumeration.AgreementType.RentalApplication ||
+                    (dealerTier?.RateCards?.FirstOrDefault(r => r.Id == result.Item1.Equipment?.RateCardId)
+                         ?.CustomerRiskGroup == null))
+                {
+                    equipmentInfo.IsCustomerFoundInCreditBureau = true;
+                }
+            }
+
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
             if(result.Item1.Comments.Any(x => x.IsCustomerComment == true))
