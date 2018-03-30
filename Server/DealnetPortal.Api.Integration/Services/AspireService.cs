@@ -1862,7 +1862,13 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.DealerTierName,
                     Value = contract.Equipment?.RateCard?.Tier?.Name ?? BlankValue
-                });                
+                });
+
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ContractPreapprovalLimit,
+                    Value = contract.Details?.CreditAmount?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
+                });
 
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
                 if (paymentInfo != null)
