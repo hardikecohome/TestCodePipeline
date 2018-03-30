@@ -66,6 +66,10 @@ namespace DealnetPortal.Web.Controllers
             {
                 contract.SendEmails.SalesRepEmail = dealer.Email;
             }
+            if (contract.IsBeaconUpdated)
+            {
+                await _contractServiceAgent.NotifyContractEdit(id);
+            }
 
             return View(contract);
         }

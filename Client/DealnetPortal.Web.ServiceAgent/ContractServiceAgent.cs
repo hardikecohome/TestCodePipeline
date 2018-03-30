@@ -135,7 +135,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.PutAsyncEx<string, IList<Alert>>(
-                            $"{_fullUri}/NotifyContractEdit?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/{contractId}/NotifyEdit", "", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

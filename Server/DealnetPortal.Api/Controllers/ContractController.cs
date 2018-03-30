@@ -169,7 +169,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("NotifyContractEdit")]
+        [Route("{contractId}/NotifyEdit")]
         [HttpPut]
         public IHttpActionResult NotifyContractEdit(int contractId)
         {

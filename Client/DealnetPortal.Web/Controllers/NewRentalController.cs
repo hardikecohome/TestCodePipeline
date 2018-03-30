@@ -53,7 +53,8 @@ namespace DealnetPortal.Web.Controllers
             {
                 var isNewlyCreated = contractResult.Item1.IsNewlyCreated;
 
-                if (contractResult.Item1.IsNewlyCreated == true)
+                if (contractResult.Item1.IsNewlyCreated == true
+                    || contractResult.Item1.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
                 {
                     var result = await _contractServiceAgent.NotifyContractEdit(contractId);
 
@@ -367,6 +368,12 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
+
+            if (contract.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
+            {
+                await _contractServiceAgent.NotifyContractEdit(contractId);
+            }
+
             return View("EquipmentInformation/EquipmentInformation", model);
         }
 

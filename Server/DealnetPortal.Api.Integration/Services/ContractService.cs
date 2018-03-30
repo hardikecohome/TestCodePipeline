@@ -246,6 +246,11 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     contract.IsNewlyCreated = false;
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    if (!string.IsNullOrEmpty(contract.Dealer?.UserName))
+                    {
+                        contract.LastUpdateOperator = contract.Dealer?.UserName;
+                    }
                     _unitOfWork.Save();
                 }
                 catch (Exception ex)
