@@ -3,6 +3,7 @@
 @using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
+@using System.Security.Claims
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
 @{
@@ -1803,6 +1804,8 @@
                                     </div>
                                 </div>
                             </div>
+							@if (!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
+							{
                             <div class="col-sm-12 col-md-6 pap-payment">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.PrefferedWithdrawalDate, new
@@ -1873,14 +1876,8 @@
                                     })
                                     <div class="dealnet-field-holder">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
-                                            {
-                                                @class = "form-control dealnet-input",
-                                                type = "text",
-                                                id = "account-number",
-                                                placeholder = Resources.AccountNumber
-                                            })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new { @class = "form-control dealnet-input", id = "bank-number", type = "text", placeholder = Resources.BlankNumber })
+                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
@@ -1906,7 +1903,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row pap-payment">
+                        <div class="enbridge-payment row">
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new
@@ -1928,6 +1925,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     }
                 </div>
 

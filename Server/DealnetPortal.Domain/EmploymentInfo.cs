@@ -24,7 +24,7 @@ namespace DealnetPortal.Domain
         public IncomeType? IncomeType { get; set; }
 
         public EmploymentType? EmploymentType { get; set; }
-
+        public double MonthlyMortgagePayment { get; set; }
         [MaxLength(140)]
         public string JobTitle { get; set; }
         [MaxLength(140)]

@@ -166,6 +166,7 @@
         public static string EmployerName  = "Employer Name";
         public static string EmployerPhone = "Employer Phone Number";
         public static string EmployerAddress = "Employer Address";
+        public static string MonthlyMortgage = "Monthly Mortgage";
 
         #endregion
     }
