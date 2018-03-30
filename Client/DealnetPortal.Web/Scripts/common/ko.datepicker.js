@@ -7,6 +7,10 @@
                 observable(day);
             }
         });
-        assignDatepicker(element, options);
+        var input = assignDatepicker(element, options);
+
+        observable.subscribe(function (newValue) {
+            input.val(newValue);
+        });
     }
-}
+};

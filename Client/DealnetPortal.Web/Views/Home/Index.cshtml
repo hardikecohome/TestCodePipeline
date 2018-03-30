@@ -58,17 +58,13 @@
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealType</label>
-                            <select name="project-type" 
-                                    id="project-type" 
-                                    class="custom-select" 
-                                    data-bind="options:agreementOptions, value:agreementType, selectric:agreementType"></select>
+                            <select class="custom-select" data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealStatus</label>
-                            <select name="project-type" id="project-type" class="custom-select"
-                                    data-bind="foreach:statusOptions, value:status, selectric:status">
+                            <select class="custom-select" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
@@ -93,17 +89,14 @@
                     <div class="filters-advanced__created-by new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.TypeOfProject</label>
-                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:equipmentOptions, value: salesRep, selectic:salesRep"></select>
+                            <select class="custom-select" data-bind="options:equipmentOptions, selectric:equipment"></select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__sales-rep new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.SalesRep</label>
-                            <select name="project-type" 
-                                    id="project-type" 
-                                    class="custom-select" 
-                                    data-bind="options:salesRepOptions, value: salesRep, selectric:salesRep"></select>
+                            <select class="custom-select" data-bind="options:salesRepOptions, selectric:salesRep"></select>
                         </div>
                     </div>
 
@@ -148,7 +141,7 @@
                         </div>
                         <div class="main-table__block__row__cell deal-status">
                             <span class="icon">
-                            <i class="info-ico info-ico--green"></i>
+                                <i class="info-ico info-ico--green"></i>
                             </span>
                             <span>@Resources.DealStatus</span>
                         </div>
@@ -208,12 +201,12 @@
                             </span>
                         </div>
                         @*<div class="main-table__block__row__cell funded-amount">
-            <span>@Resources.FundedAmount</span>
-            <span class="filter-ico filter-ico--default">
-                <i class="sort-arrow-top"></i>
-                <i class="sort-arrow-bottom"></i>
-            </span>
-        </div>*@
+                                <span>@Resources.FundedAmount</span>
+                                <span class="filter-ico filter-ico--default">
+                                    <i class="sort-arrow-top"></i>
+                                    <i class="sort-arrow-bottom"></i>
+                                </span>
+                            </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span>@Resources.ProjectType</span>
                         </div>
@@ -298,8 +291,8 @@
                             <span data-bind="text: $data.MonthlyPayment"></span>
                         </div>
                         @*<div class="main-table__block__row__cell funded-amount">
-            <span data-bind="text: $data.LoanAmount"></span>
-        </div>*@
+                                <span data-bind="text: $data.LoanAmount"></span>
+                            </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span data-bind="text: $data.Equipment"></span>
                         </div>
@@ -494,9 +487,9 @@
                         <div class="main-table__block__row__entries-number new-input-group">
                             <div class="custom-select-wrap">
                                 <label for="entries-number">Numbers of entries</label>
-                                <select name="entries-number" 
-                                        id="entries-number" 
-                                        class="custom-select" 
+                                <select name="entries-number"
+                                        id="entries-number"
+                                        class="custom-select"
                                         data-bind="options: pager.pageSizes, value:pager.pageSize"></select>
                             </div>
                         </div>

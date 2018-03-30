@@ -9,7 +9,7 @@ module.exports('table', function (require) {
 
     function mapValue(type) {
         return function (item) {
-            return item[type] || null;
+            return item[type].trim() || null;
         }
     }
 
@@ -32,7 +32,7 @@ module.exports('table', function (require) {
         return list.map(function (item) {
                 return item.LocalizedStatus ? {
                     icon: item.StatusColor,
-                    text: item.LocalizedStatus
+                    text: item.LocalizedStatus.trim()
                 } : null;
             }).filter(filterNull)
             .reduce(function (acc, curr) {
@@ -41,7 +41,10 @@ module.exports('table', function (require) {
                     }).indexOf(curr.text) === -1 ?
                     acc.concat(curr) :
                     acc;
-            }, [{}])
+            }, [{
+                text: '',
+                icon: ''
+            }])
             .sort(function (a, b) {
                 return a.text == b.text ? 0 : a.text > b.text ? 1 : -1;
             });
