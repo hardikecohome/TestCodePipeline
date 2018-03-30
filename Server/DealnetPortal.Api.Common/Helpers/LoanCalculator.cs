@@ -86,7 +86,16 @@ namespace DealnetPortal.Api.Common.Helpers
                 mco = output.TotalMonthlyPayment;
                 output.TotalMCO = mco;
 
-                output.AnnualPercentageRate = Financial.Rate(input.AmortizationTerm, -mco, output.TotalAmountFinanced - admeenFee) * 1200;
+                if (customerRate == 0.0 && input.AmortizationTerm == input.LoanTerm)
+                {
+                    //logic for Equal payments program (0%)
+                    output.TotalAllMonthlyPayments = output.TotalAmountFinanced;
+                    output.AnnualPercentageRate = 0.0;
+                }
+                else
+                {
+                    output.AnnualPercentageRate = Financial.Rate(input.AmortizationTerm, -mco, output.TotalAmountFinanced - admeenFee) * 1200;
+                }                
             }
             output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)
