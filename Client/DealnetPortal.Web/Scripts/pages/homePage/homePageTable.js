@@ -1,7 +1,6 @@
 module.exports('table', function (require) {
 
     var Paginator = require('paginator');
-    var assignDatepicker = require('datepicker').assignDatepicker;
 
     function filterNull(item) {
         return item != null;
@@ -10,7 +9,7 @@ module.exports('table', function (require) {
     function mapValue(type) {
         return function (item) {
             return item[type].trim() || null;
-        }
+        };
     }
 
     function concatIfNotInArray(acc, curr) {
@@ -19,6 +18,10 @@ module.exports('table', function (require) {
 
     function sortAssending(a, b) {
         return a == b ? 0 : a > b ? 1 : -1;
+    }
+
+    function sortDescending(a, b) {
+        return a == b ? 0 : a < b ? 1 : -1;
     }
 
     function filterAndSortList(list, type) {
@@ -51,7 +54,7 @@ module.exports('table', function (require) {
     }
 
     function prepareEquipmentList(list) {
-        return equipment = list.map(mapValue('Equipment'))
+        return list.map(mapValue('Equipment'))
             .filter(filterNull)
             .reduce(function (acc, item) {
                 return acc.concat(item.indexOf(',') > -1 ? item.split(',').map(function (i) {
@@ -68,7 +71,22 @@ module.exports('table', function (require) {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
             maxDate: new Date(),
-        }
+        };
+        this.sortFields = {
+            transactionId: 'TransactionId',
+            date: 'Date',
+            applicantName: 'CustomerName',
+            creditExpiry: 'CreditExpiry',
+            loanAmount: 'Value',
+            term: 'LoanTerm',
+            amort: 'Amort',
+            payment: 'MonthlPayment'
+        };
+        var sortDirections = {
+            default: 'default',
+            asc: 'asc',
+            desc: 'desc'
+        };
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
@@ -79,12 +97,49 @@ module.exports('table', function (require) {
         this.equipment = ko.observable('');
         this.dateFrom = ko.observable('');
         this.dateTo = ko.observable('');
+        this.sortedColumn = ko.observable('');
+        this.sortDirection = ko.observable(sortDirections.default);
 
         this.list = ko.observableArray(list);
 
         this.filteredList = ko.observableArray(this.list());
 
-        this.pager = new Paginator(this.filteredList());
+        this.configureSortClick = function (field) {
+            return function () {
+                var dir = this.sortDirection();
+                if (field == this.sortedColumn()) {
+                    this.sortDirection(
+                        dir == sortDirections.asc ? sortDirections.desc :
+                        dir == sortDirections.desc ? sortDirections.default :
+                        sortDirections.asc
+                    );
+                } else {
+                    dir = sortDirections.asc;
+                    this.sortDirection(dir);
+                    this.sortedColumn(field);
+                }
+            };
+        };
+
+        this.sortedList = ko.computed(function () {
+            var field = this.sortedColumn();
+            var dir = this.sortDirection();
+
+            var tempList1 = this.filteredList().slice();
+            if (dir == sortDirections.default || field == '') {
+                return tempList1;
+            }
+            if (dir == sortDirections.asc) {
+                return tempList1.sort(function (a, b) {
+                    return sortAssending(a[field], b[field]);
+                });
+            } else
+                return tempList1.sort(function (a, b) {
+                    return sortAssending(a[field], b[field]);
+                }).reverse();
+        }, this);
+
+        this.pager = new Paginator(this.sortedList());
 
         this.grandTotal = ko.computed(function () {
             return this.filteredList().reduce(function (sum, curr) {
@@ -109,10 +164,17 @@ module.exports('table', function (require) {
             this.dateFrom('');
             this.dateTo('');
             this.filterList();
-        }
+        };
 
         this.editUrl = function (id) {
             return editContractUrl + '/' + id;
+        };
+
+        this.filterClasses = function (field) {
+            if (this.sortedColumn() == field) {
+                return 'filter-ico filter-ico--' + this.sortDirection();
+            }
+            return 'filter-ico filter-ico--' + sortDirections.default;
         }
 
         this.filterList = function () {
@@ -137,16 +199,16 @@ module.exports('table', function (require) {
                 return acc;
             }, []);
             this.filteredList(tempList);
-        }
+        };
 
         this.setList = function (list) {
-            var list = list.map(function (item) {
+            var tempList = list.map(function (item) {
                 return Object.assign({}, item, {
                     isSelected: ko.observable(false)
                 });
             });
-            this.list(list);
-        }
+            this.list(tempList);
+        };
 
         // subscriptions
         this.list.subscribe(function (newValue) {
@@ -157,26 +219,9 @@ module.exports('table', function (require) {
             this.filterList();
         }, this);
 
-        this.filteredList.subscribe(function (newValue) {
+        this.sortedList.subscribe(function (newValue) {
             this.pager.list(newValue);
         }, this);
-
-        // assignDatepicker('.filters-advanced__date-from input', {
-        //     yearRange: '1900:' + new Date().getFullYear(),
-        //     minDate: new Date("1900-01-01"),
-        //     maxDate: new Date(),
-        //     onSelect: (function (day) {
-        //         this.dateFrom(day);
-        //     }).bind(this)
-        // });
-        // assignDatepicker('.filters-advanced__date-to input', {
-        //     yearRange: '1900:' + new Date().getFullYear(),
-        //     minDate: new Date("1900-01-01"),
-        //     maxDate: new Date(),
-        //     onSelect: (function (day) {
-        //         this.dateTo(day);
-        //     }).bind(this)
-        // });
-    }
+    };
     return HomePageTable;
 });

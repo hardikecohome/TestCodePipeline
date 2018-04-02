@@ -132,9 +132,9 @@
                                 <span class="customized-checkbox-icon__image"></span>
                             </label>
                         </div>
-                        <div class="main-table__block__row__cell contract-number">
+                        <div class="main-table__block__row__cell contract-number" data-bind="click:configureSortClick(sortFields.transactionId)">
                             <span>@Resources.ContractNumber</span>
-                            <span class="filter-ico filter-ico--asc">
+                            <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.transactionId)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
@@ -148,23 +148,23 @@
                         <div class="main-table__block__row__cell e-sign">
                             <span>@Resources.Esign</span>
                         </div>
-                        <div class="main-table__block__row__cell last-activity">
+                        <div class="main-table__block__row__cell last-activity"  data-bind="click:configureSortClick(sortFields.date)">
                             <span>@Resources.LastActivity</span>
-                            <span class="filter-ico filter-ico--default">
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.date)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell applicant-name">
+                        <div class="main-table__block__row__cell applicant-name" data-bind="click:configureSortClick(sortFields.applicantName)">
                             <span>@Resources.ApplicantName</span>
-                            <span class="filter-ico filter-ico--desc">
+                            <span class="filter-ico filter-ico--desc" data-bind="attr:{class:filterClasses(sortFields.applicantName)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell days-left">
+                        <div class="main-table__block__row__cell days-left" data-bind="click:configureSortClick(sortFields.creditExpiry)">
                             <span>@Resources.CreditApprovalExpiry</span>
-                            <span class="filter-ico filter-ico--asc">
+                            <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
@@ -172,41 +172,34 @@
                         <div class="main-table__block__row__cell program-option">
                             <span>@Resources.ProgramOption</span>
                         </div>
-                        <div class="main-table__block__row__cell loan-amount">
+                        <div class="main-table__block__row__cell loan-amount" data-bind="click:configureSortClick(sortFields.loanAmount)">
                             <span>@Resources.LoanAmount</span>
-                            <span class="filter-ico filter-ico--default">
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.loanAmount)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell term">
+                        <div class="main-table__block__row__cell term" data-bind="click:configureSortClick(sortFields.term)">
                             <span>@Resources.Term</span>
-                            <span class="filter-ico filter-ico--default">
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.term)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell amort">
+                        <div class="main-table__block__row__cell amort" data-bind="click:configureSortClick(sortFields.amort)">
                             <span>@Resources.Amort</span>
-                            <span class="filter-ico filter-ico--default">
+                            <span data-bind="attr:{class:filterClasses(sortFields.amort)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell payment-amount">
+                        <div class="main-table__block__row__cell payment-amount" data-bind="click:configureSortClick(sortFields.payment)">
                             <span>@Resources.Payment</span>
-                            <span class="filter-ico filter-ico--default">
+                            <span data-bind="attr:{class:filterClasses(sortFields.payment)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        @*<div class="main-table__block__row__cell funded-amount">
-                                <span>@Resources.FundedAmount</span>
-                                <span class="filter-ico filter-ico--default">
-                                    <i class="sort-arrow-top"></i>
-                                    <i class="sort-arrow-bottom"></i>
-                                </span>
-                            </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span>@Resources.ProjectType</span>
                         </div>
@@ -290,9 +283,6 @@
                         <div class="main-table__block__row__cell payment-amount">
                             <span data-bind="text: $data.MonthlyPayment"></span>
                         </div>
-                        @*<div class="main-table__block__row__cell funded-amount">
-                                <span data-bind="text: $data.LoanAmount"></span>
-                            </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span data-bind="text: $data.Equipment"></span>
                         </div>
@@ -507,8 +497,8 @@
                         <i class="pagination-left-ico"></i>
                     </a>
                     <ul class="new-pagination__pages" data-bind="foreach: allPages">
-                        <li data-bind="css: { active: $parent.pageIndex() == $data }">
-                            <a data-bind="text: $data + 1, click: $parent.moveToPage"></a>
+                        <li data-bind="css: { active: $data.active }, disable:$data.disabled">
+                            <a data-bind="text: $data.pageNumber + 1, click: $parent.moveToPage"></a>
                         </li>
                     </ul>
                     <a data-bind="click: goToNextPage">

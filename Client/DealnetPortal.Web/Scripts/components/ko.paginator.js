@@ -19,31 +19,45 @@
 
         this.allPages = ko.computed(function () {
             var pages = [];
+            var activePage = this.pageIndex();
             var maxPageIndex = this.maxPageIndex()
             for (var i = 0; i <= maxPageIndex; i++) {
-                pages.push(i);
+                pages.push({
+                    pageNumber: i,
+                    active: activePage == i,
+                    disabled: false,
+                });
             }
             return pages;
         }, this);
 
         this.goToFirstPage = function () {
             this.moveToPage(0);
-        }
+        };
 
         this.goToLastPage = function () {
             this.moveToPage(this.maxPageIndex());
-        }
+        };
 
         this.goToNextPage = function () {
-            this.moveToPage(this.pageIndex() + 1);
-        }
+            var pageIndex = this.pageIndex();
+            this.moveToPage({
+                pageNumber: pageIndex + 1,
+                disabled: pageIndex == this.maxPageIndex()
+            });
+        };
 
         this.goToPreviousPage = function () {
-            this.moveToPage(this.pageIndex() - 1);
-        }
+            var pageIndex = this.pageIndex();
+            this.moveToPage({
+                pageNumber: pageIndex - 1,
+                disabled: pageIndex == 0
+            });
+        };
 
-        this.moveToPage = (function (index) {
-            this.pageIndex(index);
+        this.moveToPage = (function (page) {
+            if (!page.disabled)
+                this.pageIndex(page.pageNumber);
         }).bind(this);
     };
 
