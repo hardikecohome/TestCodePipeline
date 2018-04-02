@@ -5,6 +5,8 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.Enumeration;
 
+using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
+
 namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class EquipmentInformationViewModelNew
@@ -87,6 +89,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public int? ContractId { get; set; }
 
+        public ContractState ContractState { get; set; }
+
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
 
         public bool IsAllInfoCompleted { get; set; }
@@ -116,6 +120,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsBeaconUpdated { get; set; }
         public bool IsCustomerFoundInCreditBureau { get; set; }
+        public bool IsSubmittedWithoutCustomerRateCard { get; set; }
     }
 
     public class SalesRepInformation

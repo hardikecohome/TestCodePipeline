@@ -352,8 +352,7 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.LoanOnly = true;
             }
             ViewBag.AdminFee = 0;
-            var contract = await _contractServiceAgent.GetContract(contractId);
-            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
+            if (model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
                         {
@@ -366,12 +365,7 @@ namespace DealnetPortal.Web.Controllers
                         };
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
-            }
-
-            if (contract.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
-            {
-                await _contractServiceAgent.NotifyContractEdit(contractId);
-            }
+            }            
 
             return View("EquipmentInformation/EquipmentInformation", model);
         }

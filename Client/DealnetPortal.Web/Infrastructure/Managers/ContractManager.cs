@@ -105,6 +105,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
+                ContractState = result.Item1.ContractState
             };
 
             if(result.Item1.Equipment != null)
@@ -151,7 +152,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer.CreditReport != null;
-
+            equipmentInfo.IsSubmittedWithoutCustomerRateCard = false;
             equipmentInfo.IsBeaconUpdated = result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
@@ -180,6 +181,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                          ?.CustomerRiskGroup == null))
                 {
                     equipmentInfo.IsCustomerFoundInCreditBureau = true;
+                    equipmentInfo.IsSubmittedWithoutCustomerRateCard = true;
                 }
             }
 
@@ -193,6 +195,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     .ToList();
 
                 equipmentInfo.CustomerComments = comments;
+            }
+
+            if (result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
+            {
+                await _contractServiceAgent.NotifyContractEdit(contractId);
             }
 
             return equipmentInfo;

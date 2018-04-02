@@ -664,6 +664,7 @@ namespace DealnetPortal.Web.App_Start
             //New Version
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModelNew>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.ContractState, d => d.Ignore())
                 .ForMember(x => x.DownPayment, d => d.MapFrom(src => src.DownPayment == 0 ? null : src.DownPayment))
                 .ForMember(x => x.SelectedRateCardId, d => d.MapFrom(o => o.RateCardId))
                 .ForMember(x => x.IsAdminFeePaidByCustomer, d => d.MapFrom(o => o.IsFeePaidByCutomer))
@@ -687,7 +688,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.HouseSize, d => d.Ignore())
                 .ForMember(x => x.CustomerComments, d => d.Ignore())
                 .ForMember(x => x.IsNewContract, d => d.Ignore())
-                .ForMember(x => x.DealerTier, d => d.Ignore());
+                .ForMember(x => x.DealerTier, d => d.Ignore())
+                .ForMember(x => x.IsCustomerFoundInCreditBureau, d => d.Ignore())
+                .ForMember(x => x.IsSubmittedWithoutCustomerRateCard, d => d.Ignore());
 
             cfg.CreateMap<ContractDTO, SalesRepInformation>()
                 .ForMember(x => x.SalesRep, d => d.ResolveUsing(src => src.Equipment?.SalesRep))
