@@ -141,6 +141,10 @@
                 $('#paymentInfo').addClass('hidden');
             }
             $("#requested-term").rules("add", "required");
+
+            if (!$('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').addClass('hidden');
+            }
         }
         updateEquipmentCosts(agreementType);
     }

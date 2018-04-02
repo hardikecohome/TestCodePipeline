@@ -10,7 +10,7 @@
     };
 
     var isEmployedOrSelfEmployed = function (state) {
-        return state.employStatus == 0 || state.employStatus == 2
+        return state.employStatus == 0 || state.employStatus == 2;
     }
     var getRequiredEmpoyment = function (state) {
         return {

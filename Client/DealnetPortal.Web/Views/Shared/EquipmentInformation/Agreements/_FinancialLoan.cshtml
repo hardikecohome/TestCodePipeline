@@ -36,17 +36,14 @@
             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
         </svg>
         @Resources.FinProgramUnavailable
-    </div>
-}
-else
-{
-    <div id="bureau-program" class="well well-info position-well bureau-well-length clear-border hidden">
+    </div><div id="bureau-program" class="well well-info position-well bureau-well-length clear-border @(Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
         <svg aria-hidden="true" class="icon icon-info-well bureau-icon-well-second" style="top: 23px;">
             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
         </svg>
         @Resources.CustomerCoveredByBureauLoan
     </div>
 }
+
 <div class="rate-cards-padding">
     <div class="jcarousel-wrapper rate-cards-container steps-carousel" id="rateCardsBlock">
         <div class="jcarousel">
