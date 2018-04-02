@@ -411,13 +411,30 @@ div[class*="equal-height-row"]{
 
 .bureau-well-info {
     width: 805px;
+    @media @mobile {
+        width: 350px;
+    }
 }
 
 .bureau-well {
     top: 20px !important;
     left: 3px !important;
+
+    @media @mobile {
+        top: 45px !important;
+    }
+}
+
+.bureau-icon-well-second {
+    top: 23px;
+    @media @mobile {
+        top: 45px !important;
+    }
 }
 
 .bureau-well-length {
     width: 700px;
+    @media @mobile {
+        width: 350px;
+    }
 }

@@ -153,7 +153,7 @@
             if ($('#' + dropdownSelector).is(':disabled')) {
                 $('#' + dropdownSelector).attr('disabled', false);
             }
-            _buildDropdownValues(dropdownSelector, dropdown, dropdowns, true);
+            _buildDropdownValues(dropdownSelector, dropdown, dropdowns.reverse(), true);
         }
     }
 
