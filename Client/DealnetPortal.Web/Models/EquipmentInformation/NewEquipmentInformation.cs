@@ -16,6 +16,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [CustomRequired]
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Description")]
+        [RegularExpression(@"^[^'<>&]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "SomeSpecialCharactersAreRestricted")]
         public string Description { get; set; }
 
         [CustomRequired]

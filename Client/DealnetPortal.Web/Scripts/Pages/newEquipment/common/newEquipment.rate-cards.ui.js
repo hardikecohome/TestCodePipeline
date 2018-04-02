@@ -24,7 +24,11 @@
             $('#paymentInfo').addClass('hidden');
         }
 
-        if (state.agreementType === 0 && state.isCustomerFoundInCreditBureau) {
+        if (!state.isCustomerFoundInCreditBureau) {
+            if (!$('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').addClass('hidden');
+            }            
+        } else {            
             if ($('#bureau-program').hasClass('hidden')) {
                 $('#bureau-program').removeClass('hidden');
             }
@@ -43,11 +47,9 @@
             $('#paymentInfo').removeClass('hidden');
         }
 
-        if (state.agreementType === 0 && state.isCustomerFoundInCreditBureau) {
-            if (!$('#bureau-program').hasClass('hidden')) {
+        if (!$('#bureau-program').hasClass('hidden')) {
                 $('#bureau-program').addClass('hidden');
             }
-        }
     }
 
     var toggleRateCardBlock = function (isOpenCondition) {
@@ -139,6 +141,10 @@
                 $('#paymentInfo').addClass('hidden');
             }
             $("#requested-term").rules("add", "required");
+
+            if (!$('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').addClass('hidden');
+            }
         }
         updateEquipmentCosts(agreementType);
     }

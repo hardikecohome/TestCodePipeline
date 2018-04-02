@@ -105,6 +105,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var equipmentInfo = new EquipmentInformationViewModelNew()
             {
                 ContractId = contractId,
+                ContractState = result.Item1.ContractState
             };
 
             if(result.Item1.Equipment != null)
@@ -151,7 +152,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.IsFirstStepAvailable = result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
             equipmentInfo.IsCustomerFoundInCreditBureau = result.Item1.PrimaryCustomer.CreditReport != null;
-
+            equipmentInfo.IsSubmittedWithoutCustomerRateCard = false;
             equipmentInfo.IsBeaconUpdated = result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
@@ -172,6 +173,18 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 || dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
             }
 
+            // do not show warn for submitted deals
+            if (!equipmentInfo.IsCustomerFoundInCreditBureau && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
+            {
+                if (equipmentInfo.AgreementType == Models.Enumeration.AgreementType.RentalApplication ||
+                    (dealerTier?.RateCards?.FirstOrDefault(r => r.Id == result.Item1.Equipment?.RateCardId)
+                         ?.CustomerRiskGroup == null))
+                {
+                    equipmentInfo.IsCustomerFoundInCreditBureau = true;
+                    equipmentInfo.IsSubmittedWithoutCustomerRateCard = true;
+                }
+            }
+
             AddAditionalContractInfo(result.Item1, equipmentInfo);
 
             if(result.Item1.Comments.Any(x => x.IsCustomerComment == true))
@@ -182,6 +195,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     .ToList();
 
                 equipmentInfo.CustomerComments = comments;
+            }
+
+            if (result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
+            {
+                await _contractServiceAgent.NotifyContractEdit(contractId);
             }
 
             return equipmentInfo;
@@ -388,8 +406,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .ToDictionary(s => s.Key, s => s.Value);
             model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
-            if(model.DealerTier != null && model.DealerTier.Id ==
-                Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Amort180RateCardId"]))
+            if(model.DealerTier != null && model.DealerTier.Name == _clarityProgramTier)
             {
                 model.TotalAmountFinancedFor180AmortTerm = 4999;
             }

@@ -34,6 +34,7 @@
             deferralDropdownId: '#DeferralPeriodDropdown',
             deferralTermId: '#deferralLATerm',
             expiredRateCardWarningId: '#expired-rate-card-warning',
+            bureauProgramId : '#bureau-program',
             customRateCardId: '#custom-rate-card',
             rateCardBlockId: '#rateCardsBlock',
             rentalMonthlyPaymentId: '#rentalTMPayment',

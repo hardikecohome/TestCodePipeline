@@ -976,6 +976,9 @@
   <data name="VoidChequeBankPAPAuthorizationLetter" xml:space="preserve">
     <value>Void Cheque Bank PAD Authorization Letter</value>
   </data>
+  <data name="_ConditionalApproval" xml:space="preserve">
+    <value>Conditional Approval</value>
+  </data>
   <data name="ContractChangedCancelledEsign" xml:space="preserve">
     <value>Contract was changed</value>
   </data>

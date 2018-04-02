@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
-@using System.Security.Claims;
+@using System.Security.Claims
 @model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
 <div class="dealnet-large-header">@Resources.ContactAndPaymentInfo</div>
@@ -90,10 +90,10 @@
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new
                             {
-                            @class = "form-control dealnet-input",
-                            id = "email-address",
-                            placeholder = Resources.EmailAddress,
-                            type = "email"
+                                @class = "form-control dealnet-input",
+                                id = "email-address",
+                                placeholder = Resources.EmailAddress,
+                                type = "email"
                             })
                             @Html.ValidationMessageFor(m => m.HomeOwnerContactInfo.EmailAddress, "", new { @class = "text-danger" })
                         </div>
@@ -189,10 +189,10 @@
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new
                                     {
-                                    @class = "form-control dealnet-input",
-                                    id = "email-address",
-                                    placeholder = Resources.EmailAddress,
-                                    type = "email"
+                                        @class = "form-control dealnet-input",
+                                        id = "email-address",
+                                        placeholder = Resources.EmailAddress,
+                                        type = "email"
                                     })
                                     @Html.ValidationMessageFor(m => m.CoBorrowersContactInfo[i].EmailAddress, "", new { @class = "text-danger" })
                                 </div>
@@ -366,6 +366,10 @@
                         </div>
                       </div>
                     </div>*@
+            <div class="well well-info position-well clear-border " id="enbridge-fee-notification">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.EnbrideFeeNotification
+            </div>
             <div class="save-proceed-btn-hold">
                 <button class="btn btn-green btn-form">
                     @Resources.SaveAndProceed

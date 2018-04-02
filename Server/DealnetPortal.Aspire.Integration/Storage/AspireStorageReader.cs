@@ -13,12 +13,22 @@ namespace DealnetPortal.Aspire.Integration.Storage
     {
         private readonly IDatabaseService _databaseService;
         private readonly IQueriesStorage _queriesStorage;
-        private readonly ILoggingService _loggingService;        
-        public AspireStorageReader(IDatabaseService databaseService, IQueriesStorage queriesStorage, ILoggingService loggingService)
+        private readonly ILoggingService _loggingService;
+        private Dictionary<string, string> _queryNames;
+
+        public AspireStorageReader(IDatabaseService databaseService, IQueriesStorage queriesStorage, ILoggingService loggingService, Dictionary<string, string> queryNames = null)
         {
             _databaseService = databaseService;
             _queriesStorage = queriesStorage;
             _loggingService = loggingService;
+            SetupDefaulQueryNames();
+            if (queryNames?.Any() == true)
+            {
+                foreach (var qn in queryNames)
+                {
+                    _queryNames[qn.Key] = qn.Value;
+                }
+            }
         }
 
         public IList<DropDownItem> GetGenericFieldValues()
@@ -41,7 +51,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public IList<GenericSubDealer> GetSubDealersList(string dealerUserName)
         {           
-            string sqlStatement = _queriesStorage.GetQuery("GetSubDealers");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetSubDealersList)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 sqlStatement = string.Format(sqlStatement, dealerUserName);
@@ -57,7 +67,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public IList<Contract> GetDealerDeals(string dealerUserName)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetDealerDeals");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerDeals)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 sqlStatement = string.Format(sqlStatement, dealerUserName);
@@ -73,7 +83,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public Entity GetDealerInfo(string dealerUserName)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetDealerInfoByUserId");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerInfo)]);
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
@@ -93,7 +103,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
         
         public Entity GetCustomerById(string customerId)
         {           
-            string sqlStatement = _queriesStorage.GetQuery("GetCustomerById");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetCustomerById)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
 
@@ -113,7 +123,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public Entity FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode)
         {            
-            string sqlStatement = _queriesStorage.GetQuery("FindCustomer");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(FindCustomer)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);
@@ -133,7 +143,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public DealerRoleEntity GetDealerRoleInfo(string dealerUserName)
         {
-            string sqlStatement = _queriesStorage.GetQuery("DealerRoleInformation");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerRoleInfo)]);
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
@@ -153,7 +163,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public string GetDealStatus(string transactionId)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetDealStatus");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealStatus)]);
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
@@ -180,7 +190,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         public CreditReport GetCustomerCreditReport(string customerId)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetCustomerBeaconById");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetCustomerCreditReport)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 try
@@ -207,7 +217,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
         public CreditReport GetCustomerCreditReport(string firstName, string lastName, DateTime dateOfBirth,
             string postalCode)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetCustomerBeacon.dev");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames["GetCustomerCreditReport.dev"]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 try
@@ -493,6 +503,20 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 _loggingService.LogError("Cannot read credit report record from Aspire DB", ex);
                 return null;
             }
+        }
+
+        private void SetupDefaulQueryNames()
+        {
+            _queryNames = new Dictionary<string, string>();
+            _queryNames.Add(nameof(GetSubDealersList), "GetSubDealers");
+            _queryNames.Add(nameof(GetDealerDeals), "GetDealerDeals");
+            _queryNames.Add(nameof(GetDealerInfo), "GetDealerInfoByUserId");
+            _queryNames.Add(nameof(GetCustomerById), "GetCustomerById");
+            _queryNames.Add(nameof(FindCustomer), "FindCustomer");
+            _queryNames.Add(nameof(GetDealerRoleInfo), "DealerRoleInformation");
+            _queryNames.Add(nameof(GetDealStatus), "GetDealStatus");
+            _queryNames.Add(nameof(GetCustomerCreditReport), "GetCustomerBeaconById");
+            _queryNames.Add("GetCustomerCreditReport.dev", "GetCustomerBeacon.dev");            
         }
 
         public static T ConvertFromDbVal<T>(object obj)

@@ -329,6 +329,11 @@
   padding: 13px 0 0;
 }
 
+.header__logo-img {
+  float: left;
+  max-width: 105px;
+}
+
 @media screen and (min-width: 1309px) {
   .header__background .container {
     display: flex;
@@ -351,11 +356,6 @@
     order: 3;
     margin-left: auto;
   }
-}
-
-.header__logo-img {
-  float: left;
-  max-width: 105px;
 }
 
 :lang(fr) .header__navigation ul li a,
@@ -519,6 +519,22 @@
   text-decoration: underline;
   margin-right: 10px;
 }
+  margin: 0; }
+  .header__support-links-list li {
+    float: left;
+    line-height: 10px; }
+    .header__support-links-list li [class^="icon-"],
+    .header__support-links-list li [class*=" icon-"] {
+      vertical-align: text-bottom; }
+      .header__support-links-list li [class^="icon-"]:before,
+      .header__support-links-list li [class*=" icon-"]:before {
+        font-size: 20px; }
+    .header__support-links-list li a {
+      color: #97c501;
+      text-decoration: underline;
+      margin-right: 10px;
+	  font-size: 10px;
+    }
 
 .header__select {
   border: 0;

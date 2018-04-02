@@ -49,7 +49,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<EquipmentInfo, EquipmentInfoDTO>()
                 .ForMember(x => x.NewEquipment, d => d.ResolveUsing(src => src.NewEquipment?.Where(ne => ne.IsDeleted != true)))
                 .ForMember(x => x.IsCustomRateCard, d => d.MapFrom(src => src.IsCustomRateCard))
-                .ForMember(x => x.IsFeePaidByCutomer, d => d.MapFrom(src => src.IsFeePaidByCutomer ?? false));
+                .ForMember(x => x.IsFeePaidByCutomer, d => d.MapFrom(src => src.IsFeePaidByCutomer));
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore());

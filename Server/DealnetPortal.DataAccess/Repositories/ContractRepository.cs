@@ -1561,6 +1561,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             else
             {
+                customer.EmploymentInfo.MonthlyMortgagePayment = employmentInfo.MonthlyMortgagePayment;
                 customer.EmploymentInfo.AnnualSalary = employmentInfo.AnnualSalary;
                 customer.EmploymentInfo.CompanyName = employmentInfo.CompanyName;
                 customer.EmploymentInfo.CompanyPhone = employmentInfo.CompanyPhone;

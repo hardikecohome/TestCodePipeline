@@ -304,6 +304,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional Applicant Mortgage &amp; Employment Information.
+        /// </summary>
+        public static string AdditionalApplicantEmploymentInformation {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantEmploymentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Information.
         /// </summary>
         public static string AdditionalApplicantInformation {
@@ -615,6 +624,15 @@ namespace DealnetPortal.Web.Resources {
         public static string AnnualSalaryIncome {
             get {
                 return ResourceManager.GetString("AnnualSalaryIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Annual Salary/Income is in incorrect format.
+        /// </summary>
+        public static string AnnualSalaryIncomeIncorrectFormat {
+            get {
+                return ResourceManager.GetString("AnnualSalaryIncomeIncorrectFormat", resourceCulture);
             }
         }
         
@@ -988,7 +1006,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Borrower Employment Information.
+        ///   Looks up a localized string similar to Borrower Mortgage &amp; Employment Information.
         /// </summary>
         public static string BorrowerEmploymentInformation {
             get {
@@ -1681,6 +1699,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditional Approval for.
+        /// </summary>
+        public static string ConditionalApprovalFor {
+            get {
+                return ResourceManager.GetString("ConditionalApprovalFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -1762,7 +1789,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425, boul de Maisonn [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425 Boul. De Maisonn [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ConsentToReceiveCommercialElectronicMessagesDPQC {
             get {
@@ -2863,6 +2890,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enbridge payment option is available at a Dealer fee of $99.
+        /// </summary>
+        public static string EnbrideFeeNotification {
+            get {
+                return ResourceManager.GetString("EnbrideFeeNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ENBRIDGE.
         /// </summary>
         public static string EnbridgeCapital {
@@ -3561,6 +3597,15 @@ namespace DealnetPortal.Web.Resources {
         public static string HourlyRate {
             get {
                 return ResourceManager.GetString("HourlyRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hourly Rate is in incorrect format.
+        /// </summary>
+        public static string HourlyRateIncorrectFormat {
+            get {
+                return ResourceManager.GetString("HourlyRateIncorrectFormat", resourceCulture);
             }
         }
         
@@ -4470,6 +4515,24 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyFinancedValueIncorrectFormat {
             get {
                 return ResourceManager.GetString("MonthlyFinancedValueIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Mortgage Payment (principal &amp; interest).
+        /// </summary>
+        public static string MonthlyMortgagePayment {
+            get {
+                return ResourceManager.GetString("MonthlyMortgagePayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Mortgage Payment is in incorrect format.
+        /// </summary>
+        public static string MonthlyMortgagePaymentIncorrectFormat {
+            get {
+                return ResourceManager.GetString("MonthlyMortgagePaymentIncorrectFormat", resourceCulture);
             }
         }
         
@@ -6640,6 +6703,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SoleProp {
             get {
                 return ResourceManager.GetString("SoleProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some special characters like &apos;, &lt;, &gt;, &amp; are not allowed.
+        /// </summary>
+        public static string SomeSpecialCharactersAreRestricted {
+            get {
+                return ResourceManager.GetString("SomeSpecialCharactersAreRestricted", resourceCulture);
             }
         }
         

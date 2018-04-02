@@ -246,6 +246,11 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     contract.IsNewlyCreated = false;
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    if (!string.IsNullOrEmpty(contract.Dealer?.UserName))
+                    {
+                        contract.LastUpdateOperator = contract.Dealer?.UserName;
+                    }
                     _unitOfWork.Save();
                 }
                 catch (Exception ex)
@@ -277,7 +282,8 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var stream = new MemoryStream();
             var contracts = GetContracts(ids, contractOwnerId);
-            XlsxExporter.Export(contracts, stream, timeZoneOffset);
+            var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();
+            XlsxExporter.Export(contracts, stream, provincialTaxRates);
             var report = new AgreementDocument()
             {
                 DocumentRaw = stream.ToArray(),
