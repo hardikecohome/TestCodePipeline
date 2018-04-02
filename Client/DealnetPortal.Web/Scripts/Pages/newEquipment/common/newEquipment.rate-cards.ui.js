@@ -24,7 +24,7 @@
             $('#paymentInfo').addClass('hidden');
         }
 
-        if (state.agreementType === 0 && state.isCustomerFoundInCreditBureau) {
+        if (state.isCustomerFoundInCreditBureau) {
             if ($('#bureau-program').hasClass('hidden')) {
                 $('#bureau-program').removeClass('hidden');
             }
@@ -43,7 +43,7 @@
             $('#paymentInfo').removeClass('hidden');
         }
 
-        if (state.agreementType === 0 && state.isCustomerFoundInCreditBureau) {
+        if (state.isCustomerFoundInCreditBureau) {
             if (!$('#bureau-program').hasClass('hidden')) {
                 $('#bureau-program').addClass('hidden');
             }
