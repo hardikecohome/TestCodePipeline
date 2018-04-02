@@ -25,9 +25,8 @@
 
     var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
-    var requiredEmployment = [];
 
-    var getErrors = configGetErrors(requiredFields, requiredPFields, requiredEmployment);
+    var getErrors = configGetErrors(requiredFields, requiredPFields);
 
     var flowMiddleware = function (store) {
         return function (next) {
@@ -319,8 +318,8 @@
             initInstallationAddress(customerFormStore);
             initContactInfo(customerFormStore);
             initAgreement(customerFormStore);
-			initEmployment(customerFormStore);
-			
+            initEmployment(customerFormStore);
+
             $('.j-personal-data-used-modal').on('click', function (e) {
                 var data = {
                     message: $('#personal-data-used').html(),
@@ -386,67 +385,6 @@
                     $('#addtionalInfoPanel').addClass('active-panel');
                 } else {
                     $('#addtionalInfoPanel').removeClass('active-panel');
-                }
-            });
-
-            observeCustomerFormStore(function (state) {
-                return {
-                    province: state.province,
-                    employStatus: state.employStatus,
-                    incomeType: state.incomeType,
-                    isQuebecDealer: state.isQuebecDealer
-                }
-            })(function (props) {
-                requiredEmployment = [];
-                if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
-                    if (props.employStatus === '') {
-                        requiredEmployment.push('employStatus');
-                    }
-                    if (props.employStatus === '0') {
-                        requiredEmployment = requiredEmployment.concat(['employStatus',
-                            'incomeType',
-                            'yearsOfEmploy',
-                            'employType',
-                            'jobTitle',
-                            'companyName',
-                            'companyPhone',
-                            'cstreet',
-                            'cunit',
-                            'ccity',
-                            'cprovince',
-                            'cpostalCode'
-                        ]);
-                        if (props.incomeType === '0') {
-                            requiredEmployment.push('annualSalary');
-                        }
-                        if (props.incomeType === '1') {
-                            requiredEmployment.push('hourlyRate');
-                        }
-                        if (props.yearsOfEmploy !== '10+') {
-                            requiredEmployment.push('monthsOfEmploy');
-                        }
-                    }
-                    if (props.employStatus === '1' || props.employStatus === '3') {
-                        requiredEmployment = requiredEmployment.concat(['employStatus', 'annualSalary']);
-                    }
-                    if (props.employStatus === '2') {
-                        requiredEmployment.concat(['employStatus',
-                            'annualSalary',
-                            'yearsOfEmploy',
-                            'employType',
-                            'jobTitle',
-                            'companyName',
-                            'companyPhone',
-                            'cstreet',
-                            'cunit',
-                            'ccity',
-                            'cprovince',
-                            'cpostalCode'
-                        ]);
-                        if (props.yearsOfEmploy !== '10+') {
-                            requiredEmployment.push('monthsOfEmploy');
-                        }
-                    }
                 }
             });
 

@@ -8,8 +8,31 @@
             cellPhone: state.phone === ''
         };
     };
-    
-    var getErrors = function (requiredFields, requiredPFields,requiredEmploy) {
+
+    var isEmployedOrSelfEmployed = function (state) {
+        return state.employStatus == 0 || state.employStatus == 2
+    }
+    var getRequiredEmpoyment = function (state) {
+        return {
+            employStatus: true,
+            incomeType: state.employStatus == 0,
+            annualSalary: state.employStatus == 0 && state.incomeType == 0 || true,
+            hourlyRate: state.employStatus == 0 && state.incomeType == 1 || false,
+            yearsOfEmploy: isEmployedOrSelfEmployed(state),
+            monthsOfEmploy: isEmployedOrSelfEmployed(state) &&
+                state.yearsOfEmploy != '10+',
+            employType: state.employStatus == 0,
+            jobTitle: isEmployedOrSelfEmployed(state),
+            companyName: isEmployedOrSelfEmployed(state),
+            companyPhone: isEmployedOrSelfEmployed(state),
+            cstreet: isEmployedOrSelfEmployed(state),
+            ccity: isEmployedOrSelfEmployed(state),
+            cprovince: isEmployedOrSelfEmployed(state),
+            cpostalCode: isEmployedOrSelfEmployed(state)
+        };
+    };
+
+    var getErrors = function (requiredFields, requiredPFields) {
         return function (state) {
             var errors = [];
 
@@ -51,8 +74,10 @@
 
             var requiredP = state.lessThanSix ? requiredPFields : [];
 
-            var requiredE = isQuebecAddress ? requiredEmploy : [];
-            
+            var requiredE = isQuebecAddress ? filterObj(function (key, obj) {
+                return obj[key];
+            })(getRequiredEmpoyment(state)) : [];
+
             var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).concat(requiredE).map(mapObj(state))
                 .some(function (val) {
                     return typeof val === 'string' ? val === '' : !val;
