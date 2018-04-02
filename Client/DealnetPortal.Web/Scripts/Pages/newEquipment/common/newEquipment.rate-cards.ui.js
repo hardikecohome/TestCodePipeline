@@ -25,6 +25,10 @@
         }
 
         if (state.isCustomerFoundInCreditBureau) {
+            if (!$('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').addClass('hidden');
+            }            
+        } else {            
             if ($('#bureau-program').hasClass('hidden')) {
                 $('#bureau-program').removeClass('hidden');
             }
@@ -43,11 +47,9 @@
             $('#paymentInfo').removeClass('hidden');
         }
 
-        if (state.isCustomerFoundInCreditBureau) {
-            if (!$('#bureau-program').hasClass('hidden')) {
+        if (!$('#bureau-program').hasClass('hidden')) {
                 $('#bureau-program').addClass('hidden');
             }
-        }
     }
 
     var toggleRateCardBlock = function (isOpenCondition) {
