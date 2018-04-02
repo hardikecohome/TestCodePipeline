@@ -20,32 +20,27 @@
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
     <div class="form-section">
-
-        @if(Model.IsCustomerFoundInCreditBureau)
+        @if((Model.DealerTier.CustomerRiskGroup == null || Model.IsCustomerFoundInCreditBureau) && TempData["MaxCreditAmount"] != null)
         {
-            if(TempData["MaxCreditAmount"] != null)
-            {
-                <p class="align-middle equipment-proceed-success">
-                    <svg aria-hidden="true" class="icon icon-success">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                    </svg>
-                    <span>@Resources.CreditCheckProcessedSuccessfully</span>
-                </p>
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
+                <span>@Resources.CreditCheckProcessedSuccessfully</span>
+            </p>
 
-                <p class="text-semibold preapproved-text">
-                    @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
-                </p>
-            }
-            if(Model.IsBeaconUpdated)
-            {
-                <p class="align-middle equipment-proceed-success">
-                    <svg aria-hidden="true" class="icon icon-success">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                    </svg>
-                    <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
-                </p>
-            }
-
+            <p class="text-semibold preapproved-text">
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+            </p>
+        }
+        @if(Model.IsCustomerFoundInCreditBureau && Model.IsBeaconUpdated)
+        {
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
+                <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
+            </p>
         }
     </div>
 </div>
