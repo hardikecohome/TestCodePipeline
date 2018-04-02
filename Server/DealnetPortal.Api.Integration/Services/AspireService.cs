@@ -1276,7 +1276,7 @@ namespace DealnetPortal.Api.Integration.Services
                 Role = companyRole,
                 IsIndividual = false,
                 IsPrimary = true,
-                Legalname = companyInfo.OperatingName,                
+                Legalname = companyInfo.OperatingName, // Legalname tag populates Name field in aspire and Business have requested to populate OperatingName in this field. Please refer Deal-4266 Link: https://support.dataart.com/browse/DEAL-4266       
                 //Dba = companyInfo.OperatingName,
                 EmailAddress = companyInfo.EmailAddress,                
                 CreditReleaseObtained = true,
