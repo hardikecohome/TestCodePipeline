@@ -20,6 +20,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public decimal CreditAmount { get; set; }
         public int ScorecardPoints { get; set; }
+        public int? CustomerBeacon { get; set; }
         public string Status { get; set; }
         public IList<string> EquipmentTypes { get; set; }
         public ContractState ContractState { get; set; }
