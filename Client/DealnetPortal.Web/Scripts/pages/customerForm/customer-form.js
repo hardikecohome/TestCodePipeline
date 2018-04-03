@@ -382,9 +382,9 @@
                 }
 
                 if (props.activePanel === 'contactInfo') {
-                    $('#addtionalInfoPanel').addClass('active-panel');
+                    $('#additionalInfoPanel').addClass('active-panel');
                 } else {
-                    $('#addtionalInfoPanel').removeClass('active-panel');
+                    $('#additionalInfoPanel').removeClass('active-panel');
                 }
             });
 
