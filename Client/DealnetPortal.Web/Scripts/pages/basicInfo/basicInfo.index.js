@@ -63,7 +63,7 @@
 
         configInitialized
             .then(function () {});
-
+		$('#save-and-proceed-button').prop('disabled', false);
         $('.dob-group').each(function (index, el) {
             dob.initDobGroup(el);
         });
@@ -315,7 +315,19 @@
 
         $('#additional1-remove').click(function () {
             additionalEmployment.disableEmployment();
-        });
+		});
+
+		var form = $('#main-form');
+		form.submit(function (e) {
+			$('#save-and-proceed-button').prop('disabled', true);
+
+			if (!form.valid()) {
+				e.preventDefault();
+				$('#save-and-proceed-button').prop('disabled', false);
+			}
+
+
+		});
     }
 
     return {
