@@ -182,6 +182,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 {
                     equipmentInfo.IsCustomerFoundInCreditBureau = true;
                     equipmentInfo.IsSubmittedWithoutCustomerRateCard = true;
+
+                    //remove rate cards with risk based pricing
+                    if (dealerTier?.RateCards?.Any() == true)
+                    {
+                        dealerTier.RateCards = dealerTier.RateCards.Where(rc => rc.CustomerRiskGroup == null).ToList();
+                        equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
+                    }
+
                 }
             }
 
