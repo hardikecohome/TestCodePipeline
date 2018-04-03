@@ -34,7 +34,7 @@
             deferralDropdownId: '#DeferralPeriodDropdown',
             deferralTermId: '#deferralLATerm',
             expiredRateCardWarningId: '#expired-rate-card-warning',
-            bureauProgramId : '#bureau-program',
+            bureauProgramId: '#bureau-program',
             customRateCardId: '#custom-rate-card',
             rateCardBlockId: '#rateCardsBlock',
             rentalMonthlyPaymentId: '#rentalTMPayment',
@@ -59,7 +59,7 @@
          */
         var init = function (id, cards, onlyCustomRateCard, bill59Equipment) {
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
-            
+
             if (isOnlyLoan) {
                 if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
                     $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
@@ -74,9 +74,9 @@
 
             if (state.isDisplayAdminFee) {
                 $(settings.adminFeeSectionId).removeClass('hidden');
-                state.isCoveredByCustomer = $(settings.coveredByCustomerId).val() !== ''
-                    ? $(settings.coveredByCustomerId).val().toLowerCase() === 'true'
-                    : undefined;
+                state.isCoveredByCustomer = $(settings.coveredByCustomerId).val() !== '' ?
+                    $(settings.coveredByCustomerId).val().toLowerCase() === 'true' :
+                    undefined;
             } else {
                 state.isCoveredByCustomer = undefined;
             }
@@ -214,13 +214,16 @@
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
 
             $('#initiated-contract-checkbox').on('click', function (e) {
-                $('#initiated-contract').val(e.target.checked); _toggleSalesRepErrors(false);
+                $('#initiated-contract').val(e.target.checked);
+                _toggleSalesRepErrors(false);
             });
             $('#negotiated-agreement-checkbox').on('click', function (e) {
-                $('#negotiated-agreement').val(e.target.checked); _toggleSalesRepErrors(false);
+                $('#negotiated-agreement').val(e.target.checked);
+                _toggleSalesRepErrors(false);
             });
             $('#concluded-agreement-checkbox').on('click', function (e) {
-                $('#concluded-agreement').val(e.target.checked); _toggleSalesRepErrors(false);
+                $('#concluded-agreement').val(e.target.checked);
+                _toggleSalesRepErrors(false);
             });
             $('.custom-radio').on('click', _setAdminFeeCoveredBy);
         }
@@ -231,7 +234,7 @@
             $('.afee-is-covered').prop('checked', false);
             var $input = $this.find('input');
             var val = $input.val().toLowerCase() === 'true';
-            $(settings.coveredByCustomerId).val(val);
+            $(settings.coveredByCustomerId).val(val).valid();
             rateCardBlock.toggleIsAdminFeeCovered(val);
             $input.prop('checked', true);
             setters.setAdminFeeIsCovered(val);
@@ -239,7 +242,7 @@
 
 
         function _toggleSalesRepErrors(show) {
-            $.each($('#sales-rep-types').find('span.checkbox-icon'), function(i, el) {
+            $.each($('#sales-rep-types').find('span.checkbox-icon'), function (i, el) {
                 var $el = $(el);
                 show ? $el.addClass('checkbox-error') : $el.removeClass('checkbox-error');
             });
