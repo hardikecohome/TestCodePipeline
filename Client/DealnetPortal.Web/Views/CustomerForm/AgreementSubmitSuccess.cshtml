@@ -19,7 +19,7 @@
         @if (Model.CreditAmount > 0)
         {
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-            @if (Model.CustomerBeacon != 0)
+            if (Model.CustomerBeacon != 0)
             {
                 <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{Model.CreditAmount:0,00}"))</h2>
             }
