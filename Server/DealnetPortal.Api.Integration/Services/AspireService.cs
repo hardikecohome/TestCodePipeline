@@ -1805,7 +1805,7 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.Equipment.AmortizationTerm?.ToString() ?? "0" : "0"
                 });
 
-                if (contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment.LoanTerm.HasValue && (new decimal[] { 24m, 36m, 48m, 60m, 84m, 120m }).Contains(contract.Equipment.LoanTerm.Value))
+                if (contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment.LoanTerm.HasValue)
                 {
                     udfList.Add(new UDF()
                     {
