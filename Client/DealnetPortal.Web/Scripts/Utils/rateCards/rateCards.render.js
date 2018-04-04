@@ -92,6 +92,16 @@
         } else {
             deferralValue = +$('#' + selectorName + '-deferralDropdown').val();
         }
+        if (isStandalone) {
+            var program = $('#' + selectorName + '-programDropdown').val();
+            items = items.filter(function(item) {
+                if (program === undefined || item.CustomerRiskGroup === null) {
+                    return item.CustomerRiskGroup === null;
+                } else {
+                    return item.CustomerRiskGroup.GroupName === program;
+                }
+            });
+        }
 
         $.each(items, function () {
             if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
