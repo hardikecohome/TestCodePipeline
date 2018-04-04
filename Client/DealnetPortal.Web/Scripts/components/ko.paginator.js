@@ -20,14 +20,54 @@
         this.allPages = ko.computed(function () {
             var pages = [];
             var activePage = this.pageIndex();
-            var maxPageIndex = this.maxPageIndex()
-            for (var i = 0; i <= maxPageIndex; i++) {
+            var maxButtons = 6;
+
+            var startPage = 0;
+            var endPage = 0;
+            var count = this.list().length || 0;
+            if (maxButtons < count) {
+                startPage = Math.max(Math.min(activePage - Math.floor(maxButtons / 2, 10), count - maxButtons + 1), 1);
+                endPage = startPage + maxButtons - 1;
+            } else {
+                startPage = 1;
+                endPage = this.maxPageIndex();
+            }
+
+            for (var i = startPage; i <= endPage; i++) {
                 pages.push({
-                    pageNumber: i,
-                    active: activePage == i,
+                    pageNumber: i - 1,
+                    active: activePage == i - 1,
                     disabled: false,
+                    pageText: i
                 });
             }
+
+            if (startPage > 1 && startPage > 2) {
+                var first = pages.shift();
+                pages.unshift({
+                    pageText: '...',
+                    active: false,
+                    disabled: true
+                });
+                pages.unshift(first);
+            }
+
+            if (endPage < count && endPage < count - 1) {
+                var last = pages.pop();
+                pages.push({
+                    pageText: '...',
+                    active: false,
+                    disabled: true
+                });
+                var max = this.maxPageIndex();
+                pages.push({
+                    pageNumber: max - 1,
+                    active: activePage == max - 1,
+                    disabled: false,
+                    pageText: max
+                });
+            }
+
             return pages;
         }, this);
 

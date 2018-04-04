@@ -497,8 +497,8 @@
                         <i class="pagination-left-ico"></i>
                     </a>
                     <ul class="new-pagination__pages" data-bind="foreach: allPages">
-                        <li data-bind="css: { active: $data.active }, disable:$data.disabled">
-                            <a data-bind="text: $data.pageNumber + 1, click: $parent.moveToPage"></a>
+                        <li data-bind="css: { active: $data.active }">
+                            <a data-bind="text: $data.pageText, enable:!$data.disabled, click: $parent.moveToPage, css:{'disabled':$data.disabled}"></a>
                         </li>
                     </ul>
                     <a data-bind="click: goToNextPage">
