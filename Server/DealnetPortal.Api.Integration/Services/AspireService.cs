@@ -1864,10 +1864,17 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = contract.Equipment?.RateCard?.Tier?.Name ?? BlankValue
                 });
 
+                var creditAmount = contract.Details?.CreditAmount ?? 0.0m;
+
+                if (contract.Dealer?.Tier?.IsCustomerRisk == true && contract.PrimaryCustomer?.CreditReport == null)
+                {
+                    creditAmount = 0.0m;
+                }
+
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.ContractPreapprovalLimit,
-                    Value = contract.Details?.CreditAmount?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
+                    Value = creditAmount.ToString("F", CultureInfo.InvariantCulture)
                 });
 
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
