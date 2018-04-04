@@ -1188,9 +1188,10 @@ namespace DealnetPortal.Api.Integration.Services
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
-                    var postalCode =
-                        c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
-                        c.Locations?.FirstOrDefault()?.PostalCode;
+                    var postalCode = location.PostalCode;
+                        // Deal-4616 - Guarantor query fails as postal code was null for Guarantor with same address.
+                        //c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
+                        //c.Locations?.FirstOrDefault()?.PostalCode;
                     try
                     {
                         var aspireCustomer = _aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth,
