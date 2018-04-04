@@ -240,10 +240,10 @@
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
-                            <!-- ko if: $data.Id == 0-->
+                            <!-- ko ifnot: $data.Id -->
                             <span data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
-                            <!-- ko ifNot: $data.Id == 0 -->
+                            <!-- ko if: $data.Id -->
                             <a data-bind="attr: { href:$parent.editUrl($data.Id) }, text: $data.TransactionId "></a>
                             <!-- /ko -->
                         </div>
