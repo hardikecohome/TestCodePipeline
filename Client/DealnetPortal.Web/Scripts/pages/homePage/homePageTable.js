@@ -204,7 +204,8 @@ module.exports('table', function (require) {
         this.setList = function (list) {
             var tempList = list.map(function (item) {
                 return Object.assign({}, item, {
-                    isSelected: ko.observable(false)
+                    isSelected: ko.observable(false),
+                    isMobileOpen: ko.observable(false)
                 });
             });
             this.list(tempList);

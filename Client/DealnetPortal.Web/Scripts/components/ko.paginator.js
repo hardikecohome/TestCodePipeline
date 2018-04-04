@@ -20,17 +20,19 @@
         this.allPages = ko.computed(function () {
             var pages = [];
             var activePage = this.pageIndex();
-            var maxButtons = 6;
+            var maxPage = this.maxPageIndex();
+            var maxButtons = 5;
 
             var startPage = 0;
             var endPage = 0;
             var count = this.list().length || 0;
             if (maxButtons < count) {
                 startPage = Math.max(Math.min(activePage - Math.floor(maxButtons / 2, 10), count - maxButtons + 1), 1);
-                endPage = startPage + maxButtons - 1;
+                var tempEnd = startPage + maxButtons - 1;
+                endPage = maxPage < tempEnd ? maxPage : tempEnd;
             } else {
                 startPage = 1;
-                endPage = this.maxPageIndex();
+                endPage = maxPage;
             }
 
             for (var i = startPage; i <= endPage; i++) {
@@ -49,22 +51,26 @@
                     active: false,
                     disabled: true
                 });
-                pages.unshift(first);
+                pages.unshift({
+                    pageNumber: 0,
+                    active: activePage == 0,
+                    disabled: false,
+                    pageText: '1'
+                });
             }
 
-            if (endPage < count && endPage < count - 1) {
+            if (endPage < maxPage && endPage < maxPage - 1) {
                 var last = pages.pop();
                 pages.push({
                     pageText: '...',
                     active: false,
                     disabled: true
                 });
-                var max = this.maxPageIndex();
                 pages.push({
-                    pageNumber: max - 1,
-                    active: activePage == max - 1,
+                    pageNumber: maxPage,
+                    active: activePage == maxPage - 1,
                     disabled: false,
-                    pageText: max
+                    pageText: maxPage
                 });
             }
 

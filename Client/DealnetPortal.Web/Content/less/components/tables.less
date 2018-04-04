@@ -594,7 +594,9 @@ table
                     &.sales-rep,
                     &.entered-by,
                     &.icon-cell-notes,
-                    &.icon-cell-lead {
+                    &.icon-cell-lead,
+                    &.email,
+                    &.phone {
                         display: none;
                     }
 
@@ -611,11 +613,12 @@ table
                 }
 
                 .table-row-details {
+                    &.opened{
                     margin-top: 10px;
                     margin-bottom: 10px;
                     display: flex;
                     justify-content: space-around;
-
+                    }
                     &__left,
                     &__right {
                         display: flex;
@@ -633,7 +636,9 @@ table
                         &__entered-by,
                         &__notes,
                         &__lead,
-                        &__value {
+                        &__value,
+                        &__email,
+                        &__phone {
                             display: flex;
                             align-items: center;
                             flex-basis: 50%;
@@ -784,7 +789,9 @@ table
                     &.sales-rep,
                     &.entered-by,
                     &.icon-cell-notes,
-                    &.icon-cell-lead {
+                    &.icon-cell-lead,
+                    &.email,
+                    &.phone {
                         display: none;
                     }
 
@@ -805,13 +812,14 @@ table
                 }
 
                 .table-row-details {
+                    &.opened {
                     margin-top: 10px;
                     margin-bottom: 10px;
                     display: flex;
                     justify-content: space-around;
                     flex-direction: row;
                     flex-wrap: wrap;
-
+                    }
                     &__left,
                     &__right {
                         display: flex;
@@ -853,7 +861,9 @@ table
                         &__sales-rep,
                         &__entered-by,
                         &__notes,
-                        &__lead {
+                        &__lead,
+                        &__email,
+                        &__phone {
                             font-size: 11px;
                             font-weight: bold;
                         }

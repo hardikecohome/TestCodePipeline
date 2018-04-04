@@ -309,7 +309,7 @@
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
                             <i class="gear-ico"></i>
-                            <span class="show-details">
+                            <span class="show-details" data-bind="click:function(){$data.isMobileOpen(!$data.isMobileOpen())}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="table-row-settings-popup">
@@ -336,12 +336,18 @@
                         </div>
                     </div>
                     <div class="main-table__block__row">
-                        <div class="table-row-details opened">
+                        <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
                             <div class="table-row-details__left">
+
+                                <div class="table-row-details__left__email">
+                                    <span>@Resources.Email</span>
+                                </div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Email"></div>
 
                                 <div class="table-row-details__left__last-activity">
                                     <span>@Resources.LastActivity</span>
-                                    <span class="filter-ico filter-ico--asc">
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.date),
+                                          attr:{class:$parent.filterClasses($parent.sortFields.date)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -350,7 +356,8 @@
 
                                 <div class="table-row-details__left__days-left">
                                     <span>@Resources.CreditApprovalExpiry</span>
-                                    <span class="filter-ico filter-ico--desc">
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.creditExpiry),
+                                          attr:{class:$parent.filterClasses($parent.sortFields.creditExpiry)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -359,7 +366,8 @@
 
                                 <div class="table-row-details__left__loan-amount">
                                     <span>@Resources.LoanAmount</span>
-                                    <span class="filter-ico filter-ico--default">
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.loanAmount),
+                                          attr:{class:$parent.filterClasses($parent.sortFields.loanAmount)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -368,16 +376,13 @@
 
                                 <div class="table-row-details__left__program-option">
                                     <span>@Resources.ProgramOption</span>
-                                    <span class="filter-ico filter-ico--default">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Program"></div>
 
                                 <div class="table-row-details__left__term">
                                     <span>@Resources.Term</span>
-                                    <span class="filter-ico filter-ico--asc">
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.term),
+                                          attr:{class:$parent.filterClasses($parent.sortFields.term)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -386,7 +391,8 @@
 
                                 <div class="table-row-details__left__amort">
                                     <span>@Resources.Amort</span>
-                                    <span class="filter-ico filter-ico--desc">
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.amort),
+                                          attr:{class:$parent.filterClasses($parent.sortFields.amourt)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -395,7 +401,8 @@
 
                                 <div class="table-row-details__left__payment-amount">
                                     <span>@Resources.Payment</span>
-                                    <span class="filter-ico filter-ico--desc">
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.payment), 
+                                          attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -404,19 +411,11 @@
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectDescription</span>
-                                    <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Equipment"></div>
 
                                 <div class="table-row-details__left__funded-amount">
                                     <span>@Resources.FundedAmount</span>
-                                    <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.FundedAmount"></div>
 
@@ -427,6 +426,11 @@
                                     <span>@Resources.Address</span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Address"></div>
+
+                                <div class="table-row-details__left__phone">
+                                    <span>@Resources.Phone</span>
+                                </div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Phone"></div>
 
                                 <div class="table-row-details__left__sales-rep">
                                     <span>@Resources.SalesRep</span>
@@ -493,15 +497,15 @@
         <div class="row">
             <div class="new-pagination-wp">
                 <div class="new-pagination">
-                    <a data-bind="click: goToPreviousPage">
+                    <a data-bind="click: goToPreviousPage, disable: pageIndex() == 1">
                         <i class="pagination-left-ico"></i>
                     </a>
                     <ul class="new-pagination__pages" data-bind="foreach: allPages">
-                        <li data-bind="css: { active: $data.active }">
-                            <a data-bind="text: $data.pageText, enable:!$data.disabled, click: $parent.moveToPage, css:{'disabled':$data.disabled}"></a>
+                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}">
+                            <a data-bind="text: $data.pageText, enable: !$data.disabled, click: $parent.moveToPage"></a>
                         </li>
                     </ul>
-                    <a data-bind="click: goToNextPage">
+                    <a data-bind="click: goToNextPage, disable: pageIndex() == maxPageIndex()">
                         <i class="pagination-right-ico"></i>
                     </a>
                 </div>
