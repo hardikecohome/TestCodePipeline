@@ -56,7 +56,7 @@
 
     <div class="form-container">
         <div class="form-section">
-            @if (!Model.IsClarityDealer && !Model.IsCustomerFoundInCreditBureau)
+            @if (!Model.IsCustomerFoundInCreditBureau)
             {
                 <div class="bureau-well-info well well-info position-well clear-border @(!Model.IsCustomerFoundInCreditBureau ? "" : "hidden")">
                     <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
