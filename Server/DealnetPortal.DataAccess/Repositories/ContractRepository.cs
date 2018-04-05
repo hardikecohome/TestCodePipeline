@@ -178,8 +178,24 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Signers)
                 .Where(
                     c =>
-                        ids.Any(id => id == c.Id) &&
+                        ids.Contains(c.Id) &&
                         (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();
+            return contracts;
+        }
+
+        public IList<Contract> GetContractsEquipmentInfo(IEnumerable<int> ids, string ownerUserId)
+        {
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
+                .Where(
+                    c =>
+                        ids.Contains(c.Id) &&
+                        (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();           
+
             return contracts;
         }
 
