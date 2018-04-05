@@ -1932,6 +1932,11 @@ namespace DealnetPortal.Api.Integration.Services
                                 (paymentInfo.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                                 : (contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                         });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.TotalEquipmentPrice,
+                            Value = paymentInfo.LoanDetails.LoanTotalCashPrice.ToString("F", CultureInfo.InvariantCulture)                            
+                        });
                     }
                     else
                     {
@@ -1984,6 +1989,11 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.CustomerApr,
                             Value = "0.0"
                         });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.TotalEquipmentPrice,
+                            Value = "0.0"
+                        });
                     }                    
 
                     udfList.Add(new UDF()
@@ -1999,14 +2009,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                             paymentInfo.TotalAllMonthlyPayment?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                             : "0.0"
-                    });
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.TotalEquipmentPrice,
-                        Value = contract.Equipment.AgreementType == AgreementType.LoanApplication ? 
-                            ((paymentInfo.TotalAmountFinanced ?? 0.0m) + ((decimal?)contract.Equipment.DownPayment ?? 0.0m)).ToString("F", CultureInfo.InvariantCulture)
-                                : "0.0"
-                    });                    
+                    });                                       
                 }
                 
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
