@@ -36,7 +36,7 @@
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
-                    <div class="filters-head__save-btn">
+                    <div class="filters-head__save-btn" data-bind="click: saveFilters">
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
@@ -243,7 +243,7 @@
                             <!-- ko if: $data.IsNewlyCreated -->
                             <span class="contract-number__notification contract-number__notification--blue">@Resources.New</span>
                             <!-- /ko -->
-                            <!-- ko if: $data.CreditExpiry < 20 -->
+                            <!-- ko if: $data.CreditExpiry && $data.CreditExpiry < 20 -->
                             <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
                             <!-- /ko -->
                             <!-- ko ifnot: $data.Id -->

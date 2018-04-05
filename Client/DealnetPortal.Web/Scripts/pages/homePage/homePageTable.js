@@ -91,12 +91,12 @@ module.exports('table', function (require) {
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
         this.equipmentOptions = ko.observableArray(prepareEquipmentList(list));
-        this.agreementType = ko.observable('');
-        this.status = ko.observable('');
-        this.salesRep = ko.observable('');
-        this.equipment = ko.observable('');
-        this.dateFrom = ko.observable('');
-        this.dateTo = ko.observable('');
+        this.agreementType = ko.observable(localStorage.getItem('agreementTypeFilter') || '');
+        this.status = ko.observable(localStorage.getItem('statusFilter') || '');
+        this.salesRep = ko.observable(localStorage.getItem('salesRepFilter') || '');
+        this.equipment = ko.observable(localStorage.getItem('equipmentFilter') || '');
+        this.dateFrom = ko.observable(localStorage.getItem('dateFromFilter') || '');
+        this.dateTo = ko.observable(localStorage.getItem('dateToFilter') || '');
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(sortDirections.default);
 
@@ -164,6 +164,21 @@ module.exports('table', function (require) {
             this.dateFrom('');
             this.dateTo('');
             this.filterList();
+            localStorage.removeItem('agreementTypeFilter');
+            localStorage.removeItem('statusFilter');
+            localStorage.removeItem('salesRepFilter');
+            localStorage.removeItem('equipmentFilter');
+            localStorage.removeItem('dateToFilter');
+            localStorage.removeItem('dateFromFilter');
+        };
+
+        this.saveFilters = function () {
+            this.agreementType() && localStorage.setItem('aggreementTypeFilter', this.agreementType());
+            this.status() && localStorage.setItem('statusFilter', this.status());
+            this.salesRep() && localStorage.setItem('salesRepFilter', this.salesRep());
+            this.equipment() && localStorage.setItem('equipmentFilter', this.equipment());
+            this.dateTo() && localStorage.setItem('dateToFilter', this.dateTo());
+            this.dateFrom() && localStorage.setItem('dateFromFilter', this.dateFrom());
         };
 
         this.editUrl = function (id) {
@@ -178,7 +193,7 @@ module.exports('table', function (require) {
         };
 
         this.getExpiryText = function (data) {
-            return data.CreditExpiry < 20 ? translations['ExpiresInXDays'].replace('{0}', data.CreditExpiry) : '';
+            return data.CreditExpiry && data.CreditExpiry < 20 ? translations['ExpiresInXdays'].replace('{0}', data.CreditExpiry) : '';
         };
 
         this.filterList = function () {
