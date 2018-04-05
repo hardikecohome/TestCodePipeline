@@ -612,13 +612,12 @@ table
                     }
                 }
 
-                .table-row-details {
-                    &.opened{
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    display: flex;
-                    justify-content: space-around;
-                    }
+               .opened.table-row-details {
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        display: flex;
+                        justify-content: space-around;
+
                     &__left,
                     &__right {
                         display: flex;
@@ -636,9 +635,7 @@ table
                         &__entered-by,
                         &__notes,
                         &__lead,
-                        &__value,
-                        &__email,
-                        &__phone {
+                        &__value {
                             display: flex;
                             align-items: center;
                             flex-basis: 50%;
@@ -656,7 +653,9 @@ table
                         &__last-activity,
                         &__days-left,
                         &__loan-amount,
-                        &__program-option {
+                        &__program-option,
+                        &__email,
+                        &__phone {
                             display: none;
 
                             & + .table-row-details__left__value {
@@ -673,7 +672,9 @@ table
                         &__sales-rep,
                         &__entered-by,
                         &__notes,
-                        &__lead {
+                        &__lead,
+                        &__email,
+                        &__phone {
                             font-size: 11px;
                             font-weight: bold;
                         }
@@ -811,15 +812,14 @@ table
                     }
                 }
 
-                .table-row-details {
-                    &.opened {
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    display: flex;
-                    justify-content: space-around;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    }
+                .opened.table-row-details {
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        display: flex;
+                        justify-content: space-around;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        
                     &__left,
                     &__right {
                         display: flex;
