@@ -1218,6 +1218,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.RateCardId = equipmentInfo.RateCardId;
             }
+            if (equipmentInfo.CustomerRiskGroupId.HasValue)
+            {
+                dbEquipment.CustomerRiskGroupId = equipmentInfo.CustomerRiskGroupId;
+            }
             if (equipmentInfo.IsFeePaidByCutomer.HasValue)
             {
                 dbEquipment.IsFeePaidByCutomer = equipmentInfo.IsFeePaidByCutomer;

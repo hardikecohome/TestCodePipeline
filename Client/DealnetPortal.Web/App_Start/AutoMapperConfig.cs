@@ -734,7 +734,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerRiskGroup, d => d.ResolveUsing(src =>
                 {
                     var cGroup = src.RateCards.FirstOrDefault(x => x.CustomerRiskGroup != null)?.CustomerRiskGroup;
-                    return cGroup != null ? new CustomerRiskGroupViewModel() { GroupName = cGroup?.GroupName } : null;
+                    return cGroup != null ? new CustomerRiskGroupViewModel()
+                    {
+                        GroupId = cGroup.Id,
+                        GroupName = cGroup.GroupName
+                    } : null;
                 }));
             cfg.CreateMap<RateCardDTO, RateCardViewModel>();
 
