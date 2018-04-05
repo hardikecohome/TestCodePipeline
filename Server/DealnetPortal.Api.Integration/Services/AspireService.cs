@@ -1919,12 +1919,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Value = dealerCostRate.HasValue ?
                                 ((decimal)dealerCostRate.Value / 100 * paymentInfo.TotalAmountFinanced ?? 0.0m).ToString(CultureInfo.InvariantCulture)
                                 : "0.0"
-                        });
-                        udfList.Add(new UDF()
-                        {
-                            Name = AspireUdfFields.PstRate,
-                            Value = "0.0"
-                        });
+                        });                        
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.CustomerApr,
@@ -1975,15 +1970,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Name = AspireUdfFields.DealerCost,
                             Value = "0.0"
                         });
-                        
-                        var taxRate = _contractRepository.GetProvinceTaxRate((contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                                                                             l => l.AddressType == AddressType.MainAddress) ??
-                                                                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-                        udfList.Add(new UDF()
-                        {
-                            Name = AspireUdfFields.PstRate,
-                            Value = ((taxRate?.Rate ?? 0.0)/100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
-                        });
+                                                
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.CustomerApr,
@@ -2011,7 +1998,18 @@ namespace DealnetPortal.Api.Integration.Services
                             : "0.0"
                     });                                       
                 }
-                
+
+                var taxRate = _contractRepository.GetProvinceTaxRate((contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                                                                          l => l.AddressType == AddressType.MainAddress) ??
+                                                                      contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PstRate,
+                    Value = contract.Details?.AgreementType == AgreementType.LoanApplication && !IsClarityProgram(contract) ?
+                        "0.0"
+                        : ((taxRate?.Rate ?? 0.0) / 100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
+                });
+
                 if (!string.IsNullOrEmpty(contract.Equipment.SalesRep))
                 {
                     udfList.Add(new UDF()
