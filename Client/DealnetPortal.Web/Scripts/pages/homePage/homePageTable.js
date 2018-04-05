@@ -175,7 +175,11 @@ module.exports('table', function (require) {
                 return 'filter-ico filter-ico--' + this.sortDirection();
             }
             return 'filter-ico filter-ico--' + sortDirections.default;
-        }
+        };
+
+        this.getExpiryText = function (data) {
+            return data.CreditExpiry < 20 ? translations['ExpiresInXDays'].replace('{0}', data.CreditExpiry) : '';
+        };
 
         this.filterList = function () {
             var stat = this.status();

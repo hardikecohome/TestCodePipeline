@@ -148,7 +148,7 @@
                         <div class="main-table__block__row__cell e-sign">
                             <span>@Resources.Esign</span>
                         </div>
-                        <div class="main-table__block__row__cell last-activity"  data-bind="click:configureSortClick(sortFields.date)">
+                        <div class="main-table__block__row__cell last-activity" data-bind="click:configureSortClick(sortFields.date)">
                             <span>@Resources.LastActivity</span>
                             <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.date)}">
                                 <i class="sort-arrow-top"></i>
@@ -232,7 +232,7 @@
 
                 <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row">
+                    <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated }">
                         <div class="main-table__block__row__cell checkbox-cell">
                             <label class="customized-checkbox-icon" data-bind="if: !$data.IsInternal && $data.Id != 0">
                                 <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
@@ -240,6 +240,12 @@
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
+                            <!-- ko if: $data.IsNewlyCreated -->
+                            <span class="contract-number__notification contract-number__notification--blue">@Resources.New</span>
+                            <!-- /ko -->
+                            <!-- ko if: $data.CreditExpiry < 20 -->
+                            <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
+                            <!-- /ko -->
                             <!-- ko ifnot: $data.Id -->
                             <span data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
@@ -401,7 +407,7 @@
 
                                 <div class="table-row-details__left__payment-amount">
                                     <span>@Resources.Payment</span>
-                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.payment), 
+                                    <span data-bind="click:$parent.configureSortClick($parent.sortFields.payment),
                                           attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
@@ -781,6 +787,7 @@
     translations['CreditExpiryAsc'] = "@Resources.CreditExpiryAsc";
     translations['ApplicantNameZtoA'] = "@Resources.ApplicantNameZtoA";
     translations['ApplicantNameAtoZ'] = "@Resources.ApplicantNameAtoZ";
+    translations['ExpiresInXdays']="@Resources.ExpiresInXdays";
 }
 
 @section Styles

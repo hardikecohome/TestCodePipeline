@@ -3142,6 +3142,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expires in {0} days.
+        /// </summary>
+        public static string ExpiresInXdays {
+            get {
+                return ResourceManager.GetString("ExpiresInXdays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expiry Date.
         /// </summary>
         public static string ExpiryDate {
