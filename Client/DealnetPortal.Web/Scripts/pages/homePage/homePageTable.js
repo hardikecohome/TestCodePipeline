@@ -87,16 +87,24 @@ module.exports('table', function (require) {
             asc: 'asc',
             desc: 'desc'
         };
+        var filters = {
+            agreementType: 'agreementTypeFilter',
+            status: 'statusFilter',
+            salesRep: 'salesRepFilter',
+            equipment: 'equipmentFilter',
+            dateTo: 'dateToFilter',
+            dateFrom: 'dateFromFilter'
+        };
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
         this.equipmentOptions = ko.observableArray(prepareEquipmentList(list));
-        this.agreementType = ko.observable(localStorage.getItem('agreementTypeFilter') || '');
-        this.status = ko.observable(localStorage.getItem('statusFilter') || '');
-        this.salesRep = ko.observable(localStorage.getItem('salesRepFilter') || '');
-        this.equipment = ko.observable(localStorage.getItem('equipmentFilter') || '');
-        this.dateFrom = ko.observable(localStorage.getItem('dateFromFilter') || '');
-        this.dateTo = ko.observable(localStorage.getItem('dateToFilter') || '');
+        this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
+        this.status = ko.observable(localStorage.getItem(filters.status) || '');
+        this.salesRep = ko.observable(localStorage.getItem(filters.salesRepFilter) || '');
+        this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
+        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
+        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(sortDirections.default);
 
@@ -164,21 +172,21 @@ module.exports('table', function (require) {
             this.dateFrom('');
             this.dateTo('');
             this.filterList();
-            localStorage.removeItem('agreementTypeFilter');
-            localStorage.removeItem('statusFilter');
-            localStorage.removeItem('salesRepFilter');
-            localStorage.removeItem('equipmentFilter');
-            localStorage.removeItem('dateToFilter');
-            localStorage.removeItem('dateFromFilter');
+            localStorage.removeItem(filters.agreementType);
+            localStorage.removeItem(filters.status);
+            localStorage.removeItem(filters.salesRep);
+            localStorage.removeItem(filters.equipment);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.dateFrom);
         };
 
         this.saveFilters = function () {
-            this.agreementType() && localStorage.setItem('aggreementTypeFilter', this.agreementType());
-            this.status() && localStorage.setItem('statusFilter', this.status());
-            this.salesRep() && localStorage.setItem('salesRepFilter', this.salesRep());
-            this.equipment() && localStorage.setItem('equipmentFilter', this.equipment());
-            this.dateTo() && localStorage.setItem('dateToFilter', this.dateTo());
-            this.dateFrom() && localStorage.setItem('dateFromFilter', this.dateFrom());
+            this.agreementType() && localStorage.setItem(filters.agreementType, this.agreementType());
+            this.status() && localStorage.setItem(filters.status, this.status());
+            this.salesRep() && localStorage.setItem(filters.salesRep, this.salesRep());
+            this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
+            this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
+            this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
         };
 
         this.editUrl = function (id) {
