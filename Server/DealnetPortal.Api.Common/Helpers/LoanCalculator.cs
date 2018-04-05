@@ -93,14 +93,22 @@ namespace DealnetPortal.Api.Common.Helpers
                     output.AnnualPercentageRate = 0.0;
                 }
                 else
-                {
-                    output.AnnualPercentageRate = Financial.Rate(input.AmortizationTerm, -mco, output.TotalAmountFinanced - admeenFee) * 1200;
+                {                    
+                    try
+                    {
+                        output.AnnualPercentageRate = Financial.Rate(input.AmortizationTerm, -mco, output.TotalAmountFinanced - admeenFee) * 1200;
+                    }
+                    catch (ArgumentException)
+                    {
+                        //sometimes we get exception here
+                        output.AnnualPercentageRate = 0.0;
+                    }                    
                 }                
             }
             output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, Math.Round(mco, 2)) * (1 + customerRate),2);
+                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, Math.Round(mco, 2)) * (1 + customerRate), 2);
             }
             output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments; // + admeenFee;
             output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced + admeenFee, 2);
