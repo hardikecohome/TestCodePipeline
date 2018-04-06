@@ -14,7 +14,7 @@
     var city;
     var province;
     var postal;
-    var monthlyMortgagePayment;
+    var mortgage;
 
     var requiredObj = {
         required: true,
@@ -24,8 +24,8 @@
     };
 
     function init(disabled) {
-        morgage = $("#add1-monthly-mortgage");
-        morgage.prop('disabled', disabled);
+        mortgage = $("#add1-monthly-mortgage");
+        mortgage.prop('disabled', disabled);
 
         status = $('#add1-employment-status');
         status.on('change',
@@ -92,9 +92,6 @@
 
         postal = $('#add1-employment-postal-code');
         postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
-
-        monthlyMortgagePayment = $('#add1-employment-monthly-mortgage');
-        monthlyMortgagePayment.prop('disabled', disabled);
 
         if (!disabled) {
             enable();
@@ -206,7 +203,7 @@
     function enable() {
         $('#add1-employment-info').removeClass('hidden');
         status.prop('disabled', false).change();
-        monthlyMortgagePayment.prop('disabled', false).change();
+        mortgage.prop('disabled', false).change();
     }
 
     function disable() {
