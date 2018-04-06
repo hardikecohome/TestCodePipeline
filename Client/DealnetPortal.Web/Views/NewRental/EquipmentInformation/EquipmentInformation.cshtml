@@ -11,25 +11,25 @@
 }
 
 @{
-    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 @{
-    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 
-@using(Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
+@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
@@ -44,6 +44,7 @@
     @Html.HiddenFor(x => x.LoanTerm)
     @Html.HiddenFor(x => x.LoanDeferralType)
     @Html.HiddenFor(x => x.SelectedRateCardId)
+    @Html.HiddenFor(x => x.CustomerRiskGroupId)
     @Html.HiddenFor(x => x.IsNewContract)
     @Html.HiddenFor(x => x.DealerCost)
     @Html.HiddenFor(x => x.RateCardValid)
@@ -56,7 +57,7 @@
 
     <div class="form-container">
         <div class="form-section">
-            @if(Model.DealerTier.CustomerRiskGroup != null ? !Model.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
+            @if (Model.DealerTier.CustomerRiskGroup != null ? !Model.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
             {
                 <div class="bureau-well-info well well-info position-well clear-border">
                     <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
@@ -66,12 +67,12 @@
                 </div>
             }
 
-            @if(Model.CustomerComments != null && Model.CustomerComments.Any())
+            @if (Model.CustomerComments != null && Model.CustomerComments.Any())
             {
                 <div class="customer-comments form-group">
                     <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
                     <div class="customer-comments-descr">
-                        @foreach(var comment in Model.CustomerComments)
+                        @foreach (var comment in Model.CustomerComments)
                         {
                             @comment
                             <br />
@@ -82,8 +83,8 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                          Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                          Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                  Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                  Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
@@ -98,7 +99,7 @@
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
+@if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")

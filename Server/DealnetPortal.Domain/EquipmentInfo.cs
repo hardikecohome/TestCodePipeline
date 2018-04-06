@@ -65,6 +65,11 @@ namespace DealnetPortal.Domain
         [ForeignKey(nameof(RateCard))]
         public int? RateCardId { get; set; }
         public RateCard RateCard { get; set; }
+
+        [ForeignKey(nameof(CustomerRiskGroup))]
+        public int? CustomerRiskGroupId { get; set; }
+        public CustomerRiskGroup CustomerRiskGroup { get; set; }
+
         public bool? IsFeePaidByCutomer { get; set; }
 
         [NotMapped]

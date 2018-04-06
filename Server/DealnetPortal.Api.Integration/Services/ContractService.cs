@@ -281,8 +281,16 @@ namespace DealnetPortal.Api.Integration.Services
         public AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId, int? timeZoneOffset = null)
         {
             var stream = new MemoryStream();
-            var contracts = GetContracts(ids, contractOwnerId);
+            var contracts =
+                Mapper.Map<IList<ContractDTO>>(_contractRepository.GetContractsEquipmentInfo(ids, contractOwnerId));                
             var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();
+
+            var equipmentTypes = _contractRepository.GetEquipmentTypes();
+            foreach (var contract in contracts)
+            {
+                AftermapNewEquipment(contract.Equipment?.NewEquipment, equipmentTypes);
+            }
+
             XlsxExporter.Export(contracts, stream, provincialTaxRates);
             var report = new AgreementDocument()
             {

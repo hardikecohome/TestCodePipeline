@@ -55,6 +55,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <returns>List of contracts</returns>
         IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
+        IList<Contract> GetContractsEquipmentInfo(IEnumerable<int> ids, string ownerUserId);
+
         Contract FindContractBySignatureId(string signatureTransactionId);
 
         Customer GetCustomer(int customerId);
