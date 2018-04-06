@@ -99,6 +99,7 @@ module.exports('table', function (require) {
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
         this.equipmentOptions = ko.observableArray(prepareEquipmentList(list));
+
         this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
         this.status = ko.observable(localStorage.getItem(filters.status) || '');
         this.salesRep = ko.observable(localStorage.getItem(filters.salesRepFilter) || '');
@@ -107,6 +108,9 @@ module.exports('table', function (require) {
         this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(sortDirections.default);
+
+        this.showFilters = ko.observable(true);
+        this.showLearnMore = ko.observable(false);
 
         this.list = ko.observableArray(list);
 

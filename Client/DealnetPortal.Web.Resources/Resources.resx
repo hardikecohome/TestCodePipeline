@@ -2746,4 +2746,10 @@ Please ensure that the Customer information provided matches their Government is
   <data name="ExpiresInXdays" xml:space="preserve">
     <value>Expires in {0} days</value>
   </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="LearnMoreHomePage" xml:space="preserve">
+    <value>On this page you can see the most recent contracts those were created and also leads, filled contracts from customer link and your drafts. Here we will post important information, e.g. notification about planned maintenance and some special offer for you.</value>
+  </data>
 </root>

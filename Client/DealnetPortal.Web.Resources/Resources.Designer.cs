@@ -3493,6 +3493,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide.
+        /// </summary>
+        public static string Hide {
+            get {
+                return ResourceManager.GetString("Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -4092,6 +4101,15 @@ namespace DealnetPortal.Web.Resources {
         public static string LearnMoreAboutThisPage {
             get {
                 return ResourceManager.GetString("LearnMoreAboutThisPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On this page you can see the most recent contracts those were created and also leads, filled contracts from customer link and your drafts. Here we will post important information, e.g. notification about planned maintenance and some special offer for you..
+        /// </summary>
+        public static string LearnMoreHomePage {
+            get {
+                return ResourceManager.GetString("LearnMoreHomePage", resourceCulture);
             }
         }
         
