@@ -320,13 +320,11 @@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')},  click:function(){$data.showNotes(!$data.showNotes());}"></i>
                             <!-- ko if: $data.CustomerComment -->
-                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showNotes}">
+                            <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}"></i>
-                                <div class="customer-comment-popup">
                                     <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
                                     <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
                                 </div>
-                            </div>
                             <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-lead">
