@@ -157,10 +157,11 @@
 
         var totalMonthlyCost = formatNumber(data.equipmentSum + data.packagesSum) //d12 - downPayment * constants.clarityPaymentFactor;
 
+        totalMonthlyCost = totalMonthlyCost.indexOf(',') > -1 ? Globalize.parseNumber(totalMonthlyCost) : Number(totalMonthlyCost);
 
         for (var id in state.equipments) {
             var equipment = state.equipments[id];
-
+            
             equipment.monthlyCostLessDp = equipment.monthlyCost - dpTax / totalMonthlyCost * equipment.monthlyCost;
             $('#NewEquipment_' + id + '__MonthlyCostLessDP')
                 .val(formatNumber(equipment.monthlyCostLessDp)).change();
@@ -171,7 +172,7 @@
 
             package.monthlyCostLessDp = package.monthlyCost - dpTax / totalMonthlyCost * package.monthlyCost;
             $('#InstallationPackages_' + id + '__MonthlyCostLessDP')
-                .val(formatNumber(state.packages[id].monthlyCostLessDp)).change();
+                .val(formatNumber(package.monthlyCostLessDp)).change();
         }
     }
 
