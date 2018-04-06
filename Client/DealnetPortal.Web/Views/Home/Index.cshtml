@@ -318,18 +318,27 @@
                             <span data-bind="text: $data.EnteredBy"></span>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                            <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')},  click:function(){$data.showNotes(!$data.showNotes());}"></i>
+                            <!-- ko if: $data.CustomerComment -->
+                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showNotes}">
+                                <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}"></i>
+                                <div class="customer-comment-popup">
+                                    <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
+                                    <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                                </div>
+                            </div>
+                            <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-lead">
                             <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
+                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
                             <span class="show-details" data-bind="click:function(){$data.isMobileOpen(!$data.isMobileOpen())}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
-                            <div class="table-row-settings-popup">
-                                <i class="cross-ico"></i>
+                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                                <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                 <div class="table-row-settings-popup__edit">
                                     <i class="edit-contract-ico"></i>
                                     <span>
@@ -659,11 +668,6 @@
         </div>
 
         <span class="signature-status-popup__details-link"><a>Go to contract details</a></span>
-    </div>
-
-    <div class="customer-comment-popup">
-        <span class="customer-comment-popup__title">Customer comment:</span>
-        <span class="customer-comment-popup__legend">Please add air conditioner to the loan.</span>
     </div>
 
     <div class="deal-status-details-popup">
