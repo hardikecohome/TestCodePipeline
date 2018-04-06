@@ -381,7 +381,7 @@
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment)
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, new { @class = "form-control dealnet-input", id = "ho-employment-monthly-mortgage" })
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, new { @class = "form-control dealnet-input", id = $"add{i + 1}-monthly-mortgage" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -457,7 +457,7 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle)
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-job-title" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, "", new { @class = "text-danger", data_bind = "validationMessage: jobTitle" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>

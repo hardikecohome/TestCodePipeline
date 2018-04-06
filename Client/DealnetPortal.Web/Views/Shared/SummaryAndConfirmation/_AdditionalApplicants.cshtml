@@ -474,6 +474,22 @@
                             </h3>
                             <div class="form-group">
                                 <div class="row">
+                                    @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, new
+                                    {
+                                        @class = "dealnet-field-caption col-xs-6"
+                                    })
+                                    <div class="dealnet-field-holder col-xs-6">
+                                        <div class="control-group">
+                                            @Html.TextBoxFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, new
+                                            {
+                                                @class = "dealnet-disabled-input has-cost-sign "
+                                            })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
                                     @Html.LabelFor(m => m.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus, new
                                     {
                                         @class = "dealnet-field-caption col-xs-6"
@@ -557,15 +573,15 @@
                                                     <span>
                                                         @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
                                                         @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                    Resources.Year :
-                                                    Resources.Years)
+                                            Resources.Year :
+                                            Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
                                                             @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                    Resources.Month : Resources.Months)
+                                                                                                            Resources.Month : Resources.Months)
                                                         </span>
                                                     }
                                                 </div>

@@ -168,6 +168,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.EmploymentInfo)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c=>c.SecondaryCustomers.Select(s=>s.EmploymentInfo))
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
                 .Include(c => c.Equipment)

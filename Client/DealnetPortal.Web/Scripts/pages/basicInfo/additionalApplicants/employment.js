@@ -14,7 +14,7 @@
     var city;
     var province;
     var postal;
-	var monthlyMortgagePayment;
+    var monthlyMortgagePayment;
 
     var requiredObj = {
         required: true,
@@ -24,6 +24,9 @@
     };
 
     function init(disabled) {
+        morgage = $("#add1-monthly-mortgage");
+        morgage.prop('disabled', disabled);
+
         status = $('#add1-employment-status');
         status.on('change',
             function (e) {
@@ -57,7 +60,7 @@
 
         months = $('#add1-employment-months');
         months.rules('add', requiredObj);
-        months.prop('disabled', disabled || years.val() === '10+'|| statusVal === '0' || statusVal === '2' );
+        months.prop('disabled', disabled || years.val() === '10+' || statusVal === '0' || statusVal === '2');
 
         empType = $('#add1-employment-emp-type');
         empType.rules('add', requiredObj);
@@ -90,8 +93,8 @@
         postal = $('#add1-employment-postal-code');
         postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
-		monthlyMortgagePayment = $('#add1-employment-monthly-mortgage');
-		monthlyMortgagePayment.prop('disabled', disabled);
+        monthlyMortgagePayment = $('#add1-employment-monthly-mortgage');
+        monthlyMortgagePayment.prop('disabled', disabled);
 
         if (!disabled) {
             enable();
@@ -202,8 +205,8 @@
 
     function enable() {
         $('#add1-employment-info').removeClass('hidden');
-		status.prop('disabled', false).change();
-		monthlyMortgagePayment.prop('disabled', false).change();
+        status.prop('disabled', false).change();
+        monthlyMortgagePayment.prop('disabled', false).change();
     }
 
     function disable() {
