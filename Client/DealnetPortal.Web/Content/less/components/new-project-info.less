@@ -1,7 +1,9 @@
 ﻿.new-project-info {
     display: flex;
+    flex: 1 1 auto;
     flex-basis: 100%;
     flex-direction: column;
+    max-width: 94%;
     box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
     padding: 24px;
     margin: 12px 0;
@@ -10,13 +12,12 @@
         background-color: #fbfbfb;
         border-left: 8px solid #e4e4e4;
         display: flex;
+        max-width: 96%;
         flex-basis: 100%;
         flex-direction: column;
         padding: 24px 48px;
         margin: 12px 22px;
     }
-
-
 
     .new-input-group {
         margin-right: 24px;
@@ -173,6 +174,7 @@
         margin-top: 16px;
 
         &__info-tables {
+            flex: 1 1 auto;
             align-items: flex-start;
             box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
             padding: 24px 16px 24px 16px;
@@ -465,6 +467,18 @@
     .new-project-info {
         width: 87%;
         padding: 16px;
+
+        .new-project-info__title--main {
+            margin-left: 0;
+        }
+
+        &--editing {
+            border-left: none;
+            flex-direction: column;
+            padding: 24px 8px;
+            margin: 12px 0;
+            box-shadow: none;
+        }
 
         .new-input-group {
             margin-top: 16px;
