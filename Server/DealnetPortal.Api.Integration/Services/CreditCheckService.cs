@@ -171,7 +171,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     else
                     {
-                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.Id.ToString());
+                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.AccountId.ToString());
                     }
                     if (dbCreditReport != null)
                     {
