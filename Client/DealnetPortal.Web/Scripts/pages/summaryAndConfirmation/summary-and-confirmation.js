@@ -68,7 +68,7 @@
             }
         });
 
-        ga('send', 'event', 'Summary And Confirmation', 'button_click', 'Step 5 from Dealer Portal', '100');
+	gtag('event', 'Summary And Confirmation', { 'event_category': 'Summary And Confirmation', 'event_action': 'button_click', 'event_label': 'Step 5 from Dealer Portal' });
     });
 
 function managePaymentFormElements(paymentType) {

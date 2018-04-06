@@ -1,4 +1,4 @@
-﻿SELECT               
+﻿SELECT        DISTINCT       
                 ACC.NAME as dealer_name, 
                 Contract.ContractOid AS transaction#,    
                 Contract.ContractId                       as Contract_id, 
@@ -7,8 +7,10 @@
                 CONVERT(varchar,Contract.LastChangeDateTime,101)     as [Last_Update_Date],
                 CONVERT(varchar,Contract.LastChangeDateTime,108)     as [Last_Update_Time],
  
-                EQUIP.Description AS Equipment_Description,
-                ISNULL(EQPTYPE.descr,'')as [Equipment_Type],
+              /*  EQUIP.Description   */
+			''	 AS Equipment_Description,
+            /*  ISNULL(EQPTYPE.descr,'')   */ 
+			   ''  as [Equipment_Type], 
  
                 CAST(ISNULL((select dbo.[GetContractAmountFinancedFN](contract.ContractOid)),0) AS numeric(11,2)) as [Amount Financed],
  
@@ -84,16 +86,11 @@
                 ON CHILD1.ref_oid = Contract.ContractOid 
                 INNER JOIN ROLE (NOLOCK) RL ON CHILD1.role_oid = RL.oid  AND CHILD1.role_type = RL.role_type  
  
-                inner JOIN DocGenAccAccount (NOLOCK) ACC
-                                                                                                                                                                      ON ACC.oid = CHILD1.entt_oid
-                                                                                                                        
-                LEFT JOIN ContractEquipment (NOLOCK) CONEQ
-                                                             ON Contract.ContractOid = CONEQ.ContractOid
-                LEFT JOIN Equipment (NOLOCK) EQUIP
-                                                             ON EQUIP.EquipmentOid = CONEQ.EquipmentOid
- 
-                                                                            LEFT OUTER JOIN EquipmentType EQPTYPE
-                                                             ON EQPTYPE.oid = EQUIP.EquipmentTypeOid
+                inner JOIN DocGenAccAccount (NOLOCK) ACC     ON ACC.oid = CHILD1.entt_oid
+                                                                                                                      
+                LEFT JOIN ContractEquipment (NOLOCK) CONEQ   ON Contract.ContractOid = CONEQ.ContractOid
+                LEFT JOIN Equipment (NOLOCK) EQUIP           ON EQUIP.EquipmentOid = CONEQ.EquipmentOid
+                LEFT OUTER JOIN EquipmentType EQPTYPE        ON EQPTYPE.oid = EQUIP.EquipmentTypeOid
 
  
                  where acc.[account id] in (SELECT  
