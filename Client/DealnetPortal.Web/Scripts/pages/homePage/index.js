@@ -7,8 +7,8 @@
 
         this.updateTableList = function (list) {
             this.table().setList(list);
-        }
-    }
+        };
+    };
 
     var init = function init() {
         var vm = new HomeViewModel([]);
@@ -22,7 +22,11 @@
         }).fail(function (jqXHR, textStatus, errorThrown) {
             debugger;
         });
-    }
+
+        document.querySelector('.new-notification-wp .new-notification .close-white-ico').addEventListener('click', function () {
+            this.parentElement.parentElement.remove();
+        });
+    };
 
     return {
         init: init
