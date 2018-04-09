@@ -52,7 +52,7 @@
         $('#confirmAlert').on('click', function () {
             submitAllDocumentsUploaded();
 
-            ga('send', 'event', 'Button', 'Click', 'SendDocuments');
+			gtag('event', 'Button', { 'event_category': 'Button', 'event_action': 'Click', 'event_label': 'SendDocuments' });
         });
     }
 

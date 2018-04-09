@@ -569,14 +569,14 @@
         module.require('new-client-index');
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=initAutocomplete" async defer></script>
-    <script type="text/javascript">
+	<script type="text/javascript">
         $(document).ready(function () {
-            ga('send', 'event', 'New Application Start', 'Form Open', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+			gtag('event', 'New Application Start', { 'event_category': 'New Application Start', 'event_action': 'Form Open', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
         });
-        $(document).submit(function () {
-            ga('send', 'event', 'Application Submitted', 'Form Submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+		$(document).submit(function () {
+			gtag('event', 'Application Submitted', { 'event_category': 'Application Submitted', 'event_action': 'Form Submit', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
         });
 
-    </script>
+	</script>
 
 }

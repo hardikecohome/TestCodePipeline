@@ -41,29 +41,39 @@
         translations['Cancel'] = "@Resources.Cancel";
         translations['new'] = '@Resources.New';
         @RenderSection("Translations", false)
-    </script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/dealnet")
-    @Scripts.Render("~/bundles/jqueryval")
+	</script>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/dealnet")
+	@Scripts.Render("~/bundles/jqueryval")
 
-    @switch(CultureHelper.CurrentCultureType)
-    {
-        case CultureType.French:
-            <script type="text/javascript"
-                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
-            </script>
-            <script type="text/javascript">
-                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
-                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
-                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-                $.datepicker.setDefaults($.datepicker.regional['fr']);
-            </script>
-            break;
-    }
+	@switch (CultureHelper.CurrentCultureType)
+	{
+		case CultureType.French:
+			<script type="text/javascript"
+					src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+			</script>
+			<script type="text/javascript">
+				$.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+				$.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+					"juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+				$.datepicker.setDefaults($.datepicker.regional['fr']);
+			</script>
+			break;
+	}
 
-    @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+	@*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src=@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', '@System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"]');
+	</script>
+
 
 </head>
 @{

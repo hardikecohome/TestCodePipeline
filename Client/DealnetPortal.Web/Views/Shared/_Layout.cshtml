@@ -15,63 +15,72 @@
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
 <!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="true">
-    <meta name="format-detection" content="telephone=no">
-    <title>@ViewBag.Title - DealNet</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
-    <link rel="stylesheet" href="~/Content/css/jquery-ui.css">
-    @RenderSection("Styles", false)
-    @switch(ApplicationSettingsManager.PortalType)
-    {
-        case PortalType.Odi:
-            @Styles.Render("~/Content/less/main-dealer.less")
-            break;
-        default:
-            @Styles.Render("~/Content/less/main.less")
-            break;
-    }
-    <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
-    <script type="text/javascript">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="HandheldFriendly" content="true">
+	<meta name="format-detection" content="telephone=no">
+	<title>@ViewBag.Title - DealNet</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
+	<link rel="stylesheet" href="~/Content/css/jquery-ui.css">
+	@RenderSection("Styles", false)
+	@switch (ApplicationSettingsManager.PortalType)
+	{
+		case PortalType.Odi:
+			@Styles.Render("~/Content/less/main-dealer.less")
+			break;
+		default:
+			@Styles.Render("~/Content/less/main.less")
+			break;
+	}
+	<link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
+	<script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
 		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
 		var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
 		var DealerName = "@User.Identity.Name";
-        var translations = {};
-        translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
+		var translations = {};
+		translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
         translations['GoToStep'] = "@Resources.GoToStep";
         translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
         translations['EnterValidDate'] = "@Resources.EnterValidDate";
         translations['Cancel'] = "@Resources.Cancel";
         @RenderSection("Translations", false)
-    </script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/dealnet")
-    @Scripts.Render("~/bundles/jqueryval")
+	</script>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/dealnet")
+	@Scripts.Render("~/bundles/jqueryval")
 
-    @switch(CultureHelper.CurrentCultureType)
-    {
-        case CultureType.French:
-            <script type="text/javascript"
-                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
-            </script>
-            <script type="text/javascript">
-                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
-                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
-                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-                $.datepicker.setDefaults($.datepicker.regional['fr']);
-            </script>
-            break;
-    }
-    @RenderSection("OutrunningScripts", false)
-    @*<!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->*@
-    @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+	@switch (CultureHelper.CurrentCultureType)
+	{
+		case CultureType.French:
+			<script type="text/javascript"
+					src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+			</script>
+			<script type="text/javascript">
+				$.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+				$.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+					"juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+				$.datepicker.setDefaults($.datepicker.regional['fr']);
+			</script>
+			break;
+	}
+	@RenderSection("OutrunningScripts", false)
+	@*<!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->*@
+	@*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src=@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', '@System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"]');
+	</script>
 
 </head>
 @{
