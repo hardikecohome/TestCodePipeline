@@ -1994,6 +1994,29 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = totalRetailPrice.ToString("F", CultureInfo.InvariantCulture)
                     });
                 }
+
+                if (contract.Details.AgreementType != AgreementType.LoanApplication)
+                {
+                    var rate =
+                        _contractRepository.GetProvinceTaxRate(
+                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                                 l => l.AddressType == AddressType.MainAddress) ??
+                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+
+                    var totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                        (sum, ne) => sum + ne.MonthlyCost.Value * 
+                            (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100)
+                            *(_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0)*12);
+                    if (totalAmountUsefulLife > 0)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.TotalAmountUsefulLife,
+                            Value = totalAmountUsefulLife.ToString("F", CultureInfo.InvariantCulture)
+                        });
+                    }
+                }
             }
             if (contract.Equipment != null)
             {
@@ -2122,6 +2145,16 @@ namespace DealnetPortal.Api.Integration.Services
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.DSLoanTotalBorowingCost,
                         Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
+                else
+                {
+                    //for rentals
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalAmountRentalTerm,
+                        Value = paySummary.TotalAmountFinanced?.ToString("F", CultureInfo.InvariantCulture) ?? string.Empty
                     });
                 }
 
