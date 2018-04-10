@@ -2667,4 +2667,7 @@ Please ensure that the Customer information provided matches their Government is
   <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
     <value>Pre-Approved upto a maximum of</value>
   </data>
+  <data name="MaximumAmountCapingOut" xml:space="preserve">
+    <value>Total amount finance can not exceed Pre-approval amount of $</value>
+  </data>
 </root>

@@ -77,6 +77,7 @@
         public static string RateCardType = "Rate Card Type";
         public static string DealerTierName = "Dealer Tier Name";
         public static string ContractPreapprovalLimit = "contractpreapprovallimit";
+        public static string CustomerRiskGroup = "CustomerRiskGroup";
 
         public static string RentalMonthlyPayment = "EH Rental Payment Amount";
         //used both for contract and equipment
