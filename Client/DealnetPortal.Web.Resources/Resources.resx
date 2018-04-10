@@ -2626,7 +2626,7 @@ Additional program options may become available when customer’s credit details
   </data>
   <data name="CustomerNotFoundInBureau" xml:space="preserve">
     <value>We were not able to match the Customer’s credit details. 
-Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license)</value>
+Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license).</value>
   </data>
   <data name="EditCustomerInformation" xml:space="preserve">
     <value>Edit customer information</value>

@@ -13,23 +13,22 @@
         return state.employStatus == 0 || state.employStatus == 2;
     }
     var getRequiredEmpoyment = function (state) {
-        return {
-            employStatus: true,
-            incomeType: state.employStatus == 0,
-            annualSalary: state.employStatus == 0 && state.incomeType == 0 || true,
-            hourlyRate: state.employStatus == 0 && state.incomeType == 1 || false,
-            yearsOfEmploy: isEmployedOrSelfEmployed(state),
-            monthsOfEmploy: isEmployedOrSelfEmployed(state) &&
-                state.yearsOfEmploy != '10+',
-            employType: state.employStatus == 0,
-            jobTitle: isEmployedOrSelfEmployed(state),
-            companyName: isEmployedOrSelfEmployed(state),
-            companyPhone: isEmployedOrSelfEmployed(state),
-            cstreet: isEmployedOrSelfEmployed(state),
-            ccity: isEmployedOrSelfEmployed(state),
-            cprovince: isEmployedOrSelfEmployed(state),
-            cpostalCode: isEmployedOrSelfEmployed(state)
-        };
+        return state.isQuebecDealer ? {
+            employStatus: state.employStatus === '',
+            incomeType: state.employStatus === 0 && state.incomeType == '',
+            annualSalary: state.employStatus === 0 && state.incomeType === 0 && state.annualSalary == '' || true,
+            hourlyRate: (state.employStatus == 0 && state.incomeType == 1 && state.hourlyRate == '') || false,
+            yearsOfEmploy: isEmployedOrSelfEmployed(state) && state.yearsOfEmploy == '',
+            monthsOfEmploy: isEmployedOrSelfEmployed(state) && state.yearsOfEmploy != '10+' && state.monthsOfEmploy == '',
+            employType: state.employStatus == 0 && state.employType == '',
+            jobTitle: isEmployedOrSelfEmployed(state) && state.jobTitle == '',
+            companyName: isEmployedOrSelfEmployed(state) && state.companyName == '',
+            companyPhone: isEmployedOrSelfEmployed(state) && state.companyPhone == '',
+            cstreet: isEmployedOrSelfEmployed(state) && state.cstreet == '',
+            ccity: isEmployedOrSelfEmployed(state) && state.ccity == '',
+            cprovince: isEmployedOrSelfEmployed(state) && state.cprovince == '',
+            cpostalCode: isEmployedOrSelfEmployed(state) && state.cpostalCode == ''
+        } : {};
     };
 
     var getErrors = function (requiredFields, requiredPFields) {

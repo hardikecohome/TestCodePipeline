@@ -46,12 +46,14 @@
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
             var mPayment = formatNumber(totalClarityMonthlyPaymentsLessDownPayment(data));
-
+            
+            mPayment = mPayment.toString().indexOf(',') > -1 ? Globalize.parseNumber(mPayment) : Number(mPayment);
+    
             var rbalance = loanTerm !== amortizationTerm ?
                 -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
                 (1 + customerRate / 100 / 12) : 0;
-
-            return +formatNumber(rbalance);
+            var result = formatNumber(rbalance);
+            return +(result.toString().indexOf(',') > -1 ? Globalize.parseNumber(result) : Number(result));
         };
 
         var totalClarityObligation = function (data) {

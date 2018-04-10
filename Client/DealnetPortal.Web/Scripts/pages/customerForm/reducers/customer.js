@@ -46,8 +46,8 @@
         ccity: '',
         cprovince: '',
         cpostalCode: '',
-		isQuebecDealer: false,
-		monthlyMortgagePayment: 0.00
+        isQuebecDealer: false,
+        monthlyMortgagePayment: 0.00
     };
 
     var setFormField = function (field) {
@@ -164,7 +164,7 @@
     reducerObj[customerActions.SET_COMMENT] = setFormField('comment');
     reducerObj[customerActions.SET_EMAIL] = setFormField('email');
     reducerObj[customerActions.SET_EMPLOYMENT_STATUS] = setFormField('employStatus');
-    reducerObj[customerActions.SET_INCOME_TYPE] = setFormField('incomeStatus');
+    reducerObj[customerActions.SET_INCOME_TYPE] = setFormField('incomeType');
     reducerObj[customerActions.SET_ANNUAL_SALARY] = setFormField('annualSalary');
     reducerObj[customerActions.SET_HOURLY_RATE] = setFormField('hourlyRate');
     reducerObj[customerActions.SET_YEARS_OF_EMPLOY] = setFormField('yearsOfEmploy');
@@ -177,8 +177,8 @@
     reducerObj[customerActions.SET_CUNIT] = setFormField('cunit');
     reducerObj[customerActions.SET_CCITY] = setFormField('ccity');
     reducerObj[customerActions.SET_CPROVINCE] = setFormField('cprovince');
-	reducerObj[customerActions.SET_CPOSTAL_CODE] = setFormField('cpostalCode');
-	reducerObj[customerActions.SET_MONTHLYMORTGAGEPAYMENT] = setFormField('monthlyMortgagePayment');
+    reducerObj[customerActions.SET_CPOSTAL_CODE] = setFormField('cpostalCode');
+    reducerObj[customerActions.SET_MONTHLYMORTGAGEPAYMENT] = setFormField('monthlyMortgagePayment');
     reducerObj[customerActions.CLEAR_CADDRESS] = function () {
         return {
             cstreet: '',
@@ -188,7 +188,7 @@
             cpostalCode: ''
         };
     };
-    reducerObj[customerActions.SET_CADDRESS] = function(state, action) {
+    reducerObj[customerActions.SET_CADDRESS] = function (state, action) {
         var street = '';
         if (action.payload.number) {
             street += action.payload.number;

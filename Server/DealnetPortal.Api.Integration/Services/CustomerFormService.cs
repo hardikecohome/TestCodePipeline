@@ -291,29 +291,6 @@ namespace DealnetPortal.Api.Integration.Services
                 var contract = _contractRepository.GetContract(contractId);
                 if (contract != null)
                 {
-                    return new CustomerContractInfoDTO()
-                    {
-                        ContractId = contractId,
-                        AccountId = contract.PrimaryCustomer?.AccountId,
-                        DealerName = contract.LastUpdateOperator,
-                        TransactionId = contract.Details?.TransactionId,
-                        ContractState = contract.ContractState,
-                        Status = contract.Details?.Status,
-                        CreditAmount = contract.Details?.CreditAmount ?? 0,
-                        ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
-                        CreationTime = contract.CreationTime,
-                        LastUpdateTime = contract.LastUpdateTime,
-                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
-                    };
-
-                }
-            }
-            var dealerId = _dealerRepository.GetUserIdByName(dealerName);
-            if (!string.IsNullOrEmpty(dealerId))
-            {
-                var contract = _contractRepository.GetContract(contractId, dealerId);
-                if (contract != null)
-                {
                     contractInfo = new CustomerContractInfoDTO()
                     {
                         ContractId = contractId,
@@ -328,36 +305,67 @@ namespace DealnetPortal.Api.Integration.Services
                         LastUpdateTime = contract.LastUpdateTime,
                         EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
                     };
-
-                    try
+                }
+            }
+            else
+            {
+                var dealerId = _dealerRepository.GetUserIdByName(dealerName);
+                if (!string.IsNullOrEmpty(dealerId))
+                {
+                    var contract = _contractRepository.GetContract(contractId, dealerId);
+                    if (contract != null)
                     {
-                        //get dealer info
-                        var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(dealerName));
-                        if (dealer != null)
+                        contractInfo = new CustomerContractInfoDTO()
                         {
-                            contractInfo.DealerName = dealer.FirstName;
-                            var dealerAddress = dealer.Locations?.FirstOrDefault();
-                            if (dealerAddress != null)
-                            {
-                                contractInfo.DealerAdress = dealerAddress;
-                            }
-                            if (dealer.Phones?.Any() ?? false)
-                            {
-                                contractInfo.DealerPhone = dealer.Phones.First().PhoneNum;
-                            }
-                            if (dealer.Emails?.Any() ?? false)
-                            {
-                                contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
-                            }
+                            ContractId = contractId,
+                            AccountId = contract.PrimaryCustomer?.AccountId,
+                            DealerName = contract.LastUpdateOperator,
+                            TransactionId = contract.Details?.TransactionId,
+                            ContractState = contract.ContractState,
+                            Status = contract.Details?.Status,
+                            CreditAmount = contract.Details?.CreditAmount ?? 0,
+                            ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
+                            CreationTime = contract.CreationTime,
+                            LastUpdateTime = contract.LastUpdateTime,
+                            EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
+                        };
 
+                        if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
+                            contract.ContractState > ContractState.CustomerInfoInputted)
+                        {
+                            contractInfo.CustomerBeacon = contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg = "Can't retrieve dealer info";
-                        _loggingService.LogError(errorMsg, ex);
-                    }
 
+                        try
+                        {
+                            //get dealer info
+                            var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(dealerName));
+                            if (dealer != null)
+                            {
+                                contractInfo.DealerName = dealer.FirstName;
+                                var dealerAddress = dealer.Locations?.FirstOrDefault();
+                                if (dealerAddress != null)
+                                {
+                                    contractInfo.DealerAdress = dealerAddress;
+                                }
+                                if (dealer.Phones?.Any() ?? false)
+                                {
+                                    contractInfo.DealerPhone = dealer.Phones.First().PhoneNum;
+                                }
+                                if (dealer.Emails?.Any() ?? false)
+                                {
+                                    contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
+                                }
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            var errorMsg = "Can't retrieve dealer info";
+                            _loggingService.LogError(errorMsg, ex);
+                        }
+
+                    }
                 }
             }
             return contractInfo;

@@ -11,25 +11,25 @@
 }
 
 @{
-    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 @{
-    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 
-@using(Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
+@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
@@ -44,6 +44,7 @@
     @Html.HiddenFor(x => x.LoanTerm)
     @Html.HiddenFor(x => x.LoanDeferralType)
     @Html.HiddenFor(x => x.SelectedRateCardId)
+    @Html.HiddenFor(x => x.CustomerRiskGroupId)
     @Html.HiddenFor(x => x.IsNewContract)
     @Html.HiddenFor(x => x.DealerCost)
     @Html.HiddenFor(x => x.RateCardValid)
@@ -56,13 +57,13 @@
 
     <div class="form-container">
         <div class="form-section">
-            @if (!Model.IsClarityDealer && !Model.IsCustomerFoundInCreditBureau)
+            @if (Model.DealerTier.CustomerRiskGroup != null ? !Model.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
             {
-                <div class="bureau-well-info well well-info position-well clear-border @(!Model.IsCustomerFoundInCreditBureau ? "" : "hidden")">
+                <div class="bureau-well-info well well-info position-well clear-border">
                     <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
                         <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                     </svg>
-                    @Resources.CustomerNotFoundInBureau @Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new {contractId = Model.ContractId})
+                    @Resources.CustomerNotFoundInBureau @Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new { contractId = Model.ContractId })
                 </div>
             }
 
@@ -74,7 +75,7 @@
                         @foreach (var comment in Model.CustomerComments)
                         {
                             @comment
-                            <br/>
+                            <br />
                         }
                     </div>
                 </div>
@@ -82,14 +83,14 @@
 
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                  Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                  Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                  Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                  Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
-            @Html.ValidationMessageFor(m => m.NewEquipment, "", new {@class = "text-danger", id = "new-equipment-validation-message"})
+            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
             <div class="form-group">
                 <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                    <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit"/>
+                    <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
                 </span>
             </div>
         </div>
@@ -98,7 +99,7 @@
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
+@if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")

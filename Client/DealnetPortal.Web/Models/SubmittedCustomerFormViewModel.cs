@@ -18,5 +18,6 @@ namespace DealnetPortal.Web.Models
         public string PostalCode { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public int? CustomerBeacon { get; set; }
     }
 }

@@ -771,7 +771,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerRiskGroup, d => d.ResolveUsing(src =>
                 {
                     var cGroup = src.RateCards.FirstOrDefault(x => x.CustomerRiskGroup != null)?.CustomerRiskGroup;
-                    return cGroup != null ? new CustomerRiskGroupViewModel() { GroupName = cGroup?.GroupName } : null;
+                    return cGroup != null ? new CustomerRiskGroupViewModel()
+                    {
+                        GroupId = cGroup.Id,
+                        GroupName = cGroup.GroupName
+                    } : null;
                 }));
             cfg.CreateMap<RateCardDTO, RateCardViewModel>();
 
@@ -803,6 +807,15 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }));
+
+            cfg.CreateMap<CustomerContractInfoDTO, SubmittedCustomerFormViewModel>()
+                .ForMember(x => x.Street, d => d.ResolveUsing(src => src.DealerAdress?.Street))
+                .ForMember(x => x.City, d => d.ResolveUsing(src => src.DealerAdress?.City))
+                .ForMember(x => x.Province, d => d.ResolveUsing(src => src.DealerAdress?.State))
+                .ForMember(x => x.PostalCode, d => d.ResolveUsing(src => src.DealerAdress?.PostalCode))
+                .ForMember(x => x.Phone, d => d.MapFrom(src => src.DealerPhone))
+                .ForMember(x => x.Email, d => d.MapFrom(src => src.DealerEmail));
+
         }
     }
 }

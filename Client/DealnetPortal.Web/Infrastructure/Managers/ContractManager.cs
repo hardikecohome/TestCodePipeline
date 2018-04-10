@@ -173,8 +173,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 || dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
             }
 
+            if (equipmentInfo.DealerTier.CustomerRiskGroup != null &&
+                result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed)
+            {
+                equipmentInfo.CustomerRiskGroupId = equipmentInfo.DealerTier.CustomerRiskGroup.GroupId;
+            }
+
             // do not show warn for submitted deals
-            if (!equipmentInfo.IsCustomerFoundInCreditBureau && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
+            if (!equipmentInfo.IsCustomerFoundInCreditBureau && !equipmentInfo.CustomerRiskGroupId.HasValue && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
             {
                 if (equipmentInfo.AgreementType == Models.Enumeration.AgreementType.RentalApplication ||
                     (dealerTier?.RateCards?.FirstOrDefault(r => r.Id == result.Item1.Equipment?.RateCardId)
@@ -182,6 +188,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 {
                     equipmentInfo.IsCustomerFoundInCreditBureau = true;
                     equipmentInfo.IsSubmittedWithoutCustomerRateCard = true;
+
+                    //remove rate cards with risk based pricing
+                    if (dealerTier?.RateCards?.Any() == true)
+                    {
+                        dealerTier.RateCards = dealerTier.RateCards.Where(rc => rc.CustomerRiskGroup == null).ToList();
+                        equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
+                    }
+
                 }
             }
 
