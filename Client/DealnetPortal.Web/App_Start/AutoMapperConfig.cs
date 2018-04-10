@@ -616,7 +616,15 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
-                .ForMember(x => x.Notes, d => d.Ignore());
+                .ForMember(x => x.Notes, d => d.Ignore())
+                .ForMember(x => x.CommonExistingEquipmentInfo, d => d.ResolveUsing(src => src.ExistingEquipment.FirstOrDefault()!=null ?
+                new CommonExistingEquipmentInfo
+                {
+                    IsRental = src.ExistingEquipment.FirstOrDefault().IsRental,
+                    RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
+                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>()
+                }
+                :null));
 
             cfg.CreateMap<CommentDTO, CommentViewModel>();
             cfg.CreateMap<ContractDocumentDTO, ExistingDocument>()

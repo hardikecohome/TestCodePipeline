@@ -72,16 +72,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contactAndPaymentInfo.AgreementType = contractResult.Item1.Equipment.AgreementType.ConvertTo<Models.Enumeration.AgreementType>();
             contactAndPaymentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
             contactAndPaymentInfo.CommonExistingEquipmentInfo = Mapper.Map<CommonExistingEquipmentInfo>(contractResult.Item1.Equipment.ExistingEquipment.FirstOrDefault());
-            //var eq = contractResult.Item1.Equipment.ExistingEquipment.FirstOrDefault();
-            //contactAndPaymentInfo.CommonExistingEquipmentInfo = eq != null
-            //    ? new CommonExistingEquipmentInfo()
-            //    {
-            //        IsRental = eq.IsRental,
-            //        ResponsibleForRemoval = eq.ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>(),
-            //        RentalCompany = eq.RentalCompany
-
-            //    }
-            //    : null;
 
             return contactAndPaymentInfo;
         }
@@ -1104,16 +1094,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.SalesRepInformation.SalesRep = contract.Equipment.SalesRep;
                 equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
                 equipmentInfo.CommonExistingEquipmentInfo = Mapper.Map<CommonExistingEquipmentInfo>(contract.Equipment.ExistingEquipment.FirstOrDefault());
-                //var eq = contract.Equipment.ExistingEquipment.FirstOrDefault();
-                //equipmentInfo.CommonExistingEquipmentInfo = eq != null
-                //    ? new CommonExistingEquipmentInfo()
-                //    {
-                //        IsRental = eq.IsRental,
-                //        ResponsibleForRemoval = eq.ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>(),
-                //        RentalCompany = eq.RentalCompany
-
-                //    }
-                //    : null;
             }
         }
 

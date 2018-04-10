@@ -14,28 +14,28 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ExistingEquipment[i].IsRental)
+                            @Html.LabelFor(m => m.CommonExistingEquipmentInfo.IsRental)
                             <div class="control-group">
-                                @Html.DropDownListFor(m => m.ExistingEquipment[i].IsRental, new SelectList(
+                                @Html.DropDownListFor(m => m.CommonExistingEquipmentInfo.IsRental, new SelectList(
                                             new[]
                                             {
-                                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[i].IsRental},
-                                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[i].IsRental},
+                                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.CommonExistingEquipmentInfo.IsRental},
+                                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.IsRental},
                                             },
-                                            "Value", "Text", Model?.ExistingEquipment != null ? Model.ExistingEquipment[i].IsRental : true), new { @class = "form-control" })
+                                            "Value", "Text", Model?.ExistingEquipment != null ? Model.CommonExistingEquipmentInfo.IsRental : true), new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-8">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ExistingEquipment[i].RentalCompany)
+                            @Html.LabelFor(m => m.CommonExistingEquipmentInfo.RentalCompany)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.ExistingEquipment[i].RentalCompany, new
+                                @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.RentalCompany, new
                                 {
                                     @class = "form-control dealnet-input",
                                     placeholder = Resources.RentalCompany
                                 })
-                                @Html.ValidationMessageFor(m => m.ExistingEquipment[i].RentalCompany, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.CommonExistingEquipmentInfo.RentalCompany, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -119,13 +119,13 @@
                 <div class="row">
                     <div class="col-md-6 responsible-dropdown-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ExistingEquipment[i].ResponsibleForRemoval)
+                            @Html.LabelFor(m => m.CommonExistingEquipmentInfo.ResponsibleForRemoval)
                             <div class="control-group">
-                                @Html.EnumDropDownListFor(m => m.ExistingEquipment[i].ResponsibleForRemoval, new
+                                @Html.EnumDropDownListFor(m => m.CommonExistingEquipmentInfo.ResponsibleForRemoval, new
                                 {
                                     @class = "form-control dealnet-input responsible-dropdown"
                                 })
-                                @Html.ValidationMessageFor(m => m.ExistingEquipment[i].ResponsibleForRemoval, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.CommonExistingEquipmentInfo.ResponsibleForRemoval, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
