@@ -4177,6 +4177,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total amount finance can not exceed Pre-approval amount of $.
+        /// </summary>
+        public static string MaximumAmountCapingOut {
+            get {
+                return ResourceManager.GetString("MaximumAmountCapingOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum file size is limited to 20 MB for a single file..
         /// </summary>
         public static string MaximumFileSize {
@@ -5370,6 +5379,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PreApprovedLoanValueFeeWillBeApplied {
             get {
                 return ResourceManager.GetString("PreApprovedLoanValueFeeWillBeApplied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved upto a maximum of.
+        /// </summary>
+        public static string PreApprovedUptoAMaximumOf {
+            get {
+                return ResourceManager.GetString("PreApprovedUptoAMaximumOf", resourceCulture);
             }
         }
         

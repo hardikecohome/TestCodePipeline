@@ -13,5 +13,6 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="creditScore">Beacon</param>
         /// <returns>Credit amount value</returns>
         decimal? GetCreditAmount(int creditScore);
+        CustomerRiskGroup GetCustomerRiskGroupByBeacon(int beaconScore);
     }
 }
