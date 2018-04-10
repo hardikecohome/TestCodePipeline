@@ -19,6 +19,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
         public double? HouseSize { get; set; }
 
+        public CommonExistingEquipmentInfo CommonExistingEquipmentInfo { get; set; }
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
 
         [CustomRequired]

@@ -94,8 +94,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AssetNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledModel, d => d.Ignore());
-            cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>()
-                .ForMember(x => x.ResponsibleForRemoval, d => d.ResolveUsing(src => src.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemovalType>()));
+            cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
             cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>()
                 .ForMember(x => x.Id, d => d.Ignore())
@@ -600,8 +599,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
-            cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>()
-                .ForMember(x => x.ResponsibleForRemoval, d => d.ResolveUsing(src => src.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>()));
+            cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
+            cfg.CreateMap<ExistingEquipmentDTO, CommonExistingEquipmentInfo>()
+                .ForMember(x => x.ResponsibleForRemoval, d => d.ResolveUsing(src => src.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>()))
+                .ForMember(x => x.IsRental, d => d.MapFrom(src => src.IsRental))
+                .ForMember(x => x.RentalCompany, d => d.MapFrom(src => src.RentalCompany));
             cfg.CreateMap<InstallationPackageDTO, InstallationPackageInformation>();
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
