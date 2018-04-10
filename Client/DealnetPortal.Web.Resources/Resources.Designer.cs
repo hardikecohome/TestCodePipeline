@@ -5374,6 +5374,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved upto a maximum of.
+        /// </summary>
+        public static string PreApprovedUptoAMaximumOf {
+            get {
+                return ResourceManager.GetString("PreApprovedUptoAMaximumOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preferred contact method.
         /// </summary>
         public static string PreferredContactMethod {

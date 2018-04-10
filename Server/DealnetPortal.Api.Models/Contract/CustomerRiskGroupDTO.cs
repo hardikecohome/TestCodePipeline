@@ -19,5 +19,7 @@ namespace DealnetPortal.Api.Models.Contract
         public DateTime? ValidFrom { get; set; }
 
         public DateTime? ValidTo { get; set; }
+
+        public bool CapOutMaxAmt { get; set; }
     }
 }

@@ -2664,4 +2664,7 @@ Please ensure that the Customer information provided matches their Government is
   <data name="EnbrideFeeNotification" xml:space="preserve">
     <value>Enbridge payment option is available at a Dealer fee of $99</value>
   </data>
+  <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
+    <value>Pre-Approved upto a maximum of</value>
+  </data>
 </root>
