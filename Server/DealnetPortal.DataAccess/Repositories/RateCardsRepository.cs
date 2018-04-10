@@ -44,5 +44,10 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             return _dbContext.CreditAmountSettings.FirstOrDefault(ca => creditScore >= ca.CreditScoreFrom && creditScore <= ca.CreditScoreTo)?.CreditAmount;
         }
+
+        public CustomerRiskGroup GetCustomerRiskGroupByBeacon(int beaconScore)
+        {
+            return _dbContext.CustomerRiskGroups.FirstOrDefault(crg => beaconScore >= crg.BeaconScoreFrom && beaconScore <= crg.BeaconScoreTo);
+        }
     }
 }

@@ -945,7 +945,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 var rateCard = dealerTier.RateCards.FirstOrDefault(rc => rc.Id == contract.Equipment.RateCardId);
 
                 summary.EquipmentInfo.CustomerRiskGroup = rateCard?.CustomerRiskGroup != null ?
-                    new CustomerRiskGroupViewModel { GroupName = rateCard.CustomerRiskGroup.GroupName } :
+                    new CustomerRiskGroupViewModel { GroupName = rateCard.CustomerRiskGroup.GroupName, GroupCapOutMaxAmt = rateCard.CustomerRiskGroup.CapOutMaxAmt } :
                     null;
             }
             summary.Notes = contract.Details?.Notes;

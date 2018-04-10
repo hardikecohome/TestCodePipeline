@@ -737,7 +737,8 @@ namespace DealnetPortal.Web.App_Start
                     return cGroup != null ? new CustomerRiskGroupViewModel()
                     {
                         GroupId = cGroup.Id,
-                        GroupName = cGroup.GroupName
+                        GroupName = cGroup.GroupName,
+                        GroupCapOutMaxAmt = cGroup.CapOutMaxAmt
                     } : null;
                 }));
             cfg.CreateMap<RateCardDTO, RateCardViewModel>();
