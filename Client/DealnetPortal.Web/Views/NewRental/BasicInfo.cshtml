@@ -217,16 +217,16 @@
 <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
 }
     </script>
-    <script type="text/javascript">
+	<script type="text/javascript">
     $(document).ready(function () {
         /**/
         /**/
         module.require('basicInfo.index').init();
 
-        ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name');
+		gtag('event', 'New Application Start', { 'event_category': 'New Application Start', 'event_action': 'Basic Info page Displayed', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name' });
     /**/
     /**/
 });
-    </script>
+	</script>
 }
 

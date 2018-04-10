@@ -94,6 +94,7 @@
         public static string ResponsibilityForCostOfRemoval = "Responsibility for cost of removal";
 
         #region Dealer onboarding UDFs        
+        public static string LegalName = "LegalName";
         public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
         public static string NumberOfSalesPeople = "Number of Sales People";

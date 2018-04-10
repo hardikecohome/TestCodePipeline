@@ -40,13 +40,8 @@
 
 @section scripts
 {
-    <script type="text/javascript">
-        $(document).ready(function() {
-            ga('send',
-                'event',
-                'Decline/Credit Review',
-                'Error Message Displayed',
-                '@(User.IsInRole(UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name');
-        });
-    </script>
+<script type="text/javascript">
+		$(document).ready(function () {
+			gtag('event', 'Decline/Credit Review', { 'event_category': 'Decline/Credit Review', 'event_action': 'Error Message Displayed', 'event_label': '@(User.IsInRole(UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name' });
+</script>
 }

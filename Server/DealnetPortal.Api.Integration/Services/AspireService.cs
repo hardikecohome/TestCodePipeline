@@ -1188,9 +1188,10 @@ namespace DealnetPortal.Api.Integration.Services
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
-                    var postalCode =
-                        c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
-                        c.Locations?.FirstOrDefault()?.PostalCode;
+                    var postalCode = location.PostalCode;
+                        // Deal-4616 - Guarantor query fails as postal code was null for Guarantor with same address.
+                        //c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
+                        //c.Locations?.FirstOrDefault()?.PostalCode;
                     try
                     {
                         var aspireCustomer = _aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth,
@@ -1276,7 +1277,7 @@ namespace DealnetPortal.Api.Integration.Services
                 Role = companyRole,
                 IsIndividual = false,
                 IsPrimary = true,
-                Legalname = companyInfo.FullLegalName,                
+                Legalname = companyInfo.OperatingName, // Legalname tag populates Name field in aspire and Business have requested to populate OperatingName in this field. Please refer Deal-4266 Link: https://support.dataart.com/browse/DEAL-4266       
                 //Dba = companyInfo.OperatingName,
                 EmailAddress = companyInfo.EmailAddress,                
                 CreditReleaseObtained = true,
@@ -1492,16 +1493,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var rate = _contractRepository.GetProvinceTaxRate(
-                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                                 l => l.AddressType == AddressType.MainAddress) ??
-                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-
                     eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
                         ? (isFirstEquipment
                             ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))
                             : equipment.Cost)
-                        : (equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100));
+                        : equipment.MonthlyCost;
                 }
                 var adminFee = contract.Details?.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true
                     ? contract.Equipment?.AdminFee : null;
@@ -2603,6 +2599,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.LegalName,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.FullLegalName) ? dealerInfo.CompanyInfo.FullLegalName : BlankValue
+            });
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.OperatingName,

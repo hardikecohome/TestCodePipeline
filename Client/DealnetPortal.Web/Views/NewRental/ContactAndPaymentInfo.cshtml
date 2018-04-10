@@ -396,7 +396,7 @@
 	$(document)
 		.submit(function () {
 
-				ga('send', 'event', 'Contact and Payment', 'Form submit', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+			gtag('event', 'Contact and Payment', { 'event_category': 'Contact and Payment', 'event_action': 'Form submit', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
 			});
     </script>
 
