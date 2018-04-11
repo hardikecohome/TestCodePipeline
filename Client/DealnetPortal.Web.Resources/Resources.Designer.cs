@@ -4177,7 +4177,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The total amount finance cannot exceed the pre-approval amount of $.
+        ///   Looks up a localized string similar to The total amount financed cannot exceed the pre-approval amount of $.
         /// </summary>
         public static string MaximumAmountCapingOut {
             get {
