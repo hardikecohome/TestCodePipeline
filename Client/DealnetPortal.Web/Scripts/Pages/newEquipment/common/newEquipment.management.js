@@ -47,7 +47,7 @@
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
-        newTemplate.find('#addequipment-remove-' + id).on('click', _initRemoveNewEquipment(id));
+        newTemplate.find('#addequipment-remove-' + id).on('click', _removeNewEquipment);
 
         newTemplate.find('.monthly-cost')
             .on('change', updateMonthlyCost);
@@ -109,23 +109,37 @@
 
         newTemplate.find('div.additional-remove').attr('id', 'remove-existing-equipment-' + id);
 
-        newTemplate.find('#remove-existing-equipment-' + id).on('click',
-            function () {
-                var options = {
-                    name: 'existingEquipments',
-                    equipmentIdPattern: 'existing-equipment-',
-                    equipmentName: 'ExistingEquipment',
-                    equipmentRemovePattern: 'remove-existing-equipment-'
-                };
-
-                conversion.removeItem.call(this, options);
-            });
+        newTemplate.find('#remove-existing-equipment-' + id).on('click', _removeExistingEquipment);
 
         newTemplate.find('textarea').keyup(function (e) {
             if (e.keyCode === 13) {
                 var textarea = $(this);
                 textarea.val(textarea.val() + '\n');
             }
+        });
+
+        if (id > 0) {
+            newTemplate.find('.common-row').addClass('hidden')
+                .find('input, select').each(function (index, el) {
+                    $(el).prop('disabled', true);
+                });
+            // update the current template with values from the first existing equipment
+            newTemplate.find('.customer-owned').val($('.customer-owned')[0].value);
+            newTemplate.find('.rental-company').val($('.rental-company')[0].value);
+            newTemplate.find('.responsible-dropdown').val($('.responsible-dropdown')[0].value);
+            newTemplate.find('.responsible-other').val($('.responsible-other')[0].value);
+        }
+        newTemplate.find('.customer-owned').on('change', function (e) {
+            $('.customer-owned').val(e.target.value);
+        });
+        newTemplate.find('.rental-company').on('change', function (e) {
+            $('.rental-company').val(e.target.value);
+        });
+        newTemplate.find('.responsible-dropdown').on('change', function (e) {
+            $('.responsible-dropdown').val(e.target.value);
+        });
+        newTemplate.find('.responsible-other').on('change', function (e) {
+            $('.responsible-other').val(e.target.value);
         });
 
         if (!state.isClarity) {
@@ -205,7 +219,7 @@
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
         if (i > 0) {
-            $('#addequipment-remove-' + i).on('click', _initRemoveNewEquipment(i));
+            $('#addequipment-remove-' + i).on('click', _removeNewEquipment);
         }
         if (i === 2) {
             $('.add-equip-link').addClass("hidden");
@@ -222,19 +236,29 @@
         state.existingEquipments[i] = {
             id: i.toString()
         };
-        $('#remove-existing-equipment-' + i).on('click', function () {
-            var options = {
-                name: 'existingEquipments',
-                equipmentIdPattern: 'existing-equipment-',
-                equipmentName: 'ExistingEquipment',
-                equipmentRemovePattern: 'remove-existing-equipment-'
-            };
-
-            conversion.removeItem.call(this, options);
+        $('#remove-existing-equipment-' + i).on('click', _removeExistingEquipment);
+        var $equip = $('#existing-equipment-' + i);
+        if (i > 0) {
+            $equip.find('.common-row').addClass('hidden')
+                .find('input, select').each(function (index, el) {
+                    $(el).prop('disabled', true);
+                });
+        }
+        $equip.find('.customer-owned').on('change', function (e) {
+            $('.customer-owned').val(e.target.value);
+        });
+        $equip.find('.rental-company').on('change', function (e) {
+            $('.rental-company').val(e.target.value);
+        });
+        $equip.find('.responsible-dropdown').on('change', function (e) {
+            $('.responsible-dropdown').val(e.target.value);
+        });
+        $equip.find('.responsible-other').on('change', function (e) {
+            $('.responsible-other').val(e.target.value);
         });
 
         if (!state.isClarity) {
-            $('#existing-equipment-' + i + ' .responsible-dropdown')
+            $equip.find('.responsible-dropdown')
                 .on('change', require('bill59').onResposibilityChange);
         }
     }
@@ -306,27 +330,47 @@
         state.equipments[id].estimatedRetail = Globalize.parseNumber($this.val());
     }
 
-    function _initRemoveNewEquipment(i) {
-        return function removeNewEquipment() {
-            var options = {
-                name: 'equipments',
-                equipmentIdPattern: 'new-equipment-',
-                equipmentName: 'NewEquipment',
-                equipmentRemovePattern: 'addequipment-remove-'
-            };
-            conversion.removeItem.call(this, options);
+    function _removeNewEquipment() {
+        var options = {
+            name: 'equipments',
+            equipmentIdPattern: 'new-equipment-',
+            equipmentName: 'NewEquipment',
+            equipmentRemovePattern: 'addequipment-remove-'
+        };
+        conversion.removeItem.call(this, options);
 
-            if (state.agreementType !== 3) {
-                if (state.agreementType === 1 || state.agreementType === 2) {
-                    settings.recalculateAndRenderRentalValues();
-                } else {
-                    settings.recalculateValuesAndRender();
-                }
+        if (state.agreementType !== 3) {
+            if (state.agreementType === 1 || state.agreementType === 2) {
+                settings.recalculateAndRenderRentalValues();
             } else {
-                settings.recalculateClarityValuesAndRender();
+                settings.recalculateValuesAndRender();
             }
-            $('.add-equip-link').removeClass("hidden");
-            !state.isClarity && require('bill59').onDeleteEquipment();
+        } else {
+            settings.recalculateClarityValuesAndRender();
+        }
+        $('.add-equip-link').removeClass("hidden");
+        !state.isClarity && require('bill59').onDeleteEquipment();
+    }
+
+    function _removeExistingEquipment() {
+        var options = {
+            name: 'existingEquipments',
+            equipmentIdPattern: 'existing-equipment-',
+            equipmentName: 'ExistingEquipment',
+            equipmentRemovePattern: 'remove-existing-equipment-'
+        };
+
+        conversion.removeItem.call(this, options);
+
+        var i = this.id.split(options.equipmentRemovePattern)[1];
+
+        if (i == 0) {
+            var $equip = $('#existing-equipment-' + i);
+            $equip.find('.common-row').removeClass('hidden');
+            var custOwned = $equip.find('.customer-owned');
+            custOwned.prop('disabled', false);
+            $equip.find('.rental-company').prop('disabled', false);
+            !state.isClarity && require('bill59').toggleExistingEquipment();
         }
     }
 

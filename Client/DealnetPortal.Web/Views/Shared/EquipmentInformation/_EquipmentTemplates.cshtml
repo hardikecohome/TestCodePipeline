@@ -1,6 +1,13 @@
 ﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
+@{ 
+    if(Model.CommonExistingEquipmentInfo == null)
+    {
+        Model.CommonExistingEquipmentInfo = new DealnetPortal.Web.Models.EquipmentInformation.CommonExistingEquipmentInfo();
+    }
+}
+
 <div class="hidden">
     @if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
     {
@@ -167,7 +174,7 @@
                 <i class="glyphicon glyphicon-remove"></i>
             </div>
         </div>
-        <div class="row">
+        <div class="row common-row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-sm-4">
@@ -180,7 +187,7 @@
                                             new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.CommonExistingEquipmentInfo.CustomerOwned},
                                             new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.CustomerOwned},
                              },
-                             "Value", "Text", Model?.CommonExistingEquipmentInfo.CustomerOwned ?? true), new { @class = "form-control", @Value = true })
+                             "Value", "Text", Model?.CommonExistingEquipmentInfo.CustomerOwned ?? true), new { @class = "form-control customer-owned", @Value = true })
                             </div>
                         </div>
                     </div>
@@ -188,7 +195,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CommonExistingEquipmentInfo.RentalCompany)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.RentalCompany, new { @class = "form-control dealnet-input", placeholder = Resources.RentalCompany, Value = "" })
+                                @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.RentalCompany, new { @class = "form-control dealnet-input rental-company", placeholder = Resources.RentalCompany, Value = "" })
                                 @Html.ValidationMessageFor(m => m.CommonExistingEquipmentInfo.RentalCompany, "", new { @class = "text-danger" })
                             </div>
                         </div>
