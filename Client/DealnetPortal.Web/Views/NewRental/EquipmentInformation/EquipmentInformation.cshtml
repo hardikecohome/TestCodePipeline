@@ -91,10 +91,10 @@
 			@Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
 			@Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
 
-			<div class="well danger-well position-well clear-border over-aged-well collapse" id="max-amt-cap-out-error">
-				<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-				@Resources.MaximumAmountCapingOut@Model.CreditAmount
-			</div>
+		<div class="well danger-well position-well clear-border over-aged-well collapse" id="max-amt-cap-out-error">
+			<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+			@Resources.MaximumAmountCapingOut@($"{Model.CreditAmount:0,00}")
+		</div>
 			<div class="form-group">
 				<span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
 					<input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />

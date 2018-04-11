@@ -493,6 +493,10 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
                 creditReport.CreditId = ConvertFromDbVal<string>(dr["creditoid"]);
                 var strBeacon = ConvertFromDbVal<string>(dr["Beacon"]);
+                if (string.IsNullOrEmpty(strBeacon))
+                {
+                    return null;
+                }
                 int beacon = 0;
                 int.TryParse(strBeacon, out beacon);
                 creditReport.Beacon = beacon;
