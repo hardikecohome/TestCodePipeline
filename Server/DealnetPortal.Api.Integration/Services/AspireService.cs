@@ -1873,16 +1873,16 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.ContractPreapprovalLimit,
                     Value = creditAmount.ToString("F", CultureInfo.InvariantCulture)
                 });
-                var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon;
-                if (contract.Dealer?.Tier?.IsCustomerRisk == true && beacon == null)
+                var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0;
+                if (contract.Dealer?.Tier?.IsCustomerRisk == true)
                 {
-                    beacon = 0;
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.CustomerRiskGroup,
+                        Value = _rateCardsRepository.GetCustomerRiskGroupByBeacon(beacon).GroupName ?? BlankValue
+                    });
                 }
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.CustomerRiskGroup,
-                    Value = _rateCardsRepository.GetCustomerRiskGroupByBeacon((int)beacon).GroupName ?? BlankValue
-                });
+                
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
                 if (paymentInfo != null)
                 {
