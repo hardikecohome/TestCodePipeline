@@ -57,6 +57,7 @@
         public static readonly string CREDIT_REVIEW_STATUS_CONFIG_KEY = "CreditReviewStatus";
         public static readonly string ONBOARDING_INIT_STATUS_KEY = "OnboardingInitStatus";
         public static readonly string ONBOARDING_DRAFT_STATUS_KEY = "OnboardingDraftStatus";
+        public static readonly string RISK_BASED_STATUS_KEY = "RiskBasedStatus";
 
         //Describing portal constants
         //Ecohome
