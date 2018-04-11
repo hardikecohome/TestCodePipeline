@@ -688,6 +688,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.EquipmentTypes, s => s.Ignore());
             cfg.CreateMap<DealerAreaDTO, DealerAreaViewModel>();
 
+            cfg.CreateMap<ExistingEquipmentDTO, CommonExistingEquipmentInfo>()
+                .ForMember(x => x.CustomerOwned, d => d.MapFrom(src => !src.IsRental));
+
             //New Version
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModelNew>()
                 .ForMember(x => x.ContractId, d => d.MapFrom(src => src.Id))
