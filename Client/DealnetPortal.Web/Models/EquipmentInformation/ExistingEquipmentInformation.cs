@@ -34,10 +34,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "Notes")]
         public string Notes { get; set; }
 
-        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Other")]
-        public string ResponsibleForRemovalValue { get; set; }
-
         public int Id { get; set; }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.Enumeration;
 
@@ -10,8 +6,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class CommonExistingEquipmentInfo
     {
-        [Display(ResourceType = typeof(Resources.Resources), Name = "IsRental")]
-        public bool IsRental { get; set; }
+        [Display(ResourceType = typeof(Resources.Resources), Name = "CustomerOwned")]
+        public bool CustomerOwned { get; set; }
 
         [CustomRequired]
         [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
@@ -21,5 +17,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "ResponsibleForCostRemoval")]
         public ResponsibleForRemoval? ResponsibleForRemoval { get; set; }
+
+        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "Other")]
+        public string ResponsibleForRemovalValue { get; set; }
     }
 }

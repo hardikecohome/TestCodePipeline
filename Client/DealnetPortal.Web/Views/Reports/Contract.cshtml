@@ -1683,15 +1683,15 @@
                                             @Resources.CustomerOwned
                                         </div>
                                         <div class="dealnet-field-holder col-xs-6">
-                                            @(equipment.CustomerOwned ? Resources.Yes : Resources.No)
+                                            @(Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned ? Resources.Yes : Resources.No)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        @Html.LabelFor(x => equipment.RentalCompany, new { @class = "dealnet-field-caption col-xs-6" })
+                                        @Html.LabelFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
-                                            @equipment.RentalCompany
+                                            @Model.EquipmentInfo.CommonExistingEquipmentInfo
                                         </div>
                                     </div>
                                 </div>
@@ -1735,14 +1735,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if(equipment.ResponsibleForRemoval.HasValue)
+                                @if(Model.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.HasValue)
                                 {
-                                    var text = equipment.ResponsibleForRemoval != ResponsibleForRemoval.Other ?
-                                        equipment.ResponsibleForRemoval.GetEnumDescription() :
-                                        equipment.ResponsibleForRemovalValue;
+                                    var text = Model.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval != ResponsibleForRemoval.Other ?
+                                        Model.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.GetEnumDescription() :
+                                        Model.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => equipment.ResponsibleForRemoval, new { @class = "dealnet-field-caption col-xs-6" })
+                                            @Html.LabelFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 @text
                                             </div>

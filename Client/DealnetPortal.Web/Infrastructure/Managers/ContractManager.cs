@@ -704,7 +704,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
             foreach (var existingEquipmentDTO in existingEquipment)
             {
-                existingEquipmentDTO.IsRental = equipmnetInfo.CommonExistingEquipmentInfo.IsRental;
+                existingEquipmentDTO.IsRental = !equipmnetInfo.CommonExistingEquipmentInfo.CustomerOwned;
                 existingEquipmentDTO.RentalCompany = equipmnetInfo.CommonExistingEquipmentInfo.RentalCompany;
                 existingEquipmentDTO.ResponsibleForRemoval = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.ConvertTo<ResponsibleForRemovalType>();
             }

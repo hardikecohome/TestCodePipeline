@@ -14,15 +14,15 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.CommonExistingEquipmentInfo.IsRental)
+                            @Html.LabelFor(m => m.CommonExistingEquipmentInfo.CustomerOwned)
                             <div class="control-group">
-                                @Html.DropDownListFor(m => m.CommonExistingEquipmentInfo.IsRental, new SelectList(
+                                @Html.DropDownListFor(m => m.CommonExistingEquipmentInfo.CustomerOwned, new SelectList(
                                             new[]
                                             {
-                                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.CommonExistingEquipmentInfo.IsRental},
-                                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.IsRental},
+                                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.CommonExistingEquipmentInfo.CustomerOwned},
+                                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.CustomerOwned},
                                             },
-                                            "Value", "Text", Model?.ExistingEquipment != null ? Model.CommonExistingEquipmentInfo.IsRental : true), new { @class = "form-control" })
+                                            "Value", "Text", Model?.ExistingEquipment != null ? Model.CommonExistingEquipmentInfo.CustomerOwned: true), new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -131,13 +131,13 @@
                     </div>
                     <div class="col-md-6 responsible-other-col hidden">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ExistingEquipment[i].ResponsibleForRemovalValue)
+                            @Html.LabelFor(m => m.CommonExistingEquipmentInfo.ResponsibleForRemovalValue)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.ExistingEquipment[i].ResponsibleForRemovalValue, new
+                                @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.ResponsibleForRemovalValue, new
                                 {
                                     @class = "form-control dealnet-input responsible-other"
                                 })
-                                @Html.ValidationMessageFor(m => m.ExistingEquipment[i].ResponsibleForRemovalValue, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => m.CommonExistingEquipmentInfo.ResponsibleForRemovalValue, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
