@@ -2664,4 +2664,10 @@ Please ensure that the Customer information provided matches their Government is
   <data name="EnbrideFeeNotification" xml:space="preserve">
     <value>Enbridge payment option is available at a Dealer fee of $99</value>
   </data>
+  <data name="CustomerOwned" xml:space="preserve">
+    <value>Customer Owned?</value>
+  </data>
+  <data name="NameOfExistingSupplier" xml:space="preserve">
+    <value>Name of Existing Supplier</value>
+  </data>
 </root>

@@ -940,6 +940,32 @@ namespace DealnetPortal.DataAccess.Repositories
             return isClarity;
         }
 
+        public bool IsBill59Contract(int contractId)
+        {
+            bool isBill59 = false;
+
+            var contract = _dbContext.Contracts
+                .Include(c => c.Equipment)
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment.NewEquipment)
+                .FirstOrDefault(c => c.Id == contractId);
+
+
+            if (contract != null)
+            {
+                var location = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                           contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault();
+                if (contract.Details.AgreementType != AgreementType.LoanApplication &&
+                    location?.State?.ToProvinceCode() == "ON")
+                {
+                    isBill59 = contract.Equipment?.NewEquipment?.Any(ne => GetEquipmentTypeInfo(ne.Type)?.UnderBill59 ?? false) ?? false;
+                }                    
+            }
+
+            return isBill59;
+        }
+
         public IList<Contract> GetExpiredContracts(DateTime expiredDate)
         {
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;

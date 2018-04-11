@@ -24,7 +24,6 @@ using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 using Unity.Interception.Utilities;
 using FormField = DealnetPortal.Api.Models.Signature.FormField;
-using Microsoft.VisualBasic;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -2381,14 +2380,37 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                     }
                 }
-                if (!string.IsNullOrEmpty(fstEq.SerialNumber))
+
+                var serials = contract.Equipment.ExistingEquipment.Select(ee => ee.SerialNumber).JoinStrings("\r\n");                
+                if (serials.Any())
                 {
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.ExistingEquipmentSerialNumber,
-                        Value = fstEq.SerialNumber
+                        Value = serials
                     });
+                }
+
+                //if (_contractRepository.IsBill59Contract(contract.Id))
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.CheckBox,
+                        Name = fstEq.IsRental
+                            ? PdfFormFields.IsExistingEquipmentRental
+                            : PdfFormFields.IsExistingEquipmentNoRental,
+                        Value = "true"
+                    });
+                    if (fstEq.IsRental)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.ExistingEquipmentRentalCompany,
+                            Value = fstEq.RentalCompany
+                        });
+                    }
                 }
             }
         }
