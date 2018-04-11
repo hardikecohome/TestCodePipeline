@@ -14,15 +14,17 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ExistingEquipment[i].IsRental)
+                            @Html.LabelFor(m => m.ExistingEquipment[i].CustomerOwned)
                             <div class="control-group">
-                                @Html.DropDownListFor(m => m.ExistingEquipment[i].IsRental, new SelectList(
+                                @Html.DropDownListFor(m => m.ExistingEquipment[i].CustomerOwned, new SelectList(
                                             new[]
                                             {
-                                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[i].IsRental},
-                                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[i].IsRental},
+                                                  new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.ExistingEquipment[i].CustomerOwned},
+                                                  new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.ExistingEquipment[i].CustomerOwned},
                                             },
-                                            "Value", "Text", Model?.ExistingEquipment != null ? Model.ExistingEquipment[i].IsRental : true), new { @class = "form-control" })
+                                            "Value", "Text", 
+                                            Model?.ExistingEquipment != null ? Model.ExistingEquipment[i].CustomerOwned : true), 
+                                            new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -33,7 +35,7 @@
                                 @Html.TextBoxFor(m => m.ExistingEquipment[i].RentalCompany, new
                                 {
                                     @class = "form-control dealnet-input",
-                                    placeholder = Resources.RentalCompany
+                                    placeholder = Resources.NameOfExistingSupplier
                                 })
                                 @Html.ValidationMessageFor(m => m.ExistingEquipment[i].RentalCompany, "", new { @class = "text-danger" })
                             </div>

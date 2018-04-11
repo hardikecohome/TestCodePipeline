@@ -1128,13 +1128,13 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="dealnet-field-caption col-xs-6">
-                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental)
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].CustomerOwned)
                                                 </div>
                                                 <div class="dealnet-field-holder col-xs-6">
-                                                    @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new SelectList(new[] { new { Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental }, new { Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental }, },
+                                                    @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].CustomerOwned, new SelectList(new[] { new { Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].CustomerOwned }, new { Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].CustomerOwned }, },
                                                                                                  "Value",
                                                                                                  "Text",
-                                                                                                 Model.EquipmentInfo.ExistingEquipment[i].IsRental),
+                                                                                                 Model.EquipmentInfo.ExistingEquipment[i].CustomerOwned),
                                                                                             new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                 </div>
                                             </div>
@@ -2026,22 +2026,17 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].IsRental, new
+                                            @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].CustomerOwned, new
                                             {
                                                 @class = "dealnet-field-caption"
                                             })
                                             <div class="dealnet-field-holder">
                                                 <div class="control-group">
-                                                    @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i]
-                                                                                            .IsRental,
-                                                                                                                                                                      new SelectList(
-                                                                                                                                                                          new[]
-                                                                                                                                                                          {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].IsRental},
-                                                                                                                                                                       },
-                                                                                                                                                                          "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].IsRental),
-                                                                                                                                                                      new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.EquipmentInfo.ExistingEquipment[i].CustomerOwned, new SelectList(new[] {
+                                                    new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.ExistingEquipment[i].CustomerOwned},
+                                                    new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.ExistingEquipment[i].CustomerOwned},
+                                                    },
+                                                    "Value", "Text", Model.EquipmentInfo.ExistingEquipment[i].CustomerOwned), new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>

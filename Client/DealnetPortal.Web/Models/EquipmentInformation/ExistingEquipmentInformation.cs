@@ -6,12 +6,12 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class ExistingEquipmentInformation
     {
-        [Display(ResourceType = typeof (Resources.Resources), Name = "IsRental")]
-        public bool IsRental { get; set; }
+        [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerOwned")]
+        public bool CustomerOwned { get; set; }
 
         [CustomRequired]
         [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        [Display(ResourceType = typeof (Resources.Resources), Name = "RentalCompany")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "NameOfExistingSupplier")]
         public string RentalCompany { get; set; }
 
         [CustomRequired]

@@ -2179,6 +2179,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Owned?.
+        /// </summary>
+        public static string CustomerOwned {
+            get {
+                return ResourceManager.GetString("CustomerOwned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Rate.
         /// </summary>
         public static string CustomerRate {
@@ -4461,6 +4470,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NameOfDocument {
             get {
                 return ResourceManager.GetString("NameOfDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of Existing Supplier.
+        /// </summary>
+        public static string NameOfExistingSupplier {
+            get {
+                return ResourceManager.GetString("NameOfExistingSupplier", resourceCulture);
             }
         }
         
