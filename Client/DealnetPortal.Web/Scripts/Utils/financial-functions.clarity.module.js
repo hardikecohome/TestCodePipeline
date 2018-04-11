@@ -45,14 +45,14 @@
             var amortizationTerm = data.AmortizationTerm;
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
-            var mPayment = formatNumber(totalClarityMonthlyPaymentsLessDownPayment(data));
-            
+            var mPayment = +totalClarityMonthlyPaymentsLessDownPayment(data).toFixed(2);
+
             mPayment = mPayment.toString().indexOf(',') > -1 ? Globalize.parseNumber(mPayment) : Number(mPayment);
-    
+
             var rbalance = loanTerm !== amortizationTerm ?
                 -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
                 (1 + customerRate / 100 / 12) : 0;
-            var result = formatNumber(rbalance);
+            var result = +rbalance.toFixed(2);
             return +(result.toString().indexOf(',') > -1 ? Globalize.parseNumber(result) : Number(result));
         };
 
