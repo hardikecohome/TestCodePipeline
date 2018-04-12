@@ -107,7 +107,7 @@ namespace DealnetPortal.Api.Integration.Services
                         : (int?) null;
 
                     var dealerRoles = _dealerRepository.GetUserRoles(contract.DealerId);
-                    if (contract.Dealer?.Tier?.IsCustomerRisk == true || contract.IsCreatedByCustomer == true
+                    if (contract.Dealer?.Tier?.IsCustomerRisk == true
                         || dealerRoles?.Contains(UserRole.MortgageBroker.ToString()) == true
                         || dealerRoles?.Contains(UserRole.CustomerCreator.ToString()) == true)
                     {
