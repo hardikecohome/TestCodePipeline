@@ -9,7 +9,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomerOwned")]
         public bool CustomerOwned { get; set; }
 
-        [CustomRequired]
         [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "NameOfExistingSupplier")]
         public string RentalCompany { get; set; }

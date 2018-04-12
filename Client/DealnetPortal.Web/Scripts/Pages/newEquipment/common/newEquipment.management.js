@@ -118,29 +118,7 @@
             }
         });
 
-        if (id > 0) {
-            newTemplate.find('.common-row').addClass('hidden')
-                .find('input, select').each(function (index, el) {
-                    $(el).prop('disabled', true);
-                });
-            // update the current template with values from the first existing equipment
-            newTemplate.find('.customer-owned').val($('.customer-owned')[0].value);
-            newTemplate.find('.rental-company').val($('.rental-company')[0].value);
-            newTemplate.find('.responsible-dropdown').val($('.responsible-dropdown')[0].value);
-            newTemplate.find('.responsible-other').val($('.responsible-other')[0].value);
-        }
-        newTemplate.find('.customer-owned').on('change', function (e) {
-            $('.customer-owned').val(e.target.value);
-        });
-        newTemplate.find('.rental-company').on('change', function (e) {
-            $('.rental-company').val(e.target.value);
-        });
-        newTemplate.find('.responsible-dropdown').on('change', function (e) {
-            $('.responsible-dropdown').val(e.target.value);
-        });
-        newTemplate.find('.responsible-other').on('change', function (e) {
-            $('.responsible-other').val(e.target.value);
-        });
+        _initExistingEquipmentCommonData(id, newTemplate);
 
         if (!state.isClarity) {
             newTemplate.find('.responsible-dropdown')
@@ -187,7 +165,7 @@
         } else {
             state.equipments[i].monthlyCost = cost;
         }
-        var retail = $('#NewEquipment_' + i + '__EstimatedRetailCost')
+        var retail = $('#NewEquipment_' + i + '__EstimatedRetailCost');
         if (retail.length) {
             cost = Globalize.parseNumber(retail.val());
             if (state.equipments[i] === undefined) {
@@ -238,15 +216,35 @@
         };
         $('#remove-existing-equipment-' + i).on('click', _removeExistingEquipment);
         var $equip = $('#existing-equipment-' + i);
-        if (i > 0) {
+        _initExistingEquipmentCommonData(i, $equip);
+
+        if (!state.isClarity) {
+            $equip.find('.responsible-dropdown')
+                .on('change', require('bill59').onResposibilityChange);
+        }
+    }
+
+    function _initExistingEquipmentCommonData(id, $equip) {
+        if (id > 0) {
             $equip.find('.common-row').addClass('hidden')
                 .find('input, select').each(function (index, el) {
                     $(el).prop('disabled', true);
                 });
+
+            // update the current template with values from the first existing equipment
+            $equip.find('.customer-owned').val($('.customer-owned')[0].value);
+            $equip.find('.rental-company').val($('.rental-company')[0].value);
+            $equip.find('.responsible-dropdown').val($('.responsible-dropdown')[0].value);
+            $equip.find('.responsible-other').val($('.responsible-other')[0].value);
         }
         $equip.find('.customer-owned').on('change', function (e) {
             $('.customer-owned').val(e.target.value);
-        });
+            if (e.target.value == 'true') {
+                $('.rental-company').prop('disabled', true).rules('remove', 'required');
+            } else {
+                $('.rental-company').prop('disabled', false).rules('add', 'required');
+            }
+        }).change();
         $equip.find('.rental-company').on('change', function (e) {
             $('.rental-company').val(e.target.value);
         });
@@ -256,11 +254,6 @@
         $equip.find('.responsible-other').on('change', function (e) {
             $('.responsible-other').val(e.target.value);
         });
-
-        if (!state.isClarity) {
-            $equip.find('.responsible-dropdown')
-                .on('change', require('bill59').onResposibilityChange);
-        }
     }
 
     function resetFormValidator(formId) {
@@ -369,8 +362,9 @@
             $equip.find('.common-row').removeClass('hidden');
             var custOwned = $equip.find('.customer-owned');
             custOwned.prop('disabled', false);
-            $equip.find('.rental-company').prop('disabled', false);
-            !state.isClarity && require('bill59').toggleExistingEquipment();
+            if (custOwned.val() != 'true') {
+                $equip.find('.rental-company').prop('disabled', false);
+            }!state.isClarity && require('bill59').toggleExistingEquipment();
         }
     }
 
