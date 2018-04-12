@@ -109,6 +109,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 ContractState = result.Item1.ContractState
             };
 
+            if(string.IsNullOrEmpty(result.Item1.PrimaryCustomer.DealerInitial))
+            {
+                equipmentInfo.HomeOwner = Mapper.Map<ApplicantPersonalInfo>(result.Item1.PrimaryCustomer);
+            }
+
             if(result.Item1.Equipment != null)
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
