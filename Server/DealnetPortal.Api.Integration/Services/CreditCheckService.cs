@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
@@ -17,6 +18,7 @@ using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
+using Contract = DealnetPortal.Domain.Contract;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -70,7 +72,11 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                 }
                 _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
-
+                var aspireAlerts =  _aspireService.UpdateContractCustomer(contract, contractOwnerId, null, true).GetAwaiter().GetResult();
+                if (aspireAlerts?.Any() == true)
+                {
+                    alerts.AddRange(aspireAlerts);
+                }
                 var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter()
                     .GetResult();
                 creditCheck = checkResult?.Item1;
@@ -140,9 +146,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return new Tuple<CreditCheckDTO, IList<Alert>>(creditCheck, alerts);
-        }       
+        }
 
-        public CustomerCreditReportDTO CheckCustomerCreditReport(int contractId, string contractOwnerId)
+       public CustomerCreditReportDTO CheckCustomerCreditReport(int contractId, string contractOwnerId)
         {
             CustomerCreditReportDTO creditReport = null;
 
