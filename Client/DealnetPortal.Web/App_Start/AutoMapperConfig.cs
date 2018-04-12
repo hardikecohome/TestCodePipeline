@@ -639,7 +639,8 @@ namespace DealnetPortal.Web.App_Start
                 {
                     CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
                     RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>()
+                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>()    ,
+                    ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
                 }
                 : null));
 
@@ -726,7 +727,8 @@ namespace DealnetPortal.Web.App_Start
                 {
                     CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
                     RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>()
+                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>(),
+                    ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
                 }
                 : null));
 

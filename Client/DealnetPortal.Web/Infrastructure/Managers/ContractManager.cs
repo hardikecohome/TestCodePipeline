@@ -707,6 +707,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 existingEquipmentDTO.IsRental = !equipmnetInfo.CommonExistingEquipmentInfo.CustomerOwned;
                 existingEquipmentDTO.RentalCompany = equipmnetInfo.CommonExistingEquipmentInfo.RentalCompany;
                 existingEquipmentDTO.ResponsibleForRemoval = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.ConvertTo<ResponsibleForRemovalType>();
+                existingEquipmentDTO.ResponsibleForRemovalValue = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
             }
             contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
