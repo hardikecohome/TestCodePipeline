@@ -88,5 +88,8 @@ namespace DealnetPortal.Domain
         public Contract Contract { get; set; }
 
         public decimal? DealerCost { get; set; }
+
+        // Customer (borrower) has existing agreements
+        public bool? HasExistingAgreements { get; set; }
     }
 }

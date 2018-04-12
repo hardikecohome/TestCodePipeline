@@ -2670,4 +2670,7 @@ Please ensure that the Customer information provided matches their Government is
   <data name="NameOfExistingSupplier" xml:space="preserve">
     <value>Name of Existing Supplier</value>
   </data>
+  <data name="CustomerHasAgreementsWithEcoHome" xml:space="preserve">
+    <value>Does the Customer has any agreements with EcoHome Financial?</value>
+  </data>
 </root>

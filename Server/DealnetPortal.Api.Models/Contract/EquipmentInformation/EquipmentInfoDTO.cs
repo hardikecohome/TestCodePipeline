@@ -57,5 +57,7 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public bool? IsClarityProgram { get; set; }
 
         public decimal? DealerCost { get; set; }
+        // Customer (borrower) has existing agreements
+        public bool? HasExistingAgreements { get; set; }
     }
 }
