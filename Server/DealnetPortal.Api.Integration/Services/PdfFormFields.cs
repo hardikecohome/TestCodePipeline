@@ -185,8 +185,8 @@ namespace DealnetPortal.Api.Integration.Services
         //Bill 59 - Customer Existing agreements information
         public static string ExistingLoansDescription = "ExistingLoansDescription";
         public static string ExistingRentalsDescription = "ExistingRentalsDescription";
-        public static string ExistingLoansDateEntered = "ExistingLoansDateEntered";
-        public static string ExistingLoansTerminationDate = "ExistingLoansTerminationDate";
+        public static string ExistingRentalsDateEntered = "ExistingRentalsDateEntered";
+        public static string ExistingRentalsTerminationDate = "ExistingRentalsTerminationDate";
 
         //Custom envelop fields
         public static string ApplicationID = "ApplicationID";

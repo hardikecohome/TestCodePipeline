@@ -949,6 +949,11 @@ namespace DealnetPortal.Api.Integration.Services
             FillPaymentFields(fields, contract);
             FillDealerFields(fields, contract);
 
+            if (contract.Equipment?.HasExistingAgreements == true && _contractRepository.IsBill59Contract(contract.Id))
+            {
+                FillExistingAgreementsInfoFields(fields, contract);
+            }
+
             return fields;
         }
 
@@ -2413,8 +2418,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }
             }
-        }
-
+        }        
         private void FillDealerFields(List<FormField> formFields, Contract contract)
         {
             if (!string.IsNullOrEmpty(contract?.Equipment?.SalesRep))
@@ -2519,6 +2523,63 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError("Cannot get dealer info from Aspire database", ex);
                 }
             }
+        }
+
+        private void FillExistingAgreementsInfoFields(List<FormField> formFields, Contract contract)
+        {
+            var agreements = _aspireStorageReader.SearchCustomerAgreements(contract.PrimaryCustomer.FirstName,
+                contract.PrimaryCustomer.LastName, contract.PrimaryCustomer.DateOfBirth);
+            if (agreements?.Any() == true)
+            {
+                var loans = agreements.Where(a =>
+                    string.Compare(a.Type, "loan", StringComparison.InvariantCultureIgnoreCase) == 0);
+                var rentals = agreements.Where(a =>
+                    string.Compare(a.Type, "rental", StringComparison.InvariantCultureIgnoreCase) == 0);
+                if (loans.Any())
+                {
+                    var gLoans = loans.GroupBy(l => l.AppNum).Take(3);
+                    var loansDescr = gLoans.Select(g =>
+                            Resources.Resources.LoanApplication + ": " +
+                            g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
+                        .JoinStrings("\r\n");
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.ExistingLoansDescription,
+                        Value = loansDescr
+                    });
+                }
+                if (rentals.Any())
+                {
+                    var gRentals = rentals.GroupBy(l => l.AppNum).Take(3);
+                    var rentalsDescr = gRentals.Select(g =>
+                            Resources.Resources.RentalApplication + ": " +
+                            g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
+                        .JoinStrings("\r\n");
+                    var rentalsStartDate = gRentals.Select(g => g.FirstOrDefault()?.BookedPostDate.ToShortDateString()).JoinStrings("\r\n");
+                    var rentalsTerminationDate = gRentals.Select(g => g.FirstOrDefault()?.MaturityDate.ToShortDateString()).JoinStrings("\r\n");
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.ExistingRentalsDescription,
+                        Value = rentalsDescr
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.ExistingRentalsDateEntered,
+                        Value = rentalsStartDate
+                    });
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.ExistingRentalsTerminationDate,
+                        Value = rentalsTerminationDate
+                    });
+                }
+            }
+
+            //var serials = contract.Equipment.ExistingEquipment.Select(ee => ee.SerialNumber).JoinStrings("\r\n");
         }
 
         private void FillInstallCertificateFields(List<FormField> formFields, Contract contract)
