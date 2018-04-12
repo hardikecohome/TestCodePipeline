@@ -394,6 +394,12 @@ namespace DealnetPortal.Api.Integration.Services
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
 
+                // mark as created by customer
+                contract.IsCreatedByCustomer = true;
+                contract.IsNewlyCreated = true;
+                contract.CreateOperator = null;
+                _unitOfWork.Save();
+
                 //Start credit check for this contract
                 try
                 {
@@ -414,13 +420,7 @@ namespace DealnetPortal.Api.Integration.Services
                 catch (Exception ex)
                 {
                     _loggingService.LogError($"Error during credit check for contract [{contract.Id}]", ex);
-                }
-
-                // mark as created by customer
-                contract.IsCreatedByCustomer = true;
-                contract.IsNewlyCreated = true;
-                contract.CreateOperator = null;
-                _unitOfWork.Save();
+                }                
 
 
                 //added comments at the end of CreateContractByCustomerFormData
