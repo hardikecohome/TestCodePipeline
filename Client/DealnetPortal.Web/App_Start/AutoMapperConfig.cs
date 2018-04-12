@@ -724,15 +724,16 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.IsAdminFeePaidByCustomer, d => d.MapFrom(o => o.IsFeePaidByCutomer))
                 .ForMember(x => x.IsCustomerFoundInCreditBureau, d => d.Ignore())
                 .ForMember(x => x.IsSubmittedWithoutCustomerRateCard, d => d.Ignore())
-                .ForMember(x => x.CommonExistingEquipmentInfo, d => d.ResolveUsing(src => src.ExistingEquipment.FirstOrDefault() != null ?
-                new CommonExistingEquipmentInfo
-                {
-                    CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
-                    RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>(),
-                    ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
-                }
-                : null));
+                //.ForMember(x => x.CommonExistingEquipmentInfo, d => d.ResolveUsing(src => src.ExistingEquipment.FirstOrDefault() != null ?
+                //new CommonExistingEquipmentInfo
+                //{
+                //    CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
+                //    RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
+                //    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>(),
+                //    ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
+                //}
+                //: null))
+                ;
 
             cfg.CreateMap<ContractDTO, SalesRepInformation>()
                 .ForMember(x => x.SalesRep, d => d.ResolveUsing(src => src.Equipment?.SalesRep))
