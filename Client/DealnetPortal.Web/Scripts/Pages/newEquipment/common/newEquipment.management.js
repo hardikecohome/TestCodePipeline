@@ -117,6 +117,10 @@
                 textarea.val(textarea.val() + '\n');
             }
         });
+        if (id === 2) {
+            $('#addExistingEqipment').addClass("hidden");
+        }
+
 
         _initExistingEquipmentCommonData(id, newTemplate);
 
@@ -221,6 +225,9 @@
         if (!state.isClarity) {
             $equip.find('.responsible-dropdown')
                 .on('change', require('bill59').onResposibilityChange);
+        }
+        if (i === 2) {
+            $('#addExistingEqipment').addClass("hidden");
         }
     }
 
@@ -367,8 +374,10 @@
             custOwned.prop('disabled', false);
             if (custOwned.val() != 'true') {
                 $equip.find('.rental-company').prop('disabled', false);
-            }!state.isClarity && require('bill59').toggleExistingEquipment();
+            }
         }
+        $('#addExistingEqipment').removeClass("hidden");
+        !state.isClarity && require('bill59').toggleExistingEquipment();
     }
 
     function _initExistingEquipment() {
