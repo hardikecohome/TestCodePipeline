@@ -11,11 +11,12 @@
 	
 	,cast(rpt.oid as varchar(10)) as creditoid  
 	
-	,CASE rpt.bureau_oid 
-		
-            WHEN 4 THEN CAST(ISNULL(Rpt.xml_report.query('data(/XML_INTERFACE/CREDITREPORT/OBJECTS/CCSUBJECT/CCSCORES/ITEM_SCORE/SCORE)'), '') AS VARCHAR(max))
+	,COALESCE ( CASE WHEN CAST(ISNULL(Rpt.xml_report.query('data(/XML_INTERFACE/CREDITREPORT/OBJECTS/CCSUBJECT/CCSCORES/ITEM_SCORE/SCORE)'), '') AS VARCHAR(max)) = 0 
+			THEN NULL ELSE 
+			CAST(ISNULL(Rpt.xml_report.query('data(/XML_INTERFACE/CREDITREPORT/OBJECTS/CCSUBJECT/CCSCORES/ITEM_SCORE/SCORE)'), '') AS VARCHAR(max))
          
-			END AS   Beacon  
+			END 
+			, CU.Text ) AS   Beacon 
 
 	FROM [dbo].CreditReport (nolock)Rpt  
 		LEFT JOIN [dbo].Entity (nolock) RptEnt   			ON Rpt.entt_oid = RptEnt.oid  

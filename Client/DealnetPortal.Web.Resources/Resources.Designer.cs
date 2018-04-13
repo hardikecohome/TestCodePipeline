@@ -2160,8 +2160,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We were not able to match the Customer’s credit details. 
-        ///Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license)..
+        ///   Looks up a localized string similar to We were not able to match the Customer’s credit details. Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license). Continue with the application for credit adjudication upon submission..
         /// </summary>
         public static string CustomerNotFoundInBureau {
             get {
