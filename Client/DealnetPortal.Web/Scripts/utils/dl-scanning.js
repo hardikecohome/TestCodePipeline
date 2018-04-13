@@ -74,13 +74,13 @@ function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                         $("#" + (bd || modal.getAttribute('data-bdToFill'))).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
                         document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
-                        $('#' + (st || modal.getAttribute('data-stToFill'))).keyup();
+                        $('#' + (st || modal.getAttribute('data-stToFill'))).keyup().change();
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
-                        $('#' + (ct || modal.getAttribute('data-ctToFill'))).keyup();
+                        $('#' + (ct || modal.getAttribute('data-ctToFill'))).keyup().change();
                         document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
-                        $('#' + (pr || modal.getAttribute('data-prToFill'))).change();
+                        $('#' + (pr || modal.getAttribute('data-prToFill'))).keyup().change();
                         document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
-                        $('#' + (pc || modal.getAttribute('data-pcToFill'))).keyup();
+                        $('#' + (pc || modal.getAttribute('data-pcToFill'))).keyup().change();
                         $('#camera-modal').modal('hide');
                         $('#' + fn).trigger('uploadSuccess');
                     }
