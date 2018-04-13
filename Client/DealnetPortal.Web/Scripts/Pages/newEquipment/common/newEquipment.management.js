@@ -239,10 +239,13 @@
         }
         $equip.find('.customer-owned').on('change', function (e) {
             $('.customer-owned').val(e.target.value);
+            var $company = $equip.find('.rental-company');
             if (e.target.value == 'true') {
-                $('.rental-company').prop('disabled', true).rules('remove', 'required');
+                $company.prop('disabled', true);
+                $company[0].form && $company.rules('remove', 'required');
             } else {
-                $('.rental-company').prop('disabled', false).rules('add', 'required');
+                $company.prop('disabled', false);
+                $company[0].form && $company.rules('add', 'required');
             }
         }).change();
         $equip.find('.rental-company').on('change', function (e) {
