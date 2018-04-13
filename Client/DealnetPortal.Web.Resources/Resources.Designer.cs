@@ -889,6 +889,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before Proceeding please verify Customer ID.
+        /// </summary>
+        public static string BeforeProceedingVerifyCustId {
+            get {
+                return ResourceManager.GetString("BeforeProceedingVerifyCustId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions..
         /// </summary>
         public static string BeforeTaxesPaymentsAreSubject {
@@ -2156,6 +2165,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CustomerFee {
             get {
                 return ResourceManager.GetString("CustomerFee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does the Customer has any agreements with EcoHome Financial?.
+        /// </summary>
+        public static string CustomerHasAgreementsWithEcoHome {
+            get {
+                return ResourceManager.GetString("CustomerHasAgreementsWithEcoHome", resourceCulture);
             }
         }
         
@@ -7279,6 +7297,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VerificationId {
             get {
                 return ResourceManager.GetString("VerificationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Customer ID.
+        /// </summary>
+        public static string VerifyCustomerID {
+            get {
+                return ResourceManager.GetString("VerifyCustomerID", resourceCulture);
             }
         }
         

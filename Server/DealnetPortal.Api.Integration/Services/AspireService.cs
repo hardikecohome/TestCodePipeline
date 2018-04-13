@@ -1873,6 +1873,12 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = creditAmount.ToString("F", CultureInfo.InvariantCulture)
                 });
 
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CustomerHasExistingAgreements,
+                    Value = contract.Equipment?.HasExistingAgreements == true ? "True" : "False"                    
+                });
+
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
                 if (paymentInfo != null)
                 {

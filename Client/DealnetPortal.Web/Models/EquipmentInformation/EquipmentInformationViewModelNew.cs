@@ -14,13 +14,17 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public EquipmentInformationViewModelNew()
         {
             SalesRepInformation = new SalesRepInformation();
+            Conditions = new ContractConditions();
         }
+
+        public ApplicantPersonalInfo HomeOwner { get; set; }
 
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
+        public CommonExistingEquipmentInfo CommonExistingEquipmentInfo { get; set; }
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
         public List<InstallationPackageInformation> InstallationPackages { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]
@@ -85,21 +89,11 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "DownPayment")]
         public double? DownPayment { get; set; }
 
-        public bool FullUpdate { get; set; }
-
         public int? ContractId { get; set; }
 
         public ContractState ContractState { get; set; }
 
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
-
-        public bool IsAllInfoCompleted { get; set; }
-
-        public bool IsApplicantsInfoEditAvailable { get; set; }
-
-        public bool IsFirstStepAvailable { get; set; }
-
-        public bool IsNewContract { get; set; }
 
         public decimal? CreditAmount { get; set; }
 
@@ -108,21 +102,46 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public int? SelectedRateCardId { get; set; }
 
         public int? CustomerRiskGroupId { get; set; }
-        [CustomRequired]
-        public bool? IsAdminFeePaidByCustomer { get; set; }
+
+        public string DealProvince { get; set; }
 
         public TierViewModel DealerTier { get; set; }
 
+        public ContractConditions Conditions { get; set; }
+    }
+
+    public class ContractConditions
+    {
+        [CustomRequired]
+        public bool? IsAdminFeePaidByCustomer { get; set; }
+
         public bool? RateCardValid { get; set; }
+
         public string DealProvince { get; set; }
+
         public bool IsClarityDealer { get; set; } = false;
+
         public bool IsOldClarityDeal { get; set; } = false;
+
         public bool? IsClarityProgram { get; set; }
+
         public bool IsCustomRateCardSelected { get; set; }
 
         public bool IsBeaconUpdated { get; set; }
+
         public bool IsCustomerFoundInCreditBureau { get; set; }
+
         public bool IsSubmittedWithoutCustomerRateCard { get; set; }
+
+        public bool IsAllInfoCompleted { get; set; }
+
+        public bool IsApplicantsInfoEditAvailable { get; set; }
+
+        public bool IsFirstStepAvailable { get; set; }
+
+        public bool IsNewContract { get; set; }
+        public bool FullUpdate { get; set; }
+		public bool? HasExistingAgreements { get; set; }
     }
 
     public class SalesRepInformation
