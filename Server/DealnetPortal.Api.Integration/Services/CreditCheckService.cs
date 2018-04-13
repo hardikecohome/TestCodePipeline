@@ -79,6 +79,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter()
                     .GetResult();
+                aspireAlerts = _aspireService.UpdateContractCustomer(contract, contractOwnerId).GetAwaiter().GetResult();
+                if (aspireAlerts?.Any() == true)
+                {
+                    alerts.AddRange(aspireAlerts);
+                }
                 creditCheck = checkResult?.Item1;
                 if (checkResult?.Item2?.Any() == true)
                 {

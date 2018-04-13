@@ -60,15 +60,14 @@ namespace DealnetPortal.Api.Common.Helpers
 
         public static string MapNotValidSymbols(this string str, bool execute)
         {
-            if (!execute)
+            if (execute)
             {
-                return str;
-            }
-            foreach (KeyValuePair<string, string> entry in Foreign_characters)
-            {
-                if (str.Contains(entry.Key))
+                foreach (KeyValuePair<string, string> entry in Foreign_characters)
                 {
-                    str = str.Replace(entry.Key, entry.Value);
+                    if (str.Contains(entry.Key))
+                    {
+                        str = str.Replace(entry.Key, entry.Value);
+                    }
                 }
             }
             return str;
