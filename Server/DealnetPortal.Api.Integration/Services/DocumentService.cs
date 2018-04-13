@@ -1707,6 +1707,11 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
                 var fstEq = newEquipments.First();
+                var rate =
+                    _contractRepository.GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                             l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
 
                 formFields.Add(new FormField()
                 {
@@ -1752,6 +1757,8 @@ namespace DealnetPortal.Api.Integration.Services
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
                 {
+                    var monthlyCost = Math.Round((eq.MonthlyCost ?? 0)* (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2).ToString("F", CultureInfo.InvariantCulture);
+
                     switch (eq.Type)
                     {
                         case "ECO1": // Air Conditioner
@@ -1774,7 +1781,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 {
                                     FieldType = FieldType.Text,
                                     Name = PdfFormFields.AirConditionerMonthlyRental,
-                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                    Value = monthlyCost
                                 });
                             }
                             else
@@ -1801,7 +1808,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 {
                                     FieldType = FieldType.Text,
                                     Name = PdfFormFields.BoilerMonthlyRental,
-                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                    Value = monthlyCost
                                 });
                             }
                             else
@@ -1835,7 +1842,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 {
                                     FieldType = FieldType.Text,
                                     Name = PdfFormFields.FurnaceMonthlyRental,
-                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                    Value = monthlyCost
                                 });
                             }
                             else
@@ -1880,7 +1887,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 {
                                     FieldType = FieldType.Text,
                                     Name = PdfFormFields.WaterFiltrationMonthlyRental,
-                                    Value = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                                    Value = monthlyCost
                                 });
                             }
                             else
@@ -1930,6 +1937,8 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     for (int i = 0; i < othersEq.Count; i++)
                     {
+                        var monthlyCost = Math.Round((othersEq[i].MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2).ToString("F", CultureInfo.InvariantCulture);
+
                         formFields.Add(new FormField()
                         {
                             FieldType = FieldType.CheckBox,
@@ -1946,7 +1955,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             FieldType = FieldType.Text,
                             Name = $"{PdfFormFields.OtherMonthlyRentalBase}{i + 1}",
-                            Value = othersEq[i].MonthlyCost?.ToString("F", CultureInfo.InvariantCulture)
+                            Value = monthlyCost
                         });
                     }
                 }
@@ -2004,17 +2013,13 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
-                {
-                    var rate =
-                        _contractRepository.GetProvinceTaxRate(
-                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                                 l => l.AddressType == AddressType.MainAddress) ??
-                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-
+                {                    
                     var totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) => sum + ne.MonthlyCost.Value * 
-                            (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100)
-                            *(_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0)*12);
+                        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2)
+                            * (_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0)*12);
+                    var totalAmountRentalLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2));
+                    totalAmountRentalLife *= (contract.Equipment.RequestedTerm ?? 0);
                     if (totalAmountUsefulLife > 0)
                     {
                         formFields.Add(new FormField()
@@ -2022,6 +2027,15 @@ namespace DealnetPortal.Api.Integration.Services
                             FieldType = FieldType.Text,
                             Name = PdfFormFields.TotalAmountUsefulLife,
                             Value = totalAmountUsefulLife.ToString("F", CultureInfo.InvariantCulture)
+                        });
+                    }
+                    if (totalAmountRentalLife > 0)
+                    {
+                        formFields.Add(new FormField()
+                        {
+                            FieldType = FieldType.Text,
+                            Name = PdfFormFields.TotalAmountRentalTerm,
+                            Value = totalAmountRentalLife.ToString("F", CultureInfo.InvariantCulture)
                         });
                     }
                 }
@@ -2158,12 +2172,6 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     //for rentals
-                    formFields.Add(new FormField()
-                    {
-                        FieldType = FieldType.Text,
-                        Name = PdfFormFields.TotalAmountRentalTerm,
-                        Value = paySummary.TotalAmountFinanced?.ToString("F", CultureInfo.InvariantCulture) ?? string.Empty
-                    });
                 }
 
                 if (contract.Equipment.DeferralType != DeferralType.NoDeferral)
