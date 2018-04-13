@@ -21,7 +21,7 @@
 	FROM [dbo].CreditReport (nolock)Rpt  
 		LEFT JOIN [dbo].Entity (nolock) RptEnt   			ON Rpt.entt_oid = RptEnt.oid  
      	LEFT JOIN [dbo].CreditBureau (nolock) CB   			on Rpt.Bureau_oid = CB.Oid  
-
+		LEFT JOIN [dbo].[DocGenAccCustUDF-BEACON]  (nolock) CU  on RptEnt.oid = cu.oid
 where rptent.entt_id = '{0}'
 order by lupd_datetime desc
 
