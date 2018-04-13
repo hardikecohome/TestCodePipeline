@@ -65,7 +65,8 @@
 			<svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
 				<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
 			</svg>
-			@Resources.CustomerNotFoundInBureau @Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new { contractId = Model.ContractId })
+			@Resources.CustomerNotFoundInBureau <br />
+			@Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new { contractId = Model.ContractId })
 		</div>
 }
 
