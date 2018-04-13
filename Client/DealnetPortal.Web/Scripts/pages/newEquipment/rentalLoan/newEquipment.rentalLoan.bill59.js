@@ -21,6 +21,7 @@
         newEquipmentSelector: 'div#new-equipments [id^="new-equipment-"]',
         equipmentSelectClass: '.equipment-select',
         newEuqipmentClass: '.new-equipment',
+        existingEquipmentSelector: '#existing-equipment-0', // we only need the first out of existing equipments
         responsibleColClass: '.responsible-col',
         responsibleOtherColClass: '.responsible-other-col',
         responsibleOtherClass: '.responsible-other',
@@ -33,8 +34,7 @@
         _toggleForAll();
     };
 
-    var onAggrementChange = function (e) {
-        var value = +e.target.value;
+    var onAggrementChange = function () {
         _shouldEnable() ? _enableForAll() : _disableForAll();
     }
     var onEquipmentChange = function (e) {
@@ -201,30 +201,25 @@
     }
 
     function _enableExistingEquipment() {
-        Object.keys(state.existingEquipments)
-            .map(idToValue(state.existingEquipments))
-            .forEach(function (equip) {
-                var $equip = $('#existing-equipment-' + equip.id);
-                $equip.find(settings.responsibleColClass).removeClass('hidden');
-                var $dropdown = $equip.find(settings.responsibleDropdownClass);
-                $dropdown.prop('disabled', false);
-                $dropdown[0].form && $dropdown.rules('add', 'required');
-                $dropdown.change();
-            });
-    };
+        var $equip = $(settings.existingEquipmentSelector);
+        if ($equip.length) {
+            $equip.find(settings.responsibleColClass).removeClass('hidden');
+            var $dropdown = $equip.find(settings.responsibleDropdownClass);
+            $dropdown.prop('disabled', false);
+            $dropdown[0].form && $dropdown.rules('add', 'required');
+            $dropdown.change();
+        }
+    }
 
     function _disableExistingEquipment() {
-        Object.keys(state.existingEquipments)
-            .map(idToValue(state.existingEquipments))
-            .forEach(function (equip) {
-                var $equip = $('#existing-equipment-' + equip.id);
-                $equip.find(settings.responsibleColClass)
-                    .addClass('hidden');
-                var $dropdown = $equip.find(settings.responsibleDropdownClass);
-                $dropdown.val('').change();
-                $dropdown.attr('disabled', true);
-                $dropdown[0].form && $dropdown.rules('remove', 'required');
-            });
+        var $equip = $(settings.existingEquipmentSelector);
+        if ($equip.length) {
+            $equip.find(settings.responsibleColClass).addClass('hidden');
+            var $dropdown = $equip.find(settings.responsibleDropdownClass);
+            $dropdown.val('').change();
+            $dropdown.attr('disabled', true);
+            $dropdown[0].form && $dropdown.rules('remove', 'required');
+        }
     }
 
     return {

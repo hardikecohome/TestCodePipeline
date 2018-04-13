@@ -6,14 +6,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 {
     public class ExistingEquipmentInformation
     {
-        [Display(ResourceType = typeof (Resources.Resources), Name = "CustomerOwned")]
-        public bool CustomerOwned { get; set; }
-
-        [CustomRequired]
-        [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        [Display(ResourceType = typeof (Resources.Resources), Name = "NameOfExistingSupplier")]
-        public string RentalCompany { get; set; }
-
         [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "EstimatedAge")]
         public double EstimatedAge { get; set; }
@@ -41,14 +33,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Notes")]
         public string Notes { get; set; }
-
-        [CustomRequired]
-        [Display(ResourceType =typeof(Resources.Resources), Name = "ResponsibleForCostRemoval")]
-        public ResponsibleForRemoval? ResponsibleForRemoval { get; set; }
-
-        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Other")]
-        public string ResponsibleForRemovalValue { get; set; }
 
         public int Id { get; set; }
     }

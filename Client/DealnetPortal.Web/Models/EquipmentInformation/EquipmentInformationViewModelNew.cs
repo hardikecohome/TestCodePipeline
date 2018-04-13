@@ -17,11 +17,14 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
             Conditions = new ContractConditions();
         }
 
+        public ApplicantPersonalInfo HomeOwner { get; set; }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
+        public CommonExistingEquipmentInfo CommonExistingEquipmentInfo { get; set; }
         public List<ExistingEquipmentInformation> ExistingEquipment { get; set; }
         public List<InstallationPackageInformation> InstallationPackages { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "HouseSizeSquareFeet")]

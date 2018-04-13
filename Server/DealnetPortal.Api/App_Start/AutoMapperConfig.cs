@@ -127,7 +127,7 @@ namespace DealnetPortal.Api.App_Start
                     {
                         if (riskBasedStatus.Contains(c.Details.Status))
                         {                            
-                            d.Details.LocalizedStatus += $" {(c.Details.CreditAmount.Value/1000).ToString("F1",CultureInfo.InvariantCulture)}K";
+                            d.Details.LocalizedStatus += $" {(double)(c.Details.CreditAmount ?? 0m)/1000}K";
                         }
                     }
                 });

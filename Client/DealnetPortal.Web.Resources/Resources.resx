@@ -2673,4 +2673,10 @@ Please ensure that the Customer information provided matches their Government is
   <data name="CustomerHasAgreementsWithEcoHome" xml:space="preserve">
     <value>Does the Customer has any agreements with EcoHome Financial?</value>
   </data>
+  <data name="BeforeProceedingVerifyCustId" xml:space="preserve">
+    <value>Before Proceeding please verify Customer ID</value>
+  </data>
+  <data name="VerifyCustomerID" xml:space="preserve">
+    <value>Verify Customer ID</value>
+  </data>
 </root>

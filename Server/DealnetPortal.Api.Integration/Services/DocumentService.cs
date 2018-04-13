@@ -1388,6 +1388,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = businessPhone?.PhoneNum ?? cellPhone?.PhoneNum
                     });
                 }
+                if (templateFields?.Any(tf => tf.Name == PdfFormFields.CellOrHomePhone) == true && (homePhone != null || cellPhone != null))
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.CellOrHomePhone,
+                        Value = cellPhone?.PhoneNum ?? homePhone?.PhoneNum
+                    });
+                }
             }
 
             if (!string.IsNullOrEmpty(contract.PrimaryCustomer?.Sin))

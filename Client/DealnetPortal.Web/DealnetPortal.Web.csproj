@@ -295,6 +295,7 @@
     <Compile Include="Models\ContactAndPaymentInfoViewModel.cs" />
     <Compile Include="Models\ContactInfoViewModel.cs" />
     <Compile Include="Models\CustomerRiskGroupViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\CommonExistingEquipmentInfo.cs" />
     <Compile Include="Models\EquipmentInformation\ContactAndPaymentInfoViewModelNew.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
