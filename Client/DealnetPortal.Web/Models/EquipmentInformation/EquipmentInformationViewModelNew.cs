@@ -17,6 +17,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
             Conditions = new ContractConditions();
         }
 
+        public ApplicantPersonalInfo HomeOwner { get; set; }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
@@ -139,6 +141,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsNewContract { get; set; }
         public bool FullUpdate { get; set; }
+		public bool? HasExistingAgreements { get; set; }
     }
 
     public class SalesRepInformation

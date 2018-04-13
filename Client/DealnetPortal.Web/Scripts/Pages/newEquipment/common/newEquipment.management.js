@@ -117,6 +117,10 @@
                 textarea.val(textarea.val() + '\n');
             }
         });
+        if (id === 2) {
+            $('#addExistingEqipment').addClass("hidden");
+        }
+
 
         _initExistingEquipmentCommonData(id, newTemplate);
 
@@ -222,6 +226,9 @@
             $equip.find('.responsible-dropdown')
                 .on('change', require('bill59').onResposibilityChange);
         }
+        if (i === 2) {
+            $('#addExistingEqipment').addClass("hidden");
+        }
     }
 
     function _initExistingEquipmentCommonData(id, $equip) {
@@ -239,10 +246,13 @@
         }
         $equip.find('.customer-owned').on('change', function (e) {
             $('.customer-owned').val(e.target.value);
+            var $company = $equip.find('.rental-company');
             if (e.target.value == 'true') {
-                $('.rental-company').prop('disabled', true).rules('remove', 'required');
+                $company.prop('disabled', true);
+                $company[0].form && $company.rules('remove', 'required');
             } else {
-                $('.rental-company').prop('disabled', false).rules('add', 'required');
+                $company.prop('disabled', false);
+                $company[0].form && $company.rules('add', 'required');
             }
         }).change();
         $equip.find('.rental-company').on('change', function (e) {
@@ -364,8 +374,10 @@
             custOwned.prop('disabled', false);
             if (custOwned.val() != 'true') {
                 $equip.find('.rental-company').prop('disabled', false);
-            }!state.isClarity && require('bill59').toggleExistingEquipment();
+            }
         }
+        $('#addExistingEqipment').removeClass("hidden");
+        !state.isClarity && require('bill59').toggleExistingEquipment();
     }
 
     function _initExistingEquipment() {

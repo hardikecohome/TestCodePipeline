@@ -61,6 +61,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string CellPhone2 = "CellPhone_2";
         public static string BusinessPhone = "BusinessPhone";
         public static string BusinessOrCellPhone = "BusinessOrCellPhone";
+        public static string CellOrHomePhone = "CellOrHomePhone";
         public static string EmailAddress = "EmailAddress";
         public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";

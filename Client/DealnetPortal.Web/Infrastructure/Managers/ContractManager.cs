@@ -113,7 +113,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
                 equipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(result.Item1);
-                equipmentInfo.Conditions = Mapper.Map<ContractConditions>(result.Item1);
+                equipmentInfo.Conditions = Mapper.Map<ContractConditions>(result.Item1.Equipment);
 
                 if(!equipmentInfo.NewEquipment.Any())
                 {
@@ -153,7 +153,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             MapContractConditions(result.Item1, dealerTier, equipmentInfo.Conditions);
 
-            if (equipmentInfo.DealerTier.CustomerRiskGroup != null &&
+            if(equipmentInfo.DealerTier.CustomerRiskGroup != null &&
                 result.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed)
             {
                 equipmentInfo.CustomerRiskGroupId = equipmentInfo.DealerTier.CustomerRiskGroup.GroupId;
@@ -162,7 +162,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             // do not show warn for submitted deals
             if (!equipmentInfo.Conditions.IsCustomerFoundInCreditBureau && !equipmentInfo.CustomerRiskGroupId.HasValue && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
             {
-                if (equipmentInfo.AgreementType == Models.Enumeration.AgreementType.RentalApplication ||
+                if(equipmentInfo.AgreementType == Models.Enumeration.AgreementType.RentalApplication ||
                     (dealerTier?.RateCards?.FirstOrDefault(r => r.Id == result.Item1.Equipment?.RateCardId)
                          ?.CustomerRiskGroup == null))
                 {
@@ -170,7 +170,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     equipmentInfo.Conditions.IsSubmittedWithoutCustomerRateCard = true;
 
                     //remove rate cards with risk based pricing
-                    if (dealerTier?.RateCards?.Any() == true)
+                    if(dealerTier?.RateCards?.Any() == true)
                     {
                         dealerTier.RateCards = dealerTier.RateCards.Where(rc => rc.CustomerRiskGroup == null).ToList();
                         equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
@@ -191,7 +191,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.CustomerComments = comments;
             }
 
-            if (result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
+            if(string.IsNullOrEmpty(result.Item1.PrimaryCustomer.DealerInitial))
+            {
+                equipmentInfo.HomeOwner = Mapper.Map<ApplicantPersonalInfo>(result.Item1.PrimaryCustomer);
+            }
+
+            if(result.Item1?.PrimaryCustomer?.CreditReport?.BeaconUpdated == true)
             {
                 await _contractServiceAgent.NotifyContractEdit(contractId);
             }
@@ -214,7 +219,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
                 equipmentInfo.CommonExistingEquipmentInfo = Mapper.Map<CommonExistingEquipmentInfo>(contractResult.Item1.Equipment);
-                if (!equipmentInfo.NewEquipment.Any())
+                if(!equipmentInfo.NewEquipment.Any())
                 {
                     equipmentInfo.NewEquipment = null;
                 }
@@ -677,7 +682,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 LeadSource = _leadSource,
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
                 Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo),
-                SalesRepInfo = Mapper.Map<ContractSalesRepInfoDTO>(equipmnetInfo.SalesRepInformation)
+                SalesRepInfo = Mapper.Map<ContractSalesRepInfoDTO>(equipmnetInfo.SalesRepInformation),
+                PrimaryCustomer = Mapper.Map<CustomerDTO>(equipmnetInfo.HomeOwner)
             };
 
             if(equipmnetInfo.ExistingEquipment != null)
@@ -931,7 +937,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-
+	            summary.EquipmentInfo.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
                 var dealerTier = await _contractServiceAgent.GetDealerTier();
                 var rateCard = dealerTier.RateCards.FirstOrDefault(rc => rc.Id == contract.Equipment.RateCardId);
 
