@@ -351,6 +351,10 @@ namespace DealnetPortal.Web.Controllers
             if (model.DealProvince == ContractProvince.QC.ToString()) {
                 ViewBag.LoanOnly = true;
             }
+            if(model.HomeOwner != null)
+            {
+                ViewBag.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
+            }
             ViewBag.AdminFee = 0;
             if (model.ContractState >= ContractState.Closed)
             {

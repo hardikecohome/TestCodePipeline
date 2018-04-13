@@ -16,6 +16,8 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
             SalesRepInformation = new SalesRepInformation();
         }
 
+        public ApplicantPersonalInfo HomeOwner { get; set; }
+
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
