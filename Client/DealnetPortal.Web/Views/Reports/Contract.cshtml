@@ -1773,6 +1773,24 @@
                             <h3 class="dealnet-section-title">
                                 @Resources.AdditionalContractInformation
                             </h3>
+                            @if(Model.EquipmentInfo.HasExistingAgreements != null)
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.Label(Resources.CustomerHasAgreementsWithEcoHome)
+                                        <div class="dealnet-field-holder col-xs-12">
+                                            <div class="control-group">
+                                                <div class="text-left">
+                                                    @{
+                                                        var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                    }
+                                                    @hasAgreement
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             @if(Model.AdditionalInfo.SalesRepRole.Any())
                             {
                                 <div class="form-group">

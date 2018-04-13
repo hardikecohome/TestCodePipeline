@@ -616,6 +616,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.PreferredInstallTime, d => d.ResolveUsing(src => src.EstimatedInstallationDate?.ToShortTimeString() ?? string.Empty))
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
+                .ForMember(x => x.HasExistingAgreements, d => d.MapFrom(src => src.HasExistingAgreements))
                 .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
                 .ForMember(x => x.Notes, d => d.Ignore());
 
