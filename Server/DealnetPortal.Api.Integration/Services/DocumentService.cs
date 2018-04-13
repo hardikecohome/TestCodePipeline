@@ -2554,7 +2554,7 @@ namespace DealnetPortal.Api.Integration.Services
                     string.Compare(a.Type, "rental", StringComparison.InvariantCultureIgnoreCase) == 0);
                 if (loans.Any())
                 {
-                    var gLoans = loans.GroupBy(l => l.AppNum).Take(3);
+                    var gLoans = loans.GroupBy(l => l.TransactionId).Take(3);
                     var loansDescr = gLoans.Select(g =>
                             Resources.Resources.LoanApplication + ": " +
                             g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
@@ -2568,12 +2568,12 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (rentals.Any())
                 {
-                    var gRentals = rentals.GroupBy(l => l.AppNum).Take(3);
+                    var gRentals = rentals.GroupBy(l => l.TransactionId).Take(3);
                     var rentalsDescr = gRentals.Select(g =>
                             Resources.Resources.RentalApplication + ": " +
                             g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
                         .JoinStrings("\r\n");
-                    var rentalsStartDate = gRentals.Select(g => g.FirstOrDefault()?.BookedPostDate.ToShortDateString()).JoinStrings("\r\n");
+                    var rentalsStartDate = gRentals.Select(g => g.FirstOrDefault()?.StartDate.ToShortDateString()).JoinStrings("\r\n");
                     var rentalsTerminationDate = gRentals.Select(g => g.FirstOrDefault()?.MaturityDate.ToShortDateString()).JoinStrings("\r\n");
                     formFields.Add(new FormField()
                     {

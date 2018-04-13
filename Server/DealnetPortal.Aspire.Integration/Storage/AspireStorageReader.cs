@@ -534,7 +534,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 var leaseInfo = new CustomerAgreementShortInfo()
                 {
                     LeaseNum = ConvertFromDbVal<string>(dr["lease_num"]),
-                    AppNum = ConvertFromDbVal<string>(dr["lease_app_num"]),
+                    TransactionId = ConvertFromDbVal<string>(dr["lease_app_num"]),
                     BookType = ConvertFromDbVal<string>(dr["lease_book_type"]),
                     BookedPostDate = ConvertFromDbVal<DateTime>(dr["lease_booked_post_date"]),
                     SignDate = ConvertFromDbVal<DateTime>(dr["lease_sign_date"]),
@@ -543,7 +543,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                     Term = ConvertFromDbVal<string>(dr["lease_term"]),
                     TypeDesc = ConvertFromDbVal<string>(dr["lease_type_desc"]),
                     Type = ConvertFromDbVal<string>(dr["lease_type"]),
-                    CustIdNum = ConvertFromDbVal<string>(dr["lease_cust_id_num"]),
+                    CustomerId = ConvertFromDbVal<string>(dr["lease_cust_id_num"]),
                     EquipType = ConvertFromDbVal<string>(dr["equip_type"]),
                     EquipTypeDesc = ConvertFromDbVal<string>(dr["equip_type_desc"]),
                     EquipActiveFlag = ConvertFromDbVal<string>(dr["equip_active_flag"])

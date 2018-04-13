@@ -10,7 +10,7 @@ namespace DealnetPortal.Aspire.Integration.Models.AspireDb
     {
         public string LeaseNum { get; set; }
         //Transaction Id
-        public string AppNum { get; set; }
+        public string TransactionId { get; set; }
         
         public string BookType { get; set; }
 
@@ -23,7 +23,7 @@ namespace DealnetPortal.Aspire.Integration.Models.AspireDb
         //Loan or Rental
         public string Type { get; set; }
         //Customer Id
-        public string CustIdNum { get; set; }
+        public string CustomerId { get; set; }
         public string EquipType { get; set; }
         public string EquipTypeDesc { get; set; }
         public string EquipActiveFlag { get; set; }        
