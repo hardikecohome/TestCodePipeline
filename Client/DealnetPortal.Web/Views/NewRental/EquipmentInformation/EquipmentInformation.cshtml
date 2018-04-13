@@ -82,70 +82,70 @@
             }
             @if(Model.HomeOwner != null)
             {
-                var varificationSelectItems = ((IList<VarificationIdsDTO>)ViewBag.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName })
-<div class="verify-section">
-    <h3 class="dealnet-middle-header">Verify Customer ID</h3>
-    <div class="well well-info postion-well clear-border">
-        <svg class="icon icon-info-well">
-            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-new-sm")"></use>
-        </svg>
-        @Resources.BeforeProceedingVerifyCustId
-    </div>
-    <div class="row">
-        <div class="form-group col-md-3">
-            <div class="row">
-                <label class="dealnet-field-caption col-xs-6">
-                    @Html.LabelFor(m => m.HomeOwner.FirstName)
-                </label>
-                <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                <div class="verify-section">
+                    <h3 class="dealnet-middle-header">@Resources.VerifyCustomerID</h3>
+                    <div class="well well-info postion-well clear-border">
+                        <svg class="icon icon-info-well">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-new-sm")"></use>
+                        </svg>
+                        @Resources.BeforeProceedingVerifyCustId
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">
+                                    @Html.LabelFor(m => m.HomeOwner.FirstName)
+                                </label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">
+                                    @Html.LabelFor(m => m.HomeOwner.LastName)
+                                </label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">
+                                    @Html.LabelFor(m => m.HomeOwner.BirthDate)
+                                </label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(m => m.HomeOwner.VerificationIdName)
+                            @Html.DropDownListFor(m => m.HomeOwner.VerificationIdName, ((IList<VarificationIdsDTO>)ViewBag.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.VerificationIdName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(m => m.HomeOwner.DealerInitial)
+                            @Html.TextBoxFor(m => m.HomeOwner.DealerInitial, new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.DealerInitial, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-3">
-            <div class="row">
-                <label class="dealnet-field-caption col-xs-6">
-                    @Html.LabelFor(m => m.HomeOwner.LastName)
-                </label>
-                <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "dealnet-disabled-input", @readonly = "readonly" })
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-3">
-            <div class="row">
-                <label class="dealnet-field-caption col-xs-6">
-                    @Html.LabelFor(m => m.HomeOwner.BirthDate)
-                </label>
-                <div class="dealnet-field-holder col-xs-6">
-                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly" })
-                    <input type="text" value="01/01/1971" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label>@Resources.VerificationId</label>
-            <select value="" class="form-control"></select>
-        </div>
-        <div class="form-group col-md-4">
-            <label>@Resources.DealerInitial</label>
-            <input type="text" value="" class="form-control" />
-        </div>
-    </div>
-</div>
-}
+            }
 
             <hr />
 
             @((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-                                                                                          Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                                                                                          Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                                                                                          Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                                                                                          Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
             @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
             @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })

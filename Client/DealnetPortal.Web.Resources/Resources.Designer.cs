@@ -7292,6 +7292,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verify Customer ID.
+        /// </summary>
+        public static string VerifyCustomerID {
+            get {
+                return ResourceManager.GetString("VerifyCustomerID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business void cheque  — Account to receive Ecohome funding.
         /// </summary>
         public static string VoidCheque {
