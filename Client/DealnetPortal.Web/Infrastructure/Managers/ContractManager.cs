@@ -919,7 +919,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-
+	            summary.EquipmentInfo.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
                 var dealerTier = await _contractServiceAgent.GetDealerTier();
                 var rateCard = dealerTier.RateCards.FirstOrDefault(rc => rc.Id == contract.Equipment.RateCardId);
 

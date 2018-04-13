@@ -2,6 +2,7 @@
     function (require) {
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
+        var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -90,12 +91,14 @@
             setters.init({
                 isClarity: false,
                 recalculateValuesAndRender: recalculateValuesAndRender,
-                recalculateAndRenderRentalValues: recalculateAndRenderRentalValues
+                recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
+                recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
             });
             equipment.init({
                 isClarity: false,
                 recalculateValuesAndRender: recalculateValuesAndRender,
-                recalculateAndRenderRentalValues: recalculateAndRenderRentalValues
+                recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
+                recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
             });
 
             rateCardsInit.init(id, cards, onlyCustomRateCard);
