@@ -79,6 +79,9 @@
         </div>
     </div>
     <div class="row label-row hidden-sm  hidden-xs">
+        <div class="col-md-4" id="agreement-title">
+            @Html.Label(@Resources.CustomerHasAgreementsWithEcoHome)
+        </div>
         <div class="col-md-4">
             @Html.LabelFor(m => m.PrefferedInstallDate)
         </div>
@@ -90,30 +93,50 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4 afee-group" id="agreement-types">
+            <div class="form-group visible-sm visible-xs">
+                @Resources.CustomerHasAgreementsWithEcoHome
+            </div>
+            <div class="form-group">
+                <label for="" class="align-middle custom-radio">
+                    @Html.RadioButtonFor(m => m.Conditions.HasExistingAgreements, true, new { @class = "afee-is-covered", id = "radioHasAgreement" })
+                    <span class="icon custom-radio-icon"></span>
+                    <span>@Resources.Yes</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="" class="align-middle custom-radio">
+                    @Html.RadioButtonFor(m => m.Conditions.HasExistingAgreements, false, new { @class = "afee-is-covered", id = "radioHasNotAgreement" })
+                    <span class="icon custom-radio-icon"></span>
+                    <span>@Resources.No</span>
+                </label>
+            </div>
+            <div id="agreement-error-message" class="text-danger field-validation-error hidden">@Resources.ThisFieldIsRequired</div>
+        </div>
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.PrefferedInstallDate, new { @class = "visible-sm visible-xs" })
+                @Html.LabelFor(m => m.PrefferedInstallDate, new {@class = "visible-sm visible-xs"})
                 <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.PrefferedInstallDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
-                    @Html.ValidationMessageFor(m => m.PrefferedInstallDate, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.PrefferedInstallDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = ""})
+                    @Html.ValidationMessageFor(m => m.PrefferedInstallDate, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                @Html.Label(Resources.PreferredInstallTime, new { @class = "visible-sm visible-xs" })
+                @Html.Label(Resources.PreferredInstallTime, new {@class = "visible-sm visible-xs"})
                 <div class="control-group date-group">
-                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new { @class = "form-control dealnet-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
-                    @Html.ValidationMessageFor(m => m.PrefferedInstallTime, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new {@class = "form-control dealnet-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = ""})
+                    @Html.ValidationMessageFor(m => m.PrefferedInstallTime, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                @Html.LabelFor(m => m.HouseSize, new { @class = "visible-sm visible-xs" })
+                @Html.LabelFor(m => m.HouseSize, new {@class = "visible-sm visible-xs"})
                 <div class="control-group">
-                    @Html.TextBoxFor(m => m.HouseSize, new { @class = "form-control dealnet-input", placeholder = Resources.HouseSize })
-                    @Html.ValidationMessageFor(m => m.HouseSize, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.HouseSize, new {@class = "form-control dealnet-input", placeholder = Resources.HouseSize})
+                    @Html.ValidationMessageFor(m => m.HouseSize, "", new {@class = "text-danger"})
                 </div>
             </div>
         </div>

@@ -1281,18 +1281,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
-            //if (equipmentInfo.SalesRepConcludedAgreement.HasValue)
-            //{
-            //    dbEquipment.SalesRepConcludedAgreement = equipmentInfo.SalesRepConcludedAgreement;
-            //}
-            //if (equipmentInfo.SalesRepInitiatedContact.HasValue)
-            //{
-            //    dbEquipment.SalesRepInitiatedContact = equipmentInfo.SalesRepInitiatedContact;
-            //}
-            //if (equipmentInfo.SalesRepNegotiatedAgreement.HasValue)
-            //{
-            //    dbEquipment.SalesRepNegotiatedAgreement = equipmentInfo.SalesRepNegotiatedAgreement;
-            //}
+            if (equipmentInfo.HasExistingAgreements.HasValue)
+            {
+                dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
+            }            
 
             return dbEquipment;
         }
