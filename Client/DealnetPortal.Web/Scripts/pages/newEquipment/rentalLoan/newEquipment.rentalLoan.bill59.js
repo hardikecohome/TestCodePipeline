@@ -6,6 +6,8 @@
     var settings = {
         salesRepTypesId: '#sales-rep-types',
         salesRepTitleId: '#sales-rep-title',
+        agreementTitleId: '#agreement-title',
+        agreementTypesId: '#agreement-types',
         initiatedContractId: '#initiated-contract',
         initiatedContractCheckboxId: '#initiated-contract-checkbox',
         negotiatedAgreementId: '#negotiated-agreement',
@@ -88,6 +90,7 @@
         });
         if (_isBill59EquipmentSelected()) {
             if (_isSalesRepInfoHidden()) _enableSalesRepSection();
+            if (_isEcoAgreementHidden()) _enableEcoHomeAgreementSection();
             _enableExistingEquipment();
         }
     };
@@ -98,6 +101,8 @@
             _disableNewEquipment(el);
         });
         if (!_isSalesRepInfoHidden()) _disableSalesRepSection();
+        if (!_isEcoAgreementHidden()) _disableEcoHomeAgreementSection();
+
         _disableExistingEquipment();
     };
 
@@ -132,6 +137,7 @@
         input[0].form && input.rules('add', 'required');
         toggleExistingEquipment();
         _toggleSalesRepSection();
+        _toggleEcoHomeAgreementSection();
     };
 
     function _disableNewEquipment(row) {
@@ -145,12 +151,29 @@
         input[0].form && input.rules('remove', 'required');
         toggleExistingEquipment();
         _toggleSalesRepSection();
+        _toggleEcoHomeAgreementSection();
     };
 
     function _toggleSalesRepSection() {
         _shouldEnable() ?
             _enableSalesRepSection() :
             _disableSalesRepSection();
+    }
+
+    function _toggleEcoHomeAgreementSection() {
+        _shouldEnable() ?
+            _enableEcoHomeAgreementSection() :
+            _disableEcoHomeAgreementSection();
+    }
+
+    function _enableEcoHomeAgreementSection() {
+        $(settings.agreementTitleId).removeClass('hidden');
+        $(settings.agreementTypesId).removeClass('hidden');
+    }
+
+    function _disableEcoHomeAgreementSection() {
+        $(settings.agreementTitleId).addClass('hidden');
+        $(settings.agreementTypesId).addClass('hidden');
     }
 
     function _enableSalesRepSection() {
@@ -171,6 +194,10 @@
 
     function _isSalesRepInfoHidden() {
         return $(settings.salesRepTypesId).is(':hidden');
+    }
+
+    function _isEcoAgreementHidden() {
+        return $(settings.agreementTypesId).is(':hidden');
     }
 
     function _enableExistingEquipment() {

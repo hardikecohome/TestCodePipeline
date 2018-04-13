@@ -138,6 +138,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsNewContract { get; set; }
         public bool FullUpdate { get; set; }
+		public bool? HasExistingAgreements { get; set; }
     }
 
     public class SalesRepInformation

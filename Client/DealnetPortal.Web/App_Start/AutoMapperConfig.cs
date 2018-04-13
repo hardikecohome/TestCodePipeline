@@ -273,6 +273,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DownPayment, d => d.MapFrom(s => s.DownPayment ?? 0))
                 .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
                 .ForMember(x => x.IsFeePaidByCutomer, s => s.MapFrom(d => d.Conditions.IsAdminFeePaidByCustomer))
+                .ForMember(x => x.HasExistingAgreements, s => s.MapFrom(d => d.Conditions.HasExistingAgreements))
                 .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))                
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
                 {

@@ -2,7 +2,7 @@
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 <div class="hidden">
-    @if(Model.IsClarityDealer && !Model.IsOldClarityDeal)
+    @if(Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal)
     {
         <div id="new-equipment-base">
             <div class="new-equipment new-equipment-wrap">

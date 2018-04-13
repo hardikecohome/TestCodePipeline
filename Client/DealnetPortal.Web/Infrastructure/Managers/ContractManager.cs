@@ -112,7 +112,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
                 equipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(result.Item1);
-                equipmentInfo.Conditions = Mapper.Map<ContractConditions>(result.Item1);
+                equipmentInfo.Conditions = Mapper.Map<ContractConditions>(result.Item1.Equipment);
 
                 if(!equipmentInfo.NewEquipment.Any())
                 {

@@ -154,6 +154,13 @@
                 }
             }
 
+            if ($('#agreement-types').is(':visible')) {
+                if (!$('#agreement-types').find('input[name="Conditions.HasExistingAgreements"]:checked').length) {
+                    event.preventDefault();
+                    _toggleAgreementErrors(true);
+                }
+            }
+
             if (!$(settings.formId).valid()) {
                 event.preventDefault();
             }
@@ -225,7 +232,17 @@
                 $('#concluded-agreement').val(e.target.checked);
                 _toggleSalesRepErrors(false);
             });
-            $('.custom-radio').on('click', _setAdminFeeCoveredBy);
+            $('#admin-fee-section').find('.custom-radio').on('click', _setAdminFeeCoveredBy);
+            $('#agreement-types').find('.custom-radio').on('click', _setEcoHomeAgreement);
+        }
+
+        function _setEcoHomeAgreement() {
+            var $this = $(this);
+
+            $('.afee-is-covered').prop('checked', false);
+            var $input = $this.find('input');
+            $input.prop('checked', true);
+            _toggleAgreementErrors(false);
         }
 
         function _setAdminFeeCoveredBy() {
@@ -240,6 +257,14 @@
             setters.setAdminFeeIsCovered(val);
         }
 
+        function _toggleAgreementErrors(show) {
+            $.each($('#agreement-types').find('span.custom-radio-icon'), function (i, el) {
+                var $el = $(el);
+                show ? $el.addClass('checkbox-error') : $el.removeClass('checkbox-error');
+            });
+
+            show ? $('#agreement-error-message').removeClass('hidden') : $('#agreement-error-message').addClass('hidden');
+        }
 
         function _toggleSalesRepErrors(show) {
             $.each($('#sales-rep-types').find('span.checkbox-icon'), function (i, el) {

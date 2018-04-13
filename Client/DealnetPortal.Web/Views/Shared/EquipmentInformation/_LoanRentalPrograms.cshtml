@@ -53,19 +53,19 @@
         </div>
         <div class="form-group">
             <label for="" class="align-middle custom-radio">
-                @Html.RadioButtonFor(m => m.IsAdminFeePaidByCustomer, false, new { @class = "afee-is-covered", id = "radioNotPay" })
+                @Html.RadioButtonFor(m => m.Conditions.IsAdminFeePaidByCustomer, false, new { @class = "afee-is-covered", id = "radioNotPay" })
                 <span class="icon custom-radio-icon"></span>
                 <span>@Resources.PassAdminFeeToDealer</span>
             </label>
         </div>
         <div class="form-group">
             <label for="" class="align-middle custom-radio">
-                @Html.RadioButtonFor(m => m.IsAdminFeePaidByCustomer, true, new { @class = "afee-is-covered", id = "radioWillPay" })
+                @Html.RadioButtonFor(m => m.Conditions.IsAdminFeePaidByCustomer, true, new { @class = "afee-is-covered", id = "radioWillPay" })
                 <span class="icon custom-radio-icon"></span>
                 <span>@Resources.PassAdminFeeToCustomer</span>
             </label>
         </div>
-        @Html.ValidationMessageFor(m => m.IsAdminFeePaidByCustomer, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Conditions.IsAdminFeePaidByCustomer, "", new { @class = "text-danger" })
     </div>
 </div>
 
@@ -74,7 +74,7 @@
         <div class="col-xs-12 col-sm-8 col-md-6 loan-element">
             <h3 class="dealnet-middle-header">
                 @Resources.FinancingOptions
-                @if (Model.DealerTier.CustomerRiskGroup != null && !Model.IsSubmittedWithoutCustomerRateCard)
+                @if (Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
                 {
                     <text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
                 }
