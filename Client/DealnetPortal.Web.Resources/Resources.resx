@@ -2625,8 +2625,7 @@ changing contract terms or signing contract on paper.</value>
 Additional program options may become available when customer’s credit details are obtained/updated.</value>
   </data>
   <data name="CustomerNotFoundInBureau" xml:space="preserve">
-    <value>We were not able to match the Customer’s credit details. 
-Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license).</value>
+    <value>We were not able to match the Customer’s credit details. Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license). Continue with the application for credit adjudication upon submission.</value>
   </data>
   <data name="EditCustomerInformation" xml:space="preserve">
     <value>Edit customer information</value>
@@ -2662,6 +2661,12 @@ Please ensure that the Customer information provided matches their Government is
     <value>Additional Applicant Mortgage &amp; Employment Information</value>
   </data>
   <data name="EnbrideFeeNotification" xml:space="preserve">
-    <value>Enbridge payment option is available at a Dealer fee of $99</value>
+    <value>Enbridge payment option is available at a Dealer fee of $100</value>
+  </data>
+  <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
+    <value>Pre-Approved up to a maximum of</value>
+  </data>
+  <data name="MaximumAmountCapingOut" xml:space="preserve">
+    <value>The total amount financed cannot exceed the pre-approval amount of $</value>
   </data>
 </root>
