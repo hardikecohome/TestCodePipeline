@@ -1927,7 +1927,7 @@ namespace DealnetPortal.Api.Integration.Services
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.CustomerApr,
-                            Value = contract.Equipment?.IsFeePaidByCutomer == true ? 
+                            Value = contract.Equipment?.IsFeePaidByCutomer == true && !_contractRepository.IsClarityProgram(contract.Id) ? 
                                 (paymentInfo.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                                 : (contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                         });
