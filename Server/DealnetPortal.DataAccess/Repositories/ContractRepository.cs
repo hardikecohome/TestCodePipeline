@@ -1651,6 +1651,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.VerificationIdName = customer.VerificationIdName;
                 dbCustomer.DealerInitial = customer.DealerInitial;
                 dbCustomer.RelationshipToMainBorrower = customer.RelationshipToMainBorrower;
+                dbCustomer.Is
             }
 
             if (customer.EmploymentInfo != null)

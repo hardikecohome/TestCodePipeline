@@ -195,7 +195,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.CommonExistingEquipmentInfo.RentalCompany)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.RentalCompany, new { @class = "form-control dealnet-input rental-company", placeholder = Resources.RentalCompany, Value = "" })
+                                @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.RentalCompany, new { @class = "form-control dealnet-input rental-company", placeholder = Resources.NameOfExistingSupplier, Value = "" })
                                 @Html.ValidationMessageFor(m => m.CommonExistingEquipmentInfo.RentalCompany, "", new { @class = "text-danger" })
                             </div>
                         </div>
