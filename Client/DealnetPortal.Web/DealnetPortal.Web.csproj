@@ -896,6 +896,7 @@
     <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
     <Content Include="Content\files\resources\en\User Guide.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
