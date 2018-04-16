@@ -71,7 +71,7 @@
             this.value = this.value.trim();
         });
 
-		$('#save-and-proceed-button').prop('disabled', false);
+        $('#save-and-proceed-button').prop('disabled', false);
 
         $('.dob-group').each(function (index, el) {
             dob.initDobGroup(el);
@@ -108,7 +108,7 @@
             return true;
         });
 
-        $('#agreement-checkbox').change(function () {
+        $('#agreement-checkbox, #additional-owner-agrees').change(function () {
             var isValid = checkCreditAgree();
             if (isValid) {
                 $('#proceed-error-message').hide();
@@ -204,8 +204,12 @@
             });
             return false;
         });
-		$('#owner-scan-button').click(function (e) {
-			gtag('event', 'Scan License', { 'event_category': 'Scan License', 'event_action': 'button_click', 'event_label': 'DrivingLicense' });
+        $('#owner-scan-button').click(function (e) {
+            gtag('event', 'Scan License', {
+                'event_category': 'Scan License',
+                'event_action': 'button_click',
+                'event_label': 'DrivingLicense'
+            });
             if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
                 e.preventDefault();
                 var modal = document.getElementById('camera-modal');
@@ -324,19 +328,19 @@
 
         $('#additional1-remove').click(function () {
             additionalEmployment.disableEmployment();
-		});
+        });
 
-		var form = $('#main-form');
-		form.submit(function (e) {
-			$('#save-and-proceed-button').prop('disabled', true);
+        var form = $('#main-form');
+        form.submit(function (e) {
+            $('#save-and-proceed-button').prop('disabled', true);
 
-			if (!form.valid()) {
-				e.preventDefault();
-				$('#save-and-proceed-button').prop('disabled', false);
-			}
+            if (!form.valid()) {
+                e.preventDefault();
+                $('#save-and-proceed-button').prop('disabled', false);
+            }
 
 
-		});
+        });
     }
 
     return {

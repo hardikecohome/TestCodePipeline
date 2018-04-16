@@ -602,7 +602,7 @@ else
 <div class="consents-checkbox-hold" id="agreement-checkbox">
     <div class="dealnet-agrees form-group">
         <label class="align-middle custom-checkbox">
-            @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees" })
+            @Html.CheckBox("home-owner-agrees", new { id = "home-owner-agrees", @class = "agreement-checkbox" })
             <span class="checkbox-icon">
                 <svg aria-hidden="true" class="icon icon-checked">
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
