@@ -58,7 +58,7 @@ namespace DealnetPortal.Api.Common.Helpers
             return stb.ToString();
         }
 
-        public static string MapNotValidSymbols(this string str, bool execute)
+        public static string MapFrenchSymbols(this string str, bool execute)
         {
             if (execute)
             {
@@ -71,6 +71,20 @@ namespace DealnetPortal.Api.Common.Helpers
                 }
             }
             return str;
+        }
+
+        public static bool IsFrenchSymbols(this string str)
+        {
+            var result = false;
+            foreach (KeyValuePair<string, string> entry in Foreign_characters)
+            {
+                if (str.Contains(entry.Key))
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }

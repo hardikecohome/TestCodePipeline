@@ -1124,8 +1124,8 @@ namespace DealnetPortal.Api.Integration.Services
                     CreditReleaseObtained = true,
                     Personal = new Personal()
                     {
-                        Firstname = c.FirstName.MapNotValidSymbols(withSymbolsMaping),
-                        Lastname = c.LastName.MapNotValidSymbols(withSymbolsMaping),
+                        Firstname = c.FirstName.MapFrenchSymbols(withSymbolsMaping),
+                        Lastname = c.LastName.MapFrenchSymbols(withSymbolsMaping),
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
                 };
@@ -1143,7 +1143,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {                    
                     account.Address = new Address()
                     {
-                        City = location.City.MapNotValidSymbols(withSymbolsMaping),
+                        City = location.City.MapFrenchSymbols(withSymbolsMaping),
                         Province = new Province()
                         {
                             Abbrev = location.State.ToProvinceCode()
@@ -1153,7 +1153,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
-                        StreetName = location.Street.MapNotValidSymbols(withSymbolsMaping),
+                        StreetName = location.Street.MapFrenchSymbols(withSymbolsMaping),
                         SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };                    
