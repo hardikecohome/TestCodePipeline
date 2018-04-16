@@ -1734,7 +1734,7 @@ namespace DealnetPortal.DataAccess.Repositories
                                     c.DateOfBirth == ho.DateOfBirth);
                     }
                 }
-                if (sc != null && (contract.WasDeclined != true && (sc.Id == 0 || contract.InitialCustomers.All(ic => ic.Id != sc.Id))))
+                if (sc != null && (contract.WasDeclined != true || contract.InitialCustomers.All(ic => ic.Id != sc.Id)))
                 {
                     contract.HomeOwners.Add(sc);
                     updated = true;
