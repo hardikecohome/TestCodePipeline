@@ -2285,17 +2285,76 @@
                                         <h3 class="dealnet-section-title">
                                             @Resources.AdditionalContractInformation
                                         </h3>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                @Html.LabelFor(m => contract.EquipmentInfo.Notes, new
-                                                {
-                                                    @class = "dealnet-field-caption col-xs-12"
-                                                })
-                                                <div class="dealnet-field-holder text-left col-xs-12">
-                                                    <span style="white-space: pre-wrap">@(contract.EquipmentInfo?.Notes)</span>
+                                        @if (contract.EquipmentInfo.HasExistingAgreements != null)
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @Html.Label(Resources.CustomerHasAgreementsWithEcoHome, new { @class = "text-semibold text-md-sm col-xs-12" })
+                                                    <div class="dealnet-field-holder col-xs-12">
+                                                        <div class="control-group">
+                                                            <div class="text-left">
+                                                                @{
+                                                                    var hasAgreement = contract.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                                }
+                                                                @hasAgreement
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
+                                        @if (contract.AdditionalInfo.SalesRepRole.Any())
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => contract.AdditionalInfo.SalesRepRole, new
+                                                    {
+                                                        @class = "text-semibold text-md-sm col-xs-12"
+                                                    })
+                                                    <div class="dealnet-field-holder col-xs-12">
+                                                        <div class="control-group">
+                                                            <div class="text-left">
+                                                                @{
+                                                                    var roleOfSalesRep = string.Join(", ", contract.AdditionalInfo.SalesRepRole);
+                                                                }
+
+                                                                @roleOfSalesRep
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (contract.AdditionalInfo.CustomerComments != null && contract.AdditionalInfo.CustomerComments.Any())
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => contract.AdditionalInfo.CustomerComments, new { @class = "col-xs-12 text-semibold text-md-sm" })
+                                                    <div class="dealnet-field-holder col-xs-12">
+                                                        <div class="control-group">
+                                                            <div class="text-left">
+                                                                @foreach (var comment in contract.AdditionalInfo.CustomerComments)
+                                                                {
+                                                                        @comment
+                                                                        <br />
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(contract.EquipmentInfo?.Notes))
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.Notes, new { @class = "col-xs-12 text-semibold text-md-sm" })
+                                                    <div class="dealnet-field-holder text-left col-xs-12">
+                                                        <span style="white-space: pre-wrap">@(contract.EquipmentInfo?.Notes)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

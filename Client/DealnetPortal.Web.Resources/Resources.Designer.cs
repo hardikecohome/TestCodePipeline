@@ -2169,6 +2169,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Does the Customer has any agreements with EcoHome Financial?.
+        /// </summary>
+        public static string CustomerHasAgreementsWithEcoHome {
+            get {
+                return ResourceManager.GetString("CustomerHasAgreementsWithEcoHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We were not able to match the Customer’s credit details. 
         ///Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license)..
         /// </summary>

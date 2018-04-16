@@ -11,7 +11,7 @@
     <div id="step3" class="step-item step">3</div>
   </div>
   <div class="col-xs-4">
-    @if (Model.IsAllInfoCompleted)
+    @if (Model.Conditions.IsAllInfoCompleted)
     {
         <a href="@Url.Action("SummaryAndConfirmation", "NewRental", new {contractId = Model.ContractId})" id="step4" class="step-item">4</a>
     }

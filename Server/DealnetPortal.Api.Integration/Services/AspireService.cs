@@ -96,7 +96,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null)
+        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null, bool withSymbolsMaping = false)
         {
             var alerts = new List<Alert>();
 
@@ -119,7 +119,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = contract?.Details?.TransactionId
                         },
-                        Accounts = GetCustomersInfo(contract, leadSource)
+                        Accounts = GetCustomersInfo(contract, leadSource, withSymbolsMaping)
                     }
                 };
                 // Send request to Aspire
@@ -1104,7 +1104,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
         }        
 
-        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null)
+        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null, bool withSymbolsMaping = false)
         {
             const string CustRole = "CUST";
             const string GuarRole = "GUAR";
@@ -1124,8 +1124,8 @@ namespace DealnetPortal.Api.Integration.Services
                     CreditReleaseObtained = true,
                     Personal = new Personal()
                     {
-                        Firstname = c.FirstName,
-                        Lastname = c.LastName,
+                        Firstname = c.FirstName.MapNotValidSymbols(withSymbolsMaping),
+                        Lastname = c.LastName.MapNotValidSymbols(withSymbolsMaping),
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
                 };
@@ -1143,7 +1143,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {                    
                     account.Address = new Address()
                     {
-                        City = location.City,
+                        City = location.City.MapNotValidSymbols(withSymbolsMaping),
                         Province = new Province()
                         {
                             Abbrev = location.State.ToProvinceCode()
@@ -1153,7 +1153,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
-                        StreetName = location.Street,
+                        StreetName = location.Street.MapNotValidSymbols(withSymbolsMaping),
                         SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };                    
@@ -1871,6 +1871,12 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.ContractPreapprovalLimit,
                     Value = creditAmount.ToString("F", CultureInfo.InvariantCulture)
+                });
+
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CustomerHasExistingAgreements,
+                    Value = contract.Equipment?.HasExistingAgreements == true ? "True" : "False"                    
                 });
 
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);

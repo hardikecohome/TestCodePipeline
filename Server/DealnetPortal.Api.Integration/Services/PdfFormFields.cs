@@ -183,6 +183,12 @@ namespace DealnetPortal.Api.Integration.Services
         public static string ExistingEquipmentRemovalOtherValue = "ExistingEquipmentRemovalOtherValue";
         public static string ExistingEquipmentRemovalNA = "ExistingEquipmentRemovalNA";
 
+        //Bill 59 - Customer Existing agreements information
+        public static string ExistingLoansDescription = "ExistingLoansDescription";
+        public static string ExistingRentalsDescription = "ExistingRentalsDescription";
+        public static string ExistingRentalsDateEntered = "ExistingRentalsDateEntered";
+        public static string ExistingRentalsTerminationDate = "ExistingRentalsTerminationDate";
+
         //Custom envelop fields
         public static string ApplicationID = "ApplicationID";
         public static string DealerID = "DealerID";

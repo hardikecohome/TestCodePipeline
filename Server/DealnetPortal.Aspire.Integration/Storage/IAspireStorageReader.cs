@@ -28,5 +28,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
         CreditReport GetCustomerCreditReport(string customerId);
         CreditReport GetCustomerCreditReport(string firstName, string lastName, DateTime dateOfBirth, string postalCode);
+
+        IList<CustomerAgreementShortInfo> SearchCustomerAgreements(string firstName, string lastName, DateTime dateOfBirth);
     }
 }
