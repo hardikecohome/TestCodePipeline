@@ -1876,7 +1876,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerHasExistingAgreements,
-                    Value = contract.Equipment?.HasExistingAgreements == true ? "True" : "False"                    
+                    Value = contract.Equipment?.HasExistingAgreements == true ? "Y" : "N"                    
                 });
 
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
