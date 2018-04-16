@@ -115,6 +115,13 @@
             }
         });
 
+        $('#additional-street-1').on('change', function () {
+            var camera = $('#camera-modal');
+            if (camera.is('.in') && camera.data('fntofill').indexOf('additional') > -1) {
+                $('#mailing-address-checkbox-add-app1').click();
+            }
+        });
+
         var province = $('#administrative_area_level_1');
         province.change(function (e) {
             var isQuebec = e.target.value === 'QC';
@@ -241,7 +248,7 @@
             $('#owner-upload-file').rules('remove');
         }
 
-        var navigateToStep = module.require('navigateToStep');
+        var navigateToStep = require('navigateToStep');
         $('#steps .step-item[data-warning="true"]').on('click', function () {
             if ($(this).attr('href')) {
                 navigateToStep($(this));
