@@ -2171,9 +2171,9 @@ namespace DealnetPortal.Web.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Does the Customer has any agreements with EcoHome Financial?.
         /// </summary>
-        public static string CustomerHasAgreementsWithEcoHome {
+        public static string CustomerHaveAgreementsWithEcoHome {
             get {
-                return ResourceManager.GetString("CustomerHasAgreementsWithEcoHome", resourceCulture);
+                return ResourceManager.GetString("CustomerHaveAgreementsWithEcoHome", resourceCulture);
             }
         }
         
