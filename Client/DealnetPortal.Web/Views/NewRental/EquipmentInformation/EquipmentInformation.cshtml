@@ -34,7 +34,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
     @Html.HiddenFor(model => model.Conditions.FullUpdate, new { Value = true })
-    @Html.HiddenFor(x => x.CreditAmount)
+    @Html.HiddenFor(x => x.CreditAmount, new { id = "max-credit-amount" })
     @Html.HiddenFor(x => x.DealProvince)
     @Html.HiddenFor(x => x.AmortizationTerm)
     @Html.HiddenFor(x => x.Conditions.IsCustomRateCardSelected, new { id = "custom-selected" })
@@ -53,11 +53,13 @@
     @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-agreement" })
     @Html.HiddenFor(x => x.Conditions.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
-    @Html.HiddenFor(x => x.Conditions.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
+    @Html.HiddenFor(x => x.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
+	@Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
 
     <div class="form-container">
         <div class="form-section">
-            @if (Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
+            @if (Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
+                Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
             {
                 <div class="bureau-well-info well well-info position-well clear-border">
                     <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
@@ -147,14 +149,19 @@
                                   Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
                                   Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
-            @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
-            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
-            <div class="form-group">
-                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                    <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
-                </span>
-            </div>
-        </div>
+			@Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
+			@Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
+
+		<div class="well danger-well position-well clear-border over-aged-well collapse" id="max-amt-cap-out-error">
+			<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+			@Resources.MaximumAmountCapingOut@($"{Model.CreditAmount:0,00}")
+		</div>
+			<div class="form-group">
+				<span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
+					<input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
+				</span>
+			</div>
+		</div>
     </div>
 }
 
@@ -189,7 +196,8 @@ else
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
-        var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+		
         </script>
 
         <script type="text/javascript">

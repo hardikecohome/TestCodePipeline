@@ -2827,7 +2827,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enbridge payment option is available at a Dealer fee of $99.
+        ///   Looks up a localized string similar to Enbridge payment option is available at a Dealer fee of $100.
         /// </summary>
         public static string EnbrideFeeNotification {
             get {
@@ -4204,6 +4204,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The total amount financed cannot exceed the pre-approval amount of $.
+        /// </summary>
+        public static string MaximumAmountCapingOut {
+            get {
+                return ResourceManager.GetString("MaximumAmountCapingOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum file size is limited to 20 MB for a single file..
         /// </summary>
         public static string MaximumFileSize {
@@ -5406,6 +5415,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PreApprovedLoanValueFeeWillBeApplied {
             get {
                 return ResourceManager.GetString("PreApprovedLoanValueFeeWillBeApplied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved up to a maximum of.
+        /// </summary>
+        public static string PreApprovedUptoAMaximumOf {
+            get {
+                return ResourceManager.GetString("PreApprovedUptoAMaximumOf", resourceCulture);
             }
         }
         
