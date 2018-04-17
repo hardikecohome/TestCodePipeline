@@ -298,7 +298,7 @@ namespace DealnetPortal.Web.App_Start
                             Id = eE.Id,
                             GeneralCondition = eE.GeneralCondition,
                             RentalCompany = src.CommonExistingEquipmentInfo.RentalCompany,
-                            ResponsibleForRemoval = src.CommonExistingEquipmentInfo.ResponsibleForRemoval.ConvertTo<ResponsibleForRemovalType>(),
+                            ResponsibleForRemoval = src.CommonExistingEquipmentInfo?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemovalType>(),
                             Make = eE.Make,
                             Model = eE.Model,
                             Notes = eE.Notes,
@@ -641,7 +641,7 @@ namespace DealnetPortal.Web.App_Start
                 {
                     CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
                     RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>()    ,
+                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault()?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>()    ,
                     ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
                 }
                 : null));
@@ -721,7 +721,7 @@ namespace DealnetPortal.Web.App_Start
 		            {
 			            CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
 			            RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-			            ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemoval.ConvertTo<ResponsibleForRemoval>(),
+			            ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault()?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>(),
 			            ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
 		            }
 		            : null));

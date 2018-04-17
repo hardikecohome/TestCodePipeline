@@ -160,7 +160,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
 
             // do not show warn for submitted deals
-            if (!equipmentInfo.Conditions.IsCustomerFoundInCreditBureau && !equipmentInfo.CustomerRiskGroupId.HasValue && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
+            if(!equipmentInfo.Conditions.IsCustomerFoundInCreditBureau && !equipmentInfo.CustomerRiskGroupId.HasValue && result.Item1.ContractState == Api.Common.Enumeration.ContractState.Completed)
             {
                 if(equipmentInfo.AgreementType == Models.Enumeration.AgreementType.RentalApplication ||
                     (dealerTier?.RateCards?.FirstOrDefault(r => r.Id == result.Item1.Equipment?.RateCardId)
@@ -693,7 +693,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 {
                     existingEquipmentDTO.IsRental = !equipmnetInfo.CommonExistingEquipmentInfo.CustomerOwned;
                     existingEquipmentDTO.RentalCompany = equipmnetInfo.CommonExistingEquipmentInfo.RentalCompany;
-                    existingEquipmentDTO.ResponsibleForRemoval = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.ConvertTo<ResponsibleForRemovalType>();
+                    existingEquipmentDTO.ResponsibleForRemoval = equipmnetInfo.CommonExistingEquipmentInfo?
+                        .ResponsibleForRemoval?
+                        .ConvertTo<ResponsibleForRemovalType>();
                     existingEquipmentDTO.ResponsibleForRemovalValue = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
                 }
                 contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
@@ -937,8 +939,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-	            summary.EquipmentInfo.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
-                summary.EquipmentInfo.CustomerRiskGroup = new CustomerRiskGroupViewModel { GroupName = summary.DealerTier.CustomerRiskGroup.GroupName};
+                summary.EquipmentInfo.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
+                summary.EquipmentInfo.CustomerRiskGroup = summary.DealerTier?.CustomerRiskGroup != null ?
+                    new CustomerRiskGroupViewModel { GroupName = summary.DealerTier.CustomerRiskGroup.GroupName } :
+                    null;
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
