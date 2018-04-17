@@ -11,6 +11,7 @@ namespace DealnetPortal.Api.Common.Helpers
     {
         public static Dictionary<string, string> Foreign_characters = new Dictionary<string, string>
         {
+            {"À", "A"},
             {"à", "a"},
             {"Â", "A"},
             {"â", "a"},
