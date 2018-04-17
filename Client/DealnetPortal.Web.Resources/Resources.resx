@@ -2675,8 +2675,8 @@ Additional program options may become available when customer’s credit details
   <data name="NameOfExistingSupplier" xml:space="preserve">
     <value>Name of Existing Supplier</value>
   </data>
-  <data name="CustomerHasAgreementsWithEcoHome" xml:space="preserve">
-    <value>Does the Customer has any agreements with EcoHome Financial?</value>
+  <data name="CustomerHaveAgreementsWithEcoHome" xml:space="preserve">
+    <value>Does the Customer have any agreements with EcoHome Financial?</value>
   </data>
   <data name="BeforeProceedingVerifyCustId" xml:space="preserve">
     <value>Before Proceeding please verify Customer ID</value>

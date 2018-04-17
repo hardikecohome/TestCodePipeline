@@ -72,17 +72,28 @@ namespace DealnetPortal.Api.Integration.Services
                     _unitOfWork.Save();
                 }
                 _loggingService.LogInfo($"Initiated credit check for contract [{contractId}]");
-                var aspireAlerts =  _aspireService.UpdateContractCustomer(contract, contractOwnerId, null, true).GetAwaiter().GetResult();
-                if (aspireAlerts?.Any() == true)
+                var isFrenchSymbols = IsFrenchSymbols(contract);
+                if (isFrenchSymbols)
                 {
-                    alerts.AddRange(aspireAlerts);
+                    var aspireAlerts =
+                        _aspireService.UpdateContractCustomer(contract, contractOwnerId, null, true)
+                            .GetAwaiter()
+                            .GetResult();
+                    if (aspireAlerts?.Any() == true)
+                    {
+                        alerts.AddRange(aspireAlerts);
+                    }
                 }
                 var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter()
                     .GetResult();
-                aspireAlerts = _aspireService.UpdateContractCustomer(contract, contractOwnerId).GetAwaiter().GetResult();
-                if (aspireAlerts?.Any() == true)
+                if (isFrenchSymbols)
                 {
-                    alerts.AddRange(aspireAlerts);
+                    var aspireAlerts =
+                        _aspireService.UpdateContractCustomer(contract, contractOwnerId).GetAwaiter().GetResult();
+                    if (aspireAlerts?.Any() == true)
+                    {
+                        alerts.AddRange(aspireAlerts);
+                    }
                 }
                 creditCheck = checkResult?.Item1;
                 if (checkResult?.Item2?.Any() == true)
@@ -208,6 +219,29 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return creditReport;
+        }
+
+        private bool IsFrenchSymbols(Contract contract)
+        {
+            var result = IsCustomerHasFrenchSymbols(contract.PrimaryCustomer);
+            foreach (var customer in contract.SecondaryCustomers)
+            {
+                if (IsCustomerHasFrenchSymbols(customer))
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        private bool IsCustomerHasFrenchSymbols(Customer customer)
+        {
+            var location = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                                      customer.Locations?.FirstOrDefault();
+           
+            return customer.FirstName.IsFrenchSymbols() || customer.LastName.IsFrenchSymbols() ||
+                   location.City.IsFrenchSymbols() || location.Street.IsFrenchSymbols();
         }
     }
 

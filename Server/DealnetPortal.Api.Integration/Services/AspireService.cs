@@ -1125,8 +1125,8 @@ namespace DealnetPortal.Api.Integration.Services
                     CreditReleaseObtained = true,
                     Personal = new Personal()
                     {
-                        Firstname = c.FirstName.MapNotValidSymbols(withSymbolsMaping),
-                        Lastname = c.LastName.MapNotValidSymbols(withSymbolsMaping),
+                        Firstname = c.FirstName.MapFrenchSymbols(withSymbolsMaping),
+                        Lastname = c.LastName.MapFrenchSymbols(withSymbolsMaping),
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
                 };
@@ -1144,7 +1144,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {                    
                     account.Address = new Address()
                     {
-                        City = location.City.MapNotValidSymbols(withSymbolsMaping),
+                        City = location.City.MapFrenchSymbols(withSymbolsMaping),
                         Province = new Province()
                         {
                             Abbrev = location.State.ToProvinceCode()
@@ -1154,7 +1154,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
-                        StreetName = location.Street.MapNotValidSymbols(withSymbolsMaping),
+                        StreetName = location.Street.MapFrenchSymbols(withSymbolsMaping),
                         SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };                    
@@ -1886,7 +1886,9 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.CustomerHasExistingAgreements,
-                    Value = contract.Equipment?.HasExistingAgreements == true ? "True" : "False"                    
+                    Value = contract.Equipment?.HasExistingAgreements.HasValue == true ? 
+                        (contract.Equipment.HasExistingAgreements == true ? "Y" : "N")
+                        : BlankValue
                 });
 
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
@@ -1935,7 +1937,7 @@ namespace DealnetPortal.Api.Integration.Services
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.CustomerApr,
-                            Value = contract.Equipment?.IsFeePaidByCutomer == true ? 
+                            Value = contract.Equipment?.IsFeePaidByCutomer == true && !_contractRepository.IsClarityProgram(contract.Id) ? 
                                 (paymentInfo.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                                 : (contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                         });
