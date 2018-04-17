@@ -241,7 +241,7 @@ namespace DealnetPortal.Api.Integration.Services
                                       customer.Locations?.FirstOrDefault();
            
             return customer.FirstName.IsFrenchSymbols() || customer.LastName.IsFrenchSymbols() ||
-                   location.City.IsFrenchSymbols() || location.Street.IsFrenchSymbols();
+                   location != null ? location.City.IsFrenchSymbols() || location.Street.IsFrenchSymbols() : false;
         }
     }
 
