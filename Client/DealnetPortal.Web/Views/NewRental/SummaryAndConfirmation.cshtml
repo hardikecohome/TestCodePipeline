@@ -1154,7 +1154,7 @@
                                                     <div class="dealnet-field-holder col-xs-6">
                                                         @Html.TextBoxFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new
                                                         {
-                                                            id = "",
+                                                            id = "rental-company-display",
                                                             @readonly = "readonly",
                                                             @class = "dealnet-disabled-input"
                                                         })
@@ -2074,7 +2074,7 @@
                                                                                     new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
                                                                                   },
                                                                                      "Value", "Text", Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
-                                                                                 new { @class = "form-control" })
+                                                                                 new { @class = "form-control", id="customer-owned" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2089,10 +2089,11 @@
                                                 <div class="dealnet-field-holder">
                                                     <div class="control-group">
                                                         @Html.TextBoxFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new
-                                                        {
-                                                            @class = "form-control dealnet-input",
-                                                            placeholder = Resources.NameOfExistingSupplier
-                                                        })
+                                                   {
+                                                       @class = "form-control dealnet-input",
+                                                       placeholder = Resources.NameOfExistingSupplier,
+                                                       id = "rental-company"
+                                                   })
                                                         @Html.ValidationMessageFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, "", new
                                                         {
                                                             @class = "text-danger"
