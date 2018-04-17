@@ -225,7 +225,6 @@ table
             }
 
             &.expired-deal {
-
                 .main-table__block__row__cell.contract-number {
                     .contract-number__notification {
                         display: flex !important;
@@ -243,7 +242,9 @@ table
                 flex-grow: 0;
                 flex-basis: 9%;
                 min-height: 64px;
-                word-break: break-word;
+                //word-break: break-word;
+                -ms-word-break: break-all;
+                word-break: break-all;
                 display: flex;
                 font-size: 13px;
                 color: #5f5f5f;
@@ -253,7 +254,7 @@ table
                 }
 
                 &.deal-status {
-                    flex-basis: 18%;
+                    flex-basis: 17%;
                     justify-content: flex-start;
 
                     span {
@@ -271,27 +272,29 @@ table
                 &.e-sign,
                 &.term,
                 &.amort {
-                    flex-basis: 7%;
+                    flex-basis: 6%;
                 }
 
                 &.days-left {
                     padding: 6px;
-                    flex-basis: 5%;
+                    flex-basis: 8%;
                 }
 
                 &.loan-amount {
-                    flex-basis: 12.5%;
+                    flex-basis: 11%;
                 }
 
                 &.payment-amount,
                 &.funded-amount {
-                    flex-basis: 11%;
+                    flex-basis: 10%;
                 }
 
+                &.email,
+                &.phone,
                 &.address {
-                    flex-basis: 14%;
+                    flex-basis: 13%;
                 }
-
+                // &.project-desc,
                 &.sales-rep,
                 &.entered-by {
                     flex-basis: 8%;
@@ -345,6 +348,8 @@ table
                     &.funded-amount,
                     &.project-desc,
                     &.address,
+                    &.email,
+                    &.phone,
                     &.sales-rep,
                     &.entered-by,
                     &.icon-cell-notes,
@@ -422,7 +427,7 @@ table
                     }
 
                     &.e-sign {
-                        flex-basis: 7%;
+                        flex-basis: 6%;
                         font-size: 9px;
                         color: #5f5f5f;
                         flex-direction: column;
@@ -450,6 +455,8 @@ table
                         }
                     }
 
+                    &.email,
+                    &.phone,
                     &.address {
                         span {
                             padding-left: 5px;
@@ -519,8 +526,6 @@ table
                     max-width: 200px;
                     flex-basis: 56%;
                 }
-
-
             }
         }
     }
@@ -559,15 +564,15 @@ table
                     }
 
                     &.days-left {
-                        flex-basis: 6%;
+                        flex-basis: 9%;
                     }
 
                     &.applicant-name {
-                        flex-basis: 13.5%;
+                        flex-basis: 11.5%;
                     }
 
                     &.loan-amount {
-                        flex-basis: 14%;
+                        flex-basis: 12%;
                     }
 
                     &.program-option {
@@ -580,6 +585,8 @@ table
                     &.funded-amount,
                     &.project-desc,
                     &.address,
+                    &.email,
+                    &.phone,
                     &.sales-rep,
                     &.entered-by,
                     &.icon-cell-notes,
@@ -618,6 +625,8 @@ table
                         &__project-desc,
                         &__funded-amount,
                         &__address,
+                        &__email,
+                        &__phone,
                         &__sales-rep,
                         &__entered-by,
                         &__notes,
@@ -654,6 +663,8 @@ table
                         &__project-desc,
                         &__funded-amount,
                         &__address,
+                        &__email,
+                        &__phone,
                         &__sales-rep,
                         &__entered-by,
                         &__notes,
@@ -770,6 +781,8 @@ table
                     &.funded-amount,
                     &.project-desc,
                     &.address,
+                    &.email,
+                    &.phone,
                     &.sales-rep,
                     &.entered-by,
                     &.icon-cell-notes,
@@ -839,6 +852,8 @@ table
                         &__project-desc,
                         &__funded-amount,
                         &__address,
+                        &__email,
+                        &__phone,
                         &__sales-rep,
                         &__entered-by,
                         &__notes,

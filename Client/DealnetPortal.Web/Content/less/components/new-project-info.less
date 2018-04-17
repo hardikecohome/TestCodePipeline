@@ -1,4 +1,9 @@
-﻿.new-project-info {
+﻿
+.nw-basic-info,
+.nw-category-options,
+.nw-payment-info {
+}
+.new-project-info {
     display: flex;
     flex: 1 1 auto;
     flex-basis: 100%;
@@ -404,7 +409,8 @@
         &__options-wp {
             display: flex;
             margin-top: 16px;
-            overflow: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
 
             .financing-option {
                 min-width: 270px;
@@ -541,7 +547,8 @@
         }
 
         &__options-wp {
-            overflow: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
 
             &__info-tables {
                 margin: 3px 4px;
@@ -583,10 +590,12 @@
                         border-right: none;
                         border-bottom: 1px solid #ccdbec;
                         flex-basis: unset;
+                        flex: 1 1 auto;
                     }
 
                     .financing-option__content-block {
                         flex-basis: unset;
+                        flex: 1 1 auto;
 
                         &__input-row {
                             flex-wrap: wrap;

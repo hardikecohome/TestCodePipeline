@@ -945,6 +945,7 @@
     <Content Include="Content\less\components\progress-bar.less" />
     <Content Include="Content\less\components\placeholders.less" />
     <Content Include="Content\less\components\ui-datepicker-redesign.less" />
+    <Content Include="Content\less\components\page-title.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />

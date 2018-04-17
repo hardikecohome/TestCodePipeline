@@ -7,6 +7,7 @@
 }
 
 [class^="ic-nw-"], [class*=" ic-nw-"] {
+    font-size: 24px;
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'redesign-icons' !important;
     speak: none;
@@ -18,6 +19,34 @@
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor: pointer;
+}
+[class^="ic-nw-"][class$="green"]:before, [class*=" ic-nw-"][class$="green"]:before {
+    color: #238300;
+}
+[class^="ic-nw-"][class$="grass"]:before, [class*=" ic-nw-"][class$="grass"]:before {
+    color: #97c501;
+}
+[class^="ic-nw-"][class$="grey"]:before, [class*=" ic-nw-"][class$="grey"]:before {
+    color: #e0e0e0;
+}
+[class^="ic-nw-"][class$="yellow"]:before, [class*=" ic-nw-"][class$="yellow"]:before {
+    color: #ffda1b;
+}
+[class^="ic-nw-"][class$="red"]:before, [class*=" ic-nw-"][class$="red"]:before {
+    color: #ef4829;
+}
+[class^="ic-nw-"][class$="pink"]:before, [class*=" ic-nw-"][class$="pink"]:before {
+    color: #ff7575;
+}
+[class^="ic-nw-"][class$="blue"]:before, [class*=" ic-nw-"][class$="blue"]:before {
+    color: #61a2f6;
+}
+[class^="ic-nw-"][class$="sky"]:before, [class*=" ic-nw-"][class$="sky"]:before {
+    color: #50b6f4;
+}
+[class^="ic-nw-"][class$="navy"]:before, [class*=" ic-nw-"][class$="navy"]:before {
+    color: #395369;
 }
 
 .ic-nw-sort-arrow-top:before {
@@ -130,6 +159,31 @@
 
 .ic-nw-arrow-right:before {
     content: "\e927";
+}
+
+.ic-nw-arrow-left {
+    transform: rotate(180deg);
+
+    &:before {
+        content: "\e927";
+    }
+}
+
+
+.ic-nw-arrow-top {
+    transform: rotate(270deg);
+
+    &:before {
+        content: "\e927";
+    }
+}
+
+.ic-nw-arrow-bottom {
+    transform: rotate(90deg);
+
+    &:before {
+        content: "\e927";
+    }
 }
 
 .ic-nw-check-mark-2:before {
@@ -298,6 +352,10 @@
 
 .ic-nw-circle-time:before {
     content: "\e9b2";
+}
+
+.ic-nw-clear-address:before {
+    content: "\e917";
 }
 
 .icon,
