@@ -835,16 +835,16 @@
                                                             <span>
                                                                 @contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                                 @(contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                Resources.Year :
-                                                                                                                Resources.Years)
+                                                                                                                                                Resources.Year :
+                                                                                                                                                Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(contract?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @contract.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                                     @(contract.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                            Resources.Month :
-                                                                                                                                            Resources.Months)
+                                                                                                                                                                            Resources.Month :
+                                                                                                                                                                            Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -2160,111 +2160,117 @@
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
                                     <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
-                                    @foreach(var equipment in contract.EquipmentInfo.ExistingEquipment)
+                                    @for(var i = 0; i < contract.EquipmentInfo.ExistingEquipment.Count; i++)
                                     {
                                         <div class="summury-return-equip-item">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    @Html.LabelFor(m => contract.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned, new
-                                                    {
-                                                        @class = "dealnet-field-caption col-xs-6"
-                                                    })
-                                                    <div class="dealnet-field-holder col-xs-6">
-                                                        @(contract.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned ? Resources.Yes : Resources.No)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    @Html.LabelFor(m => contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new
-                                                    {
-                                                        @class = "dealnet-field-caption col-xs-6"
-                                                    })
-                                                    <div class="dealnet-field-holder col-xs-6">
-                                                        @contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @if(contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.HasValue)
+                                            @if(i == 0)
                                             {
-                                                var text = contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval != ResponsibleForRemoval.Other ?
-                                                    contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.GetEnumDescription() :
-                                                    contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
                                                 <div class="form-group">
                                                     <div class="row">
-                                                        @Html.LabelFor(m => contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval, new
+                                                        @Html.LabelFor(m => contract.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned, new
                                                         {
                                                             @class = "dealnet-field-caption col-xs-6"
                                                         })
                                                         <div class="dealnet-field-holder col-xs-6">
-                                                            @text
+                                                            @(contract.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned ? Resources.Yes : Resources.No)
                                                         </div>
                                                     </div>
                                                 </div>
+                                                if(!string.IsNullOrEmpty(contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany))
+                                                {
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new
+                                                            {
+                                                                @class = "dealnet-field-caption col-xs-6"
+                                                            })
+                                                            <div class="dealnet-field-holder col-xs-6">
+                                                                @contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                if(contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.HasValue)
+                                                {
+                                                    var text = contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval != ResponsibleForRemoval.Other ?
+                                                        contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.GetEnumDescription() :
+                                                        contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            @Html.LabelFor(m => contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval, new
+                                                            {
+                                                                @class = "dealnet-field-caption col-xs-6"
+                                                            })
+                                                            <div class="dealnet-field-holder col-xs-6">
+                                                                @text
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                             }
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.GeneralCondition, new
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].GeneralCondition, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
-                                                        @equipment.GeneralCondition
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].GeneralCondition
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.EstimatedAge, new
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].EstimatedAge, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
-                                                        @equipment.EstimatedAge
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].EstimatedAge
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.Make, new
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].Make, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
-                                                        @equipment.Make
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].Make
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.Model, new
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].Model, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
-                                                        @equipment.Model
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].Model
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.SerialNumber, new
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].SerialNumber, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
-                                                        @equipment.SerialNumber
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].SerialNumber
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.Notes, new
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].Notes, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
-                                                        <span style="white-space: pre-wrap">@equipment.Notes</span>
+                                                        <span style="white-space: pre-wrap">@contract.EquipmentInfo.ExistingEquipment[i].Notes</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2285,7 +2291,7 @@
                                         <h3 class="dealnet-section-title">
                                             @Resources.AdditionalContractInformation
                                         </h3>
-                                        @if (contract.EquipmentInfo?.HasExistingAgreements != null)
+                                        @if(contract.EquipmentInfo?.HasExistingAgreements != null)
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2294,7 +2300,7 @@
                                                         <div class="control-group">
                                                             <div class="text-left">
                                                                 @{
-                                                                    var hasAgreement = contract.EquipmentInfo.HasExistingAgreements.Value ? 
+                                                                    var hasAgreement = contract.EquipmentInfo.HasExistingAgreements.Value ?
                                                                         Resources.Yes : Resources.No;
                                                                 }
                                                                 @hasAgreement
@@ -2304,7 +2310,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if (contract.AdditionalInfo.SalesRepRole.Any())
+                                        @if(contract.AdditionalInfo.SalesRepRole.Any())
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2326,7 +2332,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if (contract.AdditionalInfo.CustomerComments != null && contract.AdditionalInfo.CustomerComments.Any())
+                                        @if(contract.AdditionalInfo.CustomerComments != null && contract.AdditionalInfo.CustomerComments.Any())
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2334,10 +2340,10 @@
                                                     <div class="dealnet-field-holder col-xs-12">
                                                         <div class="control-group">
                                                             <div class="text-left">
-                                                                @foreach (var comment in contract.AdditionalInfo.CustomerComments)
+                                                                @foreach(var comment in contract.AdditionalInfo.CustomerComments)
                                                                 {
-                                                                        @comment
-                                                                        <br />
+                                                                    @comment
+                                                                    <br />
                                                                 }
                                                             </div>
                                                         </div>
@@ -2345,7 +2351,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if (!string.IsNullOrEmpty(contract.EquipmentInfo?.Notes))
+                                        @if(!string.IsNullOrEmpty(contract.EquipmentInfo?.Notes))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
