@@ -121,9 +121,6 @@
             $('#addExistingEqipment').addClass("hidden");
         }
 
-
-        _initExistingEquipmentCommonData(id, newTemplate);
-
         if (!state.isClarity) {
             newTemplate.find('.responsible-dropdown')
                 .on('change', require('bill59').onResposibilityChange);
@@ -138,6 +135,8 @@
         if (!state.isClarity) {
             require('bill59').toggleExistingEquipment();
         }
+
+        _initExistingEquipmentCommonData(id, newTemplate);
     };
 
     /**
@@ -248,10 +247,16 @@
             $('.customer-owned').val(e.target.value);
             var $company = $equip.find('.rental-company');
             if (e.target.value == 'true') {
+                $company.val('');
                 $company.prop('disabled', true);
-                $company[0].form && $company.rules('remove', 'required');
+                if ($company[0].form) {
+                    $company.rules('remove', 'required');
+                    $company.removeAttr('required');
+                    $company.valid();
+                }
             } else {
                 $company.prop('disabled', false);
+                $company.attr('required', 'required');
                 $company[0].form && $company.rules('add', 'required');
             }
         }).change();

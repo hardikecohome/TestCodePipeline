@@ -63,7 +63,11 @@
                                 <div id="capture-buttons">
                                     <input type="button" class="btn btn-green" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
                                     <div id="capture-buttons-2">
-                                        <input type="button" class="btn btn-green big-button" id="upload-capture" value="@Resources.Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
+                                        <input type="button" 
+                                               class="btn btn-green big-button" 
+                                               id="upload-capture"
+                                               value="@Resources.Save" 
+                                               onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
                                         <div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
                                     </div>
                                 </div>
@@ -89,7 +93,7 @@
 
 <div class="form-container basic-info-form">
     <div class="form-section">
-        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form", autocomplete="new-password" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContractId)

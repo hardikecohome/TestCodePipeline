@@ -33,7 +33,8 @@
                                 @Html.TextBoxFor(m => m.CommonExistingEquipmentInfo.RentalCompany, new
                                 {
                                     @class = "form-control dealnet-input rental-company",
-                                    placeholder = Resources.NameOfExistingSupplier
+                                    placeholder = Resources.NameOfExistingSupplier,
+                                    required="required"
                                 })
                                 @Html.ValidationMessageFor(m => m.CommonExistingEquipmentInfo.RentalCompany, "", new { @class = "text-danger" })
                             </div>
