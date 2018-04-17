@@ -88,7 +88,29 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.DeferralType, d => d.ResolveUsing(src => src.AgreementType == AgreementType.LoanApplication ? src.LoanDeferralType.ConvertTo<DeferralType>() : src.RentalDeferralType.ConvertTo<DeferralType>()))
                 .ForMember(x => x.PreferredStartDate, d => d.Ignore())
                 .ForMember(x => x.RateCardId, d => d.Ignore())
-                .ForMember(x => x.DealerCost, d => d.Ignore());
+                .ForMember(x => x.DealerCost, d => d.Ignore())
+                .ForMember(x => x.ExistingEquipment, d => d.ResolveUsing(src =>
+                {
+                    if(src.ExistingEquipment == null || !src.ExistingEquipment.Any())
+                    {
+                        return null;
+                    }
+                    return src.ExistingEquipment.Select(eE => new ExistingEquipmentDTO
+                    {
+                        IsRental = !src.CommonExistingEquipmentInfo.CustomerOwned,
+                        EstimatedAge = eE.EstimatedAge,
+                        Id = eE.Id,
+                        GeneralCondition = eE.GeneralCondition,
+                        RentalCompany = src.CommonExistingEquipmentInfo.RentalCompany,
+                        ResponsibleForRemoval = src.CommonExistingEquipmentInfo?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemovalType>(),
+                        Make = eE.Make,
+                        Model = eE.Model,
+                        Notes = eE.Notes,
+                        SerialNumber = eE.SerialNumber,
+                        ResponsibleForRemovalValue = src.CommonExistingEquipmentInfo.ResponsibleForRemovalValue
+                    });
+                }));
+
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
                 .ForMember(x => x.AssetNumber, d => d.Ignore())
@@ -272,7 +294,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
                 .ForMember(x => x.IsFeePaidByCutomer, s => s.MapFrom(d => d.Conditions.IsAdminFeePaidByCustomer))
                 .ForMember(x => x.HasExistingAgreements, s => s.MapFrom(d => d.Conditions.HasExistingAgreements))
-                .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))                
+                .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
                 {
                     if(d.PrefferedInstallDate.HasValue)
@@ -641,7 +663,7 @@ namespace DealnetPortal.Web.App_Start
                 {
                     CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
                     RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault()?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>()    ,
+                    ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault()?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>(),
                     ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
                 }
                 : null));
@@ -716,25 +738,25 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.HouseSize, d => d.Ignore())
                 .ForMember(x => x.CustomerComments, d => d.Ignore())
                 .ForMember(x => x.DealerTier, d => d.Ignore())
-	            .ForMember(x => x.CommonExistingEquipmentInfo, d => d.ResolveUsing(src => src.ExistingEquipment.FirstOrDefault() != null ?
-		            new CommonExistingEquipmentInfo
-		            {
-			            CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
-			            RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
-			            ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault()?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>(),
-			            ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
-		            }
-		            : null));
+                .ForMember(x => x.CommonExistingEquipmentInfo, d => d.ResolveUsing(src => src.ExistingEquipment.FirstOrDefault() != null ?
+                    new CommonExistingEquipmentInfo
+                    {
+                        CustomerOwned = !src.ExistingEquipment.FirstOrDefault().IsRental,
+                        RentalCompany = src.ExistingEquipment.FirstOrDefault().RentalCompany,
+                        ResponsibleForRemoval = src.ExistingEquipment.FirstOrDefault()?.ResponsibleForRemoval?.ConvertTo<ResponsibleForRemoval>(),
+                        ResponsibleForRemovalValue = src.ExistingEquipment.FirstOrDefault().ResponsibleForRemovalValue
+                    }
+                    : null));
 
-	        cfg.CreateMap<EquipmentInfoDTO, ContractConditions>()
-		        .ForMember(x => x.FullUpdate, d => d.Ignore())
-		        .ForMember(x => x.IsNewContract, d => d.Ignore())
-		        .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
-		        .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
-		        .ForMember(x => x.IsFirstStepAvailable, d => d.Ignore())
-		        .ForMember(x => x.IsAdminFeePaidByCustomer, d => d.MapFrom(o => o.IsFeePaidByCutomer))
-		        .ForMember(x => x.IsCustomerFoundInCreditBureau, d => d.Ignore())
-		        .ForMember(x => x.IsSubmittedWithoutCustomerRateCard, d => d.Ignore());
+            cfg.CreateMap<EquipmentInfoDTO, ContractConditions>()
+                .ForMember(x => x.FullUpdate, d => d.Ignore())
+                .ForMember(x => x.IsNewContract, d => d.Ignore())
+                .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
+                .ForMember(x => x.IsApplicantsInfoEditAvailable, d => d.Ignore())
+                .ForMember(x => x.IsFirstStepAvailable, d => d.Ignore())
+                .ForMember(x => x.IsAdminFeePaidByCustomer, d => d.MapFrom(o => o.IsFeePaidByCutomer))
+                .ForMember(x => x.IsCustomerFoundInCreditBureau, d => d.Ignore())
+                .ForMember(x => x.IsSubmittedWithoutCustomerRateCard, d => d.Ignore());
 
             cfg.CreateMap<ContractDTO, SalesRepInformation>()
                 .ForMember(x => x.SalesRep, d => d.ResolveUsing(src => src.Equipment?.SalesRep))
