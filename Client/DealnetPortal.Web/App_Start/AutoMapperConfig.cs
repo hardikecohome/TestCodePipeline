@@ -712,7 +712,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.PrefferedInstallTime, d => d.MapFrom(src =>
                     src.EstimatedInstallationDate.HasValue
                         ? src.EstimatedInstallationDate.Value.ToString("HHmm")
-                        : string.Empty))
+                        : null))
                 .ForMember(x => x.HouseSize, d => d.Ignore())
                 .ForMember(x => x.CustomerComments, d => d.Ignore())
                 .ForMember(x => x.DealerTier, d => d.Ignore())
