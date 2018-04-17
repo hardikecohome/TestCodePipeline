@@ -53,8 +53,8 @@
     @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-agreement" })
     @Html.HiddenFor(x => x.Conditions.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
-    @Html.HiddenFor(x => x.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
-	@Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
+    @Html.HiddenFor(x => x.Conditions.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
+	  @Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
 
     <div class="form-container">
         <div class="form-section">
