@@ -55,7 +55,7 @@
             </div>
         }
 
-        @if(Model.IsBeaconUpdated && !contractClosed)
+        @if(Model.IsBeaconUpdated && !(contractClosed || contractDeclined))
         {
             <div class="message-header">
                 <svg aria-hidden="true" class="icon icon-success">
