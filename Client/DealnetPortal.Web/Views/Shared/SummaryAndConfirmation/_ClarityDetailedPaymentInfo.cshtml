@@ -97,7 +97,7 @@
                 </div>
                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                     <div class="inline-children">
-                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment - Model.LoanCalculatorOutput.Hst, 2))
+                        $@($"{Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment - Model.LoanCalculatorOutput.Hst, 2):0.00}")
                     </div>
                 </div>
             </div>
@@ -110,9 +110,9 @@
                     </div>
                 </div>
                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                    <div class="inline-children">
-                        $@(Math.Round(Model.LoanCalculatorOutput.Hst, 2))
-                    </div>
+					<div class="inline-children">
+						$@($"{Math.Round(Model.LoanCalculatorOutput.Hst, 2):0.00}")
+					</div>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                     <div class="inline-children">
-                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment, 2))
+                        $@($"{Math.Round(Model.LoanCalculatorOutput.TotalMonthlyPayment, 2):0.00}")
                     </div>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                     <div class="inline-children">
-                        $@(Math.Round(Model.LoanCalculatorOutput.TotalMCO, 2))
+                        $@($"{Math.Round(Model.LoanCalculatorOutput.TotalMCO, 2):0.00}")
                     </div>
                 </div>
             </div>
