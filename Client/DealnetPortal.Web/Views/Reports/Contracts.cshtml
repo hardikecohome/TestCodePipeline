@@ -2285,7 +2285,7 @@
                                         <h3 class="dealnet-section-title">
                                             @Resources.AdditionalContractInformation
                                         </h3>
-                                        @if (contract.EquipmentInfo.HasExistingAgreements != null)
+                                        @if (contract.EquipmentInfo?.HasExistingAgreements != null)
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2294,7 +2294,8 @@
                                                         <div class="control-group">
                                                             <div class="text-left">
                                                                 @{
-                                                                    var hasAgreement = contract.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                                    var hasAgreement = contract.EquipmentInfo.HasExistingAgreements.Value ? 
+                                                                        Resources.Yes : Resources.No;
                                                                 }
                                                                 @hasAgreement
                                                             </div>
