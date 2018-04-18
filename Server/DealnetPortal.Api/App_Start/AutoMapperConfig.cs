@@ -106,9 +106,9 @@ namespace DealnetPortal.Api.App_Start
                         sc.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == sc.Id) ?? false;
                         sc.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == sc.Id) ?? false;
                     });
-                    if (!string.IsNullOrEmpty(c.Equipment?.Notes) && d.Details != null)
+                    if (!string.IsNullOrEmpty(c.Details?.Notes) && d.Details != null)
                     {
-                        d.Details.Notes = c.Equipment?.Notes;
+                        d.Details.Notes = c.Details?.Notes;
                     }
                     if (!string.IsNullOrEmpty(c.Equipment?.SalesRep))
                     {
