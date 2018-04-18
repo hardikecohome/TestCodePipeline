@@ -157,7 +157,8 @@ namespace DealnetPortal.Api.Integration.Services
                 var result = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
                 if (result != null)
                 {
-                    contract.Details.CreditAmount = _rateCardsRepository.GetCreditAmount(result.Beacon);
+                    var beaconCreditAmount = _rateCardsRepository.GetCreditAmount(result.Beacon);
+                    contract.Details.CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < beaconCreditAmount ? beaconCreditAmount : contract.Details.CreditAmount;
                     _contractRepository.UpdateContractData(new ContractData()
                     {
                         Id = contractId,
