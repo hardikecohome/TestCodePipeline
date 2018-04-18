@@ -77,12 +77,12 @@
             if (saveChanges(modal, $('#existing-equipment-section'), url, $('#existing-equipment-form'))) {
                 $('#existing-equipment-modal').modal('hide');
                 var input = modal.find('.responsible-input');
-                var id = input.attr('id').split('-')[1];
-                if (input.val() !== "3") {
-                    $('#responsible-display-' + id).val(input.find(':selected').text());
-                } else {
-                    $('#responsible-display-' + id).val(modal.find('.other-input').val());
-                }
+                if (input.length)
+                    if (input.val() !== "3") {
+                        $('#responsible-display-' + input.attr('id').split('-')[1]).val(input.find(':selected').text());
+                    } else {
+                        $('#responsible-display-' + input.attr('id').split('-')[1]).val(modal.find('.other-input').val());
+                    }
 
                 var company = modal.find('#rental-company').val();
                 if (company) {
