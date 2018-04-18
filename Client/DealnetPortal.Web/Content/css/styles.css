@@ -345,6 +345,11 @@
     height: 60px;
     order: 1;
   }
+  .header__logo:lang(fr),
+  .header__logo:lang(fr-CA) {
+    position: relative;
+    right: 30px;
+  }
   .header__logo-img {
     max-width: 100%;
   }
@@ -368,9 +373,14 @@
   margin-left: 66px;
 }
 
+.header__navigation:lang(fr),
+.header__navigation:lang(fr-CA) {
+  margin-left: 50px;
+}
+
 .header__navigation.has-about:lang(fr),
 .header__navigation.has-about:lang(fr-CA) {
-  margin-left: 20px;
+  margin-left: -20px;
 }
 
 .header__navigation ul {
@@ -465,6 +475,12 @@
   float: right;
   min-width: 30%;
   position: relative;
+}
+
+:lang(fr) .header__right-panel,
+:lang(fr-CA) .header__right-panel {
+  min-width: 40%;
+  left: 20px;
 }
 
 .header__right-panel:before {
