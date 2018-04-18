@@ -676,6 +676,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
         public async Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo)
         {
+            var alerts = new List<Alert>();
             var contractData = new ContractDataDTO
             {
                 Id = equipmnetInfo.ContractId ?? 0,
@@ -683,8 +684,29 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
                 Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo),
                 SalesRepInfo = Mapper.Map<ContractSalesRepInfoDTO>(equipmnetInfo.SalesRepInformation),
-                PrimaryCustomer = Mapper.Map<CustomerDTO>(equipmnetInfo.HomeOwner)
             };
+
+            if (equipmnetInfo?.HomeOwner != null)
+            {
+                List<CustomerDataDTO> customers = new List<CustomerDataDTO>()
+                {
+                    new CustomerDataDTO()
+                    {
+                        Id = equipmnetInfo.HomeOwner.CustomerId ?? 0,
+                        ContractId = equipmnetInfo.ContractId,
+                        LeadSource = _leadSource,
+                        CustomerInfo = new CustomerInfoDTO()
+                        {
+                            DealerInitial = equipmnetInfo.HomeOwner.DealerInitial,
+                            VerificationIdName = equipmnetInfo.HomeOwner.VerificationIdName
+                        }
+                    }
+                };                
+                if (customers.Any())
+                {                    
+                    alerts.AddRange(await _contractServiceAgent.UpdateCustomerData(customers.ToArray()));
+                }
+            }
 
 	        var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment) ?? new List<ExistingEquipmentDTO>();
                 
@@ -702,8 +724,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
+            alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
 
-            return await _contractServiceAgent.UpdateContractData(contractData);
+            return alerts;
         }
 
         public async Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo)
