@@ -991,4 +991,13 @@
   <data name="StandardRate" xml:space="preserve">
     <value>Standard Rate</value>
   </data>
+  <data name="Prime" xml:space="preserve">
+    <value>Prime</value>
+  </data>
+  <data name="PrimePlus" xml:space="preserve">
+    <value>Prime Plus</value>
+  </data>
+  <data name="SuperPrime" xml:space="preserve">
+    <value>Super Prime</value>
+  </data>
 </root>
