@@ -100,7 +100,7 @@ function showTable() {
                             },
                         ]
                     },
-                    autoWidth:false,
+                    autoWidth: false,
                     data: data,
                     rowId: 'Id',
                     oLanguage: {
@@ -134,7 +134,9 @@ function showTable() {
                                     '<div class="text-hold"><span class="text">' +
                                     content + '</span></div></div>';
                             },
-                            className: 'contract-cell'
+                            className: 'contract-cell',
+                            type: 'html-num',
+                            orderData: 10
                         },
                         {
                             "data": 'CustomerName',
@@ -209,8 +211,15 @@ function showTable() {
                         {
                             "data": 'Id',
                             "visible": false
+                        },
+                        {
+                            "render": function (sdata, type, row) {
+                                return row.TransactionId.toLowerCase().indexOf('internal') > -1 ?
+                                    row.Id :
+                                    row.TransactionId;
+                            },
+                            "visible": false
                         }
-
                     ],
                     dom: "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
                         "<'row'<'col-md-12 col-sm-6'l>>" +
