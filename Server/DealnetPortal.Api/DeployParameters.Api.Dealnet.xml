@@ -76,8 +76,10 @@
   <parameter name="changeRegistrationListID" value="b4f4279fcc">
     <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='RegistrationListID']/@value"/>
   </parameter>
-  
   <parameter name="changeClarityTierName" value="Clarity ClimateCare Program">
     <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='ClarityTierName']/@value"/>
+  </parameter>
+  <parameter name="changeUseTestAspire" value="false">
+    <parameterEntry type="XMLFile" scope="web.config$" match="//configuration/appSettings/add[@key='UseTestAspire']/@value"/>
   </parameter>
 </parameters>
