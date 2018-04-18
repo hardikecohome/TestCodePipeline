@@ -84,6 +84,7 @@
             }
             @if(Model.HomeOwner != null)
             {
+                @Html.HiddenFor(m => m.HomeOwner.CustomerId)
                 <div class="verify-section">
                     <h3 class="dealnet-middle-header">@Resources.VerifyCustomerID</h3>
                     <div class="well well-info postion-well clear-border">
