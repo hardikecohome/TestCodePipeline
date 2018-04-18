@@ -1281,10 +1281,8 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
-            if (equipmentInfo.HasExistingAgreements.HasValue)
-            {
-                dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
-            }            
+
+	        dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
 
             return dbEquipment;
         }
