@@ -686,20 +686,20 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 PrimaryCustomer = Mapper.Map<CustomerDTO>(equipmnetInfo.HomeOwner)
             };
 
-            if(equipmnetInfo.ExistingEquipment != null)
+	        var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment) ?? new List<ExistingEquipmentDTO>();
+                
+            foreach (var existingEquipmentDTO in existingEquipment)
             {
-                var existingEquipment = Mapper.Map<List<ExistingEquipmentDTO>>(equipmnetInfo.ExistingEquipment);
-                foreach(var existingEquipmentDTO in existingEquipment)
-                {
-                    existingEquipmentDTO.IsRental = !equipmnetInfo.CommonExistingEquipmentInfo.CustomerOwned;
-                    existingEquipmentDTO.RentalCompany = equipmnetInfo.CommonExistingEquipmentInfo.RentalCompany;
-                    existingEquipmentDTO.ResponsibleForRemoval = equipmnetInfo.CommonExistingEquipmentInfo?
-                        .ResponsibleForRemoval?
-                        .ConvertTo<ResponsibleForRemovalType>();
-                    existingEquipmentDTO.ResponsibleForRemovalValue = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
-                }
-                contractData.Equipment.ExistingEquipment = existingEquipment ?? new List<ExistingEquipmentDTO>();
+                existingEquipmentDTO.IsRental = !equipmnetInfo.CommonExistingEquipmentInfo.CustomerOwned;
+                existingEquipmentDTO.RentalCompany = equipmnetInfo.CommonExistingEquipmentInfo.RentalCompany;
+                existingEquipmentDTO.ResponsibleForRemoval = equipmnetInfo.CommonExistingEquipmentInfo?
+                    .ResponsibleForRemoval?
+                    .ConvertTo<ResponsibleForRemovalType>();
+                existingEquipmentDTO.ResponsibleForRemovalValue = equipmnetInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue;
             }
+
+            contractData.Equipment.ExistingEquipment = existingEquipment;
+
             var installationPackeges = Mapper.Map<List<InstallationPackageDTO>>(equipmnetInfo.InstallationPackages);
             contractData.Equipment.InstallationPackages = installationPackeges ?? new List<InstallationPackageDTO>();
 
