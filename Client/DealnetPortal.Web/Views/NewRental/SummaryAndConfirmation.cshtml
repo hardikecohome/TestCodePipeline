@@ -2051,7 +2051,8 @@
                         @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "existing-equipment-section-modal" }))
                         {
                             var bill59EquipTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type);
-                            var displayResponsibility = Model.ProvinceTaxRate.Province.ToUpper() == "ON" &&
+                            var displayResponsibility = Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication &&
+                                Model.ProvinceTaxRate.Province.ToUpper() == "ON" &&
                                 Model.EquipmentInfo.NewEquipment.Any(n => bill59EquipTypes.Contains(n.Type));
                             for(var i = 0; i < Model.EquipmentInfo.ExistingEquipment.Count; i++)
                             {
