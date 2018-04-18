@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
         private readonly IDocumentService _documentService;
-
+        private readonly IRateCardsRepository _rateCardsRepository;
         public ContractService(
             IContractRepository contractRepository, 
             IUnitOfWork unitOfWork, 
@@ -51,7 +51,8 @@ namespace DealnetPortal.Api.Integration.Services
             ICreditCheckService creditCheckService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration, IDocumentService documentService)
+            IAppConfiguration configuration, IDocumentService documentService,
+            IRateCardsRepository rateCardsRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -63,6 +64,7 @@ namespace DealnetPortal.Api.Integration.Services
             _mailService = mailService;
             _configuration = configuration;
             _documentService = documentService;
+            _rateCardsRepository = rateCardsRepository;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -152,8 +154,21 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
             {
-                _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                var result = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                if (result != null)
+                {
+                    var beaconCreditAmount = _rateCardsRepository.GetCreditAmount(result.Beacon);
+                    contract.Details.CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < beaconCreditAmount ? beaconCreditAmount : contract.Details.CreditAmount;
+                    _contractRepository.UpdateContractData(new ContractData()
+                    {
+                        Id = contractId,
+                        Details = contract.Details
+                    }, contractOwnerId);
+                    _unitOfWork.Save();
+                }
+
             }
+            
 
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
