@@ -2013,65 +2013,72 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Description = "Air Conditioner",
                         DescriptionResource = "AirConditioner",
-                        Type = "ECO1"
+                        Type = "ECO1",
+                        UnderBill59 = true, UsefulLife = 15
                     },
-                    new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2"},
-                    new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3"},
-                    new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4"},
-                    new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5"},
-                    new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6"},
-                    new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7"},
-                    new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9"},
-                    new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10"},
+                    new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10", UnderBill59 = false, UsefulLife = 15},
                     new EquipmentType
                     {
                         Description = "Tankless Water Heater",
                         DescriptionResource = "TanklessWaterHeater",
-                        Type = "ECO11"
+                        Type = "ECO11",
+                        UnderBill59 = false, UsefulLife = 15
                     },
-                    new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
-                    new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
-                    new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
-                    new EquipmentType {Description = "Pool", DescriptionResource = "Pool", Type = "ECO53"},
+                    new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Pool", DescriptionResource = "Pool", Type = "ECO53", UnderBill59 = false, UsefulLife = 15},
                     new EquipmentType
                     {
                         Description = "Porch Enclosure",
                         DescriptionResource = "PorchEnclosure",
-                        Type = "ECO43"
+                        Type = "ECO43",
+                        UnderBill59 = false, UsefulLife = 15
                     },
                     new EquipmentType
                     {
                         Description = "Water Treatment System",
                         DescriptionResource = "WaterTreatmentSystem",
-                        Type = "ECO44"
+                        Type = "ECO44",
+                        UnderBill59 = false, UsefulLife = 10
                     },
-                    new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
-                    new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46"},
-                    new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
-                    new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
-                    new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
+                    new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49", UnderBill59 = true, UsefulLife = 10},
                     //new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
                     //new EquipmentType {Description = "c", DescriptionResource = "SecuritySystem", Type = "ECO52"},
                     new EquipmentType
                     {
                         Description = "Basement Repair",
                         DescriptionResource = "BasementRepair",
-                        Type = "ECO55"
+                        Type = "ECO55",
+                        UnderBill59 = false, UsefulLife = 15
                     },
-                    new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58"},
-                    new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
+                    new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59", UnderBill59 = false, UsefulLife = 10},
                     new EquipmentType
                     {
                         Description = "Air Filtration",
                         DescriptionResource = "AirFiltration",
-                        Type = "ECO23"
+                        Type = "ECO23",
+                        UnderBill59 = true, UsefulLife = 10
                     },
-                    new EquipmentType {Description = "Hot Tub", DescriptionResource = "HotTub", Type = "ECO54"},
+                    new EquipmentType {Description = "Hot Tub", DescriptionResource = "HotTub", Type = "ECO54", UnderBill59 = false, UsefulLife = 15},
                     new EquipmentType
                     {
                         Description = "Vertical Fan/HRV Combo",
                         DescriptionResource = "VerticalFanHRVCombo",
-                        Type = "ECO60"
+                        Type = "ECO60",
+                        UnderBill59 = false, UsefulLife = 15
                     }
                 };
                 //leave existing data
