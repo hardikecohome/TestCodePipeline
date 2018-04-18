@@ -514,6 +514,12 @@ namespace DealnetPortal.DataAccess.Repositories
                         updated |= AddOrUpdateInitialCustomers(contract);
                     }
 
+                    if (contractData.Details != null)
+                    {
+                        AddOrUpdateContactDetails(contract, contractData.Details);
+                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
+                    }
+
                     if (contractData.Equipment != null)
                     {                        
                         updated |= AddOrUpdateEquipment(contract, contractData.Equipment);
@@ -526,13 +532,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         salesRepRole.Contract = contract;
                         _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);                        
                         updated |= _dbContext.Entry(contract.SalesRepInfo).State != EntityState.Unchanged;
-                    }
-
-                    if (contractData.Details != null)
-                    {
-                        AddOrUpdateContactDetails(contract, contractData.Details);
-                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
-                    }
+                    }                    
 
                     if (contractData.PaymentInfo != null)
                     {
@@ -1107,6 +1107,11 @@ namespace DealnetPortal.DataAccess.Repositories
                 updated |= AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
             }
 
+            if (!IsBill59Contract(dbEquipment.Id))
+            {
+                dbEquipment.HasExistingAgreements = null;
+            }
+
             var paymentSummary = GetContractPaymentsSummary(contract);
             dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
 
@@ -1281,8 +1286,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
-
-	        dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
+            if (equipmentInfo.HasExistingAgreements.HasValue)
+            {
+                dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
+            }
 
             return dbEquipment;
         }
