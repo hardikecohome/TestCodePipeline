@@ -156,7 +156,9 @@ function showTable() {
                         {
                             //"data": 'TransactionId',
                             render: function (sdate, type, row) {
-                                var content = row.Id === 0 ? row.TransactionId : '<a href="' + editContractUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
+                                var content = row.Id === 0 ?
+                                    row.TransactionId :
+                                    '<a href="' + editContractUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
 
                                 return '<div class="status-hold">' +
                                     '<div class="icon-hold"><span class="icon icon-status"></span></div>' +
@@ -271,7 +273,7 @@ function showTable() {
                         },
                         {
                             render: function (sdata, type, row) {
-                                return row.TransactionId.toLowerCase().indexOf('internal') > -1 ?
+                                return row.TransactionId.toLowerCase().indexOf(':') > -1 ?
                                     row.Id :
                                     row.TransactionId;
                             },
