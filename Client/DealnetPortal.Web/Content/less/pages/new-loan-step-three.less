@@ -1,41 +1,37 @@
-﻿.nw-loan-wp {
-    .nw-loan {
-        .nw-payment-info {
-            &__block {
-                &__content {
-                    &__additional-applicant-info,
-                    &__borrower-info {
-                        display: flex;
-                        margin-bottom: 12px;
+﻿.nw-step-options {
+    &__block {
+        &__content {
+            &__additional-applicant-info,
+            &__borrower-info {
+                display: flex;
+                margin-bottom: 12px;
 
-                        &__home-phone,
-                        &__cell-phone,
-                        &__business-phone,
-                        &__email {
-                            flex-basis: 17.5%;
-                        }
-                    }
+                &__home-phone,
+                &__cell-phone,
+                &__business-phone,
+                &__email {
+                    flex-basis: 17.5%;
+                }
+            }
 
-                    &__payment-info {
-                        display: flex;
+            &__payment-info {
+                display: flex;
 
-                        &__payment-type {
-                            flex-basis: 18%;
-                        }
+                &__payment-type {
+                    flex-basis: 18%;
+                }
 
-                        &__gas-acc {
-                            flex-basis: 23%;
-                        }
+                &__gas-acc {
+                    flex-basis: 23%;
+                }
 
-                        &__meter {
-                            flex-basis: 14%;
-                        }
+                &__meter {
+                    flex-basis: 14%;
+                }
 
-                        &__description {
-                            margin-top: 8px;
-                            flex-basis: 33%;
-                        }
-                    }
+                &__description {
+                    margin-top: 8px;
+                    flex-basis: 33%;
                 }
             }
         }
@@ -43,57 +39,53 @@
 }
 
 @media @tablet-only {
-    .nw-loan-wp {
-        .nw-loan {
-            .nw-payment-info {
-                &__block {
-                    &__content {
-                        &__additional-applicant-info,
-                        &__borrower-info {
-                            flex-wrap: wrap;
+    .nw-step-options {
+        &__block {
+            &__content {
+                &__additional-applicant-info,
+                &__borrower-info {
+                    flex-wrap: wrap;
 
-                            &__home-phone,
-                            &__cell-phone,
-                            &__business-phone,
-                            &__email {
-                                flex-basis: 30.5%;
-                            }
+                    &__home-phone,
+                    &__cell-phone,
+                    &__business-phone,
+                    &__email {
+                        flex-basis: 30.5%;
+                    }
 
-                            &__business-phone {
-                                &.new-input-group {
-                                    margin-right: 0;
-                                }
-                            }
-
-                            &__email {
-                                margin-top: 16px;
-                            }
+                    &__business-phone {
+                        &.new-input-group {
+                            margin-right: 0;
                         }
+                    }
 
-                        &__payment-info {
-                            flex-wrap: wrap;
+                    &__email {
+                        margin-top: 16px;
+                    }
+                }
 
-                            &__payment-type {
-                                flex-basis: 29%;
-                            }
+                &__payment-info {
+                    flex-wrap: wrap;
 
-                            &__gas-acc {
-                                flex-basis: 39%;
-                            }
+                    &__payment-type {
+                        flex-basis: 29%;
+                    }
 
-                            &__meter {
-                                flex-basis: 24%;
+                    &__gas-acc {
+                        flex-basis: 39%;
+                    }
 
-                                &.new-input-group {
-                                    margin-right: 0;
-                                }
-                            }
+                    &__meter {
+                        flex-basis: 24%;
 
-                            &__description {
-                                margin-top: 16px;
-                                flex-basis: 98%;
-                            }
+                        &.new-input-group {
+                            margin-right: 0;
                         }
+                    }
+
+                    &__description {
+                        margin-top: 16px;
+                        flex-basis: 98%;
                     }
                 }
             }
@@ -102,22 +94,18 @@
 }
 
 @media @mobile {
-    .nw-loan-wp {
-        .nw-loan {
-            .nw-payment-info {
-                &__block {
-                    &__content {
-                        &__additional-applicant-info,
-                        &__payment-info,
-                        &__borrower-info {
-                            flex-wrap: wrap;
+    .nw-step-options {
+        &__block {
+            &__content {
+                &__additional-applicant-info,
+                &__payment-info,
+                &__borrower-info {
+                    flex-wrap: wrap;
 
-                            &__description,
-                            .new-input-group {
-                                flex-basis: 100%;
-                                margin-top: 16px;
-                            }
-                        }
+                    &__description,
+                    .new-input-group {
+                        flex-basis: 100%;
+                        margin-top: 16px;
                     }
                 }
             }

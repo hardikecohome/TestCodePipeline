@@ -3,364 +3,372 @@
         margin-bottom: 125px;
         display: flex;
         flex-direction: column;
+    }
+}
 
-        .nw-category-options {
-            &__block {
-                &__content {
-                    &__have-project {
+.nw-step-options {
+    &__block {
+        &__content {
+            &__have-project {
+                display: flex;
+                margin-bottom: 12px;
+                align-items: center;
+                flex-wrap: wrap;
+
+                &__title {
+                    font-size: 24px;
+                    font-weight: 300;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-right: 58px;
+                    flex-basis: 30%;
+                }
+
+                .customized-radio-green {
+                    flex-basis: 52%;
+                    justify-content: flex-start;
+                }
+
+                span {
+                    margin-right: 8px;
+                    font-size: 18px;
+                }
+
+                &__description {
+                    flex: 1 1 101%;
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    &__pr-type,
+                    &__age,
+                    &__rental-com,
+                    &__serial,
+                    &__make,
+                    &__model,
+                    &__condition,
+                    &__notes {
+                        margin-top: 20px;
+                    }
+
+                    &__pr-type {
+                        flex-basis: 20%;
+                    }
+
+                    &__age,
+                    &__rental-com,
+                    &__serial,
+                    &__condition {
+                        flex-basis: 14%;
+                    }
+
+                    &__make {
+                        flex-basis: 17%;
+                    }
+
+                    &__model {
+                        flex-basis: 23%;
+
+                        &.new-input-group {
+                            margin-right: 0;
+                        }
+                    }
+
+                    &__notes {
+                        flex-basis: 61%;
+
+                        &.new-input-group {
+                            margin-right: 0;
+                        }
+                    }
+
+                    &__add-equip {
+                        margin-top: 32px;
+                        flex-basis: 88%;
+                    }
+                }
+            }
+
+            &__additional-info {
+                display: flex;
+                margin-bottom: 10px;
+
+                &__sales-rep,
+                &__date {
+                    flex-basis: 20%;
+
+                    .custom-text-input-group {
+                        width: 100%;
+                    }
+                }
+
+                &__house-size {
+                    flex-basis: 15.5%;
+                }
+
+                &__comment {
+                    flex-basis: 40%;
+                }
+            }
+
+            &__number {
+                margin-top: -16px;
+            }
+
+            &__project-desc {
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid #ccdbec;
+                padding-bottom: 24px;
+
+                &__project-type {
+                    flex-basis: 15%;
+                }
+
+                &__description {
+                    flex-basis: 44%;
+                }
+
+                &__cost {
+                    flex-basis: 15%;
+                }
+
+                &__add-project {
+                    flex-basis: 10%;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            &__price {
+                display: flex;
+                border-bottom: 1px solid #ccdbec;
+                padding-bottom: 24px;
+                margin-top: 24px;
+                align-items: flex-start;
+
+                &__info {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 40px;
+
+                    .i-letter-ico {
+                        background-size: 16px 16px;
+                        min-width: 16px;
+                        min-height: 16px;
+                    }
+                }
+
+                &__sum {
+                    font-weight: bold;
+                    margin-right: 64px;
+                }
+
+                &__payment {
+                    width: 184px;
+                }
+            }
+
+            &__fin-options-title {
+                margin-top: 24px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-left: 24px;
+
+                &--qb {
+                    margin: 16px 0;
+                    font-weight: 300;
+                }
+
+                &__info {
+                    display: flex;
+                    align-items: center;
+                    font-size: 24px;
+
+                    .i-letter-ico {
+                        margin-left: 4px;
+                    }
+                }
+            }
+
+            &__options-wp {
+                display: flex;
+                margin-top: 16px;
+
+                &__info-tables {
+                    align-items: flex-start;
+                    box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+                    padding: 24px 16px 24px 16px;
+                    margin: 2px 16px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex: 1 1 auto;
+
+                    .icon-link-green {
+                        margin-top: 24px;
+                    }
+                }
+
+                .financing-option {
+                    flex-basis: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 508px;
+                    box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+                    padding: 24px 16px 24px 16px;
+                    margin: 3px 16px;
+
+                    &__title {
+                        border-bottom: 1px solid #ccdbec;
+                        text-transform: uppercase;
+                        font-size: 18px;
+                        height: 42px;
+                        padding-bottom: 16px;
+                    }
+
+                    &--error {
+                        .financing-option__title {
+                            border-bottom: 3px solid #ff3258;
+                        }
+                    }
+
+                    &__additional-desc {
+                        display: none;
+                    }
+
+                    &--view-more {
+
+                        .financing-option__additional-desc {
+                            display: block;
+                        }
+                    }
+
+                    &__description {
+                        margin-top: 6px;
+                        font-size: 13px;
+                        color: #5d5d5d;
+                        height: 70px;
+                        margin-bottom: 14px;
+                    }
+
+                    &__input-row {
                         display: flex;
-                        margin-bottom: 12px;
-                        align-items: center;
-                        flex-wrap: wrap;
+                        margin: 0 0 23px 0;
+                        min-height: 48px;
 
-                        &__title {
-                            font-size: 24px;
-                            font-weight: 300;
+
+                        .custom-text-input-group {
+                            width: 100%;
+                            margin-top: -3px;
+                        }
+
+                        .new-input-group {
+                            //min-width: 80px;
+                            margin-right: 0;
+                            flex-basis: 100%;
+
+                            span.label {
+                                white-space: normal;
+                            }
+                        }
+
+                        &--double {
                             display: flex;
                             justify-content: space-between;
-                            margin-right: 58px;
-                        }
 
-                        span {
-                            margin-right: 8px;
-                            font-size: 18px;
-                        }
+                            .new-input-group {
+                                flex-basis: 48%;
 
-                        &__description {
-                            display: flex;
-                            flex-wrap: wrap;
+                                &:nth-child(odd) {
+                                    margin-right: 12px;
+                                }
 
-                            &__pr-type,
-                            &__age,
-                            &__rental-com,
-                            &__serial,
-                            &__make,
-                            &__model,
-                            &__condition,
-                            &__notes {
-                                margin-top: 20px;
-                            }
-
-                            &__pr-type {
-                                flex-basis: 20%;
-                            }
-
-                            &__age,
-                            &__rental-com,
-                            &__serial,
-                            &__condition {
-                                flex-basis: 14%;
-                            }
-
-                            &__make {
-                                flex-basis: 17%;
-                            }
-
-                            &__model {
-                                flex-basis: 23%;
-
-                                &.new-input-group {
-                                    margin-right: 0;
+                                &:nth-child(even) {
+                                    margin-left: 12px;
                                 }
                             }
-
-                            &__notes {
-                                flex-basis: 61%;
-
-                                &.new-input-group {
-                                    margin-right: 0;
-                                }
-                            }
-
-                            &__add-equip {
-                                margin-top: 32px;
-                                flex-basis: 88%;
-                            }
                         }
                     }
 
-                    &__additional-info {
-                        display: flex;
-                        margin-bottom: 10px;
-
-                        &__sales-rep,
-                        &__date {
-                            flex-basis: 20%;
-
-                            .custom-text-input-group {
-                                width: 100%;
-                            }
-                        }
-
-                        &__house-size {
-                            flex-basis: 15.5%;
-                        }
-
-                        &__comment {
-                            flex-basis: 40%;
-                        }
-                    }
-
-                    &__number {
-                        margin-top: -16px;
-                    }
-
-                    &__project-desc {
-                        display: flex;
-                        align-items: center;
-                        border-bottom: 1px solid #ccdbec;
-                        padding-bottom: 24px;
-
-                        &__project-type {
-                            flex-basis: 15%;
-                        }
-
-                        &__description {
-                            flex-basis: 44%;
-                        }
-
-                        &__cost {
-                            flex-basis: 15%;
-                        }
-
-                        &__add-project {
-                            flex-basis: 10%;
-                            display: flex;
-                            align-items: center;
-                        }
-                    }
-
-                    &__price {
-                        display: flex;
-                        border-bottom: 1px solid #ccdbec;
-                        padding-bottom: 24px;
-                        margin-top: 24px;
-                        align-items: flex-start;
-
-                        &__info {
-                            display: flex;
-                            align-items: center;
-                            margin-right: 40px;
-
-                            .i-letter-ico {
-                                background-size: 16px 16px;
-                                min-width: 16px;
-                                min-height: 16px;
-                            }
-                        }
-
-                        &__sum {
-                            font-weight: bold;
-                            margin-right: 64px;
-                        }
-
-                        &__payment {
-                            width: 184px;
-                        }
-                    }
-
-                    &__fin-options-title {
-                        margin-top: 24px;
+                    &__desc-row {
+                        min-height: 27px;
+                        margin: 5px 0;
                         display: flex;
                         justify-content: space-between;
-                        align-items: center;
-                        margin-left: 24px;
 
-                        &--qb {
-                            margin: 16px 0;
-                            font-weight: 300;
-                        }
-
-                        &__info {
-                            display: flex;
-                            align-items: center;
-                            font-size: 24px;
-
-                            .i-letter-ico {
-                                margin-left: 4px;
-                            }
+                        &__value {
+                            font-weight: bold;
                         }
                     }
 
-                    &__options-wp {
-                        display: flex;
-                        margin-top: 16px;
+                    &__view-more {
+                        margin: auto 0 16px 0;
+                        align-self: center;
+                    }
 
-                        &__info-tables {
-                            align-items: flex-start;
-                            box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
-                            padding: 24px 16px 24px 16px;
-                            margin: 2px 16px;
-                            display: flex;
-                            flex-wrap: wrap;
+                    .new-btn-solid-green {
+                        max-width: 140px;
+                        width: 100%;
+                        align-self: center;
+                    }
 
-                            .icon-link-green {
-                                margin-top: 24px;
-                            }
-                        }
+                    &--single {
+                        padding: 0;
+                        flex-direction: row;
+                        min-height: 212px;
 
-                        .financing-option {
-                            flex-basis: 100%;
+                        .financing-option__title-block {
+                            min-width: 200px;
+                            padding: 24px;
+                            flex-basis: 24%;
                             display: flex;
                             flex-direction: column;
-                            min-height: 508px;
-                            box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
-                            padding: 24px 16px 24px 16px;
-                            margin: 3px 16px;
+                            border-right: 1px solid #ccdbec;
 
                             &__title {
-                                border-bottom: 1px solid #ccdbec;
-                                text-transform: uppercase;
                                 font-size: 18px;
-                                height: 42px;
-                                padding-bottom: 16px;
-                            }
-
-                            &--error {
-                                .financing-option__title {
-                                    border-bottom: 3px solid #ff3258;
-                                }
-                            }
-
-                            &__additional-desc {
-                                display: none;
-                            }
-
-                            &--view-more {
-
-                                .financing-option__additional-desc {
-                                    display: block;
-                                }
+                                text-transform: uppercase;
                             }
 
                             &__description {
-                                margin-top: 6px;
+                                margin-top: 19px;
                                 font-size: 13px;
-                                color: #5d5d5d;
-                                height: 70px;
-                                margin-bottom: 14px;
                             }
+                        }
+
+                        .financing-option__content-block {
+                            display: flex;
+                            flex-direction: column;
+                            flex-basis: 76%;
+                            padding: 24px;
 
                             &__input-row {
                                 display: flex;
-                                margin: 0 0 23px 0;
-                                min-height: 48px;
+                                align-items: center;
+                                margin-bottom: 24px;
 
-
-                                .custom-text-input-group {
-                                    width: 100%;
-                                    margin-top: -3px;
+                                .new-input-group.big-input {
+                                    flex-basis: 23%;
                                 }
 
-                                .new-input-group {
-                                    //min-width: 80px;
-                                    margin-right: 0;
-                                    flex-basis: 100%;
-
-                                    span.label {
-                                        white-space: normal;
-                                    }
+                                .new-input-group.small-input {
+                                    flex-basis: 13%;
                                 }
 
-                                &--double {
-                                    display: flex;
-                                    justify-content: space-between;
-
-                                    .new-input-group {
-                                        flex-basis: 48%;
-
-                                        &:nth-child(odd) {
-                                            margin-right: 12px;
-                                        }
-
-                                        &:nth-child(even) {
-                                            margin-left: 12px;
-                                        }
-                                    }
+                                .financing-option__desc-row {
+                                    flex-basis: 40%;
                                 }
                             }
 
-                            &__desc-row {
-                                min-height: 27px;
-                                margin: 5px 0;
+                            .financing-option__desc-row {
+                                width: 35%;
+                            }
+
+                            &__buttons {
+                                margin-top: auto;
                                 display: flex;
                                 justify-content: space-between;
-
-                                &__value {
-                                    font-weight: bold;
-                                }
-                            }
-
-                            &__view-more {
-                                margin: auto 0 16px 0;
-                                align-self: center;
-                            }
-
-                            .new-btn-solid-green {
-                                max-width: 140px;
-                                width: 100%;
-                                align-self: center;
-                            }
-
-                            &--single {
-                                padding: 0;
-                                flex-direction: row;
-                                min-height: 212px;
-
-                                .financing-option__title-block {
-                                    min-width: 200px;
-                                    padding: 24px;
-                                    flex-basis: 24%;
-                                    display: flex;
-                                    flex-direction: column;
-                                    border-right: 1px solid #ccdbec;
-
-                                    &__title {
-                                        font-size: 18px;
-                                        text-transform: uppercase;
-                                    }
-
-                                    &__description {
-                                        margin-top: 19px;
-                                        font-size: 13px;
-                                    }
-                                }
-
-                                .financing-option__content-block {
-                                    display: flex;
-                                    flex-direction: column;
-                                    flex-basis: 76%;
-                                    padding: 24px;
-
-                                    &__input-row {
-                                        display: flex;
-                                        align-items: center;
-                                        margin-bottom: 24px;
-
-                                        .new-input-group.big-input {
-                                            flex-basis: 23%;
-                                        }
-
-                                        .new-input-group.small-input {
-                                            flex-basis: 13%;
-                                        }
-
-                                        .financing-option__desc-row {
-                                            flex-basis: 40%;
-                                        }
-                                    }
-
-                                    .financing-option__desc-row {
-                                        width: 35%;
-                                    }
-
-                                    &__buttons {
-                                        margin-top: auto;
-                                        display: flex;
-                                        justify-content: space-between;
-                                        align-items: center;
-                                    }
-                                }
+                                align-items: center;
                             }
                         }
                     }
@@ -370,114 +378,108 @@
     }
 }
 
+
 @media @tablet-only {
-    .nw-loan-wp {
-        .nw-loan {
-            .nw-category-options {
-                &__block {
-                    &__content {
-                        width: 94%;
+    .nw-step-options {
+        &__block {
+            &__content {
+                width: 94%;
 
+                &__have-project {
+                    display: flex;
+                    margin-bottom: 12px;
+                    align-items: center;
+                    flex-wrap: wrap;
 
-                       
+                    &__title {
+                        font-size: 24px;
+                        font-weight: 300;
+                        display: flex;
+                        justify-content: space-between;
+                        margin-right: 58px;
+                    }
 
-                        &__have-project {
-                            display: flex;
-                            margin-bottom: 12px;
-                            align-items: center;
-                            flex-wrap: wrap;
+                    span {
+                        margin-right: 8px;
+                        font-size: 18px;
+                    }
 
-                            &__title {
-                                font-size: 24px;
-                                font-weight: 300;
-                                display: flex;
-                                justify-content: space-between;
-                                margin-right: 58px;
-                            }
+                    &__description {
+                        flex: 1 1 auto;
+                        display: flex;
+                        flex-wrap: wrap;
 
-                            span {
-                                margin-right: 8px;
-                                font-size: 18px;
-                            }
+                        &__pr-type,
+                        &__serial,
+                        &__make,
+                        &__condition {
+                            flex-basis: 30.4%;
+                        }
 
-                            &__description {
-                                display: flex;
-                                flex-wrap: wrap;
+                        &__rental-com {
+                            flex-basis: 41%;
+                        }
 
-                                &__pr-type,
-                                &__serial,
-                                &__make,
-                                &__condition {
-                                    flex-basis: 30.4%;
-                                }
+                        &__age {
+                            flex-basis: 20%;
 
-                                &__rental-com {
-                                    flex-basis: 41%;
-                                }
-
-                                &__age {
-                                    flex-basis: 20%;
-
-                                    &.new-input-group {
-                                        margin-right: 0;
-                                    }
-                                }
-
-                                &__model {
-                                    flex-basis: 64.5%;
-
-                                    &.new-input-group {
-                                        margin-right: 0;
-                                    }
-                                }
-
-                                &__notes {
-                                    flex-basis: 99%;
-
-                                    &.new-input-group {
-                                        margin-right: 0;
-                                    }
-                                }
-
-                                &__add-equip {
-                                    margin-top: 32px;
-                                    flex-basis: 90%;
-                                }
+                            &.new-input-group {
+                                margin-right: 0;
                             }
                         }
 
-                        &__additional-info {
-                            flex-wrap: wrap;
+                        &__model {
+                            flex-basis: 64.5%;
 
-                            &__sales-rep {
-                                flex-basis: 30.5%;
+                            &.new-input-group {
+                                margin-right: 0;
                             }
+                        }
 
-                            &__date {
-                                flex-basis: 36%;
+                        &__notes {
+                            flex-basis: 99%;
+
+                            &.new-input-group {
+                                margin-right: 0;
                             }
+                        }
 
-                            &__house-size {
-                                flex-basis: 25%;
+                        &__add-equip {
+                            margin-top: 32px;
+                            flex-basis: 90%;
+                        }
+                    }
+                }
 
-                                &.new-input-group {
-                                    margin-right: 0;
-                                }
-                            }
+                &__additional-info {
+                    flex-wrap: wrap;
 
-                            &__comment {
-                                margin-top: 16px;
-                                flex-basis: 99%;
+                    &__sales-rep {
+                        flex-basis: 30.5%;
+                    }
 
-                                &.new-input-group {
-                                    margin-right: 0;
-                                }
-                            }
+                    &__date {
+                        flex-basis: 36%;
+                    }
+
+                    &__house-size {
+                        flex-basis: 25%;
+
+                        &.new-input-group {
+                            margin-right: 0;
+                        }
+                    }
+
+                    &__comment {
+                        margin-top: 16px;
+                        flex-basis: 99%;
+
+                        &.new-input-group {
+                            margin-right: 0;
                         }
                     }
                 }
             }
-
         }
     }
 }
@@ -485,13 +487,16 @@
 @media @mobile {
     .nw-loan-wp {
         .nw-loan {
-            .nw-category-options {
+            .nw-step-options {
                 &__block {
                     &__content {
                         width: 87%;
 
 
                         &__have-project {
+                            .customized-radio-green {
+                                flex-basis: 101%;
+                            }
 
                             &__title {
                                 font-size: 20px;

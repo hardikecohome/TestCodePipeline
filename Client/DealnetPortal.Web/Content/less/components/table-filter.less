@@ -325,7 +325,9 @@
             flex-basis: 14%;
         }
 
+        &__deal-from,
         &__date-from,
+        &__deal-to,
         &__date-to,
         &__type,
         &__created-by,
@@ -344,10 +346,59 @@
             }
         }
 
+        &__deal-from,
+        &__deal-to {
+            display: none;
+        }
+
         &__filters-cloud,
         &__clear-btn,
         &__sort-btn {
             display: none;
+        }
+
+
+        &.detailed-mod {
+            .filters-advanced__status,
+            .filters-advanced__created-by {
+                display: none;
+            }
+
+            .filters-advanced__date-from,
+            .filters-advanced__date-to {
+                display: none;
+            }
+
+            .filters-advanced__deal-from,
+            .filters-advanced__deal-to {
+                display: block;
+            }
+
+            .filters-advanced__type {
+                flex-basis: 20%;
+                margin-right: 24px;
+                order: 1;
+            }
+
+            .filters-advanced__sales-rep {
+                margin-right: 24px;
+                order: 2;
+            }
+
+            .filters-advanced__deal-from {
+                margin-right: 24px;
+                order: 3;
+            }
+
+            .filters-advanced__deal-to {
+                margin-right: 24px;
+                order: 4;
+            }
+
+            .filters-advanced__apply-btn {
+                order: 5;
+                margin-left: auto;
+            }
         }
     }
 }
@@ -465,14 +516,25 @@
 
                 .filters-advanced__sales-rep {
                     margin-top: 0;
+                    flex-basis: 37%;
                     order: 2;
+
+                    .custom-select-wrap {
+                        flex-basis: 100%;
+                    }
                 }
 
-                .filters-advanced__date-from {
+                .filters-advanced__date-from,
+                .filters-advanced__date-to {
+                    display: none;
+                }
+
+                .filters-advanced__deal-from {
                     order: 3;
                 }
 
-                .filters-advanced__date-to {
+                .filters-advanced__deal-to {
+                    margin-right: 0;
                     order: 4;
                 }
 
@@ -491,7 +553,7 @@
                 }
             }
 
-
+            &__deal-from,
             &__date-from {
                 flex-basis: 17%;
                 margin-left: auto;
@@ -502,6 +564,7 @@
                 }
             }
 
+            &__deal-to,
             &__date-to {
                 flex-basis: 15%;
                 display: flex;
@@ -509,6 +572,11 @@
                 .custom-text-input-group {
                     flex-basis: 100%;
                 }
+            }
+
+            &__deal-from,
+            &__deal-to {
+                display: none;
             }
 
             &__sales-rep,
@@ -559,6 +627,7 @@
                     order: 3;
                     flex-basis: 100%;
                     margin: 16px auto 0 auto;
+
                     .custom-text-input-group {
                         width: 100%;
                     }
@@ -667,18 +736,28 @@
                 }
 
                 .filters-advanced__type {
+                    flex-basis: 100%;
+                    margin-right: 0;
                     order: 1;
                 }
 
                 .filters-advanced__sales-rep {
+                    margin-right: 0;
                     order: 2;
                 }
 
-                .filters-advanced__date-from {
+                .filters-advanced__date-from,
+                .filters-advanced__date-to {
+                    display: none;
+                }
+
+                .filters-advanced__deal-from {
+                    margin-right: 0;
                     order: 3;
                 }
 
-                .filters-advanced__date-to {
+                .filters-advanced__deal-to {
+                    margin-right: 0;
                     order: 4;
                 }
 
@@ -732,6 +811,8 @@
                 margin-left: auto;
             }
 
+            &__deal-from,
+            &__deal-to,
             &__date-from,
             &__date-to {
                 flex-basis: 100%;
@@ -744,6 +825,10 @@
                 }
             }
 
+            &__deal-from,
+            &__deal-to {
+                display: none;
+            }
             &__apply-btn {
                 // margin-left: auto;
             }

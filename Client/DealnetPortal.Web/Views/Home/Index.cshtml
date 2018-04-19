@@ -742,6 +742,47 @@
         </div>
     </div>
 
+    <div class="nw-placeholder">
+        <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
+        <p>
+            You don't have any deals yet.  Click below to create a new deal.
+            Later you will see the most recent contracts on this page.
+        </p>
+        <div class="nw-placeholder__links"><div class="icon-link-green"><i class="lamp-ico"></i><a>Additional invoice</a></div><div class="icon-link-green"><i class="lamp-ico"></i><a>Additional invoice</a></div></div>
+    </div>
+
+    <div class="nw-placeholder">
+        <i class="nw-placeholder__icon leads-placeholder-ico"></i>
+        <p>
+            You don't have any leads yet. </br>
+            On this page we will present you leads from actual clients from your neighborhood
+            interested in home improvements you offer.
+        </p>
+        <p>
+            In order to use this functionality please make sure that you have configured offered projects
+            and your service area in <a>My profile</a>
+        </p>
+        <p>
+            If you need help please visit <a>Resources</a> to view manual or <a>contact dealer support</a>
+        </p>
+    </div>
+
+
+    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
+    <div class="dealnet-chart-switch-button-hold">
+        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
+        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
+        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
+    </div>
+    <div class="data-flow-container">
+        <span class="graph-label graph-label-x">$</span>
+        <span class="graph-label graph-label-y">@Resources.Time</span>
+        <div class="scrollable-container">
+            <div class="scrollable-content">
+                <canvas id="data-flow-overview"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
 
 @using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))

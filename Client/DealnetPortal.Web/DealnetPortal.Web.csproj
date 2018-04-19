@@ -978,6 +978,10 @@
     <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
     <Content Include="Content\files\resources\en\User Guide.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
+    <Content Include="Content\less\components\progress-bar.less" />
+    <Content Include="Content\less\components\placeholders.less" />
+    <Content Include="Content\less\components\ui-datepicker-redesign.less" />
+    <Content Include="Content\less\components\page-title.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />

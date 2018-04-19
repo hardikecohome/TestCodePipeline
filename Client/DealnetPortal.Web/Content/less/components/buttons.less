@@ -411,6 +411,11 @@ a.disabled{
     }
 }
 
+.nw-disabled {
+    pointer-events: none !important;
+    opacity: .5 !important;
+}
+
 .new-btn-solid-red,
 .new-btn-solid-green,
 .new-btn-solid-grey,
@@ -432,6 +437,7 @@ a.disabled{
     }
 
     &--disabled {
+        pointer-events: none;
         opacity: .5;
     }
 }
@@ -454,6 +460,11 @@ a.disabled{
             height: 24px;
             background-image: url('../../images/redesign_icons/filter-enabled-white.svg');
         }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
     }
 }
 
@@ -517,6 +528,7 @@ a.disabled{
         cursor: pointer;
         background-image: linear-gradient(293deg, #89c800, #71b301);
     }
+
 }
 
 .new-btn-solid-grey {
@@ -527,6 +539,7 @@ a.disabled{
         cursor: pointer;
         background-image: linear-gradient(110deg, #c2c2c2, #7b7a7a);
     }
+
 }
 
 .new-sort-btn-red {
@@ -567,6 +580,11 @@ a.disabled{
             color: @green-link-color;
         }
     }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
 }
 
 
@@ -586,6 +604,11 @@ a.disabled{
             color: #8f8f8f;
         }
     }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
 }
 
 .add-link-blue {
@@ -604,5 +627,34 @@ a.disabled{
             color: @blue-link-color;
             text-decoration: none;
         }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+.nw-clear-link {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+
+    i, a {
+        color: #395369;
+        cursor: pointer;
+        margin: 0 8px;
+        text-decoration: none;
+
+        &:hover {
+            color: #395369;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
     }
 }
