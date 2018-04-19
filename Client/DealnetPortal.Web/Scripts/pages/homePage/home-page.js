@@ -136,7 +136,7 @@ function showTable() {
                             },
                             className: 'contract-cell',
                             type: 'html-num',
-                            orderData: [10, 0]
+                            orderData: 10
                         },
                         {
                             "data": 'CustomerName',
@@ -214,7 +214,7 @@ function showTable() {
                         },
                         {
                             "render": function (sdata, type, row) {
-                                return row.TransactionId.toLowerCase().indexOf('internal') > -1 ?
+                                return row.TransactionId.toLowerCase().indexOf(':') > -1 ?
                                     row.Id :
                                     row.TransactionId;
                             },
