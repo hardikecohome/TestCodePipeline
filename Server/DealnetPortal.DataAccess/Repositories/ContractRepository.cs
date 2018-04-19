@@ -513,17 +513,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         updated |= AddOrUpdateInitialCustomers(contract);
                     }
-
-                    if (contractData.Details != null)
-                    {
-                        AddOrUpdateContactDetails(contract, contractData.Details);
-                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
-                    }
-
+                    
                     if (contractData.Equipment != null)
                     {                        
                         updated |= AddOrUpdateEquipment(contract, contractData.Equipment);
-                    }
+                    }                    
 
                     if (contractData.SalesRepInfo != null)
                     {
@@ -532,7 +526,25 @@ namespace DealnetPortal.DataAccess.Repositories
                         salesRepRole.Contract = contract;
                         _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);                        
                         updated |= _dbContext.Entry(contract.SalesRepInfo).State != EntityState.Unchanged;
-                    }                    
+                    }
+
+                    if (contractData.Details != null)
+                    {
+                        AddOrUpdateContactDetails(contract, contractData.Details);
+                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
+                    }
+
+                    //this condition after equipment and details updates
+                    if (contract.Equipment != null)
+                    {
+                        var paymentSummary = GetContractPaymentsSummary(contract);
+                        contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
+
+                        if (!IsBill59Contract(contract.Id))
+                        {
+                            contract.Equipment.HasExistingAgreements = null;
+                        }
+                    }
 
                     if (contractData.PaymentInfo != null)
                     {
@@ -1105,16 +1117,8 @@ namespace DealnetPortal.DataAccess.Repositories
             if (installationPackages != null)
             {
                 updated |= AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
-            }
-
-            if (!IsBill59Contract(dbEquipment.Id))
-            {
-                dbEquipment.HasExistingAgreements = null;
-            }
-
-            var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
-
+            }            
+            
             updated |= _dbContext.Entry(dbEquipment).State != EntityState.Unchanged;
 
             return updated;
@@ -1299,7 +1303,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var updated = false;
             var existingEntities =
                 dbEquipment.NewEquipment.Where(
-                    a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
+                    a => newEquipments.Any(ne => ne.Id == a.Id) || a.IsDeleted == true).ToList();
             var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
             updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e =>
@@ -1528,10 +1532,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract.Details.AgreementType = contractDetails.AgreementType;
                 if (contract.Equipment != null)
                 {
-                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
-
-                    var paymentSummary = GetContractPaymentsSummary(contract);
-                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
+                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;                    
                 }
             }
             if (contractDetails.SignatureDocumentId != null)
