@@ -2563,7 +2563,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var loansDescr = gLoans.Select(g =>
                             Resources.Resources.LoanApplication + ": " +
                             g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
-                        .JoinStrings("\r\n");
+                        .JoinStrings("; ");
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
