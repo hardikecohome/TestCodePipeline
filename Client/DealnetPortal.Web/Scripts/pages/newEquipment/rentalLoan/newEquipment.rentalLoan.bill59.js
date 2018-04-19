@@ -173,11 +173,11 @@
     }
 
     function _disableEcoHomeAgreementSection() {
-        $.each($('#agreement-types').find('.custom-radio'),
-            function(input) {
+        $.each($('#agreement-types custom-radio'),
+            function (input) {
                 var $this = $(this);
 
-                $('.afee-is-covered').prop('checked', false);
+                $('#agreement-types .afee-is-covered').prop('checked', false);
                 var $input = $this.find('input');
                 $input.prop('checked', false);
                 $input.val('');

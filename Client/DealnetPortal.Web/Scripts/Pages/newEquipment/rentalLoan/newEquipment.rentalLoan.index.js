@@ -235,8 +235,8 @@
                 $('#concluded-agreement').val(e.target.checked);
                 _toggleSalesRepErrors(false);
             });
-            $('#admin-fee-section').find('.custom-radio').on('click', _setAdminFeeCoveredBy);
-            $('#agreement-types').find('.custom-radio').on('click', _setEcoHomeAgreement);
+            $('#admin-fee-section .custom-radio').on('click', _setAdminFeeCoveredBy);
+            $('#agreement-types .custom-radio').on('click', _setEcoHomeAgreement);
         }
 
         function _setEcoHomeAgreement() {
