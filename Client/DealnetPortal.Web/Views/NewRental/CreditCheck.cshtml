@@ -25,7 +25,7 @@
 
 @section scripts
 {
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document)
             .ready(function () {
                 $.ajax({
@@ -40,7 +40,7 @@
                     }
                 });
                 @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
-				ga('send', 'event', 'Credit Check', 'button_click', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+				gtag('event', 'Credit Check', { 'event_category': 'Credit Check', 'event_action': 'button_click', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
 			});
-    </script>
+</script>
 }

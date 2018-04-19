@@ -77,6 +77,8 @@
         public static string RateCardType = "Rate Card Type";
         public static string DealerTierName = "Dealer Tier Name";
         public static string ContractPreapprovalLimit = "contractpreapprovallimit";
+        public static string CustomerHasExistingAgreements = "customerhasexistingagreements";
+        public static string CustomerRiskGroup = "CustomerRiskGroup";
 
         public static string RentalMonthlyPayment = "EH Rental Payment Amount";
         //used both for contract and equipment
@@ -94,6 +96,7 @@
         public static string ResponsibilityForCostOfRemoval = "Responsibility for cost of removal";
 
         #region Dealer onboarding UDFs        
+        public static string LegalName = "LegalName";
         public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
         public static string NumberOfSalesPeople = "Number of Sales People";

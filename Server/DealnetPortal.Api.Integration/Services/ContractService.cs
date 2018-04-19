@@ -394,8 +394,9 @@ namespace DealnetPortal.Api.Integration.Services
                                 ContractState.CreditCheckDeclined);
                             break;
                         default:
-                            contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                                ContractState.Completed);
+                            var aspireStatus = _contractRepository.GetAspireStatus(_contractRepository.GetContract(contractId).Details?.Status);
+                            contract = (aspireStatus != null && aspireStatus.ContractState == ContractState.Closed) ? _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Closed)
+                                : _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
                             break;
                     }
                     contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);

@@ -8,7 +8,7 @@
         ProvinceIncorrectFormat: '',
         PostalCodeIncorrectFormat:''
     };
-    var AddressInformation =module.require('addressInformation');
+    var AddressInformation = module.require('addressInformation');
 
     it('should initialize', function () {
         var address = new AddressInformation({});

@@ -47,7 +47,7 @@
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
-        newTemplate.find('#addequipment-remove-' + id).on('click', _initRemoveNewEquipment(id));
+        newTemplate.find('#addequipment-remove-' + id).on('click', _removeNewEquipment);
 
         newTemplate.find('.monthly-cost')
             .on('change', updateMonthlyCost);
@@ -109,17 +109,7 @@
 
         newTemplate.find('div.additional-remove').attr('id', 'remove-existing-equipment-' + id);
 
-        newTemplate.find('#remove-existing-equipment-' + id).on('click',
-            function () {
-                var options = {
-                    name: 'existingEquipments',
-                    equipmentIdPattern: 'existing-equipment-',
-                    equipmentName: 'ExistingEquipment',
-                    equipmentRemovePattern: 'remove-existing-equipment-'
-                };
-
-                conversion.removeItem.call(this, options);
-            });
+        newTemplate.find('#remove-existing-equipment-' + id).on('click', _removeExistingEquipment);
 
         newTemplate.find('textarea').keyup(function (e) {
             if (e.keyCode === 13) {
@@ -127,6 +117,9 @@
                 textarea.val(textarea.val() + '\n');
             }
         });
+        if (id === 2) {
+            $('#addExistingEqipment').addClass("hidden");
+        }
 
         if (!state.isClarity) {
             newTemplate.find('.responsible-dropdown')
@@ -142,6 +135,8 @@
         if (!state.isClarity) {
             require('bill59').toggleExistingEquipment();
         }
+
+        _initExistingEquipmentCommonData(id, newTemplate);
     };
 
     /**
@@ -173,7 +168,7 @@
         } else {
             state.equipments[i].monthlyCost = cost;
         }
-        var retail = $('#NewEquipment_' + i + '__EstimatedRetailCost')
+        var retail = $('#NewEquipment_' + i + '__EstimatedRetailCost');
         if (retail.length) {
             cost = Globalize.parseNumber(retail.val());
             if (state.equipments[i] === undefined) {
@@ -205,7 +200,7 @@
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
         if (i > 0) {
-            $('#addequipment-remove-' + i).on('click', _initRemoveNewEquipment(i));
+            $('#addequipment-remove-' + i).on('click', _removeNewEquipment);
         }
         if (i === 2) {
             $('.add-equip-link').addClass("hidden");
@@ -222,21 +217,58 @@
         state.existingEquipments[i] = {
             id: i.toString()
         };
-        $('#remove-existing-equipment-' + i).on('click', function () {
-            var options = {
-                name: 'existingEquipments',
-                equipmentIdPattern: 'existing-equipment-',
-                equipmentName: 'ExistingEquipment',
-                equipmentRemovePattern: 'remove-existing-equipment-'
-            };
-
-            conversion.removeItem.call(this, options);
-        });
+        $('#remove-existing-equipment-' + i).on('click', _removeExistingEquipment);
+        var $equip = $('#existing-equipment-' + i);
+        _initExistingEquipmentCommonData(i, $equip);
 
         if (!state.isClarity) {
-            $('#existing-equipment-' + i + ' .responsible-dropdown')
+            $equip.find('.responsible-dropdown')
                 .on('change', require('bill59').onResposibilityChange);
         }
+        if (i === 2) {
+            $('#addExistingEqipment').addClass("hidden");
+        }
+    }
+
+    function _initExistingEquipmentCommonData(id, $equip) {
+        if (id > 0) {
+            $equip.find('.common-row').addClass('hidden')
+                .find('input, select').each(function (index, el) {
+                    $(el).prop('disabled', true);
+                });
+
+            // update the current template with values from the first existing equipment
+            $equip.find('.customer-owned').val($('.customer-owned')[0].value);
+            $equip.find('.rental-company').val($('.rental-company')[0].value);
+            $equip.find('.responsible-dropdown').val($('.responsible-dropdown')[0].value);
+            $equip.find('.responsible-other').val($('.responsible-other')[0].value);
+        }
+        $equip.find('.customer-owned').on('change', function (e) {
+            $('.customer-owned').val(e.target.value);
+            var $company = $equip.find('.rental-company');
+            if (e.target.value == 'true') {
+                $company.val('');
+                $company.prop('disabled', true);
+                if ($company[0].form) {
+                    $company.rules('remove', 'required');
+                    $company.removeAttr('required');
+                    $company.valid();
+                }
+            } else {
+                $company.prop('disabled', false);
+                $company.attr('required', 'required');
+                $company[0].form && $company.rules('add', 'required');
+            }
+        }).change();
+        $equip.find('.rental-company').on('change', function (e) {
+            $('.rental-company').val(e.target.value);
+        });
+        $equip.find('.responsible-dropdown').on('change', function (e) {
+            $('.responsible-dropdown').val(e.target.value);
+        });
+        $equip.find('.responsible-other').on('change', function (e) {
+            $('.responsible-other').val(e.target.value);
+        });
     }
 
     function resetFormValidator(formId) {
@@ -306,28 +338,51 @@
         state.equipments[id].estimatedRetail = Globalize.parseNumber($this.val());
     }
 
-    function _initRemoveNewEquipment(i) {
-        return function removeNewEquipment() {
-            var options = {
-                name: 'equipments',
-                equipmentIdPattern: 'new-equipment-',
-                equipmentName: 'NewEquipment',
-                equipmentRemovePattern: 'addequipment-remove-'
-            };
-            conversion.removeItem.call(this, options);
+    function _removeNewEquipment() {
+        var options = {
+            name: 'equipments',
+            equipmentIdPattern: 'new-equipment-',
+            equipmentName: 'NewEquipment',
+            equipmentRemovePattern: 'addequipment-remove-'
+        };
+        conversion.removeItem.call(this, options);
 
-            if (state.agreementType !== 3) {
-                if (state.agreementType === 1 || state.agreementType === 2) {
-                    settings.recalculateAndRenderRentalValues();
-                } else {
-                    settings.recalculateValuesAndRender();
-                }
+        if (state.agreementType !== 3) {
+            if (state.agreementType === 1 || state.agreementType === 2) {
+                settings.recalculateAndRenderRentalValues();
             } else {
-                settings.recalculateClarityValuesAndRender();
+                settings.recalculateValuesAndRender();
             }
-            $('.add-equip-link').removeClass("hidden");
-            !state.isClarity && require('bill59').onDeleteEquipment();
+        } else {
+            settings.recalculateClarityValuesAndRender();
         }
+        $('.add-equip-link').removeClass("hidden");
+        !state.isClarity && require('bill59').onDeleteEquipment();
+    }
+
+    function _removeExistingEquipment() {
+        var options = {
+            name: 'existingEquipments',
+            equipmentIdPattern: 'existing-equipment-',
+            equipmentName: 'ExistingEquipment',
+            equipmentRemovePattern: 'remove-existing-equipment-'
+        };
+
+        conversion.removeItem.call(this, options);
+
+        var i = this.id.split(options.equipmentRemovePattern)[1];
+
+        if (i == 0) {
+            var $equip = $('#existing-equipment-' + i);
+            $equip.find('.common-row').removeClass('hidden');
+            var custOwned = $equip.find('.customer-owned');
+            custOwned.prop('disabled', false);
+            if (custOwned.val() != 'true') {
+                $equip.find('.rental-company').prop('disabled', false);
+            }
+        }
+        $('#addExistingEqipment').removeClass("hidden");
+        !state.isClarity && require('bill59').toggleExistingEquipment();
     }
 
     function _initExistingEquipment() {

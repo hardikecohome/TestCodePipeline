@@ -70,6 +70,9 @@
         $('input[type="text"]').on('change', function () {
             this.value = this.value.trim();
         });
+
+        $('#save-and-proceed-button').prop('disabled', false);
+
         $('.dob-group').each(function (index, el) {
             dob.initDobGroup(el);
         });
@@ -105,10 +108,17 @@
             return true;
         });
 
-        $('#agreement-checkbox').change(function () {
+        $('#agreement-checkbox, #additional-owner-agrees').change(function () {
             var isValid = checkCreditAgree();
             if (isValid) {
                 $('#proceed-error-message').hide();
+            }
+        });
+
+        $('#additional-street-1').on('change', function () {
+            var camera = $('#camera-modal');
+            if (camera.is('.in') && camera.attr('data-fntofill').indexOf('additional') > -1) {
+                $('#mailing-address-checkbox-add-app1').click();
             }
         });
 
@@ -202,7 +212,11 @@
             return false;
         });
         $('#owner-scan-button').click(function (e) {
-            ga('send', 'event', 'Scan License', 'button_click', 'DrivingLicense', '100');
+            gtag('event', 'Scan License', {
+                'event_category': 'Scan License',
+                'event_action': 'button_click',
+                'event_label': 'DrivingLicense'
+            });
             if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
                 e.preventDefault();
                 var modal = document.getElementById('camera-modal');
@@ -234,7 +248,7 @@
             $('#owner-upload-file').rules('remove');
         }
 
-        var navigateToStep = module.require('navigateToStep');
+        var navigateToStep = require('navigateToStep');
         $('#steps .step-item[data-warning="true"]').on('click', function () {
             if ($(this).attr('href')) {
                 navigateToStep($(this));
@@ -321,6 +335,18 @@
 
         $('#additional1-remove').click(function () {
             additionalEmployment.disableEmployment();
+        });
+
+        var form = $('#main-form');
+        form.submit(function (e) {
+            $('#save-and-proceed-button').prop('disabled', true);
+
+            if (!form.valid()) {
+                e.preventDefault();
+                $('#save-and-proceed-button').prop('disabled', false);
+            }
+
+
         });
     }
 

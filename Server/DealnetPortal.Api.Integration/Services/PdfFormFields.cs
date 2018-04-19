@@ -61,6 +61,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string CellPhone2 = "CellPhone_2";
         public static string BusinessPhone = "BusinessPhone";
         public static string BusinessOrCellPhone = "BusinessOrCellPhone";
+        public static string CellOrHomePhone = "CellOrHomePhone";
         public static string EmailAddress = "EmailAddress";
         public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
@@ -100,6 +101,8 @@ namespace DealnetPortal.Api.Integration.Services
         public static string OtherMonthlyRentalBase = "OtherMonthlyRental";
 
         public static string TotalRetailPrice = "TotalRetailPrice";
+        public static string TotalAmountUsefulLife = "TotalAmountUsefulLife";
+        public static string TotalAmountRentalTerm = "TotalAmountRentalTerm";
 
         public static string MonthlyPayment = "MonthlyPayment";
         public static string CustomerRate = "CustomerRate"; //AnnualInterestRate
@@ -179,6 +182,12 @@ namespace DealnetPortal.Api.Integration.Services
         public static string ExistingEquipmentRemovalOther = "ExistingEquipmentRemovalOther";
         public static string ExistingEquipmentRemovalOtherValue = "ExistingEquipmentRemovalOtherValue";
         public static string ExistingEquipmentRemovalNA = "ExistingEquipmentRemovalNA";
+
+        //Bill 59 - Customer Existing agreements information
+        public static string ExistingLoansDescription = "ExistingLoansDescription";
+        public static string ExistingRentalsDescription = "ExistingRentalsDescription";
+        public static string ExistingRentalsDateEntered = "ExistingRentalsDateEntered";
+        public static string ExistingRentalsTerminationDate = "ExistingRentalsTerminationDate";
 
         //Custom envelop fields
         public static string ApplicationID = "ApplicationID";

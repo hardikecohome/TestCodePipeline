@@ -47,7 +47,7 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IUsersService _usersService;
         private readonly IAppConfiguration _configuration;
         private readonly TimeSpan _aspireRequestTimeout;
-
+        private readonly IRateCardsRepository _rateCardsRepository;
         //Aspire codes
         private const string CodeSuccess = "T000";
         //symbols excluded from document names for upload
@@ -57,7 +57,7 @@ namespace DealnetPortal.Api.Integration.Services
         public AspireService(IAspireServiceAgent aspireServiceAgent, IContractRepository contractRepository, 
             IDealerOnboardingRepository dealerOnboardingRepository,
             IUnitOfWork unitOfWork, IAspireStorageReader aspireStorageReader, IUsersService usersService,
-            ILoggingService loggingService, IAppConfiguration configuration)
+            ILoggingService loggingService, IAppConfiguration configuration, IRateCardsRepository rateCardsRepository)
         {
             _aspireServiceAgent = aspireServiceAgent;
             _aspireStorageReader = aspireStorageReader;
@@ -68,6 +68,7 @@ namespace DealnetPortal.Api.Integration.Services
             _usersService = usersService;
             _configuration = configuration;
             _aspireRequestTimeout = TimeSpan.FromSeconds(90);
+            _rateCardsRepository = rateCardsRepository;
         }
 
         public async Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId, string leadSource = null)
@@ -96,7 +97,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null)
+        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null, bool withSymbolsMaping = false)
         {
             var alerts = new List<Alert>();
 
@@ -119,7 +120,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = contract?.Details?.TransactionId
                         },
-                        Accounts = GetCustomersInfo(contract, leadSource)
+                        Accounts = GetCustomersInfo(contract, leadSource, withSymbolsMaping)
                     }
                 };
                 // Send request to Aspire
@@ -1104,7 +1105,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
         }        
 
-        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null)
+        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null, bool withSymbolsMaping = false)
         {
             const string CustRole = "CUST";
             const string GuarRole = "GUAR";
@@ -1124,8 +1125,8 @@ namespace DealnetPortal.Api.Integration.Services
                     CreditReleaseObtained = true,
                     Personal = new Personal()
                     {
-                        Firstname = c.FirstName,
-                        Lastname = c.LastName,
+                        Firstname = c.FirstName.MapFrenchSymbols(withSymbolsMaping),
+                        Lastname = c.LastName.MapFrenchSymbols(withSymbolsMaping),
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
                 };
@@ -1143,7 +1144,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {                    
                     account.Address = new Address()
                     {
-                        City = location.City,
+                        City = location.City.MapFrenchSymbols(withSymbolsMaping),
                         Province = new Province()
                         {
                             Abbrev = location.State.ToProvinceCode()
@@ -1153,7 +1154,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
-                        StreetName = location.Street,
+                        StreetName = location.Street.MapFrenchSymbols(withSymbolsMaping),
                         SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };                    
@@ -1188,9 +1189,10 @@ namespace DealnetPortal.Api.Integration.Services
                 if (string.IsNullOrEmpty(c.AccountId))
                 {
                     //check user on Aspire
-                    var postalCode =
-                        c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
-                        c.Locations?.FirstOrDefault()?.PostalCode;
+                    var postalCode = location.PostalCode;
+                        // Deal-4616 - Guarantor query fails as postal code was null for Guarantor with same address.
+                        //c.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
+                        //c.Locations?.FirstOrDefault()?.PostalCode;
                     try
                     {
                         var aspireCustomer = _aspireStorageReader.FindCustomer(c.FirstName, c.LastName, c.DateOfBirth,
@@ -1276,7 +1278,7 @@ namespace DealnetPortal.Api.Integration.Services
                 Role = companyRole,
                 IsIndividual = false,
                 IsPrimary = true,
-                Legalname = companyInfo.FullLegalName,                
+                Legalname = companyInfo.OperatingName, // Legalname tag populates Name field in aspire and Business have requested to populate OperatingName in this field. Please refer Deal-4266 Link: https://support.dataart.com/browse/DEAL-4266       
                 //Dba = companyInfo.OperatingName,
                 EmailAddress = companyInfo.EmailAddress,                
                 CreditReleaseObtained = true,
@@ -1492,16 +1494,11 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var rate = _contractRepository.GetProvinceTaxRate(
-                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                                 l => l.AddressType == AddressType.MainAddress) ??
-                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
-
                     eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
                         ? (isFirstEquipment
                             ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))
                             : equipment.Cost)
-                        : (equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100));
+                        : equipment.MonthlyCost;
                 }
                 var adminFee = contract.Details?.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true
                     ? contract.Equipment?.AdminFee : null;
@@ -1801,7 +1798,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AmortizationTerm,
-                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? 
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                         contract.Equipment.AmortizationTerm?.ToString() ?? "0" : "0"
                 });
 
@@ -1825,8 +1822,8 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AdminFee,
-                    Value = contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true ? 
-                        contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ?? contract.Equipment?.AdminFee?.ToString() 
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true ?
+                        contract.Equipment?.RateCard?.AdminFee.ToString(CultureInfo.InvariantCulture) ?? contract.Equipment?.AdminFee?.ToString()
                         : "0.0"
                 });
 
@@ -1834,13 +1831,13 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.FeePaidBy,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
-                        (contract.Equipment.IsFeePaidByCutomer ?? false ? "C":"D")
+                        (contract.Equipment.IsFeePaidByCutomer ?? false ? "C" : "D")
                         : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DownPayment,
-                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? 
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                             contract.Equipment?.DownPayment?.ToString() ?? "0.0" : "0.0"
                 });
                 udfList.Add(new UDF()
@@ -1856,7 +1853,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.RateCardType,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                         contract.Equipment?.RateCard?.CardType.GetEnumDescription() ?? "Custom"
-                        : BlankValue                    
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
@@ -1875,6 +1872,23 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.ContractPreapprovalLimit,
                     Value = creditAmount.ToString("F", CultureInfo.InvariantCulture)
+                });
+                var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0;
+                if (contract.Dealer?.Tier?.IsCustomerRisk == true)
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.CustomerRiskGroup,
+                        Value = _rateCardsRepository.GetCustomerRiskGroupByBeacon(beacon).GroupName ?? BlankValue
+                    });
+                }
+          
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CustomerHasExistingAgreements,
+                    Value = contract.Equipment?.HasExistingAgreements.HasValue == true ? 
+                        (contract.Equipment.HasExistingAgreements == true ? "Y" : "N")
+                        : BlankValue
                 });
 
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
@@ -1923,7 +1937,7 @@ namespace DealnetPortal.Api.Integration.Services
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.CustomerApr,
-                            Value = contract.Equipment?.IsFeePaidByCutomer == true ? 
+                            Value = contract.Equipment?.IsFeePaidByCutomer == true && !_contractRepository.IsClarityProgram(contract.Id) ? 
                                 (paymentInfo.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                                 : (contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                         });
@@ -2603,6 +2617,11 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var udfList = new List<UDF>();
 
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.LegalName,
+                Value = !string.IsNullOrEmpty(dealerInfo?.CompanyInfo?.FullLegalName) ? dealerInfo.CompanyInfo.FullLegalName : BlankValue
+            });
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.OperatingName,

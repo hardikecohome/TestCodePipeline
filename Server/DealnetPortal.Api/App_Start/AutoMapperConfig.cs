@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -35,7 +37,9 @@ namespace DealnetPortal.Api.App_Start
 
         private static void MapDomainsToModels(IMapperConfigurationExpression mapperConfig)
         {
-            var creditReviewStates = new AppConfiguration(WebConfigSections.AdditionalSections).GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
+            var configuration = new AppConfiguration(WebConfigSections.AdditionalSections);
+            var creditReviewStates = configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
+            var riskBasedStatus = configuration.GetSetting(WebConfigKeys.RISK_BASED_STATUS_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
 
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(x => x.SubDealers, o => o.Ignore())
@@ -102,9 +106,9 @@ namespace DealnetPortal.Api.App_Start
                         sc.IsHomeOwner = c.HomeOwners?.Any(ho => ho.Id == sc.Id) ?? false;
                         sc.IsInitialCustomer = c.InitialCustomers?.Any(ho => ho.Id == sc.Id) ?? false;
                     });
-                    if (!string.IsNullOrEmpty(c.Equipment?.Notes) && d.Details != null)
+                    if (!string.IsNullOrEmpty(c.Details?.Notes) && d.Details != null)
                     {
-                        d.Details.Notes = c.Equipment?.Notes;
+                        d.Details.Notes = c.Details?.Notes;
                     }
                     if (!string.IsNullOrEmpty(c.Equipment?.SalesRep))
                     {
@@ -118,6 +122,13 @@ namespace DealnetPortal.Api.App_Start
                     {
                         d.PrimaryCustomer.CreditReport.BeaconUpdated =
                             d.PrimaryCustomer.CreditReport.CreditLastUpdateTime > d.LastUpdateTime;
+                    }
+                    if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true ) && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
+                    {
+                        if (riskBasedStatus.Contains(c.Details.Status))
+                        {                            
+                            d.Details.LocalizedStatus += $" {(double)(c.Details.CreditAmount ?? 0m)/1000} K";
+                        }
                     }
                 });
             mapperConfig.CreateMap<Contract, SignatureSummaryDTO>()
@@ -387,7 +398,7 @@ namespace DealnetPortal.Api.App_Start
         }
 
         private static void MapModelsToDomains(IMapperConfigurationExpression mapperConfig)
-        {
+        {            
             mapperConfig.CreateMap<LocationDTO, Location>()
                 .ForMember(x => x.Customer, s => s.Ignore());
             mapperConfig.CreateMap<PhoneDTO, Phone>()

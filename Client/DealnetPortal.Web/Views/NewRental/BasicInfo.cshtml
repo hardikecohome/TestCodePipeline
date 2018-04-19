@@ -63,7 +63,11 @@
                                 <div id="capture-buttons">
                                     <input type="button" class="btn btn-green" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
                                     <div id="capture-buttons-2">
-                                        <input type="button" class="btn btn-green big-button" id="upload-capture" value="@Resources.Save" onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
+                                        <input type="button" 
+                                               class="btn btn-green big-button" 
+                                               id="upload-capture"
+                                               value="@Resources.Save" 
+                                               onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
                                         <div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
                                     </div>
                                 </div>
@@ -89,7 +93,7 @@
 
 <div class="form-container basic-info-form">
     <div class="form-section">
-        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form" }))
+        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form", autocomplete="new-password" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContractId)
@@ -3798,16 +3802,16 @@
 <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
 }
     </script>
-    <script type="text/javascript">
+	<script type="text/javascript">
     $(document).ready(function () {
         /**/
         /**/
         module.require('basicInfo.index').init();
 
-        ga('send', 'event', 'New Application Start', 'Basic Info page Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name');
+		gtag('event', 'New Application Start', { 'event_category': 'New Application Start', 'event_action': 'Basic Info page Displayed', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker") : @User.Identity.Name' });
     /**/
     /**/
 });
-    </script>
+	</script>
 }
 

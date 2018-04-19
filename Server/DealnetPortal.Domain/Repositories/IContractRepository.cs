@@ -229,7 +229,9 @@ namespace DealnetPortal.Domain.Repositories
 
         bool IsContractUnassignable(int contractId);
 
-        bool IsClarityProgram(int contractId);                
+        bool IsClarityProgram(int contractId);
+
+        bool IsBill59Contract(int contractId);
 
         bool IsMortgageBrokerCustomerExist(string email);
     }

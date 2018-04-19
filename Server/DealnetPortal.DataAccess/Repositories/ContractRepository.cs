@@ -514,6 +514,12 @@ namespace DealnetPortal.DataAccess.Repositories
                         updated |= AddOrUpdateInitialCustomers(contract);
                     }
 
+                    if (contractData.Details != null)
+                    {
+                        AddOrUpdateContactDetails(contract, contractData.Details);
+                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
+                    }
+
                     if (contractData.Equipment != null)
                     {                        
                         updated |= AddOrUpdateEquipment(contract, contractData.Equipment);
@@ -526,13 +532,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         salesRepRole.Contract = contract;
                         _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);                        
                         updated |= _dbContext.Entry(contract.SalesRepInfo).State != EntityState.Unchanged;
-                    }
-
-                    if (contractData.Details != null)
-                    {
-                        AddOrUpdateContactDetails(contract, contractData.Details);
-                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
-                    }
+                    }                    
 
                     if (contractData.PaymentInfo != null)
                     {
@@ -940,6 +940,32 @@ namespace DealnetPortal.DataAccess.Repositories
             return isClarity;
         }
 
+        public bool IsBill59Contract(int contractId)
+        {
+            bool isBill59 = false;
+
+            var contract = _dbContext.Contracts
+                .Include(c => c.Equipment)
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment.NewEquipment)
+                .FirstOrDefault(c => c.Id == contractId);
+
+
+            if (contract != null)
+            {
+                var location = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                           contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault();
+                if (contract.Details.AgreementType != AgreementType.LoanApplication &&
+                    location?.State?.ToProvinceCode() == "ON")
+                {
+                    isBill59 = contract.Equipment?.NewEquipment?.Any(ne => GetEquipmentTypeInfo(ne.Type)?.UnderBill59 ?? false) ?? false;
+                }                    
+            }
+
+            return isBill59;
+        }
+
         public IList<Contract> GetExpiredContracts(DateTime expiredDate)
         {
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
@@ -1079,6 +1105,11 @@ namespace DealnetPortal.DataAccess.Repositories
             if (installationPackages != null)
             {
                 updated |= AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
+            }
+
+            if (!IsBill59Contract(dbEquipment.Id))
+            {
+                dbEquipment.HasExistingAgreements = null;
             }
 
             var paymentSummary = GetContractPaymentsSummary(contract);
@@ -1255,18 +1286,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
-            //if (equipmentInfo.SalesRepConcludedAgreement.HasValue)
-            //{
-            //    dbEquipment.SalesRepConcludedAgreement = equipmentInfo.SalesRepConcludedAgreement;
-            //}
-            //if (equipmentInfo.SalesRepInitiatedContact.HasValue)
-            //{
-            //    dbEquipment.SalesRepInitiatedContact = equipmentInfo.SalesRepInitiatedContact;
-            //}
-            //if (equipmentInfo.SalesRepNegotiatedAgreement.HasValue)
-            //{
-            //    dbEquipment.SalesRepNegotiatedAgreement = equipmentInfo.SalesRepNegotiatedAgreement;
-            //}
+            if (equipmentInfo.HasExistingAgreements.HasValue)
+            {
+                dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
+            }
 
             return dbEquipment;
         }
@@ -1632,7 +1655,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
                 dbCustomer.VerificationIdName = customer.VerificationIdName;
                 dbCustomer.DealerInitial = customer.DealerInitial;
-                dbCustomer.RelationshipToMainBorrower = customer.RelationshipToMainBorrower;
+                dbCustomer.RelationshipToMainBorrower = customer.RelationshipToMainBorrower; 
             }
 
             if (customer.EmploymentInfo != null)
@@ -1716,7 +1739,7 @@ namespace DealnetPortal.DataAccess.Repositories
                                     c.DateOfBirth == ho.DateOfBirth);
                     }
                 }
-                if (sc != null && (contract.WasDeclined != true && (sc.Id == 0 || contract.InitialCustomers.All(ic => ic.Id != sc.Id))))
+                if (sc != null && (contract.WasDeclined != true || contract.InitialCustomers.All(ic => ic.Id != sc.Id)))
                 {
                     contract.HomeOwners.Add(sc);
                     updated = true;

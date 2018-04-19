@@ -15,5 +15,7 @@ namespace DealnetPortal.Domain
         public string Description { get; set; }
         public string DescriptionResource { get; set; }
         public bool UnderBill59 { get; set; }
+        //Userful Life of equipment (years)
+        public int UsefulLife { get; set; }
     }
 }

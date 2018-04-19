@@ -140,7 +140,8 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var creditReviewStates = _configuration.GetSetting("CreditReviewStatus")?.Split(',').Select(s => s.Trim()).ToArray();
+
+                var creditReviewStates = _configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
                 var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditConfirmed
                                                                 && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
                 if (succededContracts != null && succededContracts.Any())

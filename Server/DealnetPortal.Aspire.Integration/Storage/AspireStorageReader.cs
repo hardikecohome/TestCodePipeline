@@ -81,6 +81,24 @@ namespace DealnetPortal.Aspire.Integration.Storage
             return new List<Contract>();
         }
 
+        public IList<CustomerAgreementShortInfo> SearchCustomerAgreements(string firstName, string lastName,
+            DateTime dateOfBirth)
+        {
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(SearchCustomerAgreements)]);
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);
+                sqlStatement = string.Format(sqlStatement, firstName, lastName, dob);
+                var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerAgreementShortInfo);
+                return list;
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
+            }
+            return new List<CustomerAgreementShortInfo>();
+        }
+
         public Entity GetDealerInfo(string dealerUserName)
         {
             string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerInfo)]);
@@ -252,7 +270,11 @@ namespace DealnetPortal.Aspire.Integration.Storage
             {                
                 while (reader.Read())
                 {
-                    resultList.Add(func(reader));
+                    var row = func(reader);
+                    if (row != null)
+                    {
+                        resultList.Add(row);
+                    }
                 }
             }
 
@@ -493,10 +515,44 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
                 creditReport.CreditId = ConvertFromDbVal<string>(dr["creditoid"]);
                 var strBeacon = ConvertFromDbVal<string>(dr["Beacon"]);
+                if (string.IsNullOrEmpty(strBeacon))
+                {
+                    return null;
+                }
                 int beacon = 0;
                 int.TryParse(strBeacon, out beacon);
                 creditReport.Beacon = beacon;
                 return creditReport;
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot read credit report record from Aspire DB", ex);
+                return null;
+            }
+        }
+
+        private CustomerAgreementShortInfo ReadCustomerAgreementShortInfo(IDataReader dr)
+        {
+            try
+            {
+                var leaseInfo = new CustomerAgreementShortInfo()
+                {
+                    LeaseNum = ConvertFromDbVal<string>(dr["lease_num"]),
+                    TransactionId = ConvertFromDbVal<string>(dr["lease_app_num"]),
+                    BookType = ConvertFromDbVal<string>(dr["lease_book_type"]),
+                    BookedPostDate = ConvertFromDbVal<DateTime>(dr["lease_booked_post_date"]),
+                    SignDate = ConvertFromDbVal<DateTime>(dr["lease_sign_date"]),
+                    StartDate = ConvertFromDbVal<DateTime>(dr["lease_start_date"]),
+                    MaturityDate = ConvertFromDbVal<DateTime>(dr["lease_maturity_date"]),
+                    Term = ConvertFromDbVal<string>(dr["lease_term"]),
+                    TypeDesc = ConvertFromDbVal<string>(dr["lease_type_desc"]),
+                    Type = ConvertFromDbVal<string>(dr["lease_type"]),
+                    CustomerId = ConvertFromDbVal<string>(dr["lease_cust_id_num"]),
+                    EquipType = ConvertFromDbVal<string>(dr["equip_type"]),
+                    EquipTypeDesc = ConvertFromDbVal<string>(dr["equip_type_desc"]),
+                    EquipActiveFlag = ConvertFromDbVal<string>(dr["equip_active_flag"])
+                };
+                return leaseInfo;
             }
             catch (Exception ex)
             {
@@ -516,7 +572,8 @@ namespace DealnetPortal.Aspire.Integration.Storage
             _queryNames.Add(nameof(GetDealerRoleInfo), "DealerRoleInformation");
             _queryNames.Add(nameof(GetDealStatus), "GetDealStatus");
             _queryNames.Add(nameof(GetCustomerCreditReport), "GetCustomerBeaconById");
-            _queryNames.Add("GetCustomerCreditReport.dev", "GetCustomerBeacon.dev");            
+            _queryNames.Add("GetCustomerCreditReport.dev", "GetCustomerBeacon.dev");
+            _queryNames.Add(nameof(SearchCustomerAgreements), "SearchCustomerAgreements");
         }
 
         public static T ConvertFromDbVal<T>(object obj)

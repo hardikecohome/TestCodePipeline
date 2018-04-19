@@ -934,6 +934,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before Proceeding please verify Customer ID.
+        /// </summary>
+        public static string BeforeProceedingVerifyCustId {
+            get {
+                return ResourceManager.GetString("BeforeProceedingVerifyCustId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ** Before taxes. Payments are subject to change over the course of the term upon at least thirty (30) days written notice. See the attached Terms and Conditions..
         /// </summary>
         public static string BeforeTaxesPaymentsAreSubject {
@@ -2241,6 +2250,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Does the Customer has any agreements with EcoHome Financial?.
+        /// </summary>
+        public static string CustomerHaveAgreementsWithEcoHome {
+            get {
+                return ResourceManager.GetString("CustomerHaveAgreementsWithEcoHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We were not able to match the Customer’s credit details. 
         ///Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license)..
         /// </summary>
@@ -2256,6 +2274,15 @@ namespace DealnetPortal.Web.Resources {
         public static string CustomerOrYourCostRequired {
             get {
                 return ResourceManager.GetString("CustomerOrYourCostRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Owned?.
+        /// </summary>
+        public static string CustomerOwned {
+            get {
+                return ResourceManager.GetString("CustomerOwned", resourceCulture);
             }
         }
         
@@ -2890,7 +2917,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enbridge payment option is available at a Dealer fee of $99.
+        ///   Looks up a localized string similar to Enbridge payment option is available at a Dealer fee of $100.
         /// </summary>
         public static string EnbrideFeeNotification {
             get {
@@ -4384,6 +4411,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The total amount financed cannot exceed the pre-approval amount of $.
+        /// </summary>
+        public static string MaximumAmountCapingOut {
+            get {
+                return ResourceManager.GetString("MaximumAmountCapingOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum file size is limited to 20 MB for a single file..
         /// </summary>
         public static string MaximumFileSize {
@@ -4668,6 +4704,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NameOfDocument {
             get {
                 return ResourceManager.GetString("NameOfDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of Existing Supplier.
+        /// </summary>
+        public static string NameOfExistingSupplier {
+            get {
+                return ResourceManager.GetString("NameOfExistingSupplier", resourceCulture);
             }
         }
         
@@ -5586,6 +5631,15 @@ namespace DealnetPortal.Web.Resources {
         public static string PreApprovedLoanValueFeeWillBeApplied {
             get {
                 return ResourceManager.GetString("PreApprovedLoanValueFeeWillBeApplied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved up to a maximum of.
+        /// </summary>
+        public static string PreApprovedUptoAMaximumOf {
+            get {
+                return ResourceManager.GetString("PreApprovedUptoAMaximumOf", resourceCulture);
             }
         }
         
@@ -7522,6 +7576,15 @@ namespace DealnetPortal.Web.Resources {
         public static string VerificationId {
             get {
                 return ResourceManager.GetString("VerificationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Customer ID.
+        /// </summary>
+        public static string VerifyCustomerID {
+            get {
+                return ResourceManager.GetString("VerifyCustomerID", resourceCulture);
             }
         }
         

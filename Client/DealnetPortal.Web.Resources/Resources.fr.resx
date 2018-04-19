@@ -2662,4 +2662,98 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
     <value>Renseignements supplémentaires sur l'hypothèque et l'emploi du demandeur</value>
   </data>
+  <data name="ConcludedAgreement" xml:space="preserve">
+    <value>Accord conclu</value>
+  </data>
+  <data name="CoveredByCustomer" xml:space="preserve">
+    <value>Couvert par le client</value>
+  </data>
+  <data name="CoveredByDealer" xml:space="preserve">
+    <value>Couvert par le Marchand</value>
+  </data>
+  <data name="CustomerCoveredByBureauLoan" xml:space="preserve">
+    <value>Les informations de crédit du client sont actuellement indisponibles, les taux par défaut du programme Principale s'appliquent.Des options de programme supplémentaires peuvent être disponibles lorsque les informations de crédit du client sont obtenues / mises à jour.</value>
+  </data>
+  <data name="CustomerCreditUpdated" xml:space="preserve">
+    <value>Les informations de crédit du client ont été mises à jour.</value>
+  </data>
+  <data name="CustomerFee" xml:space="preserve">
+    <value>Frais de client</value>
+  </data>
+  <data name="CustomerNotFoundInBureau" xml:space="preserve">
+    <value>"Nous n'avons pas été en mesure de faire correspondre les détails de crédit du client.
+Veuillez vous assurer que les informations fournies par le client correspondent à la pièce d'identité émise par le gouvernement (par exemple, permis de conduire).</value>
+  </data>
+  <data name="EditCustomerInformation" xml:space="preserve">
+    <value>Modifier les informations client</value>
+  </data>
+  <data name="EnbrideFeeNotification" xml:space="preserve">
+    <value>L'option de paiement d'Enbridge est disponible moyennant des frais  100 $</value>
+  </data>
+  <data name="EstimatedCostIncorrectFormat" xml:space="preserve">
+    <value>Le coût de détail estimé est dans un format incorrect</value>
+  </data>
+  <data name="EstimatedRetailCost" xml:space="preserve">
+    <value>Coût de détail estimé</value>
+  </data>
+  <data name="ExistingSupplier" xml:space="preserve">
+    <value>Fournisseur existant</value>
+  </data>
+  <data name="InitiatedContract" xml:space="preserve">
+    <value>Contrat initié</value>
+  </data>
+  <data name="MCOReducedDownPayment" xml:space="preserve">
+    <value>Coût mensuel de propriété est reduit par l'acompte</value>
+  </data>
+  <data name="NegotiatedAgreement" xml:space="preserve">
+    <value>Accord négocié</value>
+  </data>
+  <data name="N_A" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="PassAdminFeeToCustomer" xml:space="preserve">
+    <value>Transmettre les frais d'administration au client</value>
+  </data>
+  <data name="PassAdminFeeToDealer" xml:space="preserve">
+    <value>Je paierai les frais d'administration</value>
+  </data>
+  <data name="PreferredInstallDate" xml:space="preserve">
+    <value>Date d'installation préférée</value>
+  </data>
+  <data name="PreferredInstallTime" xml:space="preserve">
+    <value>Heure d'installation préféré</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Programme</value>
+  </data>
+  <data name="RelationshipToMainBorrower" xml:space="preserve">
+    <value>Relation avec l'emprunteur principal</value>
+  </data>
+  <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
+    <value>La relation avec l'emprunteur principal est dans un format incorrect</value>
+  </data>
+  <data name="ResponsibleForCostRemoval" xml:space="preserve">
+    <value>Responsable des frais pour la desinstallation</value>
+  </data>
+  <data name="RoleOfSalesRep" xml:space="preserve">
+    <value>Rôle du représentant des ventes</value>
+  </data>
+  <data name="ServiceAreaInQc" xml:space="preserve">
+    <value>Votre zone de service devrait être au Québec</value>
+  </data>
+  <data name="ServiceAreaNotInQc" xml:space="preserve">
+    <value>Votre zone de service ne peut pas être au Québec</value>
+  </data>
+  <data name="TotalMCOReducedDownPayment" xml:space="preserve">
+    <value>le total du Coût mensuel de propriété est reduit par l'acompte</value>
+  </data>
+  <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
+    <value>Spécimen de chèque, lettre d'autorisation de prélèvement automatique</value>
+  </data>
+  <data name="YouCanNowReviewFinancingBelow" xml:space="preserve">
+    <value>Vous pouvez maintenant examiner les options de financement ci-dessous.</value>
+  </data>
+  <data name="YouCanNowReviewFinancingHere" xml:space="preserve">
+    <value>Vous pouvez maintenant consulter les options de financement {0} ici {1}.</value>
+  </data>
 </root>
