@@ -325,11 +325,21 @@ function showTable() {
                 var el = $(this);
                 var attr = el.attr('aria-sort');
 
-                if (attr !== undefined && attr === 'descending') {
+                if (el.is('.contract-cell')) {
+                    if (el.is('.sorting_asc') && !attr) {
+                        attr = 'ascending';
+                    }
+                    if (el.is('.sorting_desc') && !attr) {
+                        attr = 'descending';
+                    }
+                    el.attr('aria-sort', attr);
+                }
+
+                if (attr && attr === 'descending') {
                     el.attr('def-sort', 'true');
                 }
 
-                if (attr !== undefined && attr === 'ascending') {
+                if (attr && attr === 'ascending') {
                     if (el.attr('def-sort') !== undefined) {
                         el.removeAttr('aria-sort')
                             .removeAttr('def-sort')
