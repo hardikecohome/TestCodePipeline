@@ -353,6 +353,9 @@
   .header__logo-img {
     max-width: 100%;
   }
+  .ie .header__logo-img {
+    max-width: 65%;
+  }
   .header__navigation {
     margin-left: 40px;
     order: 2;
