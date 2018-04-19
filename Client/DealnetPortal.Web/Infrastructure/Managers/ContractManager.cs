@@ -735,7 +735,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 Id = equipmnetInfo.ContractId ?? 0,
                 LeadSource = _leadSource,
-                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo)
+                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
+				Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo)
             };
 
             if(equipmnetInfo.FullUpdate && equipmnetInfo.ExistingEquipment == null)
