@@ -19,14 +19,18 @@ body:not(.tablet-device):not(.mobile-device) {
     td,
     th {
         @media @mobile {
-            &.status-cell,
-            &.action-cell {
+            &.status-cell {
                 width: 30%;
             }
 
             &.customer-cell {
                 width: 29%;
                 min-width: 60px;
+            }
+        }
+        @media @tablet-down {
+            &.action-cell {
+                width: 35%;
             }
         }
 

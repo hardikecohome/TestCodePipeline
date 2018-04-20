@@ -2018,18 +2018,27 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
-                {   
-                    var avLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).
-                        Sum(ne => (_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12) / newEquipments.Count(ne => ne.MonthlyCost.HasValue);
-                    var totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) => sum + ne.MonthlyCost.Value * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0)*12)/avLife);
-                    totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
-                    totalAmountUsefulLife *= avLife;
+                {
+                    var totalAmountFactor = 1.17313931606035m;
 
-                    var totalAmountRentalLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) => sum + ne.MonthlyCost.Value);
-                    totalAmountRentalLife = Math.Round(totalAmountRentalLife * (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2);
-                    totalAmountRentalLife *= (contract.Equipment.RequestedTerm ?? 0);
+                    var totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                    totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
+
+                    decimal totalAmountUsefulLife = 0m;                   
+                    if (newEquipments.All(ne => _contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife 
+                        == _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type)?.UsefulLife))
+                    {
+                        //equal user life for all equipments
+                        totalAmountUsefulLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                        totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type).UsefulLife * 12, 2);
+                    }
+                    else
+                    {                        
+                        totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                            (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2) * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12));
+                    }
+
+
                     if (totalAmountUsefulLife > 0)
                     {
                         formFields.Add(new FormField()
@@ -2563,7 +2572,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var loansDescr = gLoans.Select(g =>
                             Resources.Resources.LoanApplication + ": " +
                             g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
-                        .JoinStrings("\r\n");
+                        .JoinStrings("; ");
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,
