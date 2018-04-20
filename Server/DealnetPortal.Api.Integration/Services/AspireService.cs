@@ -97,7 +97,7 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null)
+        public async Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null, bool withSymbolsMaping = false)
         {
             var alerts = new List<Alert>();
 
@@ -120,7 +120,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             TransactionId = contract?.Details?.TransactionId
                         },
-                        Accounts = GetCustomersInfo(contract, leadSource)
+                        Accounts = GetCustomersInfo(contract, leadSource, withSymbolsMaping)
                     }
                 };
                 // Send request to Aspire
@@ -1105,7 +1105,7 @@ namespace DealnetPortal.Api.Integration.Services
             return new Tuple<RequestHeader, IList<Alert>>(header, alerts);
         }        
 
-        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null)
+        private List<Account> GetCustomersInfo(Domain.Contract contract, string leadSource = null, bool withSymbolsMaping = false)
         {
             const string CustRole = "CUST";
             const string GuarRole = "GUAR";
@@ -1125,8 +1125,8 @@ namespace DealnetPortal.Api.Integration.Services
                     CreditReleaseObtained = true,
                     Personal = new Personal()
                     {
-                        Firstname = c.FirstName,
-                        Lastname = c.LastName,
+                        Firstname = c.FirstName.MapFrenchSymbols(withSymbolsMaping),
+                        Lastname = c.LastName.MapFrenchSymbols(withSymbolsMaping),
                         Dob = c.DateOfBirth.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
                     },
                 };
@@ -1144,7 +1144,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {                    
                     account.Address = new Address()
                     {
-                        City = location.City,
+                        City = location.City.MapFrenchSymbols(withSymbolsMaping),
                         Province = new Province()
                         {
                             Abbrev = location.State.ToProvinceCode()
@@ -1154,7 +1154,7 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Abbrev = AspireUdfFields.DefaultAddressCountry
                         },
-                        StreetName = location.Street,
+                        StreetName = location.Street.MapFrenchSymbols(withSymbolsMaping),
                         SuiteNo = location.Unit,
                         StreetNo = string.Empty
                     };                    
@@ -1882,7 +1882,15 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = _rateCardsRepository.GetCustomerRiskGroupByBeacon(beacon).GroupName ?? BlankValue
                     });
                 }
-                
+          
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.CustomerHasExistingAgreements,
+                    Value = contract.Equipment?.HasExistingAgreements.HasValue == true ? 
+                        (contract.Equipment.HasExistingAgreements == true ? "Y" : "N")
+                        : BlankValue
+                });
+
                 var paymentInfo = _contractRepository.GetContractPaymentsSummary(contract.Id);
                 if (paymentInfo != null)
                 {
@@ -1929,7 +1937,7 @@ namespace DealnetPortal.Api.Integration.Services
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.CustomerApr,
-                            Value = contract.Equipment?.IsFeePaidByCutomer == true ? 
+                            Value = contract.Equipment?.IsFeePaidByCutomer == true && !_contractRepository.IsClarityProgram(contract.Id) ? 
                                 (paymentInfo.LoanDetails?.AnnualPercentageRate.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                                 : (contract.Equipment.CustomerRate?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0")
                         });

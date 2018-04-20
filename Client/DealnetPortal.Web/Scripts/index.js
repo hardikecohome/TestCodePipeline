@@ -51,7 +51,7 @@
         if (detectIe()) {
             $('body').addClass('ie');
         }
-        if (window.navigator.userAgent.indexOf('Firefox')) {
+        if (window.navigator.userAgent.indexOf('Firefox') > -1) {
             $('body').addClass('ff');
         }
 

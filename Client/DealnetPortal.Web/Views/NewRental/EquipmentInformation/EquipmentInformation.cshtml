@@ -11,33 +11,33 @@
 }
 
 @{
-    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 @{
-    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
 }
 
 
-@using (Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
+@using(Html.BeginForm("EquipmentInformation", "NewRental", null, FormMethod.Post, new { id = "equipment-form", onkeydown = "return event.keyCode!=13" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
-    @Html.HiddenFor(model => model.FullUpdate, new { Value = true })
+    @Html.HiddenFor(model => model.Conditions.FullUpdate, new { Value = true })
     @Html.HiddenFor(x => x.CreditAmount, new { id = "max-credit-amount" })
     @Html.HiddenFor(x => x.DealProvince)
     @Html.HiddenFor(x => x.AmortizationTerm)
-    @Html.HiddenFor(x => x.IsCustomRateCardSelected, new { id = "custom-selected" })
+    @Html.HiddenFor(x => x.Conditions.IsCustomRateCardSelected, new { id = "custom-selected" })
     @Html.HiddenFor(x => x.AdminFee)
     @Html.HiddenFor(x => x.CustomerRate)
     @Html.HiddenFor(x => x.ValueOfDeal)
@@ -45,49 +45,115 @@
     @Html.HiddenFor(x => x.LoanDeferralType)
     @Html.HiddenFor(x => x.SelectedRateCardId)
     @Html.HiddenFor(x => x.CustomerRiskGroupId)
-    @Html.HiddenFor(x => x.IsNewContract)
+    @Html.HiddenFor(x => x.Conditions.IsNewContract, new { id = "IsNewContract" })
     @Html.HiddenFor(x => x.DealerCost)
-    @Html.HiddenFor(x => x.RateCardValid)
+    @Html.HiddenFor(x => x.Conditions.RateCardValid, new { id = "RateCardValid" })
     @Html.HiddenFor(x => x.SalesRepInformation.IniatedContract, new { id = "initiated-contract" })
     @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-agreement" })
     @Html.HiddenFor(x => x.SalesRepInformation.ConcludedAgreement, new { id = "concluded-agreement" })
-    @Html.HiddenFor(x => x.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
+    @Html.HiddenFor(x => x.Conditions.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
-    @Html.HiddenFor(x => x.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
-	@Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
+    @Html.HiddenFor(x => x.Conditions.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
+	  @Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
 
     <div class="form-container">
-		<div class="form-section">
-			@if (Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
-		(Model.DealerTier.CustomerRiskGroup != null ? !Model.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue))
-	{
-		<div class="bureau-well-info well well-info position-well clear-border">
-			<svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
-				<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-			</svg>
-			@Resources.CustomerNotFoundInBureau <br />
-			@Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new { contractId = Model.ContractId })
-		</div>
-}
+        <div class="form-section">
+            @if (Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
+                Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
+            {
+                <div class="bureau-well-info well well-info position-well clear-border">
+                    <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+                    </svg>
+                    @Resources.CustomerNotFoundInBureau @Html.ActionLink(Resources.EditCustomerInformation, "BasicInfo", new { contractId = Model.ContractId })
+                </div>
+            }
 
-			@if (Model.CustomerComments != null && Model.CustomerComments.Any())
-	{
-		<div class="customer-comments form-group">
-			<h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
-			<div class="customer-comments-descr">
-				@foreach (var comment in Model.CustomerComments)
-		{
-			@comment
-			<br />
-}
-			</div>
-		</div>
-}
+            @if(Model.CustomerComments != null && Model.CustomerComments.Any())
+            {
+                <div class="customer-comments form-group">
+                    <h3 class="dealnet-middle-header">@Resources.CustomersComment:</h3>
+                    <div class="customer-comments-descr">
+                        @foreach(var comment in Model.CustomerComments)
+                        {
+                            @comment
+                            <br />
+                        }
+                    </div>
+                </div>
+            }
+            @if(Model.HomeOwner != null)
+            {
+                @Html.HiddenFor(m => m.HomeOwner.CustomerId)
+                <div class="verify-section">
+                    <h3 class="dealnet-middle-header">@Resources.VerifyCustomerID</h3>
+                    <div class="well well-info postion-well clear-border">
+                        <svg class="icon icon-info-well">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-new-sm")"></use>
+                        </svg>
+                        @Resources.BeforeProceedingVerifyCustId
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">
+                                    @Html.LabelFor(m => m.HomeOwner.FirstName)
+                                </label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    @Html.TextBoxFor(m => m.HomeOwner.FirstName, new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">
+                                    @Html.LabelFor(m => m.HomeOwner.LastName)
+                                </label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    @Html.TextBoxFor(m => m.HomeOwner.LastName, new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <div class="row">
+                                <label class="dealnet-field-caption col-xs-6">
+                                    @Html.LabelFor(m => m.HomeOwner.BirthDate)
+                                </label>
+                                <div class="dealnet-field-holder col-xs-6">
+                                    @Html.TextBoxFor(m => m.HomeOwner.BirthDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "dealnet-disabled-input", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(m => m.HomeOwner.VerificationIdName)
+                            @Html.DropDownListFor(m => m.HomeOwner.VerificationIdName, ((IList<VarificationIdsDTO>)ViewBag.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.VerificationIdName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-4">
+                            @Html.LabelFor(m => m.HomeOwner.DealerInitial)
+                            @Html.TextBoxFor(m => m.HomeOwner.DealerInitial, new { @class = "form-control dealnet-input", id = "verification-id", Required = "required" })
+                            @Html.ValidationMessageFor(m => m.HomeOwner.DealerInitial, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
 
+            @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
+                Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue ||
+                Model.CustomerComments != null && Model.CustomerComments.Any() || Model.HomeOwner != null)
+            {
+            <hr />
+            }
 
-			@((Model.IsClarityDealer && !Model.IsOldClarityDeal) ?
-								  Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-								  Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+            @((Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal) ?
+                                  Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                  Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
 			@Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
 			@Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
@@ -107,7 +173,7 @@
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if (Model.IsClarityDealer && !Model.IsOldClarityDeal)
+@if (Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")

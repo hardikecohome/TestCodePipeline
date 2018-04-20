@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-@if(Model.DealerTier?.CustomerRiskGroup != null && !Model.IsCustomerFoundInCreditBureau)
+@if(Model.DealerTier?.CustomerRiskGroup != null && !Model.Conditions.IsCustomerFoundInCreditBureau)
 {
     <div id="expired-rate-card-warning" class="well danger-well position-well clear-border hidden">
         <svg aria-hidden="true" class="icon icon-error">

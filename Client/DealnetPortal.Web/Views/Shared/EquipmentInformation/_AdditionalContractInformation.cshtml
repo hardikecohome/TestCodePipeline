@@ -39,8 +39,8 @@
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
                     @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?
-                             (object)new { id = "initiated-contract-checkbox", @checked = "true", value = true } :
-                             new { id = "initiated-contract-checkbox", value = false })
+                                            (object)new { id = "initiated-contract-checkbox", @checked = "true", value = true } :
+                                            new { id = "initiated-contract-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -52,8 +52,8 @@
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
                     @Html.CheckBox("negotiated-agreement-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?
-                             (object)new { id = "negotiated-agreement-checkbox", @checked = "true", value = true } :
-                             new { id = "negotiated-agreement-checkbox", value = false })
+                                            (object)new { id = "negotiated-agreement-checkbox", @checked = "true", value = true } :
+                                            new { id = "negotiated-agreement-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -65,8 +65,8 @@
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
                     @Html.CheckBox("concluded-agreement-checkbox", Model.SalesRepInformation.ConcludedAgreement ?
-                             (object)new { id = "concluded-agreement-checkbox", @checked = "true", value = true } :
-                             new { id = "concluded-agreement-checkbox", value = false })
+                                            (object)new { id = "concluded-agreement-checkbox", @checked = "true", value = true } :
+                                            new { id = "concluded-agreement-checkbox", value = false })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
@@ -79,6 +79,12 @@
         </div>
     </div>
     <div class="row label-row hidden-sm  hidden-xs">
+        @if(!Model.Conditions.IsClarityDealer)
+        {
+            <div class="col-md-4" id="agreement-title">
+                @Html.Label(@Resources.CustomerHaveAgreementsWithEcoHome)
+            </div>
+        }
         <div class="col-md-4">
             @Html.LabelFor(m => m.PrefferedInstallDate)
         </div>
@@ -90,6 +96,29 @@
         </div>
     </div>
     <div class="row">
+        @if(!Model.Conditions.IsClarityDealer)
+        {
+            <div class="col-md-4 afee-group" id="agreement-types">
+                <div class="form-group visible-sm visible-xs">
+                    @Resources.CustomerHaveAgreementsWithEcoHome
+                </div>
+                <div class="form-group">
+                    <label for="" class="align-middle custom-radio">
+                        @Html.RadioButtonFor(m => m.Conditions.HasExistingAgreements, true, new { @class = "afee-is-covered", id = "radioHasAgreement" })
+                        <span class="icon custom-radio-icon"></span>
+                        <span>@Resources.Yes</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="" class="align-middle custom-radio">
+                        @Html.RadioButtonFor(m => m.Conditions.HasExistingAgreements, false, new { @class = "afee-is-covered", id = "radioHasNotAgreement" })
+                        <span class="icon custom-radio-icon"></span>
+                        <span>@Resources.No</span>
+                    </label>
+                </div>
+                <div id="agreement-error-message" class="text-danger field-validation-error hidden">@Resources.ThisFieldIsRequired</div>
+            </div>
+        }
         <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.PrefferedInstallDate, new { @class = "visible-sm visible-xs" })

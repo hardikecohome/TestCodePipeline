@@ -2681,7 +2681,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Frais de client</value>
   </data>
   <data name="CustomerNotFoundInBureau" xml:space="preserve">
-    <value>"Nous n'avons pas été en mesure de faire correspondre les détails de crédit du client.
+    <value>Nous n'avons pas été en mesure de faire correspondre les détails de crédit du client.
 Veuillez vous assurer que les informations fournies par le client correspondent à la pièce d'identité émise par le gouvernement (par exemple, permis de conduire).</value>
   </data>
   <data name="EditCustomerInformation" xml:space="preserve">
@@ -2755,5 +2755,41 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   </data>
   <data name="YouCanNowReviewFinancingHere" xml:space="preserve">
     <value>Vous pouvez maintenant consulter les options de financement {0} ici {1}.</value>
+  </data>
+  <data name="BeforeProceedingVerifyCustId" xml:space="preserve">
+    <value>Avant de poursuivre, veuillez vérifier l'identité du client</value>
+  </data>
+  <data name="ContractChangedCancelledEsign" xml:space="preserve">
+    <value>Le contrat a été modifié</value>
+  </data>
+  <data name="CustomerHaveAgreementsWithEcoHome" xml:space="preserve">
+    <value>Le client a-t-il des ententes avec Services Financiers EcoHome?</value>
+  </data>
+  <data name="CustomerOwned" xml:space="preserve">
+    <value>appartient au client</value>
+  </data>
+  <data name="MaximumAmountCapingOut" xml:space="preserve">
+    <value>Le montant total financé ne peut dépasser le montant  pré-approuvé</value>
+  </data>
+  <data name="MaximumAmountCapingOutCreditReview" xml:space="preserve">
+    <value>Le montant total financé ne peut dépasser le montant  demandé</value>
+  </data>
+  <data name="NameOfExistingSupplier" xml:space="preserve">
+    <value>Nom du fournisseur actuel</value>
+  </data>
+  <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
+    <value>Préapprouvé jusqu'à un maximum de</value>
+  </data>
+  <data name="Prime" xml:space="preserve">
+    <value>A risque élevé</value>
+  </data>
+  <data name="PrimePlus" xml:space="preserve">
+    <value>A risque normal</value>
+  </data>
+  <data name="SuperPrime" xml:space="preserve">
+    <value>A faible risque</value>
+  </data>
+  <data name="VerifyCustomerID" xml:space="preserve">
+    <value>Vérifier l'identifiant du client</value>
   </data>
 </root>

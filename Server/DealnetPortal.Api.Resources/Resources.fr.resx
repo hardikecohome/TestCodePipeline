@@ -991,4 +991,7 @@
   <data name="_ConditionalApproval" xml:space="preserve">
     <value>Approbation conditionnelle</value>
   </data>
+  <data name="_PreApproved" xml:space="preserve">
+    <value>Préapprouvé </value>
+  </data>
 </root>

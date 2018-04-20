@@ -24,7 +24,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         /// <param name="leadSource">value of lead source of a client app</param>
         /// <returns></returns>
         Task<IList<Alert>> UpdateContractCustomer(int contractId, string contractOwnerId, string leadSource = null);
-        Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null);
+        Task<IList<Alert>> UpdateContractCustomer(Contract contract, string contractOwnerId, string leadSource = null, bool withSymbolsMapping = false);
         /// <summary>
         /// Send request for credit check and get results
         /// </summary>

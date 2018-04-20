@@ -79,7 +79,7 @@
 
             var result = clarityFunctions.totalMonthlyPaymentsLessDownPayment(state);
 
-            expect(+result.toFixed(2)).toEqual(67.66);
+            expect(+result.toFixed(2)).toEqual(67.65);
         });
 
         it('equals 21.33 when equipmentSum == 27.95 && downPayment == 1000', function () {
@@ -88,7 +88,7 @@
 
             var result = clarityFunctions.totalMonthlyPaymentsLessDownPayment(state);
 
-            expect(+result.toFixed(2)).toEqual(21.33);
+            expect(+result.toFixed(2)).toEqual(21.32);
         });
 
         it('equals 84.47 when equipmentSum == 101.98 && downPayment == 3000', function () {
@@ -131,31 +131,31 @@
     });
 
     describe('totalObligation', function () {
-        it('equals 8575.61 when equipmentSum == 68.95 && downPayment == 1000', function () {
+        it('equals 8574.57 when equipmentSum == 68.95 && downPayment == 1000', function () {
             state.equipmentSum = 68.95;
             state.downPayment = 1000;
 
             var result = clarityFunctions.totalObligation(state);
 
-            expect(+result.toFixed(2)).toEqual(8575.61);
+            expect(+result.toFixed(2)).toEqual(8574.57);
         });
 
-        it('equals 2703.32 when equipmentSum == 27.95 && downPayment == 1000', function () {
+        it('equals 2702.29 when equipmentSum == 27.95 && downPayment == 1000', function () {
             state.equipmentSum = 27.95;
             state.downPayment = 1000;
 
             var result = clarityFunctions.totalObligation(state);
 
-            expect(+result.toFixed(2)).toEqual(2703.32);
+            expect(+result.toFixed(2)).toEqual(2702.29);
         });
 
-        it('equals 10706.25 when equipmentSum == 101.98 && downPayment == 3000', function () {
+        it('equals 10706.49 when equipmentSum == 101.98 && downPayment == 3000', function () {
             state.equipmentSum = 101.98;
             state.downPayment = 3000;
 
             var result = clarityFunctions.totalObligation(state);
 
-            expect(+result.toFixed(2)).toEqual(10706.25);
+            expect(+result.toFixed(2)).toEqual(10706.49);
         });
     });
 });

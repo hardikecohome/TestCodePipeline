@@ -251,13 +251,13 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].AddressInformation.Province,
-                                                                                                                    (Model.ProvinceTaxRates).Select(x => new SelectListItem
-                                                                                                                    {
-                                                                                                                        Value = x.Province,
-                                                                                                                        Text = x.Province,
-                                                                                                                        Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
-                                                                                                                    }), "",
-                                                                                                                    new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+                                                                                                                         (Model.ProvinceTaxRates).Select(x => new SelectListItem
+                                                                                                                         {
+                                                                                                                             Value = x.Province,
+                                                                                                                             Text = x.Province,
+                                                                                                                             Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
+                                                                                                                         }), "",
+                                                                                                                         new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -332,8 +332,8 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @for = "additional-previous-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province,
-                                                                                                                    (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
-                                                                                                                    new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
+                                                                                                                         (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
+                                                                                                                         new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -368,7 +368,11 @@
             <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">
                 @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox" + (i + 1) })
                 @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
-                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                <span class="checkbox-icon">
+                    <svg aria-hidden="true" class="icon icon-checked">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                    </svg>
+                </span>
                 <span>@Resources.AdditionalIsHomeOwner</span>
             </label>
         </div>
@@ -558,7 +562,7 @@
         <div class="consents-checkbox-hold" id="agreement-checkbox1">
             <div class="dealnet-agrees form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("additional-owner-agrees", new { id = "additional-owner-agrees" })
+                    @Html.CheckBox("additional-owner-agrees", new { id = "additional-owner-agrees", @class = "agreement-checkbox" })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>

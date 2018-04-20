@@ -15,15 +15,16 @@
             minDate: new Date()
         };
 
-        var rateCardValid = $('#RateCardValid').val().toLowerCase() !== 'false' ? true : false;;
+        var rateCardValid = $('#RateCardValid').val().toLowerCase() !== 'false' ? true : false;
 
         if (!rateCardValid) {
             $('#expired-rate-card-warning').removeClass('hidden');
             $('#submitBtn').addClass('disabled');
         }
 
+        var assignDatepicker = module.require('datepicker');
         $('.date-input').each(function (index, input) {
-            module.require('datepicker').assignDatepicker(input, datepickerOptions)
+            assignDatepicker(input, datepickerOptions)
         });
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
         managePaymentFormElements(initPaymentTypeForm);
@@ -44,6 +45,23 @@
             return false;
         });
 
+        $('#customer-owned').on('change', function (e) {
+            var $company = $('#rental-company');
+            if (e.target.value == 'true') {
+                $company.val('');
+                $company.prop('disabled', true);
+                if ($company[0].form) {
+                    $company.rules('remove', 'required');
+                    $company.removeAttr('required');
+                    $company.valid();
+                }
+            } else {
+                $company.prop('disabled', false);
+                $company.attr('required', 'required');
+                $company[0].form && $company.rules('add', 'required');
+            }
+        }).change();
+
         $('#edit-existing-equipment-section').on('click', function () {
             copyFormData($('#existing-equipment-section'),
                 $('#existing-equipment-section-modal'),
@@ -59,16 +77,27 @@
             if (saveChanges(modal, $('#existing-equipment-section'), url, $('#existing-equipment-form'))) {
                 $('#existing-equipment-modal').modal('hide');
                 var input = modal.find('.responsible-input');
-                var id = input.attr('id').split('-')[1];
-                if (input.val() !== "3") {
-                    $('#responsible-display-' + id).val(input.find(':selected').text());
+                if (input.length)
+                    if (input.val() !== "3") {
+                        $('#responsible-display-' + input.attr('id').split('-')[1]).val(input.find(':selected').text());
+                    } else {
+                        $('#responsible-display-' + input.attr('id').split('-')[1]).val(modal.find('.other-input').val());
+                    }
+
+                var company = modal.find('#rental-company').val();
+                if (company) {
+                    $('#rental-company-display').parents('.form-group').removeClass('hidden');
                 } else {
-                    $('#responsible-display-' + id).val(modal.find('.other-input').val());
+                    $('#rental-company-display').parents('.form-group').addClass('hidden');
                 }
             }
         });
 
-	gtag('event', 'Summary And Confirmation', { 'event_category': 'Summary And Confirmation', 'event_action': 'button_click', 'event_label': 'Step 5 from Dealer Portal' });
+        gtag('event', 'Summary And Confirmation', {
+            'event_category': 'Summary And Confirmation',
+            'event_action': 'button_click',
+            'event_label': 'Step 5 from Dealer Portal'
+        });
     });
 
 function managePaymentFormElements(paymentType) {
