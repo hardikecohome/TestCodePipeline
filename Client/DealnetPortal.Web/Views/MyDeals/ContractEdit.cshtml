@@ -179,7 +179,7 @@
                                             @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                             <div class="form-group clearfix">
                                                 <div @(contractClosed || contractDeclined ? "disabled=disabled" : "")
-                                                     class="file-upload btn btn-green col-md-6 disablable @(contractClosed || contractDeclined ? "disabled" : "")">
+                                                     class="file-upload btn btn-green col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12 disablable @(contractClosed || contractDeclined ? "disabled" : "")">
                                                     <span>@Resources.Upload</span>
                                                     <input type="file" name="File" class="upload main-document-upload" />
                                                 </div>
@@ -262,7 +262,7 @@
                                         @Html.HiddenFor(m => m.UploadDocumentsInfo.DocumentTypes[i].Value, new { Name = "DocumentTypeId" })
                                         <div class="form-group clearfix">
                                             <div @(contractClosed || contractDeclined ? "disabled=disabled" : "")
-                                                 class="file-upload btn btn-green col-md-6 disablable @(contractClosed||contractDeclined ? "disabled" : "")">
+                                                 class="file-upload btn btn-green col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12 disablable @(contractClosed||contractDeclined ? "disabled" : "")">
                                                 <span>@Resources.Upload</span>
                                                 <input type="file" name="File" class="upload main-document-upload" />
                                             </div>
@@ -337,7 +337,7 @@
                                 <div class="collapse" id="empty-document-name-message">
                                     <span class="text-danger">@Resources.DocumentNameEmpty</span>
                                 </div>
-                                <div class="file-upload btn btn-green col-md-6 disablable @(contractClosed||contractDeclined ? "disabled" : "")"
+                                <div class="file-upload btn btn-green col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12 disablable @(contractClosed||contractDeclined ? "disabled" : "")"
                                      id="other-documents-upload-button" @(contractClosed || contractDeclined ? "disabled=disabled" : "")>
                                     <span>@Resources.Upload</span>
                                     <input type="file" name="File" class="upload" id="other-documents-upload" />
