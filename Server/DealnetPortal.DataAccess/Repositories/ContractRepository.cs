@@ -1389,7 +1389,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
                     _dbContext.ExistingEquipment.AddOrUpdate(ee);
-                    updated |= _dbContext.Entry(ee).State != EntityState.Unchanged;
+                    updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
             return updated;
@@ -1420,7 +1420,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     ip.EquipmentInfoId = dbEquipment.Id;
                     ip.Id = curPackage.Id;
                     _dbContext.InstallationPackages.AddOrUpdate(ip);
-                    updated |= _dbContext.Entry(ip).State != EntityState.Unchanged;
+                    updated |= _dbContext.Entry(curPackage).State != EntityState.Unchanged;
                 }
             });
             return updated;
