@@ -284,6 +284,11 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AgreementType, d => d.MapFrom(src => (AgreementType?)src.AgreementType))
                 .ForMember(x => x.HouseSize, d => d.MapFrom(src => src.HouseSize));
 
+	        cfg.CreateMap<EquipmentInformationViewModel, ContractDetailsDTO>()
+		        .ForMember(x => x.Notes, d => d.MapFrom(src => src.Notes))
+		        .ForMember(x => x.AgreementType, d => d.Ignore())
+		        .ForMember(x => x.HouseSize, d => d.Ignore());
+
             cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
                 .ForMember(x => x.ValueOfDeal, d => d.Ignore())
@@ -294,6 +299,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.RateCardId, s => s.MapFrom(d => d.SelectedRateCardId))
                 .ForMember(x => x.IsFeePaidByCutomer, s => s.MapFrom(d => d.Conditions.IsAdminFeePaidByCustomer))
                 .ForMember(x => x.HasExistingAgreements, s => s.MapFrom(d => d.Conditions.HasExistingAgreements))
+                .ForMember(x => x.IsClarityProgram, s => s.MapFrom(d => d.Conditions.IsClarityProgram))
                 .ForMember(x => x.SalesRep, s => s.MapFrom(d => d.SalesRepInformation.SalesRep))
                 .ForMember(x => x.EstimatedInstallationDate, s => s.ResolveUsing(d =>
                 {

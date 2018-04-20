@@ -513,11 +513,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         updated |= AddOrUpdateInitialCustomers(contract);
                     }
-
+                    
                     if (contractData.Equipment != null)
                     {                        
                         updated |= AddOrUpdateEquipment(contract, contractData.Equipment);
-                    }
+                    }                    
 
                     if (contractData.SalesRepInfo != null)
                     {
@@ -532,6 +532,18 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         AddOrUpdateContactDetails(contract, contractData.Details);
                         updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
+                    }
+
+                    //this condition after equipment and details updates
+                    if (contract.Equipment != null)
+                    {
+                        var paymentSummary = GetContractPaymentsSummary(contract);
+                        contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
+
+                        if (!IsBill59Contract(contract.Id))
+                        {
+                            contract.Equipment.HasExistingAgreements = null;
+                        }
                     }
 
                     if (contractData.PaymentInfo != null)
@@ -1105,11 +1117,8 @@ namespace DealnetPortal.DataAccess.Repositories
             if (installationPackages != null)
             {
                 updated |= AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
-            }
-
-            var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
-
+            }            
+            
             updated |= _dbContext.Entry(dbEquipment).State != EntityState.Unchanged;
 
             return updated;
@@ -1284,7 +1293,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (equipmentInfo.HasExistingAgreements.HasValue)
             {
                 dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
-            }            
+            }
 
             return dbEquipment;
         }
@@ -1294,7 +1303,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var updated = false;
             var existingEntities =
                 dbEquipment.NewEquipment.Where(
-                    a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
+                    a => newEquipments.Any(ne => ne.Id == a.Id) || a.IsDeleted == true).ToList();
             var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
             updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e =>
@@ -1380,7 +1389,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
                     _dbContext.ExistingEquipment.AddOrUpdate(ee);
-                    updated |= _dbContext.Entry(ee).State != EntityState.Unchanged;
+                    updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
             return updated;
@@ -1411,7 +1420,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     ip.EquipmentInfoId = dbEquipment.Id;
                     ip.Id = curPackage.Id;
                     _dbContext.InstallationPackages.AddOrUpdate(ip);
-                    updated |= _dbContext.Entry(ip).State != EntityState.Unchanged;
+                    updated |= _dbContext.Entry(curPackage).State != EntityState.Unchanged;
                 }
             });
             return updated;
@@ -1523,10 +1532,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract.Details.AgreementType = contractDetails.AgreementType;
                 if (contract.Equipment != null)
                 {
-                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
-
-                    var paymentSummary = GetContractPaymentsSummary(contract);
-                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
+                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;                    
                 }
             }
             if (contractDetails.SignatureDocumentId != null)
@@ -1709,7 +1715,9 @@ namespace DealnetPortal.DataAccess.Repositories
             updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => contract.HomeOwners.Remove(e));
 
-            homeOwners.ForEach(ho =>
+            var entriesForAdd = homeOwners.Where(ho => ho.Id == 0 || existingEntities.All(ee => ee.Id != ho.Id));
+
+            entriesForAdd.ForEach(ho =>
             {
                 Customer sc = null;
                 if (ho.Id != 0)

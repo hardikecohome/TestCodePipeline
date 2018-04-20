@@ -1762,7 +1762,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var othersEq = new List<NewEquipment>();
                 foreach (var eq in newEquipments)
                 {
-                    var monthlyCost = Math.Round((eq.MonthlyCost ?? 0)* (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2).ToString("F", CultureInfo.InvariantCulture);
+                    var monthlyCost = eq.MonthlyCost?.ToString("F", CultureInfo.InvariantCulture);
 
                     switch (eq.Type)
                     {
@@ -1942,7 +1942,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     for (int i = 0; i < othersEq.Count; i++)
                     {
-                        var monthlyCost = Math.Round((othersEq[i].MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2).ToString("F", CultureInfo.InvariantCulture);
+                        var monthlyCost = othersEq[i].MonthlyCost?.ToString("F", CultureInfo.InvariantCulture);
 
                         formFields.Add(new FormField()
                         {
@@ -2018,13 +2018,27 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
-                {                    
-                    var totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2)
-                            * (_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0)*12);
-                    var totalAmountRentalLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2));
-                    totalAmountRentalLife *= (contract.Equipment.RequestedTerm ?? 0);
+                {
+                    var totalAmountFactor = 1.17313931606035m;
+
+                    var totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                    totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
+
+                    decimal totalAmountUsefulLife = 0m;                   
+                    if (newEquipments.All(ne => _contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife 
+                        == _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type)?.UsefulLife))
+                    {
+                        //equal user life for all equipments
+                        totalAmountUsefulLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                        totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type).UsefulLife * 12, 2);
+                    }
+                    else
+                    {                        
+                        totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                            (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2) * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12));
+                    }
+
+
                     if (totalAmountUsefulLife > 0)
                     {
                         formFields.Add(new FormField()
@@ -2558,7 +2572,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var loansDescr = gLoans.Select(g =>
                             Resources.Resources.LoanApplication + ": " +
                             g.Select(s => s.EquipTypeDesc).JoinStrings(", "))
-                        .JoinStrings("\r\n");
+                        .JoinStrings("; ");
                     formFields.Add(new FormField()
                     {
                         FieldType = FieldType.Text,

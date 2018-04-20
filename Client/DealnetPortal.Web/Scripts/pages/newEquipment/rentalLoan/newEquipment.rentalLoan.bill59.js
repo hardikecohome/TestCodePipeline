@@ -14,6 +14,7 @@
         negotiatedAgreementCheckboxId: '#negotiated-agreement-checkbox',
         concludedAgreementId: '#concluded-agreement',
         concludedAgreementCheckboxId: '#concluded-agreement-checkbox',
+        hasEcoHomeAgreementRadioButtonId: '#concluded-agreement-checkbox',
         descriptionColClass: '.description-col',
         monthlyColClass: '.monthly-cost-col',
         estimatedRetailColClass: '.estimated-retail-col',
@@ -172,6 +173,16 @@
     }
 
     function _disableEcoHomeAgreementSection() {
+        $.each($('#agreement-types custom-radio'),
+            function (input) {
+                var $this = $(this);
+
+                $('#agreement-types .afee-is-covered').prop('checked', false);
+                var $input = $this.find('input');
+                $input.prop('checked', false);
+                $input.val('');
+            });
+
         $(settings.agreementTitleId).addClass('hidden');
         $(settings.agreementTypesId).addClass('hidden');
     }

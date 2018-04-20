@@ -117,7 +117,7 @@
 
         $('#additional-street-1').on('change', function () {
             var camera = $('#camera-modal');
-            if (camera.is('.in') && camera.data('fntofill').indexOf('additional') > -1) {
+            if (camera.is('.in') && camera.attr('data-fntofill').indexOf('additional') > -1) {
                 $('#mailing-address-checkbox-add-app1').click();
             }
         });

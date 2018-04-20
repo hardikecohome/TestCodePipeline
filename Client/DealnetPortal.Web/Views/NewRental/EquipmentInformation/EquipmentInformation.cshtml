@@ -84,6 +84,7 @@
             }
             @if(Model.HomeOwner != null)
             {
+                @Html.HiddenFor(m => m.HomeOwner.CustomerId)
                 <div class="verify-section">
                     <h3 class="dealnet-middle-header">@Resources.VerifyCustomerID</h3>
                     <div class="well well-info postion-well clear-border">
@@ -143,7 +144,12 @@
                 </div>
             }
 
+            @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
+                Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue ||
+                Model.CustomerComments != null && Model.CustomerComments.Any() || Model.HomeOwner != null)
+            {
             <hr />
+            }
 
             @((Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal) ?
                                   Html.Partial("EquipmentInformation/_ClarityProgram", Model) :

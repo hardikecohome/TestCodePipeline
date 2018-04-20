@@ -84,16 +84,15 @@ namespace DealnetPortal.Api.Integration.Services
                         alerts.AddRange(aspireAlerts);
                     }
                 }
-                var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter()
-                    .GetResult();
+                var checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
                 if (isFrenchSymbols)
                 {
-                    var aspireAlerts =
-                        _aspireService.UpdateContractCustomer(contract, contractOwnerId).GetAwaiter().GetResult();
+                    var aspireAlerts = _aspireService.UpdateContractCustomer(contract, contractOwnerId).GetAwaiter().GetResult();
                     if (aspireAlerts?.Any() == true)
                     {
                         alerts.AddRange(aspireAlerts);
                     }
+                    checkResult = _aspireService.InitiateCreditCheck(contractId, contractOwnerId).GetAwaiter().GetResult();
                 }
                 creditCheck = checkResult?.Item1;
                 if (checkResult?.Item2?.Any() == true)
@@ -187,8 +186,8 @@ namespace DealnetPortal.Api.Integration.Services
                         var postalCode =
                             contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.PostalCode ??
                             contract.PrimaryCustomer.Locations?.FirstOrDefault()?.PostalCode;
-                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.FirstName,
-                            contract.PrimaryCustomer.LastName,
+                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.FirstName.MapFrenchSymbols(true),
+                            contract.PrimaryCustomer.LastName.MapFrenchSymbols(true),
                             contract.PrimaryCustomer.DateOfBirth, postalCode);
                     }
                     else
