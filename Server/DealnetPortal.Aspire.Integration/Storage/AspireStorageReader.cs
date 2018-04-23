@@ -87,7 +87,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(SearchCustomerAgreements)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
-                var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);
+                var dob = dateOfBirth.ToString("MM/dd/yyyy");
                 sqlStatement = string.Format(sqlStatement, firstName, lastName, dob);
                 var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerAgreementShortInfo);
                 return list;
