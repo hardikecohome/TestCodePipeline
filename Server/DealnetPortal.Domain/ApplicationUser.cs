@@ -53,6 +53,10 @@ namespace DealnetPortal.Domain
         [ForeignKey("TierId")]
         public virtual Tier Tier { get; set; }
 
+        public int? LeaseTierId { get; set; }
+        [ForeignKey("LeaseTierId")]
+        public virtual LeaseTier LeaseTier { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
