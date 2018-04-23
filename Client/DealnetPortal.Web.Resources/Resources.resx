@@ -2684,4 +2684,10 @@ Additional program options may become available when customer’s credit details
   <data name="VerifyCustomerID" xml:space="preserve">
     <value>Verify Customer ID</value>
   </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Lease</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Lease (HWT)</value>
+  </data>
 </root>

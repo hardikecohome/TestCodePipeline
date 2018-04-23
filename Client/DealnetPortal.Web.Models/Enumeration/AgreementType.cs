@@ -6,9 +6,9 @@ namespace DealnetPortal.Web.Models.Enumeration
     {
         [Display(ResourceType = typeof (Resources.Resources), Name = "LoanApplication")]
         LoanApplication = 0,
-        [Display(ResourceType = typeof (Resources.Resources), Name = "RentalApplicationHwt")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "LeaseApplicationHwt")]
         RentalApplicationHwt = 1,
-        [Display(ResourceType = typeof (Resources.Resources), Name = "RentalApplication")]
+        [Display(ResourceType = typeof (Resources.Resources), Name = "LeaseApplication")]
         RentalApplication = 2
     }
 }

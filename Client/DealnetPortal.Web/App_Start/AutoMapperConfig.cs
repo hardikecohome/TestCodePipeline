@@ -284,10 +284,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.AgreementType, d => d.MapFrom(src => (AgreementType?)src.AgreementType))
                 .ForMember(x => x.HouseSize, d => d.MapFrom(src => src.HouseSize));
 
-	        cfg.CreateMap<EquipmentInformationViewModel, ContractDetailsDTO>()
-		        .ForMember(x => x.Notes, d => d.MapFrom(src => src.Notes))
-		        .ForMember(x => x.AgreementType, d => d.Ignore())
-		        .ForMember(x => x.HouseSize, d => d.Ignore());
+            cfg.CreateMap<EquipmentInformationViewModel, ContractDetailsDTO>()
+                .ForMember(x => x.Notes, d => d.MapFrom(src => src.Notes))
+                .ForMember(x => x.AgreementType, d => d.Ignore())
+                .ForMember(x => x.HouseSize, d => d.Ignore());
 
             cfg.CreateMap<EquipmentInformationViewModelNew, EquipmentInfoDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId ?? 0))
@@ -518,8 +518,8 @@ namespace DealnetPortal.Web.App_Start
                 {
                     if(src.Equipment?.AgreementType != null && src.Equipment?.ValueOfDeal != null && (src.Equipment.LoanTerm != null || src.Equipment.AmortizationTerm != null || src.Equipment.RequestedTerm != null))
                     {
-                        return src.Equipment?.AgreementType.ConvertTo<AgreementType>()
-                            .GetEnumDescription();
+                        var type = src.Equipment?.AgreementType.ConvertTo<AgreementType>();
+                        return type.GetEnumDescription();
                     }
 
                     return string.Empty;
