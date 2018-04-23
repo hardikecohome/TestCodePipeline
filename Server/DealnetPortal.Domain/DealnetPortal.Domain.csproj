@@ -116,7 +116,6 @@
     <Compile Include="SettingItem.cs" />
     <Compile Include="SettingValue.cs" />
     <Compile Include="CustomerRiskGroup.cs" />
-    <Compile Include="LeaseTier.cs" />
     <Compile Include="Tier.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="VerifiactionId.cs" />
