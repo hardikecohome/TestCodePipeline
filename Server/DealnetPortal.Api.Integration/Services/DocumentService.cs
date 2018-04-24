@@ -1856,7 +1856,31 @@ namespace DealnetPortal.Api.Integration.Services
                             }
                             break;
                         case "ECO6": // HWT
-                            othersEq.Add(eq);
+                            if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterHeater))
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = PdfFormFields.IsWaterHeater,
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.WaterHeaterDetails,
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.WaterHeaterMonthlyRental,
+                                    Value = monthlyCost
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                         case "ECO7": // Plumbing
                             othersEq.Add(eq);
