@@ -1294,6 +1294,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
             }
+            if (equipmentInfo.RentalProgramType.HasValue)
+            {
+                dbEquipment.RentalProgramType = equipmentInfo.RentalProgramType;
+            }
 
             return dbEquipment;
         }
