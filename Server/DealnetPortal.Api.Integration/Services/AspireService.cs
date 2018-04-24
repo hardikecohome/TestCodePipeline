@@ -1802,6 +1802,15 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.Equipment.AmortizationTerm?.ToString() ?? "0" : "0"
                 });
 
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RentalProgramType,
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? "0" : 
+                       contract.Equipment.RentalProgramType.HasValue &&
+                       contract.Equipment.RentalProgramType.Value == AnnualEscalationType.Escalation0  ?
+                       "13.99" : "10.99"
+                });
+
                 if (contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment.LoanTerm.HasValue)
                 {
                     udfList.Add(new UDF()
