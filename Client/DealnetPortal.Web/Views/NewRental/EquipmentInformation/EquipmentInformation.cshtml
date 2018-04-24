@@ -47,6 +47,7 @@
     @Html.HiddenFor(x => x.CustomerRiskGroupId)
     @Html.HiddenFor(x => x.Conditions.IsNewContract, new { id = "IsNewContract" })
     @Html.HiddenFor(x => x.DealerCost)
+    @Html.HiddenFor(x => x.TotalMonthlyPayment, new { id = "total-monthly-payment" })
     @Html.HiddenFor(x => x.Conditions.RateCardValid, new { id = "RateCardValid" })
     @Html.HiddenFor(x => x.SalesRepInformation.IniatedContract, new { id = "initiated-contract" })
     @Html.HiddenFor(x => x.SalesRepInformation.NegotiatedAgreement, new { id = "negotiated-agreement" })
@@ -54,11 +55,11 @@
     @Html.HiddenFor(x => x.Conditions.IsAdminFeePaidByCustomer, new { id = "isCoveredByCustomer" })
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
     @Html.HiddenFor(x => x.Conditions.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
-	  @Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
+    @Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
 
     <div class="form-container">
         <div class="form-section">
-            @if (Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
+            @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
                 Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
             {
                 <div class="bureau-well-info well well-info position-well clear-border">
@@ -148,32 +149,32 @@
                 Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue ||
                 Model.CustomerComments != null && Model.CustomerComments.Any() || Model.HomeOwner != null)
             {
-            <hr />
+                <hr />
             }
 
             @((Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal) ?
-                                  Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
-                                  Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
+                                          Html.Partial("EquipmentInformation/_ClarityProgram", Model) :
+                                          Html.Partial("EquipmentInformation/_LoanRentalPrograms", Model))
 
-			@Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
-			@Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
+            @Html.Partial("EquipmentInformation/_AdditionalContractInformation", Model)
+            @Html.ValidationMessageFor(m => m.NewEquipment, "", new { @class = "text-danger", id = "new-equipment-validation-message" })
 
-		<div class="well danger-well position-well clear-border over-aged-well collapse" id="max-amt-cap-out-error">
-			<svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-			@Resources.MaximumAmountCapingOut@($"{Model.CreditAmount:0,00}")
-		</div>
-			<div class="form-group">
-				<span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
-					<input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
-				</span>
-			</div>
-		</div>
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="max-amt-cap-out-error">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.MaximumAmountCapingOut@($"{Model.CreditAmount:0,00}")
+            </div>
+            <div class="form-group">
+                <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
+                    <input type="submit" value="@Resources.SaveAndProceed" class="btn btn-green btn-form" id="submit" />
+                </span>
+            </div>
+        </div>
     </div>
 }
 
 @Html.Partial("EquipmentInformation/_EquipmentTemplates", Model)
 
-@if (Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal)
+@if(Model.Conditions.IsClarityDealer && !Model.Conditions.IsOldClarityDeal)
 {
     @section pageScripts {
         @Scripts.Render("~/bundles/equipment-info-clarity")
@@ -203,7 +204,7 @@ else
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
 		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
-		
+
         </script>
 
         <script type="text/javascript">

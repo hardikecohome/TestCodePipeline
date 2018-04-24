@@ -65,6 +65,7 @@ module.exports('rate-cards', function (require) {
         $('#AmortizationTerm').val(amortizationTerm);
         $('#LoanTerm').val(loanTerm);
         $('#total-monthly-payment').val(slicedTotalMPayment);
+        $('#total-monthly-payment-display').text(slicedTotalMPayment);
         $('#CustomerRate').val(slicedCustomerRate);
         $('#AdminFee').val(slicedAdminFee);
     };
@@ -77,8 +78,8 @@ module.exports('rate-cards', function (require) {
      */
     var recalculateValuesAndRender = function (options) {
         var optionsToCompute = constants.rateCards;
-		var maxCreditAmount = $("#max-credit-amount").val();
-		var isCapOutMaxAmt = $("#isCapOutMaxAmt").val();
+        var maxCreditAmount = $("#max-credit-amount").val();
+        var isCapOutMaxAmt = $("#isCapOutMaxAmt").val();
         if (options !== undefined && options.length > 0) {
             optionsToCompute = options;
         }
@@ -99,8 +100,8 @@ module.exports('rate-cards', function (require) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
             }
-		}
-		
+        }
+
         optionsToCompute.forEach(function (option) {
             var rateCard = rateCardsCalculator.filterRateCard({
                 rateCardPlan: option.name
@@ -129,16 +130,17 @@ module.exports('rate-cards', function (require) {
                 customRateCard.setAdminFeeByEquipmentSum(eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
             }
 
-			var data = rateCardsCalculator.calculateValuesForRender($.extend({ includeAdminFee: includeAdminFeeInCalc }, idToValue(state)(option.name)));
-			var totalAmountFinance = data.totalAmountFinanced;
-			if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
-				$('#max-amt-cap-out-error').show();
-				$('#submit').addClass('disabled');
-				$('#submit').parent().popover();				
-			}
-			else {
-				$('#max-amt-cap-out-error').hide();
-			}
+            var data = rateCardsCalculator.calculateValuesForRender($.extend({
+                includeAdminFee: includeAdminFeeInCalc
+            }, idToValue(state)(option.name)));
+            var totalAmountFinance = data.totalAmountFinanced;
+            if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
+                $('#max-amt-cap-out-error').show();
+                $('#submit').addClass('disabled');
+                $('#submit').parent().popover();
+            } else {
+                $('#max-amt-cap-out-error').hide();
+            }
             rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
         });
     };

@@ -1,6 +1,6 @@
 ﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-<div class="row rental-element">
+@*<div class="row rental-element">
     <div class="col-md-3">
         <br>
         <div class="form-group">
@@ -13,10 +13,16 @@
         </div>
     </div>
 </div>
-<hr>
+<hr>*@
 
 <div class="row rental-element">
     <div class="col-md-6">
+        <div class="row form-group">
+            <div class="col-md-5 col-xs-8">@Resources.TotalMonthlyPayment</div>
+            <div class="col-md-3 col-xs-4 text-right text-semibold">
+                $ <span id="total-monthly-payment-display">-</span>
+            </div>
+        </div>
         <div class="row form-group">
             <div class="col-md-5 col-xs-8">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
             <div class="col-md-3 col-xs-4 text-right text-semibold">

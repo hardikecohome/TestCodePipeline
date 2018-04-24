@@ -5,6 +5,7 @@
 
     var settings = {
         totalMonthlyPaymentId: '#total-monthly-payment',
+        totalMonthlyPaymentDisplayId: '#total-monthly-payment-display',
         rentalTaxId: '#rentalTax',
         rentalTotalMonthlyPaymentId: '#rentalTMPayment'
     }
@@ -44,10 +45,12 @@
         });
         if (notNan && data.equipmentSum !== 0) {
             $(settings.totalMonthlyPaymentId).val(formatNumber(eSum));
+            $(settings.totalMonthlyPaymentDisplayId).text(formatNumber(eSum));
             $(settings.rentalTaxId).text(formatNumber(tax(data)));
             $(settings.rentalTotalMonthlyPaymentId).text(formatNumber(totalRentalPrice(data)));
         } else {
             $(settings.totalMonthlyPaymentId).val('');
+            $(settings.totalMonthlyPaymentDisplayId).text('-');
             $(settings.rentalTaxId).text('-');
             $(settings.rentalTotalMonthlyPaymentId).text('-');
         }

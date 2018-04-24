@@ -30,6 +30,7 @@
             addExistingEquipmentId: '#addExistingEqipment',
             toggleRateCardBlockId: '#loanRateCardToggle',
             totalMonthlyPaymentId: '#total-monthly-payment',
+            totalMonthlyPaymentDisplayId: '#total-monthly-payment-display',
             downPaymentId: '#downPayment',
             selectRateCardButtonClass: '.btn-select-card',
             deferralDropdownId: '#DeferralPeriodDropdown',
@@ -217,7 +218,12 @@
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
             $(settings.downPaymentId).on('change', setters.setDownPayment);
             $(settings.agreementTypeId).on('change', setters.setAgreement).on('change', _toggleCustomRateCard);
-            $(settings.totalMonthlyPaymentId).on('change', setters.setRentalMPayment);
+            $(settings.totalMonthlyPaymentId)
+                .on('change', setters.setRentalMPayment)
+                .on('change', function (e) {
+                    debugger
+                    $(setters.totalMonthlyPaymentDisplayId).text(e.target.value);
+                });
             $(settings.selectRateCardButtonClass).on('click', rateCardBlock.highlightCard);
             $(settings.selectRateCardButtonClass).on('click', _onRateCardSelect);
             $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
