@@ -2988,6 +2988,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 13.99% lease rate and 0% annual escalation.
+        /// </summary>
+        public static string Escalation_0 {
+            get {
+                return ResourceManager.GetString("Escalation_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10.99% lease rate and 3.5% annual escalation.
+        /// </summary>
+        public static string Escalation_35 {
+            get {
+                return ResourceManager.GetString("Escalation_35", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Estimated Age.
         /// </summary>
         public static string EstimatedAge {
@@ -5639,6 +5657,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ProgramServiceRequired {
             get {
                 return ResourceManager.GetString("ProgramServiceRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Type.
+        /// </summary>
+        public static string ProgramType {
+            get {
+                return ResourceManager.GetString("ProgramType", resourceCulture);
             }
         }
         

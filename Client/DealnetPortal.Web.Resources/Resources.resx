@@ -2696,4 +2696,7 @@ Additional program options may become available when customer’s credit details
   <data name="LeaseApplicationHwt" xml:space="preserve">
     <value>Lease (HWT)</value>
   </data>
+  <data name="ProgramType" xml:space="preserve">
+    <value>Program Type</value>
+  </data>
 </root>
