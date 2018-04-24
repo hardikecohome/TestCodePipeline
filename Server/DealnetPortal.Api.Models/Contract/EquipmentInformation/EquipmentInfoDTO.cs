@@ -59,5 +59,7 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public decimal? DealerCost { get; set; }
         // Customer (borrower) has existing agreements
         public bool? HasExistingAgreements { get; set; }
+
+        public AnnualEscalationType? RentalProgramType { get; set; }
     }
 }

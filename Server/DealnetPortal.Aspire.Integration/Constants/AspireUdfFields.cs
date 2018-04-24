@@ -79,6 +79,7 @@
         public static string ContractPreapprovalLimit = "contractpreapprovallimit";
         public static string CustomerHasExistingAgreements = "customerhasexistingagreements";
         public static string CustomerRiskGroup = "CustomerRiskGroup";
+        public static string RentalProgramType = "contractprogramtype";
 
         public static string RentalMonthlyPayment = "EH Rental Payment Amount";
         //used both for contract and equipment

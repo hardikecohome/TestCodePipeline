@@ -2684,6 +2684,12 @@ Additional program options may become available when customer’s credit details
   <data name="VerifyCustomerID" xml:space="preserve">
     <value>Verify Customer ID</value>
   </data>
+  <data name="Escalation_0" xml:space="preserve">
+    <value>13.99% lease rate and 0% annual escalation</value>
+  </data>
+  <data name="Escalation_35" xml:space="preserve">
+    <value>10.99% lease rate and 3.5% annual escalation</value>
+  </data>
   <data name="LeaseApplication" xml:space="preserve">
     <value>Lease</value>
   </data>
