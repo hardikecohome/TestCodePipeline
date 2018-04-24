@@ -26,5 +26,6 @@ namespace DealnetPortal.Api.Models.Contract
         public ContractState ContractState { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
+        public bool isPreApproved { get; set; }
     }
 }
