@@ -2020,23 +2020,38 @@ namespace DealnetPortal.Api.Integration.Services
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
                 {
                     var totalAmountFactor = 1.17313931606035m;
+                    var annualEscalation = 3.5 / 100;
 
                     var totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
                     totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
 
-                    decimal totalAmountUsefulLife = 0m;                   
-                    if (newEquipments.All(ne => _contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife 
-                        == _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type)?.UsefulLife))
-                    {
-                        //equal user life for all equipments
-                        totalAmountUsefulLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
-                        totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type).UsefulLife * 12, 2);
-                    }
-                    else
-                    {                        
-                        totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                            (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2) * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12));
-                    }
+                    decimal totalAmountUsefulLife = 0m;
+
+                    totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                        (sum, ne) =>
+                        {
+                            var costWithHst =
+                                Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2);
+                            var priceAfter10 =
+                                Math.Round(costWithHst * (decimal)Math.Pow(1 + annualEscalation, 9), 2);
+                            var lifeOver10 =
+                                ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 10) - 10) * 12;
+                            var totalAfter10 = Math.Round(priceAfter10 * lifeOver10, 2);
+                            return sum + totalAfter10;
+                        });
+                    totalAmountUsefulLife += totalAmountRentalLife;
+                    //if (newEquipments.All(ne => _contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife 
+                    //    == _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type)?.UsefulLife))
+                    //{
+                    //    //equal user life for all equipments
+                    //    totalAmountUsefulLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                    //    totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type).UsefulLife * 12, 2);
+                    //}
+                    //else
+                    //{                        
+                    //    totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                    //        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2) * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12));
+                    //}
 
 
                     if (totalAmountUsefulLife > 0)
