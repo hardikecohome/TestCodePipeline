@@ -22,6 +22,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
+        [Display(ResourceType =typeof(Resources.Resources),Name ="ProgramType")]
+        public AnnualEscalationType? RentalProgramType { get; set; }
+
         public List<NewEquipmentInformation> NewEquipment { get; set; }
 
         public CommonExistingEquipmentInfo CommonExistingEquipmentInfo { get; set; }
@@ -108,52 +111,5 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public TierViewModel DealerTier { get; set; }
 
         public ContractConditions Conditions { get; set; }
-    }
-
-    public class ContractConditions
-    {
-        [CustomRequired]
-        public bool? IsAdminFeePaidByCustomer { get; set; }
-
-        public bool? RateCardValid { get; set; }
-
-        public string DealProvince { get; set; }
-
-        public bool IsClarityDealer { get; set; } = false;
-
-        public bool IsOldClarityDeal { get; set; } = false;
-
-        public bool? IsClarityProgram { get; set; }
-
-        public bool IsCustomRateCardSelected { get; set; }
-
-        public bool IsBeaconUpdated { get; set; }
-
-        public bool IsCustomerFoundInCreditBureau { get; set; }
-
-        public bool IsSubmittedWithoutCustomerRateCard { get; set; }
-
-        public bool IsAllInfoCompleted { get; set; }
-
-        public bool IsApplicantsInfoEditAvailable { get; set; }
-
-        public bool IsFirstStepAvailable { get; set; }
-
-        public bool IsNewContract { get; set; }
-        public bool FullUpdate { get; set; }
-		public bool? HasExistingAgreements { get; set; }
-    }
-
-    public class SalesRepInformation
-    {
-        [CustomRequired]
-        [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "SalesRep")]
-        [RegularExpression(@"^[^0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "SalesRepIncorrectFormat")]
-        public string SalesRep { get; set; }
-
-        public bool IniatedContract { get; set; }
-        public bool NegotiatedAgreement { get; set; }
-        public bool ConcludedAgreement { get; set; }
     }
 }
