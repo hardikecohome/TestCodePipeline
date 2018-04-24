@@ -315,6 +315,19 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(contract.EquipmentInfo?.RentalProgramType != null)
+                            {
+                                <div class="form-group">
+                                    <div class="row">
+                                        @Html.LabelFor(m => contract.EquipmentInfo.RentalProgramType, new { @class = "dealnet-field-caption col-xs-5" })
+                                        <div class="dealnet-field-holder col-xs-7">
+                                            <div class="control-group">
+                                                @(contract.EquipmentInfo?.RentalProgramType.GetEnumDescription())
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             @if(contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication && contract.EquipmentInfo.CustomerRiskGroup != null)
                             {
                                 <div class="form-group">
@@ -835,16 +848,16 @@
                                                             <span>
                                                                 @contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                                 @(contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                Resources.Year :
-                                                                                                                                                Resources.Years)
+                                                                                                                                                        Resources.Year :
+                                                                                                                                                        Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(contract?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @contract.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                                     @(contract.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                            Resources.Month :
-                                                                                                                                                                            Resources.Months)
+                                                                                                                                                                                    Resources.Month :
+                                                                                                                                                                                    Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
