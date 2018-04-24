@@ -91,5 +91,7 @@ namespace DealnetPortal.Domain
 
         // Customer (borrower) has existing agreements
         public bool? HasExistingAgreements { get; set; }
+
+        public AnnualEscalationType? RentalProgramType { get; set; }
     }
 }
