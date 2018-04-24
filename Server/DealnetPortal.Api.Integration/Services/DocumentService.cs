@@ -962,7 +962,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
-            var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+            var rentalProgram = contract.Equipment.RentalProgramType;
             var equipmentTypes = contract.Equipment.NewEquipment?.Select(ne => ne.Type).ToList() ?? new List<string>();
             var culture = CultureHelper.GetCurrentNeutralCulture();
 
@@ -1018,6 +1018,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
+                    && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
                     && (!equipmentTypes.Any() || (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
@@ -1025,6 +1026,7 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
+                        && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
                         && (!equipmentTypes.Any() ||
                             (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
                 }
@@ -1033,6 +1035,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplates = dealerTemplates.Where(at =>
                         ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
+                        && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))).ToList();
                 }
 
@@ -1040,6 +1043,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplates =
                         dealerTemplates.Where(at => ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
+                                                            && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
                                                             && string.IsNullOrEmpty(at.State) && string.IsNullOrEmpty(at.EquipmentType)).ToList();
                 }
 
