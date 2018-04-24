@@ -1701,8 +1701,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = $"{PdfFormFields.IsHomeOwner2}_2",
                         Value = "true"
                     });
-                }
-                
+                }                
             }
         }
 
@@ -1711,12 +1710,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Any() ?? false)
             {
                 var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
-                var fstEq = newEquipments.First();
-                var rate =
-                    _contractRepository.GetProvinceTaxRate(
-                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                             l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                var fstEq = newEquipments.First();                
 
                 formFields.Add(new FormField()
                 {
@@ -2019,59 +2013,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
                 {
-                    var totalAmountFactor = 1.17313931606035m;
-                    var annualEscalation = 3.5 / 100;
-
-                    var totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
-                    totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
-
-                    decimal totalAmountUsefulLife = 0m;
-
-                    totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) =>
-                        {
-                            var costWithHst =
-                                Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2);
-                            var priceAfter10 =
-                                Math.Round(costWithHst * (decimal)Math.Pow(1 + annualEscalation, 9), 2);
-                            var lifeOver10 =
-                                ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 10) - 10) * 12;
-                            var totalAfter10 = Math.Round(priceAfter10 * lifeOver10, 2);
-                            return sum + totalAfter10;
-                        });
-                    totalAmountUsefulLife += totalAmountRentalLife;
-                    //if (newEquipments.All(ne => _contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife 
-                    //    == _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type)?.UsefulLife))
-                    //{
-                    //    //equal user life for all equipments
-                    //    totalAmountUsefulLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
-                    //    totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type).UsefulLife * 12, 2);
-                    //}
-                    //else
-                    //{                        
-                    //    totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                    //        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2) * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12));
-                    //}
-
-
-                    if (totalAmountUsefulLife > 0)
-                    {
-                        formFields.Add(new FormField()
-                        {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.TotalAmountUsefulLife,
-                            Value = totalAmountUsefulLife.ToString("F", CultureInfo.InvariantCulture)
-                        });
-                    }
-                    if (totalAmountRentalLife > 0)
-                    {
-                        formFields.Add(new FormField()
-                        {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.TotalAmountRentalTerm,
-                            Value = totalAmountRentalLife.ToString("F", CultureInfo.InvariantCulture)
-                        });
-                    }
+                    FillTotalAmountPayable(formFields, contract, ownerUserId);
                 }
             }
             if (contract.Equipment != null)
@@ -2231,6 +2173,69 @@ namespace DealnetPortal.Api.Integration.Services
                         FieldType = FieldType.CheckBox,
                         Name = PdfFormFields.NoDeferral,
                         Value = "true"
+                    });
+                }
+            }
+        }
+
+        private void FillTotalAmountPayable(List<FormField> formFields, Contract contract, string ownerUserId)
+        {
+            //if (contract.Details.AgreementType != AgreementType.LoanApplication && contract.Equipment.RentalProgramType.HasValue)
+            {
+                var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
+                var rate =
+                    _contractRepository.GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                             l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+
+                decimal totalAmountUsefulLife = 0m;
+                decimal totalAmountRentalLife = 0m;
+
+                ////default factors for with escalation                
+                var totalAmountFactor = 1.17313931606035m;
+                var annualEscalation = 3.5 / 100;
+
+                if (contract.Equipment.RentalProgramType == AnnualEscalationType.Escalation0)
+                {
+                    //without escalation
+                    totalAmountFactor = 1.0m;
+                    annualEscalation = 0.0;
+                }
+
+                totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
+
+                totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                    (sum, ne) =>
+                    {
+                        var costWithHst =
+                            Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                        var priceAfter10 =
+                            Math.Round(costWithHst * (decimal)Math.Pow(1 + annualEscalation, 9), 2);
+                        var lifeOver10 =
+                            ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 10) - 10) * 12;
+                        var totalAfter10 = Math.Round(priceAfter10 * lifeOver10, 2);
+                        return sum + totalAfter10;
+                    });
+                totalAmountUsefulLife += totalAmountRentalLife;
+
+                if (totalAmountUsefulLife > 0)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalAmountUsefulLife,
+                        Value = totalAmountUsefulLife.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
+                if (totalAmountRentalLife > 0)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalAmountRentalTerm,
+                        Value = totalAmountRentalLife.ToString("F", CultureInfo.InvariantCulture)
                     });
                 }
             }
