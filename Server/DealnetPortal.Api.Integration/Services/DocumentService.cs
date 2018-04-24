@@ -1018,7 +1018,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                    && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
+                    && (at.AnnualEscalation == rentalProgram)
                     && (!equipmentTypes.Any() || (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
@@ -1026,7 +1026,7 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
-                        && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
+                        && (at.AnnualEscalation == rentalProgram)
                         && (!equipmentTypes.Any() ||
                             (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
                 }
@@ -1035,7 +1035,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplates = dealerTemplates.Where(at =>
                         ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
-                        && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
+                        && (at.AnnualEscalation == rentalProgram)
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))).ToList();
                 }
 
@@ -1043,13 +1043,14 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplates =
                         dealerTemplates.Where(at => ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
-                                                            && (!rentalProgram.HasValue || at.AnnualEscalation == rentalProgram)
+                                                    && (at.AnnualEscalation == rentalProgram)
                                                             && string.IsNullOrEmpty(at.State) && string.IsNullOrEmpty(at.EquipmentType)).ToList();
                 }
 
                 if (agreementTemplates.Any())
                 {
-                    agreementTemplate = agreementTemplates.FirstOrDefault(at => at.Culture == culture) ?? agreementTemplates.FirstOrDefault();
+                    agreementTemplate = agreementTemplates.FirstOrDefault(at => at.Culture == culture) ??
+                                        agreementTemplates.FirstOrDefault();
                 }
             }            
 
@@ -2184,7 +2185,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillTotalAmountPayable(List<FormField> formFields, Contract contract, string ownerUserId)
         {
-            //if (contract.Details.AgreementType != AgreementType.LoanApplication && contract.Equipment.RentalProgramType.HasValue)
+            if (contract.Details.AgreementType != AgreementType.LoanApplication && contract.Equipment.RentalProgramType.HasValue)
             {
                 var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
                 var rate =
