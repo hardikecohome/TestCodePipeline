@@ -905,7 +905,7 @@
     <value>Print the contract</value>
   </data>
   <data name="Rental" xml:space="preserve">
-    <value>Rental</value>
+    <value>Lease</value>
   </data>
   <data name="ResendEmails" xml:space="preserve">
     <value>Resend Emails</value>
@@ -990,10 +990,10 @@
     <value>Loan</value>
   </data>
   <data name="RentalApplicationHwt" xml:space="preserve">
-    <value>Rental (HWT)</value>
+    <value>Lease (HWT)</value>
   </data>
   <data name="RentalApplication" xml:space="preserve">
-    <value>Rental</value>
+    <value>Lease</value>
   </data>
   <data name="StartedToFillNewContract" xml:space="preserve">
     <value>Started to fill new contract</value>
