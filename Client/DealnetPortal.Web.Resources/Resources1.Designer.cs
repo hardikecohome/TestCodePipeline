@@ -7039,6 +7039,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TOTAL MONTHLY PAYMENT (TAX EXCL.).
+        /// </summary>
+        public static string TotalMonthlyPaymentWithoutTaxes {
+            get {
+                return ResourceManager.GetString("TotalMonthlyPaymentWithoutTaxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TOTAL MONTHLY PAYMENT (TAX INCL.).
         /// </summary>
         public static string TotalMonthlyPaymentWithTaxes {

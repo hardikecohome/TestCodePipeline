@@ -2699,4 +2699,7 @@ Additional program options may become available when customer’s credit details
   <data name="ProgramType" xml:space="preserve">
     <value>Program Type</value>
   </data>
+  <data name="TotalMonthlyPaymentWithoutTaxes" xml:space="preserve">
+    <value>TOTAL MONTHLY PAYMENT (TAX EXCL.)</value>
+  </data>
 </root>
