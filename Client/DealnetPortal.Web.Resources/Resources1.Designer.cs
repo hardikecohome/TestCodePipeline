@@ -5914,7 +5914,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rental.
+        ///   Looks up a localized string similar to Lease.
         /// </summary>
         public static string Rental {
             get {
@@ -5923,7 +5923,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rental.
+        ///   Looks up a localized string similar to Lease.
         /// </summary>
         public static string RentalApplication {
             get {
@@ -5932,7 +5932,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rental (HWT).
+        ///   Looks up a localized string similar to Lease (HWT).
         /// </summary>
         public static string RentalApplicationHwt {
             get {
@@ -7035,6 +7035,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalMonthlyPaymentMustBeGreaterZero {
             get {
                 return ResourceManager.GetString("TotalMonthlyPaymentMustBeGreaterZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TOTAL MONTHLY PAYMENT (TAX EXCL.).
+        /// </summary>
+        public static string TotalMonthlyPaymentWithoutTaxes {
+            get {
+                return ResourceManager.GetString("TotalMonthlyPaymentWithoutTaxes", resourceCulture);
             }
         }
         
