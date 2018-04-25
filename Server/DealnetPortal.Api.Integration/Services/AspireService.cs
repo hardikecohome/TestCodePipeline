@@ -1869,6 +1869,21 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.DealerTierName,
                     Value = contract.Equipment?.RateCard?.Tier?.Name ?? BlankValue
                 });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RateReduction,
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
+                        (contract.Equipment.RateReduction.HasValue ? contract.Equipment.RateReduction.Value.ToString() : BlankValue)
+                        : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.RateReductionCost,
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
+                        (contract.Equipment.RateReductionCost.HasValue ? contract.Equipment.RateReductionCost.Value.ToString("F", CultureInfo.InvariantCulture) 
+                        : BlankValue)
+                        : BlankValue
+                });
 
                 var creditAmount = contract.Details?.CreditAmount ?? 0.0m;
 
