@@ -159,11 +159,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var beaconCreditAmount = _rateCardsRepository.GetCreditAmount(result.Beacon);
                     contract.Details.CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < beaconCreditAmount ? beaconCreditAmount : contract.Details.CreditAmount;
-                    _contractRepository.UpdateContractData(new ContractData()
-                    {
-                        Id = contractId,
-                        Details = contract.Details
-                    }, contractOwnerId);
                     _unitOfWork.Save();
                 }
 
