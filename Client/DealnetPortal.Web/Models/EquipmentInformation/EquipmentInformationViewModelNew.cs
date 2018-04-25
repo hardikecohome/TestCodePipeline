@@ -111,5 +111,11 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public TierViewModel DealerTier { get; set; }
 
         public ContractConditions Conditions { get; set; }
+
+        public int? RateReduction { get; set; }
+
+        public int? RateReductionCost { get; set; }
+
+
     }
 }

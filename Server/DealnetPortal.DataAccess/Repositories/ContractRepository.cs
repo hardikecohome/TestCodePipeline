@@ -1298,6 +1298,14 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.RentalProgramType = equipmentInfo.RentalProgramType;
             }
+            if (equipmentInfo.RateReduction.HasValue)
+            {
+                dbEquipment.RateReduction = equipmentInfo.RateReduction;
+            }
+            if (equipmentInfo.RateReductionCost.HasValue)
+            {
+                dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
+            }
 
             return dbEquipment;
         }
