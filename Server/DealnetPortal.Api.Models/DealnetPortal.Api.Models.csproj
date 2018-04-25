@@ -80,6 +80,7 @@
     <Compile Include="Contract\PhoneDTO.cs" />
     <Compile Include="Contract\ProvinceTaxRateDTO.cs" />
     <Compile Include="Contract\CustomerDataDTO.cs" />
+    <Compile Include="Contract\RateReductionCardDTO.cs" />
     <Compile Include="Contract\ServiceRequestDTO.cs" />
     <Compile Include="Contract\RateCardDTO.cs" />
     <Compile Include="Contract\SubDealerDTO.cs" />

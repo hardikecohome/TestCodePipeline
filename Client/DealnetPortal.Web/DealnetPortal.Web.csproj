@@ -320,6 +320,7 @@
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\PaymentInfoViewModel.cs" />
+    <Compile Include="Models\ReductionCardViewModel.cs" />
     <Compile Include="Models\RateCardViewModel.cs" />
     <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />

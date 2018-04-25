@@ -301,5 +301,19 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<Tuple<IList<RateReductionCardDTO>, IList<Alert>>> GetAllRateReductionCards()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IList<RateReductionCardDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllRateReductionCards", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Rate Reduction Cards", ex);
+                throw;
+            }
+        }
     }
 }

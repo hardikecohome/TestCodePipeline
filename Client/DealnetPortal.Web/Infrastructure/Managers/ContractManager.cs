@@ -151,6 +151,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
 
+            var reductionCards = await _dictionaryServiceAgent.GetAllRateReductionCards();
+            equipmentInfo.DealerTier.RateReductionCards = Mapper.Map<List<ReductionCardViewModel>>(reductionCards.Item1);
+
             MapContractConditions(result.Item1, dealerTier, equipmentInfo.Conditions);
 
             if(equipmentInfo.DealerTier.CustomerRiskGroup != null &&

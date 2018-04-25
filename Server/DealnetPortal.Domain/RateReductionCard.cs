@@ -14,13 +14,12 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public decimal LoanTerm { get; set; }
+        public int LoanTerm { get; set; }
 
-        public decimal AmortizationTerm { get; set; }
+        public int AmortizationTerm { get; set; }
 
-        public double CustomerReduction { get; set; }
+        public decimal CustomerReduction { get; set; }
 
-        public double InterestRateReduction { get; set; }
-
+        public decimal InterestRateReduction { get; set; }
     }
 }
