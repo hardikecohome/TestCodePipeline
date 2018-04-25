@@ -97,5 +97,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
         public string PreferredInstallTime { get; set; }
 		public bool? HasExistingAgreements { get; set; }
+        public int? RateReduction { get; set; }
+        public int? RateReductionCost { get; set; }
     }
 }
