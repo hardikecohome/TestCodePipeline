@@ -249,6 +249,19 @@
                             </div>
                         </div>
                     </div>
+                    @if(Model.EquipmentInfo?.RentalProgramType != null)
+                    {
+                        <div class="form-group">
+                            <div class="row">
+                                @Html.LabelFor(m => m.EquipmentInfo.RentalProgramType, new { @class = "dealnet-field-caption col-xs-5" })
+                                <div class="dealnet-field-holder col-xs-7">
+                                    <div class="control-group">
+                                        @(Model.EquipmentInfo?.RentalProgramType.GetEnumDescription())
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     @if(Model.EquipmentInfo?.AgreementType == AgreementType.LoanApplication && Model.EquipmentInfo?.CustomerRiskGroup != null)
                     {
                         <div class="form-group">
@@ -1692,17 +1705,17 @@
 
                                     if(!string.IsNullOrEmpty(Model.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany))
                                     {
-                                    <div class="form-group">
-                                        <div class="row">
-                                            @Html.LabelFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new
-                                       {
-                                           @class = "dealnet-field-caption col-xs-6"
-                                       })
-                                            <div class="dealnet-field-holder col-xs-6">
-                                                @Model.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany
+                                        <div class="form-group">
+                                            <div class="row">
+                                                @Html.LabelFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany, new
+                                                {
+                                                    @class = "dealnet-field-caption col-xs-6"
+                                                })
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Model.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     }
                                     if(Model.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.HasValue)
                                     {
