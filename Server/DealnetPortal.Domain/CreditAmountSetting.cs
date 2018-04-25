@@ -17,5 +17,7 @@ namespace DealnetPortal.Domain
         public int CreditScoreFrom { get; set; }
         public int CreditScoreTo { get; set; }
         public decimal CreditAmount { get; set; }
+        public decimal EscalatedLimit { get; set; }
+        public decimal NonEscalatedLimit { get; set; }
     }
 }

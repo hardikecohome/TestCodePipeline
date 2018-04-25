@@ -147,7 +147,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
 
             //check credit report status and update if needed
-            if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
+            if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
                 contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
@@ -166,7 +166,12 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                if (contractDTO.PrimaryCustomer?.CreditReport != null)
+                {
+                    // here is just aftermapping for get credit amount and escalation limits for customers who has credit report
+                    contractDTO.PrimaryCustomer.CreditReport =
+                        _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                }
             }
             return contractDTO;
         }

@@ -128,14 +128,15 @@ namespace DealnetPortal.Api.Integration.Services
                         : (int?) null;
 
                     var dealerRoles = _dealerRepository.GetUserRoles(contract.DealerId);
-                    if (contract.Dealer?.Tier?.IsCustomerRisk == true
+                    if (contract.Dealer?.Tier?.IsCustomerRisk == true 
+                        || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)
                         || dealerRoles?.Contains(UserRole.MortgageBroker.ToString()) == true
                         || dealerRoles?.Contains(UserRole.CustomerCreator.ToString()) == true)
                     {
-                        var beacon = contract.PrimaryCustomer?.CreditReport?.Beacon ??
-                                     CheckCustomerCreditReport(contractId, contractOwnerId)?.Beacon;
+                        var creditReport = CheckCustomerCreditReport(contractId, contractOwnerId);
+                        var beacon = creditReport?.Beacon;
                         checkResult.Item1.Beacon = beacon ?? 0;
-                        creditAmount = _rateCardsRepository.GetCreditAmount(checkResult.Item1.Beacon) ?? creditAmount;
+                        creditAmount = beacon.HasValue ? creditReport.CreditAmount : creditAmount;
                         if (creditAmount.HasValue)
                         {
                             checkResult.Item1.CreditAmount = creditAmount.Value;
@@ -213,6 +214,16 @@ namespace DealnetPortal.Api.Integration.Services
                             Beacon = dbCreditReport.Beacon,
                             CreditLastUpdateTime = dbCreditReport.LastUpdatedTime ?? DateTime.UtcNow
                         };
+                    }
+                }
+                if (creditReport != null)
+                {
+                    var creditAmount = _rateCardsRepository.GetCreditAmountSetting(creditReport.Beacon);
+                    if (creditAmount != null)
+                    {
+                        creditReport.CreditAmount = creditAmount.CreditAmount;
+                        creditReport.EscalatedLimit = creditAmount.EscalatedLimit;
+                        creditReport.NonEscalatedLimit = creditAmount.NonEscalatedLimit;
                     }
                 }
             }

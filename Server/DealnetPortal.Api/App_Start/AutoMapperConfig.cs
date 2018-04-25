@@ -64,7 +64,10 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => 
                     src.IsCustomerComment != true ? src.Dealer.UserName : $"{src.Contract?.PrimaryCustomer?.FirstName} {src.Contract?.PrimaryCustomer?.LastName}"));
             mapperConfig.CreateMap<CustomerCreditReport, CustomerCreditReportDTO>()
-                .ForMember(x => x.BeaconUpdated, d => d.UseValue(false));
+                .ForMember(x => x.BeaconUpdated, d => d.UseValue(false))
+                .ForMember(x => x.EscalatedLimit, d => d.Ignore())
+                .ForMember(x => x.NonEscalatedLimit, d => d.Ignore())
+                .ForMember(x => x.CreditAmount, d => d.Ignore());
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
