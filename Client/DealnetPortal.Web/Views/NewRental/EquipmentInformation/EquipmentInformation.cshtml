@@ -205,11 +205,11 @@ else
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
-		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
-        var isStandardRentalTier = @(((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)));
+		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;            
         var rentalEscalatedLimit = @(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0);
         var rentalNonEscalatedLimit = @(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0);
-
+        var isStandardRentalTier = true;
+           //(((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)));
         </script>
 
         <script type="text/javascript">
