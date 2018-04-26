@@ -22,7 +22,7 @@
      * @param {boolean} onlyCustomRateCard - if no available rate cards, show only custom rate card 
      * @returns {void} 
      */
-    var init = function(id, cards, onlyCustomRateCard) {
+    var init = function(id, cards, rateCardReduction, onlyCustomRateCard) {
         state.contractId = id;
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
@@ -45,7 +45,7 @@
             $submitBtnSelector.parent().popover('destroy');
         }
 
-        rateCardsCaclulationEngine.init(cards);
+        rateCardsCaclulationEngine.init(cards, rateCardReduction);
 
         if (state.onlyCustomRateCard) {
             if (state.customSelected) {

@@ -44,6 +44,8 @@
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
             adminFeeSectionId: '#admin-fee-section',
+            fixedRateReductionId: '#FixedRateReduction',
+            deferralReductionId: '#DeferralReduction',
             isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
             applicationType: {
                 'loanApplication': '0',
@@ -59,7 +61,7 @@
          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
          * @returns {void} 
          */
-        var init = function (id, cards, onlyCustomRateCard, bill59Equipment) {
+        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable) {
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
 
             if (isOnlyLoan) {
@@ -102,7 +104,7 @@
                 recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
             });
 
-            rateCardsInit.init(id, cards, onlyCustomRateCard);
+            rateCardsInit.init(id, cards, rateCardReductionTable, onlyCustomRateCard);
             customRateCardInit();
             rateCardCalculationInit();
             rateCardBlock.init();
@@ -221,13 +223,14 @@
             $(settings.totalMonthlyPaymentId)
                 .on('change', setters.setRentalMPayment)
                 .on('change', function (e) {
-                    debugger
                     $(setters.totalMonthlyPaymentDisplayId).text(e.target.value);
                 });
             $(settings.selectRateCardButtonClass).on('click', rateCardBlock.highlightCard);
             $(settings.selectRateCardButtonClass).on('click', _onRateCardSelect);
             $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
+            $(settings.fixedRateReductionId).on('change', setters.setReductionCost('FixedRate'));
+            $(settings.deferralReductionId).on('change', setters.setReductionCost('Deferral'));
 
             $('#initiated-contract-checkbox').on('click', function (e) {
                 $('#initiated-contract').val(e.target.checked);

@@ -10,6 +10,39 @@
         $.extend(settings, viewSettings);
     }
 
+    var optionTemplates = {
+        reductionDropdown: function(totalAmountFinanced) {
+            return function() {
+                var text;
+                var value = (totalAmountFinanced * (this.InterestRateReduction / 100)).toFixed(2);
+                if (this.Id === 0) {
+                    text = translations.noReduction;
+                } else
+                {
+                    text = '-' + this.CustomerReduction + '% for ' + value + '$';
+                }
+                return {
+                    val: this.Id,
+                    text: text,
+                    intRate: this.InterestRateReduction,
+                    custRate: this.CustomerReduction
+                }
+            }
+        },
+        cardProgramDropdown: function() {
+            return {
+                val: this,
+                text: this
+            }
+        },
+        cardLoanAmortDropdown: function() {
+            return {
+                val: this.split('/')[1].trim(),
+                text: this
+            }
+        }
+    }
+
     var renderOption = function (option, selectedRateCard, data) {
         if (_isEmpty(settings))
             throw new Error('settings are empty. Use init method first.');
@@ -118,7 +151,7 @@
             }
         });
 
-        _buildDropdownValues(dropdownSelector, dropdown, dropdowns, false);
+        _buildDropdownValues(dropdownSelector, dropdown, dropdowns, optionTemplates.cardLoanAmortDropdown);
 
         //var options = dropdown.options;
         //var tooltip = $('a#' + selectorName + 'Notify');
@@ -137,7 +170,7 @@
 
         var selectorName = dataObject.hasOwnProperty('standaloneOption') ? dataObject.standaloneOption : dataObject.rateCardPlan;
         var dropdownSelector = selectorName + '-programDropdown';
-        var dropdown = $('#' + dropdownSelector)[0];
+        var dropdown = _getDropdown(dropdownSelector);
 
         if (!dropdown || !dropdown.options) return;
 
@@ -163,21 +196,42 @@
             if ($('#' + dropdownSelector).is(':disabled')) {
                 $('#' + dropdownSelector).attr('disabled', false);
             }
-            _buildDropdownValues(dropdownSelector, dropdown, dropdowns.reverse(), true);
+
+            _buildDropdownValues(dropdownSelector, dropdown, dropdowns.reverse(), optionTemplates.cardProgramDropdown);
         }
     }
 
-    function _buildDropdownValues(selector, dropdown, items, isProgram) {
+    var renderReductionDropdownValues = function(dataObject) {
+        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
+
+        var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
+        var dropdownSelector = selectorName + 'Reduction';
+        var dropdown = _getDropdown(dropdownSelector);
+
+        if (!dropdown || !dropdown.options) return;
+
+        var loanAmortDropdpownValues = $('#' + selectorName + '-amortDropdown option:selected').text();
+        var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+
+        //remove spaces in text
+        loanAmortDropdpownValues = loanAmortDropdpownValues.replace(/\s+/g,'');
+
+        var reductionValues = state.rateCardReduction.filter(function(reduction) {
+            return reduction.LoanAmortizationTerm === loanAmortDropdpownValues && reduction.CustomerReduction <= dataObject.customerRate;
+        });
+
+        reductionValues.unshift({ Id: 0, InterestRateReduction: 0, CustomerReduction: 0 });
+        _buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(totalAmountFinanced));
+    }
+
+    function _buildDropdownValues(selector, dropdown, items, template) {
         var e = document.getElementById(selector);
         if (e !== undefined) {
             var selected = e.selectedIndex !== -1 ? e.options[e.selectedIndex].value : '';
 
             $(dropdown).empty();
             $(items).each(function () {
-                $("<option />", {
-                    val: isProgram ? this : this.split('/')[1].trim(),
-                    text: this
-                }).appendTo(dropdown);
+                $("<option />", template.call(this)).appendTo(dropdown);
             });
 
             var values = [];
@@ -196,19 +250,7 @@
     }
 
     function _getItemsByPrice(dataObject) {
-        var totalCash = constants.minimumLoanValue;
-
-        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
-
-        var totalAmountFinanced = isStandalone ? dataObject.totalAmountFinanced : state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
-
-        if (totalAmountFinanced > 1000) {
-            totalCash = totalAmountFinanced;
-        }
-
-        if (totalCash >= constants.maxRateCardLoanValue) {
-            totalCash = constants.maxRateCardLoanValue;
-        }
+        var totalCash = _getTotalAmounFinanced(dataObject);
 
         var items = state.rateCards[dataObject.rateCardPlan];
 
@@ -218,6 +260,11 @@
         }
     }
 
+    function _getDropdown(selector) {
+        var dropdown = $('#' + selector)[0];
+
+        return dropdown;
+    }
     /**
      * depends on totalAmountfinanced value disable/enable options 
      * values of Loan/Amortization dropdown
@@ -243,6 +290,24 @@
             //    tooltip.click();
             //}
         }
+    }
+
+    function _getTotalAmounFinanced(dataObject) {
+        var totalCash = constants.minimumLoanValue;
+
+        var isStandalone = dataObject.hasOwnProperty('standaloneOption');
+
+        var totalAmountFinanced = isStandalone ? dataObject.totalAmountFinanced : state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+
+        if (totalAmountFinanced > 1000) {
+            totalCash = totalAmountFinanced;
+        }
+
+        if (totalCash >= constants.maxRateCardLoanValue) {
+            totalCash = constants.maxRateCardLoanValue;
+        }
+
+        return totalCash;
     }
 
     var renderAfterFiltration = function (option, data) {
@@ -272,6 +337,7 @@
         renderAfterFiltration: renderAfterFiltration,
         renderDropdownValues: renderDropdownValues,
         renderProgramDropdownValues: renderProgramDropdownValues,
+        renderReductionDropdownValues: renderReductionDropdownValues,
         renderOption: renderOption,
         renderTotalPrice: renderTotalPrice
     };

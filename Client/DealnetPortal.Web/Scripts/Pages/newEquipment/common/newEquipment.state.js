@@ -1,6 +1,7 @@
 ﻿module.exports('state', function() {
     var state = {
         agreementType: 0,
+        rateCardReduction: [],
         equipments: {},
         packages: {},
         existingEquipments: {},
@@ -39,7 +40,7 @@
         clarityPaymentFactor: 0.010257
     };
 
-    window.state = state;
+    //window.state = state;
     return {
         state: state,
         constants: constants

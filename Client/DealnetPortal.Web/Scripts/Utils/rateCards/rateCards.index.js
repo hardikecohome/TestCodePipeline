@@ -43,12 +43,13 @@
         }));
     }
 
-    var init = function (ratecards) {
+    var init = function (ratecards, rateCardReduction) {
         constants.rateCards.forEach(function (option) {
             state.rateCards[option.name] = $.grep(ratecards, function (card) {
                 return card.CardType === option.id;
             });
         });
+        state.rateCardReduction = rateCardReduction;
     }
 
     var getRateCardOnSubmit = function (cardType, deferral, amortTerm, adminFee, customerRate) {
