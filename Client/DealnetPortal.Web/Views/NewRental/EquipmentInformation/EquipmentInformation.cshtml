@@ -1,4 +1,6 @@
 ﻿@using System.Globalization
+@using System.Security.Claims
+@using DealnetPortal.Api.Common.Constants
 @using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Infrastructure.Extensions
@@ -204,6 +206,9 @@ else
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
 		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+        var isStandardRentalTier = @(((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)));
+        var rentalEscalatedLimit = @(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0);
+        var rentalNonEscalatedLimit = @(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0);
 
         </script>
 

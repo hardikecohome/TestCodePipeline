@@ -31,7 +31,9 @@
         amortizationValueToDisable: 180,
         totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
         maxRateCardLoanValue: 50000,
-        clarityPaymentFactor: 0.010257
+        clarityPaymentFactor: 0.010257,
+        escalatedRentalLimit: rentalEscalatedLimit,
+        nonEscalatedRentalLimit: rentalNonEscalatedLimit
     };
 
     return {

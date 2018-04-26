@@ -29,10 +29,14 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsApplicantsInfoEditAvailable { get; set; }
 
-        public bool IsFirstStepAvailable { get; set; }
+        public bool IsFirstStepAvailable { get; set; }        
 
         public bool IsNewContract { get; set; }
         public bool FullUpdate { get; set; }
         public bool? HasExistingAgreements { get; set; }
+
+        public bool IsDefaultRentalTier { get; set; }
+        public decimal? RentalEscalatedMonthlyLimit { get; set; }
+        public decimal? RentalNonEscalatedMonthlyLimit { get; set; }
     }
 }

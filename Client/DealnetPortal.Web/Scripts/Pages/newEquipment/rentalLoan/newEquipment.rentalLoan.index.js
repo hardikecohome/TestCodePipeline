@@ -44,7 +44,7 @@
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
             adminFeeSectionId: '#admin-fee-section',
-            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
+            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',            
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',

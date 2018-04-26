@@ -1180,8 +1180,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             conditions.IsSubmittedWithoutCustomerRateCard = false;
             conditions.IsBeaconUpdated = contract.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
             conditions.IsClarityDealer = dealerTier?.Name == _clarityProgramTier;
+            conditions.RentalEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.EscalatedLimit;
+            conditions.RentalNonEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.NonEscalatedLimit;
 
-            if(contract.Equipment == null ||
+            if (contract.Equipment == null ||
                (contract.Equipment?.RateCardId == null
                 && (contract.Equipment?.NewEquipment?.All(ne => ne?.Cost == null && ne?.MonthlyCost == null) ?? true)))
             {
