@@ -391,7 +391,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var fields = new List<FormField>();
                     FillHomeOwnerFields(fields, templateFields?.Item1, contract);
                     FillApplicantsFields(fields, contract);
-                    FillEquipmentFields(fields, contract, ownerUserId);
+                    FillEquipmentFields(fields, templateFields?.Item1, contract, ownerUserId);
                     FillDealerFields(fields, contract);
                     FillInstallCertificateFields(fields, contract);
 
@@ -944,7 +944,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
-            FillEquipmentFields(fields, contract, ownerUserId);
+            FillEquipmentFields(fields, templateFields, contract, ownerUserId);
             FillExistingEquipmentFields(fields, contract);
             FillPaymentFields(fields, contract);
             FillDealerFields(fields, contract);
@@ -1710,7 +1710,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillEquipmentFields(List<FormField> formFields, Contract contract, string ownerUserId)
+        private void FillEquipmentFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract, string ownerUserId)
         {
             if (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Any() ?? false)
             {
@@ -1820,13 +1820,6 @@ namespace DealnetPortal.Api.Integration.Services
                                 othersEq.Add(eq);
                             }
                             break;
-                        case "ECO3": // Doors
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO4": // Fireplace
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO5": // Furnace
                         case "ECO40": // Air Handler - we have common 
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsFurnace))
                             {
@@ -1853,24 +1846,6 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 othersEq.Add(eq);
                             }
-                            break;
-                        case "ECO6": // HWT
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO7": // Plumbing
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO9": // Roofing
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO10": // Siding
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO11": // Tankless Water Heater
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO13": // Windows
-                            othersEq.Add(eq);
                             break;
                         case "ECO23": // Air/Water Filtration
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterFiltration))
@@ -1899,41 +1874,58 @@ namespace DealnetPortal.Api.Integration.Services
                                 othersEq.Add(eq);
                             }
                             break;
+                        case "ECO3": // Doors
+                        case "ECO4": // Fireplace
+                        case "ECO5": // Furnace                        
+                        case "ECO6": // HWT
+                        case "ECO7": // Plumbing
+                        case "ECO9": // Roofing
+                        case "ECO10": // Siding
+                        case "ECO11": // Tankless Water Heater
+                        case "ECO13": // Windows
                         case "ECO38": // Sunrooms
-                            othersEq.Add(eq);
-                            break;                       
                         case "ECO42": // Flooring
-                            othersEq.Add(eq);
-                            break;                        
                         case "ECO43": // Porch Enclosure
-                            othersEq.Add(eq);
-                            break;
                         case "ECO44": // Water Treatment System
-                            othersEq.Add(eq);
-                            break;
                         case "ECO45": // Heat Pump
-                            othersEq.Add(eq);
-                            break;
                         case "ECO46": // HRV
-                            othersEq.Add(eq);
-                            break;
                         case "ECO47": // Bathroom
-                            othersEq.Add(eq);
-                            break;
                         case "ECO48": // Kitchen
-                            othersEq.Add(eq);
-                            break;
                         case "ECO49": // Hepa System
-                            othersEq.Add(eq);
-                            break;
                         case "ECO50": // Unknown
-                            othersEq.Add(eq);
-                            break;
                         case "ECO52": // Security System
-                            othersEq.Add(eq);
-                            break;
                         case "ECO55": // Basement Repair
-                            othersEq.Add(eq);
+                        default:
+                            // for all others
+                            if (templateFields?.Any(tf => tf.Name == $"Is_{eq.Type}") == true && !formFields.Exists(f => f.Name == $"Is_{eq.Type}"))
+                            {
+                                //added logic for add fields in format:
+                                //Is_ECO(X)
+                                //EXO(X)_Details
+                                //EXO(X)_MonthlyRental
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = $"Is_{eq.Type}",
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = $"{eq.Type}_Details",
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = $"{eq.Type}_MonthlyRental",
+                                    Value = monthlyCost
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                     }
                 }

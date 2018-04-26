@@ -123,7 +123,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 if(result.Item1.Equipment.ValueOfDeal == null || result.Item1.Equipment.ValueOfDeal == 0)
                 {
                     equipmentInfo.Conditions.IsNewContract = true;
-                    equipmentInfo.RequestedTerm = 120;
                 }
                 else
                 {
@@ -134,9 +133,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             else
             {
                 equipmentInfo.Conditions.IsNewContract = true;
-                equipmentInfo.RequestedTerm = 120;
             }
-
+            equipmentInfo.RequestedTerm = 120;
             var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
