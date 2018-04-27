@@ -9,7 +9,6 @@ namespace DealnetPortal.Web.Models
 {
     public class RateCardViewModel
     {
-
         public int Id { get; set; }
 
         public RateCardType CardType { get; set; }

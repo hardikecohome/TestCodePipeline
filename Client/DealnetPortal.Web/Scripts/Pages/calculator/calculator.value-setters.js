@@ -20,6 +20,16 @@
             }, 0);
     };
 
+    var setReductionCost = function(optionKey, callback) {
+        return function(e) {
+            var intRate = +e.target.selectedOptions[0].getAttribute('intrate');
+            var custRate = +e.target.selectedOptions[0].getAttribute('custRate');
+            state[optionKey].InterestRateReduction = intRate;
+            state[optionKey].CustomerReduction = custRate;
+            callback([optionKey]);
+        }
+    }
+
     var setLoanAmortTerm = function (optionKey, callback) {
         return function (e) {
             callback([optionKey]);
@@ -243,25 +253,6 @@
         callback([optionKey]);
     }
 
-    //var setTax = function(callback) {
-    //    return function(e) {
-    //        var name = e.target.value;
-    //        if (name === '') {
-    //            state.tax = 0;
-    //            state.description = translations.tax;
-    //        } else {
-    //            var filtered = state.taxes.filter(function (tax) {
-    //                return tax.Province === name;
-    //            });
-
-    //            state.tax = filtered[0].Rate;
-    //            state.description = filtered[0].Description;
-    //        }
-
-    //        callback();
-    //    }
-    //}
-
     function setAmortizationDropdownValues(optionKey, planType) {
         var options = $('#' + optionKey + '-amortDropdown');
         options.empty();
@@ -313,6 +304,7 @@
         setNewEquipment: setNewEquipment,
         removeEquipment: removeEquipment,
         setProgram: setProgram,
+        setReductionCost: setReductionCost,
         //setTax: setTax,
         setLoanTerm: setLoanTerm,
         setAmortTerm: setAmortTerm,

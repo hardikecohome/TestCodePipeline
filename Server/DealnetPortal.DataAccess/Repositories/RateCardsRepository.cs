@@ -54,5 +54,10 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             return _dbContext.CustomerRiskGroups.FirstOrDefault(crg => beaconScore >= crg.BeaconScoreFrom && beaconScore <= crg.BeaconScoreTo);
         }
+
+        public IList<RateReductionCard> GetRateReductionCard()
+        {
+            return _dbContext.RateReductionCards.ToList();
+        }
     }
 }

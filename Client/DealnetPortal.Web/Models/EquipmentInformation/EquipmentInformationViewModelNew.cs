@@ -99,6 +99,10 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public ProvinceTaxRateDTO ProvinceTaxRate { get; set; }
 
         public decimal? CreditAmount { get; set; }
+	    public decimal? RateReduction { get; set; }
+
+	    public decimal? RateReductionCost { get; set; }
+	    public int? RateReductionCardId { get; set; }
 
         public double? ValueOfDeal { get; set; }
 

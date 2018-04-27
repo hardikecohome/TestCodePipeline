@@ -814,6 +814,8 @@ namespace DealnetPortal.Web.App_Start
                     } : null;
                 }));
             cfg.CreateMap<RateCardDTO, RateCardViewModel>();
+            cfg.CreateMap<RateReductionCardDTO, ReductionCardViewModel>()
+                .ForMember(x => x.LoanAmortizationTerm, d => d.MapFrom(src => src.LoanTerm + "/" + src.AmortizationTerm));
 
             cfg.CreateMap<EmploymentInfoDTO, EmploymentInformationViewModel>()
                 .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<EmploymentStatus>()))

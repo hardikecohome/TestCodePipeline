@@ -29,7 +29,8 @@ module.exports('rate-cards', function (require) {
             'displayMPayment': 'monthlyPayment'
         },
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
-        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
+        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
+        reductionCards: ['FixedRate', 'Deferral']
     }
 
     var idToValue = require('idToValue');
@@ -52,14 +53,12 @@ module.exports('rate-cards', function (require) {
         var cardType = $.grep(constants.rateCards, function (c) {
             return c.name === option;
         })[0].name;
-        var deferralPeriod = option === 'Deferral' ? +$('#DeferralPeriodDropdown').val() : 0;
-        var amortTerm = Number(amortizationTerm);
-        var adminFee = slicedAdminFee.indexOf(',') > -1 ? Globalize.parseNumber(slicedAdminFee) : Number(slicedAdminFee);
-        var customerRate = slicedCustomerRate.indexOf(',') > -1 ? Globalize.parseNumber(slicedCustomerRate) : Number(slicedCustomerRate);
-        var filtred = rateCardsCalculator.getRateCardOnSubmit(cardType, deferralPeriod, amortTerm, adminFee, customerRate);
+        $('#SelectedRateCardId').val(state[cardType].Id);
 
-        if (filtred !== undefined) {
-            $('#SelectedRateCardId').val(filtred.Id);
+        if (settings.reductionCards.indexOf(cardType) !== -1) {
+            $('#rateReductionId').val(state[option].ReductionId);
+            $('#rateReduction').val(state[option].CustomerReduction);
+            $('#rateReductionCost').val(state[option].CustomerReductionCost);
         }
 
         $('#AmortizationTerm').val(amortizationTerm);
@@ -109,8 +108,36 @@ module.exports('rate-cards', function (require) {
 
             if (rateCard !== null && rateCard !== undefined) {
 
-                state[option.name] = $.extend(true, {}, rateCard);
+                var obj = {CustomerReduction: 0, InterestRateReduction: 0, ReductionId: null };
+                if (state[option.name]) {
+                    obj = {
+                        CustomerReduction: !state[option.name].CustomerReduction ? 0 : state[option.name].CustomerReduction,
+                        InterestRateReduction: !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction,
+                    }
+                }
+
+                var reductionId = !state[option.name] || !state[option.name].ReductionId ? null : state[option.name].ReductionId;
+                var customerReduction = !state[option.name] || !state[option.name].CustomerReduction ? null : state[option.name].CustomerReduction;
+                var interestRateReduction = !state[option.name] || !state[option.name].InterestRateReduction ? null : state[option.name].InterestRateReduction;
+                state[option.name] = $.extend(true, obj, rateCard);
+                state[option.name].ReductionId = reductionId;
+                state[option.name].CustomerReduction = customerReduction;
+                state[option.name].InterestRateReduction = interestRateReduction;
+                state[option.name].CustomerReduction = !state[option.name].CustomerReduction ? 0 : state[option.name].CustomerReduction,
+                state[option.name].InterestRateReduction = !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction,
                 state[option.name].yourCost = '';
+                state[option.name].totalAmountFinanced = rateCardsCalculator.getTotalAmountFinanced();
+
+                if (settings.reductionCards.indexOf(option.name) !== -1) {
+                    rateCardsRenderEngine.renderReductionDropdownValues({
+                        rateCardPlan: option.name,
+                        customerRate: state[option.name].CustomerRate,
+                        reductionId: state[option.name].ReductionId
+                    });
+
+                    var reducedCustomerRate = state[option.name].CustomerRate - state[option.name].CustomerReduction;
+                    state[option.name].CustomerRate = reducedCustomerRate;
+                }
 
                 rateCardsRenderEngine.renderAfterFiltration(option.name, {
                     deferralPeriod: state[option.name].DeferralPeriod,
@@ -134,6 +161,7 @@ module.exports('rate-cards', function (require) {
                 includeAdminFee: includeAdminFeeInCalc
             }, idToValue(state)(option.name)));
             var totalAmountFinance = data.totalAmountFinanced;
+            state[option.name].CustomerReductionCost = data.tafBuyDownRate;
             if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
                 $('#max-amt-cap-out-error').show();
                 $('#submit').addClass('disabled');

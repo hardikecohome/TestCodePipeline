@@ -2232,6 +2232,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer Rate Reduction.
+        /// </summary>
+        public static string CustomerRateReduction {
+            get {
+                return ResourceManager.GetString("CustomerRateReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer&apos;s Comment.
         /// </summary>
         public static string CustomersComment {
@@ -3200,6 +3209,15 @@ namespace DealnetPortal.Web.Resources {
         public static string FixedRate {
             get {
                 return ResourceManager.GetString("FixedRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to for.
+        /// </summary>
+        public static string For {
+            get {
+                return ResourceManager.GetString("For", resourceCulture);
             }
         }
         
@@ -4703,6 +4721,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NoMatchingRecordsFound {
             get {
                 return ResourceManager.GetString("NoMatchingRecordsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Reduction.
+        /// </summary>
+        public static string NoReduction {
+            get {
+                return ResourceManager.GetString("NoReduction", resourceCulture);
             }
         }
         

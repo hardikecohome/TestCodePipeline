@@ -57,7 +57,9 @@
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
     @Html.HiddenFor(x => x.Conditions.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
     @Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
-
+    @Html.HiddenFor(x => x.RateReduction, new { id = "rateReduction" })
+    @Html.HiddenFor(x => x.RateReductionCost, new { id = "rateReductionCost" })
+    @Html.HiddenFor(x => x.RateReductionCardId, new { id = "rateReductionId" })
     <div class="form-container">
         <div class="form-section">
             @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
@@ -220,7 +222,8 @@ else
                     : false,
                 @Html.Raw(Json.Encode(((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
                .Where(e => e.UnderBill59)
-               .Select(e => e.Type).ToArray())));
+               .Select(e => e.Type).ToArray())),
+                @Html.Raw(Json.Encode(Model.DealerTier.RateReductionCards)));
         });
         </script>
     }

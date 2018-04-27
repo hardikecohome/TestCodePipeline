@@ -14,6 +14,7 @@
     var totalRentalBorrowingCost = require('financial-functions').totalRentalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
     var rentalYourCost = require('financial-functions').rentalYourCost;
+    var tafBuyDownRate = require('financial-functions').tafBuyDownRate;
     var tax = require('financial-functions').tax;
     var notNaN = function (num) {
         return !isNaN(num);
@@ -43,12 +44,13 @@
         }));
     }
 
-    var init = function (ratecards) {
+    var init = function (ratecards, rateCardReduction) {
         constants.rateCards.forEach(function (option) {
             state.rateCards[option.name] = $.grep(ratecards, function (card) {
                 return card.CardType === option.id;
             });
         });
+        state.rateCardReduction = rateCardReduction;
     }
 
     var getRateCardOnSubmit = function (cardType, deferral, amortTerm, adminFee, customerRate) {
@@ -145,6 +147,7 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data),
+                tafBuyDownRate: tafBuyDownRate(data),
                 loanTerm: data.LoanTerm,
                 amortTerm: data.AmortizationTerm,
                 adminFee: data.AdminFee
@@ -186,9 +189,9 @@
         if (dataObject.hasOwnProperty('standaloneOption')) {
             card = $.grep(items, function (i) {
                 if (totalCash >= constants.maxRateCardLoanValue) {
-                    return (i.CustomerRiskGroup === null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                    return (i.CustomerRiskGroup == null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
                 } else {
-                    return (i.CustomerRiskGroup === null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                    return (i.CustomerRiskGroup == null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
                 }
             })[0];
 

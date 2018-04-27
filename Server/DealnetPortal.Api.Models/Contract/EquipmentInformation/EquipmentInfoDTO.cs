@@ -61,5 +61,10 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
         public bool? HasExistingAgreements { get; set; }
 
         public AnnualEscalationType? RentalProgramType { get; set; }
+
+        public decimal? RateReduction { get; set; }
+
+        public decimal? RateReductionCost { get; set; }
+        public int? RateReductionCardId { get; set; }
     }
 }
