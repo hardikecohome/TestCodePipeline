@@ -93,5 +93,12 @@ namespace DealnetPortal.Domain
         public bool? HasExistingAgreements { get; set; }
 
         public AnnualEscalationType? RentalProgramType { get; set; }
+
+	    public int? RateReductionCardId { get; set; }
+	    public RateReductionCard RateReductionCard { get; set; }
+
+	    public decimal? RateReduction { get; set; }
+
+	    public decimal? RateReductionCost { get; set; }
     }
 }

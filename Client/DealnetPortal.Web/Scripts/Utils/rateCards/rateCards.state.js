@@ -3,6 +3,7 @@
         rateCards: {},
         agreementType: 0,
         equipments: {},
+        rateCardReduction: [],
         existingEquipments: {},
         tax: taxRate,
         downPayment: 0,

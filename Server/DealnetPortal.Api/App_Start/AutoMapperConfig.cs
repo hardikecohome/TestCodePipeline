@@ -186,7 +186,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.ValidFrom, d => d.MapFrom(s => s.ValidFrom))
                 .ForMember(x => x.ValidTo, d => d.MapFrom(s => s.ValidTo))
                 .ForMember(x => x.IsPromo, d => d.MapFrom(s => s.IsPromo));
-
             mapperConfig.CreateMap<Tier, TierDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(x => x.Name, d => d.MapFrom(s => s.Name))
@@ -204,6 +203,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.Equipments.Any() ? src.Equipments : null))
                 .ForMember(x => x.PostalCodesList, d => d.ResolveUsing(src => src.Areas.Any() ? src.Areas : null));
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
+            mapperConfig.CreateMap<RateReductionCard, RateReductionCardDTO>();
 
             mapperConfig.CreateMap<Address, AddressDTO>();
             mapperConfig.CreateMap<CompanyInfo, CompanyInfoDTO>()

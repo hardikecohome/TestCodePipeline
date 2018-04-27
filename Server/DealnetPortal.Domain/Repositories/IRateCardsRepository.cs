@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DealnetPortal.Domain.Repositories
 {
@@ -15,5 +16,6 @@ namespace DealnetPortal.Domain.Repositories
         decimal? GetCreditAmount(int creditScore);
         CreditAmountSetting GetCreditAmountSetting(int creditScore);
         CustomerRiskGroup GetCustomerRiskGroupByBeacon(int beaconScore);
+        IList<RateReductionCard> GetRateReductionCard();
     }
 }

@@ -39,6 +39,18 @@
         };
     };
 
+    var setReductionCost = function(optionKey) {
+        return function(e) {
+            var intRate = +e.target.selectedOptions[0].getAttribute('intrate');
+            var custRate = +e.target.selectedOptions[0].getAttribute('custRate');
+            state[optionKey].InterestRateReduction = intRate;
+            state[optionKey].CustomerReduction = custRate;
+            state[optionKey].ReductionId = +e.target.value;
+
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
+        }
+    }
+
     var setLoanTerm = function (optionKey) {
         return function (e) {
             state[optionKey].LoanTerm = Globalize.parseNumber(e.target.value);
@@ -154,6 +166,7 @@
         setDownPayment: setDownPayment,
         setRentalMPayment: setRentalMPayment,
         setCustomYourCost: setCustomYourCost,
-        setAdminFeeIsCovered: setAdminFeeIsCovered
+        setAdminFeeIsCovered: setAdminFeeIsCovered,
+        setReductionCost: setReductionCost
     };
 });
