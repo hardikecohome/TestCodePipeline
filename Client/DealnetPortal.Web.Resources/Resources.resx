@@ -2705,4 +2705,7 @@ Additional program options may become available when customer’s credit details
   <data name="NoReduction" xml:space="preserve">
     <value>No Reduction</value>
   </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
 </root>

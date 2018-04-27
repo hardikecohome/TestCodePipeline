@@ -12,7 +12,8 @@
         submitButtonId: '#submit',
         customRateCardName: 'Custom',
         deferralRateCardName: 'Deferral',
-        customSelectedId: '#custom-selected'
+        customSelectedId: '#custom-selected',
+        rateReductionId: '#rateReductionId'
     }
 
     /**
@@ -57,7 +58,7 @@
 
         constants.rateCards.forEach(function (option) {
             var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
-            _renderRateCardOption(option.name, filtred);
+            _renderRateCardOption(option.name, filtred, rateCardReduction);
         });
             
         }
@@ -69,10 +70,10 @@
      * @param {Array<string>} items - list of rate cards for the option
      * @returns {void} 
      */
-    function _renderRateCardOption (option, items) {
+    function _renderRateCardOption (option, items, rateCardReduction) {
         rateCardBlock.toggle(state.isNewContract);
         if (option !== settings.customRateCardName && !state.customSelected) {
-            _setSelectedRateCard(option, items);
+            _setSelectedRateCard(option, items, rateCardReduction);
 
             if (option === settings.deferralRateCardName) {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods,
@@ -96,10 +97,20 @@
      * @param {Array<string>} items - list of rate cards for the option
      * @returns {void} 
      */
-    function _setSelectedRateCard (option, items) {
+    function _setSelectedRateCard (option, items, rateCardReduction) {
         var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
+        var reductionRate;
+        var id = $(settings.rateReductionId).val();
+        if (id) {
+            reductionRate = rateCardReduction.filter(function(reduct) { return reduct.Id === Number(id) })[0];
+        }
         if (selectedCard !== null && selectedCard !== undefined) {
             state[option] = selectedCard;
+            if (reductionRate) {
+                state[option].CustomerReduction = reductionRate.CustomerReduction;
+                state[option].InterestRateReduction = reductionRate.InterestRateReduction;
+                state[option].ReductionId = reductionRate.Id;
+            }
             state[option].yourCost = '';
 
             rateCardBlock.togglePromoLabel(option);

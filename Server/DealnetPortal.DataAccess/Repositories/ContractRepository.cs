@@ -1306,6 +1306,10 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
             }
+	        if (equipmentInfo.RateReductionCardId.HasValue)
+	        {
+		        dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
+	        }
 
             return dbEquipment;
         }

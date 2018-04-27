@@ -19,7 +19,7 @@
                     text = translations.noReduction;
                 } else
                 {
-                    text = '-' + this.CustomerReduction + '% for ' + value + '$';
+                    text = '-' + this.CustomerReduction + '% ' + translations.for + ' ' + value + '$';
                 }
                 return {
                     val: this.Id,
@@ -128,8 +128,8 @@
         if (isStandalone) {
             var program = $('#' + selectorName + '-programDropdown').val();
             items = items.filter(function(item) {
-                if (program === undefined || item.CustomerRiskGroup === null) {
-                    return item.CustomerRiskGroup === null;
+                if (item.CustomerRiskGroup == null || program === '') {
+                    return item.CustomerRiskGroup == null;
                 } else {
                     return item.CustomerRiskGroup.GroupName === program;
                 }
@@ -205,10 +205,14 @@
         var isStandalone = dataObject.hasOwnProperty('standaloneOption');
 
         var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
-        var dropdownSelector = selectorName + 'Reduction';
+        var dropdownSelector = selectorName + '-reduction';
         var dropdown = _getDropdown(dropdownSelector);
 
         if (!dropdown || !dropdown.options) return;
+
+        if (!isStandalone && dataObject.reductionId != null) {
+            $(dropdown).val(dataObject.reductionId);
+        }
 
         var loanAmortDropdpownValues = $('#' + selectorName + '-amortDropdown option:selected').text();
         var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);

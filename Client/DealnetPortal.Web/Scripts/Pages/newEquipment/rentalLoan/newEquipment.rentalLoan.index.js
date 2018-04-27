@@ -44,8 +44,8 @@
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
             adminFeeSectionId: '#admin-fee-section',
-            fixedRateReductionId: '#FixedRateReduction',
-            deferralReductionId: '#DeferralReduction',
+            fixedRateReductionId: '#FixedRate-reduction',
+            deferralReductionId: '#Deferral-reduction',
             isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
             applicationType: {
                 'loanApplication': '0',

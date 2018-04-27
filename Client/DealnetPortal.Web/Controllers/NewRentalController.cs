@@ -245,7 +245,6 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             var model = await _contractManager.GetEquipmentInfoAsync(contractId);
-
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.CardTypes = model.DealerTier?.RateCards?.Where(q => q.CardType != RateCardType.Custom).Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();

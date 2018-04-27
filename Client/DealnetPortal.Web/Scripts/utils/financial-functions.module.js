@@ -28,10 +28,17 @@
             return includeAdminFee ? withAdminFee : withoutAdminFee;
         };
 
+        var tafBuyDownRate = function(data) {
+            var taf = totalAmountFinanced(data);
+            var adjustedDealerCost = +(taf * (data.InterestRateReduction / 100)).toFixed(2);
+
+            return adjustedDealerCost;
+        }
+
         var yourCost = function (data) {
             var includeAdminFee = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
             var taf = totalAmountFinanced(data);
-            var adjustedDealerCost = +(taf * (data.InterestRateReduction / 100)).toFixed(2);
+            var adjustedDealerCost = tafBuyDownRate(data);
 
             var yCost = data.DealerCost * taf / 100;
 
@@ -99,6 +106,7 @@
             monthlyPayment: monthlyPayment,
             totalAmountFinanced: totalAmountFinanced,
             totalBorrowingCost: totalBorrowingCost,
+            tafBuyDownRate: tafBuyDownRate,
             yourCost: yourCost
         };
     });

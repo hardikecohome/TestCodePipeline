@@ -31,7 +31,8 @@
             '-cRate': 'CustomerRate'
         },
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
-        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
+        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
+        reductionCards: ['FixedRate', 'Deferral']
     }
 
     function _optionSetup(option, callback) {
@@ -50,6 +51,7 @@
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
         $('#' + option + '-aFeeOptionsHolder').find('.custom-radio').on('click', _setAdminFeeCoveredBy(option, callback));
         $('#' + option + '-programDropdown').on('change', setters.setProgram(option, callback));
+        $('#' + option + '-reduction').on('change', setters.setReductionCost(option, callback));
 
         if (option === 'option1') {
             var nextIndex = state[option].equipmentNextIndex;
@@ -346,6 +348,19 @@
 
             if (rateCard !== null && rateCard !== undefined) {
                 $.extend(true, state[option], rateCard);
+
+                state[option].totalAmountFinanced = rateCardsCalculator.getTotalAmountFinanced();
+                if (settings.reductionCards.indexOf(state[option].plan) !== -1) {
+
+                    rateCardsRenderEngine.renderReductionDropdownValues({
+                        standaloneOption: option,
+                        rateCardPlan: state[option].plan,
+                        customerRate: state[option].CustomerRate
+                    });
+
+                    var reducedCustomerRate = state[option].CustomerRate - state[option].CustomerReduction;
+                    state[option].CustomerRate = reducedCustomerRate;
+                }
 
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }

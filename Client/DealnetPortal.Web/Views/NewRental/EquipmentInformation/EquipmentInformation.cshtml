@@ -35,8 +35,6 @@
     @Html.HiddenFor(model => model.ContractId)
     @Html.HiddenFor(model => model.Conditions.FullUpdate, new { Value = true })
     @Html.HiddenFor(x => x.CreditAmount, new { id = "max-credit-amount" })
-    @Html.HiddenFor(x => x.RateReduction)
-    @Html.HiddenFor(x => x.RateReductionCost)
     @Html.HiddenFor(x => x.DealProvince)
     @Html.HiddenFor(x => x.AmortizationTerm)
     @Html.HiddenFor(x => x.Conditions.IsCustomRateCardSelected, new { id = "custom-selected" })
@@ -58,7 +56,9 @@
     @Html.HiddenFor(x => x.DealerTier.PassAdminFee, new { id = "isPassAdminFee" })
     @Html.HiddenFor(x => x.Conditions.IsCustomerFoundInCreditBureau, new { id = "isCustomerFoundInCreditBureau" })
     @Html.HiddenFor(x => x.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt, new { id = "isCapOutMaxAmt" })
-
+    @Html.HiddenFor(x => x.RateReduction, new { id = "rateReduction" })
+    @Html.HiddenFor(x => x.RateReductionCost, new { id = "rateReductionCost" })
+    @Html.HiddenFor(x => x.RateReductionCardId, new { id = "rateReductionId" })
     <div class="form-container">
         <div class="form-section">
             @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&

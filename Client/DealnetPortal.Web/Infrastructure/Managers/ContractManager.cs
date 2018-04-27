@@ -315,7 +315,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             };
 
             var dealerTier = await _contractServiceAgent.GetDealerTier();
-            model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
+	        model.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+		    var reductionCards = await _dictionaryServiceAgent.GetAllRateReductionCards();
+	        model.DealerTier.RateReductionCards = Mapper.Map<List<ReductionCardViewModel>>(reductionCards.Item1);
 
             var planDict = new Dictionary<RateCardType, string>
             {
@@ -338,7 +340,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Distinct()
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
-            model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
+
+            model.RateCardProgramsAvailable = dealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
             if(model.DealerTier != null && model.DealerTier.Name == _clarityProgramTier)
             {
