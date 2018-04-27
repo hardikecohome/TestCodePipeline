@@ -397,6 +397,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
                 .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
                 .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard))
+                .ForMember(d => d.LeaseRatecard, s => s.MapFrom(src => src.LeaseRatecard))
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
         }
 
