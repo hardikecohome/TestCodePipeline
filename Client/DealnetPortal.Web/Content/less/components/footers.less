@@ -1,0 +1,49 @@
+﻿.cancel-save-footer {
+    margin-top: 32px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    .new-btn-grey {
+        margin-right: 24px;
+    }
+
+    .new-btn-grey,
+    .new-btn-solid-red {
+        flex-basis: 17.5%;
+    }
+}
+
+
+@media @tablet-only {
+
+
+    .cancel-save-footer {
+        .new-btn-grey,
+        .new-btn-solid-red {
+            flex-basis: 26.5%;
+        }
+    }
+}
+
+@media @mobile {
+
+    .cancel-save-footer {
+        flex-wrap: wrap;
+
+        .new-btn-grey,
+        .new-btn-solid-red {
+            flex-basis: 100%;
+        }
+
+        .new-btn-grey {
+            order: 2;
+            margin-top: 24px;
+            margin-right: 0;
+        }
+
+        .new-btn-solid-red {
+            order: 1;
+        }
+    }
+}
