@@ -224,6 +224,7 @@ namespace DealnetPortal.Api.Integration.Services
                         creditReport.CreditAmount = creditAmount.CreditAmount;
                         creditReport.EscalatedLimit = creditAmount.EscalatedLimit;
                         creditReport.NonEscalatedLimit = creditAmount.NonEscalatedLimit;
+                        creditReport.BeaconUpdated = creditReport.CreditLastUpdateTime > contract.LastUpdateTime;
                     }
                 }
             }
