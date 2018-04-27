@@ -7021,6 +7021,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total monthly payment exceed pre-approved amount.
+        /// </summary>
+        public static string TotalMonthlyPaymentExceedPreApprovedAmount {
+            get {
+                return ResourceManager.GetString("TotalMonthlyPaymentExceedPreApprovedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total Monthly Payment is in incorrect format.
         /// </summary>
         public static string TotalMonthlyPaymentIncorrectFormat {

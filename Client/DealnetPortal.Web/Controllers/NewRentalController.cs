@@ -355,7 +355,8 @@ namespace DealnetPortal.Web.Controllers
             {
                 ViewBag.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             }
-            ViewBag.AdminFee = 0;
+            ViewBag.AdminFee = 0;            
+            ViewBag.IsStandardRentalTier = ((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
             if (model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()

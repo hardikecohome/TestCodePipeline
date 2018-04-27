@@ -46,6 +46,8 @@
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
             adminFeeSectionId: '#admin-fee-section',
+            totalMonthlyPaymentRowId: '#total-monthly-payment-row',
+            escalationLimitErrorMsgId: '#escalation-limit-error-msg',
             isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',            
             applicationType: {
                 'loanApplication': '0',
@@ -160,7 +162,7 @@
                 var rentalProgramType = $(settings.rentalProgramTypeId).find(":selected").val();
                 var monthlyPayment = Globalize.parseNumber($(settings.totalMonthlyPaymentDisplayId).text());
                 var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
-                if (!isNaN(monthlyPayment) && monthlyPayment >= 0) {
+                if (!isNaN(monthlyPayment) && monthlyPayment >= limit) {
                     event.preventDefault();
                     _toggleMonthlyPaymentEscalationErrors(true);
                     return;
@@ -304,6 +306,19 @@
         }
 
         function _toggleMonthlyPaymentEscalationErrors(show) {
+            if (show === true) {
+                if ($(settings.escalationLimitErrorMsgId).hasClass('hidden'))
+                    $(settings.escalationLimitErrorMsgId).removeClass('hidden');
+                $(settings.totalMonthlyPaymentRowId).children().each(function() {
+                    $(this).addClass('error-decorate');
+                });
+
+            } else {
+                $(settings.escalationLimitErrorMsgId).addClass('hidden');
+                $(settings.totalMonthlyPaymentRowId).children().each(function () {
+                    $(this).removeClass('error-decorate');
+                });
+            }
         }
 
         function _initDatepickers() {
