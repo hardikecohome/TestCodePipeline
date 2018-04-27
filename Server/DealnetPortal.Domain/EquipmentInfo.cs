@@ -95,7 +95,8 @@ namespace DealnetPortal.Domain
         public AnnualEscalationType? RentalProgramType { get; set; }
 
 	    public int? RateReductionCardId { get; set; }
-	    public RateReductionCard RateReductionCard { get; set; }
+        [ForeignKey("RateReductionCardId")]
+        public virtual RateReductionCard RateReductionCard { get; set; }
 
 	    public decimal? RateReduction { get; set; }
 
