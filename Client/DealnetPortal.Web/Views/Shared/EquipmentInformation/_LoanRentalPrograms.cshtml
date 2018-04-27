@@ -30,8 +30,8 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.RentalProgramType)
                 @Html.DropDownListFor(m => m.RentalProgramType, new SelectList(new[] {
-           new SelectListItem { Value = AnnualEscalationType.Escalation35.ToString(), Text = Resources.Escalation_35 },
-           new SelectListItem{Value=AnnualEscalationType.Escalation0.ToString(), Text=Resources.Escalation_0}
+           new SelectListItem { Value = ((int)AnnualEscalationType.Escalation35).ToString(), Text = Resources.Escalation_35 },
+           new SelectListItem{Value=((int)AnnualEscalationType.Escalation0).ToString(), Text=Resources.Escalation_0}
            }, "Value", "Text", Model.RentalProgramType ?? AnnualEscalationType.Escalation35), new
            {
                @class = "form-control",
