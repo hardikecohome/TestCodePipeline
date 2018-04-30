@@ -41,7 +41,6 @@
             customRateCardId: '#custom-rate-card',
             rateCardBlockId: '#rateCardsBlock',
             rentalMonthlyPaymentId: '#rentalTMPayment',
-            totalMonthlyPaymentDisplayId: '#total-monthly-payment-display',
             dealProvinceId: '#DealProvince',
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
@@ -51,15 +50,10 @@
             isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',            
             fixedRateReductionId: '#FixedRate-reduction',
             deferralReductionId: '#Deferral-reduction',
-            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
                 'rentalApplication': '2'
-            },
-            rentalProgramType: {
-                'Escalation0': '0',
-                'Escalation35': '1'                
             }
         });
 
@@ -161,18 +155,10 @@
                     _toggleCustomRateCard();
                     submitRateCard(option);
                 }
-            } else if (state.isStandardRentalTier === true) {
-                var rentalProgramType = $(settings.rentalProgramTypeId).find(":selected").val();
-                var monthlyPayment = Globalize.parseNumber($(settings.totalMonthlyPaymentDisplayId).text());
-                var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
-                if (!isNaN(monthlyPayment) && monthlyPayment >= limit) {
-                    event.preventDefault();
-                    _toggleMonthlyPaymentEscalationErrors(true);
-                    return;
-                } else {
-                    _toggleMonthlyPaymentEscalationErrors(false);
-                }
+            } 
 
+            if ($(settings.escalationLimitErrorMsgId).is(':visible')) {
+                event.preventDefault();
             }
 
             if ($('#sales-rep-types').is(':visible')) {

@@ -1,5 +1,4 @@
 ﻿module.exports('state', function () {
-    console.log(isStandardRentalTier);
     var state = {
         agreementType: 0,
         rateCardReduction: [],
