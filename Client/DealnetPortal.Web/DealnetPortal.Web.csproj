@@ -1243,7 +1243,16 @@
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="webdeployClient.ps1" />
     <Content Include="Views\Shared\_AlertModal.cshtml" />
+    <None Include="Web.ProductionApplication.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.ProductionEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ProductionMortgageBrokers.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ProductionRealtor.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Staging.config">
