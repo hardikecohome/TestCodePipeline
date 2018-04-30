@@ -7,6 +7,7 @@
         totalMonthlyPaymentId: '#total-monthly-payment',
         totalMonthlyPaymentDisplayId: '#total-monthly-payment-display',
         rentalTaxId: '#rentalTax',
+        rentalProgramTypeId: '#rental-program-type',
         rentalTotalMonthlyPaymentId: '#rentalTMPayment',
         totalMonthlyPaymentRowId: '#total-monthly-payment-row',
         escalationLimitErrorMsgId: '#escalation-limit-error-msg',
@@ -54,7 +55,7 @@
             if (state.isStandardRentalTier === true) {
                 var rentalProgramType = $(settings.rentalProgramTypeId).find(":selected").val();
                 var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
-                _toggleMonthlyPaymentEscalationErrors(!isNaN(eSum) && eSum >= limit);
+                _toggleMonthlyPaymentEscalationErrors(!isNaN(eSum) && eSum > limit);
             }
 
             $(settings.totalMonthlyPaymentId).val(formatNumber(eSum));
