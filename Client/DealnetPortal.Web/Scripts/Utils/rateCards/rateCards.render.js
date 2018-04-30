@@ -19,7 +19,7 @@
                     text = translations.noReduction;
                 } else
                 {
-                    text = '-' + this.CustomerReduction + '% ' + translations.for + ' ' + value + '$';
+                    text = '-' + this.CustomerReduction + '% ' + translations.for + ' ' + '$' + value;
                 }
                 return {
                     val: this.Id,
