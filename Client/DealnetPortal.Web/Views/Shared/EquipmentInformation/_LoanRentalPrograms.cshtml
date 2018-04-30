@@ -96,21 +96,13 @@
 
 <div class="financing-options">
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 loan-element">
+        <div class="col-xs-12 col-sm-8 col-md-6">
             <h3 class="dealnet-middle-header">
                 @Resources.FinancingOptions
                 @if(Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
                 {
                     <text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
                 }
-                <span class="financing-arrow" id="loanRateCardToggle">
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                </span>
-            </h3>
-        </div>
-        <div class="col-xs-12 col-sm-8 col-md-6 rental-element">
-            <h3 class="dealnet-middle-header">
-                @Resources.FinancingOptions
                 <span class="financing-arrow" id="loanRateCardToggle">
                     <i class="glyphicon glyphicon-chevron-down"></i>
                 </span>
