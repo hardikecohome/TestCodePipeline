@@ -131,9 +131,9 @@
             }
         </div>
     </div>
-    <div class="row form-group align-middle">
+    <div class="row form-group align-middle" id="option1-reductionWrapper">
         <div class="col-xs-6">
-            @Resources.CustomerRateReduction
+            @Resources.CustomerRateReduction    
         </div>
         <div class="col-xs-6">
             @Html.DropDownList("option1-reduction", Enumerable.Empty<SelectListItem>(), Resources.NoReduction, new { @class = "form-control", id = "option1-reduction" })

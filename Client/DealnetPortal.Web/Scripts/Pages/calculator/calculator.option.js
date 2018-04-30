@@ -347,15 +347,25 @@
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
+                if (!state[option].CustomerReduction || !state[option].InterestRateReduction) {
+                    state[option].CustomerReduction = !state[option].CustomerReduction ? 0 : state[option].CustomerReduction;
+                    state[option].InterestRateReduction = !state[option].InterestRateReduction ? 0 : state[option].InterestRateReduction;
+                }
+
                 $.extend(true, state[option], rateCard);
 
-                state[option].totalAmountFinanced = rateCardsCalculator.getTotalAmountFinanced();
                 if (settings.reductionCards.indexOf(state[option].plan) !== -1) {
+
+                    var taf = rateCardsCalculator.getTotalAmountFinanced({
+                        includeAdminFee: state[option].includeAdminFee,
+                        AdminFee: state[option].AdminFee
+                    });
 
                     rateCardsRenderEngine.renderReductionDropdownValues({
                         standaloneOption: option,
                         rateCardPlan: state[option].plan,
-                        customerRate: state[option].CustomerRate
+                        customerRate: state[option].CustomerRate,
+                        totalAmountFinanced: taf
                     });
 
                     var reducedCustomerRate = state[option].CustomerRate - state[option].CustomerReduction;

@@ -178,7 +178,7 @@
 
         $.each(items, function () {
             if (this.LoanValueTo >= totalCash && this.LoanValueFrom <= totalCash) {
-                if (this.CustomerRiskGroup !== null) {
+                if (this.CustomerRiskGroup != null) {
                     var dropdownValue = this.CustomerRiskGroup.GroupName;
                     if (dropdowns.indexOf(dropdownValue) === -1) {
                         dropdowns.push(dropdownValue);
@@ -225,7 +225,7 @@
         });
 
         reductionValues.unshift({ Id: 0, InterestRateReduction: 0, CustomerReduction: 0 });
-        _buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(totalAmountFinanced));
+        _buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(dataObject.totalAmountFinanced));
     }
 
     function _buildDropdownValues(selector, dropdown, items, template) {

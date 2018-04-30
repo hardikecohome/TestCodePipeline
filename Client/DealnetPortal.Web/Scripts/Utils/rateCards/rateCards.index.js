@@ -37,8 +37,10 @@
                 return sum + cost;
             }, 0);
     };
-    var getTotalAmountFinanced = function () {
-        return totalAmountFinanced($.extend({}, {
+    var getTotalAmountFinanced = function (data) {
+        if (!data) data = {};
+
+        return totalAmountFinanced($.extend(data, {
             equipmentSum: state.eSum,
             downPayment: state.downPayment
         }));

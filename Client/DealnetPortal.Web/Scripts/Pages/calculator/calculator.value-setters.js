@@ -115,6 +115,12 @@
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
             //var e = document.getElementById(optionKey + '-amortDropdown');
             //e.selectedIndex = -1;
+            if (constants.reductionCards.indexOf(planType) !== -1) {
+                $('#' + optionKey + '-reductionWrapper').removeClass('hidden');
+            } else {
+                $('#' + optionKey + '-reductionWrapper').addClass('hidden');
+            }
+
             if (planType === 'Deferral' || planType === 'Custom') {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');

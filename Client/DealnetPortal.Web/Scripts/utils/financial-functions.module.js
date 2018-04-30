@@ -21,7 +21,7 @@
         var totalAmountFinanced = function (data) {
             var tPrice = totalPrice(data);
             var downPayment = data.downPayment;
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var includeAdminFee = data.includeAdminFee != undefined ? data.includeAdminFee : false;
             var withAdminFee = tPrice + data.AdminFee - downPayment;
             var withoutAdminFee = tPrice - downPayment;
 
@@ -36,7 +36,7 @@
         }
 
         var yourCost = function (data) {
-            var includeAdminFee = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
+            var includeAdminFee = data.includeAdminFee != undefined ? !data.includeAdminFee : false;
             var taf = totalAmountFinanced(data);
             var adjustedDealerCost = tafBuyDownRate(data);
 
@@ -87,7 +87,7 @@
         var totalBorrowingCost = function (data) {
             var tObligation = totalObligation(data);
             var tAmountFinanced = totalAmountFinanced(data);
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var includeAdminFee = data.includeAdminFee != undefined ? data.includeAdminFee : false;
             var adminFee = includeAdminFee ? data.AdminFee : 0;
 
             var borrowingCost = tObligation - tAmountFinanced + adminFee;

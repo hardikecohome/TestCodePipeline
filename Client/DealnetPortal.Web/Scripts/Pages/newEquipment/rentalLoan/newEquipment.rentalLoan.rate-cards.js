@@ -112,7 +112,7 @@ module.exports('rate-cards', function (require) {
                 if (state[option.name]) {
                     obj = {
                         CustomerReduction: !state[option.name].CustomerReduction ? 0 : state[option.name].CustomerReduction,
-                        InterestRateReduction: !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction,
+                        InterestRateReduction: !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction
                     }
                 }
 
@@ -126,13 +126,18 @@ module.exports('rate-cards', function (require) {
                 state[option.name].CustomerReduction = !state[option.name].CustomerReduction ? 0 : state[option.name].CustomerReduction,
                 state[option.name].InterestRateReduction = !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction,
                 state[option.name].yourCost = '';
-                state[option.name].totalAmountFinanced = rateCardsCalculator.getTotalAmountFinanced();
 
                 if (settings.reductionCards.indexOf(option.name) !== -1) {
+                    var taf = rateCardsCalculator.getTotalAmountFinanced({
+                        includeAdminFee: state.isCoveredByCustomer,
+                        AdminFee: state[option.name].AdminFee
+                    });
+
                     rateCardsRenderEngine.renderReductionDropdownValues({
                         rateCardPlan: option.name,
                         customerRate: state[option.name].CustomerRate,
-                        reductionId: state[option.name].ReductionId
+                        reductionId: state[option.name].ReductionId,
+                        totalAmountFinanced: taf
                     });
 
                     var reducedCustomerRate = state[option.name].CustomerRate - state[option.name].CustomerReduction;
