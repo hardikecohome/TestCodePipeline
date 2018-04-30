@@ -166,7 +166,11 @@ module.exports('rate-cards', function (require) {
                 includeAdminFee: includeAdminFeeInCalc
             }, idToValue(state)(option.name)));
             var totalAmountFinance = data.totalAmountFinanced;
-            state[option.name].CustomerReductionCost = data.tafBuyDownRate;
+
+            if (option.name !== 'Custom' && state[option.name]) {
+                state[option.name].CustomerReductionCost = data.tafBuyDownRate;
+            }
+
             if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
                 $('#max-amt-cap-out-error').show();
                 $('#submit').addClass('disabled');
