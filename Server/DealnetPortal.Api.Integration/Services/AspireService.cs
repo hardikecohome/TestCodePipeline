@@ -1858,7 +1858,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DealerTierName,
-                    Value = contract.Dealer?.Tier?.Name
+                    Value = contract.Dealer?.Tier?.Name ?? BlankValue
                 });
 
                 var creditAmount = contract.Details?.CreditAmount ?? 0.0m;
