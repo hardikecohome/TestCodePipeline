@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -1243,6 +1243,9 @@
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="webdeployClient.ps1" />
     <Content Include="Views\Shared\_AlertModal.cshtml" />
+    <None Include="Web.ProductionEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Staging.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1325,6 +1328,18 @@
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TrainingClarity|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionEcohome|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionApplication|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionRealtor|AnyCPU'">
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

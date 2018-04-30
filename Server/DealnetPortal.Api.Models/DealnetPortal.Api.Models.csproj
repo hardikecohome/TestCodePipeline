@@ -53,6 +53,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TrainingClarity|AnyCPU'">
     <OutputPath>bin\TrainingClarity\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
+    <OutputPath>bin\Production\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

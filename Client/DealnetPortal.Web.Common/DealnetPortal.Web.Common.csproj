@@ -48,6 +48,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TrainingClarity|AnyCPU'">
     <OutputPath>bin\TrainingClarity\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionEcohome|AnyCPU'">
+    <OutputPath>bin\ProductionEcohome\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionApplication|AnyCPU'">
+    <OutputPath>bin\ProductionApplication\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\ProductionMortgageBrokers\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionRealtor|AnyCPU'">
+    <OutputPath>bin\ProductionRealtor\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DealnetPortal.Api.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
