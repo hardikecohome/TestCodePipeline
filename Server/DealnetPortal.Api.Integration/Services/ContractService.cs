@@ -153,7 +153,7 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.PrimaryCustomer.CreditReport == null)
             {
                 var creditReport = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
-                beaconUpdated = creditReport.BeaconUpdated;
+                beaconUpdated = creditReport?.BeaconUpdated ?? false;
                 var beacon = creditReport?.Beacon;
                 if (beacon.HasValue)
                 {
