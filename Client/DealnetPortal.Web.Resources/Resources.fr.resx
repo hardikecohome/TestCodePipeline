@@ -2769,9 +2769,6 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>appartient au client</value>
   </data>
   <data name="MaximumAmountCapingOut" xml:space="preserve">
-    <value>Le montant total financé ne peut dépasser le montant  pré-approuvé</value>
-  </data>
-  <data name="MaximumAmountCapingOutCreditReview" xml:space="preserve">
     <value>Le montant total financé ne peut dépasser le montant  demandé</value>
   </data>
   <data name="NameOfExistingSupplier" xml:space="preserve">
