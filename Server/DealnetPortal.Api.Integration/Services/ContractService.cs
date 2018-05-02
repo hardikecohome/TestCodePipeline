@@ -145,14 +145,29 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-
+            var beaconUpdated = false;
             //check credit report status and update if needed
             if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
                 contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
             {
-                _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                var creditReport = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                beaconUpdated = creditReport.BeaconUpdated;
+                var beacon = creditReport?.Beacon;
+                if (beacon.HasValue)
+                {
+                    _contractRepository.UpdateContractData(new ContractData()
+                    {
+                        Id = contractId,
+                        Details = new ContractDetails()
+                        {
+                            CreditAmount = creditReport.CreditAmount,
+                        }
+                    }, contractOwnerId);
+                    _unitOfWork.Save();
+                }
+
             }
 
             //check contract signature status (for old contracts)
@@ -171,6 +186,7 @@ namespace DealnetPortal.Api.Integration.Services
                     // here is just aftermapping for get credit amount and escalation limits for customers who has credit report
                     contractDTO.PrimaryCustomer.CreditReport =
                         _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                    contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
                 }
             }
             return contractDTO;
