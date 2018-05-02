@@ -218,7 +218,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (creditReport != null)
                 {
-                    var creditAmount = _rateCardsRepository.GetCreditAmountSetting(creditReport.Beacon);
+                    var creditAmount = _rateCardsRepository.GetCreditAmountSetting(creditReport.Beacon.Value);
                     if (creditAmount != null)
                     {
                         creditReport.CreditAmount = creditAmount.CreditAmount;

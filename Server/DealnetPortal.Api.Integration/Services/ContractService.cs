@@ -33,6 +33,7 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly IDealerRepository _dealerRepository;
+        private readonly IRateCardsRepository _rateCardsRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
@@ -51,7 +52,7 @@ namespace DealnetPortal.Api.Integration.Services
             ICreditCheckService creditCheckService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration, IDocumentService documentService)
+            IAppConfiguration configuration, IDocumentService documentService, IRateCardsRepository rateCardsRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -63,6 +64,7 @@ namespace DealnetPortal.Api.Integration.Services
             _mailService = mailService;
             _configuration = configuration;
             _documentService = documentService;
+            _rateCardsRepository = rateCardsRepository;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -187,6 +189,15 @@ namespace DealnetPortal.Api.Integration.Services
                     contractDTO.PrimaryCustomer.CreditReport =
                         _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
                     contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
+                }
+                else
+                {
+                    var creditAmountSettings = _rateCardsRepository.GetCreditAmountSetting(0);
+                    contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
+                    {
+                        EscalatedLimit = creditAmountSettings.EscalatedLimit,
+                        NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
+                    };
                 }
             }
             return contractDTO;

@@ -1111,7 +1111,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             conditions.IsAllInfoCompleted = contract.PaymentInfo != null && contract.PrimaryCustomer?.Phones != null && contract.PrimaryCustomer.Phones.Any();
             conditions.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
             conditions.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
-            conditions.IsCustomerFoundInCreditBureau = contract.PrimaryCustomer?.CreditReport != null;
+            conditions.IsCustomerFoundInCreditBureau = contract.PrimaryCustomer?.CreditReport?.Beacon.HasValue ?? false;
             conditions.IsSubmittedWithoutCustomerRateCard = false;
             conditions.IsBeaconUpdated = contract.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
             conditions.IsClarityDealer = dealerTier?.Name == _clarityProgramTier;
