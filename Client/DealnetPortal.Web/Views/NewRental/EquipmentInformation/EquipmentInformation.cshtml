@@ -207,9 +207,6 @@ else
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
 		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;            
-        var rentalEscalatedLimit = @(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0);
-        var rentalNonEscalatedLimit = @(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0);
-        var isStandardRentalTier = '@ViewBag.IsStandardRentalTier'.toLowerCase() === 'true';
         </script>
 
         <script type="text/javascript">
