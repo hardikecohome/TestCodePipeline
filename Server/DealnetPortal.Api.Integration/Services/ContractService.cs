@@ -192,12 +192,16 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var creditAmountSettings = _rateCardsRepository.GetCreditAmountSetting(0);
-                    contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
-                    {
-                        EscalatedLimit = creditAmountSettings.EscalatedLimit,
-                        NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
-                    };
+	                var lowestCreditScoreValue = 0;
+	                var creditAmountSettings = _rateCardsRepository.GetCreditAmountSetting(lowestCreditScoreValue);
+	                if (contractDTO.PrimaryCustomer != null)
+	                {
+		                contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
+		                {
+			                EscalatedLimit = creditAmountSettings.EscalatedLimit,
+			                NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
+		                };
+	                }
                 }
             }
             return contractDTO;
