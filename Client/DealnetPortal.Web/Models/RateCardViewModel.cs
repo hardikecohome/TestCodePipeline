@@ -28,6 +28,7 @@ namespace DealnetPortal.Web.Models
         public decimal AmortizationTerm { get; set; }
 
         public decimal DeferralPeriod { get; set; }
+        public CustomerRiskGroupViewModel CustomerRiskGroup { get; set; }
 
         public bool IsPromo { get; set; }
     }
