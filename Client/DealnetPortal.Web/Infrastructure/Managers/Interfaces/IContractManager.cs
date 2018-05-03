@@ -43,7 +43,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
         /// </summary>
         Task<Tuple<int?, IList<Alert>>> CreateNewCustomerContract(int contractId);
 
-        Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync();
+	    Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync();
 
         Task<bool> CheckRateCard(int contractId, int? rateCardId);
         Task<ESignatureViewModel> GetContractSignatureStatus(int contractId);

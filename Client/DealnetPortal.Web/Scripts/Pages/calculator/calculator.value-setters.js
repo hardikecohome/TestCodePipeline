@@ -32,6 +32,9 @@
 
     var setLoanAmortTerm = function (optionKey, callback) {
         return function (e) {
+            state[optionKey].InterestRateReduction = 0;
+            state[optionKey].CustomerReduction = 0;
+            state[optionKey].ReductionId = null;
             callback([optionKey]);
         };
     };

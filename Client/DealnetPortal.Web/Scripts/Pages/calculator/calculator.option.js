@@ -355,21 +355,7 @@
                 $.extend(true, state[option], rateCard);
 
                 if (settings.reductionCards.indexOf(state[option].plan) !== -1) {
-
-                    var taf = rateCardsCalculator.getTotalAmountFinanced({
-                        includeAdminFee: state[option].includeAdminFee,
-                        AdminFee: state[option].AdminFee
-                    });
-
-                    rateCardsRenderEngine.renderReductionDropdownValues({
-                        standaloneOption: option,
-                        rateCardPlan: state[option].plan,
-                        customerRate: state[option].CustomerRate,
-                        totalAmountFinanced: taf
-                    });
-
-                    var reducedCustomerRate = state[option].CustomerRate - state[option].CustomerReduction;
-                    state[option].CustomerRate = reducedCustomerRate;
+                    _setReductionRates(option);
                 }
 
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
@@ -388,6 +374,30 @@
 
             rateCardsRenderEngine.renderOption(option, selectedRateCard, data);
         });
+    }
+
+    function _setReductionRates(rateCardOption) {
+
+        var taf = rateCardsCalculator.getTotalAmountFinanced({
+            includeAdminFee: state[rateCardOption].includeAdminFee,
+            AdminFee: state[rateCardOption].AdminFee
+        });
+
+        rateCardsRenderEngine.renderReductionDropdownValues({
+            standaloneOption: rateCardOption,
+            rateCardPlan: state[rateCardOption].plan,
+            customerRate: state[rateCardOption].CustomerRate,
+            totalAmountFinanced: taf
+        });
+
+        var reducedCustomerRate = state[rateCardOption].CustomerRate - state[rateCardOption].CustomerReduction;
+        if (reducedCustomerRate < 0) {
+            state[rateCardOption].ReductionId = null;
+            state[rateCardOption].CustomerReduction = 0;
+            state[rateCardOption].InterestRateReduction = 0;
+        } else {
+            state[rateCardOption].CustomerRate = reducedCustomerRate;
+        }
     }
 
     function _setAdminFeeByEquipmentSum(option, eSum) {
