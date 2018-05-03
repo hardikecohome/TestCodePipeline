@@ -3,6 +3,7 @@
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
+        var onProgramTypeChange = require('newEquipment.rental').onProgramTypeChange;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -239,6 +240,7 @@
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
             $(settings.fixedRateReductionId).on('change', setters.setReductionCost('FixedRate'));
             $(settings.deferralReductionId).on('change', setters.setReductionCost('Deferral'));
+            $(settings.rentalProgramTypeId).on('change', onProgramTypeChange);
 
             $('#initiated-contract-checkbox').on('click', function (e) {
                 $('#initiated-contract').val(e.target.checked);
@@ -293,22 +295,6 @@
             });
 
             show ? $('#error-message').removeClass('hidden') : $('#error-message').addClass('hidden');
-        }
-
-        function _toggleMonthlyPaymentEscalationErrors(show) {
-            if (show === true) {
-                if ($(settings.escalationLimitErrorMsgId).hasClass('hidden'))
-                    $(settings.escalationLimitErrorMsgId).removeClass('hidden');
-                $(settings.totalMonthlyPaymentRowId).children().each(function() {
-                    $(this).addClass('error-decorate');
-                });
-
-            } else {
-                $(settings.escalationLimitErrorMsgId).addClass('hidden');
-                $(settings.totalMonthlyPaymentRowId).children().each(function () {
-                    $(this).removeClass('error-decorate');
-                });
-            }
         }
 
         function _initDatepickers() {

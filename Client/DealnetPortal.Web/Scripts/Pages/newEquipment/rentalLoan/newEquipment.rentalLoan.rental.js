@@ -51,12 +51,7 @@
             return isNaN(val);
         });
         if (notNan && data.equipmentSum !== 0) {
-
-            if (state.isStandardRentalTier === true) {
-                var rentalProgramType = $(settings.rentalProgramTypeId).find(":selected").val();
-                var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
-                _toggleMonthlyPaymentEscalationErrors(!isNaN(eSum) && eSum > limit);
-            }
+            _onProgramTypeChange($(settings.rentalProgramTypeId).find(":selected").val());
 
             $(settings.totalMonthlyPaymentId).val(formatNumber(eSum));
             $(settings.totalMonthlyPaymentDisplayId).text(formatNumber(eSum));
@@ -89,6 +84,19 @@
         }
     };
 
+    var onProgramTypeChange = function(e) {
+        _onProgramTypeChange(e.target.value);
+    }
+
+    function _onProgramTypeChange(value) {
+        if (state.isStandardRentalTier === true) {
+            var eSum = monthlySum(state.equipments);
+            var rentalProgramType = value;
+            var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
+            _toggleMonthlyPaymentEscalationErrors(!isNaN(eSum) && eSum > limit);
+        }
+    }
+
     function _toggleMonthlyPaymentEscalationErrors(show) {
         if (show === true) {
             if ($(settings.escalationLimitErrorMsgId).hasClass('hidden'))
@@ -107,6 +115,7 @@
 
     return {
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
-        recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
+        recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
+        onProgramTypeChange: onProgramTypeChange
     }
 });
