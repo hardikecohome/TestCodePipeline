@@ -2223,6 +2223,28 @@
                                             }
                                             <div class="form-group">
                                                 <div class="row">
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].Model, new
+                                                    {
+                                                        @class = "dealnet-field-caption col-xs-6"
+                                                    })
+                                                    <div class="dealnet-field-holder col-xs-6">
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].Model
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].SerialNumber, new
+                                                    {
+                                                        @class = "dealnet-field-caption col-xs-6"
+                                                    })
+                                                    <div class="dealnet-field-holder col-xs-6">
+                                                        @contract.EquipmentInfo.ExistingEquipment[i].SerialNumber
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
                                                     @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].GeneralCondition, new
                                                     {
                                                         @class = "dealnet-field-caption col-xs-6"
@@ -2251,28 +2273,6 @@
                                                     })
                                                     <div class="dealnet-field-holder col-xs-6">
                                                         @contract.EquipmentInfo.ExistingEquipment[i].Make
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].Model, new
-                                                    {
-                                                        @class = "dealnet-field-caption col-xs-6"
-                                                    })
-                                                    <div class="dealnet-field-holder col-xs-6">
-                                                        @contract.EquipmentInfo.ExistingEquipment[i].Model
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    @Html.LabelFor(m => contract.EquipmentInfo.ExistingEquipment[i].SerialNumber, new
-                                                    {
-                                                        @class = "dealnet-field-caption col-xs-6"
-                                                    })
-                                                    <div class="dealnet-field-holder col-xs-6">
-                                                        @contract.EquipmentInfo.ExistingEquipment[i].SerialNumber
                                                     </div>
                                                 </div>
                                             </div>
