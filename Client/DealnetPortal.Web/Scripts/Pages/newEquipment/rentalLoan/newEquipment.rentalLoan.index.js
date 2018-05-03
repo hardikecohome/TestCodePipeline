@@ -221,7 +221,7 @@
         function _initHandlers() {
             $(settings.submitButtonId).on('click', _submitForm);
             constants.rateCards.forEach(function (option) {
-                $('#' + option.name + '-amortDropdown').on('change', recalculateValuesAndRender);
+                $('#' + option.name + '-amortDropdown').on('change', setters.setLoanAmortTerm(option.name));
             });
             $(settings.addEquipmentId).on('click', equipment.addEquipment);
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);

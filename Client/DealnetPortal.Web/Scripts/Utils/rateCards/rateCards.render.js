@@ -48,7 +48,7 @@
             throw new Error('settings are empty. Use init method first.');
 
         var notNan = !Object.keys(data).map(idToValue(data)).some(function (val) {
-            return isNaN(val);
+            return typeof val === "object" ? false : isNaN(val);
         });
         var validateNumber = settings.numberFields.every(function (field) {
             return typeof data[field] === 'number';

@@ -108,40 +108,17 @@ module.exports('rate-cards', function (require) {
 
             if (rateCard !== null && rateCard !== undefined) {
 
-                var obj = {CustomerReduction: 0, InterestRateReduction: 0, ReductionId: null };
-                if (state[option.name]) {
-                    obj = {
-                        CustomerReduction: !state[option.name].CustomerReduction ? 0 : state[option.name].CustomerReduction,
-                        InterestRateReduction: !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction
-                    }
-                }
-
                 var reductionId = !state[option.name] || !state[option.name].ReductionId ? null : state[option.name].ReductionId;
                 var customerReduction = !state[option.name] || !state[option.name].CustomerReduction ? null : state[option.name].CustomerReduction;
                 var interestRateReduction = !state[option.name] || !state[option.name].InterestRateReduction ? null : state[option.name].InterestRateReduction;
-                state[option.name] = $.extend(true, obj, rateCard);
+                state[option.name] = $.extend(true, {}, rateCard);
                 state[option.name].ReductionId = reductionId;
                 state[option.name].CustomerReduction = customerReduction;
                 state[option.name].InterestRateReduction = interestRateReduction;
-                state[option.name].CustomerReduction = !state[option.name].CustomerReduction ? 0 : state[option.name].CustomerReduction,
-                state[option.name].InterestRateReduction = !state[option.name].InterestRateReduction ? 0 : state[option.name].InterestRateReduction,
                 state[option.name].yourCost = '';
 
                 if (settings.reductionCards.indexOf(option.name) !== -1) {
-                    var taf = rateCardsCalculator.getTotalAmountFinanced({
-                        includeAdminFee: state.isCoveredByCustomer,
-                        AdminFee: state[option.name].AdminFee
-                    });
-
-                    rateCardsRenderEngine.renderReductionDropdownValues({
-                        rateCardPlan: option.name,
-                        customerRate: state[option.name].CustomerRate,
-                        reductionId: state[option.name].ReductionId,
-                        totalAmountFinanced: taf
-                    });
-
-                    var reducedCustomerRate = state[option.name].CustomerRate - state[option.name].CustomerReduction;
-                    state[option.name].CustomerRate = reducedCustomerRate;
+                    _setReductionRates(option.name);
                 }
 
                 rateCardsRenderEngine.renderAfterFiltration(option.name, {
@@ -184,6 +161,29 @@ module.exports('rate-cards', function (require) {
 
     var init = function () {
         rateCardsRenderEngine.init(settings);
+    }
+    
+    function _setReductionRates(rateCardOption) {
+        var taf = rateCardsCalculator.getTotalAmountFinanced({
+            includeAdminFee: state.isCoveredByCustomer,
+            AdminFee: state[rateCardOption].AdminFee
+        });
+
+        rateCardsRenderEngine.renderReductionDropdownValues({
+            rateCardPlan: rateCardOption,
+            customerRate: state[rateCardOption].CustomerRate,
+            reductionId: state[rateCardOption].ReductionId,
+            totalAmountFinanced: taf
+        });
+
+        var reducedCustomerRate = state[rateCardOption].CustomerRate - state[rateCardOption].CustomerReduction;
+        if (reducedCustomerRate < 0) {
+            state[rateCardOption].ReductionId = null;
+            state[rateCardOption].CustomerReduction = 0;
+            state[rateCardOption].InterestRateReduction = 0;
+        } else {
+            state[rateCardOption].CustomerRate = reducedCustomerRate;
+        }
     }
 
     return {
