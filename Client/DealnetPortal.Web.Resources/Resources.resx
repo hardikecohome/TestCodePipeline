@@ -2667,7 +2667,7 @@ Additional program options may become available when customer’s credit details
     <value>Pre-Approved up to a maximum of</value>
   </data>
   <data name="MaximumAmountCapingOut" xml:space="preserve">
-    <value>The total amount financed cannot exceed the pre-approval amount of $</value>
+    <value>The total amount financed cannot exceed the amount of $</value>
   </data>
   <data name="CustomerOwned" xml:space="preserve">
     <value>Customer Owned?</value>
