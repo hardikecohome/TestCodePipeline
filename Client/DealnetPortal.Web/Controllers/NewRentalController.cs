@@ -34,26 +34,25 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private readonly IDealerServiceAgent _dealerServiceAgent;
+
         public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, 
-            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager, IDealerServiceAgent dealerServiceAgent) : base(contractManager)
+            IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager) : base(contractManager)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
             _contractServiceAgent = contractServiceAgent;
             _contractManager = contractManager;
             _dictionaryServiceAgent = dictionaryServiceAgent;
-            _dealerServiceAgent = dealerServiceAgent;
         }
 
         public async Task<ActionResult> ContractEdit(int contractId)
         {
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-
-            if (contractResult.Item1 != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
+            var contractResult = await _contractServiceAgent.GetContracts(new List<int> {contractId});
+            var contract = contractResult.Item1.FirstOrDefault();
+            if (contract != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
-                var isNewlyCreated = contractResult.Item1.IsNewlyCreated;
+                var isNewlyCreated = contract.IsNewlyCreated;
 
-                if (contractResult.Item1.IsNewlyCreated == true)
+                if (contract.IsNewlyCreated == true)
                 {
                     var result = await _contractServiceAgent.NotifyContractEdit(contractId);
 
@@ -63,12 +62,12 @@ namespace DealnetPortal.Web.Controllers
                     }
                 }
 
-                if (contractResult.Item1.ContractState == ContractState.CreditConfirmed && isNewlyCreated != true)
+                if (contract.ContractState == ContractState.CreditConfirmed && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
 
-                if (contractResult.Item1.ContractState >= ContractState.Completed || contractResult.Item1.ContractState == ContractState.CreditCheckDeclined)
+                if (contract.ContractState >= ContractState.Completed || contract.ContractState == ContractState.CreditCheckDeclined)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
                 }
