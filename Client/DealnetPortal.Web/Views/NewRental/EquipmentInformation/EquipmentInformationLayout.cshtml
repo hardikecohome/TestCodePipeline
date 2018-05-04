@@ -20,7 +20,7 @@
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
     <div class="form-section">
-        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau) && TempData["MaxCreditAmount"] != null)
+        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
