@@ -6,6 +6,11 @@ DISTINCT
 	case when COALESCE(parent_ratecard.Value, ratecard.value) is null then 'Tier 1'  when COALESCE(parent_ratecard.Value, ratecard.value) = 'Rate Card Tier 2' then 'Tier 1' when
 	COALESCE(parent_ratecard.Value, ratecard.value) = 'Rate Card Tier 1' then 'Tier 1'
 	 else COALESCE(parent_ratecard.Value, ratecard.value) end as ratecard,
+	 	 
+	case when COALESCE(parent_leaseratecard.Value, leaseratecard.value) is null then ''  when COALESCE(parent_leaseratecard.Value, leaseratecard.value) = 'Rate Card Tier 2' then 'Tier 1' when
+	COALESCE(parent_leaseratecard.Value, leaseratecard.value) = 'Rate Card Tier 1' then 'Tier 1'
+	 else COALESCE(parent_leaseratecard.Value, leaseratecard.value) end as lease_ratecard,
+
 	rol.active,
 	rol.inactive_date,
 	rol.descr as Role,
@@ -35,10 +40,11 @@ LEFT JOIN Phone (nolock) as fax
  LEFT JOIN [DocGenAccOtherUDF-Dealer Type] d_type (NOLOCK) ON e.oid = d_type.oid
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] c_type (NOLOCK) ON e.oid = c_type.oid
  LEFT JOIN [DocGenAccOtherUDF-RateCard] ratecard (NOLOCK) ON e.oid = ratecard.oid
+ LEFT JOIN [DocGenAccOtherUDF-leaseratecard] leaseratecard (NOLOCK) ON e.oid = leaseratecard.oid
  
-
  LEFT JOIN [DocGenAccOtherUDF-RateCard] parent_ratecard (NOLOCK) ON e.parent_oid = parent_ratecard.oid
  LEFT JOIN [DocGenAccOtherUDF-Dealer Type] parent_d_type (NOLOCK) ON e.parent_oid = parent_d_type.oid
  LEFT JOIN [DocGenAccOtherUDF-ChannelType] parent_c_type (NOLOCK) ON e.parent_oid = parent_c_type.oid
+ LEFT JOIN [DocGenAccOtherUDF-leaseratecard] parent_leaseratecard (NOLOCK) ON e.oid = parent_leaseratecard.oid
  
  where sc.user_id  = '{0}';

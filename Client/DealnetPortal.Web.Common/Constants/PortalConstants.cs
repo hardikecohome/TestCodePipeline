@@ -29,7 +29,9 @@
     public static class ClaimContstants
     {
         public const string QuebecDealer = "QuebecDealer";
+        public const string ClarityDealer = "ClarityDealer";
     }
+
     public static class RoleContstants
     {
         public const string Dealer = "Dealer";

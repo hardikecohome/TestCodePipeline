@@ -21,18 +21,28 @@
         var totalAmountFinanced = function (data) {
             var tPrice = totalPrice(data);
             var downPayment = data.downPayment;
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var includeAdminFee = data.includeAdminFee != undefined ? data.includeAdminFee : false;
             var withAdminFee = tPrice + data.AdminFee - downPayment;
             var withoutAdminFee = tPrice - downPayment;
 
             return includeAdminFee ? withAdminFee : withoutAdminFee;
         };
 
-        var yourCost = function (data) {
-            var includeAdminFee = data.includeAdminFee !== undefined ? !data.includeAdminFee : false;
-            var yCost = data.DealerCost * totalAmountFinanced(data) / 100;
+        var tafBuyDownRate = function(data) {
+            var taf = totalAmountFinanced(data);
+            var adjustedDealerCost = +(taf * (data.InterestRateReduction / 100)).toFixed(2);
 
-            return includeAdminFee ? yCost + data.AdminFee : yCost;
+            return adjustedDealerCost;
+        }
+
+        var yourCost = function (data) {
+            var includeAdminFee = data.includeAdminFee != undefined ? !data.includeAdminFee : false;
+            var taf = totalAmountFinanced(data);
+            var adjustedDealerCost = tafBuyDownRate(data);
+
+            var yCost = data.DealerCost * taf / 100;
+
+            return includeAdminFee ? yCost + data.AdminFee + adjustedDealerCost : yCost + adjustedDealerCost;
         }
 
         var monthlyPayment = function (data) {
@@ -77,7 +87,7 @@
         var totalBorrowingCost = function (data) {
             var tObligation = totalObligation(data);
             var tAmountFinanced = totalAmountFinanced(data);
-            var includeAdminFee = data.includeAdminFee !== undefined ? data.includeAdminFee : false;
+            var includeAdminFee = data.includeAdminFee != undefined ? data.includeAdminFee : false;
             var adminFee = includeAdminFee ? data.AdminFee : 0;
 
             var borrowingCost = tObligation - tAmountFinanced + adminFee;
@@ -96,6 +106,7 @@
             monthlyPayment: monthlyPayment,
             totalAmountFinanced: totalAmountFinanced,
             totalBorrowingCost: totalBorrowingCost,
+            tafBuyDownRate: tafBuyDownRate,
             yourCost: yourCost
         };
     });

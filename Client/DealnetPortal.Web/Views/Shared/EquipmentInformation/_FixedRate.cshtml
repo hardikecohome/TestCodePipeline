@@ -41,11 +41,17 @@
     </div>
     <div class="equal-height-row-4">
       <div class="clearfix">
-        <div class="row form-group">
-          &nbsp;
-          <div class="col-xs-6 hidden">@Resources.YourCost</div>
-          <div class="col-xs-6 text-right text-stronger hidden" id="FixedRateYCostVal"></div>
-        </div>
+          <div class="row form-group">
+              &nbsp;
+              <div class="col-xs-6 hidden">@Resources.YourCost</div>
+              <div class="col-xs-6 text-right text-stronger hidden" id="FixedRateYCostVal"></div>
+          </div>
+          <div class="row form-group">
+              <div class="equal-height-label-2">
+                  <label>@Resources.CustomerRateReduction</label>
+              </div>
+              @Html.DropDownList("FixedRateReduction", Enumerable.Empty<SelectListItem>(), Resources.NoReduction, new {@class = "form-control", id = "FixedRate-reduction" })
+          </div>
         <div class="row form-group">
           <div class="col-xs-6">@Resources.CustomerRate</div>
           <div class="col-xs-6 text-right text-stronger" id="FixedRateCRate"></div>

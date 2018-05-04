@@ -79,5 +79,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
 
         Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture);
+
+        Task<Tuple<IList<RateReductionCardDTO>, IList<Alert>>> GetAllRateReductionCards();
     }
 }

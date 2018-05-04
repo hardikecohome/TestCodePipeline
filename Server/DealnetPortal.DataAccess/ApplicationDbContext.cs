@@ -75,6 +75,7 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<VerifiactionId> VerificationIds { get; set; }
 
         public virtual DbSet<RateCard> RateCards { get; set; }
+        public virtual DbSet<RateReductionCard> RateReductionCards { get; set; }
         public virtual DbSet<Tier> Tiers { get; set; }
         public virtual DbSet<CustomerRiskGroup> CustomerRiskGroups { get; set; }
 

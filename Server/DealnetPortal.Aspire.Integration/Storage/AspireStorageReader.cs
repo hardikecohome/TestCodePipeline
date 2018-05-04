@@ -473,6 +473,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                     dealerInfo.ProductType = ConvertFromDbVal<string>(dr["Product_Type"]);
                     dealerInfo.ChannelType = ConvertFromDbVal<string>(dr["Channel_Type"]);
                     dealerInfo.Ratecard = ConvertFromDbVal<string>(dr["ratecard"]);
+                    dealerInfo.LeaseRatecard = ConvertFromDbVal<string>(dr["lease_ratecard"]);
                     dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);
                     dealerInfo.UserId = ConvertFromDbVal<string>(dr["user_id"]);
                     if (dr["parent_uname"] != null)

@@ -91,5 +91,15 @@ namespace DealnetPortal.Domain
 
         // Customer (borrower) has existing agreements
         public bool? HasExistingAgreements { get; set; }
+
+        public AnnualEscalationType? RentalProgramType { get; set; }
+
+	    public int? RateReductionCardId { get; set; }
+        [ForeignKey("RateReductionCardId")]
+        public virtual RateReductionCard RateReductionCard { get; set; }
+
+	    public decimal? RateReduction { get; set; }
+
+	    public decimal? RateReductionCost { get; set; }
     }
 }
