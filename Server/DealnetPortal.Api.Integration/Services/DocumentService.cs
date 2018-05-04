@@ -1847,6 +1847,48 @@ namespace DealnetPortal.Api.Integration.Services
                                 othersEq.Add(eq);
                             }
                             break;
+                        case "ECO6": // HWT
+                            if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterHeater))
+                            {
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = PdfFormFields.IsWaterHeater,
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.WaterHeaterDetails,
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = PdfFormFields.WaterHeaterMonthlyRental,
+                                    Value = monthlyCost
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
+                            break;
+                        case "ECO7": // Plumbing
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO9": // Roofing
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO10": // Siding
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO11": // Tankless Water Heater
+                            othersEq.Add(eq);
+                            break;
+                        case "ECO13": // Windows
+                            othersEq.Add(eq);
+                            break;
                         case "ECO23": // Air/Water Filtration
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsWaterFiltration))
                             {
