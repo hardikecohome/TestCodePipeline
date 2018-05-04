@@ -52,7 +52,8 @@ namespace DealnetPortal.Api.Integration.Services
             ICreditCheckService creditCheckService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration, IDocumentService documentService, IRateCardsRepository rateCardsRepository)
+            IAppConfiguration configuration, IDocumentService documentService,
+            IRateCardsRepository rateCardsRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -164,13 +165,14 @@ namespace DealnetPortal.Api.Integration.Services
                         Id = contractId,
                         Details = new ContractDetails()
                         {
-                            CreditAmount = creditReport.CreditAmount,
+                            CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount ? creditReport.CreditAmount : contract.Details.CreditAmount,
                         }
                     }, contractOwnerId);
                     _unitOfWork.Save();
                 }
 
             }
+            
 
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&

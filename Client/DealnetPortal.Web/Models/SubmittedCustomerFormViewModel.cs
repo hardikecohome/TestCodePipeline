@@ -19,5 +19,6 @@ namespace DealnetPortal.Web.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public int? CustomerBeacon { get; set; }
+        public bool isPreApproved { get; set; }
     }
 }
