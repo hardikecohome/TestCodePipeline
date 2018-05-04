@@ -1853,7 +1853,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.CustomerRate,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
-                        (contract.Equipment?.RateCard?.CustomerRate.ToString(CultureInfo.InvariantCulture) ?? contract.Equipment?.CustomerRate?.ToString() ?? "0.0")
+                        contract.Equipment?.CustomerRate?.ToString(CultureInfo.InvariantCulture) ?? "0.0"
                         : "0.0"
                 });
 
