@@ -165,7 +165,7 @@ namespace DealnetPortal.Api.Integration.Services
                         Id = contractId,
                         Details = new ContractDetails()
                         {
-                            CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < beaconCreditAmount ? beaconCreditAmount : contract.Details.CreditAmount;,
+                            CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount ? creditReport.CreditAmount : contract.Details.CreditAmount,
                         }
                     }, contractOwnerId);
                     _unitOfWork.Save();

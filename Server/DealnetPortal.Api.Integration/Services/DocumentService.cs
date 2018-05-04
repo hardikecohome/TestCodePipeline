@@ -1919,12 +1919,6 @@ namespace DealnetPortal.Api.Integration.Services
                         case "ECO3": // Doors
                         case "ECO4": // Fireplace
                         case "ECO5": // Furnace                        
-                        case "ECO6": // HWT
-                        case "ECO7": // Plumbing
-                        case "ECO9": // Roofing
-                        case "ECO10": // Siding
-                        case "ECO11": // Tankless Water Heater
-                        case "ECO13": // Windows
                         case "ECO38": // Sunrooms
                         case "ECO42": // Flooring
                         case "ECO43": // Porch Enclosure
