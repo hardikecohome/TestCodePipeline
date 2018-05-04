@@ -991,4 +991,10 @@
   <data name="StandardRate" xml:space="preserve">
     <value>Standard Rate</value>
   </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Lease</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Lease (HWT)</value>
+  </data>
 </root>

@@ -11,7 +11,7 @@
         customerRateId: '#CustomerRate',
         adminFeeId: '#AdminFee',
         delaerCostId: '#DealerCost',
-        totalMonthlyPaymentId: '#total-monthly-payment',
+        totalMonthlyPaymentDisplayId: '#total-monthly-payment-display',
         loanDeferralTypeId: '#LoanDeferralType',
         amortLoanTermErrorId: '#amortLoanTermError',
         customLoanTermId: '#CustomLoanTerm',
@@ -27,12 +27,14 @@
         disableInputsArr: ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee']
     });
 
-    var toggleDisableClassOnInputs = function(isDisable) {
-        settings.disableInputsArr.forEach(function(field) { $('#' + field).prop('disabled', isDisable); });
+    var toggleDisableClassOnInputs = function (isDisable) {
+        settings.disableInputsArr.forEach(function (field) {
+            $('#' + field).prop('disabled', isDisable);
+        });
     };
 
-    var setAdminFeeByEquipmentSum = function(eSum) {
-        if($.isEmptyObject(state.customRateCardBoundaires)) return;
+    var setAdminFeeByEquipmentSum = function (eSum) {
+        if ($.isEmptyObject(state.customRateCardBoundaires)) return;
         var keys = Object.keys(state.customRateCardBoundaires);
         for (var i = 0; i < keys.length; i++) {
 
@@ -56,7 +58,7 @@
      * @param {any} event parent javascript event
      * @param {string} option custom rate card name
      */
-    var submitCustomRateCard = function(event, option) {
+    var submitCustomRateCard = function (event, option) {
 
         if ($(settings.amortLoanTermErrorId).is(':visible')) {
             event.preventDefault();
@@ -69,7 +71,7 @@
         $(settings.customerRateId).val(state[option].CustomerRate);
         $(settings.adminFeeId).val(state[option].AdminFee);
         $(settings.delaerCostId).val(state[option].DealerCost);
-        $(settings.totalMonthlyPaymentId).val(customSlicedTotalMPayment);
+        $(settings.totalMonthlyPaymentDisplayId).text(customSlicedTotalMPayment);
         $(settings.loanDeferralTypeId).val(state[option].DeferralPeriod);
         $(settings.selectedRateCardId).val(null);
     };
@@ -79,7 +81,9 @@
      * @returns {void} 
      */
     var setSelectedCustomRateCard = function () {
-        var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) { return period.name === $(settings.loanDeferralTypeId).val(); })[0];
+        var deferralPeriod = $.grep(constants.customDeferralPeriods, function (period) {
+            return period.name === $(settings.loanDeferralTypeId).val();
+        })[0];
 
         state[settings.customRateCardName].LoanTerm = Number($(settings.loanTermId).val());
         state[settings.customRateCardName].AmortizationTerm = Number($(settings.amortizationTermId).val());
@@ -102,9 +106,9 @@
      */
     function validateCustomRateCardOnInput() {
         var $submitBtnSelector = $(settings.submitButtonId);
-        var selectedRateCard = $(settings.rateCardBlockId).find('div.checked').length > 0
-            ? $(settings.rateCardBlockId).find('div.checked').find(settings.hiddenOptionId).text()
-            : '';
+        var selectedRateCard = $(settings.rateCardBlockId).find('div.checked').length > 0 ?
+            $(settings.rateCardBlockId).find('div.checked').find(settings.hiddenOptionId).text() :
+            '';
         if (state.onlyCustomRateCard) {
             selectedRateCard = settings.customRateCardName;
         }
@@ -136,7 +140,7 @@
         $(settings.customAdminFeeId).on('change', setters.setAdminFee(settings.customRateCardName));
     }
 
-    var init = function() {
+    var init = function () {
         validation.initValidators();
         _initHandlers();
     }

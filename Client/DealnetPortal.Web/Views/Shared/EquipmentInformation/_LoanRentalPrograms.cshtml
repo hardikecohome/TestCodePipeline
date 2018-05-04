@@ -1,24 +1,49 @@
-﻿@using DealnetPortal.Web.Models.Enumeration
+﻿@using System.Security.Claims
+@using DealnetPortal.Api.Common.Constants
+@using DealnetPortal.Web.Models.Enumeration
+
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
 <div class="row form-group">
     <div class="col-md-3">
-        @if (ViewBag.LoanOnly)
-        {
+        <div class="form-group">
             @Html.LabelFor(m => m.AgreementType)
-            @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control loan-only-dropdown-disabled", id = "typeOfAgreementSelect", disabled = "disabled" })
-        }
-        else
-        {
-            @Html.LabelFor(m => m.AgreementType)
-            @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
-        }
-
+            @if(ViewBag.LoanOnly)
+            {
+                @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control loan-only-dropdown-disabled", id = "typeOfAgreementSelect", disabled = "disabled" })
+            }
+            else
+            {
+                @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
+            }
+        </div>
     </div>
+
+    @{
+        var identity = (ClaimsIdentity)User.Identity;
+        var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
+    }
+
+    @if(hasStandardRentalTier)
+    {
+        <div class="col-md-4 rental-element">
+            <div class="form-group">
+                @Html.LabelFor(m => m.RentalProgramType)
+                @Html.DropDownListFor(m => m.RentalProgramType, new SelectList(new[] {
+           new SelectListItem { Value = ((int)AnnualEscalationType.Escalation35).ToString(), Text = Resources.Escalation_35 },
+           new SelectListItem{Value=((int)AnnualEscalationType.Escalation0).ToString(), Text=Resources.Escalation_0}
+           }, "Value", "Text", Model.RentalProgramType ?? AnnualEscalationType.Escalation35), new
+           {
+               @class = "form-control",
+               id = "rental-program-type",
+           })
+            </div>
+        </div>
+    }
 </div>
 <div id="new-equipments">
     <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
-    @if (Model?.NewEquipment != null)
+    @if(Model?.NewEquipment != null)
     {
         @Html.Partial("EquipmentInformation/_NewEquipments", Model)
     }
@@ -71,21 +96,13 @@
 
 <div class="financing-options">
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 loan-element">
+        <div class="col-xs-12 col-sm-8 col-md-6">
             <h3 class="dealnet-middle-header">
                 @Resources.FinancingOptions
-                @if (Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
+                @if(Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
                 {
                     <text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
                 }
-                <span class="financing-arrow" id="loanRateCardToggle">
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                </span>
-            </h3>
-        </div>
-        <div class="col-xs-12 col-sm-8 col-md-6 rental-element">
-            <h3 class="dealnet-middle-header">
-                @Resources.FinancingOptions                
                 <span class="financing-arrow" id="loanRateCardToggle">
                     <i class="glyphicon glyphicon-chevron-down"></i>
                 </span>

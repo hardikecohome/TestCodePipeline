@@ -14,13 +14,16 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "TypeOfAgreement")]
         public AgreementType AgreementType { get; set; }
 
+        [Display(ResourceType =typeof(Resources.Resources), Name = "ProgramType")]
+        public AnnualEscalationType? RentalProgramType { get; set; }
+
         public CustomerRiskGroupViewModel CustomerRiskGroup { get; set; }
 
         public List<NewEquipmentInformation> NewEquipment { get; set; }
         public List<InstallationPackageInformation> InstallationPackages { get; set; }
 
         [RegularExpression(@"^[1-9]\d{0,11}([.,][0-9][0-9]?)?$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TotalMonthlyPaymentIncorrectFormat")]
-        [Display(ResourceType = typeof(Resources.Resources), Name = "TotalMonthlyPayment")]
+        [Display(ResourceType = typeof(Resources.Resources), Name = "TotalMonthlyPaymentWithoutTaxes")]
         public double? TotalMonthlyPayment { get; set; }
 
         public CommonExistingEquipmentInfo CommonExistingEquipmentInfo { get; set; }
@@ -94,5 +97,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
         public string PreferredInstallTime { get; set; }
 		public bool? HasExistingAgreements { get; set; }
+        public int? RateReduction { get; set; }
+        public int? RateReductionCost { get; set; }
     }
 }

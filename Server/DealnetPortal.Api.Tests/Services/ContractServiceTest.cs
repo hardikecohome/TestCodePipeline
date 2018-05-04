@@ -31,6 +31,7 @@ namespace DealnetPortal.Api.Tests.Services
         private IDealerRepository _dealerRepository;
         private IAppConfiguration _appConfiguration;
         private IDocumentService _documentService;
+        private IRateCardsRepository _rateCardsRepository;
 
         [TestInitialize]
         public void Intialize()
@@ -38,7 +39,7 @@ namespace DealnetPortal.Api.Tests.Services
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             SetupMocks();
             _contractService = new ContractService(_contractRepository, _unitOfWork, _aspireService, _aspireStorageReader,
-                _creditCheckService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _documentService);
+                _creditCheckService, _mailService, _loggingService, _dealerRepository, _appConfiguration, _documentService, _rateCardsRepository);
         }
 
         private void SetupMocks()
@@ -52,6 +53,7 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IAspireStorageReader> aspireStorageServiceMock = new Mock<IAspireStorageReader>();
             Mock<ICreditCheckService> creditCheckServiceMock = new Mock<ICreditCheckService>();
             Mock<ICustomerWalletService> customerWalletServiceMock = new Mock<ICustomerWalletService>();
+            Mock<IRateCardsRepository> rateCardReposiotryMock = new Mock<IRateCardsRepository>();
             Mock<IDealerRepository> dealerRepositoryMock = new Mock<IDealerRepository>();
             Mock<IAppConfiguration> appConfigurationMock = new Mock<IAppConfiguration>();
 
@@ -84,6 +86,7 @@ namespace DealnetPortal.Api.Tests.Services
             _dealerRepository = dealerRepositoryMock.Object;
             _appConfiguration = appConfigurationMock.Object;
             _documentService = signatureServiceMock.Object;
+            _rateCardsRepository = rateCardReposiotryMock.Object;
         }
 
         [TestMethod]

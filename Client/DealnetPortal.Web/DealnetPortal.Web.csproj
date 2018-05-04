@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -312,7 +312,9 @@
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\EmploymentInformationViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\ContractConditions.cs" />
     <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModelNew.cs" />
+    <Compile Include="Models\EquipmentInformation\SalesRepInformation.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\HelpPopUpViewModal.cs" />
     <Compile Include="Models\InstallationPackageInformation.cs" />
@@ -320,6 +322,7 @@
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
     <Compile Include="Models\PaymentInfoViewModel.cs" />
+    <Compile Include="Models\ReductionCardViewModel.cs" />
     <Compile Include="Models\RateCardViewModel.cs" />
     <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
@@ -897,6 +900,7 @@
     <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
     <Content Include="Content\files\resources\en\User Guide.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />

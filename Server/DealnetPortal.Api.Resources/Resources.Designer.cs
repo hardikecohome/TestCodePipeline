@@ -1753,6 +1753,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lease.
+        /// </summary>
+        public static string LeaseApplication {
+            get {
+                return ResourceManager.GetString("LeaseApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lease (HWT).
+        /// </summary>
+        public static string LeaseApplicationHwt {
+            get {
+                return ResourceManager.GetString("LeaseApplicationHwt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Leasing.
         /// </summary>
         public static string Leasing {

@@ -120,6 +120,11 @@
 
             $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
             $('.rental-element').hide();
+            $('.rental-element input, .rental-element select').each(function () {
+                var $this = $(this);
+                $this.prop('disabled', true);
+                $this.rules('remove', 'required');
+            });
             if ($('#rateCardsBlock').find('div.checked').length) {
                 toggleRateCardBlock(false);
             } else {
@@ -135,6 +140,11 @@
             }
             setHeight();
             $('.rental-element').show();
+            $('.rental-element input, .rental-element select').each(function () {
+                var $this = $(this);
+                $this.prop('disabled', false);
+                $this.rules('add', 'required');
+            });
             $('#loanRateCardToggle, .loan-element, .downpayment-row').hide();
             $('#rateCardsBlock').removeClass('opened').addClass('closed');
             if (!$('#paymentInfo').hasClass('hidden')) {

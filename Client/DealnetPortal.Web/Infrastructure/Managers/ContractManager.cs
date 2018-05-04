@@ -53,29 +53,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return basicInfo;
         }
 
-        public async Task<ContactAndPaymentInfoViewModelNew> GetAdditionalContactInfoAsyncNew(int contractId)
-        {
-            var contactAndPaymentInfo = new ContactAndPaymentInfoViewModelNew();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-
-            if(contractResult.Item1 == null)
-            {
-                return contactAndPaymentInfo;
-            }
-
-            contactAndPaymentInfo.Notes = contractResult.Item1.Details.Notes;
-            contactAndPaymentInfo.HouseSize = contractResult.Item1.Details.HouseSize;
-            contactAndPaymentInfo.EstimatedInstallationDate = contractResult.Item1.Equipment.EstimatedInstallationDate;
-            contactAndPaymentInfo.SalesRep = contractResult.Item1.Equipment.SalesRep;
-            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
-            contactAndPaymentInfo.ContractId = contractId;
-            contactAndPaymentInfo.AgreementType = contractResult.Item1.Equipment.AgreementType.ConvertTo<Models.Enumeration.AgreementType>();
-            contactAndPaymentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contractResult.Item1.Equipment.ExistingEquipment);
-            contactAndPaymentInfo.CommonExistingEquipmentInfo = Mapper.Map<CommonExistingEquipmentInfo>(contractResult.Item1.Equipment.ExistingEquipment.FirstOrDefault());
-
-            return contactAndPaymentInfo;
-        }
-
         public async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId)
         {
             var contactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
@@ -94,7 +71,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return contactAndPaymentInfo;
         }
 
-        public async Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsyncNew(int contractId)
+        public async Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsync(int contractId)
         {
             Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
 
@@ -123,7 +100,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 if(result.Item1.Equipment.ValueOfDeal == null || result.Item1.Equipment.ValueOfDeal == 0)
                 {
                     equipmentInfo.Conditions.IsNewContract = true;
-                    equipmentInfo.RequestedTerm = 120;
                 }
                 else
                 {
@@ -134,9 +110,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             else
             {
                 equipmentInfo.Conditions.IsNewContract = true;
-                equipmentInfo.RequestedTerm = 120;
             }
-
+            equipmentInfo.RequestedTerm = 120;
             var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
@@ -150,6 +125,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+
+            var reductionCards = await _dictionaryServiceAgent.GetAllRateReductionCards();
+            equipmentInfo.DealerTier.RateReductionCards = Mapper.Map<List<ReductionCardViewModel>>(reductionCards.Item1);
 
             MapContractConditions(result.Item1, dealerTier, equipmentInfo.Conditions);
 
@@ -201,52 +179,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 await _contractServiceAgent.NotifyContractEdit(contractId);
             }
 
-            return equipmentInfo;
-        }
-
-        public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
-        {
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if(contractResult.Item1 == null)
-            {
-                return new EquipmentInformationViewModel();
-            }
-            var equipmentInfo = new EquipmentInformationViewModel()
-            {
-                ContractId = contractId,
-            };
-            if(contractResult.Item1.Equipment != null)
-            {
-                equipmentInfo = Mapper.Map<EquipmentInformationViewModel>(contractResult.Item1.Equipment);
-                equipmentInfo.CommonExistingEquipmentInfo = Mapper.Map<CommonExistingEquipmentInfo>(contractResult.Item1.Equipment);
-                if(!equipmentInfo.NewEquipment.Any())
-                {
-                    equipmentInfo.NewEquipment = null;
-                }
-                if(!equipmentInfo.ExistingEquipment.Any())
-                {
-                    equipmentInfo.ExistingEquipment = null;
-                }
-            }
-            equipmentInfo.Notes = contractResult.Item1.Details?.Notes;
-
-            var mainAddressProvince = contractResult.Item1.PrimaryCustomer.Locations
-                .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State.ToProvinceCode();
-
-            if(mainAddressProvince != null)
-            {
-                var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvince)).Item1;
-                if(rate != null)
-                { equipmentInfo.ProvinceTaxRate = rate; }
-            }
-
-            equipmentInfo.CreditAmount = contractResult.Item1.Details?.CreditAmount;
-            equipmentInfo.IsAllInfoCompleted = contractResult.Item1.PaymentInfo != null && contractResult.Item1.PrimaryCustomer?.Phones != null && contractResult.Item1.PrimaryCustomer.Phones.Any();
-            equipmentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState < Api.Common.Enumeration.ContractState.Completed;
-            if(!equipmentInfo.RequestedTerm.HasValue)
-            {
-                equipmentInfo.RequestedTerm = 120;
-            }
             return equipmentInfo;
         }
 
@@ -381,7 +313,9 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             };
 
             var dealerTier = await _contractServiceAgent.GetDealerTier();
-            model.DealerTier = dealerTier ?? new TierDTO { RateCards = new List<RateCardDTO>() };
+	        model.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+		    var reductionCards = await _dictionaryServiceAgent.GetAllRateReductionCards();
+	        model.DealerTier.RateReductionCards = Mapper.Map<List<ReductionCardViewModel>>(reductionCards.Item1);
 
             var planDict = new Dictionary<RateCardType, string>
             {
@@ -404,7 +338,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 .Distinct()
                 .Select(x => new KeyValuePair<string, string>(x.ToString(), x + " " + (x == 1 ? Resources.Resources.Month : Resources.Resources.Months)))
                 .ToDictionary(s => s.Key, s => s.Value);
-            model.RateCardProgramsAvailable = model.DealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
+
+            model.RateCardProgramsAvailable = dealerTier.RateCards.Any(x => x.CustomerRiskGroup != null);
 
             if(model.DealerTier != null && model.DealerTier.Name == _clarityProgramTier)
             {
@@ -1176,12 +1111,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             conditions.IsAllInfoCompleted = contract.PaymentInfo != null && contract.PrimaryCustomer?.Phones != null && contract.PrimaryCustomer.Phones.Any();
             conditions.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
             conditions.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
-            conditions.IsCustomerFoundInCreditBureau = contract.PrimaryCustomer?.CreditReport != null;
+            conditions.IsCustomerFoundInCreditBureau = contract.PrimaryCustomer?.CreditReport?.Beacon.HasValue ?? false;
             conditions.IsSubmittedWithoutCustomerRateCard = false;
             conditions.IsBeaconUpdated = contract.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;
             conditions.IsClarityDealer = dealerTier?.Name == _clarityProgramTier;
+            conditions.RentalEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.EscalatedLimit;
+            conditions.RentalNonEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.NonEscalatedLimit;
 
-            if(contract.Equipment == null ||
+            if (contract.Equipment == null ||
                (contract.Equipment?.RateCardId == null
                 && (contract.Equipment?.NewEquipment?.All(ne => ne?.Cost == null && ne?.MonthlyCost == null) ?? true)))
             {

@@ -33,6 +33,7 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly IDealerRepository _dealerRepository;
+        private readonly IRateCardsRepository _rateCardsRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
@@ -51,7 +52,8 @@ namespace DealnetPortal.Api.Integration.Services
             ICreditCheckService creditCheckService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration, IDocumentService documentService)
+            IAppConfiguration configuration, IDocumentService documentService,
+            IRateCardsRepository rateCardsRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
@@ -63,6 +65,7 @@ namespace DealnetPortal.Api.Integration.Services
             _mailService = mailService;
             _configuration = configuration;
             _documentService = documentService;
+            _rateCardsRepository = rateCardsRepository;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -145,15 +148,31 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-
+            var beaconUpdated = false;
             //check credit report status and update if needed
-            if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
+            if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
                 contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
             {
-                _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                var creditReport = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                beaconUpdated = creditReport?.BeaconUpdated ?? false;
+                var beacon = creditReport?.Beacon;
+                if (beacon.HasValue)
+                {
+                    _contractRepository.UpdateContractData(new ContractData()
+                    {
+                        Id = contractId,
+                        Details = new ContractDetails()
+                        {
+                            CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount ? creditReport.CreditAmount : contract.Details.CreditAmount,
+                        }
+                    }, contractOwnerId);
+                    _unitOfWork.Save();
+                }
+
             }
+            
 
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
@@ -166,7 +185,26 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                if (contractDTO.PrimaryCustomer?.CreditReport != null)
+                {
+                    // here is just aftermapping for get credit amount and escalation limits for customers who has credit report
+                    contractDTO.PrimaryCustomer.CreditReport =
+                        _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                    contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
+                }
+                else
+                {
+	                var lowestCreditScoreValue = 0;
+	                var creditAmountSettings = _rateCardsRepository.GetCreditAmountSetting(lowestCreditScoreValue);
+	                if (contractDTO.PrimaryCustomer != null)
+	                {
+		                contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
+		                {
+			                EscalatedLimit = creditAmountSettings.EscalatedLimit,
+			                NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
+		                };
+	                }
+                }
             }
             return contractDTO;
         }

@@ -286,6 +286,7 @@ namespace DealnetPortal.Api.Integration.Services
         public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
         {
             CustomerContractInfoDTO contractInfo = null;
+            var creditReviewStates = _configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
             if (string.IsNullOrEmpty(dealerName))
             {
                 var contract = _contractRepository.GetContract(contractId);
@@ -303,7 +304,8 @@ namespace DealnetPortal.Api.Integration.Services
                         ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
                         CreationTime = contract.CreationTime,
                         LastUpdateTime = contract.LastUpdateTime,
-                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
+                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList(),
+                        isPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status)
                     };
                 }
             }
@@ -327,7 +329,8 @@ namespace DealnetPortal.Api.Integration.Services
                             ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
                             CreationTime = contract.CreationTime,
                             LastUpdateTime = contract.LastUpdateTime,
-                            EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
+                            EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList(),
+                            isPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status)
                         };
 
                         if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
