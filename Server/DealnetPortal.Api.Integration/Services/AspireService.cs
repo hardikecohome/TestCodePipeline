@@ -1923,7 +1923,7 @@ namespace DealnetPortal.Api.Integration.Services
                         udfList.Add(new UDF()
                         {
                             Name = AspireUdfFields.MonthlyPayment,
-                            Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                            Value = paymentInfo.LoanDetails?.TotalMCO.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
                         udfList.Add(new UDF()
                         {
