@@ -8,13 +8,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public static class PdfFormFields
     {
-        //Hiren have requested temporarily need to be cleaned up later
-        public static string DSFirstName = "DSFirstName";
-        public static string DSLastName = "DSLastName";
-        public static string DSFirstName2 = "DSFirstName_2";
-        public static string DSLastName2 = "DSLastName_2";
-        public static string DSDealerName = "DSDealerName";
-        public static string DSLoanTotalBorowingCost = "DSLoanTotalBorowingCost";
         //Application/Transaction ID
         public static string ApplicationId = "ApplicationId";
         //Customer Fields
