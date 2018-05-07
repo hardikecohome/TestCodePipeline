@@ -636,7 +636,7 @@
                                 </div>
                             </div>
                         </div>
-                        if(Model.EquipmentInfo.RentalProgramType.HasValue)
+                        if(Model.EquipmentInfo.RentalProgramType.HasValue && Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
                         {
                             <div class="form-group">
                                 <div class="row">
