@@ -30,12 +30,12 @@ namespace DealnetPortal.Web.Controllers
     [Authorize(Roles = "Dealer")]
     public class NewRentalController : UpdateDataController
     {
-        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent; 
+        private readonly IScanProcessingServiceAgent _scanProcessingServiceAgent;
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent, 
+        public NewRentalController(IScanProcessingServiceAgent scanProcessingServiceAgent, IContractServiceAgent contractServiceAgent,
             IDictionaryServiceAgent dictionaryServiceAgent, IContractManager contractManager) : base(contractManager)
         {
             _scanProcessingServiceAgent = scanProcessingServiceAgent;
@@ -46,28 +46,28 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> ContractEdit(int contractId)
         {
-            var contractResult = await _contractServiceAgent.GetContracts(new List<int> {contractId});
+            var contractResult = await _contractServiceAgent.GetContracts(new List<int> { contractId });
             var contract = contractResult.Item1.FirstOrDefault();
-            if (contract != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
+            if(contract != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
                 var isNewlyCreated = contract.IsNewlyCreated;
 
-                if (contract.IsNewlyCreated == true)
+                if(contract.IsNewlyCreated == true)
                 {
                     var result = await _contractServiceAgent.NotifyContractEdit(contractId);
 
-                    if (result.All(c => c.Type != AlertType.Error))
+                    if(result.All(c => c.Type != AlertType.Error))
                     {
                         isNewlyCreated = false;
                     }
                 }
 
-                if (contract.ContractState == ContractState.CreditConfirmed && isNewlyCreated != true)
+                if(contract.ContractState == ContractState.CreditConfirmed && isNewlyCreated != true)
                 {
                     return RedirectToAction("EquipmentInformation", new { contractId });
                 }
 
-                if (contract.ContractState >= ContractState.Completed || contract.ContractState == ContractState.CreditCheckDeclined)
+                if(contract.ContractState >= ContractState.Completed || contract.ContractState == ContractState.CreditCheckDeclined)
                 {
                     return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
                 }
@@ -77,7 +77,7 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = contractResult?.Item2;
                 return RedirectToAction("Error", "Info");
             }
-            return RedirectToAction("BasicInfo", new { contractId = contractId});
+            return RedirectToAction("BasicInfo", new { contractId = contractId });
         }
 
 
@@ -85,10 +85,10 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            if (contractId == null)
+            if(contractId == null)
             {
                 var contract = await _contractServiceAgent.CreateContract();
-                if (contract?.Item1 != null)
+                if(contract?.Item1 != null)
                 {
                     contractId = contract.Item1.Id;
                 }
@@ -96,18 +96,18 @@ namespace DealnetPortal.Web.Controllers
                 {
                     TempData[PortalConstants.CurrentAlerts] = contract?.Item2;
                     return RedirectToAction("Error", "Info");
-                }                
+                }
             }
 
             var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
-            viewModel.ProvinceTaxRates = ( await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+            viewModel.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
 
             var identity = (ClaimsIdentity)User.Identity;
 
             viewModel.QuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
 
-            if (viewModel?.ContractState >= ContractState.Closed)
+            if(viewModel?.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
                         {
@@ -130,7 +130,7 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 basicInfo.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
                 basicInfo.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
@@ -138,23 +138,23 @@ namespace DealnetPortal.Web.Controllers
                 return View(basicInfo);
             }
 
-            Tuple<ContractDTO, IList<Alert>> result = !basicInfo.ContractId.HasValue ? 
-                await _contractServiceAgent.CreateContract() : 
+            Tuple<ContractDTO, IList<Alert>> result = !basicInfo.ContractId.HasValue ?
+                await _contractServiceAgent.CreateContract() :
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
 
-            if (result.Item1 == null)
+            if(result.Item1 == null)
             {
                 return RedirectToAction("Error", "Info");
             }
 
             var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
 
-            if (updateResult.Any(r => r.Type == AlertType.Error))
+            if(updateResult.Any(r => r.Type == AlertType.Error))
             {
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
 
                 return RedirectToAction("Error", "Info");
-            }            
+            }
 
             return RedirectToAction("CreditCheck", new { contractId = result.Item1.Id });
         }
@@ -186,35 +186,35 @@ namespace DealnetPortal.Web.Controllers
             TimeSpan timeOut = TimeSpan.FromSeconds(10);
 
             Tuple<CreditCheckDTO, IList<Alert>> checkResult = null;
-            for (int i = 0; i < numOfAttempts; i++)
+            for(int i = 0; i < numOfAttempts; i++)
             {
                 checkResult = await _contractServiceAgent.GetCreditCheckResult(contractId);
-                if (checkResult == null || (checkResult.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+                if(checkResult == null || (checkResult.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
                 {
                     break;
                 }
-                if (checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
+                if(checkResult?.Item1 != null && checkResult.Item1.CreditCheckState != CreditCheckState.Initiated)
                 {
                     break;
                 }
                 await Task.Delay(timeOut);
             }
 
-            if ((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
+            if((checkResult?.Item2?.Any(a => a.Type == AlertType.Error && (a.Code == ErrorCodes.AspireConnectionFailed || a.Code == ErrorCodes.AspireTransactionNotCreated)) ?? false))
             {
                 TempData["CreditCheckErrorMessage"] = Resources.Resources.CreditCheckErrorMessage;
                 var redirectStr = Url.Action("BasicInfo", new { contractId });
                 return Json(redirectStr);
             }
 
-            if (checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+            if(checkResult?.Item1 == null && (checkResult?.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
                 TempData[PortalConstants.CurrentAlerts] = checkResult.Item2;
                 var redirectStr = Url.Action("Error", "Info");
                 return Json(redirectStr);
             }
 
-            switch (checkResult?.Item1.CreditCheckState)
+            switch(checkResult?.Item1.CreditCheckState)
             {
                 case CreditCheckState.Approved:
                     TempData["MaxCreditAmount"] = checkResult?.Item1.CreditAmount;
@@ -232,7 +232,7 @@ namespace DealnetPortal.Web.Controllers
                 default:
                     redirectStr = Url.Action("CreditDeclined", new { contractId });
                     return Json(redirectStr);
-            }            
+            }
         }
 
         public ActionResult RateCard()
@@ -248,7 +248,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.CardTypes = model.DealerTier?.RateCards?.Where(q => q.CardType != RateCardType.Custom).Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
-            if (model.DealerTier != null && model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey])
+            if(model.DealerTier != null && model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey])
             {
                 ViewBag.totalAmountFinancedFor180amortTerm = 3999;
                 ViewBag.LoanOnly = true;
@@ -258,16 +258,17 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.totalAmountFinancedFor180amortTerm = 4999;
                 ViewBag.LoanOnly = false;
             }
-            if (model.DealProvince == ContractProvince.QC.ToString()) {
+            if(model.DealProvince == ContractProvince.QC.ToString())
+            {
                 ViewBag.LoanOnly = true;
             }
             if(model.HomeOwner != null)
             {
                 ViewBag.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             }
-            ViewBag.AdminFee = 0;            
+            ViewBag.AdminFee = 0;
             ViewBag.IsStandardRentalTier = ((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
-            if (model.ContractState >= ContractState.Closed)
+            if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
                         {
@@ -280,7 +281,7 @@ namespace DealnetPortal.Web.Controllers
                         };
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
-            }            
+            }
 
             return View("EquipmentInformation/EquipmentInformation", model);
         }
@@ -292,11 +293,11 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.IsAllInfoCompleted = false;
             var ratecardValid = await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
 
-            if (ratecardValid)
+            if(ratecardValid)
             {
                 var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
 
-                if (updateResult.Any(r => r.Type == AlertType.Error))
+                if(updateResult.Any(r => r.Type == AlertType.Error))
                 {
                     TempData[PortalConstants.CurrentAlerts] = updateResult;
 
@@ -314,7 +315,7 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
             var contract = await _contractServiceAgent.GetContract(contractId);
-            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
+            if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
                         {
@@ -337,14 +338,14 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return View();
             }
 
             var updateResult = await _contractManager.UpdateContractAsync(contactAndPaymentInfo);
 
-            if (updateResult.Any(r => r.Type == AlertType.Error))
+            if(updateResult.Any(r => r.Type == AlertType.Error))
             {
                 TempData[PortalConstants.CurrentAlerts] = updateResult;
 
@@ -359,7 +360,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             var contract = await _contractServiceAgent.GetContract(contractId);
-            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed || contract.Item1.Equipment == null)
+            if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed || contract.Item1.Equipment == null)
             {
                 var alerts = new List<Alert>()
                         {
@@ -379,49 +380,49 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> SubmitDeal(int contractId)
         {
             var contract = await _contractServiceAgent.GetContract(contractId);
-            if (contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
+            if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
             {
                 return RedirectToAction("Error", "Info");
             }
             var rateCardValid = await _contractManager.CheckRateCard(contractId, null);
-            if (rateCardValid)
+            if(rateCardValid)
             {
                 var result = await _contractServiceAgent.SubmitContract(contractId);
 
-                if (result?.Item1?.CreditCheckState == CreditCheckState.Declined)
+                if(result?.Item1?.CreditCheckState == CreditCheckState.Declined)
                 {
-                    return RedirectToAction("CreditDeclined", new {contractId});
+                    return RedirectToAction("CreditDeclined", new { contractId });
                 }
                 TempData[PortalConstants.IsNewlySubmitted] = true;
-                return RedirectToAction("ContractEdit","MyDeals", new {id=contractId});
+                return RedirectToAction("ContractEdit", "MyDeals", new { id = contractId });
             }
-            return RedirectToAction("SummaryAndConfirmation", new {contractId});
+            return RedirectToAction("SummaryAndConfirmation", new { contractId });
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> SendContractEmails(ESignatureViewModel eSignatureViewModel)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return GetErrorJson();
             }
             // update home owner notification email
             var borrowerSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.HomeOwner);
-            if (!string.IsNullOrEmpty(borrowerSigner.Email))
+            if(!string.IsNullOrEmpty(borrowerSigner.Email))
             {
                 var contractRes = await _contractServiceAgent.GetContract(eSignatureViewModel.ContractId);
-                if (contractRes?.Item1 != null)
+                if(contractRes?.Item1 != null)
                 {
                     var emls = contractRes.Item1.PrimaryCustomer?.Emails;
-                    if (emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
+                    if(emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
                     {
                         emls.First(e => e.EmailType == EmailType.Notification).EmailAddress =
                             borrowerSigner.Email;
                     }
                     else
                     {
-                        if (emls == null)
+                        if(emls == null)
                         {
                             emls = new List<EmailDTO>();
                         }
@@ -454,18 +455,18 @@ namespace DealnetPortal.Web.Controllers
                 Role = SignatureRole.HomeOwner
             });
 
-            eSignatureViewModel.Signers.Where(x=>x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
-            {
-                signatureUsers.Users.Add(new SignatureUser()
-                {
-                    EmailAddress = us.Email,
-                    Role = SignatureRole.AdditionalApplicant,
-                    Id = us.Id,
-                    CustomerId = us.CustomerId
-                });
-            });
+            eSignatureViewModel.Signers.Where(x => x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
+              {
+                  signatureUsers.Users.Add(new SignatureUser()
+                  {
+                      EmailAddress = us.Email,
+                      Role = SignatureRole.AdditionalApplicant,
+                      Id = us.Id,
+                      CustomerId = us.CustomerId
+                  });
+              });
             var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
-            if (!string.IsNullOrEmpty(borrowerSigner.Email))
+            if(!string.IsNullOrEmpty(borrowerSigner.Email))
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
@@ -477,7 +478,7 @@ namespace DealnetPortal.Web.Controllers
 
             var result = await _contractServiceAgent.InitiateDigitalSignature(signatureUsers);
 
-            if(result.Item2.Any(a=>a.Type == AlertType.Error))
+            if(result.Item2.Any(a => a.Type == AlertType.Error))
             {
                 return Json(new { isError = true, message = result.Item2.FirstOrDefault(a => a.Type == AlertType.Error).Message });
             }
@@ -505,26 +506,26 @@ namespace DealnetPortal.Web.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateContractEmails(ESignatureViewModel eSignatureViewModel)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return GetErrorJson();
             }
             // update home owner notification email
             var borrowerSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.HomeOwner);
-            if (borrowerSigner !=null && !string.IsNullOrEmpty(borrowerSigner.Email))
+            if(borrowerSigner != null && !string.IsNullOrEmpty(borrowerSigner.Email))
             {
                 var contractRes = await _contractServiceAgent.GetContract(eSignatureViewModel.ContractId);
-                if (contractRes?.Item1 != null)
+                if(contractRes?.Item1 != null)
                 {
                     var emls = contractRes.Item1.PrimaryCustomer?.Emails;
-                    if (emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
+                    if(emls?.Any(e => e.EmailType == EmailType.Notification) ?? false)
                     {
                         emls.First(e => e.EmailType == EmailType.Notification).EmailAddress =
                             borrowerSigner.Email;
                     }
                     else
                     {
-                        if (emls == null)
+                        if(emls == null)
                         {
                             emls = new List<EmailDTO>();
                         }
@@ -548,7 +549,7 @@ namespace DealnetPortal.Web.Controllers
             SignatureUsersDTO signatureUsers = new SignatureUsersDTO();
             signatureUsers.ContractId = eSignatureViewModel.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
-            if (borrowerSigner != null)
+            if(borrowerSigner != null)
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
@@ -565,11 +566,11 @@ namespace DealnetPortal.Web.Controllers
                     EmailAddress = us.Email,
                     Role = SignatureRole.AdditionalApplicant,
                     Id = us.Id,
-                    CustomerId=us.CustomerId
+                    CustomerId = us.CustomerId
                 });
             });
             var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
-            if (eSignatureSigner != null && !string.IsNullOrEmpty(eSignatureSigner.Email))
+            if(eSignatureSigner != null && !string.IsNullOrEmpty(eSignatureSigner.Email))
             {
                 signatureUsers.Users.Add(new SignatureUser()
                 {
@@ -579,9 +580,9 @@ namespace DealnetPortal.Web.Controllers
                 });
             }
 
-            var result=await _contractServiceAgent.UpdateContractSigners(signatureUsers);
+            var result = await _contractServiceAgent.UpdateContractSigners(signatureUsers);
 
-            if (result.Any(a => a.Type == AlertType.Error))
+            if(result.Any(a => a.Type == AlertType.Error))
             {
                 return GetErrorJson();
             }
@@ -591,7 +592,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId)
         {
             var contract = await _contractServiceAgent.GetContract(contractId);
-            if (contract.Item1 == null || (contract.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
+            if(contract.Item1 == null || (contract.Item2?.Any(a => a.Type == AlertType.Error) ?? false))
             {
                 TempData[PortalConstants.CurrentAlerts] = contract.Item2;
                 return RedirectToAction("Error", "Info");
@@ -604,7 +605,7 @@ namespace DealnetPortal.Web.Controllers
             sendEmails.BorrowerEmail = contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Notification)?.EmailAddress ??
                 contract.Item1.PrimaryCustomer.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress;
             sendEmails.SalesRep = contract.Item1.Equipment?.SalesRep;
-            if (contract.Item1.SecondaryCustomers?.Any() ?? false)
+            if(contract.Item1.SecondaryCustomers?.Any() ?? false)
             {
                 sendEmails.AdditionalApplicantsEmails =
                     contract.Item1.SecondaryCustomers.Select(c =>
@@ -617,9 +618,9 @@ namespace DealnetPortal.Web.Controllers
                         }).ToArray();
             }
             var dealer = await _dictionaryServiceAgent.GetDealerInfo();
-            if (!string.IsNullOrEmpty(dealer?.Email))
+            if(!string.IsNullOrEmpty(dealer?.Email))
             {
-                sendEmails.SalesRepEmail = dealer.Email;                
+                sendEmails.SalesRepEmail = dealer.Email;
             }
             sendEmails.AgreementType = contract.Item1.Equipment?.AgreementType.ConvertTo<AgreementType>() ?? AgreementType.LoanApplication;
 
@@ -631,7 +632,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> CreateNewApplication(int contractId)
         {
             var result = await _contractManager.CreateNewCustomerContract(contractId);
-            if (result.Item1.HasValue && result.Item2.All(a => a.Type != AlertType.Error))
+            if(result.Item1.HasValue && result.Item2.All(a => a.Type != AlertType.Error))
             {
                 return RedirectToAction("BasicInfo", new { contractId = result.Item1 });
             }
@@ -641,38 +642,38 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("Error", "Info");
             }
         }
-        
+
         public async Task<FileResult> PrintContract(int contractId)
         {
             var result = await _contractServiceAgent.GetContractAgreement(contractId);
 
-            if (result.Item1 != null)
+            if(result.Item1 != null)
             {
                 var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
                 {
                     FileDownloadName = result.Item1.Name
                 };
-                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                if(!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
                 {
                     response.FileDownloadName += ".pdf";
                 }
                 return response;
-            }            
+            }
 
-            return new FileContentResult(new byte[] {}, "application/pdf");
+            return new FileContentResult(new byte[] { }, "application/pdf");
         }
 
         public async Task<FileResult> GetSignedContract(int contractId)
         {
             var result = await _contractServiceAgent.GetSignedAgreement(contractId);
 
-            if (result.Item1 != null)
+            if(result.Item1 != null)
             {
                 var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
                 {
                     FileDownloadName = result.Item1.Name
                 };
-                if (!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
+                if(!string.IsNullOrEmpty(response.FileDownloadName) && !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
                 {
                     response.FileDownloadName += ".pdf";
                 }
@@ -686,7 +687,7 @@ namespace DealnetPortal.Web.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> RecognizeDriverLicense(string imgBase64)
         {
-            if (imgBase64 == null)
+            if(imgBase64 == null)
             {
                 return GetErrorJson();
             }
@@ -705,14 +706,14 @@ namespace DealnetPortal.Web.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> RecognizeDriverLicensePhoto()
         {
-            if (Request.Files == null || Request.Files.Count <= 0)
+            if(Request.Files == null || Request.Files.Count <= 0)
             {
                 return GetErrorJson();
             }
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
+            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
@@ -720,7 +721,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> RecognizeVoidCheque(string imgBase64)
         {
-            if (imgBase64 == null)
+            if(imgBase64 == null)
             {
                 return GetErrorJson();
             }
@@ -738,21 +739,21 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> RecognizeVoidChequePhoto()
         {
-            if (Request.Files == null || Request.Files.Count <= 0)
+            if(Request.Files == null || Request.Files.Count <= 0)
             {
                 return GetErrorJson();
             }
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() {ImageForReadRaw = data};
+            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
             var result = await _scanProcessingServiceAgent.ScanVoidCheque(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
 
         [HttpPost]
         public async Task<JsonResult> CheckContractAgreement(int contractId)
-        {            
+        {
             var result = await _contractServiceAgent.CheckContractAgreementAvailable(contractId);
 
             return Json(result.Item1);

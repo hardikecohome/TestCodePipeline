@@ -29,17 +29,21 @@
                 <span>@Resources.CreditCheckProcessedSuccessfully</span>
             </p>
 
-			<p class="text-semibold preapproved-text">
-				@if (Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
-				{
-			<text>@Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</text>
-				}
-				else
-				{
-			<text>@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</text>
+            <p class="text-semibold preapproved-text">
+                @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                {
+                    <text>
+                        @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                    </text>
 
-				}
-			</p>
+                }
+            </p>
         }
         @if(Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
         {
@@ -48,6 +52,9 @@
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
+            </p>
+            <p class="text-semibold preapproved-text">
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
             </p>
         }
     </div>
