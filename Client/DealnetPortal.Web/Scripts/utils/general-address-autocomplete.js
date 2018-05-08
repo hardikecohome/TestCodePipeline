@@ -67,7 +67,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                 }
                 if (addressType == 'locality') {
                     cityInput.value = val;
-                    $(cityInput).keyup();
+                    $(cityInput).keyup().change();
                     $(cityInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
@@ -79,7 +79,7 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                 }
                 if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                     postalCodeInput.value = val.replace(/\s+/g, '');
-                    $(postalCodeInput).keyup();
+                    $(postalCodeInput).keyup().change();
                     $(postalCodeInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
@@ -87,11 +87,11 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
         }
         if (street) {
             streetInput.value = street;
-            $(streetInput).keyup();
+            $(streetInput).keyup().change();
             $(streetInput).removeClass('pac-placeholder').removeClass('placeholder');
         } else {
             streetInput.value = '';
-            $(streetInput).keyup();
+            $(streetInput).keyup().change();
             $(streetInput).placeholder();
         }
     });

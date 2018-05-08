@@ -249,7 +249,7 @@
                             </div>
                         </div>
                     </div>
-                    @if(Model.EquipmentInfo?.RentalProgramType != null)
+                    @if(Model.EquipmentInfo?.RentalProgramType != null && Model.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
                     {
                         <div class="form-group">
                             <div class="row">

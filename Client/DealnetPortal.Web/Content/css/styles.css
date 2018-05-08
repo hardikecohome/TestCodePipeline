@@ -135,7 +135,8 @@
   color: #38aaee;
 }
 
-.action-link.blue:hover {
+.action-link.blue:hover,
+.action-link.blue:focus {
   color: #2a99dc;
 }
 
@@ -153,7 +154,8 @@
   color: #dcdcdc;
 }
 
-.action-link.grey:hover {
+.action-link.grey:hover,
+.action-link.grey:focus {
   color: #cacaca;
 }
 
@@ -171,7 +173,8 @@
   color: #94d802;
 }
 
-.action-link.green:hover {
+.action-link.green:hover,
+.action-link.green:focus {
   color: #7cc501;
 }
 
