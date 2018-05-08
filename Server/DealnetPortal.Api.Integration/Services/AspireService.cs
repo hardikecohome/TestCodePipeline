@@ -2149,7 +2149,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.PaymentType,
                     Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
                 });
-                if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
+                if (contract.PaymentInfo.PaymentType == PaymentType.Enbridge &&
                     (!string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount) ||
                     !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
                 {
@@ -2159,6 +2159,31 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
                     });
                 }
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EnbridgeMeter,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Enbridge ? contract.PaymentInfo.MeterNumber : BlankValue
+                });
+                //udfList.Add(new UDF()
+                //{
+                //    Name = AspireUdfFields.PapWithdrawalDate,
+                //    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.PrefferedWithdrawalDate.ToString() : BlankValue
+                //});
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapAccountNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.AccountNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapTransitNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.TransitNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapBankNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.BlankNumber ?? BlankValue : BlankValue
+                });
             }            
 
             if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))

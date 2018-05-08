@@ -176,5 +176,13 @@
         public static string MonthlyMortgage = "Monthly Mortgage";
 
         #endregion
+
+        #region Payment information
+        public static string EnbridgeMeter = "Enbridge Meter";
+        public static string PapAccountNumber = "PAP Account Number";
+        public static string PapBankNumber = "PAP Bank Number";
+        public static string PapTransitNumber = "PAP Transit Number";
+        public static string PapWithdrawalDate = "PAP Withdrawal Date";
+        #endregion
     }
 }
