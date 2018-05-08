@@ -357,7 +357,11 @@
     max-width: 100%;
   }
   .ie .header__logo-img {
-    max-width: 65%;
+    max-width: 150px;
+  }
+  .ie .header__logo-img:lang(fr),
+  .ie .header__logo-img:lang(fr-CA) {
+    max-width: 140px;
   }
   .header__navigation {
     margin-left: 40px;
