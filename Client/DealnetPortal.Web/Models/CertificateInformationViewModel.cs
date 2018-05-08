@@ -13,12 +13,12 @@ namespace DealnetPortal.Web.Models
         public List<CertificateEquipmentInfoViewModel> Equipments { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "InstallerFirstName")]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(30, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "FirstNameIncorrectFormat")]
         public string InstallerFirstName { get; set; }
 
         [Display(ResourceType = typeof (Resources.Resources), Name = "InstallerLastName")]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(30, MinimumLength = 2)]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "LastNameIncorrectFormat")]
         public string InstallerLastName { get; set; }
 
