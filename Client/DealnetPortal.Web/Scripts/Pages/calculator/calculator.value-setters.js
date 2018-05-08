@@ -22,8 +22,9 @@
 
     var setReductionCost = function(optionKey, callback) {
         return function(e) {
-            var intRate = +e.target.selectedOptions[0].getAttribute('intrate');
-            var custRate = +e.target.selectedOptions[0].getAttribute('custRate');
+            var selectedOption = e.target.options[e.target.selectedIndex];
+            var intRate = +selectedOption.getAttribute('intrate');
+            var custRate = +selectedOption.getAttribute('custRate');
             state[optionKey].InterestRateReduction = intRate;
             state[optionKey].CustomerReduction = custRate;
             callback([optionKey]);
