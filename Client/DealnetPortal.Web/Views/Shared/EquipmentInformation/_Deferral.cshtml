@@ -42,17 +42,23 @@
         <div class="form-group">
           <label for="">@Resources.DeferralPeriod</label>
           @Html.DropDownList(Model.ToString().ToLower() + "Deferral", deferralSelectList, new { @class = "form-control", id = "DeferralPeriodDropdown" })
-			
         </div>
       </div>
     </div>
     <div class="equal-height-row-4">
       <div class="clearfix">
-        <div class="row form-group">
-          &nbsp;
-          <div class="col-xs-6 hidden">@Resources.YourCost</div>
-          <div class="col-xs-6 text-right text-stronger hidden" id="DeferralYCostVal"></div>
-        </div>
+          <div class="row form-group">
+              &nbsp;
+              <div class="col-xs-6 hidden">@Resources.YourCost</div>
+              <div class="col-xs-6 text-right text-stronger hidden" id="DeferralYCostVal"></div>
+          </div>
+          <div class="row form-group">
+              <div class="equal-height-label-2">
+                  <label>@Resources.CustomerRateReduction</label>
+              </div>
+
+              @Html.DropDownList("DeferralReduction", Enumerable.Empty<SelectListItem>(), Resources.NoReduction, new { @class = "form-control", id = "Deferral-reduction" })
+          </div>
         <div class="row form-group">
           <div class="col-xs-6">@Resources.CustomerRate</div>
           <div class="col-xs-6 text-right text-stronger" id="DeferralCRate"></div>

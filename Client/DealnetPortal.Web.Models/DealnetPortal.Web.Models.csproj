@@ -58,6 +58,7 @@
     <Compile Include="Enumeration\NumberOfPeople.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PortalType.cs" />
+    <Compile Include="Enumeration\AnnualEscalationType.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
     <Compile Include="Enumeration\ReasonForInterest.cs" />
     <Compile Include="Enumeration\RelationshipStructure.cs" />

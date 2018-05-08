@@ -17,6 +17,7 @@
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
         customInputsToShow: ['-customYCostWrapper', '-customCRateWrapper', '-deferralDropdownWrapper', '-customLoanAmortWrapper'],
         inputsToHide: ['-cRate', '-yCostVal'],
+        reductionCards: ['FixedRate', 'Deferral'],
         emptyRateCard: {
             Id: '',
             LoanTerm: '',

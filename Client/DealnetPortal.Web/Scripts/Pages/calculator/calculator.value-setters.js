@@ -20,8 +20,21 @@
             }, 0);
     };
 
+    var setReductionCost = function(optionKey, callback) {
+        return function(e) {
+            var intRate = +e.target.selectedOptions[0].getAttribute('intrate');
+            var custRate = +e.target.selectedOptions[0].getAttribute('custRate');
+            state[optionKey].InterestRateReduction = intRate;
+            state[optionKey].CustomerReduction = custRate;
+            callback([optionKey]);
+        }
+    }
+
     var setLoanAmortTerm = function (optionKey, callback) {
         return function (e) {
+            state[optionKey].InterestRateReduction = 0;
+            state[optionKey].CustomerReduction = 0;
+            state[optionKey].ReductionId = null;
             callback([optionKey]);
         };
     };
@@ -105,6 +118,12 @@
             var dropdownParentDiv = $('#' + optionKey + '-deferralDropdownWrapper');
             //var e = document.getElementById(optionKey + '-amortDropdown');
             //e.selectedIndex = -1;
+            if (constants.reductionCards.indexOf(planType) !== -1) {
+                $('#' + optionKey + '-reductionWrapper').removeClass('hidden');
+            } else {
+                $('#' + optionKey + '-reductionWrapper').addClass('hidden');
+            }
+
             if (planType === 'Deferral' || planType === 'Custom') {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');
@@ -243,25 +262,6 @@
         callback([optionKey]);
     }
 
-    //var setTax = function(callback) {
-    //    return function(e) {
-    //        var name = e.target.value;
-    //        if (name === '') {
-    //            state.tax = 0;
-    //            state.description = translations.tax;
-    //        } else {
-    //            var filtered = state.taxes.filter(function (tax) {
-    //                return tax.Province === name;
-    //            });
-
-    //            state.tax = filtered[0].Rate;
-    //            state.description = filtered[0].Description;
-    //        }
-
-    //        callback();
-    //    }
-    //}
-
     function setAmortizationDropdownValues(optionKey, planType) {
         var options = $('#' + optionKey + '-amortDropdown');
         options.empty();
@@ -313,6 +313,7 @@
         setNewEquipment: setNewEquipment,
         removeEquipment: removeEquipment,
         setProgram: setProgram,
+        setReductionCost: setReductionCost,
         //setTax: setTax,
         setLoanTerm: setLoanTerm,
         setAmortTerm: setAmortTerm,

@@ -55,7 +55,7 @@
             </div>
         }
 
-        @if(Model.IsBeaconUpdated && !contractClosed)
+        @if(Model.IsBeaconUpdated && !(contractClosed || contractDeclined))
         {
             <div class="message-header">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -636,6 +636,21 @@
                                 </div>
                             </div>
                         </div>
+                        if(Model.EquipmentInfo.RentalProgramType.HasValue && Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication)
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.RentalProgramType, new { @class = "dealnet-field-caption col-xs-5" })
+                                    <div class="dealnet-field-holder col-xs-7">
+                                        <div class="control-group">
+                                            <input readonly="readonly"
+                                                   class="dealnet-disabled-input"
+                                                   value="@Model.EquipmentInfo.RentalProgramType.GetEnumDescription()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         if(Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication && Model.EquipmentInfo.CustomerRiskGroup != null)
                         {
                             <div class="form-group">
@@ -1237,16 +1252,16 @@
                                                     <span>
                                                         @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                         @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                                                                                                                                                                                                                                                                            Resources.Year :
+                                                                                                                                                                                                                                                                                                                            Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                             @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
+                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
                                                         </span>
                                                     }
                                                 </div>
@@ -2014,16 +2029,16 @@
                                                             <span>
                                                                 @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
                                                                 @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                                                                                                                                                                                                                                                                            Resources.Year :
+                                                                                                                                                                                                                                                                                                                            Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
                                                                     @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
+                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -2303,15 +2318,15 @@
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                                                                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
-                                                                                                                                         .Select(x => new SelectListItem
-                                                                                                                                         {
-                                                                                                                                             Value = x.Type,
-                                                                                                                                             Text = x.Description,
-                                                                                                                                             Selected = Model?.EquipmentInfo?.NewEquipment != null &&
-                                                                                                                                          Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                                                                         }),
-                                                                                                                                         new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                                                                             ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+                                                                                                                                                             .Select(x => new SelectListItem
+                                                                                                                                                             {
+                                                                                                                                                                 Value = x.Type,
+                                                                                                                                                                 Text = x.Description,
+                                                                                                                                                                 Selected = Model?.EquipmentInfo?.NewEquipment != null &&
+                                                                                                                                                              Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                                                                                                             }),
+                                                                                                                                                             new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                         </div>
                                     </div>
                                 </div>
@@ -2634,11 +2649,11 @@
                     else
                     {
                         <div class="row">
-                            <div class="col-md-4 col-lg-3 col-xs-12 summary-payment-info-item">
+                            <div class="col-md-4 col-lg-4 col-xs-12 summary-payment-info-item">
                                 <div class="row">
                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                         <div>
-                                            <text>@Resources.MonthlyPayment</text>
+                                            <text>@Resources.TotalMonthlyPaymentWithoutTaxes</text>
                                         </div>
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
@@ -2658,18 +2673,18 @@
                                             </div>
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                            $@(Math.Round(Model.PaymentSummary.Hst ?? 0, 2))
+                                            $@($"{(Model.PaymentSummary.Hst ?? 0):0.00}")
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-7 col-xs-12 summary-payment-info-item">
+                                <div class="col-md-5 col-lg-6 col-xs-12 summary-payment-info-item">
                                     <div class="row">
                                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                             @Resources.TotalMonthlyPaymentWithTaxes
                                         </div>
-                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-                                            $@(Math.Round(Model.PaymentSummary.MonthlyPayment + Model.PaymentSummary.Hst ?? 0, 2))
-                                        </div>
+										<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+											$@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")
+										</div>
                                     </div>
                                 </div>
                             }
@@ -2877,13 +2892,13 @@
                                                             var yesNaming = Resources.Yes;
                                                             var noNaming = Resources.No;
                                                         }
-                                                        @Html.DropDownListFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned, 
-                                                       new SelectList(new[] {
-                                                        new {Value = "true",Text = yesNaming,Selected =  Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
-                                                        new {Value = "false",Text = noNaming,Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
-                                                        },
-                                                        "Value", "Text", Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
-                                                       new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                        @Html.DropDownListFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned,
+                                                                           new SelectList(new[] {
+                                                                                                                                                                        new {Value = "true",Text = yesNaming,Selected =  Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                                                                                                                        new {Value = "false",Text = noNaming,Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                            },
+                                                                            "Value", "Text", Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
+                                                                           new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2927,36 +2942,6 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="dealnet-field-caption col-xs-6">
-                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge)
-                                                </div>
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge, new
-                                                    {
-                                                        @readonly = "readonly",
-                                                        @class = "dealnet-disabled-input",
-                                                        id = ""
-                                                    })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="dealnet-field-caption col-xs-6">
-                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Make)
-                                                </div>
-                                                <div class="dealnet-field-holder col-xs-6">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Make, new
-                                                    {
-                                                        @readonly = "readonly",
-                                                        @class = "dealnet-disabled-input",
-                                                        id = ""
-                                                    })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="dealnet-field-caption col-xs-6">
                                                     @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Model)
                                                 </div>
                                                 <div class="dealnet-field-holder col-xs-6">
@@ -2991,6 +2976,36 @@
                                                 </div>
                                                 <div class="dealnet-field-holder col-xs-6">
                                                     @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].GeneralCondition, new
+                                                    {
+                                                        @readonly = "readonly",
+                                                        @class = "dealnet-disabled-input",
+                                                        id = ""
+                                                    })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].EstimatedAge, new
+                                                    {
+                                                        @readonly = "readonly",
+                                                        @class = "dealnet-disabled-input",
+                                                        id = ""
+                                                    })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="dealnet-field-caption col-xs-6">
+                                                    @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Make)
+                                                </div>
+                                                <div class="dealnet-field-holder col-xs-6">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.ExistingEquipment[i].Make, new
                                                     {
                                                         @readonly = "readonly",
                                                         @class = "dealnet-disabled-input",
@@ -3292,12 +3307,12 @@
                                         <div class="col-sm-9 col-xs-8">
                                             <div class="dealnet-field-holder text-left text-uppercase text-normal">
                                                 @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                                                                                                                                                                   ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                                                                                                                                                                                                   {
-                                                                                                                                                                                                                                       Value = x.Type,
-                                                                                                                                                                                                                                       Text = x.Description,
-                                                                                                                                                                                                                                       Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                                                                                                                                                                   }), new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                                                                                                                                                                                                                       ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                                                                                                                                                                                                                       {
+                                                                                                                                                                                                                                                           Value = x.Type,
+                                                                                                                                                                                                                                                           Text = x.Description,
+                                                                                                                                                                                                                                                           Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                                                                                                                                                                                                       }), new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </div>
                                         </div>
                                     </div>

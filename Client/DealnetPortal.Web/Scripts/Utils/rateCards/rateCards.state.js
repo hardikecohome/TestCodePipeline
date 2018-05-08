@@ -3,6 +3,7 @@
         rateCards: {},
         agreementType: 0,
         equipments: {},
+        rateCardReduction: [],
         existingEquipments: {},
         tax: taxRate,
         downPayment: 0,
@@ -31,7 +32,7 @@
         amortizationValueToDisable: 180,
         totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,
         maxRateCardLoanValue: 50000,
-        clarityPaymentFactor: 0.010257
+        clarityPaymentFactor: 0.010257        
     };
 
     return {

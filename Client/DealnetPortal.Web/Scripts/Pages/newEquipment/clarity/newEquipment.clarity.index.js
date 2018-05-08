@@ -82,6 +82,7 @@
         $('#LoanTerm').val(state['clarity'].LoanTerm);
         $('#new-clarity-contract').val(true);
         $('#total-monthly-payment').val($('#totalMonthlyCostTax').text().substring(1));
+        $('#total-monthly-payment-display').text($('#totalMonthlyCostTax').text().substring(1));
         $('#CustomerRate').val(formatNumber(state['clarity'].CustomerRate));
         $('#AdminFee').val(formatNumber(state['clarity'].AdminFee));
         $('#SelectedRateCardId').val(state['clarity'].Id);

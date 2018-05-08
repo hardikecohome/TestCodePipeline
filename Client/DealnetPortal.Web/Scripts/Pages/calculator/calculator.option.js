@@ -31,7 +31,8 @@
             '-cRate': 'CustomerRate'
         },
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
-        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
+        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
+        reductionCards: ['FixedRate', 'Deferral']
     }
 
     function _optionSetup(option, callback) {
@@ -50,6 +51,7 @@
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
         $('#' + option + '-aFeeOptionsHolder').find('.custom-radio').on('click', _setAdminFeeCoveredBy(option, callback));
         $('#' + option + '-programDropdown').on('change', setters.setProgram(option, callback));
+        $('#' + option + '-reduction').on('change', setters.setReductionCost(option, callback));
 
         if (option === 'option1') {
             var nextIndex = state[option].equipmentNextIndex;
@@ -345,7 +347,16 @@
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
+                if (!state[option].CustomerReduction || !state[option].InterestRateReduction) {
+                    state[option].CustomerReduction = !state[option].CustomerReduction ? 0 : state[option].CustomerReduction;
+                    state[option].InterestRateReduction = !state[option].InterestRateReduction ? 0 : state[option].InterestRateReduction;
+                }
+
                 $.extend(true, state[option], rateCard);
+
+                if (settings.reductionCards.indexOf(state[option].plan) !== -1) {
+                    _setReductionRates(option);
+                }
 
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }
@@ -363,6 +374,30 @@
 
             rateCardsRenderEngine.renderOption(option, selectedRateCard, data);
         });
+    }
+
+    function _setReductionRates(rateCardOption) {
+
+        var taf = rateCardsCalculator.getTotalAmountFinanced({
+            includeAdminFee: state[rateCardOption].includeAdminFee,
+            AdminFee: state[rateCardOption].AdminFee
+        });
+
+        rateCardsRenderEngine.renderReductionDropdownValues({
+            standaloneOption: rateCardOption,
+            rateCardPlan: state[rateCardOption].plan,
+            customerRate: state[rateCardOption].CustomerRate,
+            totalAmountFinanced: taf
+        });
+
+        var reducedCustomerRate = state[rateCardOption].CustomerRate - state[rateCardOption].CustomerReduction;
+        if (reducedCustomerRate < 0) {
+            state[rateCardOption].ReductionId = null;
+            state[rateCardOption].CustomerReduction = 0;
+            state[rateCardOption].InterestRateReduction = 0;
+        } else {
+            state[rateCardOption].CustomerRate = reducedCustomerRate;
+        }
     }
 
     function _setAdminFeeByEquipmentSum(option, eSum) {

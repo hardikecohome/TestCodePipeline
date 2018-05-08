@@ -3,6 +3,7 @@
         var recalculateValuesAndRender = require('rate-cards').recalculateValuesAndRender;
         var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
+        var onProgramTypeChange = require('newEquipment.rental').onProgramTypeChange;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -23,6 +24,7 @@
             customRateCardName: 'Custom',
             formId: '#equipment-form',
             agreementTypeId: '#typeOfAgreementSelect',
+            rentalProgramTypeId: '#rental-program-type',
             submitButtonId: '#submit',
             rateCardTypeId: '#hidden-option',
             equipmentValidationMessageId: '#new-equipment-validation-message',
@@ -30,6 +32,7 @@
             addExistingEquipmentId: '#addExistingEqipment',
             toggleRateCardBlockId: '#loanRateCardToggle',
             totalMonthlyPaymentId: '#total-monthly-payment',
+            totalMonthlyPaymentDisplayId: '#total-monthly-payment-display',
             downPaymentId: '#downPayment',
             selectRateCardButtonClass: '.btn-select-card',
             deferralDropdownId: '#DeferralPeriodDropdown',
@@ -43,7 +46,11 @@
             coveredByCustomerId: '#isCoveredByCustomer',
             passAdminFeeId: '#isPassAdminFee',
             adminFeeSectionId: '#admin-fee-section',
-            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
+            totalMonthlyPaymentRowId: '#total-monthly-payment-row',
+            escalationLimitErrorMsgId: '#escalation-limit-error-msg',
+            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',            
+            fixedRateReductionId: '#FixedRate-reduction',
+            deferralReductionId: '#Deferral-reduction',
             applicationType: {
                 'loanApplication': '0',
                 'rentalApplicationHwt': '1',
@@ -58,7 +65,7 @@
          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
          * @returns {void} 
          */
-        var init = function (id, cards, onlyCustomRateCard, bill59Equipment) {
+        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable) {
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
 
             if (isOnlyLoan) {
@@ -101,7 +108,7 @@
                 recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
             });
 
-            rateCardsInit.init(id, cards, onlyCustomRateCard);
+            rateCardsInit.init(id, cards, rateCardReductionTable, onlyCustomRateCard);
             customRateCardInit();
             rateCardCalculationInit();
             rateCardBlock.init();
@@ -149,7 +156,12 @@
                     _toggleCustomRateCard();
                     submitRateCard(option);
                 }
+            } 
+
+            if ($(settings.escalationLimitErrorMsgId).is(':visible')) {
+                event.preventDefault();
             }
+
             if ($('#sales-rep-types').is(':visible')) {
                 if (!$('#sales-rep-types').find('input[type=checkbox]:checked').length) {
                     event.preventDefault();
@@ -210,18 +222,25 @@
         function _initHandlers() {
             $(settings.submitButtonId).on('click', _submitForm);
             constants.rateCards.forEach(function (option) {
-                $('#' + option.name + '-amortDropdown').on('change', recalculateValuesAndRender);
+                $('#' + option.name + '-amortDropdown').on('change', setters.setLoanAmortTerm(option.name));
             });
             $(settings.addEquipmentId).on('click', equipment.addEquipment);
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
             $(settings.downPaymentId).on('change', setters.setDownPayment);
             $(settings.agreementTypeId).on('change', setters.setAgreement).on('change', _toggleCustomRateCard);
-            $(settings.totalMonthlyPaymentId).on('change', setters.setRentalMPayment);
+            $(settings.totalMonthlyPaymentId)
+                .on('change', setters.setRentalMPayment)
+                .on('change', function (e) {
+                    $(setters.totalMonthlyPaymentDisplayId).text(e.target.value);
+                });
             $(settings.selectRateCardButtonClass).on('click', rateCardBlock.highlightCard);
             $(settings.selectRateCardButtonClass).on('click', _onRateCardSelect);
             $(settings.deferralTermId).on('change', setters.setLoanAmortTerm('Deferral'));
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
+            $(settings.fixedRateReductionId).on('change', setters.setReductionCost('FixedRate'));
+            $(settings.deferralReductionId).on('change', setters.setReductionCost('Deferral'));
+            $(settings.rentalProgramTypeId).on('change', onProgramTypeChange);
 
             $('#initiated-contract-checkbox').on('click', function (e) {
                 $('#initiated-contract').val(e.target.checked);

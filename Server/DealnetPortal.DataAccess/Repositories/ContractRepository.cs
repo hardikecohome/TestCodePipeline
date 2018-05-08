@@ -1294,6 +1294,22 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
             }
+            if (equipmentInfo.RentalProgramType.HasValue)
+            {
+                dbEquipment.RentalProgramType = equipmentInfo.RentalProgramType;
+            }
+            if (equipmentInfo.RateReduction.HasValue)
+            {
+                dbEquipment.RateReduction = equipmentInfo.RateReduction;
+            }
+            if (equipmentInfo.RateReductionCost.HasValue)
+            {
+                dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
+            }
+	        if (equipmentInfo.RateReductionCardId.HasValue)
+	        {
+		        dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
+	        }
 
             return dbEquipment;
         }
@@ -1715,7 +1731,9 @@ namespace DealnetPortal.DataAccess.Repositories
             updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => contract.HomeOwners.Remove(e));
 
-            homeOwners.ForEach(ho =>
+            var entriesForAdd = homeOwners.Where(ho => ho.Id == 0 || existingEntities.All(ee => ee.Id != ho.Id));
+
+            entriesForAdd.ForEach(ho =>
             {
                 Customer sc = null;
                 if (ho.Id != 0)

@@ -31,13 +31,28 @@
 
     var setLoanAmortTerm = function (optionKey) {
         return function (e) {
-            var loanTerm  = e.target.value.split('/')[0];
-            var amortTerm = e.target.value.split('/')[1];
+            var loanTerm  = e.target.selectedOptions[0].text.split('/')[0];
+            var amortTerm = e.target.selectedOptions[0].text.split('/')[1];
             state[optionKey].LoanTerm = Globalize.parseNumber(loanTerm);
             state[optionKey].AmortizationTerm = Globalize.parseNumber(amortTerm);
+            state[optionKey].InterestRateReduction = 0;
+            state[optionKey].CustomerReduction = 0;
+            state[optionKey].ReductionId = null;
             settings.recalculateValuesAndRender([{ name: optionKey }]);
         };
     };
+
+    var setReductionCost = function(optionKey) {
+        return function(e) {
+            var intRate = +e.target.selectedOptions[0].getAttribute('intrate');
+            var custRate = +e.target.selectedOptions[0].getAttribute('custRate');
+            state[optionKey].InterestRateReduction = intRate;
+            state[optionKey].CustomerReduction = custRate;
+            state[optionKey].ReductionId = +e.target.value;
+
+            settings.recalculateValuesAndRender([{ name: optionKey }]);
+        }
+    }
 
     var setLoanTerm = function (optionKey) {
         return function (e) {
@@ -154,6 +169,7 @@
         setDownPayment: setDownPayment,
         setRentalMPayment: setRentalMPayment,
         setCustomYourCost: setCustomYourCost,
-        setAdminFeeIsCovered: setAdminFeeIsCovered
+        setAdminFeeIsCovered: setAdminFeeIsCovered,
+        setReductionCost: setReductionCost
     };
 });
