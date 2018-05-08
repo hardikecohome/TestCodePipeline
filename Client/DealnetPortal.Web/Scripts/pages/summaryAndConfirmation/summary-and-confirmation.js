@@ -54,8 +54,12 @@
                     $company.rules('remove', 'required');
                     $company.removeAttr('required');
                     $company.valid();
-                    $('.responsible-input option[value="1"]').prop('disabled', true);
                 }
+                var dropdown = $('.responsible-input');
+                if (dropdown.val() == '1') {
+                    dropdown.val('');
+                }
+                dropdown.find('option[value="1"]').prop('disabled', true);
             } else {
                 $company.prop('disabled', false);
                 $company.attr('required', 'required');
