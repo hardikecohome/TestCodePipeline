@@ -64,7 +64,10 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.AuthorName, s => s.ResolveUsing(src => 
                     src.IsCustomerComment != true ? src.Dealer.UserName : $"{src.Contract?.PrimaryCustomer?.FirstName} {src.Contract?.PrimaryCustomer?.LastName}"));
             mapperConfig.CreateMap<CustomerCreditReport, CustomerCreditReportDTO>()
-                .ForMember(x => x.BeaconUpdated, d => d.UseValue(false));
+                .ForMember(x => x.BeaconUpdated, d => d.UseValue(false))
+                .ForMember(x => x.EscalatedLimit, d => d.Ignore())
+                .ForMember(x => x.NonEscalatedLimit, d => d.Ignore())
+                .ForMember(x => x.CreditAmount, d => d.Ignore());
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
@@ -183,7 +186,6 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.ValidFrom, d => d.MapFrom(s => s.ValidFrom))
                 .ForMember(x => x.ValidTo, d => d.MapFrom(s => s.ValidTo))
                 .ForMember(x => x.IsPromo, d => d.MapFrom(s => s.IsPromo));
-
             mapperConfig.CreateMap<Tier, TierDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(s => s.Id))
                 .ForMember(x => x.Name, d => d.MapFrom(s => s.Name))
@@ -201,6 +203,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src => src.Equipments.Any() ? src.Equipments : null))
                 .ForMember(x => x.PostalCodesList, d => d.ResolveUsing(src => src.Areas.Any() ? src.Areas : null));
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>();
+            mapperConfig.CreateMap<RateReductionCard, RateReductionCardDTO>();
 
             mapperConfig.CreateMap<Address, AddressDTO>();
             mapperConfig.CreateMap<CompanyInfo, CompanyInfoDTO>()
@@ -394,6 +397,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ChannelType, s => s.MapFrom(src => src.ChannelType))
                 .ForMember(d => d.Role, s => s.MapFrom(src => src.Role))
                 .ForMember(d => d.Ratecard, s => s.MapFrom(src => src.Ratecard))
+                .ForMember(d => d.LeaseRatecard, s => s.MapFrom(src => src.LeaseRatecard))
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
         }
 

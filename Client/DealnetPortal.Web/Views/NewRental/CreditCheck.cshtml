@@ -39,7 +39,6 @@
                         window.location = '@Url.Action("Error", "Info")';
                     }
                 });
-                @*window.location.href = "@Url.Action("CheckCreditStatus", new { contractId = Model })";*@
 				gtag('event', 'Credit Check', { 'event_category': 'Credit Check', 'event_action': 'button_click', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
 			});
 </script>

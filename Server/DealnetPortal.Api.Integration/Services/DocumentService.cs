@@ -391,7 +391,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var fields = new List<FormField>();
                     FillHomeOwnerFields(fields, templateFields?.Item1, contract);
                     FillApplicantsFields(fields, contract);
-                    FillEquipmentFields(fields, contract, ownerUserId);
+                    FillEquipmentFields(fields, templateFields?.Item1, contract, ownerUserId);
                     FillDealerFields(fields, contract);
                     FillInstallCertificateFields(fields, contract);
 
@@ -944,7 +944,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
-            FillEquipmentFields(fields, contract, ownerUserId);
+            FillEquipmentFields(fields, templateFields, contract, ownerUserId);
             FillExistingEquipmentFields(fields, contract);
             FillPaymentFields(fields, contract);
             FillDealerFields(fields, contract);
@@ -962,7 +962,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var alerts = new List<Alert>();
             var agreementType = contract.Equipment.AgreementType;
-            var equipmentType = contract.Equipment.NewEquipment?.First()?.Type;
+            var rentalProgram = contract.Equipment.RentalProgramType;
             var equipmentTypes = contract.Equipment.NewEquipment?.Select(ne => ne.Type).ToList() ?? new List<string>();
             var culture = CultureHelper.GetCurrentNeutralCulture();
 
@@ -1018,6 +1018,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var agreementTemplates = dealerTemplates.Where(at =>
                     ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                     && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
+                    && (at.AnnualEscalation == rentalProgram)
                     && (!equipmentTypes.Any() || (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
 
                 if (!agreementTemplates.Any())
@@ -1025,6 +1026,7 @@ namespace DealnetPortal.Api.Integration.Services
                     agreementTemplates = dealerTemplates.Where(at =>
                         (!at.AgreementType.HasValue || (agreementType == at.AgreementType) || (at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))
+                        && (at.AnnualEscalation == rentalProgram)
                         && (!equipmentTypes.Any() ||
                             (at.EquipmentType?.Split(' ', ',').Any(et => equipmentTypes.Contains(et)) ?? false))).ToList();
                 }
@@ -1033,6 +1035,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplates = dealerTemplates.Where(at =>
                         ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
+                        && (at.AnnualEscalation == rentalProgram)
                         && (string.IsNullOrEmpty(province) || (at.State?.Contains(province) ?? false))).ToList();
                 }
 
@@ -1040,12 +1043,14 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     agreementTemplates =
                         dealerTemplates.Where(at => ((agreementType == at.AgreementType) || (at.AgreementType.HasValue && at.AgreementType.Value.HasFlag(agreementType) && agreementType != AgreementType.LoanApplication))
+                                                    && (at.AnnualEscalation == rentalProgram)
                                                             && string.IsNullOrEmpty(at.State) && string.IsNullOrEmpty(at.EquipmentType)).ToList();
                 }
 
                 if (agreementTemplates.Any())
                 {
-                    agreementTemplate = agreementTemplates.FirstOrDefault(at => at.Culture == culture) ?? agreementTemplates.FirstOrDefault();
+                    agreementTemplate = agreementTemplates.FirstOrDefault(at => at.Culture == culture) ??
+                                        agreementTemplates.FirstOrDefault();
                 }
             }            
 
@@ -1701,22 +1706,16 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = $"{PdfFormFields.IsHomeOwner2}_2",
                         Value = "true"
                     });
-                }
-                
+                }                
             }
         }
 
-        private void FillEquipmentFields(List<FormField> formFields, Contract contract, string ownerUserId)
+        private void FillEquipmentFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract, string ownerUserId)
         {
             if (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Any() ?? false)
             {
                 var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
-                var fstEq = newEquipments.First();
-                var rate =
-                    _contractRepository.GetProvinceTaxRate(
-                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
-                             l => l.AddressType == AddressType.MainAddress) ??
-                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                var fstEq = newEquipments.First();                
 
                 formFields.Add(new FormField()
                 {
@@ -1821,13 +1820,6 @@ namespace DealnetPortal.Api.Integration.Services
                                 othersEq.Add(eq);
                             }
                             break;
-                        case "ECO3": // Doors
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO4": // Fireplace
-                            othersEq.Add(eq);
-                            break;
-                        case "ECO5": // Furnace
                         case "ECO40": // Air Handler - we have common 
                             if (!formFields.Exists(f => f.Name == PdfFormFields.IsFurnace))
                             {
@@ -1924,41 +1916,52 @@ namespace DealnetPortal.Api.Integration.Services
                                 othersEq.Add(eq);
                             }
                             break;
+                        case "ECO3": // Doors
+                        case "ECO4": // Fireplace
+                        case "ECO5": // Furnace                        
                         case "ECO38": // Sunrooms
-                            othersEq.Add(eq);
-                            break;                       
                         case "ECO42": // Flooring
-                            othersEq.Add(eq);
-                            break;                        
                         case "ECO43": // Porch Enclosure
-                            othersEq.Add(eq);
-                            break;
                         case "ECO44": // Water Treatment System
-                            othersEq.Add(eq);
-                            break;
                         case "ECO45": // Heat Pump
-                            othersEq.Add(eq);
-                            break;
                         case "ECO46": // HRV
-                            othersEq.Add(eq);
-                            break;
                         case "ECO47": // Bathroom
-                            othersEq.Add(eq);
-                            break;
                         case "ECO48": // Kitchen
-                            othersEq.Add(eq);
-                            break;
                         case "ECO49": // Hepa System
-                            othersEq.Add(eq);
-                            break;
                         case "ECO50": // Unknown
-                            othersEq.Add(eq);
-                            break;
                         case "ECO52": // Security System
-                            othersEq.Add(eq);
-                            break;
                         case "ECO55": // Basement Repair
-                            othersEq.Add(eq);
+                        default:
+                            // for all others
+                            if (templateFields?.Any(tf => tf.Name == $"Is_{eq.Type}") == true && !formFields.Exists(f => f.Name == $"Is_{eq.Type}"))
+                            {
+                                //added logic for add fields in format:
+                                //Is_ECO(X)
+                                //EXO(X)_Details
+                                //EXO(X)_MonthlyRental
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.CheckBox,
+                                    Name = $"Is_{eq.Type}",
+                                    Value = "true"
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = $"{eq.Type}_Details",
+                                    Value = eq.Description
+                                });
+                                formFields.Add(new FormField()
+                                {
+                                    FieldType = FieldType.Text,
+                                    Name = $"{eq.Type}_MonthlyRental",
+                                    Value = monthlyCost
+                                });
+                            }
+                            else
+                            {
+                                othersEq.Add(eq);
+                            }
                             break;
                     }
                 }
@@ -2043,59 +2046,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
                 {
-                    var totalAmountFactor = 1.17313931606035m;
-                    var annualEscalation = 3.5 / 100;
-
-                    var totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
-                    totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
-
-                    decimal totalAmountUsefulLife = 0m;
-
-                    totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                        (sum, ne) =>
-                        {
-                            var costWithHst =
-                                Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?) rate?.Rate ?? 0.0m) / 100), 2);
-                            var priceAfter10 =
-                                Math.Round(costWithHst * (decimal)Math.Pow(1 + annualEscalation, 9), 2);
-                            var lifeOver10 =
-                                ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 10) - 10) * 12;
-                            var totalAfter10 = Math.Round(priceAfter10 * lifeOver10, 2);
-                            return sum + totalAfter10;
-                        });
-                    totalAmountUsefulLife += totalAmountRentalLife;
-                    //if (newEquipments.All(ne => _contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife 
-                    //    == _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type)?.UsefulLife))
-                    //{
-                    //    //equal user life for all equipments
-                    //    totalAmountUsefulLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
-                    //    totalAmountUsefulLife = Math.Round(totalAmountUsefulLife * _contractRepository.GetEquipmentTypeInfo(newEquipments.First().Type).UsefulLife * 12, 2);
-                    //}
-                    //else
-                    //{                        
-                    //    totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
-                    //        (sum, ne) => sum + Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2) * ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 0) * 12));
-                    //}
-
-
-                    if (totalAmountUsefulLife > 0)
-                    {
-                        formFields.Add(new FormField()
-                        {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.TotalAmountUsefulLife,
-                            Value = totalAmountUsefulLife.ToString("F", CultureInfo.InvariantCulture)
-                        });
-                    }
-                    if (totalAmountRentalLife > 0)
-                    {
-                        formFields.Add(new FormField()
-                        {
-                            FieldType = FieldType.Text,
-                            Name = PdfFormFields.TotalAmountRentalTerm,
-                            Value = totalAmountRentalLife.ToString("F", CultureInfo.InvariantCulture)
-                        });
-                    }
+                    FillTotalAmountPayable(formFields, contract, ownerUserId);
                 }
             }
             if (contract.Equipment != null)
@@ -2255,6 +2206,69 @@ namespace DealnetPortal.Api.Integration.Services
                         FieldType = FieldType.CheckBox,
                         Name = PdfFormFields.NoDeferral,
                         Value = "true"
+                    });
+                }
+            }
+        }
+
+        private void FillTotalAmountPayable(List<FormField> formFields, Contract contract, string ownerUserId)
+        {
+            if (contract.Details.AgreementType != AgreementType.LoanApplication && contract.Equipment.RentalProgramType.HasValue)
+            {
+                var newEquipments = contract.Equipment.NewEquipment.Where(ne => ne.IsDeleted != true).ToList();
+                var rate =
+                    _contractRepository.GetProvinceTaxRate(
+                        (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                             l => l.AddressType == AddressType.MainAddress) ??
+                         contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+
+                decimal totalAmountUsefulLife = 0m;
+                decimal totalAmountRentalLife = 0m;
+
+                ////default factors for with escalation                
+                var totalAmountFactor = 1.17313931606035m;
+                var annualEscalation = 3.5 / 100;
+
+                if (contract.Equipment.RentalProgramType == AnnualEscalationType.Escalation0)
+                {
+                    //without escalation
+                    totalAmountFactor = 1.0m;
+                    annualEscalation = 0.0;
+                }
+
+                totalAmountRentalLife = Math.Round(newEquipments.Sum(ne => ne.MonthlyCost ?? 0) * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                totalAmountRentalLife = Math.Round(totalAmountRentalLife * (contract.Equipment.RequestedTerm ?? 0) * totalAmountFactor, 2);
+
+                totalAmountUsefulLife = newEquipments.Where(ne => ne.MonthlyCost.HasValue).Aggregate(0.0m,
+                    (sum, ne) =>
+                    {
+                        var costWithHst =
+                            Math.Round(ne.MonthlyCost.Value * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100), 2);
+                        var priceAfter10 =
+                            Math.Round(costWithHst * (decimal)Math.Pow(1 + annualEscalation, 9), 2);
+                        var lifeOver10 =
+                            ((_contractRepository.GetEquipmentTypeInfo(ne.Type)?.UsefulLife ?? 10) - 10) * 12;
+                        var totalAfter10 = Math.Round(priceAfter10 * lifeOver10, 2);
+                        return sum + totalAfter10;
+                    });
+                totalAmountUsefulLife += totalAmountRentalLife;
+
+                if (totalAmountUsefulLife > 0)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalAmountUsefulLife,
+                        Value = totalAmountUsefulLife.ToString("F", CultureInfo.InvariantCulture)
+                    });
+                }
+                if (totalAmountRentalLife > 0)
+                {
+                    formFields.Add(new FormField()
+                    {
+                        FieldType = FieldType.Text,
+                        Name = PdfFormFields.TotalAmountRentalTerm,
+                        Value = totalAmountRentalLife.ToString("F", CultureInfo.InvariantCulture)
                     });
                 }
             }

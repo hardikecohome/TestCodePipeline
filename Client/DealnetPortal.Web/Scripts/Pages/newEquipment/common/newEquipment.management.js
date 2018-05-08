@@ -254,10 +254,16 @@
                     $company.removeAttr('required');
                     $company.valid();
                 }
+                var dropdown = $('.responsible-dropdown');
+                if (dropdown.val() == '1') {
+                    dropdown.val('');
+                }
+                dropdown.find('option[value="1"]').prop('disabled', true);
             } else {
                 $company.prop('disabled', false);
                 $company.attr('required', 'required');
                 $company[0].form && $company.rules('add', 'required');
+                $('.responsible-dropdown option[value="1"]').prop('disabled', false);
             }
         }).change();
         $equip.find('.rental-company').on('change', function (e) {

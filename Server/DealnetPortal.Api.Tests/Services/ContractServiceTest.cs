@@ -53,6 +53,7 @@ namespace DealnetPortal.Api.Tests.Services
             Mock<IAspireStorageReader> aspireStorageServiceMock = new Mock<IAspireStorageReader>();
             Mock<ICreditCheckService> creditCheckServiceMock = new Mock<ICreditCheckService>();
             Mock<ICustomerWalletService> customerWalletServiceMock = new Mock<ICustomerWalletService>();
+            Mock<IRateCardsRepository> rateCardReposiotryMock = new Mock<IRateCardsRepository>();
             Mock<IDealerRepository> dealerRepositoryMock = new Mock<IDealerRepository>();
             Mock<IAppConfiguration> appConfigurationMock = new Mock<IAppConfiguration>();
 
@@ -85,6 +86,7 @@ namespace DealnetPortal.Api.Tests.Services
             _dealerRepository = dealerRepositoryMock.Object;
             _appConfiguration = appConfigurationMock.Object;
             _documentService = signatureServiceMock.Object;
+            _rateCardsRepository = rateCardReposiotryMock.Object;
         }
 
         [TestMethod]

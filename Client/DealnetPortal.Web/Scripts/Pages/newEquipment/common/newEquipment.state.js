@@ -1,6 +1,7 @@
-﻿module.exports('state', function() {
+﻿module.exports('state', function () {
     var state = {
         agreementType: 0,
+        rateCardReduction: [],
         equipments: {},
         packages: {},
         existingEquipments: {},
@@ -24,7 +25,10 @@
         selectedCardId: null,
         isInitialized: false,
         isNewContract: true,
-        isCoveredByCustomer: false
+        isCoveredByCustomer: false,
+        isStandardRentalTier: isStandardRentalTier,
+        escalatedRentalLimit: rentalEscalatedLimit,
+        nonEscalatedRentalLimit: rentalNonEscalatedLimit
     };
 
     var constants = {
@@ -39,7 +43,7 @@
         clarityPaymentFactor: 0.010257
     };
 
-    window.state = state;
+    //window.state = state;
     return {
         state: state,
         constants: constants

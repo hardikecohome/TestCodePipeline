@@ -20,7 +20,7 @@
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
     <div class="form-section">
-        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau) && TempData["MaxCreditAmount"] != null)
+        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -29,17 +29,21 @@
                 <span>@Resources.CreditCheckProcessedSuccessfully</span>
             </p>
 
-			<p class="text-semibold preapproved-text">
-				@if (Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
-				{
-			<text>@Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</text>
-				}
-				else
-				{
-			<text>@Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")</text>
+            <p class="text-semibold preapproved-text">
+                @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                {
+                    <text>
+                        @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                    </text>
 
-				}
-			</p>
+                }
+            </p>
         }
         @if(Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
         {
@@ -48,6 +52,9 @@
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
+            </p>
+            <p class="text-semibold preapproved-text">
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
             </p>
         }
     </div>
@@ -74,6 +81,8 @@
     translations['monthlyCostOfOwnership'] = "@Resources.MonthlyCostOfOwnership";
     translations['coveredByCustomer'] = "@Resources.CoveredByCustomer";
     translations['coveredByDealer'] = "@Resources.CoveredByDealer";
+    translations['noReduction'] = "@Resources.NoReduction";
+    translations['for'] = "@Resources.For";
 }
 
 @Scripts.Render("~/bundles/jqueryval")
@@ -104,6 +113,9 @@
 	  var isCalculationValid = false;
 	  var customerFee = @ViewBag.AdminFee;
 	  var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+	  var rentalEscalatedLimit = @(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0);
+	  var rentalNonEscalatedLimit = @(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0);
+	  var isStandardRentalTier = '@ViewBag.IsStandardRentalTier'.toLowerCase() === 'true';
     </script>
 
     <script type="text/javascript">

@@ -2792,4 +2792,34 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   <data name="VerifyCustomerID" xml:space="preserve">
     <value>Vérifier l'identifiant du client</value>
   </data>
+  <data name="Escalation_0" xml:space="preserve">
+    <value>Taux de location de 13,99% et rajustement annuel de 0%</value>
+  </data>
+  <data name="Escalation_35" xml:space="preserve">
+    <value>Taux de location de 10,99% et rajustement annuel de 3,5%</value>
+  </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Location (Réservoir  d'eau chaude)</value>
+  </data>
+  <data name="ProgramType" xml:space="preserve">
+    <value>Type de program</value>
+  </data>
+  <data name="TotalMonthlyPaymentWithoutTaxes" xml:space="preserve">
+    <value>PAIEMENT MENSUEL TOTAL</value>
+  </data>
+  <data name="CustomerRateReduction" xml:space="preserve">
+    <value>Réduction du tarif client</value>
+  </data>
+  <data name="NoReduction" xml:space="preserve">
+    <value>Pas de Réduction</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>pour</value>
+  </data>
+  <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
+    <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
+  </data>
 </root>

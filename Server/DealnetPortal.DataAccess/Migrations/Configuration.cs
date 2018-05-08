@@ -3237,20 +3237,26 @@ namespace DealnetPortal.DataAccess.Migrations
                 settings.Add(new CreditAmountSetting()
                 {
                     CreditScoreFrom = 0,
-                    CreditScoreTo = 699,
-                    CreditAmount = 7500
+                    CreditScoreTo = 718,
+                    CreditAmount = 7500,
+                    EscalatedLimit = 105,
+                    NonEscalatedLimit = 115
                 });
                 settings.Add(new CreditAmountSetting()
                 {
-                    CreditScoreFrom = 700,
-                    CreditScoreTo = 799,
-                    CreditAmount = 12500
+                    CreditScoreFrom = 719,
+                    CreditScoreTo = 768,
+                    CreditAmount = 12500,
+                    EscalatedLimit = 205,
+                    NonEscalatedLimit = 230
                 });
                 settings.Add(new CreditAmountSetting()
                 {
-                    CreditScoreFrom = 800,
+                    CreditScoreFrom = 769,
                     CreditScoreTo = 999,
-                    CreditAmount = 20000
+                    CreditAmount = 20000,
+                    EscalatedLimit = 345,
+                    NonEscalatedLimit = 390
                 });
                 context.CreditAmountSettings.AddOrUpdate(ca => new {ca.CreditScoreFrom, ca.CreditScoreTo}, settings.ToArray());
             }

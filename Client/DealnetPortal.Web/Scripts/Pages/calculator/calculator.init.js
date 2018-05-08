@@ -12,10 +12,10 @@
      * @param {Array<object>} rateCards - list of rate cards for current user
      * @returns {} 
      */
-    function _initRateCards(plans, rateCards, taxes) {
+    function _initRateCards(plans, rateCards, taxes, rateCardReductionTable) {
         state.cards = rateCards;
         state.taxes = taxes;
-        rateCardsCalculator.init(rateCards);
+        rateCardsCalculator.init(rateCards, rateCardReductionTable);
         state.programsAvailable = $('#programs-available').val().toLowerCase() === 'true';
         state.isDisplayAdminFee = $('#isPassAdminFee').val().toLowerCase() === 'true';
 
@@ -53,8 +53,8 @@
         });
     }
 
-    var init = function (plans, rateCards, taxes) {
-        _initRateCards(plans, rateCards, taxes);
+    var init = function (plans, rateCards, taxes, rateCardReductionTable) {
+        _initRateCards(plans, rateCards, taxes, rateCardReductionTable);
         _setCustomRateCardAdminFee(rateCards);
         calculatorJCourusel.init();
         calculatorOption.init();
