@@ -54,11 +54,13 @@
                     $company.rules('remove', 'required');
                     $company.removeAttr('required');
                     $company.valid();
+                    $('.responsible-input option[value="1"]').prop('disabled', true);
                 }
             } else {
                 $company.prop('disabled', false);
                 $company.attr('required', 'required');
                 $company[0].form && $company.rules('add', 'required');
+                $('.responsible-input option[value="1"]').prop('disabled', false);
             }
         }).change();
 

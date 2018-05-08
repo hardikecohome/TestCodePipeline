@@ -994,4 +994,13 @@
   <data name="_PreApproved" xml:space="preserve">
     <value>Préapprouvé </value>
   </data>
+  <data name="ContractChangedCancelledEsign" xml:space="preserve">
+    <value>Le contrat a été modifié</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Location (Réservoir  d'eau chaude)</value>
+  </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Location</value>
+  </data>
 </root>
