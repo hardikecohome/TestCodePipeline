@@ -2802,4 +2802,7 @@ Additional program options may become available when customer’s credit details
   <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
     <value>Total monthly payment exceed pre-approved amount</value>
   </data>
+  <data name="NumberOfEntries" xml:space="preserve">
+    <value>Number of entries</value>
+  </data>
 </root>

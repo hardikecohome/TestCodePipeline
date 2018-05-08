@@ -256,6 +256,7 @@ table
                 &.deal-status {
                     flex-basis: 17%;
                     justify-content: flex-start;
+                    word-break: normal;
 
                     span {
                         flex-basis: 80%;
@@ -270,7 +271,7 @@ table
                 }
 
                 &.contract-number {
-                    flex-basis: 7%;
+                    flex-basis: 8%;
                 }
 
                 &.e-sign,
@@ -341,6 +342,7 @@ table
                     text-align: left;
                     color: #000000;
                     display: flex;
+                    word-break: normal;
 
                     &.contract-number,
                     &.deal-status,
@@ -475,6 +477,12 @@ table
                     &.icon-cell-gear {
                         .table-row-settings-popup {
                             display: none;
+                            &.opened{
+                                display: flex;
+                                position: absolute;
+                                margin-left: -67px;
+                                margin-right: 67px;                                
+                            }
                         }
 
                         &:hover {
@@ -494,6 +502,14 @@ table
                                 position: absolute;
                                 margin-left: -67px;
                                 margin-right: 67px;                                
+                            }
+                        }
+                        &:hover {
+                            .customer-comment-popup{
+                                display: flex;
+                                position: absolute;
+                                margin-left: -67px;
+                                margin-right: 67px;
                             }
                         }
                     }

@@ -322,9 +322,9 @@
                             <!-- ko if: $data.CustomerComment -->
                             <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}"></i>
-                                    <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
-                                    <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
-                                </div>
+                                <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
+                                <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                            </div>
                             <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-lead">
@@ -503,7 +503,7 @@
                         </div>
                         <div class="main-table__block__row__entries-number new-input-group">
                             <div class="custom-select-wrap">
-                                <label for="entries-number">Numbers of entries</label>
+                                <label for="entries-number">@Resources.NumberOfEntries</label>
                                 <select name="entries-number"
                                         id="entries-number"
                                         class="custom-select"
@@ -537,313 +537,102 @@
     </div>
 
     <!-- /ko -->
-    <div class="how-can-we-help-popup">
-        <i class="cross-ico"></i>
-        <span class="how-can-we-help-popup__title">How can we help?</span>
-        <span class="how-can-we-help-popup__legend">Please fill this form and we will answer you with best solution.</span>
-        <div class="how-can-we-help-popup__block">
-            <div class="how-can-we-help-popup__block__info">
-                <span>Dealer name</span>
-                <span>utilecredit</span>
-                <span>Your name</span>
-                <span>utilecredit</span>
-                <span>Deal number</span>
-                <span>12345</span>
-            </div>
-            <div class="how-can-we-help-popup__block__checkbox new-checkbox-green">
-                <input id="checkBox" type="checkbox" /><span>I have another name</span>
-            </div>
-            <div class="how-can-we-help-popup__block__your-name new-input-group">
-                <div class="custom-text-input-group">
-                    <input type="text" name="yourName" required>
-                    <label>Your name</label>
-                </div>
-            </div>
-        </div>
-        <div class="how-can-we-help-popup__block">
-            <div class="how-can-we-help-popup__block__theme new-input-group">
-                <div class="custom-select-wrap">
-                    <label for="theme">Please choose the theme</label>
-                    <select name="theme" id="theme" class="custom-select">
-                        <option value="">Credit docs</option>
-                        <option value="">Credit docs</option>
-                        <option value="">Credit docs</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="how-can-we-help-popup__block">
-            <textarea class="how-can-we-help-popup__block__description"></textarea>
-        </div>
-        <div class="how-can-we-help-popup__block">
-            <div class="how-can-we-help-popup__block__response-way new-input-group">
-                <div class="custom-select-wrap">
-                    <label for="response-way">Best way to get back to you</label>
-                    <select name="response-way" id="response-way" class="custom-select">
-                        <option value="">Alternative e-mail</option>
-                        <option value="">Alternative e-mail</option>
-                        <option value="">Alternative e-mail</option>
-                    </select>
-                </div>
-            </div>
-            <div class="how-can-we-help-popup__block__alternative-email new-input-group">
-                <div class="custom-text-input-group">
-                    <input type="text" name="alternativeEmail" required>
-                    <label>Alternative e-mail</label>
-                </div>
-            </div>
-        </div>
-        <div class="how-can-we-help-popup__block">
-            <div class="how-can-we-help-popup__block__buttons">
-                <div class="new-btn-grey"><span>Cancel</span></div>
-                <div class="new-btn-solid-green"><span>Send</span></div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="signature-status-popup">
-        <i class="cross-ico"></i>
-        <span class="signature-status-popup__title">Digital signature status</span>
-        <span class="signature-status-popup__legend">Invites for digital signing of the contract were sent successfully - waiting for signatures.</span>
-
-        <div class="signature-status-popup__block signature-status-popup__block--success">
-            <div class="signature-status-popup__block__name">
-                <span>Borrower</span>
-                <span>John Domes</span>
-            </div>
-            <div class="signature-status-popup__block__email new-input-group">
-                <div class="custom-text-input-group">
-                    <input type="text" name="email" required>
-                    <label>Email</label>
-                </div>
-            </div>
-            <div class="signature-status-popup__block__status"><i class="signature-status-popup__block__status-ico"></i></div>
-            <div class="signature-status-popup__block__signature">
-                <span>Waiting for signature</span>
-                <span>(10/08/2017 10:30 AM)</span>
-            </div>
-            <span class="signature-status-popup__block__link"></span>
-        </div>
-
-        <div class="signature-status-popup__block signature-status-popup__block--wait">
-            <div class="signature-status-popup__block__name">
-                <span>Co-borrower</span>
-                <span>John Domes</span>
-            </div>
-            <div class="signature-status-popup__block__email new-input-group">
-                <div class="custom-text-input-group">
-                    <input type="text" name="email" required>
-                    <label>Email</label>
-                </div>
-            </div>
-            <div class="signature-status-popup__block__status"><i class="signature-status-popup__block__status-ico"></i></div>
-            <div class="signature-status-popup__block__signature">
-                <span>Waiting for signature</span>
-                <span>(10/08/2017 10:30 AM)</span>
-            </div>
-            <span class="signature-status-popup__block__link"><a>Resend invite</a></span>
-        </div>
-
-        <div class="signature-status-popup__block signature-status-popup__block--wait">
-            <div class="signature-status-popup__block__name">
-                <span>Sales rep</span>
-                <span>John Domes</span>
-            </div>
-            <div class="signature-status-popup__block__email new-input-group">
-                <div class="custom-text-input-group">
-                    <input type="text" name="email" required>
-                    <label>Email</label>
-                </div>
-            </div>
-            <div class="signature-status-popup__block__status"><i class="signature-status-popup__block__status-ico"></i></div>
-            <div class="signature-status-popup__block__signature">
-                <span>Waiting for signature</span>
-                <span>(10/08/2017 10:30 AM)</span>
-            </div>
-            <span class="signature-status-popup__block__link"><a>Update email</a></span>
-        </div>
-
-        <span class="signature-status-popup__details-link"><a>Go to contract details</a></span>
-    </div>
-
-    <div class="deal-status-details-popup">
-        <i class="cross-ico"></i>
-        <span class="deal-status-details-popup__title">Deal status details</span>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--success">
-            <div class="deal-status-details-popup__block__time">
-                <span><span>14.09.2017</span><span>9:51 AM</span></span>
-                <i class="deal-status-details-popup__block__status-ico"></i>
-            </div>
-            <div class="deal-status-details-popup__block__dots"></div>
-            <div class="deal-status-details-popup__block__description"><span class="deal-status-details-popup__block__description__title">Created</span></div>
-        </div>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--success">
-            <div class="deal-status-details-popup__block__time">
-                <span><span>14.09.2017</span><span>9:51 AM</span></span>
-                <i class="deal-status-details-popup__block__status-ico"></i>
-            </div>
-            <div class="deal-status-details-popup__block__dots"></div>
-            <div class="deal-status-details-popup__block__description"><span class="deal-status-details-popup__block__description__title">Pre-approved</span></div>
-        </div>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--success">
-            <div class="deal-status-details-popup__block__time">
-                <span><span>14.09.2017</span><span>9:51 AM</span></span>
-                <i class="deal-status-details-popup__block__status-ico"></i>
-            </div>
-            <div class="deal-status-details-popup__block__dots"></div>
-            <div class="deal-status-details-popup__block__description"><span class="deal-status-details-popup__block__description__title">Submitted</span></div>
-        </div>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--error">
-            <div class="deal-status-details-popup__block__time">
-                <span><span>14.09.2017</span><span>9:51 AM</span></span>
-                <i class="deal-status-details-popup__block__status-ico"></i>
-            </div>
-            <div class="deal-status-details-popup__block__dots"></div>
-            <div class="deal-status-details-popup__block__description">
-                <span class="deal-status-details-popup__block__description__title">More information required</span>
-                <span>We are unable to process this application information and/or documents.</span>
-                <span class="deal-status-details-popup__block__description__title">Comment:</span>
-                <span>Please upload Extended Warranty Form</span>
-            </div>
-        </div>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--empty">
-            <div class="deal-status-details-popup__block__time"><i class="deal-status-details-popup__block__status-ico"></i></div>
-            <div class="deal-status-details-popup__block__dots"></div>
-            <div class="deal-status-details-popup__block__description"><span class="deal-status-details-popup__block__description__title">Request to fund</span></div>
-        </div>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--empty">
-            <div class="deal-status-details-popup__block__time"><i class="deal-status-details-popup__block__status-ico"></i></div>
-            <div class="deal-status-details-popup__block__dots"></div>
-            <div class="deal-status-details-popup__block__description"><span class="deal-status-details-popup__block__description__title">Approved</span></div>
-        </div>
-        <div class="deal-status-details-popup__block deal-status-details-popup__block--empty">
-            <div class="deal-status-details-popup__block__time"><i class="deal-status-details-popup__block__status-ico"></i></div>
-            <div class="deal-status-details-popup__block__description"><span class="deal-status-details-popup__block__description__title">Funded</span></div>
-        </div>
-    </div>
-
 
     <div class="table-row-settings-popup">
         <i class="cross-ico"></i>
-        <div class="table-row-settings-popup__edit"><i class="edit-contract-ico"></i><span><a>Edit</a></span></div>
-        <div class="table-row-settings-popup__export"><i class="excel-ico"></i><span><a>Export to excel</a></span></div>
-        <div class="table-row-settings-popup__help"><i class="ask-help-ico"></i><span><a>Ask to help</a></span></div>
-    </div>
-
-    <div class="accept-lead-popup">
-        <i class="cross-ico"></i>
-        <span class="accept-lead-popup__title">Accept lead</span>
-        <span class="accept-lead-popup__legend">Are you sure? </br>On acceptance of lead a 1% of pre-approved loan value will be applied to your account as a lead free.</span>
-        <div class="accept-lead-popup__buttons">
-            <div class="new-btn-grey"><span>Cancel</span></div>
-            <div class="new-btn-solid-green"><span>Accept lead</span></div>
+        <div class="table-row-settings-popup__edit">
+            <i class="edit-contract-ico"></i>
+            <span><a>Edit</a></span>
         </div>
-    </div>
-
-    <div class="nw-placeholder">
-        <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
-        <p>
-            You don't have any deals yet.  Click below to create a new deal.
-            Later you will see the most recent contracts on this page.
-        </p>
-        <div class="nw-placeholder__links"><div class="icon-link-green"><i class="lamp-ico"></i><a>Additional invoice</a></div><div class="icon-link-green"><i class="lamp-ico"></i><a>Additional invoice</a></div></div>
-    </div>
-
-    <div class="nw-placeholder">
-        <i class="nw-placeholder__icon leads-placeholder-ico"></i>
-        <p>
-            You don't have any leads yet. </br>
-            On this page we will present you leads from actual clients from your neighborhood
-            interested in home improvements you offer.
-        </p>
-        <p>
-            In order to use this functionality please make sure that you have configured offered projects
-            and your service area in <a>My profile</a>
-        </p>
-        <p>
-            If you need help please visit <a>Resources</a> to view manual or <a>contact dealer support</a>
-        </p>
-    </div>
+        <div class="table-row-settings-popup__export">
+            <i class="excel-ico"></i>
+            <span><a>Export to excel</a></span>
+        </div>
+        <div class="table-row-settings-popup__help">
+            <i class="ask-help-ico"></i>
+        </div>
 
 
-    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
-    <div class="dealnet-chart-switch-button-hold">
-        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
-        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
-        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
+
+        <div class="nw-placeholder">
+            <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
+            <p>
+                You don't have any deals yet.  Click below to create a new deal.
+                Later you will see the most recent contracts on this page.
+            </p>
+            <div class="nw-placeholder__links">
+                <div class="icon-link-green">
+                    <i class="lamp-ico"></i>
+                    <a>Additional invoice</a>
+                </div>
+                <div class="icon-link-green">
+                    <i class="lamp-ico"></i>
+                    <a>Additional invoice</a>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="data-flow-container">
-        <span class="graph-label graph-label-x">$</span>
-        <span class="graph-label graph-label-y">@Resources.Time</span>
-        <div class="scrollable-container">
-            <div class="scrollable-content">
-                <canvas id="data-flow-overview"></canvas>
+
+    @using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+    {
+        <input type="hidden" name="contractId" id="remove-contract" />
+    }
+
+    <div id="contract-signature-modal" class="modal fade modal-wide">
+        <div class="modal-dialog esig-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title pull-left">@Resources.DigitalSignatureStatus</h4>
+                </div>
+                <div class="modal-body" id="signature-body">
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+    @section Scripts
 {
-    <input type="hidden" name="contractId" id="remove-contract" />
-}
-
-<div id="contract-signature-modal" class="modal fade modal-wide">
-    <div class="modal-dialog esig-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title pull-left">@Resources.DigitalSignatureStatus</h4>
-            </div>
-            <div class="modal-body" id="signature-body">
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts
-{
-    <script type="text/javascript">
+        <script type="text/javascript">
     var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
     var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
     var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
     var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
-    </script>
+        </script>
 
-    @Scripts.Render("~/bundles/knockout")
-    @Scripts.Render("~/bundles/data-tables-scripts")
-    @Scripts.Render("~/bundles/home-page")
+        @Scripts.Render("~/bundles/knockout")
+        @Scripts.Render("~/bundles/data-tables-scripts")
+        @Scripts.Render("~/bundles/home-page")
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            module.require('home-page-index').init();
-        });
-    </script>
-}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                module.require('home-page-index').init();
+            });
+        </script>
+    }
 
-@section Translations
+    @section Translations
 {
-    translations['Time'] = "@Resources.Time";
-    translations['Search'] = "@Resources.Search";
-    translations['Edit'] = "@Resources.Edit";
-    translations['MyWorkItems'] = "@Resources.MyWorkItems";
-    translations['Show'] = "@Resources.Show";
-    translations['Entries'] = "@Resources.Entries";
-    translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
-    translations['New'] = "@Resources.New";
-    translations['Remove'] = "@Resources.Remove";
-    translations['Error'] = "@Resources.Error";
-    translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
-    translations['CreditExpiryDesc'] = "@Resources.CreditExpiryDesc";
-    translations['CreditExpiryAsc'] = "@Resources.CreditExpiryAsc";
-    translations['ApplicantNameZtoA'] = "@Resources.ApplicantNameZtoA";
-    translations['ApplicantNameAtoZ'] = "@Resources.ApplicantNameAtoZ";
-    translations['ExpiresInXdays']="@Resources.ExpiresInXdays";
-}
+        translations['Time'] = "@Resources.Time";
+        translations['Search'] = "@Resources.Search";
+        translations['Edit'] = "@Resources.Edit";
+        translations['MyWorkItems'] = "@Resources.MyWorkItems";
+        translations['Show'] = "@Resources.Show";
+        translations['Entries'] = "@Resources.Entries";
+        translations['NoMatchingRecordsFound'] = "@Resources.NoMatchingRecordsFound";
+        translations['New'] = "@Resources.New";
+        translations['Remove'] = "@Resources.Remove";
+        translations['Error'] = "@Resources.Error";
+        translations['AreYouSureYouWantToRemoveThisApplication'] = "@Resources.AreYouSureYouWantToRemoveThisApplication";
+        translations['CreditExpiryDesc'] = "@Resources.CreditExpiryDesc";
+        translations['CreditExpiryAsc'] = "@Resources.CreditExpiryAsc";
+        translations['ApplicantNameZtoA'] = "@Resources.ApplicantNameZtoA";
+        translations['ApplicantNameAtoZ'] = "@Resources.ApplicantNameAtoZ";
+        translations['ExpiresInXdays']="@Resources.ExpiresInXdays";
+    }
 
-@section Styles
+    @section Styles
 {
-    @Styles.Render("~/bundles/data-tables-content")
-}
+        @Styles.Render("~/bundles/data-tables-content")
+    }
