@@ -986,6 +986,10 @@
     <Content Include="Content\less\components\ui-datepicker-redesign.less" />
     <Content Include="Content\less\components\page-title.less" />
     <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
+    <Content Include="Content\less\pages\my-profile.less" />
+    <Content Include="Content\less\components\footers.less" />
+    <Content Include="Content\less\pages\library.less" />
+    <Content Include="Content\less\components\help-hover.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />
@@ -1400,12 +1404,14 @@
     <Content Include="App_GlobalResources\Messages.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Messages.fr.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>Messages.fr.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
