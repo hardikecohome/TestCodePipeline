@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="30" viewBox="0 0 25 30">
+    <defs>
+        <path id="b" d="M4 0h14.262l.263 5.937L25 6.923V30H4z"/>
+        <filter id="a" width="171.4%" height="150%" x="-35.7%" y="-25%" filterUnits="objectBoundingBox">
+            <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2.5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.431999362 0 0 0 0 0.431999362 0 0 0 0 0.431999362 0 0 0 0.21410779 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+        <use fill="#FFF" xlink:href="#b"/>
+        <path fill="#F3553B" d="M0 15h16v8H0z"/>
+        <text fill="#FFF" font-family="Mukta-Medium, Mukta" font-size="6" font-weight="400">
+            <tspan x="3" y="21">PDF</tspan>
+        </text>
+        <path fill="#D8D8D8" d="M18 0l7 7h-5a2 2 0 0 1-2-2V0z"/>
+    </g>
+</svg>

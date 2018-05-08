@@ -1,0 +1,142 @@
+﻿.nw-my-profile {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+    width: 100%;
+    justify-content: space-between;
+
+    .nw-my-profile-form {
+        box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
+        padding: 8px 16px;
+        display: flex;
+        flex-direction: column;
+        flex-basis: 49%;
+        margin: 12px 0;
+
+        &__title {
+            margin: 8px;
+            font-size: 24px;
+        }
+
+        &__select-row,
+        &__input-row {
+            margin: 8px;
+            font-size: 18px;
+            display: flex;
+        }
+
+        &__select-row {
+            .new-input-group {
+                flex-basis: 35%;
+                margin-top: -8px;
+                margin-right: 24px;
+            }
+        }
+
+        &__input-row {
+            .new-input-group {
+                flex-basis: 20%;
+                margin-top: -8px;
+                margin-right: 24px;
+            }
+
+            .new-btn-solid-green {
+                flex-basis: 15%;
+            }
+        }
+
+        &__tag-cloud {
+            margin: 8px 0;
+            font-size: 18px;
+            display: flex;
+
+            span {
+                margin: 0 8px;
+                padding: 10px 13px;
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                background-color: #eef6ff;
+                border-radius: 30px;
+
+                .ic-nw-close-small {
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
+}
+
+
+
+.nw-page-tabs {
+    display: none;
+}
+
+@media @tablet-only {
+    .nw-page-title {
+        a {
+            display: none;
+        }
+    }
+
+    .nw-my-profile {
+        .nw-my-profile-form {
+            flex-basis: 100%;
+        }
+    }
+
+    .nw-page-tabs {
+        display: flex;
+    }
+
+
+}
+
+@media @mobile {
+    .nw-page-title {
+        &__title {
+            font-size: 26px;
+        }
+
+        a {
+            display: none;
+        }
+    }
+
+    .nw-my-profile {
+        .nw-my-profile-form {
+            padding: 8px;
+            flex-basis: 100%;
+
+            &__select-row,
+            &__input-row {
+                flex-wrap: wrap;
+
+                .new-input-group {
+                    margin-right: 0;
+                    flex-basis: 100%;
+                }
+
+                .new-btn-solid-green {
+                    margin-top: 16px;
+                    flex-basis: 100%;
+                }
+            }
+
+            &__tag-cloud {
+                flex-wrap: wrap;
+
+                span {
+                    margin: 8px;
+                }
+            }
+        }
+    }
+
+    .nw-page-tabs {
+        display: flex;
+    }
+
+
+}

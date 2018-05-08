@@ -198,6 +198,14 @@ break;
             <div class="clearfix visible-md-block visible-sm-block"></div>
                     var hasAbout = (User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false;
             <nav class="header__navigation hidden-xs @(hasAbout?"has-about":"")">
+                <div class="nw-help-frame" style="width: 675px; height: 100px;"></div>
+                <div class="nw-info-ico"><i class="ic-nw-info-letter ic-nw-info-letter--black"></i></div>
+                <div class="nw-help-cloud" style="margin-top: 100px">
+                    You can sort table simply by clicking
+                    on any column header. Arrows indicate
+                    the sort order — down for ascending (0-9, A-Z)
+                    and up for descending (Z-A, 9-0)
+                </div>
                 <ul>
                     <li>
                         <a href="@Url.Action("Index", "Home")">
@@ -250,7 +258,7 @@ break;
                             <span>@Resources.MyProfile</span>
                         </a>
                     </li>
-                    @if(hasAbout)
+                    @if (hasAbout)
         {
             <li>
                 <a href="@Url.Action("About", "Home")">
@@ -266,6 +274,8 @@ break;
                         </a>
                     </li>
                 </ul>
+
+
             </nav>
             <div class="mobile-help hidden-sm-up" id="mobile-navigation-help">
                 <span class="icon-how-can-we-help"></span>
