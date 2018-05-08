@@ -111,10 +111,10 @@
     <script type="text/javascript">
 	  var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
 	  var isCalculationValid = false;
-	  var customerFee = @ViewBag.AdminFee;
-	  var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
-	  var rentalEscalatedLimit = @(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0);
-	  var rentalNonEscalatedLimit = @(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0);
+        var customerFee = @ViewBag.AdminFee;
+        var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+        var rentalEscalatedLimit = parseFloat(@(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0));
+	  var rentalNonEscalatedLimit = parseFloat(@(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0));
 	  var isStandardRentalTier = '@ViewBag.IsStandardRentalTier'.toLowerCase() === 'true';
     </script>
 
