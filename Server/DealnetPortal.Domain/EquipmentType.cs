@@ -17,5 +17,8 @@ namespace DealnetPortal.Domain
         public bool UnderBill59 { get; set; }
         //Userful Life of equipment (years)
         public int UsefulLife { get; set; }
+        public int? ParentId { get; set; }
+        [ForeignKey("ParentId")]
+        public virtual EquipmentType ParentEquipmentType { get; set; }
     }
 }
