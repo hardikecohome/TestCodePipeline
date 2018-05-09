@@ -1117,6 +1117,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             conditions.IsClarityDealer = dealerTier?.Name == _clarityProgramTier;
             conditions.RentalEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.EscalatedLimit;
             conditions.RentalNonEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.NonEscalatedLimit;
+            conditions.LoanCreditAmount = contract.Details?.CreditAmount ?? contract.PrimaryCustomer?.CreditReport?.CreditAmount;
 
             if (contract.Equipment == null ||
                (contract.Equipment?.RateCardId == null

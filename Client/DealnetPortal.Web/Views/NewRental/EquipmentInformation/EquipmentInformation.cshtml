@@ -35,7 +35,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.ContractId)
     @Html.HiddenFor(model => model.Conditions.FullUpdate, new { Value = true })
-    @Html.HiddenFor(x => x.CreditAmount, new { id = "max-credit-amount" })
+    @Html.HiddenFor(x => x.CreditAmount)
     @Html.HiddenFor(x => x.DealProvince)
     @Html.HiddenFor(x => x.AmortizationTerm)
     @Html.HiddenFor(x => x.Conditions.IsCustomRateCardSelected, new { id = "custom-selected" })
@@ -60,10 +60,10 @@
     @Html.HiddenFor(x => x.RateReduction, new { id = "rateReduction" })
     @Html.HiddenFor(x => x.RateReductionCost, new { id = "rateReductionCost" })
     @Html.HiddenFor(x => x.RateReductionCardId, new { id = "rateReductionId" })
+	@Html.HiddenFor(x => x.Conditions.LoanCreditAmount, new { id = "max-credit-amount" })
     <div class="form-container">
         <div class="form-section">
-            @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
-                Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
+            @if(Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue)
             {
                 <div class="bureau-well-info well well-info position-well clear-border">
                     <svg aria-hidden="true" class="icon icon-info-well bureau-well" style="left: 3px !important;">
@@ -148,8 +148,7 @@
                 </div>
             }
 
-            @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] &&
-                Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue ||
+            @if(Model.DealerTier.CustomerRiskGroup != null ? !Model.Conditions.IsCustomerFoundInCreditBureau : !Model.CreditAmount.HasValue ||
                 Model.CustomerComments != null && Model.CustomerComments.Any() || Model.HomeOwner != null)
             {
                 <hr />
@@ -164,7 +163,7 @@
 
             <div class="well danger-well position-well clear-border over-aged-well collapse" id="max-amt-cap-out-error">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.MaximumAmountCapingOut@($"{Model.CreditAmount:0,00}")
+                @Resources.MaximumAmountCapingOut@($"{Model.Conditions.LoanCreditAmount:0,00}")
             </div>
             <div class="form-group">
                 <span data-toggle="popover" data-placement="top" data-container="body" data-trigger="@(Request.IsMobileBrowser() ? "click" : "hover")" data-content="@Resources.YouShouldFillAllMandatoryFields">
