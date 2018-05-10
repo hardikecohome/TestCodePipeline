@@ -45,6 +45,7 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<PaymentInfo> PaymentInfos { get; set; }
 
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
+        public virtual DbSet<EquipmentSubType> EquipmentSubTypes { get; set; }
 
         public DbSet<AgreementTemplate> AgreementTemplates { get; set; }
 

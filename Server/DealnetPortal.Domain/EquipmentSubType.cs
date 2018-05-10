@@ -7,21 +7,14 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Domain
 {
-    public class EquipmentType
+    public class EquipmentSubType
     {
-        public EquipmentType()
-        {
-            SubTypes = new HashSet<EquipmentSubType>();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Type { get; set; }
         public string Description { get; set; }
         public string DescriptionResource { get; set; }
-        public bool UnderBill59 { get; set; }
-        //Userful Life of equipment (years)
-        public int UsefulLife { get; set; }
-        public ICollection<EquipmentSubType> SubTypes { get; set; }
+        public int? ParentId { get; set; }
+        [ForeignKey("ParentId")]
+        public virtual EquipmentType ParentEquipmentType { get; set; }
     }
 }
