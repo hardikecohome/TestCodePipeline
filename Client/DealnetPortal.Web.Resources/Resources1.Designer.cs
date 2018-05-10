@@ -2051,6 +2051,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new lease.
+        /// </summary>
+        public static string CreateNewLease {
+            get {
+                return ResourceManager.GetString("CreateNewLease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new loan.
+        /// </summary>
+        public static string CreateNewLoan {
+            get {
+                return ResourceManager.GetString("CreateNewLoan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit.
         /// </summary>
         public static string Credit {
@@ -7953,6 +7971,16 @@ namespace DealnetPortal.Web.Resources {
         public static string YouCantEditBecauseSubmittedYouCanAddAdditional {
             get {
                 return ResourceManager.GetString("YouCantEditBecauseSubmittedYouCanAddAdditional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have any deals yet.  Click below to create a new deal.
+        ///            Later you will see the most recent contracts on this page..
+        /// </summary>
+        public static string YouDontHaveDealsClickBelowToCreate {
+            get {
+                return ResourceManager.GetString("YouDontHaveDealsClickBelowToCreate", resourceCulture);
             }
         }
         

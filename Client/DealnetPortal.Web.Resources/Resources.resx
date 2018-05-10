@@ -2805,4 +2805,14 @@ Additional program options may become available when customer’s credit details
   <data name="NumberOfEntries" xml:space="preserve">
     <value>Number of entries</value>
   </data>
+  <data name="CreateNewLease" xml:space="preserve">
+    <value>Create new lease</value>
+  </data>
+  <data name="CreateNewLoan" xml:space="preserve">
+    <value>Create new loan</value>
+  </data>
+  <data name="YouDontHaveDealsClickBelowToCreate" xml:space="preserve">
+    <value>You don't have any deals yet.  Click below to create a new deal.
+            Later you will see the most recent contracts on this page.</value>
+  </data>
 </root>

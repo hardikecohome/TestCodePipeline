@@ -8,6 +8,7 @@
 
 <div id="home-body">
     <!-- ko with: table-->
+
     <div class="margin-block">
         <div class="row">
             @if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
@@ -25,6 +26,9 @@
             <!-- /ko -->
         </div>
     </div>
+
+    <!-- ko if: list().length > 0 -->
+
     <div class="margin-block">
         <div class="row">
             <div class="filters">
@@ -32,12 +36,14 @@
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more">
                         <i class="lamp-ico"></i>
-                        <!-- ko if: showLearnMore -->
-                        <a data-bind="click:function(){showLearnMore(false);}">@Resources.Hide</a>
-                        <!-- /ko-->
-                        <!-- ko ifnot: showLearnMore -->
-                        <a data-bind="click:function(){showLearnMore(true);}">@Resources.LearnMoreAboutThisPage</a>
-                        <!-- /ko -->
+                        <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                            <!-- ko if: showLearnMore -->
+                            @Resources.Hide
+                            <!-- /ko-->
+                            <!-- ko ifnot: showLearnMore -->
+                            @Resources.LearnMoreAboutThisPage
+                            <!-- /ko -->
+                        </a>
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -129,7 +135,6 @@
             </div>
         </div>
     </div>
-
     <div class="margin-block">
         <div class="row">
 
@@ -515,7 +520,6 @@
             </div>
         </div>
     </div>
-
     <div class="margin-block" data-bind="with: pager">
         <div class="row">
             <div class="new-pagination-wp">
@@ -537,42 +541,33 @@
     </div>
 
     <!-- /ko -->
+    <!-- ko ifnot: list().length > 0 -->
 
-    <div class="table-row-settings-popup">
-        <i class="cross-ico"></i>
-        <div class="table-row-settings-popup__edit">
-            <i class="edit-contract-ico"></i>
-            <span><a>Edit</a></span>
-        </div>
-        <div class="table-row-settings-popup__export">
-            <i class="excel-ico"></i>
-            <span><a>Export to excel</a></span>
-        </div>
-        <div class="table-row-settings-popup__help">
-            <i class="ask-help-ico"></i>
-        </div>
-
-
-
-        <div class="nw-placeholder">
-            <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
-            <p>
-                You don't have any deals yet.  Click below to create a new deal.
-                Later you will see the most recent contracts on this page.
-            </p>
-            <div class="nw-placeholder__links">
-                <div class="icon-link-green">
-                    <i class="lamp-ico"></i>
-                    <a>Additional invoice</a>
-                </div>
-                <div class="icon-link-green">
-                    <i class="lamp-ico"></i>
-                    <a>Additional invoice</a>
-                </div>
+    <div class="nw-placeholder">
+        <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
+        <p>
+            @Resources.YouDontHaveDealsClickBelowToCreate
+        </p>
+        <div class="nw-placeholder__links">
+            <div class="icon-link-green">
+                <i class="lamp-ico"></i>
+                @* Change to Resources.CreateNewLoan for phase 4 *@
+                @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental")
             </div>
+            @*
+                    Uncomment in phase 4
+                    <div class="icon-link-green">
+                    <i class="lamp-ico"></i>
+                    @Html.ActionLink(Resources.CreateNewLease, "BasicInfo", "NewRental")
+                </div>
+            *@
         </div>
-
     </div>
+
+    <!-- /ko -->
+    <!-- /ko -->
+
+</div>
 
     @using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
     {

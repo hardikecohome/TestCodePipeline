@@ -1252,16 +1252,16 @@
                                                     <span>
                                                         @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                         @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                                                                                                                                                                                                                                                                                    Resources.Year :
+                                                                                                                                                                                                                                                                                                                                    Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                             @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                                                                                                                                                                                            Resources.Month :
+                                                                                                                                                                                                                                                                                                                                                            Resources.Months)
                                                         </span>
                                                     }
                                                 </div>
@@ -2029,16 +2029,16 @@
                                                             <span>
                                                                 @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
                                                                 @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                                                                                                                                                                                                                                                                                    Resources.Year :
+                                                                                                                                                                                                                                                                                                                                    Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
                                                                     @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                                                                                                                                                                                            Resources.Month :
+                                                                                                                                                                                                                                                                                                                                                            Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -2682,9 +2682,9 @@
                                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                             @Resources.TotalMonthlyPaymentWithTaxes
                                         </div>
-										<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-											$@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")
-										</div>
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                            $@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -3175,47 +3175,47 @@
 </div>
 
 @helper AddComments(IEnumerable<CommentViewModel> comments)
+{
+    if(comments == null)
+    { return; }
+    foreach(var comment in comments)
     {
-        if(comments == null)
-        { return; }
-        foreach(var comment in comments)
-        {
-            <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
-                <div class="commetn-header">
-                    <span class="comment-user">
-                        <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-                        <span class="comment-username">@comment.AuthorName</span>
-                    </span>
-                    <span class="comment-update">
-                        <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
-                    </span>
-                    @if(comment.IsOwn)
-                    {
-                        <span class="owner-comment">@Resources.YourComment</span>
-                    }
-                </div>
-                <div class="comment-body">
-                    <input hidden name="comment-id" value="@comment.Id" />
-                    <p style="white-space: pre-wrap;">@comment.Text</p>
-                    <a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
-                        <svg aria-hidden="true" class="icon icon-remove">
-                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                        </svg>
-                    </a>
-                </div>
-                <div class="comment-footer">
-                    <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
-                    <a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
-                </div>
-
+        <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
+            <div class="commetn-header">
+                <span class="comment-user">
+                    <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                    <span class="comment-username">@comment.AuthorName</span>
+                </span>
+                <span class="comment-update">
+                    <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
+                </span>
+                @if(comment.IsOwn)
+                {
+                    <span class="owner-comment">@Resources.YourComment</span>
+                }
+            </div>
+            <div class="comment-body">
+                <input hidden name="comment-id" value="@comment.Id" />
+                <p style="white-space: pre-wrap;">@comment.Text</p>
+                <a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
+                    <svg aria-hidden="true" class="icon icon-remove">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                    </svg>
+                </a>
+            </div>
+            <div class="comment-footer">
+                <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
+                <a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
             </div>
 
-            <ul class="child-comments-list list-unstyled">
-                <li>
-                    @AddComments(comment.Replies)
-                </li>
-            </ul>
-        }
+        </div>
+
+        <ul class="child-comments-list list-unstyled">
+            <li>
+                @AddComments(comment.Replies)
+            </li>
+        </ul>
+    }
 }
 <div class="hidden">
     <div class="comment-reply-form" id="comment-reply-form">
@@ -3518,3 +3518,2107 @@
     @Scripts.Render("~/bundles/contract-edit")
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
 }
+
+@*<div class="nw-step-options-wp">
+        <div class="nw-step-options">
+            <div class="nw-step-options__header">
+                <div class="nw-step-options__header__title">Deal #2345</div>
+                <div class="nw-step-options__header__status"><i class="info-ico ic-nw-info-box-big ic-nw-info-box-big--green"></i><span>Waiting for documents</span></div>
+                <div class="icon-link-green"><i class="ic-nw-lamp ic-nw-lamp--grass"></i><a>Learn more about this page</a></div>
+            </div>
+
+            <div class="nw-step-options__agreement-info">
+                <div class="nw-step-options__agreement-info__edit icon-link-green"><i class="ic-nw-edit ic-nw-edit--grass"></i><a>Edit</a></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--desktop">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Loan</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Date</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">10/01/2016</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Requested term</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">60</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Deferral type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">12 month</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Borrower</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">John Domes</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Total value</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data"><i class="ic-nw-info-letter ic-nw-info-letter--blue"></i>$ 5,280.24</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--desktop"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--desktop">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Project</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Furnace</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell nw-step-options__agreement-info__row__cell--table">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Sales rep:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Donald Orels</div>
+                        <div class="nw-step-options__agreement-info__row__cell__title">Application created by:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Customer lead</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Monthly payment</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">$ 84.04</div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--tablet">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Loan</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Date</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">10/01/2016</div>
+                    </div>
+
+
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Total value</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data"><i class="ic-nw-info-letter ic-nw-info-letter--blue"></i>$ 5,280.24</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--tablet"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--tablet">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Requested term</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">60</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Deferral type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">12 month</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Monthly payment</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">$ 84.04</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--tablet"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--tablet">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Borrower</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">John Domes</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Project</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Furnace</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell nw-step-options__agreement-info__row__cell--table">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Sales rep:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Donald Orels</div>
+                        <div class="nw-step-options__agreement-info__row__cell__title">Application created by:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Customer lead</div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Borrower</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">John Domes</div>
+                    </div>
+
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Total value</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data"><i class="ic-nw-info-letter ic-nw-info-letter--blue"></i>$ 5,280.24</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Project</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Furnace</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Monthly payment</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">$ 84.04</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--info-data nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Loan</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Date</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">10/01/2016</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Req. term</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">60</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Deferral type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">12 month</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--mobile"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell nw-step-options__agreement-info__row__cell--table">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Sales rep:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Donald Orels</div>
+                        <div class="nw-step-options__agreement-info__row__cell__title">Application created by:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Customer lead</div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__agreement-info__notification"><i class="ic-nw-circle-success ic-nw-circle-success--grass"></i><span>Saved</span></div>
+            </div>
+
+
+
+            <div class="nw-step-options__agreement-info">
+                <div class="nw-step-options__agreement-info__edit icon-link-green"><i class="ic-nw-edit ic-nw-edit--grass"></i><a>Edit</a></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--desktop">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Loan</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Date</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">10/01/2016</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Requested term</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">60</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Deferral type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">12 month</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Borrower</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">John Domes</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Total value</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data"><i class="ic-nw-info-letter ic-nw-info-letter--blue"></i>$ 5,280.24</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--desktop"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--desktop">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Project</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Furnace</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell nw-step-options__agreement-info__row__cell--table">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Sales rep:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Donald Orels</div>
+                        <div class="nw-step-options__agreement-info__row__cell__title">Application created by:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Customer lead</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Monthly payment</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">$ 84.04</div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--tablet">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Loan</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Date</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">10/01/2016</div>
+                    </div>
+
+
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Total value</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data"><i class="ic-nw-info-letter ic-nw-info-letter--blue"></i>$ 5,280.24</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--tablet"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--tablet">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Requested term</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">60</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Deferral type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">12 month</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Monthly payment</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">$ 84.04</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--tablet"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--tablet">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Borrower</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">John Domes</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Project</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Furnace</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell nw-step-options__agreement-info__row__cell--table">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Sales rep:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Donald Orels</div>
+                        <div class="nw-step-options__agreement-info__row__cell__title">Application created by:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Customer lead</div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Borrower</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">John Domes</div>
+                    </div>
+
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Total value</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data"><i class="ic-nw-info-letter ic-nw-info-letter--blue"></i>$ 5,280.24</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Project</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Furnace</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Monthly payment</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">$ 84.04</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--info-data nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Loan</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Date</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">10/01/2016</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Req. term</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">60</div>
+                    </div>
+                    <div class="nw-step-options__agreement-info__row__cell">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Deferral type</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">12 month</div>
+                    </div>
+                </div>
+                <div class="nw-step-options__agreement-info__dots nw-step-options__agreement-info__dots--mobile"></div>
+                <div class="nw-step-options__agreement-info__row nw-step-options__agreement-info__row--mobile">
+                    <div class="nw-step-options__agreement-info__row__cell nw-step-options__agreement-info__row__cell--table">
+                        <div class="nw-step-options__agreement-info__row__cell__title">Sales rep:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Donald Orels</div>
+                        <div class="nw-step-options__agreement-info__row__cell__title">Application created by:</div>
+                        <div class="nw-step-options__agreement-info__row__cell__data">Customer lead</div>
+                    </div>
+                </div>
+
+                <div class="new-project-info new-project-info--editing">
+                    <div class="new-project-info__title new-project-info__title--main">Editing</div>
+
+                    <div class="new-project-info__title">New project info</div>
+                    <div class="new-project-info__number">¹1</div>
+                    <div class="new-project-info__project-desc">
+
+
+                        <div class="new-project-info__project-desc__project-type new-input-group nw-disabled">
+                            <div class="custom-select-wrap">
+                                <label for="project-type">Project type</label>
+                                <select name="project-type" id="project-type" class="custom-select">
+                                    <option value="">Air conditioner</option>
+                                    <option value="">Air conditioner</option>
+                                    <option value="">Air conditioner</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="new-project-info__project-desc__description new-input-group nw-disabled">
+                            <div class="custom-text-input-group">
+                                <input type="text" required>
+                                <label>Description</label>
+                            </div>
+                        </div>
+
+
+                        <div class="new-project-info__project-desc__cost new-input-group nw-disabled">
+                            <div class="custom-text-input-group">
+                                <input type="text" required>
+                                <label>Cost</label>
+                            </div>
+                        </div>
+                        <div class="new-project-info__project-desc__cost new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="text" required>
+                                <label>Estimated retail price</label>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__project-desc__add-project add-link-blue nw-disabled"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><a>Add project</a></div>
+
+                    </div>
+                    <div class="new-project-info__price">
+
+                        <div class="new-project-info__price__info">
+                            Total price of projects<i class=" ic-nw-info-letter  ic-nw-info-letter--blue"></i>
+                        </div>
+                        <div class="new-project-info__price__sum">
+                            $ 12,400.00
+                        </div>
+                        <div class="new-project-info__price__payment new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="text" required>
+                                <label>Down payment</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="new-project-info__fin-options-title">
+                        <div class="new-project-info__fin-options-title__info">Financing options<i class=" ic-nw-info-letter  ic-nw-info-letter--blue"></i></div>
+                        <div class="new-project-info__fin-options-title__calculator icon-link-green"><i class="ic-nw-calculator-big ic-nw-calculator-big--grass"></i><a>Calculator</a></div>
+                    </div>
+
+
+
+                    <div class="new-project-info__options-wp">
+                        <div class="financing-option">
+
+                            <div class="financing-option__title">
+                                Promo
+                            </div>
+                            <div class="financing-option__description">
+                                Check our time limitied promotional offer to get the best option avaliable on the market!
+                            </div>
+                            <div class="financing-option__input-row">
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <label for="loan-term">Loan/Amortization term</label>
+                                        <select name="loan-term" id="loan-term" class="custom-select">
+                                            <option value="">Loan/Amortization term</option>
+                                            <option value="">Loan/Amortization term</option>
+                                            <option value="">Loan/Amortization term</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="financing-option__input-row"></div>
+
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Customer rate</span>
+                                <span class="financing-option__desc-row__value">7.99 %</span>
+                            </div>
+                            <div class="financing-option__desc-row"></div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Your cost</span>
+                                <span class="financing-option__desc-row__value">$ 825.00</span>
+                            </div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Monthly payment</span>
+                                <span class="financing-option__desc-row__value">$ 300.89</span>
+                            </div>
+                            <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                            <div class="new-btn-solid-green"><span>Select</span></div>
+
+                        </div>
+
+                        <div class="financing-option">
+
+                            <div class="financing-option__title">
+                                Standard rate
+                            </div>
+                            <div class="financing-option__description">
+                                Our standart program — most flexible options and with no cost for you!
+                            </div>
+                            <div class="financing-option__input-row">
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <label for="loan-term">Loan/Amortization term</label>
+                                        <select name="loan-term" id="loan-term" class="custom-select">
+                                            <option value="">Loan/Amortization term</option>
+                                            <option value="">Loan/Amortization term</option>
+                                            <option value="">Loan/Amortization term</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="financing-option__input-row"></div>
+
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Customer rate</span>
+                                <span class="financing-option__desc-row__value">7.99 %</span>
+                            </div>
+                            <div class="financing-option__desc-row"></div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Your cost</span>
+                                <span class="financing-option__desc-row__value">$ 825.00</span>
+                            </div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Monthly payment</span>
+                                <span class="financing-option__desc-row__value">$ 300.89</span>
+                            </div>
+                            <div class="financing-option__view-more icon-link-green nw-disabled"><a>View more</a></div>
+                            <div class="new-btn-solid-green nw-disabled"><span>Select</span></div>
+                        </div>
+
+                        <div class="financing-option">
+
+                            <div class="financing-option__title">
+                                0% EQUAL PAYMENTS
+                            </div>
+                            <div class="financing-option__description">
+                                You can offer equal payments with no interest for whole loan term!
+                            </div>
+                            <div class="financing-option__input-row">
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <label for="loan-term">Loan/Amortization term</label>
+                                        <select name="loan-term" id="loan-term" class="custom-select">
+                                            <option value="">Loan/Amortization term</option>
+                                            <option value="">Loan/Amortization term</option>
+                                            <option value="">Loan/Amortization term</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="financing-option__input-row">
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <label for="deferral-period">Deferral period</label>
+                                        <select name="deferral-period" id="deferral-period" class="custom-select">
+                                            <option value="">Deferral period</option>
+                                            <option value="">Deferral period</option>
+                                            <option value="">Deferral period</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Customer rate</span>
+                                <span class="financing-option__desc-row__value">7.99 %</span>
+                            </div>
+                            <div class="financing-option__desc-row"></div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Your cost</span>
+                                <span class="financing-option__desc-row__value">$ 825.00</span>
+                            </div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Monthly payment</span>
+                                <span class="financing-option__desc-row__value">$ 300.89</span>
+                            </div>
+                            <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                            <div class="new-btn-solid-green"><span>Select</span></div>
+
+                        </div>
+
+                        <div class="financing-option financing-option--error">
+
+                            <div class="financing-option__title">
+                                DEFERRAL
+                            </div>
+                            <div class="financing-option__description">
+                                Let your customer start paying off loan few months later — no payments, no worries for up to 6 months!
+                            </div>
+
+                            <div class="financing-option__input-row financing-option__input-row--double">
+                                <div class="financing-option__input-row__loan-term new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Loan term</label>
+                                    </div>
+                                </div>
+
+                                <div class="financing-option__input-row__amort-term new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Amort term</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="financing-option__input-row">
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <label for="deferral-period">Deferral period</label>
+                                        <select name="deferral-period" id="deferral-period" class="custom-select">
+                                            <option value="">Deferral period</option>
+                                            <option value="">Deferral period</option>
+                                            <option value="">Deferral period</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="financing-option__input-row financing-option__input-row--double">
+                                <div class="financing-option__input-row__custom-term new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Custom. term</label>
+                                    </div>
+                                </div>
+
+                                <div class="financing-option__input-row__your-cost new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Your cost</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Your cost</span>
+                                <span class="financing-option__desc-row__value">$ 825.00</span>
+                            </div>
+                            <div class="financing-option__desc-row">
+                                <span class="financing-option__desc-row__name">Monthly payment</span>
+                                <span class="financing-option__desc-row__value">$ 300.89</span>
+                            </div>
+                            <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                            <div class="new-btn-solid-green"><span>Select</span></div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="nw-step-options__block__content__location">
+                        <div class="nw-step-options__block__content__location__get-location icon-link-green">
+                            <i class="ic-nw-get-location ic-nw-get-location--grass"></i><a>Get my location</a>
+                        </div>
+                        <div class="nw-step-options__block__content__location__street new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="street" name="street" required>
+                                <label>Street</label>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__location__unit new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="unit" name="unit" required>
+                                <label>Unit #</label>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__location__city new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="city" name="city" required>
+                                <label>City</label>
+                            </div>
+                        </div>
+
+                        <div class="nw-step-options__block__content__location__province new-input-group">
+                            <div class="custom-select-wrap">
+                                <label for="province">Province</label>
+                                <select name="province" id="province" class="custom-select">
+                                    <option value="">Dealer 1</option>
+                                    <option value="">Dealer 2</option>
+                                    <option value="">Dealer 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="nw-step-options__block__content__location__postal-code new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="postal-code" name="postal-code" required>
+                                <label>Postal code</label>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__location__clear nw-clear-link">
+                            <i class="clear-address-ico"></i><a>Clear address</a>
+                        </div>
+                    </div>
+
+                    <div class="nw-step-options__block__content__have-project">
+                        <div class="nw-step-options__block__content__have-project__title">Do you have existing project</div>
+
+                        <div class="customized-radio-green">
+
+                            <label>
+                                <span>Yes</span>
+                                <input type="radio" name="radio-group" checked>
+                                <span class="nw-radio-ico"></span>
+                            </label>
+                            <label>
+                                <span>No</span>
+                                <input type="radio" name="radio-group">
+                                <span class="nw-radio-ico"></span>
+                            </label>
+
+                        </div>
+
+
+                        <div class="nw-step-options__block__content__have-project__description">
+
+                            <div class="new-input-group nw-step-options__block__content__have-project__description__pr-type">
+                                <div class="custom-select-wrap">
+                                    <label for="pr-type">Type of project</label>
+                                    <select name="pr-type" id="pr-type" class="custom-select">
+                                        <option value="">Type of project</option>
+                                        <option value="">Type of project</option>
+                                        <option value="">Type of project</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="nw-step-options__block__content__have-project__description__rental-com new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Rental company</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__have-project__description__age new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Estimated age</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__have-project__description__make new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Make</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__have-project__description__model new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Model</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__have-project__description__serial new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Serial number</label>
+                                </div>
+                            </div>
+
+
+                            <div class="nw-step-options__block__content__have-project__description__condition new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="condition">General condition</label>
+                                    <select name="condition" id="condition" class="custom-select">
+                                        <option value="">General condition</option>
+                                        <option value="">General condition</option>
+                                        <option value="">General condition</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__have-project__description__notes new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Notes</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__have-project__description__add-equip add-link-blue"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><a>Add additional equipment</a></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="new-project-info__title">Additional information</div>
+
+                    <div class="new-project-info__additional-info">
+
+                        <div class="new-project-info__additional-info__sales-rep new-input-group">
+                            <div class="custom-select-wrap">
+                                <label for="sales-rep">Sales rep</label>
+                                <select name="sales-rep" id="sales-rep" class="custom-select">
+                                    <option value="">Dealer 1</option>
+                                    <option value="">Dealer 2</option>
+                                    <option value="">Dealer 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__additional-info__date new-input-group">
+                            <div class="custom-text-input-group icon">
+                                <input type="text" required>
+                                <label>Estimated installation date</label>
+                                <span class="icon-calendar"></span>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__additional-info__house-size new-input-group">
+                            <div class="custom-select-wrap">
+                                <label for="house-size">House size (ft square)</label>
+                                <select name="house-size" id="house-size" class="custom-select">
+                                    <option value="">Dealer 1</option>
+                                    <option value="">Dealer 2</option>
+                                    <option value="">Dealer 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__additional-info__comment new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="text" required>
+                                <label>Comment</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="nw-step-options__options">
+                <ul>
+                    <li><i class="ic-nw-options"></i><span>Funding checklist</span></li>
+                    <li><i class="ic-nw-person"></i><span>Basic info</span></li>
+                    <li><i class="ic-nw-case-solid"></i><span>Project info</span></li>
+                    <li><i class="ic-nw-person"></i><span>Additional applicant</span></li>
+                    <li><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><span>Add additional applicant</span></li>
+                </ul>
+            </div>
+
+            <div class="nw-step-options__fund-req">
+                <div class="nw-step-options__fund-req__nav">
+                    <ul>
+                        <li class="nw-step-options__fund-req__nav__item nw-step-options__fund-req__nav__item--required nw-step-options__fund-req__nav__item--active nw-step-options__fund-req__nav__item--required">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </li>
+                        <li class="nw-step-options__fund-req__nav__item nw-step-options__fund-req__nav__item--required">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed installation certificate</span>
+                        </li>
+                        <li>
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Invoice</span>
+                            <i class="ic-nw-arrow-bottom ic-nw-arrow-bottom--grey"></i>
+                        </li>
+                        <li>
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Copy of void personal cheque</span>
+                            <i class="ic-nw-arrow-left ic-nw-arrow-left--red"></i>
+                        </li>
+                        <li>
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Extended warranty form</span>
+                            <i class="ic-nw-arrow-top ic-nw-arrow-top--green"></i>
+                        </li>
+                        <li>
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Third party verification call</span>
+                        </li>
+                        <li>
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Other documents</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                        <ul>
+                            <li class="signed-contract-block__nav__item signed-contract-block__nav__item--active">Digital contract</li>
+                            <li class="signed-contract-block__nav__item">Paper contract</li>
+                        </ul>
+
+                        <div class="signed-contract-block__emails">
+                            <span class="signed-contract-block__emails__description">Invites for digital signing of the contract will be sent to the following emails:</span>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--wait">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Borrower</span>
+                                    <span class="signed-contract-block__emails__row__person__name">John Domes</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+                                <div class="signed-contract-block__emails__row__status"><i class="signed-contract-block__emails__row__status-ico"></i></div>
+                                <div class="signed-contract-block__emails__row__signature">
+                                    <span>Waiting for signature</span>
+                                    <span>(10/08/2017 10:30 AM)</span>
+                                </div>
+                                <span class="signed-contract-block__emails__row__link"><a>Resend invite</a></span>
+                            </div>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--success">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Co-borrower</span>
+                                    <span class="signed-contract-block__emails__row__person__name">Jack Smith</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+                                <div class="signed-contract-block__emails__row__status"><i class="signed-contract-block__emails__row__status-ico"></i></div>
+                                <div class="signed-contract-block__emails__row__signature">
+                                    <span>Waiting for signature</span>
+                                    <span>(10/08/2017 10:30 AM)</span>
+                                </div>
+                                <span class="signed-contract-block__emails__row__link"><a>Resend invite</a></span>
+                            </div>
+                            <div class="signed-contract-block__emails__row">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Sales rep</span>
+                                    <span class="signed-contract-block__emails__row__person__name">Jim Dore</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+                                <div class="new-btn-solid-red"><span>Send invites</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <span class="nw-failed-ico"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title signed-contract-block__nav-title--required">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                        <ul>
+                            <li class="signed-contract-block__nav__item signed-contract-block__nav__item--active">Digital contract</li>
+                            <li class="signed-contract-block__nav__item">Paper contract</li>
+                        </ul>
+
+                        <div class="signed-contract-block__emails">
+                            <span class="signed-contract-block__emails__description">Invites for digital signing of the contract will be sent to the following emails:</span>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--wait">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Borrower</span>
+                                    <span class="signed-contract-block__emails__row__person__name">John Domes</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+                                <div class="signed-contract-block__emails__row__status"><i class="signed-contract-block__emails__row__status-ico"></i></div>
+                                <div class="signed-contract-block__emails__row__signature">
+                                    <span>Waiting for signature</span>
+                                    <span>(10/08/2017 10:30 AM)</span>
+                                </div>
+                                <span class="signed-contract-block__emails__row__link"><a>Resend invite</a></span>
+                            </div>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--success">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Co-borrower</span>
+                                    <span class="signed-contract-block__emails__row__person__name">Jack Smith</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+                                <div class="signed-contract-block__emails__row__status"><i class="signed-contract-block__emails__row__status-ico"></i></div>
+                                <div class="signed-contract-block__emails__row__signature">
+                                    <span>Waiting for signature</span>
+                                    <span>(10/08/2017 10:30 AM)</span>
+                                </div>
+                                <i class="ic-nw-note  ic-nw-note--grass"></i>
+                            </div>
+
+                            <div class="signed-contract-block__emails__comment-row">
+                                <span>Comment</span>
+                                <span><b>Here will be some comment from borrower, why he declined to sign.</b></span>
+                            </div>
+
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--failed">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Sales rep</span>
+                                    <span class="signed-contract-block__emails__row__person__name">Jim Dore</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+                                <div class="signed-contract-block__emails__row__status"><i class="signed-contract-block__emails__row__status-ico"></i></div>
+                                <div class="signed-contract-block__emails__row__signature">
+                                    <span>Waiting for signature</span>
+                                    <span>(10/08/2017 10:30 AM)</span>
+                                </div>
+                                <span class="signed-contract-block__emails__row__link"><a>Resend invite</a></span>
+
+                            </div>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--notification">
+                                <div class="new-lead-notification-wp">
+                                    <div class="new-lead-notification new-lead-notification--error">
+                                        <span class="new-lead-notification__left-icon-block">
+                                            <i class="new-lead-notification__notification-ico"></i>
+                                        </span>
+                                        <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
+                                    </div>
+                                </div>
+                                <div class="new-btn-solid-red"><span>Send invites</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <span class="nw-failed-ico"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title signed-contract-block__nav-title--required">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                        <ul>
+                            <li class="signed-contract-block__nav__item signed-contract-block__nav__item--active">Digital contract</li>
+                            <li class="signed-contract-block__nav__item">Paper contract</li>
+                        </ul>
+
+                        <div class="signed-contract-block__emails">
+                            <span class="signed-contract-block__emails__description">Invites for digital signing of the contract will be sent to the following emails:</span>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--wait">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Borrower</span>
+                                    <span class="signed-contract-block__emails__row__person__name">John Domes</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--success">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Co-borrower</span>
+                                    <span class="signed-contract-block__emails__row__person__name">Jack Smith</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--failed">
+                                <div class="signed-contract-block__emails__row__person">
+                                    <span class="signed-contract-block__emails__row__person__title">Sales rep</span>
+                                    <span class="signed-contract-block__emails__row__person__name">Jim Dore</span>
+                                </div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="email" name="email" required>
+                                        <label>email</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="signed-contract-block__emails__row signed-contract-block__emails__row--notification">
+                                <div class="new-lead-notification-wp">
+                                    <div class="new-lead-notification new-lead-notification--error">
+                                        <span class="new-lead-notification__left-icon-block">
+                                            <i class="new-lead-notification__notification-ico"></i>
+                                        </span>
+                                        <span class="new-lead-notification__message">Please enter all email address to send invites</span>
+                                    </div>
+                                </div>
+                                <div class="new-btn-solid-red"><span>Send invites</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <span class="nw-failed-ico"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title signed-contract-block__nav-title--required">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__nav-title">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Signed contract</span>
+                            <i class="ic-nw-arrow-right ic-nw-arrow-right--grass"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <ul>
+                            <li class="signed-contract-block__nav__item signed-contract-block__nav__item--active">Digital contract</li>
+                            <li class="signed-contract-block__nav__item">Paper contract</li>
+                        </ul>
+
+                        <div class="signed-contract-block__print">
+                            <span class="signed-contract-block__print__description">Please, print contract form, sign and upload after this with signature</span>
+                            <div class="icon-link-green"><i class="ic-nw-printer ic-nw-printer--grass"></i><a>Print contract form</a></div>
+                        </div>
+
+                        <div class="new-btn-solid-green"><span>Upload signed contract</span></div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__print">
+                            <span class="signed-contract-block__print__description"><b>Signed installation certificate</b></span>
+                            <div class="icon-link-green"><i class="ic-nw-download ic-nw-download--grass"></i><a>Download certificate template</a></div>
+                        </div>
+
+                        <div class="new-btn-solid-green"><span>Upload signed contract</span></div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__invoice-upload signed-contract-block__invoice-upload--loading">
+                            <span><b>Invoice</b></span>
+                            <div class="loading-block"><div class="icon-link-green"><i class=" ic-nw-document-black  ic-nw-document-black--grass"></i><a>Certificate-12345</a></div><i class="ic-nw-close"></i></div>
+                            <div class="nw-progress-bar nw-progress-bar--11">
+                                <span class="nw-progress-bar__progress"></span>
+                            </div>
+                            <div class="new-btn-solid-green"><span>Reupload</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__invoice-upload signed-contract-block__invoice-upload--error">
+                            <span><b>Invoice</b></span>
+
+
+                            <div class="new-lead-notification-wp">
+                                <div class="new-lead-notification new-lead-notification--error">
+                                    <span class="new-lead-notification__left-icon-block">
+                                        <i class="new-lead-notification__notification-ico"></i>
+                                    </span>
+                                    <span class="new-lead-notification__message">Document uploading was failed</span>
+                                </div>
+                            </div>
+                            <div class="new-btn-solid-green"><span>Reupload</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__other-doc">
+                            <span><b>Other documents</b></span>
+                            <div class="loading-block"><div class="icon-link-green"><i class=" ic-nw-document-black  ic-nw-document-black--grass"></i><a>Additional invoice</a></div><i class="ic-nw-close"></i></div>
+                            <div class="reupload-block"><div class="icon-link-green"><i class="ic-nw-upload ic-nw-upload--grass"></i><a>Reupload</a></div></div>
+                            <div class="nw-progress-bar nw-progress-bar--11">
+                                <span class="nw-progress-bar__progress"></span>
+                            </div>
+                        </div>
+                        <div class="signed-contract-block__upload-new">
+                            <div class="new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="last-name" name="last-name" required>
+                                    <label>Name of a document</label>
+                                </div>
+                            </div>
+                            <div class="new-btn-solid-green"><span>Reupload</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+
+                        <div class="signed-contract-block__upload-new">
+                            <div class="new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="last-name" name="last-name" required>
+                                    <label>Name of a document</label>
+                                </div>
+                            </div>
+                            <div class="new-btn-solid-green"><span>Reupload</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__content">
+                    <div class="signed-contract-block">
+                        <div class="signed-contract-block__other-doc">
+                            <span><b>Signed installation certificate</b></span>
+                            <div class="icon-link-green"><i class="ic-nw-download ic-nw-download--grass"></i><a>Download certificate template</a></div>
+                        </div>
+                        <div class="signed-contract-block__upload-new">
+                            <div class="loading-block"><div class="icon-link-green"><i class=" ic-nw-document-black  ic-nw-document-black--grass"></i><a>Additional invoice</a></div><i class="ic-nw-close"></i></div>
+                            <div class="new-btn-solid-green"><span>Reupload</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__fund-req__footer">
+                    <div class="new-btn-solid-green"><span>Request to fund</span></div>
+                    <div class="nw-step-options__fund-req__footer__notification">
+                        Please upload all mandatory documents
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="nw-step-options__fund-req">
+                <div class="additional-applicant-block">
+
+                    <div class="additional-applicant-block__title">
+                        Additional applicant info<i class="ic-nw-close"></i>
+                    </div>
+                    <div class="additional-applicant-block__license-wp additional-applicant-block__license-wp--additional">
+                        <div class="additional-applicant-block__license">
+                            <div class="additional-applicant-block__license__scan">
+                                <div class="new-btn-solid-red"><span>Scan license</span></div>
+                                <span>Scan license: this info will be filled out automatically</span>
+                            </div>
+                            <div class="additional-applicant-block__license__example">
+                                <i class="dw-license-ico"></i>
+                                <span>Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.<span>Scan license: this info will be filled out automatically</span></span>
+                            </div>
+                        </div>
+                        <div class="additional-applicant-block__person-info">
+                            <div class="additional-applicant-block__person-info__first-name new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="first-name" name="first-name" required>
+                                    <label>First name</label>
+                                </div>
+                            </div>
+                            <div class="additional-applicant-block__person-info__last-name new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="last-name" name="last-name" required>
+                                    <label>Last name</label>
+                                </div>
+                            </div>
+                            <div class="additional-applicant-block__person-info__birth-date">
+                                <span>Date of birth</span>
+                                <div class="new-input-group additional-applicant-block__person-info__birth-date__month">
+                                    <div class="custom-select-wrap">
+                                        <label for="month">mm</label>
+                                        <select name="month" id="month" class="custom-select">
+                                            <option value="">11</option>
+                                            <option value="">12</option>
+                                            <option value="">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="new-input-group additional-applicant-block__person-info__birth-date__day">
+                                    <div class="custom-select-wrap">
+                                        <label for="day">dd</label>
+                                        <select name="day" id="day" class="custom-select">
+                                            <option value="">11</option>
+                                            <option value="">12</option>
+                                            <option value="">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="new-input-group additional-applicant-block__person-info__birth-date__year">
+                                    <div class="custom-select-wrap">
+                                        <label for="year">yyyy</label>
+                                        <select name="year" id="year" class="custom-select">
+                                            <option value="">11</option>
+                                            <option value="">12</option>
+                                            <option value="">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group additional-applicant-block__person-info__id-type">
+                                <div class="custom-select-wrap">
+                                    <label for="id-type">Type of verification ID</label>
+                                    <select name="id-type" id="id-type" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="additional-applicant-block__person-info__deal-initial new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="deal-initial" name="deal-initial" required>
+                                    <label>Deal initial required</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="additional-applicant-block__checkbox">
+                        <label class="customized-checkbox-icon">
+                            <input id="checkBox" type="checkbox" />
+                            <span class="customized-checkbox-icon__image"></span>
+                        </label>
+                        <span>Borrower lived at current address less than 6 month</span>
+                    </div>
+                    <div class="additional-applicant-block__checkbox">
+                        <label class="customized-checkbox-icon">
+                            <input id="checkBox" type="checkbox" />
+                            <span class="customized-checkbox-icon__image"></span>
+                        </label>
+                        <span>Mailing address of borrower is not the same as installation address</span>
+                    </div>
+                    <div class="additional-applicant-block__checkbox">
+                        <label class="customized-checkbox-icon">
+                            <input id="checkBox" type="checkbox" />
+                            <span class="customized-checkbox-icon__image"></span>
+                        </label>
+                        <span>Borrower owns this property</span>
+                    </div>
+                    <div class="additional-applicant-block__checkbox">
+                        <label class="customized-checkbox-icon">
+                            <input id="checkBox" type="checkbox" />
+                            <span class="customized-checkbox-icon__image"></span>
+                        </label>
+                        <span>By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this application. You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you. * </span>
+                    </div>
+                    <div class="additional-applicant-block__concent-btns">
+                        <div class="new-btn-green"><span>How is my personal data used?</span></div>
+                        <div class="new-btn-green"><span>Privacy policy</span></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="nw-step-options__fund-req nw-step-options__fund-req--no-shadow">
+                <div class="project-info-block">
+                    <div class="project-info-block__project">
+                        <div class="project-info-block__project__header">
+                            <div class="project-info-block__project__header__title"><i class="ic-nw-case-solid"></i>New project info</div>
+                            <div class="project-info-block__project__header__install-date"><span>Estimated installation date</span><span>6 months</span></div>
+                            <div class="project-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="project-info-block__project__info project-info-block__project__info--border">
+                            <div class="project-info-block__project__info__number">¹1</div>
+                            <span class="project-info-block__project__info__name">Type</span>
+                            <span class="project-info-block__project__info__value">FURNACE</span>
+                            <span class="project-info-block__project__info__name">Description</span>
+                            <span class="project-info-block__project__info__value">Goodman 40000 - 36840 - GMSS960402BN</span>
+                            <span class="project-info-block__project__info__name">Cost</span>
+                            <span class="project-info-block__project__info__value">$ 700</span>
+                        </div>
+                        <div class="project-info-block__project__info">
+                            <div class="project-info-block__project__info__number">¹2</div>
+                            <span class="project-info-block__project__info__name">Type</span>
+                            <span class="project-info-block__project__info__value">FURNACE</span>
+                            <span class="project-info-block__project__info__name">Description</span>
+                            <span class="project-info-block__project__info__value">Goodman 40000 - 36840 - GMSS960402BN</span>
+                            <span class="project-info-block__project__info__name">Cost</span>
+                            <span class="project-info-block__project__info__value">$ 700</span>
+                        </div>
+                        <div class="project-info-block__project__info project-info-block__project__info--install-date">
+                            <span class="project-info-block__project__info__name">Estimated installation date</span>
+                            <span class="project-info-block__project__info__value">6 months</span>
+                        </div>
+                    </div>
+                    <div class="project-info-block__project project-info-block__project--middle">
+                        <div class="project-info-block__project__header">
+                            <div class="project-info-block__project__header__title"><i class="ic-nw-case-solid"></i>Existing project info</div>
+                            <div class="project-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="project-info-block__project__info">
+                            <div class="project-info-block__project__info__number">¹1</div>
+                            <span class="project-info-block__project__info__name">Type of project</span>
+                            <span class="project-info-block__project__info__value">Rental</span>
+                            <span class="project-info-block__project__info__name">Rental company</span>
+                            <span class="project-info-block__project__info__value">ABC Rentals</span>
+                            <span class="project-info-block__project__info__name">General condition</span>
+                            <span class="project-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="project-info-block__project__info__name">Estimated age</span>
+                            <span class="project-info-block__project__info__value">5 years</span>
+                            <span class="project-info-block__project__info__name">Make</span>
+                            <span class="project-info-block__project__info__value">Amana</span>
+                            <span class="project-info-block__project__info__name">Model</span>
+                            <span class="project-info-block__project__info__value">ASX160181</span>
+                            <span class="project-info-block__project__info__name">Serial number</span>
+                            <span class="project-info-block__project__info__value">44323432X</span>
+                            <span class="project-info-block__project__info__name">Notes</span>
+                            <span class="project-info-block__project__info__value">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua</span>
+                        </div>
+                    </div>
+
+                    <div class="project-info-block__project project-info-block__project--notes">
+                        <div class="project-info-block__project__header">
+                            <div class="project-info-block__project__header__title">Existing project info</div>
+                        </div>
+                        <div class="project-info-block__project__info">
+                            <textarea class="project-info-block__project__info__textarea"></textarea>
+                            <div class="new-btn-solid-green"><span>Privacy policy</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nw-step-options__fund-req nw-step-options__fund-req--no-shadow">
+                <div class="project-info-block">
+                    <div class="project-info-block__project">
+                        <div class="project-info-block__project__header">
+                            <div class="project-info-block__project__header__title"><i class="ic-nw-case-solid"></i>New project info</div>
+                            <div class="project-info-block__project__header__install-date"><span>Estimated installation date</span><span>6 months</span></div>
+                            <div class="project-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="project-info-block__project__info project-info-block__project__info--border">
+                            <div class="project-info-block__project__info__number">¹1</div>
+                            <span class="project-info-block__project__info__name">Type</span>
+                            <span class="project-info-block__project__info__value">FURNACE</span>
+                            <span class="project-info-block__project__info__name">Description</span>
+                            <span class="project-info-block__project__info__value">Goodman 40000 - 36840 - GMSS960402BN</span>
+                            <span class="project-info-block__project__info__name">Cost</span>
+                            <span class="project-info-block__project__info__value">$ 700</span>
+                        </div>
+                        <div class="project-info-block__project__info">
+                            <div class="project-info-block__project__info__number">¹2</div>
+                            <span class="project-info-block__project__info__name">Type</span>
+                            <span class="project-info-block__project__info__value">FURNACE</span>
+                            <span class="project-info-block__project__info__name">Description</span>
+                            <span class="project-info-block__project__info__value">Goodman 40000 - 36840 - GMSS960402BN</span>
+                            <span class="project-info-block__project__info__name">Cost</span>
+                            <span class="project-info-block__project__info__value">$ 700</span>
+                        </div>
+                        <div class="project-info-block__project__info project-info-block__project__info--install-date">
+                            <span class="project-info-block__project__info__name">Estimated installation date</span>
+                            <span class="project-info-block__project__info__value">6 months</span>
+                        </div>
+                    </div>
+                    <div class="project-info-block__project project-info-block__project--middle">
+                        <div class="project-info-block__project__header">
+                            <div class="project-info-block__project__header__title"><i class="ic-nw-case-solid"></i>Existing project info</div>
+                            <div class="project-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="project-info-block__project__info">
+                            <div class="project-info-block__project__info__number">¹1</div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Type of project</div>
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <select name="sub-dealer" id="sub-dealer" class="custom-select">
+                                            <option value="">Rental</option>
+                                            <option value="">Rental</option>
+                                            <option value="">Rental</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Rental company</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>ABC Rentals</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">General condition</div>
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <select name="sub-dealer" id="sub-dealer" class="custom-select">
+                                            <option value="">Equipment in good condition</option>
+                                            <option value="">Equipment in good condition</option>
+                                            <option value="">Equipment in good condition</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Estimated age</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>5 years</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Make</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Amana</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Model</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>ASX160181</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Serial number</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>44323432X</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Notes</div>
+                                <textarea class="project-info-block__project__info__textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-info-block__project project-info-block__project--notes">
+                        <div class="project-info-block__project__header">
+                            <div class="project-info-block__project__header__title">Existing project info</div>
+                        </div>
+
+                        <div class="project-info-block__project__info">
+                            <span class="project-info-block__project__info__name">Customer comment</span>
+                            <span class="project-info-block__project__info__value">Here will be some comment. Here will be some comment. Here will be some comment. Here will be some comment.</span>
+                            <textarea class="project-info-block__project__info__textarea"></textarea>
+                            <div class="new-btn-solid-green"><span>Privacy policy</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nw-step-options__fund-req nw-step-options__fund-req--no-shadow">
+                <div class="basic-info-block">
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-person"></i>Borrower information</div>
+                            <div class="icon-link-green"><a>Prev. address Info</a></div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__number">¹1</div>
+                            <span class="basic-info-block__project__info__name">Type of project</span>
+                            <span class="basic-info-block__project__info__value">Rental</span>
+                            <span class="basic-info-block__project__info__name">Rental company</span>
+                            <span class="basic-info-block__project__info__value">ABC Rentals</span>
+                            <span class="basic-info-block__project__info__name">General condition</span>
+                            <span class="basic-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="basic-info-block__project__info__name">Estimated age</span>
+                            <span class="basic-info-block__project__info__value">5 years</span>
+                            <span class="basic-info-block__project__info__name">Make</span>
+                            <span class="basic-info-block__project__info__value">Amana</span>
+                            <span class="basic-info-block__project__info__name">Model</span>
+                            <span class="basic-info-block__project__info__value">ASX160181</span>
+
+                        </div>
+                    </div>
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-location"></i>Installation address</div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__number">¹1</div>
+                            <span class="basic-info-block__project__info__name">Type of project</span>
+                            <span class="basic-info-block__project__info__value">Rental</span>
+                            <span class="basic-info-block__project__info__name">Rental company</span>
+                            <span class="basic-info-block__project__info__value">ABC Rentals</span>
+                            <span class="basic-info-block__project__info__name">General condition</span>
+                            <span class="basic-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="basic-info-block__project__info__name">Estimated age</span>
+                            <span class="basic-info-block__project__info__value">5 years</span>
+                            <span class="basic-info-block__project__info__name">Make</span>
+                            <span class="basic-info-block__project__info__value">Amana</span>
+                            <span class="basic-info-block__project__info__name">Model</span>
+                            <span class="basic-info-block__project__info__value">ASX160181</span>
+                        </div>
+                    </div>
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-letter-black"></i>Mailing address</div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__number">¹1</div>
+                            <span class="basic-info-block__project__info__name">Type of project</span>
+                            <span class="basic-info-block__project__info__value">Rental</span>
+                            <span class="basic-info-block__project__info__name">Rental company</span>
+                            <span class="basic-info-block__project__info__value">ABC Rentals</span>
+                            <span class="basic-info-block__project__info__name">General condition</span>
+                            <span class="basic-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="basic-info-block__project__info__name">Estimated age</span>
+                            <span class="basic-info-block__project__info__value">5 years</span>
+                            <span class="basic-info-block__project__info__name">Make</span>
+                            <span class="basic-info-block__project__info__value">Amana</span>
+                            <span class="basic-info-block__project__info__name">Model</span>
+                            <span class="basic-info-block__project__info__value">ASX160181</span>
+                        </div>
+                    </div>
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-phore-ring-solid"></i>Contract information</div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__number">¹1</div>
+                            <span class="basic-info-block__project__info__name">Type of project</span>
+                            <span class="basic-info-block__project__info__value">Rental</span>
+                            <span class="basic-info-block__project__info__name">Rental company</span>
+                            <span class="basic-info-block__project__info__value">ABC Rentals</span>
+                            <span class="basic-info-block__project__info__name">General condition</span>
+                            <span class="basic-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="basic-info-block__project__info__name">Estimated age</span>
+                            <span class="basic-info-block__project__info__value">5 years</span>
+                            <span class="basic-info-block__project__info__name">Make</span>
+                            <span class="basic-info-block__project__info__value">Amana</span>
+                            <span class="basic-info-block__project__info__name">Model</span>
+                            <span class="basic-info-block__project__info__value">ASX160181</span>
+                        </div>
+                    </div>
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-dollar"></i>Payment information</div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__number">¹1</div>
+                            <span class="basic-info-block__project__info__name">Type of project</span>
+                            <span class="basic-info-block__project__info__value">Rental</span>
+                            <span class="basic-info-block__project__info__name">Rental company</span>
+                            <span class="basic-info-block__project__info__value">ABC Rentals</span>
+                            <span class="basic-info-block__project__info__name">General condition</span>
+                            <span class="basic-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="basic-info-block__project__info__name">Estimated age</span>
+                            <span class="basic-info-block__project__info__value">5 years</span>
+                            <span class="basic-info-block__project__info__name">Make</span>
+                            <span class="basic-info-block__project__info__value">Amana</span>
+                            <span class="basic-info-block__project__info__name">Model</span>
+                            <span class="basic-info-block__project__info__value">ASX160181</span>
+                        </div>
+                    </div>
+                    <div class="basic-info-block__project basic-info-block__project--small basic-info-block__project--empty"></div>
+                    <div class="new-lead-notification-wp">
+                        <div class="new-lead-notification new-lead-notification--error">
+                            <span class="new-lead-notification__left-icon-block">
+                                <i class="new-lead-notification__notification-ico"></i>
+                            </span>
+                            <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
+                        </div>
+                    </div>
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-person"></i>Borrower information</div>
+                            <div class="basic-info-block__project__header__save icon-link-green"><a>Save</a></div>
+                            <div class="basic-info-block__project__header__cancel icon-link-grey"><a>Cancel</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__edit-row">
+
+                                <div class="new-btn-solid-red"><span>Scan license</span></div>
+                                <span>Scan license: this info will be filled out automatically</span>
+
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">First name</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>First name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Last name</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Last name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Date of birth</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Date of birth</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Type of verification ID</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Type of verification ID</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Home owner</div>
+                                <div class="nw-checkbox">
+                                    <label class="customized-checkbox-icon">
+                                        <input id="checkBox" type="checkbox" />
+                                        <span class="customized-checkbox-icon__image"></span>
+                                    </label>
+                                    <span>Borrower owns this property</span>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Dealer initial</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Dealer initial</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="basic-info-block__project__notification"><i class="ic-nw-circle-success ic-nw-circle-success--grass"></i><span>Saved</span></div>
+                    </div>
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-dollar"></i>Payment information</div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__number">¹1</div>
+                            <span class="basic-info-block__project__info__name">Type of project</span>
+                            <span class="basic-info-block__project__info__value">Rental</span>
+                            <span class="basic-info-block__project__info__name">Rental company</span>
+                            <span class="basic-info-block__project__info__value">ABC Rentals</span>
+                            <span class="basic-info-block__project__info__name">General condition</span>
+                            <span class="basic-info-block__project__info__value">Equipment in good condition</span>
+                            <span class="basic-info-block__project__info__name">Estimated age</span>
+                            <span class="basic-info-block__project__info__value">5 years</span>
+                            <span class="basic-info-block__project__info__name">Make</span>
+                            <span class="basic-info-block__project__info__value">Amana</span>
+                            <span class="basic-info-block__project__info__name">Model</span>
+                            <span class="basic-info-block__project__info__value">ASX160181</span>
+
+                        </div>
+                    </div>
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-location"></i>Installation address</div>
+                            <div class="basic-info-block__project__header__edit icon-link-green"><i class=" ic-nw-edit  ic-nw-edit--grass"></i><a>Edit</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="icon-link-green"><i class="ic-nw-get-location ic-nw-get-location--grass"></i><a>Get my location</a></div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="nw-checkbox">
+                                    <label class="customized-checkbox-icon">
+                                        <input id="checkBox" type="checkbox" />
+                                        <span class="customized-checkbox-icon__image"></span>
+                                    </label>
+                                    <span>Mailing address of borrower is not the same as installation address</span>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Street</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Street</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Unit #</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Unit #</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">City</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>City</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Province</div>
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <select name="sub-dealer" id="sub-dealer" class="custom-select">
+                                            <option value="">NP</option>
+                                            <option value="">NP</option>
+                                            <option value="">NP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Postal code</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Postal code</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="icon-link-green"><a>Prev. address Info</a></div>
+                    </div>
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-letter-black"></i>Mailing address</div>
+                            <div class="basic-info-block__project__header__save icon-link-green"><a>Save</a></div>
+                            <div class="basic-info-block__project__header__cancel icon-link-grey"><a>Cancel</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="nw-checkbox">
+                                    <label class="customized-checkbox-icon">
+                                        <input id="checkBox" type="checkbox" />
+                                        <span class="customized-checkbox-icon__image"></span>
+                                    </label>
+                                    <span>Mailing address of borrower is not the same as installation address</span>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Street</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Street</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Unit #</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Unit #</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">City</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>City</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Province</div>
+                                <div class="new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <select name="sub-dealer" id="sub-dealer" class="custom-select">
+                                            <option value="">NP</option>
+                                            <option value="">NP</option>
+                                            <option value="">NP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Postal code</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Postal code</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="basic-info-block__project__notification"><i class="ic-nw-circle-success ic-nw-circle-success--grass"></i><span>Saved</span></div>
+                    </div>
+
+                    <div class="basic-info-block__project basic-info-block__project--small">
+                        <div class="basic-info-block__project__header">
+                            <div class="basic-info-block__project__header__title"><i class="ic-nw-phore-ring-solid"></i>Contact information</div>
+                            <div class="basic-info-block__project__header__save icon-link-green"><a>Save</a></div>
+                            <div class="basic-info-block__project__header__cancel icon-link-grey"><a>Cancel</a></div>
+                        </div>
+                        <div class="basic-info-block__project__info">
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Home phone</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Home phone</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Cell phone</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Cell phone</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Business phone</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Business phone</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-info-block__project__info__edit-row">
+                                <div class="basic-info-block__project__info__edit-row__title">Email address</div>
+                                <div class="new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" name="text" required>
+                                        <label>Email address</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="icon-link-grey"><a>Cancel</a></div><div class="icon-link-green"><a>Save</a></div>
+                    </div>
+                    <div class="basic-info-block__project basic-info-block__project--small basic-info-block__project--empty"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
