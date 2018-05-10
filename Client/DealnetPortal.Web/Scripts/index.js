@@ -22,8 +22,6 @@
 
         });
 
-        $('body').prepend('<div class="help-hover"></div>');
-        
         //If opened switch language dropdown, hide it when click anywhere accept opened dropdown
         //$('html').on('click touchstart', function (event) {
         //    if ($('.navbar-header .lang-switcher.open').length > 0 && $(event.target).parents('.lang-switcher').length == 0) {

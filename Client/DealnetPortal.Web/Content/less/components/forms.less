@@ -1248,6 +1248,13 @@ fieldset[disabled] .form-control{
 }
 
 /* The switch - the box around the slider */
+.nw-switch-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
 /* Hide default HTML checkbox */
 .nw-switch-checkbox input {
     display: none;
@@ -1255,64 +1262,46 @@ fieldset[disabled] .form-control{
 
 /* The slider */
 .nw-switch-checkbox {
-    position: relative;
-    display: inline-block;
-    width: 31px;
-    height: 16px;
-
-    &__background {
-        position: relative;
-        display: inline-block;
-        width: 31px;
-        height: 16px;
-        border-radius: 24px;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #fff;
-        -webkit-transition: .4s;
-        transition: .4s;
-        box-shadow: 0 0px 6px 0px rgba(110, 110, 110, 0.21);
-    }
-
-    &__slider:before {
-        position: absolute;
-        content: "";
-        height: 14px;
-        width: 14px;
-        left: 1px;
-        bottom: 2px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-        cursor: pointer;
-        box-shadow: 0 1px 1px 2px rgba(110, 110, 110, 0.21);
-    }
+   // position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-input:checked + .nw-switch-checkbox__background + .nw-switch-checkbox__slider {
+.nw-switch-checkbox__slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .nw-switch-checkbox__slider {
     background-color: #2196F3;
 }
 
-input:checked + .nw-switch-checkbox__background {
-    background-color: #61c53c;
-}
-
-input:focus + .nw-switch-checkbox__background + .nw-switch-checkbox__slider {
+input:focus + .nw-switch-checkbox__slider {
     box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .nw-switch-checkbox__background + .nw-switch-checkbox__slider:before {
-    -webkit-transform: translateX(15px);
-    -ms-transform: translateX(15px);
-    transform: translateX(15px);
+input:checked + .nw-switch-checkbox__slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .nw-switch-checkbox__slider.nw-switch-checkbox__round {
-    border-radius: 20px;
+    border-radius: 34px;
 }
 
 .nw-switch-checkbox__slider.nw-switch-checkbox__round:before {
