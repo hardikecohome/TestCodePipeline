@@ -9,11 +9,6 @@ namespace DealnetPortal.Domain
 {
     public class EquipmentType
     {
-        public EquipmentType()
-        {
-            SubTypes = new HashSet<EquipmentSubType>();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Type { get; set; }
@@ -22,6 +17,6 @@ namespace DealnetPortal.Domain
         public bool UnderBill59 { get; set; }
         //Userful Life of equipment (years)
         public int UsefulLife { get; set; }
-        public ICollection<EquipmentSubType> SubTypes { get; set; }
+        public virtual ICollection<EquipmentSubType> SubTypes { get; set; }
     }
 }
