@@ -276,6 +276,7 @@ table
 
                 &.contract-number {
                     flex-basis: 8%;
+                    word-break: normal;
                 }
 
                 &.e-sign,
@@ -647,12 +648,13 @@ table
                     }
                 }
 
-               .opened.table-row-details {
+               .table-row-details {
+                   &.opened{
                         margin-top: 10px;
                         margin-bottom: 10px;
                         display: flex;
                         justify-content: space-around;
-
+                   }
                     &__left,
                     &__right {
                         display: flex;
@@ -853,14 +855,16 @@ table
                     }
                 }
 
-                .opened.table-row-details {
+                .table-row-details {
+                    &.opened {
                         margin-top: 10px;
                         margin-bottom: 10px;
                         display: flex;
                         justify-content: space-around;
                         flex-direction: row;
                         flex-wrap: wrap;
-                        
+                    }
+                    
                     &__left,
                     &__right {
                         display: flex;

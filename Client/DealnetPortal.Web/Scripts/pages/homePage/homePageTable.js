@@ -80,12 +80,64 @@ module.exports('table', function (require) {
             loanAmount: 'Value',
             term: 'LoanTerm',
             amort: 'Amort',
-            payment: 'MonthlPayment'
+            payment: 'MonthlPayment',
+            status: 'LocalizedStatus',
+            sign: 'SignatureStatus'
         };
-        var sortDirections = {
+        this.sortDirections = {
             default: 'default',
             asc: 'asc',
             desc: 'desc'
+        };
+        this.sortDdValues = {
+            transactionIdAsc: {
+                field: this.sortFields.transactionId,
+                dir: this.sortDirections.asc
+            },
+            transactionIdDesc: {
+                field: this.sortFields.transactionId,
+                dir: this.sortDirections.desc
+            },
+            dateAsc: {
+                field: this.sortFields.date,
+                dir: this.sortDirections.asc
+            },
+            dateDesc: {
+                field: this.sortFields.date,
+                dir: this.sortDirections.desc
+            },
+            applicantNameAsc: {
+                field: this.sortFields.applicantName,
+                dir: this.sortDirections.asc
+            },
+            applicantNameDesc: {
+                field: this.sortFields.applicantName,
+                dir: this.sortDirections.desc
+            },
+            creditExpiryAsc: {
+                field: this.sortFields.creditExpiry,
+                dir: this.sortDirections.asc
+            },
+            creditExpiryDesc: {
+                field: this.sortFields.creditExpiry,
+                dir: this.sortDirections.desc
+            },
+            statusAsc: {
+                field: this.sortFields.status,
+                dir: this.sortDirections.asc
+            },
+            statusDesc: {
+                field: this.sortFields.status,
+                dir: this.sortDirections.desc
+            },
+            signAsc: {
+                field: this.sortFields.sign,
+                dir: this.sortDirections.asc
+            },
+            signDesc: {
+                field: this.sortFields.sign,
+                dir: this.sortDirections.desc
+            },
         };
         var filters = {
             agreementType: 'agreementTypeFilter',
@@ -106,42 +158,27 @@ module.exports('table', function (require) {
         this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
         this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
         this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
+        this.sorter = ko.observable('');
         this.sortedColumn = ko.observable('');
-        this.sortDirection = ko.observable(sortDirections.default);
+        this.sortDirection = ko.observable(this.sortDirections.default);
 
         this.showFilters = ko.observable(true);
+        this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
 
         this.list = ko.observableArray(list);
 
         this.filteredList = ko.observableArray(this.list());
 
-        this.configureSortClick = function (field) {
-            return function () {
-                var dir = this.sortDirection();
-                if (field == this.sortedColumn()) {
-                    this.sortDirection(
-                        dir == sortDirections.asc ? sortDirections.desc :
-                        dir == sortDirections.desc ? sortDirections.default :
-                        sortDirections.asc
-                    );
-                } else {
-                    dir = sortDirections.asc;
-                    this.sortDirection(dir);
-                    this.sortedColumn(field);
-                }
-            };
-        };
-
         this.sortedList = ko.computed(function () {
             var field = this.sortedColumn();
             var dir = this.sortDirection();
 
             var tempList1 = this.filteredList().slice();
-            if (dir == sortDirections.default || field == '') {
+            if (dir == this.sortDirections.default || field == '') {
                 return tempList1;
             }
-            if (dir == sortDirections.asc) {
+            if (dir == this.sortDirections.asc) {
                 return tempList1.sort(function (a, b) {
                     return sortAssending(a[field], b[field]);
                 });
@@ -168,6 +205,33 @@ module.exports('table', function (require) {
         }, this);
 
         // functions
+        this.toggleFilters = function () {
+            this.showSorters(false);
+            this.showFilters(!this.showFilters());
+        };
+
+        this.toggleSorters = function () {
+            this.showFilters(false);
+            this.showSorters(!this.showSorters());
+        };
+
+        this.configureSortClick = function (field) {
+            return function () {
+                var dir = this.sortDirection();
+                if (field == this.sortedColumn()) {
+                    this.sortDirection(
+                        dir == this.sortDirections.asc ? this.sortDirections.desc :
+                        dir == this.sortDirections.desc ? this.sortDirections.default :
+                        this.sortDirections.asc
+                    );
+                } else {
+                    dir = this.sortDirections.asc;
+                    this.sortDirection(dir);
+                    this.sortedColumn(field);
+                }
+            }.bind(this);
+        };
+
         this.clearFilters = function () {
             this.agreementType('');
             this.status('');
@@ -182,6 +246,11 @@ module.exports('table', function (require) {
             localStorage.removeItem(filters.equipment);
             localStorage.removeItem(filters.dateTo);
             localStorage.removeItem(filters.dateFrom);
+        };
+
+        this.clearSort = function () {
+            this.sortedColumn('');
+            this.sortDirection(this.sortDirections.default);
         };
 
         this.saveFilters = function () {
@@ -201,7 +270,7 @@ module.exports('table', function (require) {
             if (this.sortedColumn() == field) {
                 return 'filter-ico filter-ico--' + this.sortDirection();
             }
-            return 'filter-ico filter-ico--' + sortDirections.default;
+            return 'filter-ico filter-ico--' + this.sortDirections.default;
         };
 
         this.getExpiryText = function (data) {
@@ -209,6 +278,13 @@ module.exports('table', function (require) {
         };
 
         this.filterList = function () {
+            if (this.sorter()) {
+                var sort = this.sortDdValues[this.sorter()];
+                this.sortDirection(sort.dir);
+                this.sortedColumn(sort.field);
+                this.sorter('');
+            }
+
             var stat = this.status();
             var equip = this.equipment();
             var type = this.agreementType();

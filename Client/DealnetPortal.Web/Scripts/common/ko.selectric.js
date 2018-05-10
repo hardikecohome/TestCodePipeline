@@ -4,8 +4,8 @@
         var observable = valueAccessor();
         var options = allBindingsAccessor().options;
         $el.selectric('init');
-        $el.on('selectric-change', function (event, element, selectric) {
-            observable(element.value);
+        $el.on('change', function (event) {
+            observable(event.target.value);
         });
         observable.subscribe(function (newValue) {
             $el.val(newValue).selectric('refresh');

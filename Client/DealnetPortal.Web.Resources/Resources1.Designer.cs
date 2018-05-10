@@ -826,6 +826,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ascending.
+        /// </summary>
+        public static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ask for help.
         /// </summary>
         public static string AskForHelp {
@@ -2646,6 +2655,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to descending.
+        /// </summary>
+        public static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please describe your home improvement project (please don&apos;t provide any contact or address information in this field).
         /// </summary>
         public static string DescribeYourHomeImprovementProject {
@@ -4131,6 +4149,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to latest.
+        /// </summary>
+        public static string Latest {
+            get {
+                return ResourceManager.GetString("Latest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lead.
         /// </summary>
         public static string Lead {
@@ -5081,6 +5108,15 @@ namespace DealnetPortal.Web.Resources {
         public static string OfferMonthlyDeferrals {
             get {
                 return ResourceManager.GetString("OfferMonthlyDeferrals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to oldest.
+        /// </summary>
+        public static string Oldest {
+            get {
+                return ResourceManager.GetString("Oldest", resourceCulture);
             }
         }
         
@@ -6913,6 +6949,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort by.
+        /// </summary>
+        public static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to STANDARD RATE.
         /// </summary>
         public static string StandardRate {
@@ -7206,6 +7251,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
             }
         }
         
