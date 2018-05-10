@@ -489,13 +489,14 @@ table
                                 margin-right: 67px;                                
                             }
                         }
-
-                        &:hover {
-                            .table-row-settings-popup {
-                                display: flex;
-                                position: absolute;
-                                margin-left: -67px;
-                                margin-right: 67px;
+                        @media @desktop-up {
+                            &:hover {
+                                .table-row-settings-popup {
+                                    display: flex;
+                                    position: absolute;
+                                    margin-left: -67px;
+                                    margin-right: 67px;
+                                }
                             }
                         }
                     }
@@ -509,12 +510,14 @@ table
                                 margin-right: 67px;                                
                             }
                         }
-                        &:hover {
-                            .customer-comment-popup{
-                                display: flex;
-                                position: absolute;
-                                margin-left: -67px;
-                                margin-right: 67px;
+                        @media @desktop-up {
+                            &:hover {
+                                .customer-comment-popup{
+                                    display: flex;
+                                    position: absolute;
+                                    margin-left: -67px;
+                                    margin-right: 67px;
+                                }
                             }
                         }
                     }
@@ -538,7 +541,7 @@ table
                 &__grand-total {
                     align-self: flex-end;
                     font-weight: bold;
-                    flex-basis: 36%;
+                    flex-basis: 38%;
                 }
 
                 &__grand-total-value {
