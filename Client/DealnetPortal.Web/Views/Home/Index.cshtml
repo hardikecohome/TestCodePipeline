@@ -451,7 +451,7 @@
                                 <div class="table-row-settings-popup__export">
                                     <i class="excel-ico"></i>
                                     <span>
-                                        <a>@Resources.ExportToExcel</a>
+                                        <a data-bind="click:function(){$parent.exportToExcel($data.Id);}">@Resources.ExportToExcel</a>
                                     </span>
                                 </div>
                                 <div class="table-row-settings-popup__help">
@@ -616,6 +616,18 @@
             </div>
         </div>
     </div>
+    <!-- ko if: selectedIds().length > 0 -->
+    <div class="margin-block">
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-green col-xs-12" data-bind="click:exportSelectedToExcel">@Resources.ExportToExcel</button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-green col-xs-12">@Resources.Preview</button>
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
     <div class="margin-block" data-bind="with: pager">
         <div class="row">
             <div class="new-pagination-wp">
@@ -661,6 +673,18 @@
     </div>
 
     <!-- /ko -->
+    @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
+    {
+        <div data-bind="foreach: selectedIds">
+            <input name="ids" data-bind="value: $data" type="hidden" />
+        </div>
+    }
+    @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form-1" }))
+    {
+        <div>
+            <input name="ids" data-bind="value: singleId" type="hidden" />
+        </div>
+    }
     <!-- /ko -->
 
 </div>
@@ -669,6 +693,7 @@
 {
     <input type="hidden" name="contractId" id="remove-contract" />
 }
+
 
 <div id="contract-signature-modal" class="modal fade modal-wide">
     <div class="modal-dialog esig-modal">
@@ -686,10 +711,11 @@
 @section Scripts
 {
     <script type="text/javascript">
-    var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
-    var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
-    var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
-    var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
+        var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
+        var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
+        var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
+        var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
+        var exportUrl = '@Url.Action("GetXlsxReport", "Reports")';
     </script>
 
     @Scripts.Render("~/bundles/knockout")

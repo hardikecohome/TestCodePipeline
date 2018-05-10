@@ -158,6 +158,7 @@ module.exports('table', function (require) {
         this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
         this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
         this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
+        this.singleId = ko.observable('');
         this.sorter = ko.observable('');
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(this.sortDirections.default);
@@ -202,6 +203,14 @@ module.exports('table', function (require) {
                     sum + (parseFloat(curr.Value.substr(2)) || 0) :
                     sum;
             }, 0).toFixed(2);
+        }, this);
+
+        this.selectedIds = ko.computed(function () {
+            return this.list().filter(function (item) {
+                return item.isSelected();
+            }).map(function (item) {
+                return item.Id;
+            });
         }, this);
 
         // functions
@@ -318,6 +327,16 @@ module.exports('table', function (require) {
                 });
             });
             this.list(tempList);
+        };
+
+        this.exportToExcel = function (id) {
+            this.singleId(id);
+            $('#export-form-1').submit();
+            this.singleId('');
+        };
+
+        this.exportSelectedToExcel = function () {
+            $('#export-form').submit();
         };
 
         // subscriptions
