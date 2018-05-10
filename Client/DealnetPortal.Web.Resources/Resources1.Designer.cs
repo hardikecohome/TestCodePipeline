@@ -277,11 +277,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional applicant address cannot be in Quebec.
+        /// </summary>
+        public static string AdditionalApplicantAddressCannotInQuebec {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressCannotInQuebec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Address Information.
         /// </summary>
         public static string AdditionalApplicantAddressInfo {
             get {
                 return ResourceManager.GetString("AdditionalApplicantAddressInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional applicant address should be in Quebec.
+        /// </summary>
+        public static string AdditionalApplicantAddressInQuebec {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressInQuebec", resourceCulture);
             }
         }
         
