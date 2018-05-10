@@ -4257,7 +4257,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The total amount financed cannot exceed the pre-approval amount of $.
+        ///   Looks up a localized string similar to The total amount financed cannot exceed the amount of $.
         /// </summary>
         public static string MaximumAmountCapingOut {
             get {
@@ -7044,6 +7044,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalMonthlyPayment {
             get {
                 return ResourceManager.GetString("TotalMonthlyPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total monthly payment cannot exceed the amount of.
+        /// </summary>
+        public static string TotalMonthlyPaymentCannotExceedTheAmountOf {
+            get {
+                return ResourceManager.GetString("TotalMonthlyPaymentCannotExceedTheAmountOf", resourceCulture);
             }
         }
         
