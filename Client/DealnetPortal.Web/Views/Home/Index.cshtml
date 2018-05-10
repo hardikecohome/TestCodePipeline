@@ -620,10 +620,10 @@
     <div class="margin-block">
         <div class="row">
             <div class="col-md-3">
-                <button class="btn btn-green col-xs-12" data-bind="click:exportSelectedToExcel">@Resources.ExportToExcel</button>
+                <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
             </div>
             <div class="col-md-3">
-                <button class="btn btn-green col-xs-12">@Resources.Preview</button>
+                <button class="btn btn-green col-xs-12" data-bind="click: previewContracts">@Resources.Preview</button>
             </div>
         </div>
     </div>
@@ -683,6 +683,14 @@
     {
         <input name="ids" data-bind="value: singleId" type="hidden" />
     }
+
+    @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "preview-form" }))
+    {
+        <div data-bind="foreach: selectedIds">
+            <input name="ids" type="hidden" data-bind="value: $data" />
+        </div>
+    }
+        
     <!-- /ko -->
 
 </div>
@@ -709,10 +717,10 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
         var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
         var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
         var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
+        var contractPreviewUrl = '@Url.Action("Contract", "Reports")' + '/';
         var exportUrl = '@Url.Action("GetXlsxReport", "Reports")';
     </script>
 

@@ -339,6 +339,15 @@ module.exports('table', function (require) {
             $('#export-form').submit();
         };
 
+        this.previewContracts = function () {
+            var ids = this.selectedIds();
+            if (ids.length > 1) {
+                $('#preview-form').submit();
+            } else {
+                window.location.href = contractPreviewUrl + ids[0];
+            }
+        };
+
         this.openHelpModal = function (id) {
             sendEmailModel(id);
         };
