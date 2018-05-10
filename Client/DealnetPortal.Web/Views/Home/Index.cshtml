@@ -457,7 +457,7 @@
                                 <div class="table-row-settings-popup__help">
                                     <i class="ask-help-ico"></i>
                                     <span>
-                                        <a>@Resources.AskForHelp</a>
+                                        <a data-bind="click:function(){$parent.openHelpModal($data.TransactionId)}">@Resources.AskForHelp</a>
                                     </span>
                                 </div>
                             </div>
@@ -681,9 +681,7 @@
     }
     @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form-1" }))
     {
-        <div>
-            <input name="ids" data-bind="value: singleId" type="hidden" />
-        </div>
+        <input name="ids" data-bind="value: singleId" type="hidden" />
     }
     <!-- /ko -->
 

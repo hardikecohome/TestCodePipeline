@@ -339,6 +339,10 @@ module.exports('table', function (require) {
             $('#export-form').submit();
         };
 
+        this.openHelpModal = function (id) {
+            sendEmailModel(id);
+        };
+
         // subscriptions
         this.list.subscribe(function (newValue) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
