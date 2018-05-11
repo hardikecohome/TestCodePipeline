@@ -27,9 +27,7 @@
         </div>
     </div>
 
-    <!-- ko if: list().length > 0 -->
-
-    <div class="margin-block">
+    <div class="margin-block" data-bind="visible: list().length > 0">
         <div class="row">
             <div class="filters">
                 <div class="filters-head">
@@ -233,7 +231,7 @@
             </div>
         </div>
     </div>
-    <div class="margin-block">
+    <div class="margin-block" data-bind="visible: list().length > 0">
         <div class="row">
 
             <div class="main-table">
@@ -616,8 +614,8 @@
             </div>
         </div>
     </div>
-    <!-- ko if: selectedIds().length > 0 -->
-    <div class="margin-block">
+
+    <div class="margin-block" data-bind="visible: list().length > 0 && selectedIds().length > 0">
         <div class="row">
             <div class="col-md-3">
                 <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
@@ -627,8 +625,8 @@
             </div>
         </div>
     </div>
-    <!-- /ko -->
-    <div class="margin-block" data-bind="with: pager">
+
+    <div class="margin-block" data-bind="with: pager, visible: list().length > 0">
         <div class="row">
             <div class="new-pagination-wp">
                 <div class="new-pagination">
@@ -648,10 +646,7 @@
         </div>
     </div>
 
-    <!-- /ko -->
-    <!-- ko ifnot: list().length > 0 -->
-
-    <div class="nw-placeholder">
+    <div class="nw-placeholder" data-bind="visible: list().length < 1">
         <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
         <p>
             @Resources.YouDontHaveDealsClickBelowToCreate
@@ -672,7 +667,6 @@
         </div>
     </div>
 
-    <!-- /ko -->
     @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
     {
         <div data-bind="foreach: selectedIds">

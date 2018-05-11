@@ -23,9 +23,12 @@
             debugger;
         });
 
-        document.querySelector('.new-notification-wp .new-notification .close-white-ico').addEventListener('click', function () {
-            this.parentElement.parentElement.remove();
-        });
+        var closeNotification = document.querySelector('.new-notification-wp .new-notification .close-white-ico')
+        if (closeNotification) {
+            closeNotification.addEventListener('click', function () {
+                this.parentElement.parentElement.remove();
+            });
+        }
     };
 
     return {
