@@ -12,7 +12,7 @@
     }
 
     var validateOnSelect = function (reset) {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal' ].reduce(function (acc, field) {
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal'].reduce(function (acc, field) {
             var $field = $('#' + field);
             var valid = $field.valid();
             if (reset) {
@@ -28,8 +28,6 @@
         $(settings.customYearCostId).rules('add', {
             required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
             messages: {
                 regex: translations.yourCostFormat,
                 required: function (ele) {
@@ -43,8 +41,6 @@
         $(settings.customCustomerRateId).rules('add', {
             required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            min: 0,
-            number: true,
             messages: {
                 regex: translations.customerRateFormat,
                 required: function (ele) {
