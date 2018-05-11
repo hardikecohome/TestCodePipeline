@@ -19,6 +19,7 @@
             CustomerRate: '',
             yourCost: '',
             DealerCost: 0,
+            InterestRateReduction: 0,
 			AdminFee: customerFee
         },
         contractId: 0,
