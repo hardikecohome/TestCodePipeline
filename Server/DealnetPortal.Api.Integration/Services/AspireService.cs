@@ -1443,7 +1443,7 @@ namespace DealnetPortal.Api.Integration.Services
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
-                            Description = eq.Description,
+                            Description = $"{eq.EquipmentSubType.Description} {eq.Description}",
                             AssetClass = new AssetClass() { AssetCode = eq.Type },
                             UDFs = GetEquipmentUdfs(contract, eq).ToList()
                         });
