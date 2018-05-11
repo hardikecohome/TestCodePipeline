@@ -73,6 +73,7 @@
     <Compile Include="DealerLanguage.cs" />
     <Compile Include="DealerService.cs" />
     <Compile Include="Address.cs" />
+    <Compile Include="DealerSettings.cs" />
     <Compile Include="Dealer\CompanyInfo.cs" />
     <Compile Include="Dealer\CompanyProvince.cs" />
     <Compile Include="Dealer\DealerInfo.cs" />

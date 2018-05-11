@@ -34,9 +34,12 @@ namespace DealnetPortal.Domain
         [ForeignKey("ParentDealerId")]
         public virtual ApplicationUser ParentDealer { get; set; }
 
+        /// <summary>
+        /// User settings, mostly for UI
+        /// </summary>
         public int? UserSettingsId { get; set; }
         [ForeignKey("UserSettingsId")]
-        public UserSettings Settings { get; set; }
+        public UserSettings Settings { get; set; }        
 
         public int? CustomerLinkId { get; set; }
         [ForeignKey("CustomerLinkId")]
@@ -48,6 +51,11 @@ namespace DealnetPortal.Domain
         public string OnboardingLink { get; set; }
 
         public int? DealerProfileId { get; set; }
+
+        /// <summary>
+        ///Dealer settings, affected to a business flow: program types, tiers, etc.
+        /// </summary>
+        public virtual DealerSettings DealerSettings { get; set; }
 
         public int? TierId { get; set; }
         [ForeignKey("TierId")]
