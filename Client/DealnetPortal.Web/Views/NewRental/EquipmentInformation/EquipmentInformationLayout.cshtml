@@ -6,11 +6,11 @@
 }
 
 @{
-    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
@@ -20,7 +20,7 @@
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
     <div class="form-section">
-        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
+        @if ((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -30,7 +30,7 @@
             </p>
 
             <p class="text-semibold preapproved-text">
-                @if(Model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings["RiskBasedTierName"] && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                @if (Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
                 {
                     <text>
                         @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
@@ -45,7 +45,7 @@
                 }
             </p>
         }
-        @if(Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
+        @if (Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -82,7 +82,7 @@
     translations['coveredByCustomer'] = "@Resources.CoveredByCustomer";
     translations['coveredByDealer'] = "@Resources.CoveredByDealer";
     translations['noReduction'] = "@Resources.NoReduction";
-    translations['for'] = "@Resources.For";
+    translations['for'] = '@Html.Raw(Resources.For)';
 }
 
 @Scripts.Render("~/bundles/jqueryval")
@@ -111,10 +111,10 @@
     <script type="text/javascript">
 	  var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
 	  var isCalculationValid = false;
-	  var customerFee = @ViewBag.AdminFee;
-	  var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
-	  var rentalEscalatedLimit = @(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0);
-	  var rentalNonEscalatedLimit = @(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0);
+        var customerFee = @ViewBag.AdminFee;
+        var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+        var rentalEscalatedLimit = parseFloat(@(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0));
+	  var rentalNonEscalatedLimit = parseFloat(@(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0));
 	  var isStandardRentalTier = '@ViewBag.IsStandardRentalTier'.toLowerCase() === 'true';
     </script>
 

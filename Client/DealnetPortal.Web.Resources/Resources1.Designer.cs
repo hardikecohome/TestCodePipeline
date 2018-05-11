@@ -1078,6 +1078,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The borrower should be a home owner..
+        /// </summary>
+        public static string BorrowerShouldBeHomeOwner {
+            get {
+                return ResourceManager.GetString("BorrowerShouldBeHomeOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Both.
         /// </summary>
         public static string Both {

@@ -31,8 +31,9 @@
 
     var setLoanAmortTerm = function (optionKey) {
         return function (e) {
-            var loanTerm  = e.target.selectedOptions[0].text.split('/')[0];
-            var amortTerm = e.target.selectedOptions[0].text.split('/')[1];
+            var selectedOption = e.target.options[e.target.selectedIndex];
+            var loanTerm  = selectedOption.text.split('/')[0];
+            var amortTerm = selectedOption.text.split('/')[1];
             state[optionKey].LoanTerm = Globalize.parseNumber(loanTerm);
             state[optionKey].AmortizationTerm = Globalize.parseNumber(amortTerm);
             state[optionKey].InterestRateReduction = 0;
@@ -44,8 +45,9 @@
 
     var setReductionCost = function(optionKey) {
         return function(e) {
-            var intRate = +e.target.selectedOptions[0].getAttribute('intrate');
-            var custRate = +e.target.selectedOptions[0].getAttribute('custRate');
+            var selectedOption = e.target.options[e.target.selectedIndex];
+            var intRate = +selectedOption.getAttribute('intrate');
+            var custRate = +selectedOption.getAttribute('custRate');
             state[optionKey].InterestRateReduction = intRate;
             state[optionKey].CustomerReduction = custRate;
             state[optionKey].ReductionId = +e.target.value;
