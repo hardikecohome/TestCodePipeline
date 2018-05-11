@@ -18,7 +18,7 @@ namespace DealnetPortal.Web.Models
         public bool IsPreferedContactPerson { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredContactPerson")]
-        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [StringLength(30, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "NameIncorrectFormat")]
         public string PreferedContactPerson { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNumber")]
