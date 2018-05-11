@@ -4,7 +4,6 @@
 
     var dob = require('dob-selecters');
     var checkApplicantsAge = require('customer-validation').checkApplicantsAge;
-    var checkHomeOwner = require('customer-validation').checkHomeOwner;
     var checkCreditAgree = require('customer-validation').checkCreditAgree;
     var scrollPageTo = require('scrollPageTo');
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
@@ -157,16 +156,8 @@
             }
         });
 
-        $('.check-homeowner').change(function () {
-            var atLeastOneValid = false;
-            $('.check-homeowner').each(function () {
-                if ($(this).prop('checked')) {
-                    atLeastOneValid = true;
-                    return false;
-                }
-                return true;
-            });
-            if (atLeastOneValid) {
+        $('#homeowner-checkbox').change(function () {
+            if ($(this).prop('checked')) {
                 $('#proceed-homeowner-errormessage').hide();
             }
         });
@@ -258,7 +249,7 @@
 
         $('#save-and-proceed-button').click(function (event) {
             var isApprovalAge = checkApplicantsAge();
-            var isHomeOwner = checkHomeOwner();
+            var isHomeOwner = $('#homeowner-checkbox').is(':checked');
             var isAgreesToCreditCheck = checkCreditAgree();
             var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
             var isAddressInQc = province.val().toLowerCase() === 'qc';

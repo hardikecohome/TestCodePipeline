@@ -11,8 +11,8 @@
             paymentInfoAvailableId: '#payment-info-available',
             paymentTypeId: '#payment-type',
             paymentTypes: {
-                'ENBRIDGE': '0',
-                'PAP': '1'
+                'PAP': '0',
+                'ENBRIDGE': '1'
             },
             enbridgeFeeNotificationId: '#enbridge-fee-notification'
         }

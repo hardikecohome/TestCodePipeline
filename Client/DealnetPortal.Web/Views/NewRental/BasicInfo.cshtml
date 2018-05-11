@@ -124,7 +124,7 @@
 
             <div class="well well-info position-well clear-border">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                @Resources.AtLeastOneHomeOwner
+                @Resources.BorrowerShouldBeHomeOwner
             </div>
             @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
         </div>
@@ -153,7 +153,7 @@
         <!--Warning Section if isn't chosen homeowner checkbox-->
         <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-homeowner-errormessage">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.AtLeastOneHomeOwner
+            @Resources.BorrowerShouldBeHomeOwner
         </div>
         <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-error-message">
             <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
