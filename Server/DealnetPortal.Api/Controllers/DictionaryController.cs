@@ -42,7 +42,8 @@ namespace DealnetPortal.Api.Controllers
         private readonly ILoggingService _loggingService;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository, ILoggingService loggingService1, IRateCardsRepository rateCardsRepository)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
+            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsRepository rateCardsRepository)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -52,8 +53,7 @@ namespace DealnetPortal.Api.Controllers
             CustomerFormService = customerFormService;
             _contractService = contractService;
             _dealerRepository = dealerRepository;
-            _licenseDocumentRepository = licenseDocumentRepository;
-            _loggingService = loggingService1;
+            _licenseDocumentRepository = licenseDocumentRepository;            
             _rateCardsRepository = rateCardsRepository;
         }             
 
@@ -316,6 +316,23 @@ namespace DealnetPortal.Api.Controllers
                 LoggingService.LogError("Failed to retrieve all Province Tax Rates", ex);
                 return InternalServerError(ex);
             }
+        }
+
+        [Route("CreditAmount")]
+        [HttpGet]
+        // GET api/dict/CreditAmount?creditScore={creditScore}
+        public IHttpActionResult GetCreditAmount(int creditScore)
+        {
+            try
+            {
+                var creditAmount =  _rateCardsRepository.GetCreditAmount(creditScore);
+                return Ok(creditAmount);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to retrieve credit amount settings for creditScore = {creditScore}", ex);
+                return InternalServerError(ex);
+            }            
         }
 
 
