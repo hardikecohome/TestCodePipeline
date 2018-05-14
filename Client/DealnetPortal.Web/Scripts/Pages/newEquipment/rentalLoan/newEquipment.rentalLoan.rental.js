@@ -13,9 +13,9 @@
         escalationLimitErrorMsgId: '#escalation-limit-error-msg',
         rentalProgramType: {
             'Escalation0': '0',
-            'Escalation35': '1'                
+            'Escalation35': '1'
         }
-    }
+    };
 
     var notNaN = function (num) {
         return !isNaN(num);
@@ -84,7 +84,7 @@
         }
     };
 
-    var onProgramTypeChange = function(e) {
+    var onProgramTypeChange = function (e) {
         _onProgramTypeChange(e.target.value);
     }
 
@@ -101,7 +101,7 @@
         if (show === true) {
             if ($(settings.escalationLimitErrorMsgId).hasClass('hidden'))
                 $(settings.escalationLimitErrorMsgId).removeClass('hidden');
-            $(settings.totalMonthlyPaymentRowId).children().each(function() {
+            $(settings.totalMonthlyPaymentRowId).children().each(function () {
                 $(this).addClass('error-decorate');
             });
 
@@ -113,9 +113,43 @@
         }
     }
 
+    function updateEquipmentSubtypes(parent, type) {
+        var select = parent.find('.sub-type-select');
+        if (state.isStandardRentalTier && state.agreementType !== 0 && state.equipmentSubTypes[type]) {
+            var value = select.val()
+            var selected = state.equipmentSubTypes[type].find(function (item) {
+                return item.Id == value;
+            })
+            var subOpt = state.equipmentSubTypes[type].reduce(function (acc, item) {
+                return acc.concat($('<option/>', {
+                    text: item.Description,
+                    value: item.Id
+                }));
+            }, [$('option', {
+                value: '',
+                text: ''
+            })]);
+
+            select.html(subOpt).removeClass('not-selected');
+            selected || select.val('');
+            select.prop('disabled', false);
+            select[0].form && select.rules('add', 'required');
+
+            parent.find('.sub-type-col').removeClass('hidden');
+            parent.find('.description-col').removeClass('col-md-6').addClass('col-md-3');
+        } else {
+            select.prop('disabled', true);
+            select[0].form && select.rules('remove', 'required');
+
+            parent.find('.sub-type-col').addClass('hidden');
+            parent.find('.description-col').addClass('col-md-6').removeClass('col-md-3');
+        }
+    }
+
     return {
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
-        onProgramTypeChange: onProgramTypeChange
+        onProgramTypeChange: onProgramTypeChange,
+        updateEquipmentSubTypes: updateEquipmentSubtypes
     }
 });

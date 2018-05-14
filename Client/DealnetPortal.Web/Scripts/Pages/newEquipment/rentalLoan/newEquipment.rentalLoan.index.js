@@ -4,6 +4,7 @@
         var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
         var onProgramTypeChange = require('newEquipment.rental').onProgramTypeChange;
+        var updateEquipmentSubTypes = require('newEquipment.rental').updateEquipmentSubTypes;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -19,6 +20,7 @@
 
         var navigateToStep = require('navigateToStep');
         var datepicker = require('datepicker');
+        var idToValue = require('idToValue');
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
@@ -48,7 +50,7 @@
             adminFeeSectionId: '#admin-fee-section',
             totalMonthlyPaymentRowId: '#total-monthly-payment-row',
             escalationLimitErrorMsgId: '#escalation-limit-error-msg',
-            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',            
+            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
             fixedRateReductionId: '#FixedRate-reduction',
             deferralReductionId: '#Deferral-reduction',
             applicationType: {
@@ -65,7 +67,7 @@
          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
          * @returns {void} 
          */
-        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable) {
+        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
 
             if (isOnlyLoan) {
@@ -79,6 +81,13 @@
             state.agreementType = Number(agreementType);
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
             state.isCustomerFoundInCreditBureau = $(settings.isCustomerFoundInCreditBureauId).val().toLowerCase() === 'true';
+
+            state.equipmentSubTypes = equipments.filter(function (equip) {
+                return equip.SubTypes.length > 0;
+            }).reduce(function (acc, equip) {
+                acc[equip.Type] = equip.SubTypes;
+                return acc;
+            }, {});
 
             if (state.isDisplayAdminFee) {
                 $(settings.adminFeeSectionId).removeClass('hidden');
@@ -105,7 +114,8 @@
                 isClarity: false,
                 recalculateValuesAndRender: recalculateValuesAndRender,
                 recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
-                recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
+                recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
+                updateEquipmentSubTypes: updateEquipmentSubTypes
             });
 
             rateCardsInit.init(id, cards, rateCardReductionTable, onlyCustomRateCard);
@@ -156,7 +166,7 @@
                     _toggleCustomRateCard();
                     submitRateCard(option);
                 }
-            } 
+            }
 
             if ($(settings.escalationLimitErrorMsgId).is(':visible')) {
                 event.preventDefault();
@@ -228,7 +238,10 @@
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
             $(settings.downPaymentId).on('change', setters.setDownPayment);
-            $(settings.agreementTypeId).on('change', setters.setAgreement).on('change', _toggleCustomRateCard);
+            $(settings.agreementTypeId)
+                .on('change', setters.setAgreement)
+                .on('change', _toggleCustomRateCard)
+                .on('change', _updateEquipmentSubTypes);
             $(settings.totalMonthlyPaymentId)
                 .on('change', setters.setRentalMPayment)
                 .on('change', function (e) {
@@ -321,6 +334,16 @@
                 },
                 translations['EnterValidDate']
             );
+        }
+
+        function _updateEquipmentSubTypes() {
+            Object.keys(state.equipments)
+                .map(idToValue(state.equipments))
+                .map(function (equipment) {
+                    var type = equipment.type;
+                    var parent = $('#new-equipment-' + equipment.id);
+                    updateEquipmentSubTypes(parent, type);
+                });
         }
 
         return {

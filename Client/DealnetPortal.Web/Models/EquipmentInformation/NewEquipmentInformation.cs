@@ -13,6 +13,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof (Resources.Resources), Name = "Type")]
         public string TypeDescription { get; set; }
 
+        [Display(ResourceType =typeof(Resources.Resources), Name ="SubType")]
         public int? EquipmentSubTypeId { get; set; }
 
         [CustomRequired]
