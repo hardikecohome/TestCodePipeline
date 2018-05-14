@@ -17,6 +17,8 @@ namespace DealnetPortal.Domain
         public bool UnderBill59 { get; set; }
         //Userful Life of equipment (years)
         public int UsefulLife { get; set; }
+        public decimal? SoftCap { get; set; }
+        public decimal? HardCap { get; set; }
         public virtual ICollection<EquipmentSubType> SubTypes { get; set; }
     }
 }
