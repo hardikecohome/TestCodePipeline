@@ -218,7 +218,8 @@ else
                 @Html.Raw(Json.Encode(((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
                .Where(e => e.UnderBill59)
                .Select(e => e.Type).ToArray())),
-                @Html.Raw(Json.Encode(Model.DealerTier.RateReductionCards)));
+                @Html.Raw(Json.Encode(Model.DealerTier.RateReductionCards)),
+            @Html.Raw(Json.Encode((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)));
         });
         </script>
     }

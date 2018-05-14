@@ -1443,7 +1443,7 @@ namespace DealnetPortal.Api.Integration.Services
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
-                            Description = eq.Description,
+                            Description = $"{eq.EquipmentSubType.Description} {eq.Description}",
                             AssetClass = new AssetClass() { AssetCode = eq.Type },
                             UDFs = GetEquipmentUdfs(contract, eq).ToList()
                         });
@@ -1873,16 +1873,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.RateReduction,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
-                        (contract.Equipment.RateReduction.HasValue ? contract.Equipment.RateReduction.Value.ToString() : BlankValue)
-                        : BlankValue
+                        (contract.Equipment.RateReduction.HasValue ? contract.Equipment.RateReduction.Value.ToString() : "0.0")
+                        : "0.0"
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.RateReductionCost,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                         (contract.Equipment.RateReductionCost.HasValue ? contract.Equipment.RateReductionCost.Value.ToString("F", CultureInfo.InvariantCulture) 
-                        : BlankValue)
-                        : BlankValue
+                        : "0.0")
+                        : "0.0"
                 });
 
                 var creditAmount = contract.Details?.CreditAmount ?? 0.0m;

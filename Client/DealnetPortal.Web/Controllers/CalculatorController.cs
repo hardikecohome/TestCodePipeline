@@ -25,6 +25,7 @@ namespace DealnetPortal.Web.Controllers
 	        var quebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
 	        var clarityDealer = identity.HasClaim(ClaimContstants.ClarityDealer, "True");
 	        ViewBag.ReducationAvailable = !quebecDealer && !clarityDealer;
+	        ViewBag.IsQuebecDealer = quebecDealer;
 
             return View(await _contractManager.GetStandaloneCalculatorInfoAsync());
         }

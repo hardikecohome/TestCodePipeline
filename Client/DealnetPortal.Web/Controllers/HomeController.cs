@@ -173,12 +173,7 @@ namespace DealnetPortal.Web.Controllers
                     }                    
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult OnBoard()
-        {
-            return View();
-        }
+        }      
 
         [HttpGet]
         public ActionResult GetMaintanenceBanner()
@@ -197,10 +192,6 @@ namespace DealnetPortal.Web.Controllers
             return Content(string.Empty);
         }
 
-        public ActionResult OnBoardSuccess()
-        {
-            return View();
-	    }
         [HttpGet]
         public PartialViewResult DealerSupportRequestEmail(string contractId)
         {
