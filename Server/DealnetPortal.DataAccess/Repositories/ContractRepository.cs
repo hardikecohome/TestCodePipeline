@@ -1375,7 +1375,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (ne.EstimatedRetailCost.HasValue)
                     {
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
-                    }                    
+                    }
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
