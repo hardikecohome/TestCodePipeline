@@ -293,8 +293,9 @@
 			var isAdditionalApplicantProvinceInQc = additionalApplicantProvince.val().toLocaleLowerCase() === 'qc';
             var isValidProcvinceAddress = false;
 			var isValidProvinceForAdditionalApplicant = false;
+			var additionalApplicantAddressNotSame = $('#mailing-address-checkbox-add-app1');
 
-			if (!aditional1Section.is(':hidden')) {
+			if (!aditional1Section.is(':hidden') && additionalApplicantAddressNotSame.is(':checked')) {
 				if (isQuebecDealer) {
 					if (!isAdditionalApplicantProvinceInQc) {
 						isValidProvinceForAdditionalApplicant = false;
