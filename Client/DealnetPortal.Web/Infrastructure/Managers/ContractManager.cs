@@ -321,8 +321,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
                 {RateCardType.NoInterest, Resources.Resources.EqualPayments},
-                {RateCardType.Deferral, Resources.Resources.Deferral},
-                {RateCardType.Custom, Resources.Resources.Custom},
+                {RateCardType.Deferral, Resources.Resources.Deferral}
             };
 
             model.Plans = model.DealerTier.RateCards

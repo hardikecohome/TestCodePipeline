@@ -43,12 +43,6 @@
         $('#' + option + '-plan').on('change', setters.setRateCardPlan(option, callback));
         $('#' + option + '-amortDropdown').on('change', setters.setLoanAmortTerm(option, callback));
         $('#' + option + '-deferralDropdown').on('change', setters.setDeferralPeriod(option, callback));
-        $('#' + option + '-customLoanTerm').on('change', setters.setLoanTerm(option, callback));
-        $('#' + option + '-customAmortTerm').on('change', setters.setAmortTerm(option, callback));
-        $('#' + option + '-customCRate').on('change', setters.setCustomerRate(option, callback));
-        $('#' + option + '-customYCostVal').on('change', setters.setYourCost(option, callback));
-        $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
-        $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
         $('#' + option + '-aFeeOptionsHolder').find('.custom-radio').on('click', _setAdminFeeCoveredBy(option, callback));
         $('#' + option + '-programDropdown').on('change', setters.setProgram(option, callback));
         $('#' + option + '-reduction').on('change', setters.setReductionCost(option, callback));
@@ -248,14 +242,6 @@
 
         if (state[newOption].plan === 'Deferral') {
             $('#' + newOption + '-deferralDropdown').val(state[newOption].DeferralPeriod);
-        }
-
-        if (state[newOption].plan === 'Custom') {
-            $('#' + newOption + '-customLoanTerm').val(state[newOption].LoanTerm);
-            $('#' + newOption + '-customAmortTerm').val(state[newOption].AmortizationTerm);
-            $('#' + newOption + '-customCRate').val(state[newOption].CustomerRate);
-            $('#' + newOption + '-customYCostVal').val(state[newOption].DealerCost);
-            $('#' + newOption + '-customAFee').val(state[newOption].AdminFee);
         }
 
         var indexes = Object.keys(state[optionToCopy].equipments).map(function(k) {

@@ -40,24 +40,6 @@
         };
     };
 
-    var setLoanTerm = function (optionKey, callback) {
-        return function (e) {
-            $(e.target).valid();
-            state[optionKey].LoanTerm = parseFloat(e.target.value);
-            validateLoanAmortTerm(optionKey);
-            callback([optionKey]);
-        };
-    };
-
-    var setAmortTerm = function (optionKey, callback) {
-        return function (e) {
-            $(e.target).valid();
-            state[optionKey].AmortizationTerm = parseFloat(e.target.value);
-            validateLoanAmortTerm(optionKey);
-            callback([optionKey]);
-        };
-    };
-
     var setDeferralPeriod = function (optionKey, callback) {
         return function (e) {
             state[optionKey].DeferralPeriod = parseFloat(e.target.value);
@@ -125,68 +107,29 @@
                 $('#' + optionKey + '-reductionWrapper').addClass('hidden');
             }
 
-            if (planType === 'Deferral' || planType === 'Custom') {
+            if (planType === 'Deferral') {
                 if (dropdownParentDiv.is(':hidden')) {
                     $('#' + optionKey + '-deferral').addClass('hidden');
                     dropdownParentDiv.removeClass('hidden');
                     $('#' + optionKey + '-deferralDropdown').change();
                 }
 
-                if (planType === 'Custom') {
-                    state[optionKey].LoanTerm = '';
-                    state[optionKey].AmortizationTerm = '';
-                    state[optionKey].CustomerRate = '';
-                    state[optionKey].DealerCost = '';
+                $('#' + optionKey + '-deferralDropdown').empty();
+                $('#deferralDropdownForDeferralRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
 
-                    $('#' + optionKey + '-amortDropdown').closest('.row').addClass('hidden');
-                    $('#' + optionKey + '-programDropdown').closest('.row').addClass('hidden');
-                    var defDropdown = $('#' + optionKey + '-deferralDropdown');
-                    defDropdown.empty();
-                    $('#deferralDropdownForCustomRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
+                $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
 
-                    $.grep(constants.inputsToHide,
-                        function (field) {
-                            $('#' + optionKey + field).addClass('hidden');
-                        });
-
-                    $.grep(constants.customInputsToShow,
-                        function (field) {
-                            $('#' + optionKey + field).removeClass('hidden').attr('disabled', false);
-                        });
-                } else {
-                    $('#' + optionKey + '-deferralDropdown').empty();
-                    $('#deferralDropdownForDeferralRc option').clone().appendTo('#' + optionKey + '-deferralDropdown');
-                    //$('#' + optionKey + '-downPayment').val('');
-                    $('#' + optionKey + '-customLoanTerm').val('');
-                    $('#' + optionKey + '-customAmortTerm').val('');
-                    $('#' + optionKey + '-customCRate').val('');
-                    $('#' + optionKey + '-customYCostVal').val('');
-
-                    $('#' + optionKey + '-amortDropdown').closest('.row').removeClass('hidden');
-
-                    if (state.programsAvailable) {
-                        $('#' + optionKey + '-programDropdown').closest('.row').removeClass('hidden');
-                    }
-
-                    $.grep(constants.inputsToHide, function (field) {
-                        $('#' + optionKey + field).removeClass('hidden');
-                    });
-
-                    $.grep(constants.customInputsToShow, function (field) {
-                        $('#' + optionKey + field).addClass('hidden');
-                        $('#' + optionKey + field).siblings('a.clear-input').css('display', 'none');
-                        if (field !== '-deferralDropdown') {
-                            $('#' + optionKey + field).attr('disabled', true).val('');
-                        }
-                    });
-                    dropdownParentDiv.removeClass('hidden').attr('disabled', false);
+                if (state.programsAvailable) {
+                    $('#' + optionKey + '-programDropdown').closest('.row').removeClass('hidden');
                 }
 
+                $.grep(constants.inputsToHide, function (field) {
+                    $('#' + optionKey + field).removeClass('hidden');
+                });
+
+                dropdownParentDiv.removeClass('hidden').attr('disabled', false);
             } else {
                 $('#' + optionKey + '-deferral').removeClass('hidden');
-                //$('#' + optionKey + '-downPayment').val('');
-                $('#' + optionKey + '-customLoanTerm').val('');
-                $('#' + optionKey + '-customAmortTerm').val('');
 
                 if (dropdownParentDiv.is(':visible')) {
                     dropdownParentDiv.addClass('hidden');
@@ -200,14 +143,6 @@
 
                 $.grep(constants.inputsToHide, function (field) {
                     $('#' + optionKey + field).removeClass('hidden');
-                });
-
-                $.grep(constants.customInputsToShow, function (field) {
-                    $('#' + optionKey + field).addClass('hidden');
-                    $('#' + optionKey + field).siblings('a.clear-input').css('display', 'none');
-                    if (field !== '-deferralDropdown') {
-                        $('#' + optionKey + field).attr('disabled', true).val('');
-                    }
                 });
             }
 
@@ -263,41 +198,6 @@
         callback([optionKey]);
     }
 
-    function setAmortizationDropdownValues(optionKey, planType) {
-        var options = $('#' + optionKey + '-amortDropdown');
-        options.empty();
-        var dropdownValues = state.amortLoanPeriods[planType];
-
-        dropdownValues.forEach(function (item) {
-            var optionTemplate = $("<option />").val(item).text(item);
-
-            options.append(optionTemplate);
-        });
-    }
-
-    function validateLoanAmortTerm(optionKey) {
-        var amortTerm = state[optionKey].AmortizationTerm;
-        var loanTerm = state[optionKey].LoanTerm;
-        var error = $('#' + optionKey + '-amortLoanTermError');
-        if (typeof amortTerm == 'number' && typeof loanTerm == 'number') {
-            if (loanTerm > amortTerm) {
-                if (error.is(':hidden')) {
-                    error.show();
-                    error.parent().find('input[type="text"]')
-                        .addClass('input-validation-error')
-                        .addClass('input-has-error');
-                }
-            } else {
-                if (error.is(':visible')) {
-                    error.hide();
-                    error.parent().find('input[type="text"]')
-                        .removeClass('input-validation-error')
-                        .removeClass('input-has-error');
-                }
-            }
-        }
-    }
-
     return {
         notNaN: notNaN,
         equipmentSum: equipmentSum,
@@ -315,9 +215,6 @@
         removeEquipment: removeEquipment,
         setProgram: setProgram,
         setReductionCost: setReductionCost,
-        //setTax: setTax,
-        setLoanTerm: setLoanTerm,
-        setAmortTerm: setAmortTerm,
         setAdminFeeIsCovered: setAdminFeeIsCovered
     }
 });
