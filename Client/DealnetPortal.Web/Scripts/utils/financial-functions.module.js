@@ -69,8 +69,7 @@
 
             var rbalance = 0;
             if (loanTerm !== amortizationTerm) {
-                rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
-                    (1 + customerRate / 100 / 12);
+				rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0);
             }
 
             return rbalance;

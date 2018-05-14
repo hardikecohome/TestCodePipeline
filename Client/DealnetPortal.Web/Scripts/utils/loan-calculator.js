@@ -53,7 +53,7 @@
 
     var residualBalance = 0;
     if (loanTerm !== amortizationTerm) {
-        residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0) * (1 + customerRate / 100 / 12);
+        residualBalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, totalMonthlyPayment, 0);
     }
     residualBalanceLabel.text(formatNumber(residualBalance));
 

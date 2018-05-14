@@ -50,8 +50,7 @@
             mPayment = mPayment.toString().indexOf(',') > -1 ? Globalize.parseNumber(mPayment) : Number(mPayment);
 
             var rbalance = loanTerm !== amortizationTerm ?
-                -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
-                (1 + customerRate / 100 / 12) : 0;
+                -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) : 0;
             var result = +rbalance.toFixed(2);
             return +(result.toString().indexOf(',') > -1 ? Globalize.parseNumber(result) : Number(result));
         };
