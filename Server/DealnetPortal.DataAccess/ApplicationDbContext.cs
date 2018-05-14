@@ -71,7 +71,6 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<DealerProfile> DealerProfiles { get; set; }
         public virtual DbSet<DealerArea> DealerArears { get; set; }
         public virtual DbSet<DealerEquipment> DealerEquipments { get; set; }
-        public virtual DbSet<DealerSettings> DealerSettings { get; set; }        
 
         public virtual DbSet<VerifiactionId> VerificationIds { get; set; }
 

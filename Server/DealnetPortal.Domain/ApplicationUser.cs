@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Crypteron;
+using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -53,9 +54,9 @@ namespace DealnetPortal.Domain
         public int? DealerProfileId { get; set; }
 
         /// <summary>
-        ///Dealer settings, affected to a business flow: program types, tiers, etc.
+        /// Supported program types for a dealer: NULL - both
         /// </summary>
-        public virtual DealerSettings DealerSettings { get; set; }
+        public string SupportedAgreementType { get; set; }
 
         public int? TierId { get; set; }
         [ForeignKey("TierId")]
