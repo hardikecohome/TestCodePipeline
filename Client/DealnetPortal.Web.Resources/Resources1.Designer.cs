@@ -6724,7 +6724,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sub Type.
+        ///   Looks up a localized string similar to Sub-Type.
         /// </summary>
         public static string SubType {
             get {

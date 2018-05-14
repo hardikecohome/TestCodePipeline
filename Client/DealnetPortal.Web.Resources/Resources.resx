@@ -2718,6 +2718,6 @@ Additional program options may become available when customer’s credit details
     <value>The borrower should be a home owner.</value>
   </data>
   <data name="SubType" xml:space="preserve">
-    <value>Sub Type</value>
+    <value>Sub-Type</value>
   </data>
 </root>

@@ -650,7 +650,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
             cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>()
-                .ForMember(x => x.EquipmentSubTypeId, d => d.ResolveUsing(src => src.EquipmentSubType?.Id));
+                    .ForMember(x => x.EquipmentSubTypeId, d => d.ResolveUsing(src => src.EquipmentSubType?.Id))
+                    .ForMember(x => x.EquipmentSubTypeDescription, d => d.ResolveUsing(src => src.EquipmentSubType?.Description));
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
             cfg.CreateMap<InstallationPackageDTO, InstallationPackageInformation>();
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()
