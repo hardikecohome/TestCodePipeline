@@ -78,6 +78,7 @@
                     $enbridgePaymentSelector.show();
                     $enbridgePaymentSelector.find('input, select').each(function () {
                         $(this).prop("disabled", false);
+                        $(this).rules('add', 'required');
                     });
                     $enbridgeFeeNotification.show();
                     break;
@@ -85,6 +86,7 @@
                     $enbridgePaymentSelector.hide();
                     $enbridgePaymentSelector.find('input, select').each(function () {
                         $(this).prop("disabled", true);
+                        $(this).rules('remove', 'required');
                     });
                     $enbridgeFeeNotification.hide();
                     $papPaymentSelector.show();
