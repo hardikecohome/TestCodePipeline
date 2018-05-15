@@ -1695,11 +1695,14 @@ namespace DealnetPortal.DataAccess.Repositories
             var updated = false;
             var existingEntities =
                 contract.SecondaryCustomers.Where(
-                    ho => customers.Any(cho => cho.Id == ho.Id) /*|| (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))*/).ToList();
+                    ho => customers.Any(cho => cho.Id == ho.Id) || ho.IsDeleted == true /*|| (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))*/).ToList();
 
             var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities).ToList();
             updated = entriesForDelete.Any();
-            entriesForDelete.ForEach(e => contract.SecondaryCustomers.Remove(e));            
+            entriesForDelete.ForEach(e =>
+            {
+                e.IsDeleted = true;
+            });            
             customers.ForEach(ho =>
             {
                 var customer = UpdateCustomer(ho);
@@ -1747,7 +1750,8 @@ namespace DealnetPortal.DataAccess.Repositories
                             contract.SecondaryCustomers.FirstOrDefault(
                                 c =>
                                     c.FirstName == ho.FirstName && c.LastName == ho.LastName &&
-                                    c.DateOfBirth == ho.DateOfBirth);
+                                    c.DateOfBirth == ho.DateOfBirth &&
+                                    c.IsDeleted != true);
                     }
                 }
                 if (sc != null && (contract.WasDeclined != true || contract.InitialCustomers.All(ic => ic.Id != sc.Id)))

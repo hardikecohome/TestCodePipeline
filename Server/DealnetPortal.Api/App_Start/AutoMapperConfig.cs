@@ -91,7 +91,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Role, o => o.MapFrom(src => src.SignerType));
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
-                .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
+                .ForMember(x => x.SecondaryCustomers, o => o.ResolveUsing(src => src.SecondaryCustomers?.Where(sc => sc.IsDeleted != true)))
                 .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo))
                 .ForMember(x => x.Comments, o => o.MapFrom(src => src.Comments))
                 .ForMember(x => x.DealerName, o => o.MapFrom(src => src.Dealer.DisplayName))
@@ -446,7 +446,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerInitial, s => s.MapFrom(m => m.DealerInitial))
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
                 .ForMember(x => x.CreditReport, d => d.Ignore())
-                .ForMember(x => x.AccountId, d => d.Ignore());
+                .ForMember(x => x.AccountId, d => d.Ignore())
+                .ForMember(x => x.IsDeleted, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerInfoDTO, Customer>()
                 .ForMember(x => x.AccountId, d => d.Ignore())
