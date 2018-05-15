@@ -28,6 +28,7 @@
             customRateCardName: 'Custom',
             formId: '#equipment-form',
             agreementTypeId: '#typeOfAgreementSelect',
+            isNewContractId: '#IsNewContract',
             rentalProgramTypeId: '#rental-program-type',
             submitButtonId: '#submit',
             rateCardTypeId: '#hidden-option',
@@ -71,6 +72,12 @@
          */
         var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
+            var isNewContract = $(settings.isNewContractId).val().toLowerCase() == 'true';
+
+            if (isNewContract) {
+                var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
+                $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+            }
 
             if (isOnlyLoan) {
                 if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {

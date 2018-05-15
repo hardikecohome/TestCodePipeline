@@ -16,11 +16,10 @@ configInitialized
         $('#print-signed-button').on('click', printContract(downloadSignedUrl));
 
         $('.date-input').each(function (index, input) {
-            module.require('datepicker').assignDatepicker(input,
-                {
-                    yearRange: '1900:2200',
-                    minDate: new Date()
-                });
+            module.require('datepicker').assignDatepicker(input, {
+                yearRange: '1900:2200',
+                minDate: new Date()
+            });
         });
 
         var initPaymentTypeForm = $("#payment-type-form").find(":selected").val();
@@ -262,27 +261,28 @@ configInitialized
         });
     });
 
-function generateGuid () {
+function generateGuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
 
-function managePaymentFormElements (paymentType) {
+function managePaymentFormElements(paymentType) {
     switch (paymentType) {
-        case '0':
+        case '1':
             $(".pap-payment-form").hide();
             $(".enbridge-payment-form").show();
             break;
-        case '1':
+        case '0':
             $(".enbridge-payment-form").hide();
             $(".pap-payment-form").show();
             break;
     }
 }
 
-function checkSubmitAllDocumentsAvailability () {
+function checkSubmitAllDocumentsAvailability() {
     var submitEnabled = true;
     $('.mandatory').each(function () {
         submitEnabled = submitEnabled && $(this).hasClass('uploaded');
@@ -299,7 +299,7 @@ function checkSubmitAllDocumentsAvailability () {
     }
 }
 
-function addReplyFrom () {
+function addReplyFrom() {
     var currComment = $(this).parent().closest('.comment');
     var existingForm = currComment.find('.comment-reply-form');
     if (existingForm.length) {
@@ -329,18 +329,20 @@ function addReplyFrom () {
     return false;
 }
 
-function removeComment (button) {
+function removeComment(button) {
     var commentId = $(button).siblings("input[name='comment-id']").val();
     submitCommentRemoval($(button).parent().closest('.comment'), commentId);
 }
 
-function expandReplies (button) {
+function expandReplies(button) {
     $(button).toggleClass('active');
     $(button).parent().closest('.comment').toggleClass('active');
 }
 
-function submitComment (form, addComment) {
-    if (!form.find('.base-comment-text').val().trim()) { return; }
+function submitComment(form, addComment) {
+    if (!form.find('.base-comment-text').val().trim()) {
+        return;
+    }
     showLoader();
     form.ajaxSubmit({
         type: "POST",
@@ -369,7 +371,7 @@ function submitComment (form, addComment) {
     });
 }
 
-function submitCommentRemoval (comment, commentId) {
+function submitCommentRemoval(comment, commentId) {
     showLoader();
     var form = $('#remove-comment-form');
     form.find("input[name='commentId']").val(commentId);
@@ -403,7 +405,7 @@ function submitCommentRemoval (comment, commentId) {
     });
 }
 
-function addBaseComment (form, json) {
+function addBaseComment(form, json) {
     var currComments = $('#comments-start');
     var commentTemplate = $('#comment-template').clone();
     commentTemplate.find(".comment-body input[name='comment-id']").val(json.updatedCommentId);
@@ -420,7 +422,7 @@ function addBaseComment (form, json) {
     return commentTemplate;
 }
 
-function addChildComment (form, json) {
+function addChildComment(form, json) {
     var parentComment = form.parent().closest('.comment');
     var currComments = parentComment.next('ul').find('li:first');
     var commentTemplate = $('#comment-template').clone();
@@ -445,18 +447,18 @@ function addChildComment (form, json) {
     return commentTemplate;
 }
 
-function assignAutocompletes () {
+function assignAutocompletes() {
     $(document)
         .ready(function () {
             initGoogleServices("street", "locality", "administrative_area_level_1", "postal_code");
             initGoogleServices("mailing_street", "mailing_locality", "mailing_administrative_area_level_1", "mailing_postal_code");
-            for (var i = 1;i <= 3;i++) {
+            for (var i = 1; i <= 3; i++) {
                 initGoogleServices("additional-street-" + i, "additional-locality-" + i, "additional-administrative_area_level_1-" + i, "additional-postal_code-" + i);
             }
         });
 }
 
-function printCertificate (checkUrl, form) {
+function printCertificate(checkUrl, form) {
 
     $.get({
         type: "POST",
@@ -470,7 +472,7 @@ function printCertificate (checkUrl, form) {
                 };
                 form.ajaxSubmit({
                     url: form.attr("action"),
-                    method: form.attr("method"),  // post
+                    method: form.attr("method"), // post
                     success: function (json) {
                         if (json != null) {
                             window.location = json;

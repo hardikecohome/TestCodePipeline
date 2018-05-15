@@ -20,8 +20,6 @@
         return undefined;
     };
 }
-
-
 if (!Object.assign) {
     Object.defineProperty(Object, 'assign', {
         enumerable: false,

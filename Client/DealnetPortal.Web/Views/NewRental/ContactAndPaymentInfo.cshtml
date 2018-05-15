@@ -41,7 +41,8 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwnerContactInfo.HomePhone)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone, new
+                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.HomePhone,
+                                    new
                             {
                                 @class = "form-control dealnet-input home-phone",
                                 type = "text",
@@ -69,7 +70,8 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.HomeOwnerContactInfo.BusinessPhone)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone, new
+                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.BusinessPhone,
+                                    new
                             {
                                 @class = "form-control dealnet-input",
                                 id = "business-phone",
@@ -88,7 +90,8 @@
                         @Html.HiddenFor(m => m.HomeOwnerContactInfo.NotificationEmailAddress)
                         @Html.LabelFor(m => m.HomeOwnerContactInfo.EmailAddress)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress, new
+                            @Html.TextBoxFor(m => m.HomeOwnerContactInfo.EmailAddress,
+                                    new
                             {
                                 @class = "form-control dealnet-input",
                                 id = "email-address",
@@ -154,7 +157,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.CoBorrowersContactInfo[i].CellPhone)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].CellPhone, new
+                                    @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].CellPhone,
+                                            new
                                     {
                                         @class = "form-control dealnet-input cell-phone",
                                         type = "text",
@@ -168,7 +172,8 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.CoBorrowersContactInfo[i].BusinessPhone)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].BusinessPhone, new
+                                    @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].BusinessPhone,
+                                            new
                                     {
                                         @class = "form-control dealnet-input",
                                         type = "text",
@@ -187,7 +192,8 @@
                                 @Html.HiddenFor(m => m.CoBorrowersContactInfo[i].NotificationEmailAddress)
                                 @Html.LabelFor(m => m.CoBorrowersContactInfo[i].EmailAddress)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress, new
+                                    @Html.TextBoxFor(m => m.CoBorrowersContactInfo[i].EmailAddress,
+                                            new
                                     {
                                         @class = "form-control dealnet-input",
                                         id = "email-address",
@@ -239,11 +245,12 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.PaymentType)
                         <div class="control-group">
-                            @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null, new
-                            {
-                                @class = "form-control",
-                                id = "payment-type"
-                            })
+                            @Html.EnumDropDownListFor(m => m.PaymentInfo.PaymentType, null,
+                                    new
+                                    {
+                                            @class = "form-control",
+                                            id = "payment-type"
+                                    })
                             @Html.ValidationMessageFor(m => m.PaymentInfo.PaymentType, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -254,11 +261,12 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.PaymentInfo.PrefferedWithdrawalDate)
                             <div class="control-group">
-                                @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null, new
-                                {
-                                    @class = "form-control",
-                                    id = "preferred-withdrawal-date"
-                                })
+                                @Html.EnumDropDownListFor(m => m.PaymentInfo.PrefferedWithdrawalDate, null,
+                                        new
+                                        {
+                                                @class = "form-control",
+                                                id = "preferred-withdrawal-date"
+                                        })
                                 @Html.ValidationMessageFor(m => m.PaymentInfo.PrefferedWithdrawalDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -269,13 +277,12 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.PaymentInfo.BlankNumber)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber, new
-                                {
-                                    @class = "form-control dealnet-input",
-                                    type = "text",
-                                    id = "bank-number",
-                                    placeholder = Resources.BlankNumber
-                                })
+                                @Html.TextBoxFor(m => m.PaymentInfo.BlankNumber,
+                                        new
+                                        {
+                                                @class = "form-control dealnet-input", id = "bank-number",
+                                                type = "text", placeholder = Resources.BlankNumber
+                                        })
                                 @Html.ValidationMessageFor(m => m.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -285,13 +292,12 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new
-                            {
-                                @class = "form-control dealnet-input",
-                                type = "text",
-                                id = "transit-number",
-                                placeholder = Resources.TransitNumber
-                            })
+                            @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber,
+                                    new
+                                    {
+                                            @class = "form-control dealnet-input", id = "transit-number",
+                                            type = "text", placeholder = Resources.TransitNumber
+                                    })
                             @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -301,13 +307,12 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
                         <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new
-                            {
-                                @class = "form-control dealnet-input",
-                                type = "text",
-                                id = "account-number",
-                                placeholder = Resources.AccountNumber
-                            })
+                            @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber,
+                                    new
+                                    {
+                                            @class = "form-control dealnet-input", id = "account-number",
+                                            type = "text", placeholder = Resources.AccountNumber
+                                    })
                             @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -317,55 +322,19 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount)
                             <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, new
-                                {
-                                    @class = "form-control dealnet-input",
-                                    type = "text",
-                                    id = "enbridge-gas-distribution-account",
-                                    placeholder = Resources.TwelveDigitsNumber
-                                })
+                                @Html.TextBoxFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount,
+                                        new
+                                        {
+                                                @class = "form-control dealnet-input", id = "enbridge-gas-distribution-account",
+                                                type = "text", placeholder = Resources.TwelveDigitsNumber
+                                        })
                                 @Html.ValidationMessageFor(m => m.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.PaymentInfo.MeterNumber)
-                            <div class="control-group">
-                                @Html.TextBoxFor(m => m.PaymentInfo.MeterNumber, new
-                                {
-                                    @class = "form-control dealnet-input",
-                                    type = "text",
-                                    id = "meter-number",
-                                    placeholder = Resources.SevenDigitsNumber
-                                })
-                                @Html.ValidationMessageFor(m => m.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @*<div class="row pap-payment">
-                <div class="col-xs-12 col-md-4">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PaymentInfo.TransitNumber)
-                        <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.TransitNumber, new { @class = "form-control dealnet-input", type = "text", id = "transit-number", placeholder = Resources.TransitNumber })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
 
-                      <div class="col-xs-12 col-md-4">
-                        <div class="form-group">
-                          @Html.LabelFor(m => m.PaymentInfo.AccountNumber)
-                          <div class="control-group">
-                            @Html.TextBoxFor(m => m.PaymentInfo.AccountNumber, new { @class = "form-control dealnet-input", type = "text", id = "account-number", placeholder = Resources.AccountNumber })
-                            @Html.ValidationMessageFor(m => m.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
-                          </div>
-                        </div>
-                      </div>
-                    </div>*@
             <div class="well well-info position-well clear-border " id="enbridge-fee-notification">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.EnbrideFeeNotification
@@ -395,8 +364,7 @@
     <script type="text/javascript">
 	$(document)
 		.submit(function () {
-
-			gtag('event', 'Contact and Payment', { 'event_category': 'Contact and Payment', 'event_action': 'Form submit', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
+			gtag('event', 'Contact and Payment', { 'event_category': 'Contact and Payment', 'event_action': 'Form submit', 'event_label': '@(User.IsInRole(UserRole.Dealer.ToString())? "Dealer" : "Broker") : @User.Identity.Name' });
 			});
     </script>
 
