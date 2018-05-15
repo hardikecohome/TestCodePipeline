@@ -9,6 +9,10 @@
         public int Id { get; set; }
         public string Type { get; set; }
 
+        public int? EquipmentTypeId { get; set; }
+        [ForeignKey("EquipmentTypeId")]
+        public virtual EquipmentType EquipmentType { get; set; }
+
         public int? EquipmentSubTypeId { get; set; }
         [ForeignKey("EquipmentSubTypeId")]
         public virtual EquipmentSubType EquipmentSubType { get; set; }

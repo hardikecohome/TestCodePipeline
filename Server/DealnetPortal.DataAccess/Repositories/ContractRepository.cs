@@ -1201,6 +1201,9 @@ namespace DealnetPortal.DataAccess.Repositories
                         paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
                                                                 (contract.Equipment.RequestedTerm ?? 0);
                         paymentSummary.TotalAmountFinanced = paymentSummary.TotalAllMonthlyPayment;
+                        paymentSummary.SoftCapLimit =
+                        contract.Equipment.NewEquipment.Any(eq => eq.MonthlyCost > eq.EquipmentType?.SoftCap && eq.EquipmentType?.HardCap >= eq.MonthlyCost) ||
+                        contract.Equipment.NewEquipment.Any(eq => eq.MonthlyCost > eq.EquipmentSubType?.SoftCap  && eq.EquipmentSubType?.HardCap >= eq.MonthlyCost);
                     }
                 }
             }
@@ -1368,6 +1371,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
                     }
                     curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });

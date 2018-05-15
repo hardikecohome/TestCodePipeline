@@ -86,6 +86,7 @@
         public static string RentalMonthlyPayment = "EH Rental Payment Amount";
         //used both for contract and equipment
         public static string MonthlyPayment = "Monthly Payment";
+        public static string ContractSoftCapLimit = "contractsoftcaplimit";
 
         public static string BorrowingCost = "Borrowing Cost";
         public static string TotalAmountFinanced = "Total Amount Financed";
