@@ -7,7 +7,8 @@
         recalculateValuesAndRender: {},
         recalculateAndRenderRentalValues: {},
         recalculateClarityValuesAndRender: {},
-        updateEquipmentSubTypes: function () {}
+        updateEquipmentSubTypes: function () {},
+        configureMonthlyCostCaps: function () {}
     };
 
     var resetPlaceholder = require('resetPlaceholder');
@@ -61,6 +62,12 @@
                 .on('change', require('bill59').onEquipmentChange);
         }
         equipSelect.change();
+        newTemplate.find('.sub-type-select')
+            .on('change', updateSubType);
+
+        if (state.isStandardRentalTier) {
+            settings.configureMonthlyCostCaps(newTemplate.find('.monthly-cost'));
+        }
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -191,12 +198,18 @@
         if (!state.isClarity) {
             equipSelect.on('change', require('bill59').onEquipmentChange);
         }
+        equipmentRow.find('.sub-type-select')
+            .on('change', updateSubType);
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
         equipmentRow.find('.monthly-cost')
             .on('change', updateMonthlyCost);
         equipmentRow.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
+
+        if (state.isStandardRentalTier) {
+            settings.configureMonthlyCostCaps(equipmentRow.find('.monthly-cost'));
+        }
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
@@ -295,6 +308,12 @@
         state.equipments[id].type = this.value;
 
         settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
+    }
+
+    function updateSubType() {
+        var mvcId = $(this).attr('id');
+        var id = mvcId.split('__EquipmentSubTypeId')[0].substr(mvcId.split('__EquipmentSubTypeId')[0].lastIndexOf('_') + 1);
+        state.equipments[id].subType = this.value;
     }
 
     /**
@@ -417,7 +436,8 @@
         if (!params.isClarity) {
             settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
             settings.recalculateValuesAndRender = params.recalculateValuesAndRender;
-            settings.updateEquipmentSubTypes = params.updateEquipmentSubTypes
+            settings.updateEquipmentSubTypes = params.updateEquipmentSubTypes;
+            settings.configureMonthlyCostCaps = params.configureMonthlyCostCaps;
         } else {
             settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
         }

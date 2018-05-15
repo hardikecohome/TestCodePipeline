@@ -115,12 +115,12 @@
 
     function updateEquipmentSubtypes(parent, type) {
         var select = parent.find('.sub-type-select');
-        if (state.isStandardRentalTier && state.agreementType !== 0 && state.equipmentSubTypes[type]) {
-            var value = select.val()
-            var selected = state.equipmentSubTypes[type].find(function (item) {
+        if (state.isStandardRentalTier && state.agreementType !== 0 && state.equipmentTypes[type].SubTypes.length) {
+            var value = select.val();
+            var selected = state.equipmentTypes[type].SubTypes.find(function (item) {
                 return item.Id == value;
-            })
-            var subOpt = state.equipmentSubTypes[type].reduce(function (acc, item) {
+            });
+            var subOpt = state.equipmentTypes[type].SubTypes.reduce(function (acc, item) {
                 return acc.concat($('<option/>', {
                     text: item.Description,
                     value: item.Id
@@ -146,10 +146,57 @@
         }
     }
 
+    function configureMonthlyCostCaps(input) {
+        var $input = $(input);
+        $input.removeAttr('data-val-number');
+
+        if ($input[0].form) {
+            $input.rules('add', 'rentalCaps');
+        } else {
+            $input.attr('data-rule-rentalCaps', true);
+        }
+    }
+
+    $.validator.addMethod('rentalCaps', function (value, element) {
+        if (state.agreementType == 0) return true;
+        var $input = $(element);
+
+        $input.parents('.form-group').removeClass('has-warning');
+        $input.siblings('.text-warning').text('');
+        state.softCapExceeded = false;
+
+        var mvcId = $input.attr('id');
+        var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
+
+        var val = parseFloat(value);
+
+        var equip = state.equipments[id];
+        var equipmentType = state.equipmentTypes[equip.type];
+        if (equip.subType) {
+            equipmentType = equipmentType.SubTypes.find(function (item) {
+                return item.Id == equip.subType;
+            });
+        }
+
+        if (equipmentType.HardCap && val > equipmentType.HardCap) {
+            return false;
+        }
+
+        if (equipmentType.SoftCap && val > equipmentType.SoftCap) {
+            $input.parents('.form-group').addClass('has-warning');
+            $input.siblings('.text-warning').text(translations.SoftCapWarning);
+
+            state.softCapExceeded = true;
+        }
+
+        return true;
+    }, translations.HardCapWarning);
+
     return {
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
         recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
         onProgramTypeChange: onProgramTypeChange,
-        updateEquipmentSubTypes: updateEquipmentSubtypes
-    }
+        updateEquipmentSubTypes: updateEquipmentSubtypes,
+        configureMonthlyCostCaps: configureMonthlyCostCaps
+    };
 });

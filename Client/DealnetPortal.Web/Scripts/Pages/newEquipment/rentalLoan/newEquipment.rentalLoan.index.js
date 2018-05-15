@@ -5,6 +5,7 @@
         var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
         var onProgramTypeChange = require('newEquipment.rental').onProgramTypeChange;
         var updateEquipmentSubTypes = require('newEquipment.rental').updateEquipmentSubTypes;
+        var configureMonthlyCostCaps = require('newEquipment.rental').configureMonthlyCostCaps;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -21,6 +22,7 @@
         var navigateToStep = require('navigateToStep');
         var datepicker = require('datepicker');
         var idToValue = require('idToValue');
+        var dynamicAlertModal = require('alertModal').dynamicAlertModal;
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
@@ -82,10 +84,8 @@
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
             state.isCustomerFoundInCreditBureau = $(settings.isCustomerFoundInCreditBureauId).val().toLowerCase() === 'true';
 
-            state.equipmentSubTypes = equipments.filter(function (equip) {
-                return equip.SubTypes.length > 0;
-            }).reduce(function (acc, equip) {
-                acc[equip.Type] = equip.SubTypes;
+            state.equipmentTypes = equipments.reduce(function (acc, equip) {
+                acc[equip.Type] = equip;
                 return acc;
             }, {});
 
@@ -115,7 +115,8 @@
                 recalculateValuesAndRender: recalculateValuesAndRender,
                 recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
                 recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
-                updateEquipmentSubTypes: updateEquipmentSubTypes
+                updateEquipmentSubTypes: updateEquipmentSubTypes,
+                configureMonthlyCostCaps: configureMonthlyCostCaps
             });
 
             rateCardsInit.init(id, cards, rateCardReductionTable, onlyCustomRateCard);
@@ -184,6 +185,20 @@
                     event.preventDefault();
                     _toggleAgreementErrors(true);
                 }
+            }
+
+            if (state.softCapExceeded && !state.softCapExceededConfirmed) {
+                dynamicAlertModal({
+                    message: translations.MonthlyCostExceedsMaxBody,
+                    title: translations.MonthlyCostExceedsMaxTitle,
+                    confirmBtnText: translations.AcknowledgeAndAgree
+                });
+
+                $('#confirmAlert').one('click', function () {
+                    state.softCapExceededConfirmed = true;
+                    _submitForm();
+                });
+                return;
             }
 
             if (!$(settings.formId).valid()) {
