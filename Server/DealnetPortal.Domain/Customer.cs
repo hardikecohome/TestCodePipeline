@@ -57,5 +57,7 @@ namespace DealnetPortal.Domain
         public EmploymentInfo EmploymentInfo { get; set; }
 
         public CustomerCreditReport CreditReport { get; set; }
+
+        public bool? IsDeleted { get; set; }
     }
 }
