@@ -2184,6 +2184,25 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.PapBankNumber,
                     Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.BlankNumber ?? BlankValue : BlankValue
                 });
+                if (contract.PaymentInfo.PaymentType == PaymentType.Pap && !IsClarityProgram(contract))
+                {
+                    var fstWithdrawalDate = contract.DateOfSubmit ?? contract.LastUpdateTime ?? contract.CreationTime;
+                    fstWithdrawalDate = fstWithdrawalDate.AddMonths(1);
+                    fstWithdrawalDate = fstWithdrawalDate.AddDays((contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? 1.0 : 15.0) - fstWithdrawalDate.Day);
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.PapWithdrawalDate,
+                        Value = fstWithdrawalDate.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
+                else
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.PapWithdrawalDate,
+                        Value = BlankValue
+                    });
+                }                
             }            
 
             if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))
