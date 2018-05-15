@@ -73,8 +73,7 @@
             var isNewContract = $(settings.isNewContractId).val().toLowerCase() == 'true';
 
             if (isNewContract) {
-                var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
-                $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+                _modifyAgreementTypes();
             }
 
             if (isOnlyLoan) {
@@ -341,6 +340,34 @@
                 },
                 translations['EnterValidDate']
             );
+        }
+
+        function _adjustAgreementTypesByRights(rightsAccess) {
+            if (rightsAccess == '') return;
+
+            var rigthDictionary = {
+                'both': function() {},
+                'loan': function() {
+                    _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
+                },
+                'lease': function() {
+                    _removeAgeementOptionByKey(settings.applicationType.loanApplication);
+                }
+            };
+
+            var applyFunction = rigthDictionary[rightsAccess];
+            applyFunction();
+        }
+
+        function _removeAgeementOptionByKey(key) {
+            $(settings.agreementTypeId + " option[value='" + key + "']").remove();
+        }
+
+        function _modifyAgreementTypes() {
+            var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
+            $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+
+            _adjustAgreementTypesByRights(agreementTypeAccessRights);
         }
 
         function _updateEquipmentSubTypes() {

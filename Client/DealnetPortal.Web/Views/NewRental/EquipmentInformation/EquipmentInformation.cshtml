@@ -204,7 +204,8 @@ else
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
-		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;            
+		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+        var agreementTypeAccessRights = @ViewBag.AgreementTypeAccessRights;
         </script>
 
         <script type="text/javascript">

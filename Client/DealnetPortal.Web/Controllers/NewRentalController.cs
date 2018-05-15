@@ -268,9 +268,9 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.AdminFee = 0;
 	        var identity = (ClaimsIdentity) User.Identity;
-	        var quebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
-            ViewBag.IsStandardRentalTier = ((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
-            ViewBag.IsQuebecDealer = quebecDealer;
+            ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
+            ViewBag.IsQuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
+	        ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value ?? string.Empty;
             if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
