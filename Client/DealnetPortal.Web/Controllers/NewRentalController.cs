@@ -270,7 +270,7 @@ namespace DealnetPortal.Web.Controllers
 	        var identity = (ClaimsIdentity) User.Identity;
             ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
             ViewBag.IsQuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
-	        ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value ?? string.Empty;
+	        ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value.ToLower() ?? string.Empty;
             if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()

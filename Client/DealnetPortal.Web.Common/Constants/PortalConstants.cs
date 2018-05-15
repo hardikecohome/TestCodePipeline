@@ -30,7 +30,6 @@
     {
         public const string QuebecDealer = "QuebecDealer";
         public const string ClarityDealer = "ClarityDealer";
-	    public const string AgreementType = "AgreementType";
     }
 
     public static class RoleContstants
