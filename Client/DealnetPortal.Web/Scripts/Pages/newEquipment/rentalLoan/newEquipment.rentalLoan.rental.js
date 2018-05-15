@@ -138,6 +138,7 @@
             parent.find('.sub-type-col').removeClass('hidden');
             parent.find('.description-col').removeClass('col-md-6').addClass('col-md-3');
         } else {
+            select.val('').change();
             select.prop('disabled', true);
             select[0].form && select.rules('remove', 'required');
 
@@ -173,9 +174,13 @@
         var equip = state.equipments[id];
         var equipmentType = state.equipmentTypes[equip.type];
         if (equip.subType) {
-            equipmentType = equipmentType.SubTypes.find(function (item) {
+            var subType = equipmentType.SubTypes.find(function (item) {
                 return item.Id == equip.subType;
             });
+
+            if (subType.HardCap) {
+                equipmentType = subType;
+            }
         }
 
         if (equipmentType.HardCap && val > equipmentType.HardCap) {

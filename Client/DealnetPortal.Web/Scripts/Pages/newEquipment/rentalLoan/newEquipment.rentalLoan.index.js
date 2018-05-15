@@ -23,6 +23,8 @@
         var datepicker = require('datepicker');
         var idToValue = require('idToValue');
         var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+        var hideDynamicAlertModal = require('alertModal').hideDynamicAlertModal;
+        var showLoader = require('loader').showLoader;
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
@@ -203,6 +205,8 @@
 
                 $('#confirmAlert').one('click', function () {
                     state.softCapExceededConfirmed = true;
+                    hideDynamicAlertModal();
+                    showLoader();
                     _submitForm();
                 });
                 return;

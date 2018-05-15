@@ -199,7 +199,7 @@
             equipSelect.on('change', require('bill59').onEquipmentChange);
         }
         equipmentRow.find('.sub-type-select')
-            .on('change', updateSubType);
+            .on('change', updateSubType).change();
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
         equipmentRow.find('.monthly-cost')
