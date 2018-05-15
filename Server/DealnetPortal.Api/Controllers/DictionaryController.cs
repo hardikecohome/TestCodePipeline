@@ -39,7 +39,6 @@ namespace DealnetPortal.Api.Controllers
 
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
-        private readonly ILoggingService _loggingService;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
             IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
@@ -413,11 +412,11 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerSettings()
         {
             IList<StringSettingDTO> list = null;
-            _loggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
+	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
             var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
-                _loggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
+	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
             return Ok(list);
@@ -429,11 +428,11 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerSettings(string hashDealerName)
         {
             IList<StringSettingDTO> list = null;
-            _loggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
+	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
             var settings = SettingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
             if (settings?.Any() ?? false)
             {
-                _loggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
+	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
             return Ok(list);
