@@ -1728,9 +1728,9 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => equipment.TypeDescription, new
-                                                {
-                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
-                                                })
+                                                                                               {
+                                                                                                       @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                                                               })
                                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                     <div class="control-group">
                                                         @equipment.TypeDescription
@@ -1738,6 +1738,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if (equipment.EquipmentSubTypeId.HasValue)
+                                        {
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @Html.LabelFor(m => equipment.EquipmentSubTypeDescription, new
+                                                                                                   {
+                                                                                                           @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                                                                   })
+                                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                        <div class="control-group">
+                                                            @equipment.EquipmentSubTypeDescription
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
                                         <div class="form-group">
                                             <div class="row">
                                                 @Html.LabelFor(m => equipment.Description, new
@@ -2103,19 +2119,6 @@
                                                     <div class="dealnet-field-holder col-xs-6">
                                                         <div class="control-group">
                                                             @(contract.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    @Html.LabelFor(m => contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
-                                                    {
-                                                        @class = "dealnet-field-caption col-xs-6"
-                                                    })
-                                                    <div class="dealnet-field-holder col-xs-6">
-                                                        <div class="control-group">
-                                                            @(contract.ContactAndPaymentInfo.PaymentInfo.MeterNumber)
                                                         </div>
                                                     </div>
                                                 </div>

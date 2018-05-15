@@ -997,4 +997,16 @@
   <data name="LeaseApplicationHwt" xml:space="preserve">
     <value>Lease (HWT)</value>
   </data>
+  <data name="CombiBoiler" xml:space="preserve">
+    <value>Combi Boiler</value>
+  </data>
+  <data name="WaterFilter" xml:space="preserve">
+    <value>Water Filter</value>
+  </data>
+  <data name="WaterFilterWaterSoftener" xml:space="preserve">
+    <value>Water Filter &amp; Water Softener</value>
+  </data>
+  <data name="WaterSoftener" xml:space="preserve">
+    <value>Water Softener</value>
+  </data>
 </root>

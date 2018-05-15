@@ -245,7 +245,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var model = await _contractManager.GetEquipmentInfoAsync(contractId);
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.CardTypes = model.DealerTier?.RateCards?.Where(q => q.CardType != RateCardType.Custom).Select(x => x.CardType).Distinct().ToList();
+            ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
             if(model.DealerTier != null && model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey])
@@ -267,7 +267,10 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             }
             ViewBag.AdminFee = 0;
+	        var identity = (ClaimsIdentity) User.Identity;
+	        var quebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
             ViewBag.IsStandardRentalTier = ((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
+            ViewBag.IsQuebecDealer = quebecDealer;
             if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
