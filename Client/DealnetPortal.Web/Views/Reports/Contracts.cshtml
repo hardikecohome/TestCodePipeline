@@ -20,6 +20,9 @@
         }
         return "$" + str;
     };
+
+
+    var equipmentTypes = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
 }
 
 <div class="form-container">
@@ -1712,12 +1715,18 @@
                         <div class="row credit-check-info-hold equipment-info no-top-margin">
                             @{
                                 var bill59EquipTypes = contract.ProvinceTaxRate.Province.ToUpper() == "ON" ?
-                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) :
+                                    equipmentTypes.Where(e => e.UnderBill59).Select(e => e.Type).ToList() :
                                     new List<string>();
                             }
                             @foreach(var equipment in contract.EquipmentInfo.NewEquipment)
                             {
                                 var displayResponsibility = bill59EquipTypes.Contains(equipment.Type);
+
+                                var selectedEquipment = equipmentTypes.FirstOrDefault(e => e.Type == equipment.Type);
+                                var subType = selectedEquipment == null || !selectedEquipment.SubTypes.Any() ? null :
+                                                      selectedEquipment.SubTypes
+                                                              .FirstOrDefault(e => e.Id == equipment.EquipmentSubTypeId);
+
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
                                         <div class="form-group">
@@ -1742,13 +1751,14 @@
                                         {
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.EquipmentSubTypeDescription, new
-                                                                                                   {
-                                                                                                           @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
-                                                                                                   })
+                                                    @Html.LabelFor(m => equipment.EquipmentSubTypeDescription, 
+                                                            new
+                                                            {
+                                                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                            })
                                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                         <div class="control-group">
-                                                            @equipment.EquipmentSubTypeDescription
+                                                            @subType.Description
                                                         </div>
                                                     </div>
                                                 </div>
