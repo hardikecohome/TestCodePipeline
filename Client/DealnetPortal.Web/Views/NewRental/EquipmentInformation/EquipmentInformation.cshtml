@@ -204,7 +204,8 @@ else
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isCalculationValid = false;
         var customerFee = @ViewBag.AdminFee;
-		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;            
+		var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+        var agreementTypeAccessRights = @ViewBag.AgreementTypeAccessRights;
         </script>
 
         <script type="text/javascript">
@@ -218,7 +219,8 @@ else
                 @Html.Raw(Json.Encode(((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
                .Where(e => e.UnderBill59)
                .Select(e => e.Type).ToArray())),
-                @Html.Raw(Json.Encode(Model.DealerTier.RateReductionCards)));
+                @Html.Raw(Json.Encode(Model.DealerTier.RateReductionCards)),
+            @Html.Raw(Json.Encode((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)));
         });
         </script>
     }
