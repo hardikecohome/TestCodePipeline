@@ -1231,14 +1231,13 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 } 
                 
-                account.UDFs = c.IsDeleted == true ? GetCleanCustomerUdfs().ToList() 
-                                                : GetCustomerUdfs(c, location, setLeadSource, isBorrower,
-                                                        contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
+                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, isBorrower,
+                                             contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
                     account.Role = role;
-                }                                
+                }
 
                 return account;
             };
