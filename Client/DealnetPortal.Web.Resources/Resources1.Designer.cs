@@ -3402,6 +3402,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value exceeds maximum allowed monthly cost for the given type of equipment.
+        /// </summary>
+        public static string HardCapWarning {
+            get {
+                return ResourceManager.GetString("HardCapWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
@@ -4388,6 +4397,24 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyCost {
             get {
                 return ResourceManager.GetString("MonthlyCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment monthly cost exceeds maximum allowed value. Application will be accepted only on eligable exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost..
+        /// </summary>
+        public static string MonthlyCostExceedsMaxBody {
+            get {
+                return ResourceManager.GetString("MonthlyCostExceedsMaxBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly cost exceeds maximum allowed value.
+        /// </summary>
+        public static string MonthlyCostExceedsMaxTitle {
+            get {
+                return ResourceManager.GetString("MonthlyCostExceedsMaxTitle", resourceCulture);
             }
         }
         
@@ -6630,6 +6657,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SixMonth {
             get {
                 return ResourceManager.GetString("SixMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value exceeds maximum allowed cost. Only eligable exceptions will be allowed..
+        /// </summary>
+        public static string SoftCapWarning {
+            get {
+                return ResourceManager.GetString("SoftCapWarning", resourceCulture);
             }
         }
         

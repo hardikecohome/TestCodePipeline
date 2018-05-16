@@ -10,5 +10,6 @@ namespace DealnetPortal.Api.Common.Types
         public decimal? TotalAllMonthlyPayment { get; set; }
         public decimal? TotalAmountFinanced { get; set; }
         public LoanCalculator.Output LoanDetails { get; set; }
+        public bool SoftCapLimit { get; set; }
     }
 }
