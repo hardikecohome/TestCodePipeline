@@ -120,15 +120,19 @@
             var selected = state.equipmentTypes[type].SubTypes.find(function (item) {
                 return item.Id == value;
             });
-            var subOpt = state.equipmentTypes[type].SubTypes.reduce(function (acc, item) {
-                return acc.concat($('<option/>', {
-                    text: item.Description,
-                    value: item.Id
-                }));
-            }, [$('option', {
-                value: '',
-                text: ''
-            })]);
+            var subOpt = state.equipmentTypes[type].SubTypes
+                .sort(function (a, b) {
+                    return a.Description == b.Description ? 0 :
+                        a.Description > b.Description ? 1 : -1;
+                }).reduce(function (acc, item) {
+                    return acc.concat($('<option/>', {
+                        text: item.Description,
+                        value: item.Id
+                    }));
+                }, [$('option', {
+                    value: '',
+                    text: ''
+                })]);
 
             select.html(subOpt).removeClass('not-selected');
             select.val(selected ? value : '');

@@ -399,7 +399,14 @@
                 var clone = selectList.map(function (opt) {
                     return opt.clone();
                 });
-                $('#new-equipment-' + equip.id + ' .equipment-select').html(clone).val(equip.type);
+                var selected = clone.find(function (opt) {
+                    return opt.val() == equip.type;
+                });
+                if (!selected) {
+                    selected = clone[0];
+                }
+                selected.attr('selected', true);
+                $('#new-equipment-' + equip.id + ' .equipment-select').html(clone).change();
             });
         }
 
