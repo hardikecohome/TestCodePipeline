@@ -260,3 +260,4 @@ Server/DealnetPortal.Api/SeedData/smarthome.Favicon.ico
 Server/DealnetPortal.Api/SeedData/smarthome.LogoImage2X.png
 *.dll
 *.dll
+/lib/*.dll
