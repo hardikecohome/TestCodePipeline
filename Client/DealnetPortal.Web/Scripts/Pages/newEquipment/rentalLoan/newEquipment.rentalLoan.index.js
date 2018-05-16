@@ -146,6 +146,7 @@
                 }
                 return false;
             });
+            state.isInitialized = true;
         };
 
         function _submitForm(event) {
@@ -377,9 +378,10 @@
             var equipArr = Object.keys(state.equipments)
                 .map(idToValue(state.equipments));
 
-            var selectedEquipments = state.isNewContract ? [] : equipArr.map(function (equip) {
-                return equip.type;
-            });
+            var selectedEquipments = !state.isInitialized && !state.isNewContract ?
+                equipArr.map(function (equip) {
+                    return equip.type;
+                }) : [];
             var selectList = Object.keys(state.equipmentTypes)
                 .map(idToValue(state.equipmentTypes))
                 .filter(function (type) {
