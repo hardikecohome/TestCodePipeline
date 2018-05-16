@@ -12,6 +12,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string Type { get; set; }
         public string Description { get; set; }
         public bool UnderBill59 { get; set; }
+        public bool Leased { get; set; }
         public int UsefulLife { get; set; }
         public decimal? SoftCap { get; set; }
         public decimal? HardCap { get; set; }
