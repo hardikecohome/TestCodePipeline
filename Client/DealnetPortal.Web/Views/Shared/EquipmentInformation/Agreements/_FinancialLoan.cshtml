@@ -53,10 +53,9 @@
                 {
                     foreach(var rateCard in (List<RateCardType>)ViewBag.CardTypes)
                     {
-                        @Html.Partial("EquipmentInformation/_" + rateCard, rateCard)
+                        @(rateCard == RateCardType.Custom ? Html.Partial("EquipmentInformation/_" + rateCard) : Html.Partial("EquipmentInformation/_" + rateCard, rateCard))
                     }
                 }
-                @Html.Partial("EquipmentInformation/_CustomRateCard")
             </ul>
             <div class="jcarousel-controls">
                 <a href="#" class="jcarousel-control-prev">&lsaquo;</a>

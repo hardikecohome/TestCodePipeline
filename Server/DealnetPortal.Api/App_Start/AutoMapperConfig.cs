@@ -91,7 +91,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.Role, o => o.MapFrom(src => src.SignerType));
             mapperConfig.CreateMap<Contract, ContractDTO>()
                 .ForMember(x => x.PrimaryCustomer, o => o.MapFrom(src => src.PrimaryCustomer))
-                .ForMember(x => x.SecondaryCustomers, o => o.MapFrom(src => src.SecondaryCustomers))
+                .ForMember(x => x.SecondaryCustomers, o => o.ResolveUsing(src => src.SecondaryCustomers?.Where(sc => sc.IsDeleted != true)))
                 .ForMember(x => x.PaymentInfo, o => o.MapFrom(src => src.PaymentInfo))
                 .ForMember(x => x.Comments, o => o.MapFrom(src => src.Comments))
                 .ForMember(x => x.DealerName, o => o.MapFrom(src => src.Dealer.DisplayName))
@@ -141,8 +141,9 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.StatusQualifier, d => d.MapFrom(src => src.Details.SignatureStatusQualifier))
                 .ForMember(x => x.StatusTime, d => d.ResolveUsing(src => src.Details.SignatureLastUpdateTime));
             mapperConfig.CreateMap<EquipmentType, EquipmentTypeDTO>().
-                ForMember(x => x.Description,
-                    s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));
+                ForMember(x => x.Description,s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));
+            mapperConfig.CreateMap<EquipmentSubType, EquipmentSubTypeDTO>().
+                ForMember(x => x.Description, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.DescriptionResource) ?? src.Description));
             mapperConfig.CreateMap<ProvinceTaxRate, ProvinceTaxRateDTO>().
                 ForMember(x => x.Description,
                     s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.Description) ?? src.Description));
@@ -412,6 +413,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<ContractDetailsDTO, ContractDetails>();
             mapperConfig.CreateMap<EquipmentTypeDTO, EquipmentType>()
                 .ForMember(x => x.DescriptionResource, d => d.Ignore());
+            mapperConfig.CreateMap<EquipmentSubTypeDTO, EquipmentSubType>()
+                .ForMember(x => x.DescriptionResource, d => d.Ignore());
             mapperConfig.CreateMap<ContractSalesRepInfoDTO, ContractSalesRepInfo>()
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.Contract, d => d.Ignore());
@@ -443,7 +446,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerInitial, s => s.MapFrom(m => m.DealerInitial))
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
                 .ForMember(x => x.CreditReport, d => d.Ignore())
-                .ForMember(x => x.AccountId, d => d.Ignore());
+                .ForMember(x => x.AccountId, d => d.Ignore())
+                .ForMember(x => x.IsDeleted, d => d.Ignore());
 
             mapperConfig.CreateMap<CustomerInfoDTO, Customer>()
                 .ForMember(x => x.AccountId, d => d.Ignore())

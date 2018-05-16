@@ -19,7 +19,7 @@ namespace DealnetPortal.Api.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1047,6 +1047,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ClientsComment {
             get {
                 return ResourceManager.GetString("ClientsComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combi Boiler.
+        /// </summary>
+        public static string CombiBoiler {
+            get {
+                return ResourceManager.GetString("CombiBoiler", resourceCulture);
             }
         }
         
@@ -2604,6 +2613,33 @@ namespace DealnetPortal.Api.Resources {
         public static string VoidPersonalChequeCopy {
             get {
                 return ResourceManager.GetString("VoidPersonalChequeCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Filter.
+        /// </summary>
+        public static string WaterFilter {
+            get {
+                return ResourceManager.GetString("WaterFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Filter &amp; Water Softener.
+        /// </summary>
+        public static string WaterFilterWaterSoftener {
+            get {
+                return ResourceManager.GetString("WaterFilterWaterSoftener", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Softener.
+        /// </summary>
+        public static string WaterSoftener {
+            get {
+                return ResourceManager.GetString("WaterSoftener", resourceCulture);
             }
         }
         

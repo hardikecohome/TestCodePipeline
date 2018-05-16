@@ -108,11 +108,11 @@
 
 function managePaymentFormElements(paymentType) {
     switch (paymentType) {
-        case '0':
+        case '1':
             $(".pap-payment-form").hide();
             $(".enbridge-payment-form").show();
             break;
-        case '1':
+        case '0':
             $(".enbridge-payment-form").hide();
             $(".pap-payment-form").show();
             break;

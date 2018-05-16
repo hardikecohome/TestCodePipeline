@@ -102,12 +102,24 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.NewEquipment[0].Type)
                             @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                                                       ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                                                       ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+                                                                               .Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
                                                                        new
                                                                        {
                                                                            @class = "form-control equipment-select",
                                                                            @Value = 0
                                                                        })
+                        </div>
+                    </div>
+                    <div class="col-md-2 hidden sub-type-col">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.NewEquipment[0].EquipmentSubTypeId)
+                            @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentSubTypeId,
+                                    Enumerable.Empty<SelectListItem>(), new
+                                                                        {
+                                                                                @class = "form-control sub-type-select", @Value = ""
+
+                                                                        })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6 description-col">

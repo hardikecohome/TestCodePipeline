@@ -57,6 +57,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/utils/myDeals.counter.js",
                     "~/Scripts/utils/common.timezone.js",
                     "~/Scripts/utils/detectIE.js",
+                    "~/Scripts/utils/polyfills.js",
                     "~/Scripts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
