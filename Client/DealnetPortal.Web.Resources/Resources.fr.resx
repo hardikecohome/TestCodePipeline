@@ -2822,4 +2822,7 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
     <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
   </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Préautorisé</value>
+  </data>
 </root>

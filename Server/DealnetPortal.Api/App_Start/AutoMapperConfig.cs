@@ -40,6 +40,7 @@ namespace DealnetPortal.Api.App_Start
             var configuration = new AppConfiguration(WebConfigSections.AdditionalSections);
             var creditReviewStates = configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
             var riskBasedStatus = configuration.GetSetting(WebConfigKeys.RISK_BASED_STATUS_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
+            var leaseType = "Lease";
 
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(x => x.SubDealers, o => o.Ignore())
@@ -126,7 +127,8 @@ namespace DealnetPortal.Api.App_Start
                         d.PrimaryCustomer.CreditReport.BeaconUpdated =
                             d.PrimaryCustomer.CreditReport.CreditLastUpdateTime > d.LastUpdateTime;
                     }
-                    if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true ) && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
+                    if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true ) 
+                        && c.Dealer?.SupportedAgreementType != leaseType && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
                     {
                         if (riskBasedStatus.Contains(c.Details.Status))
                         {                            

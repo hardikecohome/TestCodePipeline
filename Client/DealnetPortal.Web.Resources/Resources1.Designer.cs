@@ -5463,6 +5463,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved.
+        /// </summary>
+        public static string PreApproved {
+            get {
+                return ResourceManager.GetString("PreApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pre-Approved for.
         /// </summary>
         public static string PreApprovedFor {
