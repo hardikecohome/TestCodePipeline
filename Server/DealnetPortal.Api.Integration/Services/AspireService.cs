@@ -1940,6 +1940,11 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                         udfList.Add(new UDF()
                         {
+                            Name = AspireUdfFields.ContractSoftCapLimit,
+                            Value = BlankValue
+                        });
+                        udfList.Add(new UDF()
+                        {
                             Name = AspireUdfFields.BorrowingCost,
                             Value = paymentInfo.LoanDetails?.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
@@ -1991,6 +1996,11 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Name = AspireUdfFields.RentalMonthlyPayment,
                             Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.ContractSoftCapLimit,
+                            Value = paymentInfo.SoftCapLimit ? "Y": "N"
                         });
                         udfList.Add(new UDF()
                         {

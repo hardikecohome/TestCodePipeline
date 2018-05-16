@@ -30,7 +30,9 @@
         isStandardRentalTier: isStandardRentalTier,
         escalatedRentalLimit: rentalEscalatedLimit,
         nonEscalatedRentalLimit: rentalNonEscalatedLimit,
-        equipmentSubTypes: {}
+        equipmentTypes: {},
+        softCapExceeded: false,
+        softCapExceededConfirmed: false
     };
 
     var constants = {
