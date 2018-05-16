@@ -1775,12 +1775,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.EstimatedRetailPrice,
                     Value = equipment.EstimatedRetailCost?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                 });
-                udfList.Add(new UDF
-                {
-                    Name = AspireUdfFields.MonthlyPayment,
-                    Value = "0.0"
-                });
-            }            
+                //DEAL-5092 - it is an issue in Aspire. We cant send more that 1 UDF for equipment at the moment
+                //udfList.Add(new UDF
+                //{
+                //    Name = AspireUdfFields.MonthlyPayment,
+                //    Value = "0.0"
+                //});
+            }
             return udfList;
         }
 
