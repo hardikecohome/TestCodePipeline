@@ -17,6 +17,6 @@ namespace DealnetPortal.Domain
         public decimal? HardCap { get; set; }
         public int? ParentId { get; set; }
         [ForeignKey("ParentId")]
-        public virtual EquipmentType ParentEquipmentType { get; set; }
+        public EquipmentType ParentEquipmentType { get; set; }
     }
 }
