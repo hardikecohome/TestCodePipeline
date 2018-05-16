@@ -56,7 +56,7 @@ namespace DealnetPortal.Domain
         /// <summary>
         /// Supported program types for a dealer: NULL - both
         /// </summary>
-        public string SupportedAgreementType { get; set; }
+        public string DealerType { get; set; }
 
         public int? TierId { get; set; }
         [ForeignKey("TierId")]
