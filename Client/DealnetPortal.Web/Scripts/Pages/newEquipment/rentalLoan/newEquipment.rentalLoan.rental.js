@@ -156,9 +156,12 @@
         } else {
             $input.attr('data-rule-rentalCaps', true);
         }
+        if ($input.val()) {
+            checkRentalCaps($input.val(), $input);
+        }
     }
 
-    $.validator.addMethod('rentalCaps', function (value, element) {
+    function checkRentalCaps(value, element) {
         if (state.agreementType == 0) return true;
         var $input = $(element);
 
@@ -195,7 +198,9 @@
         }
 
         return true;
-    }, translations.HardCapWarning);
+    }
+
+    $.validator.addMethod('rentalCaps', checkRentalCaps, translations.HardCapWarning);
 
     return {
         recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,

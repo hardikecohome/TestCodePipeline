@@ -305,6 +305,9 @@
     function updateType() {
         var mvcId = $(this).attr('id');
         var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
+        var equip = state.equipmentTypes[this.value];
+        $('#NewEquipment_' + id + '__TypeId').val(equip.Id);
+
         state.equipments[id].type = this.value;
 
         settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
