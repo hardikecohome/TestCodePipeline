@@ -7,10 +7,12 @@
         recalculateValuesAndRender: {},
         recalculateAndRenderRentalValues: {},
         recalculateClarityValuesAndRender: {},
-        updateEquipmentSubTypes: function () {}
+        updateEquipmentSubTypes: function () {},
+        configureMonthlyCostCaps: function () {}
     };
 
     var resetPlaceholder = require('resetPlaceholder');
+    var idToValue = require('idToValue');
 
     /**
      * Add new equipment ot list of new equipments
@@ -55,12 +57,21 @@
         newTemplate.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
         var equipSelect = newTemplate.find('.equipment-select');
+
+        equipSelect.html(_getEquipmentTypeSelectList());
+
         equipSelect.on('change', updateType);
         if (!state.isClarity) {
             equipSelect
                 .on('change', require('bill59').onEquipmentChange);
         }
         equipSelect.change();
+        newTemplate.find('.sub-type-select')
+            .on('change', updateSubType);
+
+        if (state.isStandardRentalTier) {
+            settings.configureMonthlyCostCaps(newTemplate.find('.monthly-cost'));
+        }
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
@@ -191,12 +202,18 @@
         if (!state.isClarity) {
             equipSelect.on('change', require('bill59').onEquipmentChange);
         }
+        equipmentRow.find('.sub-type-select')
+            .on('change', updateSubType).change();
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
         equipmentRow.find('.monthly-cost')
             .on('change', updateMonthlyCost);
         equipmentRow.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
+
+        if (state.isStandardRentalTier) {
+            settings.configureMonthlyCostCaps(equipmentRow.find('.monthly-cost'));
+        }
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
@@ -292,9 +309,18 @@
     function updateType() {
         var mvcId = $(this).attr('id');
         var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
+        var equip = state.equipmentTypes[this.value];
+        $('#NewEquipment_' + id + '__TypeId').val(equip.Id);
+
         state.equipments[id].type = this.value;
 
         settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
+    }
+
+    function updateSubType() {
+        var mvcId = $(this).attr('id');
+        var id = mvcId.split('__EquipmentSubTypeId')[0].substr(mvcId.split('__EquipmentSubTypeId')[0].lastIndexOf('_') + 1);
+        state.equipments[id].subType = this.value;
     }
 
     /**
@@ -412,12 +438,29 @@
         }
     }
 
+    function _getEquipmentTypeSelectList() {
+        return Object.keys(state.equipmentTypes)
+            .map(idToValue(state.equipmentTypes))
+            .filter(function (type) {
+                return state.agreementType == 0 || type.Leased;
+            }).sort(function (a, b) {
+                return a.Description == b.Description ? 0 :
+                    a.Description > b.Description ? 1 : -1;
+            }).map(function (type) {
+                return $('<option/>', {
+                    value: type.Type,
+                    text: type.Description
+                });
+            });
+    }
+
     function init(params) {
 
         if (!params.isClarity) {
             settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
             settings.recalculateValuesAndRender = params.recalculateValuesAndRender;
-            settings.updateEquipmentSubTypes = params.updateEquipmentSubTypes
+            settings.updateEquipmentSubTypes = params.updateEquipmentSubTypes;
+            settings.configureMonthlyCostCaps = params.configureMonthlyCostCaps;
         } else {
             settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
         }
