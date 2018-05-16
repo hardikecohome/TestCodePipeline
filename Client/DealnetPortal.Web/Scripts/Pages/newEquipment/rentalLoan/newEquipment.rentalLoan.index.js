@@ -394,7 +394,10 @@
                     });
                 });
             equipArr.forEach(function (equip) {
-                $('#new-equipment-' + equip.id + ' .equipment-select').html(selectList).val(equip.type);
+                var clone = selectList.map(function (opt) {
+                    return opt.clone();
+                });
+                $('#new-equipment-' + equip.id + ' .equipment-select').html(clone).val(equip.type);
             });
         }
 

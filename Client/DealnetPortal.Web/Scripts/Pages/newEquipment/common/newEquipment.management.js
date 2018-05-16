@@ -12,6 +12,7 @@
     };
 
     var resetPlaceholder = require('resetPlaceholder');
+    var idToValue = require('idToValue');
 
     /**
      * Add new equipment ot list of new equipments
@@ -56,6 +57,9 @@
         newTemplate.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
         var equipSelect = newTemplate.find('.equipment-select');
+
+        equipSelect.html(_getEquipmentTypeSelectList());
+
         equipSelect.on('change', updateType);
         if (!state.isClarity) {
             equipSelect
@@ -432,6 +436,22 @@
         if (equipments < 1) {
             addEquipment();
         }
+    }
+
+    function _getEquipmentTypeSelectList() {
+        return Object.keys(state.equipmentTypes)
+            .map(idToValue(state.equipmentTypes))
+            .filter(function (type) {
+                return state.agreementType == 0 || type.Leased;
+            }).sort(function (a, b) {
+                return a.Description == b.Description ? 0 :
+                    a.Description > b.Description ? 1 : -1;
+            }).map(function (type) {
+                return $('<option/>', {
+                    value: type.Type,
+                    text: type.Description
+                });
+            });
     }
 
     function init(params) {
