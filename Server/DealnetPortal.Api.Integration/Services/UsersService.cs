@@ -67,9 +67,9 @@ namespace DealnetPortal.Api.Integration.Services
                 claims.Add(new Claim(ClaimNames.MortgageBroker, (aspireUserInfo.Role != null && mbConfigRoles.Contains(aspireUserInfo.Role)).ToString()));
                 claims.Add(new Claim(ClaimNames.LeaseTier, user.LeaseTier));                
             }
-            if (!string.IsNullOrEmpty(user.SupportedAgreementType))
+            if (!string.IsNullOrEmpty(user.DealerType))
             {
-                claims.Add(new Claim(ClaimNames.AgreementType, user.SupportedAgreementType));
+                claims.Add(new Claim(ClaimNames.AgreementType, user.DealerType));
             }
 
             if (settings?.SettingValues != null)
@@ -123,7 +123,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (user.Tier?.Name != aspireDealerInfo.Ratecard ||
                         user.LeaseTier != aspireDealerInfo.LeaseRatecard ||
-                        user.SupportedAgreementType != aspireDealerInfo.ProductType)
+                        user.DealerType != aspireDealerInfo.ProductType)
                     {
                         var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManager);
                         if (tierAlerts.Any())
@@ -318,9 +318,9 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (!string.IsNullOrEmpty(aspireUser.ProductType))
                     {                        
-                        if (updateUser.SupportedAgreementType != aspireUser.ProductType)
+                        if (updateUser.DealerType != aspireUser.ProductType)
                         {
-                            updateUser.SupportedAgreementType = aspireUser.ProductType;
+                            updateUser.DealerType = aspireUser.ProductType;
                         }
                     }
                     var updateRes = await userManager.UpdateAsync(updateUser);
