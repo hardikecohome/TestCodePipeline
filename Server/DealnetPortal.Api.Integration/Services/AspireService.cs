@@ -2164,11 +2164,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.EnbridgeMeter,
                     Value = contract.PaymentInfo.PaymentType == PaymentType.Enbridge ? contract.PaymentInfo.MeterNumber : BlankValue
                 });
-                //udfList.Add(new UDF()
-                //{
-                //    Name = AspireUdfFields.PapWithdrawalDate,
-                //    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.PrefferedWithdrawalDate.ToString() : BlankValue
-                //});
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.PapAccountNumber,
@@ -2184,25 +2179,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.PapBankNumber,
                     Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.BlankNumber ?? BlankValue : BlankValue
                 });
-                if (contract.PaymentInfo.PaymentType == PaymentType.Pap && !IsClarityProgram(contract))
+                udfList.Add(new UDF()
                 {
-                    var fstWithdrawalDate = contract.DateOfSubmit ?? contract.LastUpdateTime ?? contract.CreationTime;
-                    fstWithdrawalDate = fstWithdrawalDate.AddMonths(1);
-                    fstWithdrawalDate = fstWithdrawalDate.AddDays((contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? 1.0 : 15.0) - fstWithdrawalDate.Day);
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.PapWithdrawalDate,
-                        Value = fstWithdrawalDate.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
-                    });
-                }
-                else
-                {
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.PapWithdrawalDate,
-                        Value = BlankValue
-                    });
-                }                
+                    Name = AspireUdfFields.PapWithdrawalDate,
+                    Value = (contract.PaymentInfo.PaymentType == PaymentType.Pap && !IsClarityProgram(contract)) ? 
+                        (contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First  ? "1" : "15")
+                        : BlankValue
+                });                          
             }            
 
             if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))
