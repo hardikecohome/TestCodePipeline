@@ -267,6 +267,7 @@
             $(settings.agreementTypeId)
                 .on('change', setters.setAgreement)
                 .on('change', _toggleCustomRateCard)
+                .on('change', _toggleEquipmentSelectionForRental)
                 .on('change', _updateEquipmentSubTypes);
             $(settings.totalMonthlyPaymentId)
                 .on('change', setters.setRentalMPayment)
@@ -370,6 +371,31 @@
                     var parent = $('#new-equipment-' + equipment.id);
                     updateEquipmentSubTypes(parent, type);
                 });
+        }
+
+        function _toggleEquipmentSelectionForRental(e) {
+            var equipArr = Object.keys(state.equipments)
+                .map(idToValue(state.equipments));
+
+            var selectedEquipments = state.isNewContract ? [] : equipArr.map(function (equip) {
+                return equip.type;
+            });
+            var selectList = Object.keys(state.equipmentTypes)
+                .map(idToValue(state.equipmentTypes))
+                .filter(function (type) {
+                    return e.target.value == 0 || selectedEquipments.includes(type.Type) || type.Leased;
+                }).sort(function (a, b) {
+                    return a.Description == b.Description ? 0 :
+                        a.Description > b.Description ? 1 : -1;
+                }).map(function (type) {
+                    return $('<option/>', {
+                        value: type.Type,
+                        text: type.Description
+                    });
+                });
+            equipArr.forEach(function (equip) {
+                $('#new-equipment-' + equip.id + ' .equipment-select').html(selectList).val(equip.type);
+            });
         }
 
         return {
