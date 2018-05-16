@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace DealnetPortal.Api.Models.Contract
 {
-    public class EquipmentTypeDTO
+    public class EquipmentSubTypeDTO
     {
         public int Id { get; set; }
-        public string Type { get; set; }
         public string Description { get; set; }
-        public bool UnderBill59 { get; set; }
-        public int UsefulLife { get; set; }
-        public List<EquipmentSubTypeDTO> SubTypes { get; set; }
+        public EquipmentTypeDTO ParenEquipmentType { get; set; }
     }
 }

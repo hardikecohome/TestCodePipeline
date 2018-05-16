@@ -28,6 +28,8 @@
         }
         return "$" + str;
     };
+
+    var equipmentTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes);
 }
 
 <span class="hidden" id="cookieName">@DealnetPortal.Web.Common.Constants.PortalConstants.CultureCookieName.ToString()</span>
@@ -1252,16 +1254,16 @@
                                                     <span>
                                                         @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                         @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                                                                                                                                                                                                                                                                                                            Resources.Year :
+                                                                                                                                                                                                                                                                                                                                                            Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                             @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
+                                                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
                                                         </span>
                                                     }
                                                 </div>
@@ -2029,16 +2031,16 @@
                                                             <span>
                                                                 @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
                                                                 @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                                                                                                                                                                                                                                                                                                            Resources.Year :
+                                                                                                                                                                                                                                                                                                                                                            Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
                                                                     @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
+                                                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -2296,12 +2298,23 @@
 
                     @{
                         var bill59EquipTypes = Model.ProvinceTaxRate.Province.ToUpper() == "ON" ?
-                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) :
+                            equipmentTypes.Where(e => e.UnderBill59).Select(e => e.Type) :
                             new List<string>();
                     }
                     @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
                     {
                         var displayResponsibility = bill59EquipTypes.Contains(Model.EquipmentInfo.NewEquipment[i].Type);
+                        var selectedEquipment = equipmentTypes.FirstOrDefault(e => e.Type == Model.EquipmentInfo.NewEquipment[i].Type);
+                        var subTypesSelectList = selectedEquipment == null || !selectedEquipment.SubTypes.Any() ?
+                                                         Enumerable.Empty<SelectListItem>() :
+                                                         selectedEquipment.SubTypes
+                                                                 .Select(e => new SelectListItem
+                                                                              {
+                                                                                      Value = e.Id.ToString(),
+                                                                                      Text = e.Description,
+                                                                                      Selected = e.Id == Model.EquipmentInfo.NewEquipment[i].EquipmentSubTypeId
+                                                                              }).ToList();
+
                         <div class="col-md-6 grid-column">
                             <div class="dealnet-credit-check-section">
                                 @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
@@ -2318,19 +2331,37 @@
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                         <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                             @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                                                                                             ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
-                                                                                                                                                             .Select(x => new SelectListItem
-                                                                                                                                                             {
-                                                                                                                                                                 Value = x.Type,
-                                                                                                                                                                 Text = x.Description,
-                                                                                                                                                                 Selected = Model?.EquipmentInfo?.NewEquipment != null &&
-                                                                                                                                                              Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                                                                                             }),
-                                                                                                                                                             new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+                                                            .Select(x => new SelectListItem
+                                                                         {
+                                                                                 Value = x.Type,
+                                                                                 Text = x.Description,
+                                                                                 Selected = Model?.EquipmentInfo?.NewEquipment != null &&
+                                                                                            Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
+                                                                         }),
+                                                    new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                         </div>
                                     </div>
                                 </div>
 
+                                @if(Model.EquipmentInfo.NewEquipment[i].EquipmentSubTypeId.HasValue)
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.LabelFor(m => m.EquipmentInfo
+                                                                        .NewEquipment[i].EquipmentSubTypeId,
+                                                    new
+                                                    {
+                                                            @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                    })
+                                            <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                                @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentSubTypeId,
+                                                        subTypesSelectList,
+                                                        new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                                 <div class="form-group">
                                     <div class="row">
                                         @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new
@@ -2682,9 +2713,9 @@
                                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                             @Resources.TotalMonthlyPaymentWithTaxes
                                         </div>
-										<div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
-											$@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")
-										</div>
+                                        <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
+                                            $@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) + (Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -2700,6 +2731,7 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.ContactAndPaymentInfo.ContractId)
+                @Html.HiddenFor(m => m.ContactAndPaymentInfo.IsAllPaymentTypesAvailable, new { id = "payment-info-available" })
                 <div class="row credit-check-info-hold">
                     <div class="col-md-6 grid-column">
                         <div class="dealnet-credit-check-section">
@@ -2815,22 +2847,6 @@
                                         })
                                         <div class="dealnet-field-holder col-xs-6">
                                             @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, new
-                                            {
-                                                @readonly = "readonly",
-                                                @class = "dealnet-disabled-input",
-                                                id = ""
-                                            })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
-                                        {
-                                            @class = "dealnet-field-caption col-xs-6"
-                                        })
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
                                             {
                                                 @readonly = "readonly",
                                                 @class = "dealnet-disabled-input",
@@ -3175,47 +3191,47 @@
 </div>
 
 @helper AddComments(IEnumerable<CommentViewModel> comments)
+{
+    if(comments == null)
+    { return; }
+    foreach(var comment in comments)
     {
-        if(comments == null)
-        { return; }
-        foreach(var comment in comments)
-        {
-            <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
-                <div class="commetn-header">
-                    <span class="comment-user">
-                        <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-                        <span class="comment-username">@comment.AuthorName</span>
-                    </span>
-                    <span class="comment-update">
-                        <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
-                    </span>
-                    @if(comment.IsOwn)
-                    {
-                        <span class="owner-comment">@Resources.YourComment</span>
-                    }
-                </div>
-                <div class="comment-body">
-                    <input hidden name="comment-id" value="@comment.Id" />
-                    <p style="white-space: pre-wrap;">@comment.Text</p>
-                    <a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
-                        <svg aria-hidden="true" class="icon icon-remove">
-                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                        </svg>
-                    </a>
-                </div>
-                <div class="comment-footer">
-                    <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
-                    <a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
-                </div>
-
+        <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
+            <div class="commetn-header">
+                <span class="comment-user">
+                    <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+                    <span class="comment-username">@comment.AuthorName</span>
+                </span>
+                <span class="comment-update">
+                    <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
+                </span>
+                @if(comment.IsOwn)
+                {
+                    <span class="owner-comment">@Resources.YourComment</span>
+                }
+            </div>
+            <div class="comment-body">
+                <input hidden name="comment-id" value="@comment.Id" />
+                <p style="white-space: pre-wrap;">@comment.Text</p>
+                <a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
+                    <svg aria-hidden="true" class="icon icon-remove">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+                    </svg>
+                </a>
+            </div>
+            <div class="comment-footer">
+                <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
+                <a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
             </div>
 
-            <ul class="child-comments-list list-unstyled">
-                <li>
-                    @AddComments(comment.Replies)
-                </li>
-            </ul>
-        }
+        </div>
+
+        <ul class="child-comments-list list-unstyled">
+            <li>
+                @AddComments(comment.Replies)
+            </li>
+        </ul>
+    }
 }
 <div class="hidden">
     <div class="comment-reply-form" id="comment-reply-form">

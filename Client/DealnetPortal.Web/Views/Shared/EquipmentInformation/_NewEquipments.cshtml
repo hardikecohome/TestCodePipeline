@@ -1,8 +1,19 @@
 ﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@{
+    var equipment = (IList<EquipmentTypeDTO>) ViewBag.EquipmentTypes;
+}
 
 @for(var i = 0; i < Model.NewEquipment.Count; i++)
 {
+    var selected = equipment.FirstOrDefault(e => e.Type == Model.NewEquipment[i].Type);
+    var subTypes = selected?.SubTypes?.Select(sub => new SelectListItem
+    {
+        Text = sub.Description,
+        Value = sub.Id.ToString(),
+        Selected = Model?.NewEquipment[i]?.EquipmentSubTypeId == sub.Id
+    });
+
     <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
         @Html.HiddenFor(m => m.NewEquipment[i].Id)
         <div class="dealnet-middle-header equipment-number-header">
@@ -19,13 +30,22 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].Type)
                     @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                         ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                         {
-                             Value = x.Type,
-                             Text = x.Description,
-                             Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type
-                         }),
-                         new { @class = "form-control equipment-select" })
+                            equipment.Select(x => new SelectListItem
+                                                  {
+                                                          Value = x.Type,
+                                                          Text = x.Description,
+                                                          Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type
+                                                  }),
+                            new {@class = "form-control equipment-select"})
+                </div>
+            </div>
+            <div class="col-md-2 hidden sub-type-col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubTypeId)
+                    @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubTypeId,
+                            subTypes ?? Enumerable.Empty<SelectListItem>(),
+                            new { @class="form-control sub-type-select" })
+                    @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubTypeId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 description-col">

@@ -6,8 +6,9 @@
     var settings = {
         recalculateValuesAndRender: {},
         recalculateAndRenderRentalValues: {},
-        recalculateClarityValuesAndRender: {}
-    }
+        recalculateClarityValuesAndRender: {},
+        updateEquipmentSubTypes: function () {}
+    };
 
     var resetPlaceholder = require('resetPlaceholder');
 
@@ -292,6 +293,8 @@
         var mvcId = $(this).attr('id');
         var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
         state.equipments[id].type = this.value;
+
+        settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
     }
 
     /**
@@ -414,6 +417,7 @@
         if (!params.isClarity) {
             settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
             settings.recalculateValuesAndRender = params.recalculateValuesAndRender;
+            settings.updateEquipmentSubTypes = params.updateEquipmentSubTypes
         } else {
             settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
         }

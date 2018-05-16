@@ -1298,18 +1298,9 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.RentalProgramType = equipmentInfo.RentalProgramType;
             }
-            if (equipmentInfo.RateReduction.HasValue)
-            {
-                dbEquipment.RateReduction = equipmentInfo.RateReduction;
-            }
-            if (equipmentInfo.RateReductionCost.HasValue)
-            {
-                dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
-            }
-	        if (equipmentInfo.RateReductionCardId.HasValue)
-	        {
-		        dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
-	        }
+            dbEquipment.RateReduction = equipmentInfo.RateReduction;
+            dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
+		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
 
             return dbEquipment;
         }
@@ -1375,7 +1366,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     if (ne.EstimatedRetailCost.HasValue)
                     {
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
-                    }                    
+                    }
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });

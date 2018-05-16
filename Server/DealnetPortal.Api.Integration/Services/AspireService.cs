@@ -1443,7 +1443,7 @@ namespace DealnetPortal.Api.Integration.Services
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
-                            Description = eq.Description,
+                            Description = string.IsNullOrEmpty(eq.EquipmentSubType?.Description) ? eq.Description : $"{eq.EquipmentSubType?.Description} {eq.Description}",
                             AssetClass = new AssetClass() { AssetCode = eq.Type },
                             UDFs = GetEquipmentUdfs(contract, eq).ToList()
                         });
@@ -1873,16 +1873,16 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Name = AspireUdfFields.RateReduction,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
-                        (contract.Equipment.RateReduction.HasValue ? contract.Equipment.RateReduction.Value.ToString() : BlankValue)
-                        : BlankValue
+                        (contract.Equipment.RateReduction.HasValue ? contract.Equipment.RateReduction.Value.ToString() : "0.0")
+                        : "0.0"
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.RateReductionCost,
                     Value = contract.Details.AgreementType == AgreementType.LoanApplication ?
                         (contract.Equipment.RateReductionCost.HasValue ? contract.Equipment.RateReductionCost.Value.ToString("F", CultureInfo.InvariantCulture) 
-                        : BlankValue)
-                        : BlankValue
+                        : "0.0")
+                        : "0.0"
                 });
 
                 var creditAmount = contract.Details?.CreditAmount ?? 0.0m;
@@ -2149,7 +2149,7 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.PaymentType,
                     Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
                 });
-                if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
+                if (contract.PaymentInfo.PaymentType == PaymentType.Enbridge &&
                     (!string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount) ||
                     !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
                 {
@@ -2159,6 +2159,50 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
                     });
                 }
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EnbridgeMeter,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Enbridge ? contract.PaymentInfo.MeterNumber : BlankValue
+                });
+                //udfList.Add(new UDF()
+                //{
+                //    Name = AspireUdfFields.PapWithdrawalDate,
+                //    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.PrefferedWithdrawalDate.ToString() : BlankValue
+                //});
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapAccountNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.AccountNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapTransitNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.TransitNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapBankNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.BlankNumber ?? BlankValue : BlankValue
+                });
+                if (contract.PaymentInfo.PaymentType == PaymentType.Pap && !IsClarityProgram(contract))
+                {
+                    var fstWithdrawalDate = contract.DateOfSubmit ?? contract.LastUpdateTime ?? contract.CreationTime;
+                    fstWithdrawalDate = fstWithdrawalDate.AddMonths(1);
+                    fstWithdrawalDate = fstWithdrawalDate.AddDays((contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First ? 1.0 : 15.0) - fstWithdrawalDate.Day);
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.PapWithdrawalDate,
+                        Value = fstWithdrawalDate.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
+                    });
+                }
+                else
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.PapWithdrawalDate,
+                        Value = BlankValue
+                    });
+                }                
             }            
 
             if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))
