@@ -127,7 +127,8 @@
                 }).reduce(function (acc, item) {
                     return acc.concat($('<option/>', {
                         text: item.Description,
-                        value: item.Id
+                        value: item.Id,
+                        selected: item.Id == value
                     }));
                 }, [$('option', {
                     value: '',
@@ -135,7 +136,7 @@
                 })]);
 
             select.html(subOpt).removeClass('not-selected');
-            select.val(selected ? value : '');
+
             select.prop('disabled', false);
             select[0].form && select.rules('add', 'required');
 
