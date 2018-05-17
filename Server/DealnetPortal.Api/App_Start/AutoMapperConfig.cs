@@ -129,8 +129,14 @@ namespace DealnetPortal.Api.App_Start
                     if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true ) && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
                     {
                         if (riskBasedStatus.Contains(c.Details.Status))
-                        {                            
-                            d.Details.LocalizedStatus += $" {(double)(c.Details.CreditAmount ?? 0m)/1000} K";
+                        {
+                            if (CultureInfo.CurrentCulture.Name == "fr")
+                            {           
+                                d.Details.LocalizedStatus += $" {(double) (c.Details.CreditAmount ?? 0m)}";
+                            }
+                            else{
+                                d.Details.LocalizedStatus += $" {(double) (c.Details.CreditAmount ?? 0m) / 1000} K";
+                            }
                         }
                     }
                 });
