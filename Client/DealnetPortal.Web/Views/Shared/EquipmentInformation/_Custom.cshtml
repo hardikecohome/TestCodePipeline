@@ -1,6 +1,6 @@
 ﻿@using DealnetPortal.Web.Models.Enumeration
-<li>
-    <div class="@(ViewBag.LoanOnly || @Model.Conditions.IsNewContract ? "rate-card table-mode shown-card hidden" : "rate-card table-mode shown-card")" id="custom-rate-card">
+<li class="@(ViewBag.LoanOnly || @Model.Conditions.IsNewContract ? "hidden" : "")">
+    <div class="rate-card table-mode shown-card"" id="custom-rate-card">
         <div class="rate-card-header equal-height-row-1">
             <h4 class="card-title">@Resources.RatesApproved:<br> @Resources.Pre April 17, 2018</h4>
         </div>
