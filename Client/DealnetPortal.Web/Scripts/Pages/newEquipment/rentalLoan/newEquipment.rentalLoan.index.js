@@ -202,6 +202,7 @@
             }
 
             if (state.softCapExceeded && !state.softCapExceededConfirmed) {
+                event.preventDefault();
                 dynamicAlertModal({
                     message: translations.MonthlyCostExceedsMaxBody,
                     title: translations.MonthlyCostExceedsMaxTitle,

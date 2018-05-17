@@ -4401,20 +4401,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equipment monthly cost exceeds maximum allowed value. Application will be accepted only on eligable exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost..
+        ///   Looks up a localized string similar to Equipment monthly cost exceeds maximum allowed value. Application will be accepted only on eligible exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost..
         /// </summary>
-        public static string MonthlyCostExceedsMaxBody {
+        public static string MonthlyCostExceedsSoftCapBody {
             get {
-                return ResourceManager.GetString("MonthlyCostExceedsMaxBody", resourceCulture);
+                return ResourceManager.GetString("MonthlyCostExceedsSoftCapBody", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Monthly cost exceeds maximum allowed value.
         /// </summary>
-        public static string MonthlyCostExceedsMaxTitle {
+        public static string MonthlyCostExceedsSoftCapTitle {
             get {
-                return ResourceManager.GetString("MonthlyCostExceedsMaxTitle", resourceCulture);
+                return ResourceManager.GetString("MonthlyCostExceedsSoftCapTitle", resourceCulture);
             }
         }
         

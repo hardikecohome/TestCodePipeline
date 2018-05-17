@@ -2723,10 +2723,10 @@ Additional program options may become available when customer’s credit details
   <data name="HardCapWarning" xml:space="preserve">
     <value>Value exceeds maximum allowed monthly cost for the given type of equipment</value>
   </data>
-  <data name="MonthlyCostExceedsMaxBody" xml:space="preserve">
-    <value>Equipment monthly cost exceeds maximum allowed value. Application will be accepted only on eligable exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost.</value>
+  <data name="MonthlyCostExceedsSoftCapBody" xml:space="preserve">
+    <value>Equipment monthly cost exceeds maximum allowed value. Application will be accepted only on eligible exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost.</value>
   </data>
-  <data name="MonthlyCostExceedsMaxTitle" xml:space="preserve">
+  <data name="MonthlyCostExceedsSoftCapTitle" xml:space="preserve">
     <value>Monthly cost exceeds maximum allowed value</value>
   </data>
   <data name="SoftCapWarning" xml:space="preserve">
