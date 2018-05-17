@@ -190,7 +190,8 @@
         <script type="text/javascript">
         configInitialized.then(function() {
             module.require('newEquipment.clarity.index').init(@Model.ContractId,
-                @Html.Raw(Json.Encode(Model.DealerTier.RateCards)));
+                @Html.Raw(Json.Encode(Model.DealerTier.RateCards)),
+                @Html.Raw(Json.Encode((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)));
         });
         </script>
     }
