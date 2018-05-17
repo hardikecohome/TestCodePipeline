@@ -1690,6 +1690,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Congratulations, you have been pre-approved.
+        /// </summary>
+        public static string CongratulationsYouBeenPreApproved {
+            get {
+                return ResourceManager.GetString("CongratulationsYouBeenPreApproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Congratulations, you have been pre-approved for ${0}..
         /// </summary>
         public static string CongratulationsYouBeenPreApprovedFor {

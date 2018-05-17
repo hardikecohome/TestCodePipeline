@@ -128,7 +128,7 @@ namespace DealnetPortal.Api.App_Start
                             d.PrimaryCustomer.CreditReport.CreditLastUpdateTime > d.LastUpdateTime;
                     }
                     if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true ) 
-                        && c.Dealer?.SupportedAgreementType != leaseType && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
+                        && c.Dealer?.DealerType != leaseType && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
                     {
                         if (riskBasedStatus.Contains(c.Details.Status))
                         {                            
