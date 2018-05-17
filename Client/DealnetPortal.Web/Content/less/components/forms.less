@@ -384,8 +384,13 @@ html.ie9{
   }
 }
 .text-warning {
+  display: block;
+  text-align: left;
   font: 11px @usual-font-family;
   color: @warning-color;
+  &:not(:empty){
+    margin-top: 5px;
+  }
 }
 
 .input-validation-error,
