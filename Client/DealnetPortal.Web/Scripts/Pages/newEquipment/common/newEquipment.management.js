@@ -65,6 +65,7 @@
         if (!state.isClarity) {
             equipSelect
                 .on('change', require('bill59').onEquipmentChange);
+
         }
         equipSelect.change();
         newTemplate.find('.sub-type-select')
