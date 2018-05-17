@@ -2732,4 +2732,10 @@ Additional program options may become available when customer’s credit details
   <data name="SoftCapWarning" xml:space="preserve">
     <value>Value exceeds maximum allowed cost. Only eligible exceptions will be accepted</value>
   </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Pre-Approved</value>
+  </data>
+  <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
+    <value>Congratulations, you have been pre-approved</value>
+  </data>
 </root>

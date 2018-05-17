@@ -305,7 +305,7 @@ namespace DealnetPortal.Api.Integration.Services
                         CreationTime = contract.CreationTime,
                         LastUpdateTime = contract.LastUpdateTime,
                         EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList(),
-                        isPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status)
+                        IsPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status)
                     };
                 }
             }
@@ -330,7 +330,8 @@ namespace DealnetPortal.Api.Integration.Services
                             CreationTime = contract.CreationTime,
                             LastUpdateTime = contract.LastUpdateTime,
                             EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList(),
-                            isPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status)
+                            IsPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status),
+                            DealerType =  contract.Dealer?.DealerType
                         };
 
                         if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
