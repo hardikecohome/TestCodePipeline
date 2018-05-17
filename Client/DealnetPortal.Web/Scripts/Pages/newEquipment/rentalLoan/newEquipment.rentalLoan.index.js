@@ -78,7 +78,7 @@
 
 
             _modifyAgreementTypes();
-            
+
 
             if (isOnlyLoan) {
                 if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
@@ -213,7 +213,7 @@
                     state.softCapExceededConfirmed = true;
                     hideDynamicAlertModal();
                     showLoader();
-                    _submitForm(event);
+                    $(settings.submitButtonId).click();
                 });
                 return;
             }
