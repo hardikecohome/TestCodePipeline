@@ -259,7 +259,7 @@ namespace DealnetPortal.Api.Integration.Services
                         (cResponse, cEquipments) =>
                         {
                             bool succeded = false;
-                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract.Equipment?.NewEquipment;
+                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract.Equipment?.NewEquipment.Where(e => e.IsDeleted != true);
                             if (ceqList != null)
                             {
                                 cResponse?.Payload?.Asset?.ForEach(asset =>
@@ -268,7 +268,11 @@ namespace DealnetPortal.Api.Integration.Services
                                     {
                                         var eqCollection = ceqList;
                                         var aEq = eqCollection?.FirstOrDefault(
-                                            eq => eq.Description == asset.Name);
+                                            eq =>
+                                            {
+                                                var descr = string.IsNullOrEmpty(eq.EquipmentSubType?.Description) ? eq.Description : $"{eq.EquipmentSubType?.Description} {eq.Description}";
+                                                return descr == asset.Name;
+                                            });
                                         if (aEq != null)
                                         {
                                             aEq.AssetNumber = asset.Number;
