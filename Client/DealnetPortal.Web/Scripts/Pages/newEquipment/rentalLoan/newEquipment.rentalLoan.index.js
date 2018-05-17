@@ -76,9 +76,9 @@
             var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
             var isNewContract = $(settings.isNewContractId).val().toLowerCase() == 'true';
 
-            if (isNewContract) {
-                _modifyAgreementTypes();
-            }
+
+            _modifyAgreementTypes();
+            
 
             if (isOnlyLoan) {
                 if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
@@ -388,9 +388,16 @@
 
         function _modifyAgreementTypes() {
             var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
-            $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+            if ($(settings.agreementTypeId).find(":selected").val() !== rentalTypeHwt) {
+                $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+            }
 
             _adjustAgreementTypesByRights(agreementTypeAccessRights);
+
+            if ($(settings.agreementTypeId + ' > option').length === 1) {
+                $(settings.agreementTypeId).addClass('loan-only-dropdown-disabled');
+                $(settings.agreementTypeId).attr('disabled', true);
+            }
         }
 
         function _updateEquipmentSubTypes() {

@@ -1448,7 +1448,7 @@ namespace DealnetPortal.Api.Integration.Services
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
                             Description = eq.IsDeleted != true ? 
-                                ( string.IsNullOrEmpty(eq.EquipmentSubType?.Description) ? eq.Description : $"{eq.EquipmentSubType?.Description} {eq.Description}")
+                                ( string.IsNullOrEmpty(eq.EquipmentSubType?.Description) ? eq.Description : $"{eq.EquipmentSubType?.Description}-{eq.Description}")
                                 : BlankValue ,
                             AssetClass = new AssetClass() { AssetCode = eq.Type },
                             UDFs = GetEquipmentUdfs(contract, eq).ToList()
