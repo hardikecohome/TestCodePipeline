@@ -75,11 +75,9 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/home-page")
                 .Include(
                 "~/Scripts/vendor/js.cookie.js",
-                "~/Scripts/vendor/chart.js",
-                "~/Scripts/vendor/jquery.form.js",  
+                "~/Scripts/vendor/jquery.form.js",
                 "~/Scripts/vendor/datejs.js",
                 "~/Scripts/utils/loader.js",
-                "~/Scripts/utils/tables.js",
                 "~/Scripts/utils/datepicker.js",
                 "~/Scripts/components/ko.paginator.js",
                 "~/Scripts/pages/homePage/homePageTable.js",
@@ -159,8 +157,9 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
-                .Include("~/Scripts/utils/tables.js")
-                .Include("~/Scripts/pages/myDeals/my-deals.js"));
+                .Include("~/Scripts/components/ko.paginator.js")
+                .Include("~/Scripts/pages/table.js")
+                .Include("~/Scripts/pages/myDeals/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
                 .Include("~/Scripts/vendor/datejs.js")

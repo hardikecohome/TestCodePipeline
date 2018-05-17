@@ -999,6 +999,8 @@
     <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
     <Content Include="Scripts\pages\homePage\homePageTable.js" />
     <Content Include="Scripts\pages\homePage\index.js" />
+    <Content Include="Scripts\pages\myDeals\index.js" />
+    <Content Include="Scripts\pages\myDeals\table.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.calculation.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.packages.js" />

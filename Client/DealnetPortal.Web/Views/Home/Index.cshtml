@@ -1,19 +1,11 @@
-﻿@using System.Configuration;
-
-@{
+﻿@{
     ViewBag.Title = Resources.HomePage;
 }
-
-
 
 <div id="home-body" data-bind="with: table">
 
     <div class="margin-block">
         <div class="row">
-            @if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
-            {
-                @Html.Action("GetMaintanenceBanner")
-            }
             <!-- ko if: showLearnMore -->
             <div class="new-notification-wp">
                 <div class="new-notification-blank">
@@ -716,7 +708,6 @@
     </script>
 
     @Scripts.Render("~/bundles/knockout")
-    @Scripts.Render("~/bundles/data-tables-scripts")
     @Scripts.Render("~/bundles/home-page")
 
     <script type="text/javascript">
@@ -746,5 +737,5 @@
 
 @section Styles
 {
-    @Styles.Render("~/bundles/data-tables-content")
+    @*@Styles.Render("~/bundles/data-tables-content")*@
 }

@@ -49,7 +49,7 @@ module.exports('table', function (require) {
                 icon: ''
             }])
             .sort(function (a, b) {
-                return a.text == b.text ? 0 : a.text > b.text ? 1 : -1;
+                return sortAssending(a.text, b.text);
             });
     }
 

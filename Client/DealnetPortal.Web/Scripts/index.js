@@ -89,6 +89,13 @@
 
         makeMobileNav("#mobile-navigation", ".mobile-navigation__active-item")();
         makeMobileNav("#mobile-navigation-help", ".mobile-help__toggle")();
+
+        var closeNotification = document.querySelector('.new-notification-wp .new-notification .close-white-ico');
+        if (closeNotification) {
+            closeNotification.addEventListener('click', function () {
+                this.parentElement.parentElement.remove();
+            });
+        }
     }
 
     function makeMobileNav(id, button) {

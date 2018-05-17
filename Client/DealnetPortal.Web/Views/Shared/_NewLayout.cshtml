@@ -1,4 +1,5 @@
-﻿@using DealnetPortal.Api.Core.Helpers
+﻿@using System.Configuration
+@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims;
 @using DealnetPortal.Web.Infrastructure.Managers
@@ -475,9 +476,13 @@ break;
             <div class="clearfix"></div>
         }
     }
-    <div class="container-fluid custom-container body-container">
-        @RenderBody()
-    </div>
+<div class="container-fluid custom-container body-container">
+    @if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+    {
+        @Html.Action("GetMaintanenceBanner", "Home")
+    }
+    @RenderBody()
+</div>
     <footer></footer>
     @Html.Partial("_AlertModal")
     <div class="floatingHelpBtn">

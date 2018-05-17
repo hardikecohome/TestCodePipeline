@@ -18,17 +18,7 @@
             mode: 'GET'
         }).done(function (data) {
             vm.updateTableList(data);
-            $('select.custom-select').selectric('refresh');
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            debugger;
         });
-
-        var closeNotification = document.querySelector('.new-notification-wp .new-notification .close-white-ico')
-        if (closeNotification) {
-            closeNotification.addEventListener('click', function () {
-                this.parentElement.parentElement.remove();
-            });
-        }
     };
 
     return {
