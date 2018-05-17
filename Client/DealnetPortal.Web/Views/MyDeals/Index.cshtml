@@ -155,7 +155,7 @@
                 <th class="hidden">IsCreatedByCustomer</th>
             </tr>
         </thead>
-    </table>
+    </table>*@
 
     <div class="margin-block">
         <div class="row">
@@ -1124,8 +1124,7 @@
             </div>
         </div>
     </div>
-
-    @using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+    @*@using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
     {
         <input type="hidden" name="contractId" id="remove-contract" />
     }
