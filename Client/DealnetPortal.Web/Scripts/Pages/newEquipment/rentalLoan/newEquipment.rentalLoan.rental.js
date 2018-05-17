@@ -171,7 +171,6 @@
 
         $input.parents('.form-group').removeClass('has-warning');
         $input.siblings('.text-warning').text('');
-        state.softCapExceeded = false;
 
         var mvcId = $input.attr('id');
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
@@ -179,6 +178,8 @@
         var val = parseFloat(value);
 
         var equip = state.equipments[id];
+        equip.softCapExceeded = false;
+
         var equipmentType = state.equipmentTypes[equip.type];
         if (equip.subType) {
             var subType = equipmentType.SubTypes.find(function (item) {
@@ -198,7 +199,7 @@
             $input.parents('.form-group').addClass('has-warning');
             $input.siblings('.text-warning').text(translations.SoftCapWarning);
 
-            state.softCapExceeded = true;
+            equip.softCapExceeded = true;
         }
 
         return true;

@@ -201,7 +201,13 @@
                 return;
             }
 
-            if (state.softCapExceeded && !state.softCapExceededConfirmed) {
+            var softCapExceeded = Object.keys(state.equipments)
+                .map(idToValue(state.equipments))
+                .reduce(function (acc, curr) {
+                    return acc || curr.softCapExceeded;
+                }, false);
+
+            if (softCapExceeded && !state.softCapExceededConfirmed) {
                 event.preventDefault();
                 dynamicAlertModal({
                     message: translations.MonthlyCostExceedsMaxBody,
