@@ -60,14 +60,16 @@
 
         equipSelect.html(_getEquipmentTypeSelectList());
 
-        equipSelect.on('change', updateType);
+        equipSelect.on('change', updateType)
+            .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate));
         if (!state.isClarity) {
             equipSelect
                 .on('change', require('bill59').onEquipmentChange);
         }
         equipSelect.change();
         newTemplate.find('.sub-type-select')
-            .on('change', updateSubType);
+            .on('change', updateSubType)
+            .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate));
 
         if (state.isStandardRentalTier) {
             settings.configureMonthlyCostCaps(newTemplate.find('.monthly-cost'));
@@ -198,12 +200,15 @@
         state.equipments[i].template = equipmentRow;
         var equipSelect = equipmentRow.find('.equipment-select');
 
-        equipSelect.on('change', updateType);
+        equipSelect.on('change', updateType)
+            .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow));
         if (!state.isClarity) {
             equipSelect.on('change', require('bill59').onEquipmentChange);
         }
         equipmentRow.find('.sub-type-select')
-            .on('change', updateSubType).change();
+            .on('change', updateSubType)
+            .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow))
+            .change();
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
         equipmentRow.find('.monthly-cost')
@@ -371,6 +376,14 @@
         var mvcId = $this.attr("id");
         var id = mvcId.split('__EstimatedRetailCost')[0].substr(mvcId.split('__EstimatedRetailCost')[0].lastIndexOf('_') + 1);
         state.equipments[id].estimatedRetail = Globalize.parseNumber($this.val());
+    }
+
+    function configureValidateMonthlyCostOnTypeChange($parent) {
+        return function (e) {
+            if (state.agreementType > 0) {
+                $parent.find('.monthly-cost').valid();
+            }
+        };
     }
 
     function _removeNewEquipment() {
