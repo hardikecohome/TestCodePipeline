@@ -196,6 +196,11 @@
                 }
             }
 
+            if (!$(settings.formId).valid()) {
+                event.preventDefault();
+                return;
+            }
+
             if (state.softCapExceeded && !state.softCapExceededConfirmed) {
                 dynamicAlertModal({
                     message: translations.MonthlyCostExceedsMaxBody,
@@ -207,13 +212,9 @@
                     state.softCapExceededConfirmed = true;
                     hideDynamicAlertModal();
                     showLoader();
-                    _submitForm();
+                    _submitForm(event);
                 });
                 return;
-            }
-
-            if (!$(settings.formId).valid()) {
-                event.preventDefault();
             }
 
             $(settings.formId).submit();
@@ -367,11 +368,11 @@
             if (rightsAccess == '') return;
 
             var rigthDictionary = {
-                'both': function() {},
-                'loan': function() {
+                'both': function () {},
+                'loan': function () {
                     _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
                 },
-                'lease': function() {
+                'lease': function () {
                     _removeAgeementOptionByKey(settings.applicationType.loanApplication);
                 }
             };
