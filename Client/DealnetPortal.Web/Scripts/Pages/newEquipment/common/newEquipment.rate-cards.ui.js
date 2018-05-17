@@ -262,7 +262,7 @@
             targetSlides = 1;
         }
 
-        var numItems = jcarousel.find('li').length;
+        var numItems = jcarousel.find('li:visible').length;
         if (paginationItems > numItems)
             paginationItems = numItems;
         var width = viewport().width

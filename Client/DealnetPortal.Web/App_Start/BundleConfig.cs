@@ -254,7 +254,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
-                .Include("~/Scripts/utils/resetPlaceholder.js")
+                .Include("~/Scripts/utils/resetPlaceholder.js")  
+                .Include("~/Scripts/utils/loader.js")
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
                 .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
             );
