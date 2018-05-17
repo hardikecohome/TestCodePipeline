@@ -6652,7 +6652,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value exceeds maximum allowed cost. Only eligable exceptions will be allowed..
+        ///   Looks up a localized string similar to Value exceeds maximum allowed cost. Only eligible exceptions will be accepted.
         /// </summary>
         public static string SoftCapWarning {
             get {

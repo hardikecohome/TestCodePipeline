@@ -2730,6 +2730,6 @@ Additional program options may become available when customer’s credit details
     <value>Monthly cost exceeds maximum allowed value</value>
   </data>
   <data name="SoftCapWarning" xml:space="preserve">
-    <value>Value exceeds maximum allowed cost. Only eligable exceptions will be allowed.</value>
+    <value>Value exceeds maximum allowed cost. Only eligible exceptions will be accepted</value>
   </data>
 </root>
