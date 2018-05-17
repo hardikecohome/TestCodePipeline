@@ -858,7 +858,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.Province, d => d.ResolveUsing(src => src.DealerAdress?.State))
                 .ForMember(x => x.PostalCode, d => d.ResolveUsing(src => src.DealerAdress?.PostalCode))
                 .ForMember(x => x.Phone, d => d.MapFrom(src => src.DealerPhone))
-                .ForMember(x => x.Email, d => d.MapFrom(src => src.DealerEmail));
+                .ForMember(x => x.Email, d => d.MapFrom(src => src.DealerEmail))
+                .ForMember(x => x.IsLeaseTypeDealer, d => d.ResolveUsing(src => src.DealerType?.ToLower() == "lease"));
 
         }
     }

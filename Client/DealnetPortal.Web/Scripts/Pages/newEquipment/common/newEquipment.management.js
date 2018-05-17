@@ -60,17 +60,18 @@
 
         equipSelect.html(_getEquipmentTypeSelectList());
 
-        equipSelect.on('change', updateType)
-            .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate));
+        equipSelect.on('change', updateType);
         if (!state.isClarity) {
             equipSelect
-                .on('change', require('bill59').onEquipmentChange);
+                .on('change', require('bill59').onEquipmentChange)
+                .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate));
+            newTemplate.find('.sub-type-select')
+                .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate))
 
         }
         equipSelect.change();
         newTemplate.find('.sub-type-select')
-            .on('change', updateSubType)
-            .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate));
+            .on('change', updateSubType);
 
         if (state.isStandardRentalTier) {
             settings.configureMonthlyCostCaps(newTemplate.find('.monthly-cost'));
@@ -201,14 +202,15 @@
         state.equipments[i].template = equipmentRow;
         var equipSelect = equipmentRow.find('.equipment-select');
 
-        equipSelect.on('change', updateType)
-            .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow));
+        equipSelect.on('change', updateType);
         if (!state.isClarity) {
-            equipSelect.on('change', require('bill59').onEquipmentChange);
+            equipSelect.on('change', require('bill59').onEquipmentChange)
+                .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow));
+            equipmentRow.find('.sub-type-select')
+                .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow));
         }
         equipmentRow.find('.sub-type-select')
             .on('change', updateSubType)
-            .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow))
             .change();
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
@@ -381,8 +383,10 @@
 
     function configureValidateMonthlyCostOnTypeChange($parent) {
         return function (e) {
-            if (state.agreementType > 0) {
-                $parent.find('.monthly-cost').valid();
+            if (state.isInitialized && state.agreementType > 0) {
+                if ($parent.find('.monthly-cost').val()) {
+                    $parent.find('.monthly-cost').valid();
+                }
             }
         };
     }
