@@ -178,6 +178,8 @@
 
         var val = parseFloat(value);
 
+        if (!val) return true;
+
         var equip = state.equipments[id];
         equip.softCapExceeded = false;
 
