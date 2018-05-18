@@ -73,19 +73,9 @@
          * @returns {void} 
          */
         var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
-            var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
             var isNewContract = $(settings.isNewContractId).val().toLowerCase() == 'true';
 
-
             _modifyAgreementTypes();
-
-
-            if (isOnlyLoan) {
-                if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
-                    $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
-                }
-                $(settings.agreementTypeId).attr('disabled', true);
-            }
 
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
@@ -384,8 +374,7 @@
                 }
             };
 
-            var applyFunction = rigthDictionary[rightsAccess];
-            applyFunction();
+            rigthDictionary[rightsAccess]();
         }
 
         function _removeAgeementOptionByKey(key) {
@@ -395,14 +384,14 @@
         function _modifyAgreementTypes() {
             var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
             if ($(settings.agreementTypeId).find(":selected").val() !== rentalTypeHwt) {
-                $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+                _removeAgeementOptionByKey(rentalTypeHwt);
             }
 
             _adjustAgreementTypesByRights(agreementTypeAccessRights);
 
             if ($(settings.agreementTypeId + ' > option').length === 1) {
                 $(settings.agreementTypeId).addClass('loan-only-dropdown-disabled');
-                $(settings.agreementTypeId).attr('disabled', true);
+                $(settings.agreementTypeId).attr('readonly', true);
             }
         }
 
