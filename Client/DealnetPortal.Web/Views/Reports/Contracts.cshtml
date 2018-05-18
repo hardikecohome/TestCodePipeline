@@ -4,17 +4,19 @@
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
+@using DealnetPortal.Api.Common.Constants
+@using System.Security.Claims
 
 @model System.Collections.Generic.IList<DealnetPortal.Web.Models.ContractViewModel>
 
 @{
     Func<string, string> formatIncome = str =>
     {
-        if(str.Contains('<'))
+        if (str.Contains('<'))
         {
             return str.Replace("<", Resources.LessThan + " $");
         }
-        if(str.Contains('-'))
+        if (str.Contains('-'))
         {
             return "$" + str.Replace("-", " - $");
         }
@@ -23,6 +25,9 @@
 
 
     var equipmentTypes = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
+    var identity = (ClaimsIdentity)User.Identity;
+    var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
+}
 }
 
 <div class="form-container">
@@ -68,7 +73,7 @@
     </div>
     <hr>
     @{var contractCount = 0;}
-    @foreach(var contract in Model)
+    @foreach (var contract in Model)
     {
         contractCount++;
         <div class="form-container reports-contract-item">
@@ -89,19 +94,19 @@
                     <div class="tabs tabs-vertical row responsive-tabs">
                         <div class="col-md-6">
                             <ul class="nav nav-pills nav-stacked documents-pills">
-                                @for(var i = 0; i < contract.UploadDocumentsInfo.DocumentTypes.Count; i++)
+                                @for (var i = 0; i < contract.UploadDocumentsInfo.DocumentTypes.Count; i++)
                                 {
                                     var document = contract.UploadDocumentsInfo.ExistingDocuments.FirstOrDefault(x => x.DocumentTypeId.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value);
                                     <li class="@(i == 0 && contractCount == 1 ? "active" : "") @(document != null ? "uploaded" : "") documents-pills-item">
                                         <a href="#tab@(contractCount*10 + (i+1))" class="documents-pills-link" aria-controls="tab@(contractCount*10 + (i+1))" role="tab" data-toggle="tab">
-                                            @if(contract.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                                            @if (contract.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                             {
                                                 <text>@Resources.OtherDocuments</text>
                                             }
                                             else
                                             {
                                                 @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                                if(contract.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                                if (contract.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value))
                                                 {
                                                     <i class="mandatory-icon">*</i>
                                                 }
@@ -113,9 +118,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="tab-content doc-tab-content documents-pills" role="tablist">
-                                @for(var i = 0; i < contract.UploadDocumentsInfo.DocumentTypes.Count; i++)
+                                @for (var i = 0; i < contract.UploadDocumentsInfo.DocumentTypes.Count; i++)
                                 {
-                                    if(contract.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                                    if (contract.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                     {
                                         continue;
                                     }
@@ -124,7 +129,7 @@
                                         <a href="#tab@(contractCount*10 + (i+1))" class="documents-pills-link" aria-controls="tab@(contractCount*10 + (i+1))" role="tab" data-toggle="tab">
                                             <span class="mandatory-text">
                                                 @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
-                                                @if(contract.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value))
+                                                @if (contract.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == contract.UploadDocumentsInfo.DocumentTypes[i].Value))
                                                 {
                                                     <i class="mandatory-icon">*</i>
                                                 }
@@ -135,7 +140,7 @@
                                         <h3 class="document-pane-header">
                                             @(contract.UploadDocumentsInfo.DocumentTypes[i].Text)
                                         </h3>
-                                        @if(document != null)
+                                        @if (document != null)
                                         {
                                             <div class="documents-list">
                                                 <div class="document-item block-item">
@@ -159,7 +164,7 @@
                                         @Resources.OtherDocuments
                                     </h3>
                                     <div class="documents-list" id="other-documents-list">
-                                        @foreach(var document in contract.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
+                                        @foreach (var document in contract.UploadDocumentsInfo.ExistingDocuments.Where(x => x.DocumentTypeId == 7))
                                         {
                                             <div class="document-item block-item">
                                                 <svg aria-hidden="true" class="icon icon-pdf">
@@ -192,7 +197,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(contract.EquipmentInfo != null && contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                            @if (contract.EquipmentInfo != null && contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -263,7 +268,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(contract.BasicInfo.SubDealers?.Any() ?? false)
+                            @if (contract.BasicInfo.SubDealers?.Any() ?? false)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -318,7 +323,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
+                            @if (contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -331,21 +336,26 @@
                                     </div>
                                 </div>
                             }
-                            @if(contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication && contract.EquipmentInfo.CustomerRiskGroup != null)
+                            @if (contract.EquipmentInfo.CustomerRiskGroup != null)
                             {
-                                <div class="form-group">
-                                    <div class="row">
-                                        @Html.Label(Resources.Program, new
-                                        {
-                                            @class = "dealnet-field-caption col-xs-6"
-                                        })
-                                        <div class="dealnet-field-holder col-xs-6">
-                                            <div class="control-group">
-                                                @(contract.EquipmentInfo.CustomerRiskGroup.GroupName)
+                                if (hasStandardRentalTier || Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                                {
+                                    <div class="form-group">
+                                        <div class="row">
+                                            @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
+                                            <div class="dealnet-field-holder col-xs-6">
+                                                <div class="control-group">
+                                                    @Html.TextBoxFor(m => m.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
+                                                    {
+                                                        @readonly = "readonly",
+                                                        @class = "dealnet-disabled-input",
+                                                        id = ""
+                                                    })
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
                             <div class="form-group">
                                 <div class="row">
@@ -542,7 +552,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if(contract.BasicInfo?.HomeOwner?.PreviousAddressInformation != null)
+                        @if (contract.BasicInfo?.HomeOwner?.PreviousAddressInformation != null)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
@@ -615,7 +625,7 @@
                                 </div>
                             </div>
                         }
-                        @if(contract.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
+                        @if (contract.BasicInfo?.HomeOwner?.MailingAddressInformation != null)
                         {
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
@@ -748,7 +758,7 @@
                             </div>
                         </div>
                     </div>
-                    @if(contract.BasicInfo.HomeOwner.EmploymentInformation != null)
+                    @if (contract.BasicInfo.HomeOwner.EmploymentInformation != null)
                     {
                         <hr>
                         <div class="row credit-check-info-hold">
@@ -783,7 +793,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(contract.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
+                                    @if (contract.BasicInfo.HomeOwner.EmploymentInformation.IncomeType.HasValue)
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -799,7 +809,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
+                                    @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.AnnualSalary))
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -818,7 +828,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
+                                    @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.HourlyRate))
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -838,7 +848,7 @@
                                         </div>
                                     }
 
-                                    @if(contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                                    @if (contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -851,16 +861,16 @@
                                                             <span>
                                                                 @contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
                                                                 @(contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                        Resources.Year :
-                                                                                                                                                        Resources.Years)
+                                                                                                                                                                Resources.Year :
+                                                                                                                                                                Resources.Years)
                                                             </span>
-                                                            @if(!string.IsNullOrEmpty(contract?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
+                                                            @if (!string.IsNullOrEmpty(contract?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @contract.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
                                                                     @(contract.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                    Resources.Months)
+                                                                                                                                                                                            Resources.Month :
+                                                                                                                                                                                            Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -871,14 +881,14 @@
                                     }
                                 </div>
                             </div>
-                            @if(contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                            @if (contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
                                         <h3 class="dealnet-section-title">
                                             &nbsp;
                                         </h3>
-                                        @if(contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
+                                        @if (contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -898,7 +908,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
+                                        @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.JobTitle))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -918,7 +928,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
+                                        @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.CompanyName))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -938,7 +948,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
+                                        @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.HomeOwner.EmploymentInformation.CompanyPhone))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -961,7 +971,7 @@
                                     </div>
                                 </div>
                             }
-                            @if(contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                            @if (contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.HomeOwner.EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
@@ -1059,9 +1069,9 @@
                         </div>
                     }
                     <div class="row">
-                        @if(contract.ContactAndPaymentInfo?.CoBorrowersContactInfo != null)
+                        @if (contract.ContactAndPaymentInfo?.CoBorrowersContactInfo != null)
                         {
-                            for(var i = 0; i < contract.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
+                            for (var i = 0; i < contract.ContactAndPaymentInfo.CoBorrowersContactInfo.Count; i++)
                             {
                                 <hr style="clear: both">
                                 <div class="credit-check-info-hold">
@@ -1120,7 +1130,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @if(!string.IsNullOrEmpty(contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower))
+                                            @if (!string.IsNullOrEmpty(contract.BasicInfo.AdditionalApplicants[i].RelationshipToMainBorrower))
                                             {
                                                 <div class="form-group">
                                                     <div class="row">
@@ -1151,7 +1161,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
+                                    @if (contract.BasicInfo.AdditionalApplicants[i].PreviousAddressInformation != null)
                                     {
                                         <div class="col-md-6 grid-column">
                                             <div class="dealnet-credit-check-section">
@@ -1237,7 +1247,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
+                                    @if (contract.BasicInfo.AdditionalApplicants[i].MailingAddressInformation != null)
                                     {
                                         <div class="col-md-6 grid-column">
                                             <div class="dealnet-credit-check-section">
@@ -1381,7 +1391,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                if(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation != null)
+                                if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation != null)
                                 {
                                     <div class="credit-check-info-hold">
                                         <div class="col-md-6 grid-column">
@@ -1423,7 +1433,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @if(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType.HasValue)
+                                                @if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.IncomeType.HasValue)
                                                 {
                                                     <div class="form-group">
                                                         <div class="row">
@@ -1443,7 +1453,7 @@
                                                         </div>
                                                     </div>
                                                 }
-                                                @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary))
+                                                @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.AnnualSalary))
                                                 {
                                                     <div class="form-group">
                                                         <div class="row">
@@ -1463,7 +1473,7 @@
                                                         </div>
                                                     </div>
                                                 }
-                                                @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate))
+                                                @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.HourlyRate))
                                                 {
                                                     <div class="form-group">
                                                         <div class="row">
@@ -1484,7 +1494,7 @@
                                                     </div>
                                                 }
 
-                                                @if(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                                                @if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                                                 {
                                                     <div class="form-group">
                                                         <div class="row">
@@ -1496,7 +1506,7 @@
                                                                             @contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
                                                                             @(contract.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
                                                                         </span>
-                                                                        @if(!string.IsNullOrEmpty(contract?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
+                                                                        @if (!string.IsNullOrEmpty(contract?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                                         {
                                                                             <span>
                                                                                 @contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
@@ -1511,14 +1521,14 @@
                                                 }
                                             </div>
                                         </div>
-                                        @if(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
+                                        @if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed || contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                                         {
                                             <div class="col-md-6 grid-column">
                                                 <div class="dealnet-credit-check-section">
                                                     <h3 class="dealnet-section-title">
                                                         &nbsp;
                                                     </h3>
-                                                    @if(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
+                                                    @if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed)
                                                     {
                                                         <div class="form-group">
                                                             <div class="row">
@@ -1538,7 +1548,7 @@
                                                             </div>
                                                         </div>
                                                     }
-                                                    @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.JobTitle))
+                                                    @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.JobTitle))
                                                     {
                                                         <div class="form-group">
                                                             <div class="row">
@@ -1558,7 +1568,7 @@
                                                             </div>
                                                         </div>
                                                     }
-                                                    @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyName))
+                                                    @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyName))
                                                     {
                                                         <div class="form-group">
                                                             <div class="row">
@@ -1578,7 +1588,7 @@
                                                             </div>
                                                         </div>
                                                     }
-                                                    @if(!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyPhone))
+                                                    @if (!string.IsNullOrWhiteSpace(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.CompanyPhone))
                                                     {
                                                         <div class="form-group">
                                                             <div class="row">
@@ -1601,7 +1611,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed ||
+                                        @if (contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.Employed ||
                                              contract.BasicInfo.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus == EmploymentStatus.SelfEmployed)
                                         {
                                             <div class="col-md-6 grid-column">
@@ -1705,7 +1715,7 @@
                 </div>
 
                 <div class="form-section">
-                    @if(contract.EquipmentInfo?.NewEquipment != null)
+                    @if (contract.EquipmentInfo?.NewEquipment != null)
                     {
                         var i = 0;
                         <hr style="clear: both">
@@ -1718,7 +1728,7 @@
                                     equipmentTypes.Where(e => e.UnderBill59).Select(e => e.Type).ToList() :
                                     new List<string>();
                             }
-                            @foreach(var equipment in contract.EquipmentInfo.NewEquipment)
+                            @foreach (var equipment in contract.EquipmentInfo.NewEquipment)
                             {
                                 var displayResponsibility = bill59EquipTypes.Contains(equipment.Type);
 
@@ -1751,7 +1761,7 @@
                                         {
                                             <div class="form-group">
                                                 <div class="row">
-                                                    @Html.LabelFor(m => equipment.EquipmentSubTypeDescription, 
+                                                    @Html.LabelFor(m => equipment.EquipmentSubTypeDescription,
                                                             new
                                                             {
                                                                     @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
@@ -1777,9 +1787,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if(contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
+                                        @if (contract.EquipmentInfo?.AgreementType == AgreementType.LoanApplication)
                                         {
-                                            if(contract.IsClarityDealer && !contract.IsOldClarityDeal)
+                                            if (contract.IsClarityDealer && !contract.IsOldClarityDeal)
                                             {
                                                 <div class="form-group">
                                                     <div class="row">
@@ -1840,7 +1850,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            if(displayResponsibility && equipment.EstimatedRetailCost.HasValue)
+                                            if (displayResponsibility && equipment.EstimatedRetailCost.HasValue)
                                             {
                                                 <div class="form-group">
                                                     <div class="row">
@@ -1875,7 +1885,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(!string.IsNullOrEmpty(contract.EquipmentInfo.PreferredInstallTime))
+                                    @if (!string.IsNullOrEmpty(contract.EquipmentInfo.PreferredInstallTime))
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -1889,7 +1899,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if(contract.ContactAndPaymentInfo.HouseSize.HasValue)
+                                    @if (contract.ContactAndPaymentInfo.HouseSize.HasValue)
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -1909,9 +1919,9 @@
                             </div>
                         </div>
                     }
-                    @if(contract.EquipmentInfo != null)
+                    @if (contract.EquipmentInfo != null)
                     {
-                        if(contract.EquipmentInfo.InstallationPackages?.Any() == true)
+                        if (contract.EquipmentInfo.InstallationPackages?.Any() == true)
                         {
                             <div class="row credit-check-info-hold">
                                 <div class="col-md-6 grid-column">
@@ -1926,7 +1936,7 @@
                             </div>
                         }
                         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin equipment-info">
-                            @for(var i = 0; i < contract.EquipmentInfo.InstallationPackages.Count; i++)
+                            @for (var i = 0; i < contract.EquipmentInfo.InstallationPackages.Count; i++)
                             {
                                 <div class="col-md-6 grid-column">
                                     <div class="dealnet-credit-check-section">
@@ -1993,7 +2003,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group summary-payment-info well">
-                                    @if(contract.IsClarityDealer && !contract.IsClarityDealer)
+                                    @if (contract.IsClarityDealer && !contract.IsClarityDealer)
                                     {
                                         <div class="row">
                                             <div class="col-md-3 col-xs-12 summary-payment-info-item">
@@ -2068,7 +2078,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @if(contract.EquipmentInfo != null && contract.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
+                                            @if (contract.EquipmentInfo != null && contract.EquipmentInfo?.AgreementType != AgreementType.LoanApplication)
                                             {
                                                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                                                     <div class="row">
@@ -2098,7 +2108,7 @@
                         </div>
                     }
 
-                    @if(contract.ContactAndPaymentInfo?.PaymentInfo != null)
+                    @if (contract.ContactAndPaymentInfo?.PaymentInfo != null)
                     {
                         <div class="row credit-check-info-hold">
                             <div class="col-md-6 grid-column">
@@ -2117,7 +2127,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @switch(contract.ContactAndPaymentInfo.PaymentInfo.PaymentType)
+                                    @switch (contract.ContactAndPaymentInfo.PaymentInfo.PaymentType)
                                     {
                                         case PaymentType.Enbridge:
                                             <div class="form-group">
@@ -2180,16 +2190,16 @@
                             </div>
                         </div>
                     }
-                    @if(contract.EquipmentInfo?.ExistingEquipment != null && contract.EquipmentInfo.ExistingEquipment.Any())
+                    @if (contract.EquipmentInfo?.ExistingEquipment != null && contract.EquipmentInfo.ExistingEquipment.Any())
                     {
                         <div class="row credit-check-info-hold">
                             <div class="col-md-6 grid-column">
                                 <div class="dealnet-credit-check-section">
                                     <h3 class="dealnet-section-title">@Resources.ExistingEquipmentInformation</h3>
-                                    @for(var i = 0; i < contract.EquipmentInfo.ExistingEquipment.Count; i++)
+                                    @for (var i = 0; i < contract.EquipmentInfo.ExistingEquipment.Count; i++)
                                     {
                                         <div class="summury-return-equip-item">
-                                            @if(i == 0)
+                                            @if (i == 0)
                                             {
                                                 <div class="form-group">
                                                     <div class="row">
@@ -2202,7 +2212,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                if(!string.IsNullOrEmpty(contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany))
+                                                if (!string.IsNullOrEmpty(contract.EquipmentInfo.CommonExistingEquipmentInfo.RentalCompany))
                                                 {
                                                     <div class="form-group">
                                                         <div class="row">
@@ -2216,7 +2226,7 @@
                                                         </div>
                                                     </div>
                                                 }
-                                                if(contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.HasValue)
+                                                if (contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.HasValue)
                                                 {
                                                     var text = contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval != ResponsibleForRemoval.Other ?
                                                         contract.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemoval.GetEnumDescription() :
@@ -2317,7 +2327,7 @@
                                         <h3 class="dealnet-section-title">
                                             @Resources.AdditionalContractInformation
                                         </h3>
-                                        @if(contract.EquipmentInfo?.HasExistingAgreements != null)
+                                        @if (contract.EquipmentInfo?.HasExistingAgreements != null)
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2336,7 +2346,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(contract.AdditionalInfo.SalesRepRole.Any())
+                                        @if (contract.AdditionalInfo.SalesRepRole.Any())
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2358,7 +2368,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(contract.AdditionalInfo.CustomerComments != null && contract.AdditionalInfo.CustomerComments.Any())
+                                        @if (contract.AdditionalInfo.CustomerComments != null && contract.AdditionalInfo.CustomerComments.Any())
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2366,7 +2376,7 @@
                                                     <div class="dealnet-field-holder col-xs-12">
                                                         <div class="control-group">
                                                             <div class="text-left">
-                                                                @foreach(var comment in contract.AdditionalInfo.CustomerComments)
+                                                                @foreach (var comment in contract.AdditionalInfo.CustomerComments)
                                                                 {
                                                                     @comment
                                                                     <br />
@@ -2377,7 +2387,7 @@
                                                 </div>
                                             </div>
                                         }
-                                        @if(!string.IsNullOrEmpty(contract.EquipmentInfo?.Notes))
+                                        @if (!string.IsNullOrEmpty(contract.EquipmentInfo?.Notes))
                                         {
                                             <div class="form-group">
                                                 <div class="row">
