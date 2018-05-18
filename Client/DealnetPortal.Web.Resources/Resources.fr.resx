@@ -2819,4 +2819,13 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
     <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
   </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel ne peut pas être au Québec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel devrait être au Québec</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Le paiement mensuel total ne peut pas dépasser le montant de</value>
+  </data>
 </root>
