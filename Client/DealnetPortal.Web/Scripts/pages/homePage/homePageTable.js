@@ -299,7 +299,7 @@ module.exports('table', function (require) {
             var type = this.agreementType();
             var sales = this.salesRep();
             var to = Date.parseExact(this.dateTo(), 'M/d/yyyy');
-            var from = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
+            var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
 
             var tempList = this.list().reduce(function (acc, item) {
 
@@ -309,7 +309,7 @@ module.exports('table', function (require) {
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
                     (!to || !itemDate || itemDate <= to) &&
-                    (!from || !itemDate || itemDate >= from))
+                    (!dFrom || !itemDate || itemDate >= dFrom))
                     return acc.concat(item);
 
                 return acc;
@@ -350,6 +350,18 @@ module.exports('table', function (require) {
 
         this.openHelpModal = function (id) {
             sendEmailModel(id);
+        };
+
+        this.openSignaturePopup = function (deal) {
+            debugger
+            var id = deal.Id;
+            $.ajax({
+                method: 'GET',
+                url: contractSignatureStatusUrl + '?contractId=' + id,
+            }).done(function (data) {
+                $('#signature-body').html(data);
+                $('#contract-signature-modal').modal();
+            });
         };
 
         // subscriptions
