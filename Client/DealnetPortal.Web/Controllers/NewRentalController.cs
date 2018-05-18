@@ -294,7 +294,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-            var ratecardValid = await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
+            var ratecardValid = equipmentInfo.AgreementType != AgreementType.LoanApplication ? true : await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
 
             if(ratecardValid)
             {
