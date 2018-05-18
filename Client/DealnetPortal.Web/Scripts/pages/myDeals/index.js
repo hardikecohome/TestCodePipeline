@@ -11,7 +11,7 @@
 
     var init = function init() {
         var vm = new MyDealsTableViewModel([]);
-        ko.applyBindings(vm, document.getElementById('my-deals-table'));
+        ko.applyBindings(vm, document.getElementById('my-deals-page'));
 
         $.ajax(itemsUrl, {
             cache: false,

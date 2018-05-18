@@ -67,12 +67,12 @@ module.exports('table', function (require) {
 
     var HomePageTable = function (list) {
         // properties
-        this.datePickerOptions = {
+        this.datePickerOptions = Object.freeze({
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
             maxDate: new Date(),
-        };
-        this.sortFields = {
+        });
+        this.sortFields = Object.freeze({
             transactionId: 'TransactionId',
             date: 'Date',
             applicantName: 'CustomerName',
@@ -83,13 +83,13 @@ module.exports('table', function (require) {
             payment: 'MonthlPayment',
             status: 'LocalizedStatus',
             sign: 'SignatureStatus'
-        };
-        this.sortDirections = {
+        });
+        this.sortDirections = Object.freeze({
             default: 'default',
             asc: 'asc',
             desc: 'desc'
-        };
-        this.sortDdValues = {
+        });
+        this.sortDdValues = Object.freeze({
             transactionIdAsc: {
                 field: this.sortFields.transactionId,
                 dir: this.sortDirections.asc
@@ -138,15 +138,15 @@ module.exports('table', function (require) {
                 field: this.sortFields.sign,
                 dir: this.sortDirections.desc
             },
-        };
-        var filters = {
+        });
+        var filters = Object.freeze({
             agreementType: 'agreementTypeFilter',
             status: 'statusFilter',
             salesRep: 'salesRepFilter',
             equipment: 'equipmentFilter',
             dateTo: 'dateToFilter',
             dateFrom: 'dateFromFilter'
-        };
+        });
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
@@ -299,7 +299,7 @@ module.exports('table', function (require) {
             var type = this.agreementType();
             var sales = this.salesRep();
             var to = Date.parseExact(this.dateTo(), 'M/d/yyyy');
-            var from = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
+            var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
 
             var tempList = this.list().reduce(function (acc, item) {
 
@@ -309,7 +309,7 @@ module.exports('table', function (require) {
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
                     (!to || !itemDate || itemDate <= to) &&
-                    (!from || !itemDate || itemDate >= from))
+                    (!dFrom || !itemDate || itemDate >= dFrom))
                     return acc.concat(item);
 
                 return acc;
@@ -350,6 +350,18 @@ module.exports('table', function (require) {
 
         this.openHelpModal = function (id) {
             sendEmailModel(id);
+        };
+
+        this.openSignaturePopup = function (deal) {
+            debugger
+            var id = deal.Id;
+            $.ajax({
+                method: 'GET',
+                url: contractSignatureStatusUrl + '?contractId=' + id,
+            }).done(function (data) {
+                $('#signature-body').html(data);
+                $('#contract-signature-modal').modal();
+            });
         };
 
         // subscriptions
