@@ -135,7 +135,7 @@
                     text: ''
                 })]);
 
-            select.html(subOpt).removeClass('not-selected');
+            select.html(subOpt).removeClass('not-selected').change();
 
             select.prop('disabled', false);
             select[0].form && select.rules('add', 'required');
