@@ -166,8 +166,10 @@
                     _toggleCustomRateCard();
                     submitRateCard(option);
                 }
+            } else {
+                $('#SelectedRateCardId').val(null);
             }
-            debugger
+
             if ($(settings.escalationLimitErrorMsgId).is(':visible')) {
                 event.preventDefault();
                 return;
