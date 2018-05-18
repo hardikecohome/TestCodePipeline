@@ -267,12 +267,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     if (asset != null)
                                     {
                                         var eqCollection = ceqList;
-                                        var aEq = eqCollection?.FirstOrDefault(
-                                            eq =>
-                                            {
-                                                var descr = string.IsNullOrEmpty(eq.EquipmentSubType?.Description) ? eq.Description : $"{eq.EquipmentSubType?.Description} {eq.Description}";
-                                                return descr == asset.Name;
-                                            });
+                                        var aEq = eqCollection?.FirstOrDefault(eq => GetEquipmentDescription(eq) == asset.Name);                                            
                                         if (aEq != null)
                                         {
                                             aEq.AssetNumber = asset.Number;
@@ -1447,9 +1442,7 @@ namespace DealnetPortal.Api.Integration.Services
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
-                            Description = eq.IsDeleted != true ? 
-                                ( string.IsNullOrEmpty(eq.EquipmentSubType?.Description) ? eq.Description : $"{eq.EquipmentSubType?.Description}-{eq.Description}")
-                                : BlankValue ,
+                            Description = GetEquipmentDescription(eq),
                             AssetClass = new AssetClass() { AssetCode = eq.Type },
                             UDFs = GetEquipmentUdfs(contract, eq).ToList()
                         });
@@ -1515,6 +1508,15 @@ namespace DealnetPortal.Api.Integration.Services
 
             }            
             return eqCost;
+        }
+
+        private string GetEquipmentDescription(NewEquipment equipment)
+        {
+            return equipment.IsDeleted != true
+                ? (string.IsNullOrEmpty(equipment.EquipmentSubType?.Description)
+                    ? equipment.Description
+                    : $"{equipment.EquipmentSubType?.Description}-{equipment.Description}")
+                : BlankValue;
         }
 
         private bool IsClarityProgram(Contract contract)
