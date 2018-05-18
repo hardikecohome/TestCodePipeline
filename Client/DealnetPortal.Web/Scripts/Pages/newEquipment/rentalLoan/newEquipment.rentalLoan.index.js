@@ -428,15 +428,12 @@
                 });
             equipArr.forEach(function (equip) {
                 var clone = selectList.map(function (opt) {
-                    return opt.clone();
+                    var clone = opt.clone();
+                    if (clone.val() == equip.type) {
+                        clone.attr('selected', true);
+                    }
+                    return clone;
                 });
-                var selected = clone.find(function (opt) {
-                    return opt.val() == equip.type;
-                });
-                if (!selected) {
-                    selected = clone[0];
-                }
-                selected.attr('selected', true);
                 $('#new-equipment-' + equip.id + ' .equipment-select').html(clone).change();
             });
         }

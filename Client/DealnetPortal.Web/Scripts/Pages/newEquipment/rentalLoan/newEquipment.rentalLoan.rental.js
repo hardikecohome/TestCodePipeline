@@ -130,7 +130,7 @@
                         value: item.Id,
                         selected: item.Id == value
                     }));
-                }, [$('option', {
+                }, [$('<option/>', {
                     value: '',
                     text: ''
                 })]);
