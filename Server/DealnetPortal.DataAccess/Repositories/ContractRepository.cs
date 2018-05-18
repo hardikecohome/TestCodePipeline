@@ -1269,10 +1269,6 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.EstimatedInstallationDate = equipmentInfo.EstimatedInstallationDate;
             }
-            if (equipmentInfo.RateCardId.HasValue || equipmentInfo.IsCustomRateCard)
-            {
-                dbEquipment.RateCardId = equipmentInfo.RateCardId;
-            }
             if (equipmentInfo.CustomerRiskGroupId.HasValue)
             {
                 dbEquipment.CustomerRiskGroupId = equipmentInfo.CustomerRiskGroupId;
@@ -1301,6 +1297,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.RentalProgramType = equipmentInfo.RentalProgramType;
             }
+            dbEquipment.RateCardId = equipmentInfo.RateCardId;
             dbEquipment.RateReduction = equipmentInfo.RateReduction;
             dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
 		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
