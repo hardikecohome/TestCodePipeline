@@ -477,7 +477,7 @@ break;
         }
     }
 <div class="container-fluid custom-container body-container">
-    @if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+    @if(User.Identity.IsAuthenticated && ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
     {
         @Html.Action("GetMaintanenceBanner", "Home")
     }
