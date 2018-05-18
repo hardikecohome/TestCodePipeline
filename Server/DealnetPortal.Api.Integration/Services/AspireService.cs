@@ -2208,8 +2208,9 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.PapWithdrawalDate,
-                    Value = (contract.PaymentInfo.PaymentType == PaymentType.Pap && !IsClarityProgram(contract)) ? 
-                        (contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First  ? "1" : "15")
+                    Value = (contract.PaymentInfo.PaymentType == PaymentType.Pap 
+                                && contract.PrimaryCustomer?.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress)?.State != "QC") 
+                        ? (contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First  ? "1" : "15")
                         : BlankValue
                 });                          
             }            
