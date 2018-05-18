@@ -187,7 +187,7 @@
                 return item.Id == equip.subType;
             });
 
-            if (subType.HardCap) {
+            if (subType && subType.HardCap) {
                 equipmentType = subType;
             }
         }
