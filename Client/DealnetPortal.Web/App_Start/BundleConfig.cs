@@ -158,7 +158,7 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/components/ko.paginator.js")
-                .Include("~/Scripts/pages/table.js")
+                .Include("~/Scripts/pages/myDeals/table.js")
                 .Include("~/Scripts/pages/myDeals/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
