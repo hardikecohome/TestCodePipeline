@@ -197,7 +197,7 @@
                     return acc || curr.softCapExceeded;
                 }, false);
 
-            if (softCapExceeded && !state.softCapExceededConfirmed) {
+            if (state.agreementType != 0 && softCapExceeded && !state.softCapExceededConfirmed) {
                 event.preventDefault();
                 dynamicAlertModal({
                     message: translations.MonthlyCostExceedsMaxBody,
