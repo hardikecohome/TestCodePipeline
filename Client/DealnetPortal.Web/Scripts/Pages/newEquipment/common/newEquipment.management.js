@@ -319,9 +319,7 @@
         var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
         var equip = state.equipmentTypes[this.value];
         $('#NewEquipment_' + id + '__TypeId').val(equip.Id);
-        $('#NewEquipment_'+id+'__EquipmentSubTypeId').val('').change();
-
-        state.equipments[id].type = this.value;        
+        state.equipments[id].type = this.value;
 
         settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
     }
@@ -330,6 +328,11 @@
         var mvcId = $(this).attr('id');
         var id = mvcId.split('__EquipmentSubTypeId')[0].substr(mvcId.split('__EquipmentSubTypeId')[0].lastIndexOf('_') + 1);
         state.equipments[id].subType = this.value;
+
+        var monthlyCost = $('#NewEquipment_' + id + '__MonthlyCost');
+        if (monthlyCost.val()) {
+            monthlyCost.valid();
+        }
     }
 
     /**

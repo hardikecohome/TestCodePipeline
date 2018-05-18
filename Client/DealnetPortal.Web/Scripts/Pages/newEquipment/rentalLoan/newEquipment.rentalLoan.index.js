@@ -73,19 +73,9 @@
          * @returns {void} 
          */
         var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
-            var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
             var isNewContract = $(settings.isNewContractId).val().toLowerCase() == 'true';
 
-
             _modifyAgreementTypes();
-
-
-            if (isOnlyLoan) {
-                if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
-                    $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
-                }
-                $(settings.agreementTypeId).attr('disabled', true);
-            }
 
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
@@ -201,7 +191,13 @@
                 return;
             }
 
-            if (state.softCapExceeded && !state.softCapExceededConfirmed) {
+            var softCapExceeded = Object.keys(state.equipments)
+                .map(idToValue(state.equipments))
+                .reduce(function (acc, curr) {
+                    return acc || curr.softCapExceeded;
+                }, false);
+
+            if (state.agreementType != 0 && softCapExceeded && !state.softCapExceededConfirmed) {
                 event.preventDefault();
                 dynamicAlertModal({
                     message: translations.MonthlyCostExceedsMaxBody,
@@ -378,8 +374,7 @@
                 }
             };
 
-            var applyFunction = rigthDictionary[rightsAccess];
-            applyFunction();
+            rigthDictionary[rightsAccess]();
         }
 
         function _removeAgeementOptionByKey(key) {
@@ -389,14 +384,14 @@
         function _modifyAgreementTypes() {
             var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
             if ($(settings.agreementTypeId).find(":selected").val() !== rentalTypeHwt) {
-                $(settings.agreementTypeId + " option[value='" + rentalTypeHwt + "']").remove();
+                _removeAgeementOptionByKey(rentalTypeHwt);
             }
 
             _adjustAgreementTypesByRights(agreementTypeAccessRights);
 
             if ($(settings.agreementTypeId + ' > option').length === 1) {
                 $(settings.agreementTypeId).addClass('loan-only-dropdown-disabled');
-                $(settings.agreementTypeId).attr('disabled', true);
+                $(settings.agreementTypeId).attr('readonly', true);
             }
         }
 
@@ -433,15 +428,12 @@
                 });
             equipArr.forEach(function (equip) {
                 var clone = selectList.map(function (opt) {
-                    return opt.clone();
+                    var clone = opt.clone();
+                    if (clone.val() == equip.type) {
+                        clone.attr('selected', true);
+                    }
+                    return clone;
                 });
-                var selected = clone.find(function (opt) {
-                    return opt.val() == equip.type;
-                });
-                if (!selected) {
-                    selected = clone[0];
-                }
-                selected.attr('selected', true);
                 $('#new-equipment-' + equip.id + ' .equipment-select').html(clone).change();
             });
         }

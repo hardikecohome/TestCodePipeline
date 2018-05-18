@@ -127,15 +127,16 @@
                 }).reduce(function (acc, item) {
                     return acc.concat($('<option/>', {
                         text: item.Description,
-                        value: item.Id
+                        value: item.Id,
+                        selected: item.Id == value
                     }));
-                }, [$('option', {
+                }, [$('<option/>', {
                     value: '',
                     text: ''
                 })]);
 
-            select.html(subOpt).removeClass('not-selected');
-            select.val(selected ? value : '');
+            select.html(subOpt).removeClass('not-selected').change();
+
             select.prop('disabled', false);
             select[0].form && select.rules('add', 'required');
 
@@ -171,21 +172,24 @@
 
         $input.parents('.form-group').removeClass('has-warning');
         $input.siblings('.text-warning').text('');
-        state.softCapExceeded = false;
 
         var mvcId = $input.attr('id');
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
 
         var val = parseFloat(value);
 
+        if (!val) return true;
+
         var equip = state.equipments[id];
+        equip.softCapExceeded = false;
+
         var equipmentType = state.equipmentTypes[equip.type];
         if (equip.subType) {
             var subType = equipmentType.SubTypes.find(function (item) {
                 return item.Id == equip.subType;
             });
 
-            if (subType.HardCap) {
+            if (subType && subType.HardCap) {
                 equipmentType = subType;
             }
         }
@@ -198,7 +202,7 @@
             $input.parents('.form-group').addClass('has-warning');
             $input.siblings('.text-warning').text(translations.SoftCapWarning);
 
-            state.softCapExceeded = true;
+            equip.softCapExceeded = true;
         }
 
         return true;

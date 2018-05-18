@@ -31,7 +31,6 @@
         escalatedRentalLimit: rentalEscalatedLimit,
         nonEscalatedRentalLimit: rentalNonEscalatedLimit,
         equipmentTypes: {},
-        softCapExceeded: false,
         softCapExceededConfirmed: false
     };
 
