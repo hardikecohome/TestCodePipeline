@@ -527,7 +527,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.PaymentType,
                     s => s.ResolveUsing(src =>
-                        src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription()))
+                        src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription()??string.Empty))
                 .ForMember(d => d.Action, s => s.Ignore())
                 .ForMember(d => d.Email,
                     s => s.ResolveUsing(src =>

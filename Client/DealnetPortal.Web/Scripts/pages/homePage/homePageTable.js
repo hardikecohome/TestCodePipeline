@@ -4,16 +4,16 @@ module.exports('table', function (require) {
 
     var filterNull = require('tableFuncs').filterNull;
 
-    var mapValue = require('tablFuncs').mapValue;
+    var mapValue = require('tableFuncs').mapValue;
 
-    var concatIfNotInArray = require('tablFuncs').concatIfNotInArray;
-    var sortAscending = require('tablFuncs').sortAscending;
+    var concatIfNotInArray = require('tableFuncs').concatIfNotInArray;
+    var sortAscending = require('tableFuncs').sortAscending;
 
-    var sortDescending = require('tablFuncs').sortDescending;
+    var sortDescending = require('tableFuncs').sortDescending;
 
-    var filterAndSortList = require('tablFuncs').filterAndSortList;
+    var filterAndSortList = require('tableFuncs').filterAndSortList;
 
-    var prepareStatusList = require('tablFuncs').prepareStatusList;
+    var prepareStatusList = require('tableFuncs').prepareStatusList;
 
     function prepareEquipmentList(list) {
         return list.map(mapValue('Equipment'))

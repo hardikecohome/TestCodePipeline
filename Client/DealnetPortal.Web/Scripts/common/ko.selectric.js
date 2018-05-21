@@ -2,7 +2,7 @@
     init: function (element, valueAccessor, allBindingsAccessor) {
         var $el = $(element);
         var observable = valueAccessor();
-        var options = allBindingsAccessor().options;
+        var options = allBindingsAccessor().options || allBindingsAccessor().foreach;
         $el.selectric('init');
         $el.on('selectric-change', function (event, element, selectric) {
             observable(element.value);
