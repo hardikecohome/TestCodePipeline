@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
@@ -75,6 +76,10 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> AgreementSubmitSuccess(int contractId, string hashDealerName, string culture)
         {
             var viewModel = await _customerFormManager.GetSubmittedCustomerFormSummary(contractId, hashDealerName, culture);
+            var hidePreApprovalAmountsForLeaseDealers = false;
+            bool.TryParse(System.Configuration.ConfigurationManager.AppSettings[PortalConstants.HidePreApprovalAmountsForLeaseDealersKey], out hidePreApprovalAmountsForLeaseDealers);
+            ViewBag.ShowPreapprovalAmount = !viewModel.IsLeaseTypeDealer || !hidePreApprovalAmountsForLeaseDealers;
+
             ViewBag.HashDealerName = hashDealerName;
             return View(viewModel);
         }
