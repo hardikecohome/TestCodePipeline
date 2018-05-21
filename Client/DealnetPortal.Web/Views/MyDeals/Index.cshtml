@@ -1,85 +1,79 @@
 ﻿@{
     ViewBag.Title = Resources.MyDeals;
 }
-<div id="my-deals-page" data-bind="wth:table">
+<div id="my-deals-page" data-bind="with:table">
     <div class="margin-block">
         <div class="row">
             <div class="filters my-deals-page">
                 <div class="filters-head">
-                    <div class="filters-head__title">My Deals</div>
-                    <div class="filters-head__learn-more"><i class="lamp-ico"></i><a>Learn more about this page</a></div>
-                    <div class="filters-head__export-excel"><i class="excel-ico"></i><a>Export all to excel</a></div>
+                    <div class="filters-head__title">@Resources.MyDeals</div>
+                    <div class="filters-head__learn-more"><i class="lamp-ico"></i><a>@Resources.LearnMoreAboutThisPage</a></div>
+                    <div class="filters-head__export-excel"><i class="excel-ico"></i><a>@Resources.ExportAllToExcel</a></div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
                             <input type="text" name="search" required>
-                            <label>Search</label>
-                            <span class="search-ico"></span>
+                            <label>@Resources.Search</label>
+                            <span class="search-ico" data-bind="textInput: search"></span>
                         </div>
                     </div>
-                    <div class="filters-head__clear-btn new-btn-grey"><span>Clear</span></div>
+                    <div class="filters-head__clear-btn new-btn-grey"><span>@Resources.Clear</span></div>
                     <div class="filters-head__save-btn">
-                        <div class="new-btn-green"><span>Save</span></div>
-                        <span class="save-btn-status"><i class="checked-ico"></i>(For next time)</span>
+                        <div class="new-btn-green"><span>@Resources.Save</span></div>
+                        <span class="save-btn-status"><i class="checked-ico"></i>(@Resources.ForNextTime)</span>
                     </div>
                     <div class="filters-head__divider"></div>
-                    <div class="filters-head__filter-btn new-btn-red-filter"><i class="filter-ico filter-ico--red"></i><span>Filters</span></div>
-                    <div class="filters-head__sort-btn new-sort-btn-red"><i class="sort-button-red-ico"></i><span>Sort</span></div>
+                    <div class="filters-head__filter-btn new-btn-red-filter"><i class="filter-ico filter-ico--red"></i><span>@Resources.Filters</span></div>
+                    <div class="filters-head__sort-btn new-sort-btn-red"><i class="sort-button-red-ico"></i><span>@Resources.Sort</span></div>
                 </div>
                 <div class="filters-type">
-                    <div class="filters-type__tab">Deal info</div>
-                    <div class="filters-type__tab">Detailed info</div>
+                    <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}">@Resources.DealInfo</div>
+                    <div class="filters-type__tab" data-bind="css:{active:showDetailedView}">@Resources.DetailedInfo</div>
                 </div>
                 <div class="filters-advanced detailed-mod">
 
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
-                            <label for="project-type">Deal type</label>
-                            <select name="project-type" id="project-type" class="custom-select">
-                                <option value="">Air conditioner</option>
-                                <option value="">Air filtration</option>
-                                <option value="">Air handler</option>
-                            </select>
+                            <label for="project-type">@Resources.DealType</label>
+                            <select name="project-type" id="project-type" class="custom-select" data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap">
-                            <label for="project-type">Deal status</label>
-                            <select name="project-type" id="project-type" class="custom-select">
-                                <option value="">Air conditioner</option>
-                                <option value="">Air filtration</option>
-                                <option value="">Air handler</option>
+                            <label for="project-type">@Resources.DealStatus</label>
+                            <select name="project-type" id="project-type" class="custom-select" data-bind="foreach:statusOptions,selectric:status">
+                                <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__date-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" required>
-                            <label>Date from</label>
+                            <input type="text" class="date-input" data-bind="datePicker: dateFrom, datePickerOptions:datePickerOptions">
+                            <label>@Resources.DateFrom</label>
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__date-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" required>
-                            <label>Date to</label>
+                            <input type="text" class="date-input" data-bind="datePicker:dateTo, datePickerOptions: datePickerOptions">
+                            <label>@Resources.DateTo</label>
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__deal-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" required>
-                            <label>Deal value from</label>
+                            <input type="text" data-bind="value:valueFrom">
+                            <label>@Resources.DealValueFrom</label>
                             <span class="ic-nw-dollar-small"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__deal-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" required>
-                            <label>Deal value to</label>
+                            <input type="text" data-bind="value:valueTo">
+                            <label>@Resources.DealValueTo</label>
                             <span class="ic-nw-dollar-small"></span>
                         </div>
                     </div>
@@ -1022,5 +1016,12 @@
         var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
     </script>
 
+    @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/my-deals")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            module.require('my-deals-index').init();
+        });
+    </script>
 }

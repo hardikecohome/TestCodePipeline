@@ -1,52 +1,24 @@
 ﻿module.exports('my-deals-table', function (require) {
     var Paginator = require('paginator');
 
-    function filterNull(item) {
-        return item != null;
-    }
+    var filterNull = require('tableFuncs').filterNull;
 
-    function mapValue(type) {
-        return function (item) {
-            return item[type].trim() || null;
-        };
-    }
+    var mapValue = require('tableFuncs').mapValue;
 
-    function concateIfNotInArray(acc, curr) {
-        return acc.find(curr) ? acc.concate(curr) : acc;
-    }
+    var concateIfNotInArray = require('tableFuncs').concateIfNotInArray;
 
-    function sortAssending(a, b) {
-        return a == b ? 0 : a > b ? 1 : -1;
-    }
+    var sortAscending = require('tableFuncs').sortAscending;
 
-    function filterAndSortList(list, type) {
-        return list.map(mapValue(type))
-            .filter(filterNull)
-            .reduce(concateIfNotInArray, [''])
-            .sort(sortAssending);
-    }
+    var filterAndSortList = require('tableFuncs').filterAndSortList;
 
-    function prepareStatusList(list) {
-        return list.map(function (item) {
-                return item.LocalizedStatus ? {
-                    icon: item.StatusColor,
-                    text: item.LocalizedStatus.trim()
-                } : null;
-            }).filter(filterNull)
-            .reduce(function (acc, curr) {
-                return acc.map(function (item) {
-                    return item.text;
-                }).find(curr.text) ? acc.concate(curr) : acc;
-            }, [{
-                text: '',
-                icon: ''
-            }]).sort(function (a, b) {
-                return sortAssending(a.text, b.text);
-            });
+    var prepareStatusList = require('tableFuncs').prepareStatusList;
+
+    function stringIncludes(str, value) {
+        return str.toLowerCase().includes(value);
     }
 
     var MyDealsTable = function (data) {
-        this.datePickerOption = {
+        this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date('1900-01-01'),
             maxDate: new Date()
@@ -78,12 +50,14 @@
         this.typeOfPayment = ko.observable(localStorage.getItem(filters.typeOfPayment) || '');
         this.valueFrom = ko.observable(localStorage.getItem(filters.valueFrom) || '');
         this.valueTo = ko.observable(localStorage.getItem(filters.valueTo) || '');
+        this.search = ko.observable('');
 
         this.showFilters = ko.observable(true);
+        this.showDetailedView = ko.observable(false);
 
         this.list = ko.observableArray(data);
 
-        this.filteredList = ko.observableArray(data);
+        this.filteredList = ko.observable(data);
         this.sortedList = ko.computed(function () {
             return this.filteredList();
         }, this);
@@ -194,10 +168,10 @@
 
         //subscriptions
         this.list.subscribe(function (newValue) {
-            this.agreementOptions(filterAndSortList(data, 'AgreementType'));
-            this.statusOptions(prepareStatusList(data));
-            this.salesRepOptions(filterAndSortList(data, 'SalesRep'));
-            this.paymentTypeOptions(filterAndSortList(data, 'PaymentType'));
+            this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
+            this.statusOptions(prepareStatusList(newValue));
+            this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
+            this.paymentTypeOptions(filterAndSortList(newValue, 'PaymentType'));
         }, this);
 
         this.sortedList.subscribe(function (newValue) {

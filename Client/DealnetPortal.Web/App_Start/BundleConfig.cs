@@ -79,6 +79,7 @@ namespace DealnetPortal.Web
                 "~/Scripts/vendor/datejs.js",
                 "~/Scripts/utils/loader.js",
                 "~/Scripts/utils/datepicker.js",
+                "~/Scripts/utils/tableFuncs.js",
                 "~/Scripts/components/ko.paginator.js",
                 "~/Scripts/pages/homePage/homePageTable.js",
                 "~/Scripts/pages/homePage/index.js"));
@@ -156,7 +157,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/js.cookie.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/datepicker.js")
-                .Include("~/Scripts/utils/loader.js")
+                .Include("~/Scripts/utils/loader.js")  
+                .Include("~/Scripts/utils/tableFuncs.js")
                 .Include("~/Scripts/components/ko.paginator.js")
                 .Include("~/Scripts/pages/myDeals/table.js")
                 .Include("~/Scripts/pages/myDeals/index.js"));

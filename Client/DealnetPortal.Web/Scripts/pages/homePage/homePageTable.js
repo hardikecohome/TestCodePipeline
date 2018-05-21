@@ -2,56 +2,18 @@ module.exports('table', function (require) {
 
     var Paginator = require('paginator');
 
-    function filterNull(item) {
-        return item != null;
-    }
+    var filterNull = require('tableFuncs').filterNull;
 
-    function mapValue(type) {
-        return function (item) {
-            return item[type].trim() || null;
-        };
-    }
+    var mapValue = require('tablFuncs').mapValue;
 
-    function concatIfNotInArray(acc, curr) {
-        return acc.indexOf(curr) === -1 ? acc.concat(curr) : acc;
-    }
+    var concatIfNotInArray = require('tablFuncs').concatIfNotInArray;
+    var sortAscending = require('tablFuncs').sortAscending;
 
-    function sortAssending(a, b) {
-        return a == b ? 0 : a > b ? 1 : -1;
-    }
+    var sortDescending = require('tablFuncs').sortDescending;
 
-    function sortDescending(a, b) {
-        return a == b ? 0 : a < b ? 1 : -1;
-    }
+    var filterAndSortList = require('tablFuncs').filterAndSortList;
 
-    function filterAndSortList(list, type) {
-        return list.map(mapValue(type))
-            .filter(filterNull)
-            .reduce(concatIfNotInArray, [''])
-            .sort(sortAssending);
-    }
-
-    function prepareStatusList(list) {
-        return list.map(function (item) {
-                return item.LocalizedStatus ? {
-                    icon: item.StatusColor,
-                    text: item.LocalizedStatus.trim()
-                } : null;
-            }).filter(filterNull)
-            .reduce(function (acc, curr) {
-                return acc.map(function (item) {
-                        return item.text;
-                    }).indexOf(curr.text) === -1 ?
-                    acc.concat(curr) :
-                    acc;
-            }, [{
-                text: '',
-                icon: ''
-            }])
-            .sort(function (a, b) {
-                return sortAssending(a.text, b.text);
-            });
-    }
+    var prepareStatusList = require('tablFuncs').prepareStatusList;
 
     function prepareEquipmentList(list) {
         return list.map(mapValue('Equipment'))
@@ -181,11 +143,11 @@ module.exports('table', function (require) {
             }
             if (dir == this.sortDirections.asc) {
                 return tempList1.sort(function (a, b) {
-                    return sortAssending(a[field], b[field]);
+                    return sortAscending(a[field], b[field]);
                 });
             } else
                 return tempList1.sort(function (a, b) {
-                    return sortAssending(a[field], b[field]);
+                    return sortAscending(a[field], b[field]);
                 }).reverse();
         }, this);
 
@@ -353,7 +315,6 @@ module.exports('table', function (require) {
         };
 
         this.openSignaturePopup = function (deal) {
-            debugger
             var id = deal.Id;
             $.ajax({
                 method: 'GET',
