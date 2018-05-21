@@ -1665,7 +1665,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         response.Payload.Accounts.ForEach(a =>
                         {
-                            if (dealerInfo.CompanyInfo != null && a.Name.Contains(dealerInfo.CompanyInfo?.FullLegalName) && dealerInfo.CompanyInfo?.AccountId != a.Id)
+                            if (dealerInfo.CompanyInfo != null && a.Name.Contains(dealerInfo.CompanyInfo?.OperatingName) && dealerInfo.CompanyInfo?.AccountId != a.Id)
                             {
                                 dealerInfo.CompanyInfo.AccountId = a.Id;
                                 idUpdated = true;
@@ -1875,7 +1875,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DealerTierName,
-                    Value = contract.Equipment?.RateCard?.Tier?.Name ?? BlankValue
+                    Value = contract.Dealer?.Tier?.Name ?? BlankValue
                 });
                 udfList.Add(new UDF()
                 {

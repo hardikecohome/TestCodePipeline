@@ -2095,6 +2095,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prime.
+        /// </summary>
+        public static string Prime {
+            get {
+                return ResourceManager.GetString("Prime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prime Plus.
+        /// </summary>
+        public static string PrimePlus {
+            get {
+                return ResourceManager.GetString("PrimePlus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proof of Insurance.
         /// </summary>
         public static string ProofOfInsurance {
@@ -2307,6 +2325,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Sunrooms {
             get {
                 return ResourceManager.GetString("Sunrooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super Prime.
+        /// </summary>
+        public static string SuperPrime {
+            get {
+                return ResourceManager.GetString("SuperPrime", resourceCulture);
             }
         }
         

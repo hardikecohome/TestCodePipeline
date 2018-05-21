@@ -424,7 +424,7 @@
                                             @Resources.AdminFee (@(Model.EquipmentInfo.IsFeePaidByCutomer ?? false ? Resources.CoveredByCustomer : Resources.CoveredByDealer))
                                         </div>
                                         <div class="col-xs-4 col-sm-3 text-right text-semibold">
-                                            $ <span id="admin-fee-display">@Model.EquipmentInfo.AdminFee</span>
+                                            $ <span id="admin-fee-display">@($"{Model.EquipmentInfo.AdminFee:0.00}")</span>
                                         </div>
                                     </div>
                                 }

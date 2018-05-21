@@ -1012,4 +1012,13 @@
   <data name="_Pre_Approved20K" xml:space="preserve">
     <value>Préapprouvé 20 000</value>
   </data>
+  <data name="Prime" xml:space="preserve">
+    <value>A risque élevé</value>
+  </data>
+  <data name="PrimePlus" xml:space="preserve">
+    <value>A risque normal</value>
+  </data>
+  <data name="SuperPrime" xml:space="preserve">
+    <value>A faible risque</value>
+  </data>
 </root>

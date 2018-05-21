@@ -137,7 +137,8 @@
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
-            }
+			}
+			$('#max-amt-cap-out-error').hide();
             setHeight();
             $('.rental-element').show();
             $('.rental-element input, .rental-element select').each(function () {
