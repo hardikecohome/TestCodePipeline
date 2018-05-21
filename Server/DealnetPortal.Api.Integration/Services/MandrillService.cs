@@ -435,7 +435,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 address = $"{addresItem.Street}, {addresItem.City}, {addresItem.State}, {addresItem.PostalCode}";
             }
-            if (contractData.CreditAmount > 0 && contractData.isPreApproved)
+            if (contractData.CreditAmount > 0 && contractData.IsPreApproved)
             {
                 approvalStatus = $"{Resources.Resources.PreApproved}: ${contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)}";
             }

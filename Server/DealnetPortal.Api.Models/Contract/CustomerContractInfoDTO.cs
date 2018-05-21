@@ -17,6 +17,7 @@ namespace DealnetPortal.Api.Models.Contract
         public LocationDTO DealerAdress { get; set; }
         public string DealerPhone { get; set; }
         public string DealerEmail { get; set; }
+        public string DealerType { get; set; }
 
         public decimal CreditAmount { get; set; }
         public int ScorecardPoints { get; set; }
@@ -26,6 +27,6 @@ namespace DealnetPortal.Api.Models.Contract
         public ContractState ContractState { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastUpdateTime { get; set; }
-        public bool isPreApproved { get; set; }
+        public bool IsPreApproved { get; set; }
     }
 }

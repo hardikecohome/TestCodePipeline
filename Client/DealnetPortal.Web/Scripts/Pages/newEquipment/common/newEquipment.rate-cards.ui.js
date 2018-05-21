@@ -137,7 +137,8 @@
             if ($("#submit").hasClass('disabled')) {
                 $('#submit').removeClass('disabled');
                 $('#submit').parent().popover('destroy');
-            }
+			}
+			$('#max-amt-cap-out-error').hide();
             setHeight();
             $('.rental-element').show();
             $('.rental-element input, .rental-element select').each(function () {
@@ -262,7 +263,7 @@
             targetSlides = 1;
         }
 
-        var numItems = jcarousel.find('li').length;
+        var numItems = jcarousel.find('li:visible').length;
         if (paginationItems > numItems)
             paginationItems = numItems;
         var width = viewport().width

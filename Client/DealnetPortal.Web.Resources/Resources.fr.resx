@@ -2769,9 +2769,6 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>appartient au client</value>
   </data>
   <data name="MaximumAmountCapingOut" xml:space="preserve">
-    <value>Le montant total financé ne peut dépasser le montant  pré-approuvé</value>
-  </data>
-  <data name="MaximumAmountCapingOutCreditReview" xml:space="preserve">
     <value>Le montant total financé ne peut dépasser le montant  demandé</value>
   </data>
   <data name="NameOfExistingSupplier" xml:space="preserve">
@@ -2821,5 +2818,20 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   </data>
   <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
     <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
+  </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel ne peut pas être au Québec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel devrait être au Québec</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Le paiement mensuel total ne peut pas dépasser le montant de</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Préautorisé</value>
+  </data>
+  <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
+    <value>Félicitations, vous avez été pré-approuvé</value>
   </data>
 </root>

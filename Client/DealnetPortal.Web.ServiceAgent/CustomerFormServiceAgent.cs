@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.PostAsyncEx<CustomerFormDTO, Tuple<CustomerContractInfoDTO, IList<Alert>>>(
-                            $"{_fullUri}/SubmitCustomerForm", customerForm, null, CurrentCulture);
+                            $"{_fullUri}", customerForm, null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 return await Client.GetAsyncEx<CustomerContractInfoDTO>(
-                        $"{_fullUri}/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+                        $"{_fullUri}/{contractId}/{dealerName}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

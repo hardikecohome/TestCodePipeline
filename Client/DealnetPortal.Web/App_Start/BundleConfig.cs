@@ -64,6 +64,7 @@ namespace DealnetPortal.Web
                     "~/Scripts/utils/myDeals.counter.js",
                     "~/Scripts/utils/common.timezone.js",
                     "~/Scripts/utils/detectIE.js",
+                    "~/Scripts/utils/polyfills.js",
                     "~/Scripts/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap")
@@ -257,7 +258,8 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/datepicker.js")
                 .Include("~/Scripts/utils/navigateToStep.js")
                 .Include("~/Scripts/utils/setEqualHeightRows.js")
-                .Include("~/Scripts/utils/resetPlaceholder.js")
+                .Include("~/Scripts/utils/resetPlaceholder.js")  
+                .Include("~/Scripts/utils/loader.js")
                 .IncludeDirectory("~/Scripts/utils/rateCards", "*.js", true)
                 .IncludeDirectory("~/Scripts/pages/newEquipment/common", "*.js", true)
             );

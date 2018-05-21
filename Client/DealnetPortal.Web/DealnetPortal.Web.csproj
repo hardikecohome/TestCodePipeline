@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -901,6 +901,7 @@
     <Content Include="Content\files\resources\en\User Guide.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
     <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Lease Rate Cards FINAL May 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
@@ -920,6 +921,7 @@
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
     <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\utils\idToValue.js" />
+    <Content Include="Scripts\utils\polyfills.js" />
     <Content Include="Scripts\vendor\jquery.selectric.min.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
@@ -1225,7 +1227,7 @@
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Custom.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />

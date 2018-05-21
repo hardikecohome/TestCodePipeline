@@ -9,12 +9,12 @@
             <div class="col-md-2 col-xs-4 text-right text-semibold">
                 $ <span id="total-monthly-payment-display">-</span>
             </div>
-            <div class="col-md-6 error-descr hidden" id ="escalation-limit-error-msg">
-                <svg aria-hidden="true" class="icon icon-error">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
-                </svg>
-                @Resources.TotalMonthlyPaymentExceedPreApprovedAmount
-            </div>            
+			<div class="col-md-6 error-descr hidden" id="escalation-limit-error-msg">
+				<svg aria-hidden="true" class="icon icon-error">
+					<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
+				</svg>
+				@Resources.TotalMonthlyPaymentCannotExceedTheAmountOf $<span id="max-monthly-limit-display">-</span>
+			</div>            
         </div>
         <div class="row form-group">
             <div class="col-md-4 col-xs-8">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>

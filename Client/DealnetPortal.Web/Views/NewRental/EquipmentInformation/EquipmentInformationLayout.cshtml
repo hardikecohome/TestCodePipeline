@@ -6,11 +6,11 @@
 }
 
 @{
-    if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
     }
-    if (Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
     {
         Model.InstallationPackages = null;
     }
@@ -20,7 +20,7 @@
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
     <div class="form-section">
-        @if ((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
+        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -30,22 +30,31 @@
             </p>
 
             <p class="text-semibold preapproved-text">
-                @if (Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                @if (ViewBag.AgreementTypeAccessRights != "lease")
                 {
-                    <text>
-                        @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
-                    </text>
+                    if (Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                    {
+                        <text>
+                            @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                            @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                        </text>
+
+                    }
                 }
                 else
                 {
                     <text>
-                        @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                        @Resources.PreApproved
                     </text>
-
                 }
             </p>
         }
-        @if (Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
+        @if(Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
         {
             <p class="align-middle equipment-proceed-success">
                 <svg aria-hidden="true" class="icon icon-success">
@@ -53,9 +62,7 @@
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
             </p>
-            <p class="text-semibold preapproved-text">
-                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
-            </p>
+            
         }
     </div>
 </div>
@@ -83,6 +90,11 @@
     translations['coveredByDealer'] = "@Resources.CoveredByDealer";
     translations['noReduction'] = "@Html.Raw(Resources.NoReduction)";
     translations['for'] = '@Html.Raw(Resources.For)';
+    translations['AcknowledgeAndAgree']='@Resources.AcknowledgeAndAgree';
+    translations['MonthlyCostExceedsMaxTitle']='@Resources.MonthlyCostExceedsSoftCapTitle';
+    translations['MonthlyCostExceedsMaxBody']='@Resources.MonthlyCostExceedsSoftCapBody';
+    translations['SoftCapWarning']='@Resources.SoftCapWarning';
+    translations['HardCapWarning'] = '@Resources.HardCapWarning';
 }
 
 @Scripts.Render("~/bundles/jqueryval")

@@ -243,23 +243,12 @@ namespace DealnetPortal.Api.Integration.Services
                     alerts.AddRange(userResult.Item2);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
-                {
-                    // if case user changed province on 4 step. Recalculate value of deal.
-                    //if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
-                    //{
-                    //    var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
-
-                    //    contract.Equipment.ValueOfDeal = contract.Equipment.ValueOfDeal =
-                    //        (double?)
-                    //        ((contract.Equipment.TotalMonthlyPayment ?? 0) +
-                    //         (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
-                    //}
-
+                {                   
                     Func<DealUploadResponse, object, bool> equipmentAnalyze =
                         (cResponse, cEquipments) =>
                         {
                             bool succeded = false;
-                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract.Equipment?.NewEquipment;
+                            var ceqList = (cEquipments as IList<NewEquipment>) ?? contract.Equipment?.NewEquipment.Where(e => e.IsDeleted != true);
                             if (ceqList != null)
                             {
                                 cResponse?.Payload?.Asset?.ForEach(asset =>
@@ -267,8 +256,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     if (asset != null)
                                     {
                                         var eqCollection = ceqList;
-                                        var aEq = eqCollection?.FirstOrDefault(
-                                            eq => eq.Description == asset.Name);
+                                        var aEq = eqCollection?.FirstOrDefault(eq => GetEquipmentDescription(eq) == asset.Name);                                            
                                         if (aEq != null)
                                         {
                                             aEq.AssetNumber = asset.Number;
@@ -1232,12 +1220,12 @@ namespace DealnetPortal.Api.Integration.Services
                 } 
                 
                 account.UDFs = GetCustomerUdfs(c, location, setLeadSource, isBorrower,
-                    contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
+                                             contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
                 {
                     account.Role = role;
-                }                                
+                }
 
                 return account;
             };
@@ -1249,7 +1237,7 @@ namespace DealnetPortal.Api.Integration.Services
                 accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
+            contract.SecondaryCustomers?.Where(sc => sc.IsDeleted != true).ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
             return accounts;
         }
 
@@ -1443,7 +1431,7 @@ namespace DealnetPortal.Api.Integration.Services
                             AssetNo = string.IsNullOrEmpty(eq.AssetNumber) ? null : eq.AssetNumber,
                             Quantity = "1",
                             Cost = GetEquipmentCost(contract, eq, bFirstEquipment)?.ToString(CultureInfo.InvariantCulture),
-                            Description = eq.Description,
+                            Description = GetEquipmentDescription(eq),
                             AssetClass = new AssetClass() { AssetCode = eq.Type },
                             UDFs = GetEquipmentUdfs(contract, eq).ToList()
                         });
@@ -1494,11 +1482,16 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
+                    var rate = _contractRepository.GetProvinceTaxRate(
+                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                                 l => l.AddressType == AddressType.MainAddress) ??
+                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                    
                     eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
                         ? (isFirstEquipment
                             ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))
                             : equipment.Cost)
-                        : equipment.MonthlyCost;
+                        : equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100);
                 }
                 var adminFee = contract.Details?.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true
                     ? contract.Equipment?.AdminFee : null;
@@ -1509,6 +1502,15 @@ namespace DealnetPortal.Api.Integration.Services
 
             }            
             return eqCost;
+        }
+
+        private string GetEquipmentDescription(NewEquipment equipment)
+        {
+            return equipment.IsDeleted != true
+                ? (string.IsNullOrEmpty(equipment.EquipmentSubType?.Description)
+                    ? equipment.Description
+                    : $"{equipment.EquipmentSubType?.Description}-{equipment.Description}")
+                : BlankValue;
         }
 
         private bool IsClarityProgram(Contract contract)
@@ -1663,7 +1665,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         response.Payload.Accounts.ForEach(a =>
                         {
-                            if (dealerInfo.CompanyInfo != null && a.Name.Contains(dealerInfo.CompanyInfo?.FullLegalName) && dealerInfo.CompanyInfo?.AccountId != a.Id)
+                            if (dealerInfo.CompanyInfo != null && a.Name.Contains(dealerInfo.CompanyInfo?.OperatingName) && dealerInfo.CompanyInfo?.AccountId != a.Id)
                             {
                                 dealerInfo.CompanyInfo.AccountId = a.Id;
                                 idUpdated = true;
@@ -1772,7 +1774,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.EstimatedRetailPrice,
                     Value = equipment.EstimatedRetailCost?.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                 });
-            }            
+                //DEAL-5092 - it is an issue in Aspire. We cant send more that 1 UDF for equipment at the moment
+                //udfList.Add(new UDF
+                //{
+                //    Name = AspireUdfFields.MonthlyPayment,
+                //    Value = "0.0"
+                //});
+            }
             return udfList;
         }
 
@@ -1867,7 +1875,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.DealerTierName,
-                    Value = contract.Equipment?.RateCard?.Tier?.Name ?? BlankValue
+                    Value = contract.Dealer?.Tier?.Name ?? BlankValue
                 });
                 udfList.Add(new UDF()
                 {
@@ -1932,6 +1940,11 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                         udfList.Add(new UDF()
                         {
+                            Name = AspireUdfFields.ContractSoftCapLimit,
+                            Value = BlankValue
+                        });
+                        udfList.Add(new UDF()
+                        {
                             Name = AspireUdfFields.BorrowingCost,
                             Value = paymentInfo.LoanDetails?.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture) ?? "0.0"
                         });
@@ -1983,6 +1996,11 @@ namespace DealnetPortal.Api.Integration.Services
                         {
                             Name = AspireUdfFields.RentalMonthlyPayment,
                             Value = paymentInfo.TotalMonthlyPayment?.ToString() ?? "0.0"
+                        });
+                        udfList.Add(new UDF()
+                        {
+                            Name = AspireUdfFields.ContractSoftCapLimit,
+                            Value = paymentInfo.SoftCapLimit ? "Y": "N"
                         });
                         udfList.Add(new UDF()
                         {
@@ -2149,9 +2167,9 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = AspireUdfFields.PaymentType,
                     Value = contract.PaymentInfo?.PaymentType == PaymentType.Enbridge ? "Enbridge" : "PAD"
                 });
-                if (contract.PaymentInfo?.PaymentType == PaymentType.Enbridge &&
+                if (contract.PaymentInfo.PaymentType == PaymentType.Enbridge &&
                     (!string.IsNullOrEmpty(contract.PaymentInfo?.EnbridgeGasDistributionAccount) ||
-                    !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
+                     !string.IsNullOrEmpty(contract.PaymentInfo?.MeterNumber)))
                 {
                     udfList.Add(new UDF()
                     {
@@ -2159,6 +2177,42 @@ namespace DealnetPortal.Api.Integration.Services
                         Value = contract.PaymentInfo.EnbridgeGasDistributionAccount ?? contract.PaymentInfo.MeterNumber
                     });
                 }
+                else
+                {
+                    udfList.Add(new UDF()
+                    {
+                        Name = AspireUdfFields.EnbridgeGasAccountNumber,
+                        Value = BlankValue
+                    });
+                }
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EnbridgeMeter,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Enbridge ? contract.PaymentInfo.MeterNumber : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapAccountNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.AccountNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapTransitNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.TransitNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapBankNumber,
+                    Value = contract.PaymentInfo.PaymentType == PaymentType.Pap ? contract.PaymentInfo.BlankNumber ?? BlankValue : BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.PapWithdrawalDate,
+                    Value = (contract.PaymentInfo.PaymentType == PaymentType.Pap 
+                                && contract.PrimaryCustomer?.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress)?.State != "QC") 
+                        ? (contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First  ? "1" : "15")
+                        : BlankValue
+                });                          
             }            
 
             if (!string.IsNullOrEmpty(contract?.ExternalSubDealerId))
@@ -2327,148 +2381,115 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             var previousAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.PreviousAddress);
-            if (previousAddress != null)
+            udfList.AddRange(new UDF[]
             {
-                udfList.AddRange(new UDF[]
+                new UDF()
                 {
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.PreviousAddress,
-                        Value = previousAddress.Street
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.PreviousAddressCity,
-                        Value = previousAddress.City
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.PreviousAddressPostalCode,
-                        Value = previousAddress.PostalCode
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.PreviousAddressState,
-                        Value = previousAddress.State.ToProvinceCode()
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.PreviousAddressCountry,
-                        Value = AspireUdfFields.DefaultAddressCountry
-                    },
-                });
-                if (!string.IsNullOrEmpty(previousAddress.Unit))
+                    Name = AspireUdfFields.PreviousAddress,
+                    Value = previousAddress?.Street ?? BlankValue
+                },
+                new UDF()
                 {
-                    udfList.Add(
-                        new UDF()
-                        {
-                            Name = AspireUdfFields.PreviousAddressUnit,
-                            Value = previousAddress.Unit
-                        });
+                    Name = AspireUdfFields.PreviousAddressCity,
+                    Value = previousAddress?.City ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressPostalCode,
+                    Value = previousAddress?.PostalCode ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressState,
+                    Value = previousAddress?.State?.ToProvinceCode() ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressCountry,
+                    Value = previousAddress != null ? AspireUdfFields.DefaultAddressCountry : BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressUnit,
+                    Value = previousAddress?.Unit ?? BlankValue
                 }
-            }
+            });
 
             var installationAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
-            if (installationAddress != null)
+            udfList.AddRange(new UDF[]
             {
-                udfList.AddRange(new UDF[]
+                new UDF()
                 {
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.InstallationAddress,
-                        Value = installationAddress.Street
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.InstallationAddressCity,
-                        Value = installationAddress.City
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.InstallationAddressPostalCode,
-                        Value = installationAddress.PostalCode
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.InstallationAddressState,
-                        Value = installationAddress.State.ToProvinceCode()
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.InstallationAddressCountry,
-                        Value = AspireUdfFields.DefaultAddressCountry
-                    },
-                });
-                if (!string.IsNullOrEmpty(installationAddress.Unit))
+                    Name = AspireUdfFields.InstallationAddress,
+                    Value = installationAddress?.Street ?? BlankValue
+                },
+                new UDF()
                 {
-                    udfList.Add(
-                        new UDF()
-                        {
-                            Name = AspireUdfFields.InstallationAddressUnit,
-                            Value = installationAddress.Unit
-                        });
+                    Name = AspireUdfFields.InstallationAddressCity,
+                    Value = installationAddress?.City ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressPostalCode,
+                    Value = installationAddress?.PostalCode ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressState,
+                    Value = installationAddress?.State?.ToProvinceCode() ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressCountry,
+                    Value = installationAddress != null ? AspireUdfFields.DefaultAddressCountry : BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.EstimatedMoveInDate,
+                    Value = installationAddress?.MoveInDate?.ToString("d", CultureInfo.CreateSpecificCulture("en-US")) ?? BlankValue
                 }
-
-                if (installationAddress.MoveInDate.HasValue)
-                {
-                    udfList.Add(new UDF()
-                    {
-                        Name = AspireUdfFields.EstimatedMoveInDate,
-                        Value = installationAddress.MoveInDate.Value.ToString("d", CultureInfo.CreateSpecificCulture("en-US"))
-                    });
-                }
-            }
+            });
 
             var mailingAddress = customer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MailAddress);
-            if (mailingAddress != null)
+            udfList.AddRange(new UDF[]
             {
-                udfList.AddRange(new UDF[]
+                new UDF()
                 {
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.MailingAddress,
-                        Value = mailingAddress.Street
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.MailingAddressCity,
-                        Value = mailingAddress.City
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.MailingAddressPostalCode,
-                        Value = mailingAddress.PostalCode
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.MailingAddressState,
-                        Value = mailingAddress.State.ToProvinceCode()
-                    },
-                    new UDF()
-                    {
-                        Name = AspireUdfFields.MailingAddressCountry,
-                        Value = AspireUdfFields.DefaultAddressCountry
-                    },
-                });
-                if (!string.IsNullOrEmpty(mailingAddress.Unit))
+                    Name = AspireUdfFields.MailingAddress,
+                    Value = mailingAddress?.Street ?? BlankValue
+                },
+                new UDF()
                 {
-                    udfList.Add(
-                        new UDF()
-                        {
-                            Name = AspireUdfFields.MailingAddressUnit,
-                            Value = mailingAddress.Unit
-                        });
+                    Name = AspireUdfFields.MailingAddressCity,
+                    Value = mailingAddress?.City ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressPostalCode,
+                    Value = mailingAddress?.PostalCode ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressState,
+                    Value = mailingAddress?.State?.ToProvinceCode() ?? BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressCountry,
+                    Value = mailingAddress != null ? AspireUdfFields.DefaultAddressCountry : BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressUnit,
+                    Value = mailingAddress?.Unit ?? BlankValue
                 }
-            }
+            });            
 
-            if (isHomeOwner.HasValue)
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.HomeOwner,
-                    Value = isHomeOwner == true ? "Y" : "N"
-                });
-            }
+                Name = AspireUdfFields.HomeOwner,
+                Value = isHomeOwner == true ? "Y" : "N"
+            });
 
             if (!isBorrower)
             {
@@ -2479,33 +2500,21 @@ namespace DealnetPortal.Api.Integration.Services
                 });
             }
 
-            customer.Phones?.ForEach(p =>
+            udfList.Add(new UDF()
             {
-                switch (p.PhoneType)
-                {
-                    case PhoneType.Home:
-                        udfList.Add(new UDF()
-                        {
-                            Name = AspireUdfFields.HomePhoneNumber,
-                            Value = p.PhoneNum
-                        });
-                        break;
-                    case PhoneType.Cell:
-                        udfList.Add(new UDF()
-                        {
-                            Name = AspireUdfFields.MobilePhoneNumber,
-                            Value = p.PhoneNum
-                        });
-                        break;
-                    case PhoneType.Business:
-                        udfList.Add(new UDF()
-                        {
-                            Name = AspireUdfFields.BusinessPhoneNumber,
-                            Value = p.PhoneNum
-                        });
-                        break;                    
-                }
+                Name = AspireUdfFields.HomePhoneNumber,
+                Value = customer.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Home)?.PhoneNum ?? BlankValue
             });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MobilePhoneNumber,
+                Value = customer.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Cell)?.PhoneNum ?? BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.BusinessPhoneNumber,
+                Value = customer.Phones?.FirstOrDefault(p => p.PhoneType == PhoneType.Business)?.PhoneNum ?? BlankValue
+            });                        
 
             if (customer.AllowCommunicate.HasValue)
             {
@@ -2571,35 +2580,47 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.MonthlyMortgage,
-                    Value = customer.EmploymentInfo.MonthlyMortgagePayment.ToString(CultureInfo.InvariantCulture) ?? BlankValue
+                    Value = customer.EmploymentInfo.MonthlyMortgagePayment.ToString(CultureInfo.InvariantCulture) ??
+                            BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.EmploymentType,
-                    Value = customer.EmploymentInfo.EmploymentType.HasValue ? (customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P") : BlankValue
+                    Value = customer.EmploymentInfo.EmploymentType.HasValue
+                        ? (customer.EmploymentInfo.EmploymentType == EmploymentType.FullTime ? "F" : "P")
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.IncomeType,
-                    Value = customer.EmploymentInfo.IncomeType.HasValue ? (customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A") : BlankValue
+                    Value = customer.EmploymentInfo.IncomeType.HasValue
+                        ? (customer.EmploymentInfo.IncomeType == IncomeType.HourlyRate ? "H" : "A")
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.JobTitle,
-                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.JobTitle) ? customer.EmploymentInfo.JobTitle : BlankValue
+                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.JobTitle)
+                        ? customer.EmploymentInfo.JobTitle
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.EmployerName,
-                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyName) ? customer.EmploymentInfo.CompanyName : BlankValue
+                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyName)
+                        ? customer.EmploymentInfo.CompanyName
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.EmployerPhone,
-                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyPhone) ? customer.EmploymentInfo.CompanyPhone : BlankValue
+                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyPhone)
+                        ? customer.EmploymentInfo.CompanyPhone
+                        : BlankValue
                 });
-                if (customer.EmploymentInfo.CompanyAddress != null && 
-                    (customer.EmploymentInfo.EmploymentStatus == EmploymentStatus.Employed || customer.EmploymentInfo.EmploymentStatus == EmploymentStatus.SelfEmployed))
+                if (customer.EmploymentInfo.CompanyAddress != null &&
+                    (customer.EmploymentInfo.EmploymentStatus == EmploymentStatus.Employed ||
+                     customer.EmploymentInfo.EmploymentStatus == EmploymentStatus.SelfEmployed))
                 {
                     var cAddress = !string.IsNullOrEmpty(customer.EmploymentInfo.CompanyAddress.Unit)
                         ? $"{customer.EmploymentInfo.CompanyAddress.Street}, {Resources.Resources.Suite} {customer.EmploymentInfo.CompanyAddress.Unit}, {customer.EmploymentInfo.CompanyAddress.City}, {customer.EmploymentInfo.CompanyAddress.State}, {customer.EmploymentInfo.CompanyAddress.PostalCode}"
@@ -2621,19 +2642,270 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.AnnualSalary,
-                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.AnnualSalary) ? customer.EmploymentInfo.AnnualSalary.Replace("$", "").Replace(" ", "") : BlankValue
+                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.AnnualSalary)
+                        ? customer.EmploymentInfo.AnnualSalary.Replace("$", "").Replace(" ", "")
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.HourlyRate,
-                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.HourlyRate) ? customer.EmploymentInfo.HourlyRate.Replace("$", "").Replace(" ", "") : BlankValue
+                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.HourlyRate)
+                        ? customer.EmploymentInfo.HourlyRate.Replace("$", "").Replace(" ", "")
+                        : BlankValue
                 });
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.EmploymentLength,
-                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.LengthOfEmployment) ? customer.EmploymentInfo.LengthOfEmployment : BlankValue
+                    Value = !string.IsNullOrEmpty(customer.EmploymentInfo.LengthOfEmployment)
+                        ? customer.EmploymentInfo.LengthOfEmployment
+                        : BlankValue
                 });
             }
+            else
+            {
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmploymentStatus,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.MonthlyMortgage,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmploymentType,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.IncomeType,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.JobTitle,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmployerName,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmployerPhone,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmployerAddress,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.AnnualSalary,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.HourlyRate,
+                    Value = BlankValue
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.EmploymentLength,
+                    Value = BlankValue
+                });
+            }
+
+            return udfList;
+        }
+
+        private IList<UDF> GetCleanCustomerUdfs()
+        {
+            var udfList = new List<UDF>();
+            
+            udfList.AddRange(new UDF[]
+            {
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddress,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressCity,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressPostalCode,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressState,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressCountry,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.PreviousAddressUnit,
+                    Value = BlankValue
+                }
+            });
+
+            udfList.AddRange(new UDF[]
+            {
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddress,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressCity,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressPostalCode,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressState,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.InstallationAddressCountry,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.EstimatedMoveInDate,
+                    Value = BlankValue
+                }
+            });
+
+            udfList.AddRange(new UDF[]
+            {
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddress,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressCity,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressPostalCode,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressState,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressCountry,
+                    Value = BlankValue
+                },
+                new UDF()
+                {
+                    Name = AspireUdfFields.MailingAddressUnit,
+                    Value = BlankValue
+                }
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.HomePhoneNumber,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MobilePhoneNumber,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.BusinessPhoneNumber,
+                Value = BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.RelationshipToCustomer,
+                Value = BlankValue
+            });
+
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.EmploymentStatus,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.MonthlyMortgage,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.EmploymentType,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.IncomeType,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.JobTitle,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.EmployerName,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.EmployerPhone,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.EmployerAddress,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.AnnualSalary,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.HourlyRate,
+                Value = BlankValue
+            });
+            udfList.Add(new UDF()
+            {
+                Name = AspireUdfFields.EmploymentLength,
+                Value = BlankValue
+            });
 
             return udfList;
         }

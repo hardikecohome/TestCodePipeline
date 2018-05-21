@@ -723,7 +723,9 @@ namespace DealnetPortal.Api.Integration.Services
                     ?? contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
             usersForProcessing.Add(homeOwner);
 
-            contract?.SecondaryCustomers?.ForEach(cc =>
+            var secondaryCustomers = contract?.SecondaryCustomers?.Where(sc => sc.IsDeleted != true);
+
+            secondaryCustomers?.ForEach(cc =>
             {
                 var su = signatureUsers?.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
                                                    (cc.Id == u.CustomerId) ||
@@ -1155,19 +1157,6 @@ namespace DealnetPortal.Api.Integration.Services
                     Name = PdfFormFields.LastName,
                     Value = contract.PrimaryCustomer.LastName
                 });
-                // Hiren testing temporary code
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.DSFirstName,
-                    Value = contract.PrimaryCustomer.FirstName
-                });
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.DSLastName,
-                    Value = contract.PrimaryCustomer.LastName
-                });
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
@@ -1448,9 +1437,9 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillApplicantsFields(List<FormField> formFields, Contract contract)
         {
-            if (contract.SecondaryCustomers?.Any() ?? false)
+            if (contract.SecondaryCustomers?.Any(sc => sc.IsDeleted != true) ?? false)
             {
-                var addApplicant = contract.SecondaryCustomers.First();
+                var addApplicant = contract.SecondaryCustomers.First(sc => sc.IsDeleted != true);
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
@@ -1461,19 +1450,6 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.LastName2,
-                    Value = addApplicant.LastName
-                });
-                // Hiren testing Temporary code
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.DSFirstName2,
-                    Value = addApplicant.FirstName
-                });
-                formFields.Add(new FormField()
-                {
-                    FieldType = FieldType.Text,
-                    Name = PdfFormFields.DSLastName2,
                     Value = addApplicant.LastName
                 });
                 formFields.Add(new FormField()
@@ -1535,7 +1511,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var mainAddress2 =
-                    addApplicant?.Locations?.FirstOrDefault(
+                    addApplicant.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MainAddress) ?? contract.PrimaryCustomer.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress);
                 if (mainAddress2 != null)
                 {
@@ -1583,7 +1559,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
                 var mailAddress2 =
-                    addApplicant?.Locations?.FirstOrDefault(
+                    addApplicant.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MailAddress);
                 if (mailAddress2 != null)
                 {
@@ -1610,7 +1586,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
                 var previousAddress =
-                    addApplicant?.Locations?.FirstOrDefault(
+                    addApplicant.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.PreviousAddress);
                 if (previousAddress != null)
                 {
@@ -1682,14 +1658,14 @@ namespace DealnetPortal.Api.Integration.Services
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.CustomerName2,
                     Value =
-                        $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                        $"{addApplicant.LastName} {addApplicant.FirstName}"
                 });
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = $"{PdfFormFields.CustomerName2}2",
                     Value =
-                        $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                        $"{addApplicant.LastName} {addApplicant.FirstName}"
                 });
 
                 if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)
@@ -2170,13 +2146,7 @@ namespace DealnetPortal.Api.Integration.Services
                         FieldType = FieldType.Text,
                         Name = PdfFormFields.LoanTotalBorowingCost,
                         Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
-                    });
-                    formFields.Add(new FormField()
-                    {
-                        FieldType = FieldType.Text,
-                        Name = PdfFormFields.DSLoanTotalBorowingCost,
-                        Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
-                    });
+                    });                    
                 }
                 else
                 {
@@ -2564,13 +2534,6 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 FieldType = FieldType.Text,
                                 Name = PdfFormFields.DealerName,
-                                Value = dealerInfo.FirstName
-                            });
-                            // Hiren testing temporary
-                            formFields.Add(new FormField()
-                            {
-                                FieldType = FieldType.Text,
-                                Name = PdfFormFields.DSDealerName,
                                 Value = dealerInfo.FirstName
                             });
                             var dealerAddress =

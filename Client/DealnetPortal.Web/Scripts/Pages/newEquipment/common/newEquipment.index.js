@@ -25,15 +25,6 @@
      * @returns {void} 
      */
     var init = function () {
-        var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
-
-        if (isOnlyLoan) {
-            if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
-                $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
-            }
-            $(settings.agreementTypeId).attr('disabled', true);
-        }
-
         var agreementType = $(settings.agreementTypeId).find(":selected").val();
         state.agreementType = Number(agreementType);
 

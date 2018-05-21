@@ -86,6 +86,7 @@
         public static string RentalMonthlyPayment = "EH Rental Payment Amount";
         //used both for contract and equipment
         public static string MonthlyPayment = "Monthly Payment";
+        public static string ContractSoftCapLimit = "contractsoftcaplimit";
 
         public static string BorrowingCost = "Borrowing Cost";
         public static string TotalAmountFinanced = "Total Amount Financed";
@@ -175,6 +176,14 @@
         public static string EmployerAddress = "Employer Address";
         public static string MonthlyMortgage = "Monthly Mortgage";
 
+        #endregion
+
+        #region Payment information
+        public static string EnbridgeMeter = "Enbridge Meter";
+        public static string PapAccountNumber = "PAP Account Number";
+        public static string PapBankNumber = "PAP Bank Number";
+        public static string PapTransitNumber = "PAP Transit Number";
+        public static string PapWithdrawalDate = "PAP Withdrawal Date";
         #endregion
     }
 }

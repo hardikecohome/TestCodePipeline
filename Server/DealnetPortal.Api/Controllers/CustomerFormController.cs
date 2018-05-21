@@ -23,8 +23,7 @@ namespace DealnetPortal.Api.Controllers
         {
             _customerFormService = customerFormService;
         }
-
-        [Route("SubmitCustomerForm")]
+        
         [HttpPost]
         public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
         {
@@ -39,7 +38,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCustomerContractInfo")]
+        [Route("{contractId}/{dealerName}")]
+        [Route("{contractId}")]
         [HttpGet]
         public IHttpActionResult GetCustomerContractInfo(int contractId, string dealerName)
         {
