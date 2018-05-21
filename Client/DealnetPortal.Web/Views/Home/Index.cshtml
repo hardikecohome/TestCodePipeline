@@ -6,6 +6,10 @@
 
     <div class="margin-block">
         <div class="row">
+            @if(System.Configuration.ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+            {
+                @Html.Action("GetMaintanenceBanner", "Home")
+            }
             <!-- ko if: showLearnMore -->
             <div class="new-notification-wp">
                 <div class="new-notification-blank">
