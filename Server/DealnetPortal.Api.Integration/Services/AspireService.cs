@@ -1106,7 +1106,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var account = new Account
                 {
                     IsIndividual = true,
-                    IsPrimary = isBorrower,
+                    IsPrimary = c.IsDeleted != true,
                     Legalname = contract.Dealer?.Application?.LegalName,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
@@ -1237,7 +1237,7 @@ namespace DealnetPortal.Api.Integration.Services
                 accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.Where(sc => sc.IsDeleted != true).ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
+            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
             return accounts;
         }
 
