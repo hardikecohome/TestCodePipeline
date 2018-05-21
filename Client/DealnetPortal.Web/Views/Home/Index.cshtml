@@ -338,7 +338,7 @@
 
                 <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated }">
+                    <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated,'expired-deal':$data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
                             <label class="customized-checkbox-icon" data-bind="if: !$data.IsInternal && $data.Id != 0">
                                 <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
@@ -601,7 +601,7 @@
                                 <select name="entries-number"
                                         id="entries-number"
                                         class="custom-select"
-                                        data-bind="options: pager.pageSizes, value:pager.pageSize"></select>
+                                        data-bind="options: pager.pageSizes, selectric:pager.pageSize"></select>
                             </div>
                         </div>
                     </div>

@@ -19,11 +19,19 @@
                     <div class="filters-head__clear-btn new-btn-grey"><span>@Resources.Clear</span></div>
                     <div class="filters-head__save-btn">
                         <div class="new-btn-green"><span>@Resources.Save</span></div>
-                        <span class="save-btn-status"><i class="checked-ico"></i>(@Resources.ForNextTime)</span>
+                        <span class="save-btn-status">
+                            <i class="checked-ico"></i>(@Resources.ForNextTime)
+                        </span>
                     </div>
                     <div class="filters-head__divider"></div>
-                    <div class="filters-head__filter-btn new-btn-red-filter"><i class="filter-ico filter-ico--red"></i><span>@Resources.Filters</span></div>
-                    <div class="filters-head__sort-btn new-sort-btn-red"><i class="sort-button-red-ico"></i><span>@Resources.Sort</span></div>
+                    <div class="filters-head__filter-btn new-btn-red-filter">
+                        <i class="filter-ico filter-ico--red"></i>
+                        <span>@Resources.Filters</span>
+                    </div>
+                    <div class="filters-head__sort-btn new-sort-btn-red">
+                        <i class="sort-button-red-ico"></i>
+                        <span>@Resources.Sort</span>
+                    </div>
                 </div>
                 <div class="filters-type">
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
@@ -64,7 +72,7 @@
 
                     <div class="filters-advanced__deal-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" data-bind="value:valueFrom">
+                            <input type="text" data-bind="value: valueFrom">
                             <label>@Resources.DealValueFrom</label>
                             <span class="ic-nw-dollar-small"></span>
                         </div>
@@ -72,7 +80,7 @@
 
                     <div class="filters-advanced__deal-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" data-bind="value:valueTo">
+                            <input type="text" data-bind="value: valueTo">
                             <label>@Resources.DealValueTo</label>
                             <span class="ic-nw-dollar-small"></span>
                         </div>
@@ -92,28 +100,91 @@
                     <div class="filters-advanced__sales-rep new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.SalesRep</label>
-                            <select id="project-type" class="custom-select" data-bind="options: salesRepOptions, selectric: salesRep">
-                            </select>
+                            <select id="project-type" class="custom-select" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__filters-cloud">
-                        <div class="filters-advanced__contract-number">Contract number - ascending<i class="cross-ico"></i></div>
-                        <div class="filters-advanced__deal-status">Deal status - <i class="info-ico info-ico--red"></i> to <i class="info-ico info-ico--grey"></i> <i class="cross-ico"></i></div>
-                        <div class="filters-advanced__e-sign">E-sign status - <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i> <i class="cross-ico"></i></div>
-                        <div class="filters-advanced__applicant-name">Applicant name from Z to A<i class="cross-ico"></i></div>
-                        <div class="filters-advanced__last-activity">Last activity — latest<i class="cross-ico"></i></div>
-                        <div class="filters-advanced__days-left">Days left from ... to 1<i class="cross-ico"></i></div>
+                        <!-- ko if: sortedColumn() == sortFields.transactionId -->
+                        <div class="filters-advanced__contract-number">
+                            @Resources.ContractNumber -
+                            <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc --> @Resources.Descending <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: sortedColumn() == sortFields.status -->
+                        <div class="filters-advanced__deal-status">
+                            @Resources.DealStatus -
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            <i class="info-ico info-ico--red"></i> @Resources.To <i class="info-ico info-ico--grey"></i>
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            <i class="info-ico info-ico--grey"></i> @Resources.To <i class="info-ico info-ico--red"></i>
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: sortedColumn() == sortFields.sign -->
+                        <div class="filters-advanced__e-sign">
+                            @Resources.EsignStatus -
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i>
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            <i class="sign-ico sign-ico--grey"></i> to <i class="sign-ico sign-ico--red"></i>
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: sortedColumn() == sortFields.applicantName -->
+                        <div class="filters-advanced__applicant-name">
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.ApplicantNameAtoZ
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.ApplicantNameZtoA
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: sortedColumn() == sortFields.date -->
+                        <div class="filters-advanced__last-activity">
+                            @Resources.LastActivity —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Latest
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Oldest
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: sortedColumn() == sortFields.creditExpiry -->
+                        <div class="filters-advanced__days-left">
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.CreditExpiryAsc
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.CreditExpiryDesc
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <!-- /ko -->
                     </div>
 
-                    <div class="filters-advanced__clear-btn new-btn-grey"><span>Clear</span></div>
-                    <div class="filters-advanced__apply-btn new-btn-solid-red"><span>Apply</span></div>
+                    <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
+                        <span>@Resources.Clear</span>
+                    </div>
+                    <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
+                        <span>@Resources.Apply</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="margin-block">
+    <div class="margin-block" data-bind="visible: list().length > 0">
         <div class="row">
 
             <div class="main-table">
@@ -126,288 +197,353 @@
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
-                            <span>Contract number</span>
+                            <span>@Resources.ContractNumber</span>
                             <span class="filter-ico filter-ico--asc">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span>
-                            <span>Deal status</span>
+                            <span class="icon">
+                                <i class="info-ico info-ico--green"></i>
+                            </span>
+                            <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
-                            <span>E-sign</span>
+                            <span>@Resources.Esign</span>
                         </div>
                         <div class="main-table__block__row__cell last-activity">
-                            <span>Last activity</span>
+                            <span>@Resources.LastActivity</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell applicant-name">
-                            <span>Applicant name</span>
+                            <span>@Resources.ApplicantName</span>
                             <span class="filter-ico filter-ico--desc">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell days-left">
-                            <span>Credit approval expiry</span>
+                            <span>@Resources.CreditApprovalExpiry</span>
                             <span class="filter-ico filter-ico--asc">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell program-option">
-                            <span>Program option</span>
+                            <span>@Resources.ProgramOption</span>
                         </div>
                         <div class="main-table__block__row__cell loan-amount">
-                            <span>Loan amount</span>
+                            <span>@Resources.LoanAmount</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
 
                         <div class="main-table__block__row__cell term">
-                            <span>Term</span>
+                            <span>@Resources.Term</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell amort">
-                            <span>Amort</span>
+                            <span>@Resources.Amort</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount">
-                            <span>Monthly payment</span>
+                            <span>@Resources.MonthlyPayment</span>
                             <span class="filter-ico filter-ico--default">
-                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                <i class="sort-arrow-top"></i>
+                                <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
 
                         <div class="main-table__block__row__cell project-desc">
-                            <span>Project type</span>
+                            <span>@Resources.ProjectType</span>
                         </div>
                         <div class="main-table__block__row__cell address">
-                            <span>Address</span>
+                            <span>@Resources.Address</span>
                         </div>
                         <div class="main-table__block__row__cell email">
-                            <span>Email</span>
+                            <span>@Resources.Email</span>
                         </div>
                         <div class="main-table__block__row__cell phone">
-                            <span>Phone</span>
+                            <span>@Resources.Phone</span>
                         </div>
                         <div class="main-table__block__row__cell sales-rep">
-                            <span>Sales rep</span>
+                            <span>@Resources.SalesRep</span>
                         </div>
                         <div class="main-table__block__row__cell entered-by">
-                            <span>Entered by</span>
+                            <span>@Resources.EnteredBy</span>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <span>Notes</span>
+                            <span>@Resources.Notes</span>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <span>Lead</span>
+                            <span>@Resources.Lead</span>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
                             <span></span>
                         </div>
                     </div>
                 </div>
-
+                <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
                     <div class="main-table__block__row">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
+                        <div class="main-table__block__row__cell checkbox-cell" data-bind="css:{ 'new-deal': $data.IsNewlyCreated,'expired-deal':$data.isExpired }">
+                            <label class="customized-checkbox-icon" data-bind="if:!$data.IsInternal && $data.Id!=0">
+                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
                                 <span class="customized-checkbox-icon__image"></span>
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
-                            <span>113298</span>
+                            <!-- ko if: $data.IsNewlyCreated -->
+                            <span class="contract-number__notification contract-number__notification--blue">@Resources.New</span>
+                            <!-- /ko -->
+                            <!-- ko if: $data.CreditExpiry && $data.CreditExpiry < 20 -->
+                            <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
+                            <!-- /ko -->
+                            <!-- ko ifnot: $data.Id -->
+                            <span data-bind="text: $data.TransactionId"></span>
+                            <!-- /ko -->
+                            <!-- ko if: $data.Id -->
+                            <a data-bind="attr: { href: $parent.editUrl($data.Id) }, text: $data.TransactionId "></a>
+                            <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More InformationS - More InformationS - More InformationS - More Information</span>
+                            <span class="icon">
+                                <i data-bind="attr:{ class:'info-ico info-ico--'+ ($data.StatusColor||'grey')}"></i>
+                            </span>
+                            <span data-bind="text: $data.LocalizedStatus"></span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
+                            <!-- ko if: $data.SignatureStatus -->
+                            <i data-bind="attr:{class:'sign-ico sign-ico--' +$data.SignatureStatusColor}, click: $parent.openSignaturePopup"></i>
+                            <span data-bind="text: $data.SignatureStatus"></span>
+                            <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
+                            <span data-bind="text: $data.Date"></span>
                         </div>
                         <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
+                            <span data-bind="text: $data.CustomerName"></span>
                         </div>
                         <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
+                            <span data-bind="text: $data.CreditExpiry"></span>
                         </div>
                         <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
+                            <span data-bind="text: $data.ProgramOption"></span>
                         </div>
                         <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
+                            <span data-bind="text: $data.Value"></span>
                         </div>
 
                         <div class="main-table__block__row__cell term">
-                            <span>60</span>
+                            <span data-bind="text: $data.LoanTerm"></span>
                         </div>
                         <div class="main-table__block__row__cell amort">
-                            <span>180</span>
+                            <span data-bind="text: $data.AmortTerm"></span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount">
-                            <span>$ 1,132.56</span>
+                            <span data-bind="text: $data.MonthyPayment"></span>
                         </div>
 
                         <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
+                            <span data-bind="text: $data.Equipment"></span>
                         </div>
                         <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+                            <span data-bind="text: $data.Address"></span>
                         </div>
                         <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
+                            <span data-bind="text: $data.Email"></span>
                         </div>
                         <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
+                            <span data-bind="text: $data.Phone"></span>
                         </div>
                         <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
+                            <span data-bind="text: $data.SalesRep"></span>
                         </div>
                         <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
+                            <span data-bind="text: $data.EnteredBy"></span>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
+                            <span data-bind="click:function(){$data.showNotes(!$data.showNotes());}">
+                                <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                            </span>
+                            <!-- ko if: $data.CustomerComment -->
+                            <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}">
+                                <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}"></i>
+                                <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
+                                <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                            </div>
+                            <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
+                            <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
+                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
+                            <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
-                            <div class="table-row-settings-popup">
-                                <i class="cross-ico"></i>
-                                <div class="table-row-settings-popup__edit"><i class="edit-contract-ico"></i><span><a>Edit</a></span></div>
-                                <div class="table-row-settings-popup__export"><i class="excel-ico"></i><span><a>Export to excel</a></span></div>
-                                <div class="table-row-settings-popup__help"><i class="ask-help-ico"></i><span><a>Ask to help</a></span></div>
+                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                                <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
+                                <div class="table-row-settings-popup__edit">
+                                    <i class="edit-contract-ico"></i>
+                                    <span>
+                                        <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
+                                    </span>
+                                </div>
+                                <div class="table-row-settings-popup__export">
+                                    <i class="excel-ico"></i>
+                                    <span>
+                                        <a data-bind="click:function(){$parent.exportToExcel($data.Id);}">@Resources.ExportToExcel</a>
+                                    </span>
+                                </div>
+                                <div class="table-row-settings-popup__help">
+                                    <i class="ask-help-ico"></i>
+                                    <span>
+                                        <a data-bind="click:function(){$parent.openHelpModal($data.TransactionId)}">@Resources.AskForHelp</a>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="main-table__block__row">
-                        <div class="table-row-details opened">
+                        <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
                             <div class="table-row-details__left">
 
 
                                 <div class="table-row-details__left__last-activity">
-                                    <span>Last activity</span>
+                                    <span>@Resources.LastActivity</span>
                                     <span class="filter-ico filter-ico--asc">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">08/11/17</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Date"></div>
 
                                 <div class="table-row-details__left__days-left">
-                                    <span>Days left</span>
+                                    <span>@Resources.CreditApprovalExpiry</span>
                                     <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">34</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>
 
                                 <div class="table-row-details__left__loan-amount">
-                                    <span>Loan amount</span>
+                                    <span>@Resources.LoanAmount</span>
                                     <span class="filter-ico filter-ico--default">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">$ 1,1900.00</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Value"></div>
 
                                 <div class="table-row-details__left__program-option">
-                                    <span>Program option</span>
+                                    <span>@Resources.ProgramOption</span>
                                     <span class="filter-ico filter-ico--default">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">90 Day Defferal</div>
-
-
+                                <div class="table-row-details__left__value" data-bind="text: $data.Program"></div>
 
                                 <div class="table-row-details__left__term">
-                                    <span>Term</span>
+                                    <span>@Resources.Term</span>
                                     <span class="filter-ico filter-ico--asc">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">60</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.LoanTerm"></div>
 
                                 <div class="table-row-details__left__amort">
-                                    <span>Amort</span>
+                                    <span>@Resources.Amort</span>
                                     <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">180</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.AmortTerm"></div>
 
                                 <div class="table-row-details__left__payment-amount">
-                                    <span>Monthly payment</span>
+                                    <span>@Resources.MonthlyPayment</span>
                                     <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">$ 1,132.56</div>
+                                <div class="table-row-details__left__value" dat-bind="text: $data.MonthlyPayment"></div>
 
                                 <div class="table-row-details__left__project-desc">
-                                    <span>Project type</span>
+                                    <span>@Resources.ProjectType</span>
                                     <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                        <i class="sort-arrow-top"></i>
+                                        <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">Hot Tub</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Equipment"></div>
 
                                 <div class="table-row-details__left__address">
-                                    <span>Address</span>
+                                    <span>@Resources.Address</span>
                                 </div>
-                                <div class="table-row-details__left__value">82 Smith St, Smithsville, ON Q2Q 1Q1</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Address"></div>
 
                             </div>
                             <div class="table-row-details__right">
 
                                 <div class="table-row-details__left__email">
-                                    <span>Email</span>
+                                    <span>@Resources.Email</span>
                                 </div>
-                                <div class="table-row-details__left__value">awaterson@gmail.com</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Email"></div>
 
                                 <div class="table-row-details__left__phone">
-                                    <span>Phone</span>
+                                    <span>@Resources.Phone</span>
                                 </div>
-                                <div class="table-row-details__left__value">1-866-382-7468</div>
+                                <div class="table-row-details__left__value" data-bind="text:$data.Phone"></div>
 
                                 <div class="table-row-details__left__sales-rep">
-                                    <span>Sales rep</span>
+                                    <span>@Resources.SalesRep</span>
                                 </div>
-                                <div class="table-row-details__left__value">John Domes</div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.SalesRep"></div>
 
                                 <div class="table-row-details__left__entered-by">
-                                    <span>Entered by</span>
+                                    <span>@Resources.EnteredBy</span>
 
                                 </div>
-                                <div class="table-row-details__left__value">John Domes</div>
+                                <div class="table-row-details__left__value" data-bind="text:$data.EnteredBy"></div>
 
                                 <div class="table-row-details__left__notes">
-                                    <span>Notes</span>
+                                    <span>@Resources.Notes</span>
                                 </div>
-                                <div class="table-row-details__left__value"><i class="notes-ico notes-ico--grey"></i></div>
+                                <div class="table-row-details__left__value">
+                                    <div class="table-row-details__left__value">
+                                        <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                                    </div>
+                                </div>
 
                                 <div class="table-row-details__left__lead">
-                                    <span>Lead</span>
+                                    <span>@Resources.Lead</span>
 
                                 </div>
-                                <div class="table-row-details__left__value"><i class="check-mark-ico"></i></div>
+                                <div class="table-row-details__left__value">
+                                    <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
+                                </div>
 
                                 <div class="table-row-details__left__gear">
-                                    <span><i class="gear-ico"></i></span>
+                                    <span>
+                                        <i class="gear-ico"></i>
+                                    </span>
 
                                 </div>
                                 <div class="table-row-details__left__value"></div>
@@ -416,513 +552,55 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row new-deal">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
-                                <span class="customized-checkbox-icon__image"></span>
-                            </label>
-                        </div>
-                        <div class="main-table__block__row__cell contract-number">
-                            <span class="contract-number__notification contract-number__notification--blue">new</span>
-                            <span>113298</span>
-                        </div>
-                        <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
-                        </div>
-                        <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
-                        </div>
-                        <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
-                        </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
-                        </div>
-                        <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell term">
-                            <span>60</span>
-                        </div>
-                        <div class="main-table__block__row__cell amort">
-                            <span>180</span>
-                        </div>
-                        <div class="main-table__block__row__cell payment-amount">
-                            <span>$ 1,132.56</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
-                        </div>
-                        <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
-                        </div>
-                        <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
-                        </div>
-                        <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
-                        </div>
-                        <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
-                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row main-table__row expired-deal">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
-                                <span class="customized-checkbox-icon__image"></span>
-                            </label>
-                        </div>
-                        <div class="main-table__block__row__cell contract-number">
-                            <span class="contract-number__notification contract-number__notification--red">Expired in 5 days</span>
-                            <span>113298</span>
-                        </div>
-                        <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
-                        </div>
-                        <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
-                        </div>
-                        <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
-                        </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
-                        </div>
-                        <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell term">
-                            <span>60</span>
-                        </div>
-                        <div class="main-table__block__row__cell amort">
-                            <span>180</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell funded-amount">
-                            <span>$ 1,450.00</span>
-                        </div>
-                        <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
-                        </div>
-                        <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
-                        </div>
-                        <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
-                        </div>
-                        <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
-                        </div>
-                        <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
-                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row new-deal">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
-                                <span class="customized-checkbox-icon__image"></span>
-                            </label>
-                        </div>
-                        <div class="main-table__block__row__cell contract-number">
-                            <span class="contract-number__notification contract-number__notification--blue">new</span>
-                            <span>113298</span>
-                        </div>
-                        <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
-                        </div>
-                        <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
-                        </div>
-                        <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
-                        </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell term">
-                            <span>60</span>
-                        </div>
-                        <div class="main-table__block__row__cell amort">
-                            <span>180</span>
-                        </div>
-                        <div class="main-table__block__row__cell payment-amount">
-                            <span>$ 1,132.56</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
-                        </div>
-                        <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
-                        </div>
-                        <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
-                        </div>
-                        <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
-                        </div>
-                        <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
-                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
-                                <span class="customized-checkbox-icon__image"></span>
-                            </label>
-                        </div>
-                        <div class="main-table__block__row__cell contract-number">
-                            <span class="contract-number__notification contract-number__notification--blue">new</span>
-                            <span>113298</span>
-                        </div>
-                        <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
-                        </div>
-                        <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--grey"></i><span>Unsigned</span>
-                        </div>
-                        <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
-                        </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell term">
-                            <span>60</span>
-                        </div>
-                        <div class="main-table__block__row__cell amort">
-                            <span>180</span>
-                        </div>
-                        <div class="main-table__block__row__cell payment-amount">
-                            <span>$ 1,132.56</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
-                        </div>
-                        <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
-                        </div>
-                        <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
-                        </div>
-                        <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
-                        </div>
-                        <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--green"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
-                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row new-deal">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
-                                <span class="customized-checkbox-icon__image"></span>
-                            </label>
-                        </div>
-                        <div class="main-table__block__row__cell contract-number">
-                            <span class="contract-number__notification contract-number__notification--blue">new</span>
-                            <span>113298</span>
-                        </div>
-                        <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
-                        </div>
-                        <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--yellow"></i><span>Unsigned</span>
-                        </div>
-                        <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
-                        </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell term">
-                            <span>60</span>
-                        </div>
-                        <div class="main-table__block__row__cell amort">
-                            <span>180</span>
-                        </div>
-                        <div class="main-table__block__row__cell payment-amount">
-                            <span>$ 1,132.56</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
-                        </div>
-                        <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
-                        </div>
-                        <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
-                        </div>
-                        <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
-                        </div>
-                        <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
-                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row new-deal">
-                        <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
-                                <span class="customized-checkbox-icon__image"></span>
-                            </label>
-                        </div>
-                        <div class="main-table__block__row__cell contract-number">
-                            <span class="contract-number__notification contract-number__notification--blue">new</span>
-                            <span>113298</span>
-                        </div>
-                        <div class="main-table__block__row__cell deal-status">
-                            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
-                        </div>
-                        <div class="main-table__block__row__cell e-sign">
-                            <i class="sign-ico sign-ico--green"></i><span>Unsigned</span>
-                        </div>
-                        <div class="main-table__block__row__cell last-activity">
-                            <span>08/11/17</span>
-                        </div>
-                        <div class="main-table__block__row__cell applicant-name">
-                            <span>Lilian Wright</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell days-left">
-                            <span>10</span>
-                        </div>
-                        <div class="main-table__block__row__cell program-option">
-                            <span>% Buy Down</span>
-                        </div>
-                        <div class="main-table__block__row__cell loan-amount">
-                            <span>$ 1,900.00</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell term">
-                            <span>60</span>
-                        </div>
-                        <div class="main-table__block__row__cell amort">
-                            <span>180</span>
-                        </div>
-                        <div class="main-table__block__row__cell payment-amount">
-                            <span>$ 1,132.56</span>
-                        </div>
-
-                        <div class="main-table__block__row__cell project-desc">
-                            <span>Hot Tub</span>
-                        </div>
-                        <div class="main-table__block__row__cell address">
-                            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
-                        </div>
-                        <div class="main-table__block__row__cell email">
-                            <span>awaterson@gmail.com</span>
-                        </div>
-                        <div class="main-table__block__row__cell phone">
-                            <span>1-866-382-7468</span>
-                        </div>
-                        <div class="main-table__block__row__cell sales-rep">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell entered-by">
-                            <span>John Domes</span>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
-                            <i class="notes-ico notes-ico--grey"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
-                            <i class="check-mark-ico"></i>
-                        </div>
-                        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico"></i>
-                            <span class="show-details">
-                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- /ko -->
                 <div class="main-table__block main-table__block--total">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__grand-total">
-                            Grand total:
+                            @Resources.GrandTotal:
                         </div>
                         <div class="main-table__block__row__grand-total-value">
-                            <span class="main-table__block__row__grand-total-value__total-container">$ 1,900.00</span>
-                            <span>$ 1,900.00</span>
+                            <span class="main-table__block__row__grand-total-value__total-container">$ <span data-bind="text: selectedTotal"></span></span>
+                            <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
                         <div class="main-table__block__row__entries-number new-input-group">
                             <div class="custom-select-wrap">
-                                <label for="entries-number">Numbers of entries</label>
-                                <select name="entries-number" id="entries-number" class="custom-select">
-                                    <option value="">10</option>
-                                    <option value="">20</option>
-                                    <option value="">30</option>
-                                </select>
+                                <label for="entries-number">@Resources.NumberOfEntries</label>
+                                <select class="custom-select"
+                                        data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 
-    <div class="margin-block">
+    <div class="margin-block" data-bind="visible: list().length > 0 && selectedIds().length > 0">
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-green col-xs-12" data-bind="click: previewContracts">@Resources.Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="margin-block" data-bind="with: pager, visible: list().length > 0">
         <div class="row">
             <div class="new-pagination-wp">
                 <div class="new-pagination">
-                    <a><i class="pagination-left-ico"></i></a>
-                    <ul class="new-pagination__pages">
-                        <li><a>1</a></li>
-                        <li class="active"><a>2</a></li>
-                        <li><a>...</a></li>
-                        <li><a>10</a></li>
-                        <li><a>11</a></li>
+                    <a data-bind="click: goToPreviousPage, disable: pageIndex() == 1">
+                        <i class="pagination-left-ico"></i>
+                    </a>
+                    <ul class="new-pagination__pages" data-bind="foreach: allPages">
+                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}">
+                            <a data-bind="text: $data.pageText, enable: !$data.disabled, click: $parent.moveToPage"></a>
+                        </li>
                     </ul>
-                    <a><i class="pagination-right-ico"></i></a>
+                    <a data-bind="click: goToNextPage, disable: pageIndex() == maxPageIndex()">
+                        <i class="pagination-right-ico"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1022,3 +700,470 @@
         });
     </script>
 }
+
+
+<div class="main-table__block main-table__block--body">
+    <div class="main-table__block__row new-deal">
+        <div class="main-table__block__row__cell checkbox-cell">
+            <label class="customized-checkbox-icon">
+                <input id="checkBox" type="checkbox" />
+                <span class="customized-checkbox-icon__image"></span>
+            </label>
+        </div>
+        <div class="main-table__block__row__cell contract-number">
+            <span class="contract-number__notification contract-number__notification--blue">new</span>
+            <span>113298</span>
+        </div>
+        <div class="main-table__block__row__cell deal-status">
+            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
+        </div>
+        <div class="main-table__block__row__cell e-sign">
+            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
+        </div>
+        <div class="main-table__block__row__cell last-activity">
+            <span>08/11/17</span>
+        </div>
+        <div class="main-table__block__row__cell applicant-name">
+            <span>Lilian Wright</span>
+        </div>
+        <div class="main-table__block__row__cell days-left">
+            <span>10</span>
+        </div>
+        <div class="main-table__block__row__cell program-option">
+            <span>% Buy Down</span>
+        </div>
+        <div class="main-table__block__row__cell loan-amount">
+            <span>$ 1,900.00</span>
+        </div>
+
+        <div class="main-table__block__row__cell term">
+            <span>60</span>
+        </div>
+        <div class="main-table__block__row__cell amort">
+            <span>180</span>
+        </div>
+        <div class="main-table__block__row__cell payment-amount">
+            <span>$ 1,132.56</span>
+        </div>
+
+        <div class="main-table__block__row__cell project-desc">
+            <span>Hot Tub</span>
+        </div>
+        <div class="main-table__block__row__cell address">
+            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+        </div>
+        <div class="main-table__block__row__cell email">
+            <span>awaterson@gmail.com</span>
+        </div>
+        <div class="main-table__block__row__cell phone">
+            <span>1-866-382-7468</span>
+        </div>
+        <div class="main-table__block__row__cell sales-rep">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell entered-by">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
+            <i class="notes-ico notes-ico--grey"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
+            <i class="check-mark-ico"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
+            <i class="gear-ico"></i>
+            <span class="show-details">
+                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="main-table__block main-table__block--body">
+    <div class="main-table__block__row main-table__row expired-deal">
+        <div class="main-table__block__row__cell checkbox-cell">
+            <label class="customized-checkbox-icon">
+                <input id="checkBox" type="checkbox" />
+                <span class="customized-checkbox-icon__image"></span>
+            </label>
+        </div>
+        <div class="main-table__block__row__cell contract-number">
+            <span class="contract-number__notification contract-number__notification--red">Expired in 5 days</span>
+            <span>113298</span>
+        </div>
+        <div class="main-table__block__row__cell deal-status">
+            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
+        </div>
+        <div class="main-table__block__row__cell e-sign">
+            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
+        </div>
+        <div class="main-table__block__row__cell last-activity">
+            <span>08/11/17</span>
+        </div>
+        <div class="main-table__block__row__cell applicant-name">
+            <span>Lilian Wright</span>
+        </div>
+        <div class="main-table__block__row__cell days-left">
+            <span>10</span>
+        </div>
+        <div class="main-table__block__row__cell program-option">
+            <span>% Buy Down</span>
+        </div>
+        <div class="main-table__block__row__cell loan-amount">
+            <span>$ 1,900.00</span>
+        </div>
+
+        <div class="main-table__block__row__cell term">
+            <span>60</span>
+        </div>
+        <div class="main-table__block__row__cell amort">
+            <span>180</span>
+        </div>
+
+        <div class="main-table__block__row__cell funded-amount">
+            <span>$ 1,450.00</span>
+        </div>
+        <div class="main-table__block__row__cell project-desc">
+            <span>Hot Tub</span>
+        </div>
+        <div class="main-table__block__row__cell address">
+            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+        </div>
+        <div class="main-table__block__row__cell email">
+            <span>awaterson@gmail.com</span>
+        </div>
+        <div class="main-table__block__row__cell phone">
+            <span>1-866-382-7468</span>
+        </div>
+        <div class="main-table__block__row__cell sales-rep">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell entered-by">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
+            <i class="notes-ico notes-ico--grey"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
+            <i class="check-mark-ico"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
+            <i class="gear-ico"></i>
+            <span class="show-details">
+                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="main-table__block main-table__block--body">
+    <div class="main-table__block__row new-deal">
+        <div class="main-table__block__row__cell checkbox-cell">
+            <label class="customized-checkbox-icon">
+                <input id="checkBox" type="checkbox" />
+                <span class="customized-checkbox-icon__image"></span>
+            </label>
+        </div>
+        <div class="main-table__block__row__cell contract-number">
+            <span class="contract-number__notification contract-number__notification--blue">new</span>
+            <span>113298</span>
+        </div>
+        <div class="main-table__block__row__cell deal-status">
+            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
+        </div>
+        <div class="main-table__block__row__cell e-sign">
+            <i class="sign-ico sign-ico--red"></i><span>Unsigned</span>
+        </div>
+        <div class="main-table__block__row__cell last-activity">
+            <span>08/11/17</span>
+        </div>
+        <div class="main-table__block__row__cell applicant-name">
+            <span>Lilian Wright</span>
+        </div>
+
+        <div class="main-table__block__row__cell days-left">
+            <span>10</span>
+        </div>
+        <div class="main-table__block__row__cell program-option">
+            <span>% Buy Down</span>
+        </div>
+        <div class="main-table__block__row__cell loan-amount">
+            <span>$ 1,900.00</span>
+        </div>
+
+        <div class="main-table__block__row__cell term">
+            <span>60</span>
+        </div>
+        <div class="main-table__block__row__cell amort">
+            <span>180</span>
+        </div>
+        <div class="main-table__block__row__cell payment-amount">
+            <span>$ 1,132.56</span>
+        </div>
+
+        <div class="main-table__block__row__cell project-desc">
+            <span>Hot Tub</span>
+        </div>
+        <div class="main-table__block__row__cell address">
+            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+        </div>
+        <div class="main-table__block__row__cell email">
+            <span>awaterson@gmail.com</span>
+        </div>
+        <div class="main-table__block__row__cell phone">
+            <span>1-866-382-7468</span>
+        </div>
+        <div class="main-table__block__row__cell sales-rep">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell entered-by">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
+            <i class="notes-ico notes-ico--grey"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
+            <i class="check-mark-ico"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
+            <i class="gear-ico"></i>
+            <span class="show-details">
+                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="main-table__block main-table__block--body">
+    <div class="main-table__block__row">
+        <div class="main-table__block__row__cell checkbox-cell">
+            <label class="customized-checkbox-icon">
+                <input id="checkBox" type="checkbox" />
+                <span class="customized-checkbox-icon__image"></span>
+            </label>
+        </div>
+        <div class="main-table__block__row__cell contract-number">
+            <span class="contract-number__notification contract-number__notification--blue">new</span>
+            <span>113298</span>
+        </div>
+        <div class="main-table__block__row__cell deal-status">
+            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
+        </div>
+        <div class="main-table__block__row__cell e-sign">
+            <i class="sign-ico sign-ico--grey"></i><span>Unsigned</span>
+        </div>
+        <div class="main-table__block__row__cell last-activity">
+            <span>08/11/17</span>
+        </div>
+        <div class="main-table__block__row__cell applicant-name">
+            <span>Lilian Wright</span>
+        </div>
+
+        <div class="main-table__block__row__cell days-left">
+            <span>10</span>
+        </div>
+        <div class="main-table__block__row__cell program-option">
+            <span>% Buy Down</span>
+        </div>
+        <div class="main-table__block__row__cell loan-amount">
+            <span>$ 1,900.00</span>
+        </div>
+
+        <div class="main-table__block__row__cell term">
+            <span>60</span>
+        </div>
+        <div class="main-table__block__row__cell amort">
+            <span>180</span>
+        </div>
+        <div class="main-table__block__row__cell payment-amount">
+            <span>$ 1,132.56</span>
+        </div>
+
+        <div class="main-table__block__row__cell project-desc">
+            <span>Hot Tub</span>
+        </div>
+        <div class="main-table__block__row__cell address">
+            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+        </div>
+        <div class="main-table__block__row__cell email">
+            <span>awaterson@gmail.com</span>
+        </div>
+        <div class="main-table__block__row__cell phone">
+            <span>1-866-382-7468</span>
+        </div>
+        <div class="main-table__block__row__cell sales-rep">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell entered-by">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
+            <i class="notes-ico notes-ico--green"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
+            <i class="check-mark-ico"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
+            <i class="gear-ico"></i>
+            <span class="show-details">
+                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="main-table__block main-table__block--body">
+    <div class="main-table__block__row new-deal">
+        <div class="main-table__block__row__cell checkbox-cell">
+            <label class="customized-checkbox-icon">
+                <input id="checkBox" type="checkbox" />
+                <span class="customized-checkbox-icon__image"></span>
+            </label>
+        </div>
+        <div class="main-table__block__row__cell contract-number">
+            <span class="contract-number__notification contract-number__notification--blue">new</span>
+            <span>113298</span>
+        </div>
+        <div class="main-table__block__row__cell deal-status">
+            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
+        </div>
+        <div class="main-table__block__row__cell e-sign">
+            <i class="sign-ico sign-ico--yellow"></i><span>Unsigned</span>
+        </div>
+        <div class="main-table__block__row__cell last-activity">
+            <span>08/11/17</span>
+        </div>
+        <div class="main-table__block__row__cell applicant-name">
+            <span>Lilian Wright</span>
+        </div>
+
+        <div class="main-table__block__row__cell days-left">
+            <span>10</span>
+        </div>
+        <div class="main-table__block__row__cell program-option">
+            <span>% Buy Down</span>
+        </div>
+        <div class="main-table__block__row__cell loan-amount">
+            <span>$ 1,900.00</span>
+        </div>
+
+        <div class="main-table__block__row__cell term">
+            <span>60</span>
+        </div>
+        <div class="main-table__block__row__cell amort">
+            <span>180</span>
+        </div>
+        <div class="main-table__block__row__cell payment-amount">
+            <span>$ 1,132.56</span>
+        </div>
+
+        <div class="main-table__block__row__cell project-desc">
+            <span>Hot Tub</span>
+        </div>
+        <div class="main-table__block__row__cell address">
+            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+        </div>
+        <div class="main-table__block__row__cell email">
+            <span>awaterson@gmail.com</span>
+        </div>
+        <div class="main-table__block__row__cell phone">
+            <span>1-866-382-7468</span>
+        </div>
+        <div class="main-table__block__row__cell sales-rep">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell entered-by">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
+            <i class="notes-ico notes-ico--grey"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
+            <i class="check-mark-ico"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
+            <i class="gear-ico"></i>
+            <span class="show-details">
+                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="main-table__block main-table__block--body">
+    <div class="main-table__block__row new-deal">
+        <div class="main-table__block__row__cell checkbox-cell">
+            <label class="customized-checkbox-icon">
+                <input id="checkBox" type="checkbox" />
+                <span class="customized-checkbox-icon__image"></span>
+            </label>
+        </div>
+        <div class="main-table__block__row__cell contract-number">
+            <span class="contract-number__notification contract-number__notification--blue">new</span>
+            <span>113298</span>
+        </div>
+        <div class="main-table__block__row__cell deal-status">
+            <span class="icon"><i class="info-ico info-ico--green"></i></span><span>S - More Information</span>
+        </div>
+        <div class="main-table__block__row__cell e-sign">
+            <i class="sign-ico sign-ico--green"></i><span>Unsigned</span>
+        </div>
+        <div class="main-table__block__row__cell last-activity">
+            <span>08/11/17</span>
+        </div>
+        <div class="main-table__block__row__cell applicant-name">
+            <span>Lilian Wright</span>
+        </div>
+
+        <div class="main-table__block__row__cell days-left">
+            <span>10</span>
+        </div>
+        <div class="main-table__block__row__cell program-option">
+            <span>% Buy Down</span>
+        </div>
+        <div class="main-table__block__row__cell loan-amount">
+            <span>$ 1,900.00</span>
+        </div>
+
+        <div class="main-table__block__row__cell term">
+            <span>60</span>
+        </div>
+        <div class="main-table__block__row__cell amort">
+            <span>180</span>
+        </div>
+        <div class="main-table__block__row__cell payment-amount">
+            <span>$ 1,132.56</span>
+        </div>
+
+        <div class="main-table__block__row__cell project-desc">
+            <span>Hot Tub</span>
+        </div>
+        <div class="main-table__block__row__cell address">
+            <span>82 Smith St, Smithsville, ON Q2Q 1Q1</span>
+        </div>
+        <div class="main-table__block__row__cell email">
+            <span>awaterson@gmail.com</span>
+        </div>
+        <div class="main-table__block__row__cell phone">
+            <span>1-866-382-7468</span>
+        </div>
+        <div class="main-table__block__row__cell sales-rep">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell entered-by">
+            <span>John Domes</span>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-notes">
+            <i class="notes-ico notes-ico--grey"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-lead">
+            <i class="check-mark-ico"></i>
+        </div>
+        <div class="main-table__block__row__cell icon-cell icon-cell-gear">
+            <i class="gear-ico"></i>
+            <span class="show-details">
+                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+            </span>
+        </div>
+    </div>
+</div>

@@ -31,15 +31,15 @@
 
     function prepareStatusList(list) {
         return list.map(function (item) {
-            return item.LocalizedStatus ? {
-                icon: item.StatusColor,
-                text: item.LocalizedStatus.trim()
-            } : null;
-        }).filter(filterNull)
+                return item.LocalizedStatus ? {
+                    icon: item.StatusColor,
+                    text: item.LocalizedStatus.trim()
+                } : null;
+            }).filter(filterNull)
             .reduce(function (acc, curr) {
                 return acc.map(function (item) {
-                    return item.text;
-                }).indexOf(curr.text) === -1 ?
+                        return item.text;
+                    }).indexOf(curr.text) === -1 ?
                     acc.concat(curr) :
                     acc;
             }, [{
@@ -54,9 +54,9 @@
     return {
         filterNull: filterNull,
         mapValue: mapValue,
-        concatInNotInArray: concatIfNotInArray,
+        concatIfNotInArray: concatIfNotInArray,
         sortAscending: sortAscending,
-        sortDescnding: sortDescending,
+        sortDescending: sortDescending,
         filterAndSortList: filterAndSortList,
         prepareStatusList: prepareStatusList
     };

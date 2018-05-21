@@ -24,7 +24,7 @@ module.exports('table', function (require) {
                 }) : item);
             }, [])
             .reduce(concatIfNotInArray, [''])
-            .sort(sortAssending);
+            .sort(sortAscending);
     }
 
     var HomePageTable = function (list) {
@@ -133,6 +133,8 @@ module.exports('table', function (require) {
 
         this.filteredList = ko.observableArray(this.list());
 
+        this.pager = new Paginator(this.filteredList());
+
         this.sortedList = ko.computed(function () {
             var field = this.sortedColumn();
             var dir = this.sortDirection();
@@ -150,8 +152,6 @@ module.exports('table', function (require) {
                     return sortAscending(a[field], b[field]);
                 }).reverse();
         }, this);
-
-        this.pager = new Paginator(this.sortedList());
 
         this.grandTotal = ko.computed(function () {
             return this.filteredList().reduce(function (sum, curr) {

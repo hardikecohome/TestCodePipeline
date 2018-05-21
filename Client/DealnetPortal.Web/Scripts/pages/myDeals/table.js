@@ -35,6 +35,19 @@
             valueFrom: 'myDeals-valueFromFilter',
             valueTo: 'myDeals-valueToFilter'
         });
+        this.sortFields = Object.freeze({
+            transactionId: 'TransactionId',
+            date: 'Date',
+            applicantName: 'CustomerName',
+            creditExpiry: 'CreditExpiry',
+            loanAmount: 'Value',
+            term: 'LoanTerm',
+            amort: 'Amort',
+            payment: 'MonthlPayment',
+            status: 'LocalizedStatus',
+            sign: 'SignatureStatus'
+        });
+
         this.agreementOptions = ko.observableArray(filterAndSortList(data, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(data));
         this.salesRepOptions = ko.observableArray(filterAndSortList(data, 'SalesRep'));
@@ -51,18 +64,21 @@
         this.valueFrom = ko.observable(localStorage.getItem(filters.valueFrom) || '');
         this.valueTo = ko.observable(localStorage.getItem(filters.valueTo) || '');
         this.search = ko.observable('');
+        this.sortedColumn = ko.observable();
 
         this.showFilters = ko.observable(true);
         this.showDetailedView = ko.observable(false);
 
         this.list = ko.observableArray(data);
 
-        this.filteredList = ko.observable(data);
+        this.filteredList = ko.observableArray(data);
+
+        this.pager = new Paginator(this.filteredList());
+
+        // computed
         this.sortedList = ko.computed(function () {
             return this.filteredList();
         }, this);
-
-        this.pager = new Paginator(this.sortedList());
 
         this.grandTotal = ko.computed(function () {
             return this.filteredList().reduce(function (sum, curr) {
@@ -78,7 +94,15 @@
             }, 0).toFixed(2);
         }, this);
 
-        // function
+        this.selectedIds = ko.computed(function () {
+            return this.list().filter(function (item) {
+                return item.isSelected();
+            }).map(function (item) {
+                return item.Id;
+            });
+        }, this);
+
+        // functions
         this.clearFilters = function () {
             this.agreementType('');
             this.status('');
@@ -126,10 +150,11 @@
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
             var dTo = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var created = this.createdBy();
+            var createdBool = Boolean(created);
             var sales = this.salesRep();
-            var payment = this.payment();
-            var vFrom = this.valueFrom();
-            var vTo = this.valueTo();
+            var payment = this.typeOfPayment();
+            var vFrom = parseFloat(this.valueFrom());
+            var vTo = parseFloat(this.valueTo());
 
             var tempList = this.list().reduce(function (acc, item) {
                 var itemDate = Date.parseExact(item.Date, 'M/d/yyyy');
@@ -138,16 +163,17 @@
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (created == '' || created == item.IsCreatedByCustomer) &&
+                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
                     (!dTo || !itemDate || itemDate <= dTo) &&
                     (!dFrom || !itemDate || itemDate >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&
                     (isNaN(vTo) || !isNaN(item.Value) && item.Value <= vTo) &&
                     (isNaN(vFrom) || !isNaN(item.Value) && item.Value >= vFrom)) {
-                    return acc.concate(item);
+                    return acc.concat(item);
                 }
                 return acc;
             }, []);
+            this.filteredList(tempList);
         };
 
         this.setList = function (list) {
@@ -156,10 +182,30 @@
                     isSelected: ko.observable(false),
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
-                    showNotes: ko.observable(false)
+                    showNotes: ko.observable(false),
+                    isExpired: false
                 });
             });
             this.list(tempList);
+        };
+
+        this.exportToExcel = function (id) {
+            this.singleId(id);
+            $('#export-form-1').submit();
+            this.singleId('');
+        };
+
+        this.exportSelectedToExcel = function () {
+            $('#export-form').submit();
+        };
+
+        this.previewContracts = function () {
+            var ids = this.selectedIds();
+            if (ids.length > 1) {
+                $('#preview-form').submit();
+            } else {
+                window.location.href = contractPreviewUrl + ids[0];
+            }
         };
 
         this.openHelpModal = function (id) {
@@ -172,6 +218,7 @@
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
             this.paymentTypeOptions(filterAndSortList(newValue, 'PaymentType'));
+            this.filterList();
         }, this);
 
         this.sortedList.subscribe(function (newValue) {
