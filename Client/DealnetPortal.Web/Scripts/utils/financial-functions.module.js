@@ -29,7 +29,7 @@
         };
 
         var tafBuyDownRate = function(data) {
-            var taf = totalAmountFinanced(data);
+			var taf = totalPrice(data) - data.downPayment;
             var adjustedDealerCost = +(taf * (data.InterestRateReduction / 100)).toFixed(2);
 
             return adjustedDealerCost;

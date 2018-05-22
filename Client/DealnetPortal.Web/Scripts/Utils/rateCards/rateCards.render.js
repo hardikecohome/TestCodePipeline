@@ -215,8 +215,8 @@
         }
 
         var loanAmortDropdpownValues = $('#' + selectorName + '-amortDropdown option:selected').text();
-        var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
-
+		var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+		var totalEquipmentAmtLessDownPayment = state.eSum - state.downPayment;
         //remove spaces in text
         loanAmortDropdpownValues = loanAmortDropdpownValues.replace(/\s+/g,'');
 
@@ -225,7 +225,7 @@
         });
 
         reductionValues.unshift({ Id: 0, InterestRateReduction: 0, CustomerReduction: 0 });
-        _buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(dataObject.totalAmountFinanced));
+		_buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(totalEquipmentAmtLessDownPayment));
     }
 
     function _buildDropdownValues(selector, dropdown, items, template) {
