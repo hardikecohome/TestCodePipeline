@@ -3,7 +3,7 @@
 
 <hr />
 
-<div class="row rental-element @(Model.AgreementType == AgreementType.RentalApplication ? "" : "hidden")">
+<div class="row rental-element" style="@(Model.AgreementType == AgreementType.RentalApplication ? "" : "display: none")">
     <div class="col-md-8">
         <div class="row form-group" id="total-monthly-payment-row">
             <div class="col-md-4 col-xs-8">@Resources.TotalMonthlyPaymentWithoutTaxes</div>

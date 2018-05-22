@@ -109,7 +109,6 @@
     var onAgreemntSelect = function () {
         var agreementType = +$(this).find("option:selected").val();
         toggleAgreementTypeSection(agreementType);
-        updateEquipmentCosts(agreementType);
     }
 
     var toggleAgreementTypeSection = function(agreementType) {
@@ -120,6 +119,7 @@
         }
         
         agreementTypeObj[agreementType]();
+        updateEquipmentCosts(agreementType);
     }
 
     function _loanAgreementType() {

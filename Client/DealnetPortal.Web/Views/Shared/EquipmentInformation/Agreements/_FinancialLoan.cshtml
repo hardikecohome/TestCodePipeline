@@ -1,7 +1,7 @@
 ﻿@using DealnetPortal.Api.Common.Enumeration
 @using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
 
-<div class="rate-cards-container rate-card-grid row loan-element @(Model.AgreementType == AgreementType.LoanApplication  && Model.SelectedRateCardId != null ? "" : "hidden")" id="paymentInfo">
+<div class="rate-cards-container rate-card-grid row loan-element" style="@(Model.AgreementType == AgreementType.LoanApplication && Model.SelectedRateCardId != null ? "" : "display: none")" id="paymentInfo">
     <div class="col-md-6">
         <div class="row form-group">
             <div class="col-xs-6">@Resources.LoanAmortTerm</div>
