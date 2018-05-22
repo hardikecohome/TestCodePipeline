@@ -26,6 +26,10 @@ namespace DealnetPortal.Domain
         [MaxLength(2)]
         public string Province { get; set; }
 
+        public string DealerId { get; set; }
+        [ForeignKey("DealerId")]
+        public virtual ApplicationUser Dealer { get; set; }
+
         public ICollection<FundingCheckDocument> FundingCheckDocuments { get; set; }
 
     }
