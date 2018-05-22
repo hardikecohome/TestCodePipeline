@@ -176,9 +176,9 @@
         var mvcId = $input.attr('id');
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
 
-        var val = parseFloat(value);
+        if (!(new RegExp($input.data('valRegexPattern')).test(value))) return true;
 
-        if (!val) return true;
+        var val = parseFloat(value);
 
         var equip = state.equipments[id];
         equip.softCapExceeded = false;

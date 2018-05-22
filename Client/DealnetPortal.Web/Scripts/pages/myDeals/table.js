@@ -1,52 +1,24 @@
 ﻿module.exports('my-deals-table', function (require) {
     var Paginator = require('paginator');
 
-    function filterNull(item) {
-        return item != null;
-    }
+    var filterNull = require('tableFuncs').filterNull;
 
-    function mapValue(type) {
-        return function (item) {
-            return item[type].trim() || null;
-        };
-    }
+    var mapValue = require('tableFuncs').mapValue;
 
-    function concateIfNotInArray(acc, curr) {
-        return acc.find(curr) ? acc.concate(curr) : acc;
-    }
+    var concateIfNotInArray = require('tableFuncs').concateIfNotInArray;
 
-    function sortAssending(a, b) {
-        return a == b ? 0 : a > b ? 1 : -1;
-    }
+    var sortAscending = require('tableFuncs').sortAscending;
 
-    function filterAndSortList(list, type) {
-        return list.map(mapValue(type))
-            .filter(filterNull)
-            .reduce(concateIfNotInArray, [''])
-            .sort(sortAssending);
-    }
+    var filterAndSortList = require('tableFuncs').filterAndSortList;
 
-    function prepareStatusList(list) {
-        return list.map(function (item) {
-                return item.LocalizedStatus ? {
-                    icon: item.StatusColor,
-                    text: item.LocalizedStatus.trim()
-                } : null;
-            }).filter(filterNull)
-            .reduce(function (acc, curr) {
-                return acc.map(function (item) {
-                    return item.text;
-                }).find(curr.text) ? acc.concate(curr) : acc;
-            }, [{
-                text: '',
-                icon: ''
-            }]).sort(function (a, b) {
-                return sortAssending(a.text, b.text);
-            });
+    var prepareStatusList = require('tableFuncs').prepareStatusList;
+
+    function stringIncludes(str, value) {
+        return str.toLowerCase().includes(value);
     }
 
     var MyDealsTable = function (data) {
-        this.datePickerOption = {
+        this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date('1900-01-01'),
             maxDate: new Date()
@@ -63,6 +35,19 @@
             valueFrom: 'myDeals-valueFromFilter',
             valueTo: 'myDeals-valueToFilter'
         });
+        this.sortFields = Object.freeze({
+            transactionId: 'TransactionId',
+            date: 'Date',
+            applicantName: 'CustomerName',
+            creditExpiry: 'CreditExpiry',
+            loanAmount: 'Value',
+            term: 'LoanTerm',
+            amort: 'Amort',
+            payment: 'MonthlPayment',
+            status: 'LocalizedStatus',
+            sign: 'SignatureStatus'
+        });
+
         this.agreementOptions = ko.observableArray(filterAndSortList(data, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(data));
         this.salesRepOptions = ko.observableArray(filterAndSortList(data, 'SalesRep'));
@@ -78,17 +63,22 @@
         this.typeOfPayment = ko.observable(localStorage.getItem(filters.typeOfPayment) || '');
         this.valueFrom = ko.observable(localStorage.getItem(filters.valueFrom) || '');
         this.valueTo = ko.observable(localStorage.getItem(filters.valueTo) || '');
+        this.search = ko.observable('');
+        this.sortedColumn = ko.observable();
 
         this.showFilters = ko.observable(true);
+        this.showDetailedView = ko.observable(false);
 
         this.list = ko.observableArray(data);
 
         this.filteredList = ko.observableArray(data);
+
+        this.pager = new Paginator(this.filteredList());
+
+        // computed
         this.sortedList = ko.computed(function () {
             return this.filteredList();
         }, this);
-
-        this.pager = new Paginator(this.sortedList());
 
         this.grandTotal = ko.computed(function () {
             return this.filteredList().reduce(function (sum, curr) {
@@ -104,7 +94,15 @@
             }, 0).toFixed(2);
         }, this);
 
-        // function
+        this.selectedIds = ko.computed(function () {
+            return this.list().filter(function (item) {
+                return item.isSelected();
+            }).map(function (item) {
+                return item.Id;
+            });
+        }, this);
+
+        // functions
         this.clearFilters = function () {
             this.agreementType('');
             this.status('');
@@ -152,10 +150,11 @@
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
             var dTo = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var created = this.createdBy();
+            var createdBool = Boolean(created);
             var sales = this.salesRep();
-            var payment = this.payment();
-            var vFrom = this.valueFrom();
-            var vTo = this.valueTo();
+            var payment = this.typeOfPayment();
+            var vFrom = parseFloat(this.valueFrom());
+            var vTo = parseFloat(this.valueTo());
 
             var tempList = this.list().reduce(function (acc, item) {
                 var itemDate = Date.parseExact(item.Date, 'M/d/yyyy');
@@ -164,16 +163,17 @@
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (created == '' || created == item.IsCreatedByCustomer) &&
+                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
                     (!dTo || !itemDate || itemDate <= dTo) &&
                     (!dFrom || !itemDate || itemDate >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&
                     (isNaN(vTo) || !isNaN(item.Value) && item.Value <= vTo) &&
                     (isNaN(vFrom) || !isNaN(item.Value) && item.Value >= vFrom)) {
-                    return acc.concate(item);
+                    return acc.concat(item);
                 }
                 return acc;
             }, []);
+            this.filteredList(tempList);
         };
 
         this.setList = function (list) {
@@ -182,10 +182,30 @@
                     isSelected: ko.observable(false),
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
-                    showNotes: ko.observable(false)
+                    showNotes: ko.observable(false),
+                    isExpired: false
                 });
             });
             this.list(tempList);
+        };
+
+        this.exportToExcel = function (id) {
+            this.singleId(id);
+            $('#export-form-1').submit();
+            this.singleId('');
+        };
+
+        this.exportSelectedToExcel = function () {
+            $('#export-form').submit();
+        };
+
+        this.previewContracts = function () {
+            var ids = this.selectedIds();
+            if (ids.length > 1) {
+                $('#preview-form').submit();
+            } else {
+                window.location.href = contractPreviewUrl + ids[0];
+            }
         };
 
         this.openHelpModal = function (id) {
@@ -194,10 +214,11 @@
 
         //subscriptions
         this.list.subscribe(function (newValue) {
-            this.agreementOptions(filterAndSortList(data, 'AgreementType'));
-            this.statusOptions(prepareStatusList(data));
-            this.salesRepOptions(filterAndSortList(data, 'SalesRep'));
-            this.paymentTypeOptions(filterAndSortList(data, 'PaymentType'));
+            this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
+            this.statusOptions(prepareStatusList(newValue));
+            this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
+            this.paymentTypeOptions(filterAndSortList(newValue, 'PaymentType'));
+            this.filterList();
         }, this);
 
         this.sortedList.subscribe(function (newValue) {

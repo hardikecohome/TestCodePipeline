@@ -4,8 +4,8 @@
     var MyDealsTableViewModel = function (data) {
         this.table = ko.observable(new Table(data));
 
-        this.updateTableData = function (data) {
-            this.table().setData(data);
+        this.updateTableList = function (list) {
+            this.table().setList(list);
         };
     };
 
@@ -17,7 +17,7 @@
             cache: false,
             mode: 'GET'
         }).done(function (data) {
-            vm.updateTableData(data);
+            vm.updateTableList(data);
         });
     };
 

@@ -243,18 +243,7 @@ namespace DealnetPortal.Api.Integration.Services
                     alerts.AddRange(userResult.Item2);
                 }
                 if (alerts.All(a => a.Type != AlertType.Error))
-                {
-                    // if case user changed province on 4 step. Recalculate value of deal.
-                    //if (contract.Equipment.AgreementType == AgreementType.RentalApplication || contract.Equipment.AgreementType == AgreementType.RentalApplicationHwt)
-                    //{
-                    //    var pTaxRate = _contractRepository.GetProvinceTaxRate(contract.PrimaryCustomer.Locations.FirstOrDefault().State);
-
-                    //    contract.Equipment.ValueOfDeal = contract.Equipment.ValueOfDeal =
-                    //        (double?)
-                    //        ((contract.Equipment.TotalMonthlyPayment ?? 0) +
-                    //         (contract.Equipment.TotalMonthlyPayment ?? 0) * (decimal)(pTaxRate.Rate / 100)); ;
-                    //}
-
+                {                   
                     Func<DealUploadResponse, object, bool> equipmentAnalyze =
                         (cResponse, cEquipments) =>
                         {
@@ -1493,11 +1482,16 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
+                    var rate = _contractRepository.GetProvinceTaxRate(
+                            (contract.PrimaryCustomer?.Locations.FirstOrDefault(
+                                 l => l.AddressType == AddressType.MainAddress) ??
+                             contract.PrimaryCustomer?.Locations.First())?.State.ToProvinceCode());
+                    
                     eqCost = contract.Equipment.AgreementType == AgreementType.LoanApplication && equipment.Cost.HasValue
                         ? (isFirstEquipment
                             ? (equipment.Cost - ((contract.Equipment.DownPayment != null) ? (decimal)contract.Equipment.DownPayment : 0))
                             : equipment.Cost)
-                        : equipment.MonthlyCost;
+                        : equipment.MonthlyCost * (1 + ((decimal?)rate?.Rate ?? 0.0m) / 100);
                 }
                 var adminFee = contract.Details?.AgreementType == AgreementType.LoanApplication && contract.Equipment?.IsFeePaidByCutomer == true
                     ? contract.Equipment?.AdminFee : null;
@@ -2214,8 +2208,9 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF()
                 {
                     Name = AspireUdfFields.PapWithdrawalDate,
-                    Value = (contract.PaymentInfo.PaymentType == PaymentType.Pap && !IsClarityProgram(contract)) ? 
-                        (contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First  ? "1" : "15")
+                    Value = (contract.PaymentInfo.PaymentType == PaymentType.Pap 
+                                && contract.PrimaryCustomer?.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress)?.State != "QC") 
+                        ? (contract.PaymentInfo.PrefferedWithdrawalDate == WithdrawalDateType.First  ? "1" : "15")
                         : BlankValue
                 });                          
             }            

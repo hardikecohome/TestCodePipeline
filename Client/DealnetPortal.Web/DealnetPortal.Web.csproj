@@ -1016,6 +1016,7 @@
     <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\utils\idToValue.js" />
     <Content Include="Scripts\utils\polyfills.js" />
+    <Content Include="Scripts\utils\tableFuncs.js" />
     <Content Include="Scripts\vendor\jquery.selectric.min.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
