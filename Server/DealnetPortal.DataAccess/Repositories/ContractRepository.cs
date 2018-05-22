@@ -713,7 +713,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var checkList = _dbContext.FundingCheckLists
                 .Include(s => s.FundingCheckDocuments)
-                .FirstOrDefault(l => l.Province.Contains(state));
+                .FirstOrDefault(l => l.Province == state);
             return _dbContext.FundingCheckDocuments.Where(x=>x.ListId == checkList.ListId).Select(d=>d.DocumentType).ToList();
         }
 
@@ -744,7 +744,7 @@ namespace DealnetPortal.DataAccess.Repositories
                         .Include(s => s.FundingCheckDocuments)
                         .Where(l => string.IsNullOrEmpty(l.DealerId)).ToList();
                 }
-                var checkList = !string.IsNullOrEmpty(state) ? docLists.FirstOrDefault(l => l.Province.Contains(state)) : docLists.FirstOrDefault();
+                var checkList = !string.IsNullOrEmpty(state) ? docLists.FirstOrDefault(l => l.Province == state) : docLists.FirstOrDefault();
                 return _dbContext.FundingCheckDocuments.Where(x => x.ListId == checkList.ListId).Select(d => d.DocumentType).ToList();
             }
             return new List<DocumentType>();            
