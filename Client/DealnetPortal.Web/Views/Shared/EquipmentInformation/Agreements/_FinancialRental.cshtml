@@ -1,7 +1,6 @@
-﻿@using DealnetPortal.Web.Models.Enumeration
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-<div class="row rental-element @(Model.AgreementType == AgreementType.RentalApplication ? "" : "hidden")">
+<div class="row rental-element">
     <div class="col-md-3">
         <div class="form-group">
             @Html.LabelFor(m => m.RequestedTerm)
