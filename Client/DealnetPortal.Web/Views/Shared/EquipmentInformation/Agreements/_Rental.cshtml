@@ -1,20 +1,21 @@
-﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+﻿@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-<hr/>
+<hr />
 
-<div class="row rental-element">
+<div class="row rental-element @(Model.AgreementType == AgreementType.RentalApplication ? "" : "hidden")">
     <div class="col-md-8">
         <div class="row form-group" id="total-monthly-payment-row">
             <div class="col-md-4 col-xs-8">@Resources.TotalMonthlyPaymentWithoutTaxes</div>
             <div class="col-md-2 col-xs-4 text-right text-semibold">
                 $ <span id="total-monthly-payment-display">-</span>
             </div>
-            <div class="col-md-6 error-descr hidden" id ="escalation-limit-error-msg">
+            <div class="col-md-6 error-descr hidden" id="escalation-limit-error-msg">
                 <svg aria-hidden="true" class="icon icon-error">
                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use>
                 </svg>
                 @Resources.TotalMonthlyPaymentExceedPreApprovedAmount
-            </div>            
+            </div>
         </div>
         <div class="row form-group">
             <div class="col-md-4 col-xs-8">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
