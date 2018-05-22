@@ -58,7 +58,7 @@ module.exports('rate-cards', function (require) {
         if (settings.reductionCards.indexOf(cardType) !== -1) {
             $('#rateReductionId').val(state[option].ReductionId);
             $('#rateReduction').val(state[option].CustomerReduction);
-            $('#rateReductionCost').val(state[option].CustomerReductionCost);
+            $('#rateReductionCost').val(state[option].CustomerReductionCost === 0 ? null : state[option].CustomerReductionCost);
         }
 
         $('#AmortizationTerm').val(amortizationTerm);

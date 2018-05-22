@@ -192,7 +192,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.RateCards, d => d.MapFrom(s => s.RateCards))
                 .ForMember(x => x.PassAdminFee, d => d.MapFrom(s => s.PassAdminFee ?? false))
                 .ForMember(x => x.IsCustomerRisk, d => d.MapFrom(s => s.IsCustomerRisk ?? false));
-            mapperConfig.CreateMap<CustomerRiskGroup, CustomerRiskGroupDTO>();
+            mapperConfig.CreateMap<CustomerRiskGroup, CustomerRiskGroupDTO>()
+                .ForMember(x => x.GroupName, s => s.ResolveUsing(src => ResourceHelper.GetGlobalStringResource(src.GroupName.Replace(" ", "")) ?? src.GroupName));
             mapperConfig.CreateMap<DealerEquipment, DealerEquipmentDTO>()
                 .ForMember(x => x.Equipment, d => d.MapFrom(src => src.Equipment))
                 .ForMember(x => x.ProfileId, d => d.MapFrom(src => src.ProfileId));
