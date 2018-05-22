@@ -2352,16 +2352,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = leadSource
                 });
             }
-            if (isHomeOwner == true)
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.Residence,
-                    Value = isHomeOwner == true ? "O" : "R"
-                    //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
-                    //<!—other value is R for rent  and O for own-->
-                });
-            }
+                Name = AspireUdfFields.Residence,
+                Value = isHomeOwner == true ? "O" : "R"
+                //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
+                //<!—other value is R for rent  and O for own-->
+            });
             udfList.Add(
                 new UDF()
                 {
