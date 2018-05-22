@@ -576,6 +576,7 @@
     <Content Include="Content\images\redesign_icons\cross.svg" />
     <Content Include="Content\images\redesign_icons\dw-license.svg" />
     <Content Include="Content\images\redesign_icons\edit-contract.svg" />
+    <Content Include="Content\images\redesign_icons\edit-pen.svg" />
     <Content Include="Content\images\redesign_icons\excel.svg" />
     <Content Include="Content\images\redesign_icons\filter-enabled-red.svg" />
     <Content Include="Content\images\redesign_icons\filter-enabled-white.svg" />
@@ -588,6 +589,8 @@
     <Content Include="Content\images\redesign_icons\info-red.svg" />
     <Content Include="Content\images\redesign_icons\info-yellow.svg" />
     <Content Include="Content\images\redesign_icons\lamp.svg" />
+    <Content Include="Content\images\redesign_icons\leads-plaseholder.svg" />
+    <Content Include="Content\images\redesign_icons\my-deals-placeholder.svg" />
     <Content Include="Content\images\redesign_icons\notes-green.svg" />
     <Content Include="Content\images\redesign_icons\notes-grey.svg" />
     <Content Include="Content\images\redesign_icons\notification-alert.svg" />
@@ -607,6 +610,7 @@
     <Content Include="Content\images\redesign_icons\sort-arrow-top-green.svg" />
     <Content Include="Content\images\redesign_icons\sort-arrow-top-grey.svg" />
     <Content Include="Content\images\redesign_icons\sort-button-red.svg" />
+    <Content Include="Content\images\redesign_icons\upload-cloud.svg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
     <Content Include="Content\images\sprite\back-to-top.svg" />
