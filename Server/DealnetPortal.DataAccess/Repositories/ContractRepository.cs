@@ -717,6 +717,25 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.FundingCheckDocuments.Where(x=>x.ListId == checkList.ListId).Select(d=>d.DocumentType).ToList();
         }
 
+        public IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId)
+        {
+            var checkList = _dbContext.FundingCheckLists
+                .Include(s => s.FundingCheckDocuments)
+                .FirstOrDefault(l => l.DealerId == contractOwnerId && l.Province == state);
+            if (checkList == null)
+            {
+                checkList = _dbContext.FundingCheckLists
+                    .Include(s => s.FundingCheckDocuments)
+                    .FirstOrDefault(l => l.Province == state);
+            }
+            if (checkList != null)
+            {
+                return _dbContext.FundingCheckDocuments.Where(x => x.ListId == checkList.ListId)
+                    .Select(d => d.DocumentType).ToList();
+            }
+            return new List<DocumentType>();                
+        }        
+
         public IList<DocumentType> GetAllDocumentTypes()
         {
             return _dbContext.DocumentTypes.ToList();
@@ -734,20 +753,9 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 var state = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
                 state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
-
-                var docLists = _dbContext.FundingCheckLists
-                    .Include(s => s.FundingCheckDocuments)
-                    .Where(l => l.DealerId == contractOwnerId).ToList();
-                if (docLists.Any() != true)
-                {
-                    docLists = _dbContext.FundingCheckLists
-                        .Include(s => s.FundingCheckDocuments)
-                        .Where(l => string.IsNullOrEmpty(l.DealerId)).ToList();
-                }
-                var checkList = !string.IsNullOrEmpty(state) ? docLists.FirstOrDefault(l => l.Province == state) : docLists.FirstOrDefault();
-                return _dbContext.FundingCheckDocuments.Where(x => x.ListId == checkList.ListId).Select(d => d.DocumentType).ToList();
+                return GetDealerDocumentTypes(state, contractOwnerId);
             }
-            return new List<DocumentType>();            
+            return new List<DocumentType>();
         }
 
         public ProvinceTaxRate GetProvinceTaxRate(string province)

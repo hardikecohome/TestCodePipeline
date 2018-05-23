@@ -306,6 +306,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("{contractId}/DocumentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetContractDocumentTypes(int contractId)
+        {
+            try
+            {
+                var result = _contractService.GetContractDocumentTypes(contractId, LoggedInUser?.UserId);                    
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetContractAgreement")]
         [HttpGet]
         public async Task<IHttpActionResult> GetContractAgreement(int contractId)

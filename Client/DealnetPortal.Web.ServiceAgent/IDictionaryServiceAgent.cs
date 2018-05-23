@@ -55,9 +55,9 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<IList<VarificationIdsDTO>, IList<Alert>>> GetAllVerificationIds();
 
         /// <summary>
-        /// Get Equipment Types list
+        /// Get all document types (funding checklist)
         /// </summary>
-        /// <returns>List of Equipment Type</returns>
+        /// <returns>List of Document Type</returns>
         Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes();
 
         Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetStateDocumentTypes(string state);

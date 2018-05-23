@@ -131,15 +131,15 @@ namespace DealnetPortal.Web.ServiceAgent
 
 
         /// <summary>
-        /// Get Equipment Types list
+        /// Get all document types (funding checklist)
         /// </summary>
-        /// <returns>List of Equipment Type</returns>
+        /// <returns>List of Document Type</returns>
         public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes()
         {
             try
             {
                 return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/AllDocumentTypes", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/DocumentTypes", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -152,12 +152,15 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
+                var endPoint = AuthenticationHeader != null
+                    ? $"{_fullUri}/DealerDocumentTypes/{state}"
+                    : $"{_fullUri}/DocumentTypes/{state}";
                 return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/StateDocumentTypes?state={state}", AuthenticationHeader, CurrentCulture);
+                            endPoint, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
-                _loggingService.LogError("Can't get Province Tax Rate", ex);
+                _loggingService.LogError("Can't get document types list for province", ex);
                 throw;
             }
         }
