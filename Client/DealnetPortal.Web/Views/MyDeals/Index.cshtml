@@ -69,12 +69,12 @@
                     </div>
                     <!-- /ko -->
                 </div>
-                <!-- ko if: showFilters() || showSorters() -->
-                <div class="filters-type" data-bind="visible: list().length > 0">
+                <!-- ko if: showFilters() || showSorters() && list().length > 0-->
+                <div class="filters-type" >
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
                     <div class="filters-type__tab" data-bind="css:{active:showDetailedView}, click:function(){showDetailedView(true)}">@Resources.DetailedInfo</div>
                 </div>
-                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0">
+                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }">
                     <!-- ko if: showFilters -->
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
@@ -174,7 +174,8 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__filters-cloud" data-bind="visible:showSorters">
+                    <!-- ko if: showSorters -->
+                    <div class="filters-advanced__filters-cloud">
                         <!-- ko if: sortedColumn() == sortFields.transactionId -->
                         <div class="filters-advanced__contract-number">
                             @Resources.ContractNumber -
@@ -242,7 +243,7 @@
                         </div>
                         <!-- /ko -->
                     </div>
-
+                    <!-- /ko -->
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
