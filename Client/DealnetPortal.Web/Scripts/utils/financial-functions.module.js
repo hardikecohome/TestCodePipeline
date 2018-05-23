@@ -30,9 +30,18 @@
 
         var tafBuyDownRate = function(data) {
 			var taf = totalPrice(data) - data.downPayment;
-            var adjustedDealerCost = +(taf * (data.InterestRateReduction / 100)).toFixed(2);
+			var rate = data.CustomerReduction / 100 / 12;
+			var pmtWithRate = pmt(rate, data.AmortizationTerm, -1, 0, 0);
+			var pmtWithoutRate = pmt(0, data.AmortizationTerm, -1, 0, 0);
+			var pmtValue = -(pmtWithRate - pmtWithoutRate);
+			var fvValue = -(fv(rate, data.LoanTerm, pmtWithRate, -1, 0)) + (fv(0, data.LoanTerm, pmtWithoutRate, -1, 0));
+			var adjustedDealerCost = parseFloat( rate > 0 ?
+				((pv(rate,
+					data.LoanTerm,
+					pmtValue,
+					fvValue) + 0.0025) * taf).toFixed(2) : 0);
 
-            return adjustedDealerCost;
+			return adjustedDealerCost;
         }
 
         var yourCost = function (data) {
