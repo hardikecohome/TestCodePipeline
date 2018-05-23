@@ -372,10 +372,12 @@
             var rigthDictionary = {
                 'both': function () {},
                 'loan': function () {
-                    _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication)
+                        _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
                 },
                 'lease': function () {
-                    _removeAgeementOptionByKey(settings.applicationType.loanApplication);
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication)
+                        _removeAgeementOptionByKey(settings.applicationType.loanApplication);
                 }
             };
 
