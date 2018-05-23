@@ -1106,7 +1106,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var account = new Account
                 {
                     IsIndividual = true,
-                    IsPrimary = isBorrower,
+                    IsPrimary = c.IsDeleted != true,
                     Legalname = contract.Dealer?.Application?.LegalName,
                     EmailAddress = c.Emails?.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
                                    c.Emails?.FirstOrDefault()?.EmailAddress,
@@ -1237,7 +1237,7 @@ namespace DealnetPortal.Api.Integration.Services
                 accounts.Add(acc);
             }
 
-            contract.SecondaryCustomers?.Where(sc => sc.IsDeleted != true).ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
+            contract.SecondaryCustomers?.ForEach(c => accounts.Add(fillAccount(c, false, GuarRole)));
             return accounts;
         }
 
@@ -1818,6 +1818,22 @@ namespace DealnetPortal.Api.Integration.Services
                        contract.Equipment.RentalProgramType.Value == AnnualEscalationType.Escalation0  ?
                        "13.99" : "10.99"
                 });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ContractRentalRate,
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? "0" :
+                        !contract.Equipment.RentalProgramType.HasValue ? "0" :
+                            contract.Equipment.RentalProgramType.Value == AnnualEscalationType.Escalation0 ?
+                                "13.99" : "10.99"
+                });
+                udfList.Add(new UDF()
+                {
+                    Name = AspireUdfFields.ContractEscalationRate,
+                    Value = contract.Details.AgreementType == AgreementType.LoanApplication ? "0" :
+                        !contract.Equipment.RentalProgramType.HasValue ? "0" :
+                            contract.Equipment.RentalProgramType.Value == AnnualEscalationType.Escalation0 ?
+                                "0" : "3.5"
+                });
 
                 if (contract.Details.AgreementType == AgreementType.LoanApplication && contract.Equipment.LoanTerm.HasValue)
                 {
@@ -2352,16 +2368,13 @@ namespace DealnetPortal.Api.Integration.Services
                     Value = leadSource
                 });
             }
-            if (isHomeOwner == true)
+            udfList.Add(new UDF()
             {
-                udfList.Add(new UDF()
-                {
-                    Name = AspireUdfFields.Residence,
-                    Value = isHomeOwner == true ? "O" : "R"
-                    //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
-                    //<!—other value is R for rent  and O for own-->
-                });
-            }
+                Name = AspireUdfFields.Residence,
+                Value = isHomeOwner == true ? "O" : "R"
+                //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
+                //<!—other value is R for rent  and O for own-->
+            });
             udfList.Add(
                 new UDF()
                 {
