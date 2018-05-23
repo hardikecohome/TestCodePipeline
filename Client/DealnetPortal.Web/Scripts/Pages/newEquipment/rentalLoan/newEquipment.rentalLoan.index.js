@@ -135,6 +135,7 @@
                 return false;
             });
             state.isInitialized = true;
+            $(settings.agreementTypeId).change();
         };
 
         function _submitForm(event) {
