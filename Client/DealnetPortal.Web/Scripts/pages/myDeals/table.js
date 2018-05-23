@@ -341,6 +341,10 @@
             sendEmailModel(id);
         };
 
+        this.removeContract = function () {
+            debugger
+        };
+
         //subscriptions
         this.list.subscribe(function (newValue) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
