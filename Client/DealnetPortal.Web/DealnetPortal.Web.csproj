@@ -882,7 +882,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\bootstrap\bootstrap.new.less" />
     <Content Include="Content\files\resources\en\Ecohome Loan Rate Card October 2017 to April 2018.pdf" />
-    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Full Reference Guide.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
@@ -901,6 +900,7 @@
     <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to June 2018.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Lease Rate Card May 2018.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 Quick Reference.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 User Guide.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
