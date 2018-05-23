@@ -3,19 +3,19 @@
 }
 <div id="my-deals-page" data-bind="with:table">
 
-    <div class="margin-block">
-        <div class="row">
-            <!-- ko if: showLearnMore -->
-            <div class="new-notification-wp">
-                <div class="new-notification-blank">
-                    <span class="new-notification-blank__text">
-                        @Resources.LearnMoreHomePage
-                    </span>
+    @*<div class="margin-block">
+            <div class="row">
+                <!-- ko if: showLearnMore -->
+                <div class="new-notification-wp">
+                    <div class="new-notification-blank">
+                        <span class="new-notification-blank__text">
+                            @Resources.LearnMoreHomePage
+                        </span>
+                    </div>
                 </div>
+                <!-- /ko -->
             </div>
-            <!-- /ko -->
-        </div>
-    </div>
+        </div>*@
 
     <div class="margin-block">
         <div class="row">
@@ -23,18 +23,18 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <!-- ko if:  list().length > 0-->
-                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
-                        <i class="lamp-ico"></i>
-                        <a>
-                            <!-- ko if: showLearnMore -->
-                            @Resources.Hide
-                            <!-- /ko-->
-                            <!-- ko ifnot: showLearnMore -->
-                            @Resources.LearnMoreAboutThisPage
-                            <!-- /ko -->
-                        </a>
-                    </div>
-                    <div class="filters-head__export-excel">
+                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                            <i class="lamp-ico"></i>
+                            <a>
+                                <!-- ko if: showLearnMore -->
+                                @Resources.Hide
+                                <!-- /ko-->
+                                <!-- ko ifnot: showLearnMore -->
+                                @Resources.LearnMoreAboutThisPage
+                                <!-- /ko -->
+                            </a>
+                        </div>*@
+                    <div class="filters-head__export-excel" data-bind="click: exportAll">
                         <i class="excel-ico"></i>
                         <a>@Resources.ExportAllToExcel</a>
                     </div>
@@ -69,8 +69,8 @@
                     </div>
                     <!-- /ko -->
                 </div>
-                <!-- ko if: showFilters() || showSorters() && list().length > 0-->
-                <div class="filters-type" >
+                <!-- ko if: list().length > 0 && showFilters() || showSorters() -->
+                <div class="filters-type">
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
                     <div class="filters-type__tab" data-bind="css:{active:showDetailedView}, click:function(){showDetailedView(true)}">@Resources.DetailedInfo</div>
                 </div>
@@ -463,7 +463,7 @@
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
                             <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
-                            <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
+                            <span class="show-details" data-bind="click:function(){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
@@ -701,22 +701,26 @@
 
     @using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
     {
-        <input type="hidden" name="contractId" id="remove-contract" />
+        <input type="hidden" data-bind="value: singleId" id="remove-contract" />
     }
 
     @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
     {
-        <div id="export-ids"></div>
+        <div data-bind="foreach: selectedIds">
+            <input name="ids" data-bind="value: $data.Id" type="hidden" />
+        </div>
     }
 
     @using(Html.BeginForm("Contract", "Reports", FormMethod.Post, new { id = "single-preview-form" }))
     {
-        <input type="hidden" name="contractId" id="contract-preview-id" />
+        <input type="hidden" name="contractId" data-bind="value: singleId"/>
     }
 
     @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "multiple-preview-form" }))
     {
-        <div id="contract-preview-ids"></div>
+        <div data-bind="foreach: selectedIds">
+            <input name="ids" type="hidden" data-bind="value: $data" />
+        </div>
     }
 
     <div id="contract-signature-modal" class="modal fade modal-wide">

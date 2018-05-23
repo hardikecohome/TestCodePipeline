@@ -313,6 +313,21 @@
             $('#export-form').submit();
         };
 
+        this.exportAll = function () {
+            var selected = this.filteredList().filter(function (item) {
+                return item.isSelected();
+            }).map(function (item) {
+                return item.Id;
+            });
+            this.filteredList().forEach(function (item) {
+                item.isSelected(true);
+            });
+            $('#export-form').submit();
+            this.filteredList().forEach(function (item) {
+                item.isSelected(selected.includes(item.Id));
+            });
+        };
+
         this.previewContracts = function () {
             var ids = this.selectedIds();
             if (ids.length > 1) {

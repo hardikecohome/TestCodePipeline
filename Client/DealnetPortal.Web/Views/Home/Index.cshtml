@@ -10,7 +10,7 @@
             {
                 @Html.Action("GetMaintanenceBanner", "Home")
             }
-            <!-- ko if: showLearnMore -->
+            @*<!-- ko if: showLearnMore -->
             <div class="new-notification-wp">
                 <div class="new-notification-blank">
                     <span class="new-notification-blank__text">
@@ -18,7 +18,7 @@
                     </span>
                 </div>
             </div>
-            <!-- /ko -->
+            <!-- /ko -->*@
         </div>
     </div>
     <!-- ko if: list().length > 0 -->
@@ -27,7 +27,7 @@
             <div class="filters">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    <div class="filters-head__learn-more">
+                    @*<div class="filters-head__learn-more">
                         <i class="lamp-ico"></i>
                         <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
                             <!-- ko if: showLearnMore -->
@@ -37,7 +37,7 @@
                             @Resources.LearnMoreAboutThisPage
                             <!-- /ko -->
                         </a>
-                    </div>
+                    </div>*@
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
