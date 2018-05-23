@@ -365,7 +365,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.DealerId = dealer.Id;
                     contract.IsNewlyCreated = true;
                     contract.IsCreatedByBroker = false;
-                    contract.IsCreatedByCustomer = false;
+                    //contract.IsCreatedByCustomer = false;
                     contract.LastUpdateTime = DateTime.UtcNow;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;
