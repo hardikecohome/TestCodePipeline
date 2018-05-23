@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 equipment-cost-col @(Model.AgreementType!=DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "hidden":"")">
+            <div class="col-md-3 col-xs-12 equipment-cost-col" style="@(Model.AgreementType!=DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].Cost)
                     <div class="control-group has-addon-left">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 monthly-cost-col @(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "hidden":"")">
+            <div class="col-md-3 col-xs-12 monthly-cost-col" style="@(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                     <div class="control-group has-addon-left">
