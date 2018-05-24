@@ -441,16 +441,22 @@
                                         <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__export">
+                                <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal, click:function(){$parent.exportToExcel($data.Id);}">
                                     <i class="excel-ico"></i>
                                     <span>
-                                        <a data-bind="click:function(){$parent.exportToExcel($data.Id);}">@Resources.ExportToExcel</a>
+                                        <a >@Resources.ExportToExcel</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__help">
+                                <div class="table-row-settings-popup__help" data-bind="visible: !$data.IsInternal,click:function(){$parent.openHelpModal($data.TransactionId)}">
                                     <i class="ask-help-ico"></i>
                                     <span>
-                                        <a data-bind="click:function(){$parent.openHelpModal($data.TransactionId)}">@Resources.AskForHelp</a>
+                                        <a>@Resources.AskForHelp</a>
+                                    </span>
+                                </div>
+                                <div class="table-row-settings-popup__help" data-bind="visible: $data.IsInternal,click:function(){$parent.removeContract($data.Id)}">
+                                    <i class="delete-ico"></i>
+                                    <span>
+                                        <a>@Resources.Remove</a>
                                     </span>
                                 </div>
                             </div>
@@ -574,9 +580,37 @@
                                 </div>
 
                                 <div class="table-row-details__left__gear">
-                                    <span>
-                                        <i class="gear-ico"></i>
-                                    </span>
+                                    <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
+                                    <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                                        <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
+                                        <div class="table-row-settings-popup__edit">
+                                            <i class="edit-contract-ico"></i>
+                                            <span>
+                                                <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
+                                            </span>
+                                        </div>
+                                        <div class="table-row-settings-popup__export" 
+                                             data-bind="visible: !$data.IsInternal,click:function(){$parent.exportToExcel($data.Id);}">
+                                            <i class="excel-ico"></i>
+                                            <span>
+                                                <a >@Resources.ExportToExcel</a>
+                                            </span>
+                                        </div>
+                                        <div class="table-row-settings-popup__help" 
+                                             data-bind="visible: !$data.IsInternal,click:function(){$parent.openHelpModal($data.TransactionId)}">
+                                            <i class="ask-help-ico"></i>
+                                            <span>
+                                                <a>@Resources.AskForHelp</a>
+                                            </span>
+                                        </div>
+                                        <div class="table-row-settings-popup__help" 
+                                             data-bind="visible: $data.IsInternal,click:function(){$parent.removeContract($data.Id)}">
+                                            <i class="delete-ico"></i>
+                                            <span>
+                                                <a>@Resources.Remove</a>
+                                            </span>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="table-row-details__left__value"></div>

@@ -13,6 +13,13 @@
 
     var prepareStatusList = require('tableFuncs').prepareStatusList;
 
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+
+    var hideDynamicModal = require('alertModal').hideDynamicAlertModal;
+
+    var showLoader = require('loader').showLoader;
+    var hideLoader = require('loader').hideLoader;
+
     function stringIncludes(str, value) {
         return str.toLowerCase().includes(value);
     }
@@ -341,8 +348,37 @@
             sendEmailModel(id);
         };
 
-        this.removeContract = function () {
+        this.removeContract = function (id) {
             debugger
+            dynamicAlertModal({
+                message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
+                title: translations['Remove'],
+                confirmBtnText: translations['Remove']
+            });
+            var that = this;
+            $('#confirmAlert').one('click', function () {
+                that.singleId(id);
+                showLoader();
+                $("#remove-contract-form").ajaxSubmit({
+                    method: 'post',
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            that.list.remove(function (item) {
+                                return item.Id == id;
+                            });
+                        } else if (result.isError) {
+                            alert(translations['Error']);
+                        }
+                    },
+                    error: function () {
+                        alert(translations['Error']);
+                    },
+                    complete: function (xhr) {
+                        hideLoader();
+                        hideDynamicAlertModal();
+                    }
+                });
+            });
         };
 
         //subscriptions
