@@ -52,7 +52,7 @@
                     @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubTypeId)
                     @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubTypeId,
                             subTypes ?? Enumerable.Empty<SelectListItem>(),
-                            new { @class="form-control sub-type-select" })
+                            new { @class="form-control sub-type-select", required="true " })
                     @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubTypeId, "", new { @class = "text-danger" })
                 </div>
             </div>

@@ -118,7 +118,8 @@
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentSubTypeId,
                                     Enumerable.Empty<SelectListItem>(), new
                                                                         {
-                                                                                @class = "form-control sub-type-select", @Value = ""
+                                                                                @class = "form-control sub-type-select", @Value = "",
+                                                                                required="true"
                                                                         })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentSubTypeId, "", new { @class = "text-danger" })
                         </div>
