@@ -2371,7 +2371,7 @@ namespace DealnetPortal.Api.Integration.Services
             udfList.Add(new UDF()
             {
                 Name = AspireUdfFields.Residence,
-                Value = isHomeOwner == true ? "O" : "R"
+                Value = isHomeOwner == true ? "O" : BlankValue
                 //Value = mainLocation.ResidenceType == ResidenceType.Own ? "O" : "R"
                 //<!—other value is R for rent  and O for own-->
             });
