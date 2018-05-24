@@ -23,11 +23,9 @@
      * @param {boolean} onlyCustomRateCard - if no available rate cards, show only custom rate card 
      * @returns {void} 
      */
-    var init = function(id, cards, rateCardReduction) {
+    var init = function (id, cards, rateCardReduction) {
         state.contractId = id;
-        // check if we have any prefilled values in database
-        // related to this contract, if yes contract is not new
-        state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
+
         state.customSelected = $(settings.customSelectedId).val().toLowerCase() === 'true';
         state.selectedCardId = $(settings.selectedRateCardId).val() !== "" ? +$(settings.selectedRateCardId).val() : null;
         if (state.selectedCardId === 0) state.selectedCardId = null;
@@ -53,13 +51,15 @@
             }
         } else {
 
-        _setCustomRateCardAdminFee(cards);
+            _setCustomRateCardAdminFee(cards);
 
-        constants.rateCards.forEach(function (option) {
-            var filtred = $.grep(cards, function (card) { return card.CardType === option.id; });
-            _renderRateCardOption(option.name, filtred, rateCardReduction);
-        });
-            
+            constants.rateCards.forEach(function (option) {
+                var filtred = $.grep(cards, function (card) {
+                    return card.CardType === option.id;
+                });
+                _renderRateCardOption(option.name, filtred, rateCardReduction);
+            });
+
         }
     };
 
@@ -69,14 +69,16 @@
      * @param {Array<string>} items - list of rate cards for the option
      * @returns {void} 
      */
-    function _renderRateCardOption (option, items, rateCardReduction) {
+    function _renderRateCardOption(option, items, rateCardReduction) {
         rateCardBlock.toggle(state.isNewContract);
         if (option !== settings.customRateCardName && !state.customSelected) {
             _setSelectedRateCard(option, items, rateCardReduction);
 
             if (option === settings.deferralRateCardName) {
                 var deferralPeriod = $.grep(constants.customDeferralPeriods,
-                    function (period) { return period.name === $('#LoanDeferralType').val(); })[0];
+                    function (period) {
+                        return period.name === $('#LoanDeferralType').val();
+                    })[0];
 
                 if (deferralPeriod !== null && deferralPeriod !== undefined && deferralPeriod.val !== 0) {
                     $('#DeferralPeriodDropdown').val(deferralPeriod.val.toString());
@@ -92,16 +94,20 @@
 
     /**
      * Highlight selected rate on initialization 
-    * @param {string} option - rate card option [NoInterest, Fixed, Deferral, Custom]
+     * @param {string} option - rate card option [NoInterest, Fixed, Deferral, Custom]
      * @param {Array<string>} items - list of rate cards for the option
      * @returns {void} 
      */
-    function _setSelectedRateCard (option, items, rateCardReduction) {
-        var selectedCard = $.grep(items, function (card) { return card.Id === Number(state.selectedCardId); })[0];
+    function _setSelectedRateCard(option, items, rateCardReduction) {
+        var selectedCard = $.grep(items, function (card) {
+            return card.Id === Number(state.selectedCardId);
+        })[0];
         var reductionRate;
         var id = $(settings.rateReductionId).val();
         if (id) {
-            reductionRate = rateCardReduction.filter(function(reduct) { return reduct.Id === Number(id) })[0];
+            reductionRate = rateCardReduction.filter(function (reduct) {
+                return reduct.Id === Number(id)
+            })[0];
         }
         if (selectedCard !== null && selectedCard !== undefined) {
             state[option] = selectedCard;
@@ -125,12 +131,18 @@
     }
 
     function _setCustomRateCardAdminFee(cards) {
-        var customRcId = constants.rateCards.filter(function(card) { return card.name === settings.customRateCardName })[0].id;
-        var customRateCards = cards.filter(function(card) { return card.CardType === customRcId });
+        var customRcId = constants.rateCards.filter(function (card) {
+            return card.name === settings.customRateCardName
+        })[0].id;
+        var customRateCards = cards.filter(function (card) {
+            return card.CardType === customRcId
+        });
         if (!customRateCards.length) return;
 
-        $.grep(customRateCards, function(card) {
-            state.customRateCardBoundaires[card.LoanValueFrom + '-' + card.LoanValueTo] = { adminFee: card.AdminFee };
+        $.grep(customRateCards, function (card) {
+            state.customRateCardBoundaires[card.LoanValueFrom + '-' + card.LoanValueTo] = {
+                adminFee: card.AdminFee
+            };
         });
     }
     return {

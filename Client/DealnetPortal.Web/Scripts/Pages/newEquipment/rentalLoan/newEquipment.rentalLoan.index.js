@@ -78,6 +78,9 @@
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
             state.isCustomerFoundInCreditBureau = $(settings.isCustomerFoundInCreditBureauId).val().toLowerCase() === 'true';
             state.onlyCustomRateCard = onlyCustomRateCard;
+            // check if we have any prefilled values in database
+            // related to this contract, if yes contract is not new
+            state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
             _modifyAgreementTypes();
             rateCardBlock.toggleAgreementTypeSection(state.agreementType);
 
@@ -372,11 +375,11 @@
             var rigthDictionary = {
                 'both': function () {},
                 'loan': function () {
-                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication && !state.isNewContract)
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication)
                         _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
                 },
                 'lease': function () {
-                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication && !state.isNewContract)
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication || state.isNewContract)
                         _removeAgeementOptionByKey(settings.applicationType.loanApplication);
                 }
             };
