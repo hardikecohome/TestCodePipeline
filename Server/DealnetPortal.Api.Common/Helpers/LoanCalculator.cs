@@ -108,7 +108,7 @@ namespace DealnetPortal.Api.Common.Helpers
             output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, Math.Round(mco, 2)), 2);
+                output.ResidualBalance = Math.Round(Financial.FV(customerRate, input.LoanTerm, Math.Round(mco, 2), -output.TotalAmountFinanced), 2);
             }
             output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments; // + admeenFee;
             output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced + admeenFee, 2);

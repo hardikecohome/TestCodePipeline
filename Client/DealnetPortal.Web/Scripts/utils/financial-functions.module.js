@@ -75,10 +75,11 @@
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
             var mPayment = monthlyPayment(data);
-
+			var tAmountFinance = totalAmountFinanced(data);
             var rbalance = 0;
             if (loanTerm !== amortizationTerm) {
-				rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0);
+				//rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0);
+				rbalance = fv(customerRate / 100 / 12, loanTerm, mPayment, - tAmountFinance, 0);
             }
 
             return rbalance;
