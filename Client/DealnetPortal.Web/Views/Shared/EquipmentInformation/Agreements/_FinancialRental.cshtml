@@ -1,31 +1,31 @@
 ﻿@using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
-<div class="row rental-element">
-	<div class="col-md-3">
-		<div class="form-group">
-			@Html.LabelFor(m => m.RequestedTerm)
-			<div class="control-group">
-				@Html.TextBoxFor(m => m.RequestedTerm, new
-				{
-					type = "text",
-					id = "requested-term",
-					@readonly = "readonly",
-					@class = "form-control dealnet-input",
-					placeholder = Resources.RequestedTerm,
-					tabindex = "-1"
-				})
-				@Html.ValidationMessageFor(m => m.RequestedTerm, "", new { @class = "text-danger" })
-			</div>
-		</div>
-	</div>
-	<div class="col-md-3 @((Model.RentalDeferralType == RentalDeferralType.TwoMonth ||
-							Model.RentalDeferralType == RentalDeferralType.ThreeMonth) ? "" : "hidden")">
-		<div class="form-group">
-			@Html.LabelFor(m => m.RentalDeferralType)
-			<div class="control-group">
-				@Html.EnumDropDownListFor(m => m.RentalDeferralType, new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.RentalDeferralType, "", new { @class = "text-danger" })
-			</div>
-		</div>
-	</div>
+
+<div class="row rental-element" style="@(Model.AgreementType == AgreementType.RentalApplication ? "" : "display: none")">
+    <div class="col-md-3">
+        <div class="form-group">
+            @Html.LabelFor(m => m.RequestedTerm)
+            <div class="control-group">
+                @Html.TextBoxFor(m => m.RequestedTerm, new
+                {
+                    type = "text",
+                    id = "requested-term",
+                    @readonly = "readonly",
+                    @class = "form-control dealnet-input",
+                    placeholder = Resources.RequestedTerm,
+                    tabindex="-1"
+                })
+                @Html.ValidationMessageFor(m => m.RequestedTerm, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            @Html.LabelFor(m => m.RentalDeferralType)
+            <div class="control-group">
+                @Html.EnumDropDownListFor(m => m.RentalDeferralType, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RentalDeferralType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
 </div>

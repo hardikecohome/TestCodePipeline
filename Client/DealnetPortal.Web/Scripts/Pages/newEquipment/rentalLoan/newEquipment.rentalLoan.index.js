@@ -73,14 +73,13 @@
          * @returns {void} 
          */
         var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
-            var isNewContract = $(settings.isNewContractId).val().toLowerCase() == 'true';
-
-            _modifyAgreementTypes();
-
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
             state.isCustomerFoundInCreditBureau = $(settings.isCustomerFoundInCreditBureauId).val().toLowerCase() === 'true';
+            state.onlyCustomRateCard = onlyCustomRateCard;
+            _modifyAgreementTypes();
+            rateCardBlock.toggleAgreementTypeSection(state.agreementType);
 
             state.equipmentTypes = equipments.reduce(function (acc, equip) {
                 acc[equip.Type] = equip;
@@ -136,6 +135,7 @@
                 return false;
             });
             state.isInitialized = true;
+            $(settings.agreementTypeId).change();
         };
 
         function _submitForm(event) {
@@ -372,10 +372,12 @@
             var rigthDictionary = {
                 'both': function () {},
                 'loan': function () {
-                    _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication && !state.isNewContract)
+                        _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
                 },
                 'lease': function () {
-                    _removeAgeementOptionByKey(settings.applicationType.loanApplication);
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication && !state.isNewContract)
+                        _removeAgeementOptionByKey(settings.applicationType.loanApplication);
                 }
             };
 

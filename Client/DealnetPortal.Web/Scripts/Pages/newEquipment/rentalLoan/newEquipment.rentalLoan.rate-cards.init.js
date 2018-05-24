@@ -23,7 +23,7 @@
      * @param {boolean} onlyCustomRateCard - if no available rate cards, show only custom rate card 
      * @returns {void} 
      */
-    var init = function(id, cards, rateCardReduction, onlyCustomRateCard) {
+    var init = function(id, cards, rateCardReduction) {
         state.contractId = id;
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
@@ -31,7 +31,6 @@
         state.customSelected = $(settings.customSelectedId).val().toLowerCase() === 'true';
         state.selectedCardId = $(settings.selectedRateCardId).val() !== "" ? +$(settings.selectedRateCardId).val() : null;
         if (state.selectedCardId === 0) state.selectedCardId = null;
-        state.onlyCustomRateCard = onlyCustomRateCard;
         var isValidRateCard = $(settings.rateCardValidId).val().toLocaleLowerCase() === 'true';
 
         if (!isValidRateCard && !state.isNewContract) {
