@@ -482,7 +482,7 @@
     <value>Declined (wo/email notice)</value>
   </data>
   <data name="_26_Pre_Approved15k" xml:space="preserve">
-    <value>Pre-Approved $15k</value>
+    <value>Awaiting Enbridge confirmation</value>
   </data>
   <data name="_26_Pre_ApprovedECP" xml:space="preserve">
     <value>Pre-Approved (ECP)</value>
@@ -857,7 +857,7 @@
     <value>Declined Blue Chip</value>
   </data>
   <data name="_26_Pre_Approved" xml:space="preserve">
-    <value>Pre Approved</value>
+    <value>Awaiting Enbridge confirmation</value>
   </data>
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Approved Blue Chip</value>
