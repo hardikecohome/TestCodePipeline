@@ -372,11 +372,11 @@
             var rigthDictionary = {
                 'both': function () {},
                 'loan': function () {
-                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication)
+                    if (state.isNewContract || $(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication)
                         _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
                 },
                 'lease': function () {
-                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication)
+                    if (state.isNewContract || $(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication)
                         _removeAgeementOptionByKey(settings.applicationType.loanApplication);
                 }
             };
