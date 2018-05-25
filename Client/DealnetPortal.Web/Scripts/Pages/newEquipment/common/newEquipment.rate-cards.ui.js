@@ -111,16 +111,14 @@
         toggleAgreementTypeSection(agreementType);
     }
 
-    var toggleAgreementTypeSection = function(agreementType) {
-        var agreementTypeObj = {
-            [constants.applicationType.loanApplication]: _loanAgreementType,
-            [constants.applicationType.rentalApplication]: _leaseAgreementType,
-            [constants.applicationType.rentalApplicationHwt]: _leaseAgreementType
-        }
-        
-        agreementTypeObj[agreementType]();
+    var toggleAgreementTypeSection = function (agreementType) {
+
+        if (agreementType == constants.applicationType._loanAgreementType) _loanAgreementType();
+        if (agreementType == constants.applicationType.rentalApplication) _leaseAgreementType();
+        if (agreementType == constants.applicationType.rentalApplicationHwt) _leaseAgreementType();
+
         updateEquipmentCosts(agreementType);
-    }
+    };
 
     function _loanAgreementType() {
         setHeight();
