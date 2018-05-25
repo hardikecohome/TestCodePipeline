@@ -338,14 +338,14 @@
                             }
                             @if (contract.EquipmentInfo.CustomerRiskGroup != null)
                             {
-                                if (hasStandardRentalTier || Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
+                                if (hasStandardRentalTier || contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                                 {
                                     <div class="form-group">
                                         <div class="row">
                                             @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
+                                                    @Html.TextBoxFor(m => contract.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
                                                     {
                                                         @readonly = "readonly",
                                                         @class = "dealnet-disabled-input",
