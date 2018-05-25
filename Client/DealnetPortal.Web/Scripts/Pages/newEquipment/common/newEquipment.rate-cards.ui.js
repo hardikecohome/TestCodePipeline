@@ -113,7 +113,7 @@
 
     var toggleAgreementTypeSection = function (agreementType) {
 
-        if (agreementType == constants.applicationType._loanAgreementType) _loanAgreementType();
+        if (agreementType == constants.applicationType.loanApplication) _loanAgreementType();
         if (agreementType == constants.applicationType.rentalApplication) _leaseAgreementType();
         if (agreementType == constants.applicationType.rentalApplicationHwt) _leaseAgreementType();
 
