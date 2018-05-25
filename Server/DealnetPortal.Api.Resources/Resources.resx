@@ -1018,4 +1018,25 @@
   <data name="WaterSoftener" xml:space="preserve">
     <value>Water Softener</value>
   </data>
+  <data name="HotWaterHeaterCV" xml:space="preserve">
+    <value>Hot Water Heater (CV)</value>
+  </data>
+  <data name="HotWaterHeaterPV" xml:space="preserve">
+    <value>Hot Water Heater (PV)</value>
+  </data>
+  <data name="HumidifierWithFurnace" xml:space="preserve">
+    <value>Humidifier with Furnace</value>
+  </data>
+  <data name="MediaFilterNSAU" xml:space="preserve">
+    <value>Media Filter (no stand alone units)</value>
+  </data>
+  <data name="ReverseOsmosisNSAU" xml:space="preserve">
+    <value>Reverse Osmosis (no stand alone units)</value>
+  </data>
+  <data name="TwoPiecesofEquipmentWSCF" xml:space="preserve">
+    <value>2 Pieces of Equipment (water softener/carbon filter)</value>
+  </data>
+  <data name="WholeHomeCombo" xml:space="preserve">
+    <value>Whole Home Combo</value>
+  </data>
 </root>
