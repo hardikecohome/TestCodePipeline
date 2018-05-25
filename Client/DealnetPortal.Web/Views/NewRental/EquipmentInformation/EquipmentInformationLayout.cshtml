@@ -62,7 +62,9 @@
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
             </p>
-            
+            <p class="text-semibold preapproved-text">
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+            </p>
         }
     </div>
 </div>
