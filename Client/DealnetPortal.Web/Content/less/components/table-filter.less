@@ -334,7 +334,8 @@
         &__date-to,
         &__type,
         &__created-by,
-        &__sales-rep {
+        &__sales-rep,
+        &__project {
             flex-basis: 13%;
         }
 
@@ -350,7 +351,8 @@
         }
 
         &__deal-from,
-        &__deal-to {
+        &__deal-to,
+        &__project {
             display: none;
         }
 
@@ -374,7 +376,8 @@
             }
 
             .filters-advanced__deal-from,
-            .filters-advanced__deal-to {
+            .filters-advanced__deal-to,
+            .filters-advanced__project {
                 display: block;
                 .custom-text-input-group {
                 width: 100%;
@@ -402,8 +405,14 @@
                 order: 4;
             }
 
-            .filters-advanced__apply-btn {
+            .filters-advanced__project {
+                flex-basis: 20%;
+                margin-right: 24px;
                 order: 5;
+            }
+
+            .filters-advanced__apply-btn {
+                order: 6;
                 margin-left: auto;
             }
         }
