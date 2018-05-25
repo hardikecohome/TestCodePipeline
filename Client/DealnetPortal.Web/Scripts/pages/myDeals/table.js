@@ -143,11 +143,34 @@
         this.pager = new Paginator(this.filteredList());
 
         // computed
+
+        this.searchedList = ko.computed(function () {
+            var searchTerm = this.search().toLowerCase();
+
+            function includesSearchTerm(val) {
+                return stringIncludes(val, searchTerm);
+            }
+            return this.filteredList().filter(function (deal) {
+                return includesSearchTerm(deal.CustomerName) ||
+                    includesSearchTerm(deal.LocalizedStatus) ||
+                    includesSearchTerm(deal.Email) ||
+                    includesSearchTerm(deal.Phone) ||
+                    includesSearchTerm(deal.TransactionId) ||
+                    includesSearchTerm(deal.ProgramOption) ||
+                    includesSearchTerm(deal.Value) ||
+                    includesSearchTerm(deal.Equipment) ||
+                    includesSearchTerm(deal.Address) ||
+                    includesSearchTerm(deal.SalesRep) ||
+                    includesSearchTerm(deal.EnteredBy) ||
+                    includesSearchTerm(deal.CustomerComment);
+            });
+        }, this);
+
         this.sortedList = ko.computed(function () {
             var field = this.sortedColumn();
             var dir = this.sortDirection();
 
-            var tempList1 = this.filteredList().slice();
+            var tempList1 = this.searchedList().slice();
             if (dir == this.sortDirections.default || field == '') {
                 return tempList1;
             }
