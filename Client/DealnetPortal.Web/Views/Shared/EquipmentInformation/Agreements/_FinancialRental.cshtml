@@ -19,7 +19,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 @((Model.RentalDeferralType == RentalDeferralType.TwoMonth ||
+       Model.RentalDeferralType == RentalDeferralType.ThreeMonth) ? "" : "hidden")">
         <div class="form-group">
             @Html.LabelFor(m => m.RentalDeferralType)
             <div class="control-group">
