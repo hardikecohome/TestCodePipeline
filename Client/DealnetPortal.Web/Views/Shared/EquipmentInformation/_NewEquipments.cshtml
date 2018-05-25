@@ -52,7 +52,7 @@
                     @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubTypeId)
                     @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubTypeId,
                             subTypes ?? Enumerable.Empty<SelectListItem>(),
-                            new { @class="form-control sub-type-select" })
+                            new { @class="form-control sub-type-select", required="true " })
                     @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubTypeId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 equipment-cost-col">
+            <div class="col-md-3 col-xs-12 equipment-cost-col" style="@(Model.AgreementType!=DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].Cost)
                     <div class="control-group has-addon-left">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 monthly-cost-col">
+            <div class="col-md-3 col-xs-12 monthly-cost-col" style="@(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                     <div class="control-group has-addon-left">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 col-xs-12 estimated-retail-col hidden">
+            <div class="col-md-2 col-xs-12 estimated-retail-col @(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "hidden":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].EstimatedRetailCost)
                     <div class="control-group has-addon-left">

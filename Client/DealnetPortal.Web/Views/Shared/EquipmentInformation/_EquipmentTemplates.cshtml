@@ -118,7 +118,8 @@
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentSubTypeId,
                                     Enumerable.Empty<SelectListItem>(), new
                                                                         {
-                                                                                @class = "form-control sub-type-select", @Value = ""
+                                                                                @class = "form-control sub-type-select", @Value = "",
+                                                                                required="true"
                                                                         })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentSubTypeId, "", new { @class = "text-danger" })
                         </div>
@@ -179,7 +180,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-xs-12 estimated-retail-col hidden">
+                    <div class="col-md-2 col-xs-12 estimated-retail-col">
                         <div class="form-group">
                             @Html.LabelFor(m => m.NewEquipment[0].EstimatedRetailCost)
                             <div class="control-group has-addon-left">

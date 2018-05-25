@@ -212,7 +212,7 @@ namespace DealnetPortal.Api.Integration.Services
                         creditReport = new CustomerCreditReportDTO()
                         {
                             Beacon = dbCreditReport.Beacon,
-                            CreditLastUpdateTime = dbCreditReport.LastUpdatedTime ?? DateTime.UtcNow
+                            CreditLastUpdateTime = DateTime.UtcNow
                         };
                     }
                 }

@@ -2746,7 +2746,7 @@ Additional program options may become available when customer’s credit details
     <value>Pre-Approved up to a maximum of</value>
   </data>
   <data name="MaximumAmountCapingOut" xml:space="preserve">
-    <value>The total amount financed cannot exceed the pre-approval amount of $</value>
+    <value>The total amount financed cannot exceed the amount of $</value>
   </data>
   <data name="CustomerOwned" xml:space="preserve">
     <value>Customer Owned?</value>
@@ -2856,5 +2856,14 @@ Additional program options may become available when customer’s credit details
   </data>
   <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
     <value>Congratulations, you have been pre-approved</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Total monthly payment cannot exceed the amount of</value>
+  </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>Additional applicant address cannot be in Quebec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>Additional applicant address should be in Quebec</value>
   </data>
 </root>

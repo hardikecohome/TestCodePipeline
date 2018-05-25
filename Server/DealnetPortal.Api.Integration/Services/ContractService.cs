@@ -160,14 +160,10 @@ namespace DealnetPortal.Api.Integration.Services
                 var beacon = creditReport?.Beacon;
                 if (beacon.HasValue)
                 {
-                    _contractRepository.UpdateContractData(new ContractData()
-                    {
-                        Id = contractId,
-                        Details = new ContractDetails()
-                        {
-                            CreditAmount = contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount ? creditReport.CreditAmount : contract.Details.CreditAmount,
-                        }
-                    }, contractOwnerId);
+                    contract.Details.CreditAmount = 
+                        contract.Details.Status.Contains("Approved") && 
+                        (contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount) ? 
+                        creditReport.CreditAmount : contract.Details.CreditAmount;
                     _unitOfWork.Save();
                 }
 
@@ -200,6 +196,7 @@ namespace DealnetPortal.Api.Integration.Services
 	                {
 		                contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
 		                {
+                            CreditAmount = creditAmountSettings.CreditAmount,
 			                EscalatedLimit = creditAmountSettings.EscalatedLimit,
 			                NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
 		                };

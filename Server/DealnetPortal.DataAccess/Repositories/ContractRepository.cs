@@ -365,7 +365,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.DealerId = dealer.Id;
                     contract.IsNewlyCreated = true;
                     contract.IsCreatedByBroker = false;
-                    contract.IsCreatedByCustomer = false;
+                    //contract.IsCreatedByCustomer = false;
                     contract.LastUpdateTime = DateTime.UtcNow;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;
@@ -1367,9 +1367,9 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
                     }
-                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;
-                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                    
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;
                 }
             });
             return updated;

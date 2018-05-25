@@ -38,5 +38,6 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         public bool IsDefaultRentalTier { get; set; }
         public decimal? RentalEscalatedMonthlyLimit { get; set; }
         public decimal? RentalNonEscalatedMonthlyLimit { get; set; }
+        public decimal? LoanCreditAmount { get; set; }
     }
 }
