@@ -1012,4 +1012,7 @@
   <data name="SuperPrime" xml:space="preserve">
     <value>A faible risque</value>
   </data>
+  <data name="CreditDecision" xml:space="preserve">
+    <value>Décision liée au crédit</value>
+  </data>
 </root>
