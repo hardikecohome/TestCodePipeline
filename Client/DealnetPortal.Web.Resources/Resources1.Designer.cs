@@ -754,7 +754,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apply for financing.
+        ///   Looks up a localized string similar to Apply for Financing/Lease.
         /// </summary>
         public static string ApplyForFinancing {
             get {
