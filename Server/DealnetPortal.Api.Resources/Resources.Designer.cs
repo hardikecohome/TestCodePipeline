@@ -277,7 +277,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre-Approved (ECP).
+        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
         /// </summary>
         public static string _26_Pre_ApprovedECP {
             get {

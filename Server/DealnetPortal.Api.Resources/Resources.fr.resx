@@ -676,10 +676,10 @@
     <value>Refusé (sans avis par courriel)</value>
   </data>
   <data name="_26_Pre_Approved15k" xml:space="preserve">
-    <value>Préautorisé 15 000 $</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_26_Pre_ApprovedECP" xml:space="preserve">
-    <value>Préautorisé (ECP)</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_27_FinalReview_RecommendApproval" xml:space="preserve">
     <value>Examen final – Recommander l’autorisation</value>
@@ -853,7 +853,7 @@
     <value>Refusé Blue Chip</value>
   </data>
   <data name="_26_Pre_Approved" xml:space="preserve">
-    <value>Préapprouvé</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Autorisé Blue Chip</value>
