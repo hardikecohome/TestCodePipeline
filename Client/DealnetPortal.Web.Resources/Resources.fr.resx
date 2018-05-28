@@ -1220,7 +1220,7 @@
     <value>Votre formulaire a été correctement mis à jour, mais il est pour l’instant désactivé et les clients ne seront pas en mesure de l’utiliser.</value>
   </data>
   <data name="ApplyForFinancing" xml:space="preserve">
-    <value>Faire une demande de financement</value>
+    <value>Demande de financement / location</value>
   </data>
   <data name="YourInformation" xml:space="preserve">
     <value>Vos renseignements</value>
