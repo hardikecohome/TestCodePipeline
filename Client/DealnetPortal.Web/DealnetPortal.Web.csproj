@@ -895,12 +895,13 @@
     <Content Include="Content\files\resources\fr\qc\Portail d entrepreneur pour la signature electronique fevrier 2018.pdf" />
     <Content Include="Content\files\resources\en\qc\Credit Application.pdf" />
     <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
-    <Content Include="Content\files\resources\en\User Guide.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to June 2018.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Lease Rate Card May 2018.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 Quick Reference.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
