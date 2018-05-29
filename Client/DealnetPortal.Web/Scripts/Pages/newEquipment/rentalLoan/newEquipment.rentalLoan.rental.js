@@ -117,7 +117,7 @@
 
     function updateEquipmentSubtypes(parent, type) {
         var select = parent.find('.sub-type-select');
-        if (state.isStandardRentalTier && state.agreementType !== 0 && state.equipmentTypes[type].SubTypes.length) {
+        if (state.isStandardRentalTier && state.agreementType !== 0 && type !== "" && state.equipmentTypes[type].SubTypes.length) {
             var value = select.val();
             var selected = state.equipmentTypes[type].SubTypes.find(function (item) {
                 return item.Id == value;

@@ -6,22 +6,25 @@
 
 @for(var i = 0; i < Model.NewEquipment.Count; i++)
 {
-    var selected = equipment.FirstOrDefault(e => e.Type == Model.NewEquipment[i].Type);
+  var selected = equipment.FirstOrDefault(e => e.Type == Model.NewEquipment[i].Type);
 
-    bool hasSelectedSub = Model != null && Model.NewEquipment != null ? Model.NewEquipment[i].EquipmentSubTypeId.HasValue : true;
+  bool hasSelectedSub = Model != null && Model.NewEquipment != null ? Model.NewEquipment[i].EquipmentSubTypeId.HasValue : true;
 
-    var subTypes = new List<SelectListItem>
+  var subTypes = new List<SelectListItem>
     {
         new SelectListItem{ Text="",Value="",Selected=!hasSelectedSub }
     };
+  if (selected?.SubTypes != null && selected?.SubTypes.Count != 0)
+  {
     subTypes.AddRange(selected?.SubTypes?.Select(sub => new SelectListItem
     {
-        Text = sub.Description,
-        Value = sub.Id.ToString(),
-        Selected = Model?.NewEquipment[i]?.EquipmentSubTypeId == sub.Id
+      Text = sub.Description,
+      Value = sub.Id.ToString(),
+      Selected = Model?.NewEquipment[i]?.EquipmentSubTypeId == sub.Id
     }));
+  }
 
-    <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+  <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
         @Html.HiddenFor(m => m.NewEquipment[i].Id)
         <div class="dealnet-middle-header equipment-number-header">
             <span class="equipment-number">№@(i + 1)</span>
