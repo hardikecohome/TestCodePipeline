@@ -79,13 +79,13 @@
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealType</label>
-                            <select name="project-type" id="agreement-type" class="custom-select" data-bind="options:agreementOptions, selectric:agreementType"></select>
+                            <select name="project-type" id="agreement-type" data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealStatus</label>
-                            <select name="project-type" id="status" class="custom-select" data-bind="foreach:statusOptions, selectric:status">
+                            <select name="project-type" id="status" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="custom-text-input-group icon">
                             <input type="text" data-bind="value: valueFrom">
                             <label>@Resources.DealValueFrom</label>
-                            <span class="ic-nw-dollar-small"></span>
+                            <span class="ic-nw-right-dollar-small"></span>
                         </div>
                     </div>
 
@@ -119,14 +119,14 @@
                         <div class="custom-text-input-group icon">
                             <input type="text" data-bind="value: valueTo">
                             <label>@Resources.DealValueTo</label>
-                            <span class="ic-nw-dollar-small"></span>
+                            <span class="ic-nw-right-dollar-small"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__created-by new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.CreatedBy</label>
-                            <select id="created-by" class="custom-select" data-bind="selectric: createdBy">
+                            <select id="created-by" data-bind="selectric: createdBy">
                                 <option value=""></option>
                                 <option value="true">@Resources.Customer</option>
                                 <option value="false">@Resources.Dealer</option>
@@ -137,7 +137,7 @@
                     <div class="filters-advanced__sales-rep new-input-group">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.SalesRep</label>
-                            <select id="sales-rep" class="custom-select" data-bind="options: salesRepOptions, selectric: salesRep"></select>
+                            <select id="sales-rep" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
                     </div>
 
@@ -151,7 +151,7 @@
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible:showSorters">
                         <div class="custom-select-wrap">
                             <label>@Resources.SortBy</label>
-                            <select id="sort" class="custom-select" data-bind="selectric: sorter">
+                            <select id="sort"  data-bind="selectric: sorter">
                                 <option value=""></option>
                                 <option value="transactionIdAsc">
                                     @Resources.ContractNumber - @Resources.Ascending
@@ -680,8 +680,7 @@
                         <div class="main-table__block__row__entries-number new-input-group">
                             <div class="custom-select-wrap">
                                 <label for="entries-number">@Resources.NumberOfEntries</label>
-                                <select class="custom-select"
-                                        data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
+                                <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
                             </div>
                         </div>
                     </div>
