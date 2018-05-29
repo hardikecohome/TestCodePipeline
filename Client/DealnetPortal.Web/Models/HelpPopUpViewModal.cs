@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
-using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Web.Models.Enumeration;
 namespace DealnetPortal.Web.Models
 {
     public class HelpPopUpViewModal
