@@ -53,7 +53,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract?.ContractState == null)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.CreditCheckFailed,
@@ -142,10 +142,10 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (creditAmount.HasValue || scorecardPoints.HasValue)
                     {
-                        _contractRepository.UpdateContractData(new ContractData()
+                        _contractRepository.UpdateContractData(new ContractData
                         {
                             Id = contractId,
-                            Details = new ContractDetails()
+                            Details = new ContractDetails
                             {
                                 CreditAmount = creditAmount,
                                 ScorecardPoints = scorecardPoints,
@@ -190,14 +190,14 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     else
                     {
-                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.AccountId.ToString());
+                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.AccountId);
                     }
                     if (dbCreditReport != null)
                     {
-                        var customer = new Customer()
+                        var customer = new Customer
                         {
                             Id = contract.PrimaryCustomer.Id,
-                            CreditReport = new CustomerCreditReport()
+                            CreditReport = new CustomerCreditReport
                             {
                                 Beacon = dbCreditReport.Beacon,
                                 CreditLastUpdateTime = DateTime.UtcNow
@@ -206,7 +206,7 @@ namespace DealnetPortal.Api.Integration.Services
                         _contractRepository.UpdateCustomerData(customer.Id, customer, null, null, null);
                         _unitOfWork.Save();
 
-                        creditReport = new CustomerCreditReportDTO()
+                        creditReport = new CustomerCreditReportDTO
                         {
                             Beacon = dbCreditReport.Beacon,
                             CreditLastUpdateTime = DateTime.UtcNow
