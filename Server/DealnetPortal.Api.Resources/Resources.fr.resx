@@ -676,10 +676,10 @@
     <value>Refusé (sans avis par courriel)</value>
   </data>
   <data name="_26_Pre_Approved15k" xml:space="preserve">
-    <value>Préautorisé 15 000 $</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_26_Pre_ApprovedECP" xml:space="preserve">
-    <value>Préautorisé (ECP)</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_27_FinalReview_RecommendApproval" xml:space="preserve">
     <value>Examen final – Recommander l’autorisation</value>
@@ -853,7 +853,7 @@
     <value>Refusé Blue Chip</value>
   </data>
   <data name="_26_Pre_Approved" xml:space="preserve">
-    <value>Préapprouvé</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Autorisé Blue Chip</value>
@@ -1011,5 +1011,23 @@
   </data>
   <data name="SuperPrime" xml:space="preserve">
     <value>A faible risque</value>
+  </data>
+  <data name="CreditDecision" xml:space="preserve">
+    <value>Décision liée au crédit</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Mise à jour du profil du marchand</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Demandes financées</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Demandes en attente</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Informations sur le portail</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Informations sur le programme</value>
   </data>
 </root>
