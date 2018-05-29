@@ -1042,6 +1042,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The borrower should be a home owner..
+        /// </summary>
+        public static string BorrowerShouldBeHomeOwner {
+            get {
+                return ResourceManager.GetString("BorrowerShouldBeHomeOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Both.
         /// </summary>
         public static string Both {
@@ -1695,6 +1704,15 @@ namespace DealnetPortal.Web.Resources {
         public static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Congratulations, you have been pre-approved.
+        /// </summary>
+        public static string CongratulationsYouBeenPreApproved {
+            get {
+                return ResourceManager.GetString("CongratulationsYouBeenPreApproved", resourceCulture);
             }
         }
         
@@ -3411,6 +3429,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value exceeds maximum allowed monthly cost for the given type of equipment.
+        /// </summary>
+        public static string HardCapWarning {
+            get {
+                return ResourceManager.GetString("HardCapWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
@@ -4397,6 +4424,24 @@ namespace DealnetPortal.Web.Resources {
         public static string MonthlyCost {
             get {
                 return ResourceManager.GetString("MonthlyCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment monthly cost exceeds maximum allowed value. Application will be accepted only in eligible exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost..
+        /// </summary>
+        public static string MonthlyCostExceedsSoftCapBody {
+            get {
+                return ResourceManager.GetString("MonthlyCostExceedsSoftCapBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly cost exceeds maximum allowed value.
+        /// </summary>
+        public static string MonthlyCostExceedsSoftCapTitle {
+            get {
+                return ResourceManager.GetString("MonthlyCostExceedsSoftCapTitle", resourceCulture);
             }
         }
         
@@ -5468,6 +5513,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Pre {
             get {
                 return ResourceManager.GetString("Pre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pre-Approved.
+        /// </summary>
+        public static string PreApproved {
+            get {
+                return ResourceManager.GetString("PreApproved", resourceCulture);
             }
         }
         
@@ -6634,6 +6688,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value exceeds maximum allowed cost. Only eligible exceptions will be accepted.
+        /// </summary>
+        public static string SoftCapWarning {
+            get {
+                return ResourceManager.GetString("SoftCapWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sole Prop.
         /// </summary>
         public static string SoleProp {
@@ -6729,6 +6792,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SubmitDeal {
             get {
                 return ResourceManager.GetString("SubmitDeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub-Type.
+        /// </summary>
+        public static string SubType {
+            get {
+                return ResourceManager.GetString("SubType", resourceCulture);
             }
         }
         

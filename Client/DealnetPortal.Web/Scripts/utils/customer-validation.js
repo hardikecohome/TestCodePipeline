@@ -41,17 +41,6 @@
         return true;
     }
 
-    function checkHomeOwner () {
-        var isHomeOwner = false;
-        $('.check-homeowner').each(function () {
-            if ($(this).prop('checked')) {
-                isHomeOwner = true;
-                return false;
-            }
-        });
-        return isHomeOwner;
-    };
-
     function checkCreditAgree () {
         var mainCustomerAgrees = $('#home-owner-agrees').prop('checked');
         if ($("#additional1-section").data('active')) {
@@ -64,7 +53,6 @@
     return {
         checkApplicantsAge: checkApplicantsAge,
         checkApplicantAgeOnSelect: checkApplicantAgeOnSelect,
-        checkHomeOwner: checkHomeOwner,
         checkCreditAgree: checkCreditAgree
     };
 });

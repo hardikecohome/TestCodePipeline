@@ -86,6 +86,7 @@
     <Compile Include="Email.cs" />
     <Compile Include="EmploymentInfo.cs" />
     <Compile Include="EquipmentInfo.cs" />
+    <Compile Include="EquipmentSubType.cs" />
     <Compile Include="FundingCheckDocument.cs" />
     <Compile Include="FundingCheckList.cs" />
     <Compile Include="InstallationPackage.cs" />

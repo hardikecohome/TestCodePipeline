@@ -723,7 +723,9 @@ namespace DealnetPortal.Api.Integration.Services
                     ?? contract?.PrimaryCustomer?.Emails.FirstOrDefault()?.EmailAddress;
             usersForProcessing.Add(homeOwner);
 
-            contract?.SecondaryCustomers?.ForEach(cc =>
+            var secondaryCustomers = contract?.SecondaryCustomers?.Where(sc => sc.IsDeleted != true);
+
+            secondaryCustomers?.ForEach(cc =>
             {
                 var su = signatureUsers?.FirstOrDefault(u => u.Role == SignatureRole.AdditionalApplicant &&
                                                    (cc.Id == u.CustomerId) ||
@@ -1435,9 +1437,9 @@ namespace DealnetPortal.Api.Integration.Services
 
         private void FillApplicantsFields(List<FormField> formFields, Contract contract)
         {
-            if (contract.SecondaryCustomers?.Any() ?? false)
+            if (contract.SecondaryCustomers?.Any(sc => sc.IsDeleted != true) ?? false)
             {
-                var addApplicant = contract.SecondaryCustomers.First();
+                var addApplicant = contract.SecondaryCustomers.First(sc => sc.IsDeleted != true);
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
@@ -1509,7 +1511,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 var mainAddress2 =
-                    addApplicant?.Locations?.FirstOrDefault(
+                    addApplicant.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MainAddress) ?? contract.PrimaryCustomer.Locations?.FirstOrDefault(m => m.AddressType == AddressType.MainAddress);
                 if (mainAddress2 != null)
                 {
@@ -1557,7 +1559,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
                 var mailAddress2 =
-                    addApplicant?.Locations?.FirstOrDefault(
+                    addApplicant.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.MailAddress);
                 if (mailAddress2 != null)
                 {
@@ -1584,7 +1586,7 @@ namespace DealnetPortal.Api.Integration.Services
                     });
                 }
                 var previousAddress =
-                    addApplicant?.Locations?.FirstOrDefault(
+                    addApplicant.Locations?.FirstOrDefault(
                         l => l.AddressType == AddressType.PreviousAddress);
                 if (previousAddress != null)
                 {
@@ -1656,14 +1658,14 @@ namespace DealnetPortal.Api.Integration.Services
                     FieldType = FieldType.Text,
                     Name = PdfFormFields.CustomerName2,
                     Value =
-                        $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                        $"{addApplicant.LastName} {addApplicant.FirstName}"
                 });
                 formFields.Add(new FormField()
                 {
                     FieldType = FieldType.Text,
                     Name = $"{PdfFormFields.CustomerName2}2",
                     Value =
-                        $"{contract.SecondaryCustomers.First().LastName} {contract.SecondaryCustomers.First().FirstName}"
+                        $"{addApplicant.LastName} {addApplicant.FirstName}"
                 });
 
                 if (contract.HomeOwners?.Any(ho => ho.Id == addApplicant.Id) ?? false)

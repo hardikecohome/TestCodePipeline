@@ -20,7 +20,7 @@
         formId: '#equipment-form'
     }
 
-    var init = function (id, cards) {
+    var init = function (id, cards, equipments) {
         state.contractId = id;
         // check if we have any prefilled values in database
         // related to this contract, if yes contract is not new
@@ -29,6 +29,10 @@
         state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
         state.clarity = cards[0];
         state.isClarity = true;
+        state.equipmentTypes = equipments.reduce(function (acc, equip) {
+            acc[equip.Type] = equip;
+            return acc;
+        }, {});
 
         setters.init({
             isClarity: true,
