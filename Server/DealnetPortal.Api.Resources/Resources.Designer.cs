@@ -259,7 +259,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre Approved.
+        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
         /// </summary>
         public static string _26_Pre_Approved {
             get {
@@ -268,7 +268,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre-Approved $15k.
+        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
         /// </summary>
         public static string _26_Pre_Approved15k {
             get {
@@ -277,7 +277,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre-Approved (ECP).
+        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
         /// </summary>
         public static string _26_Pre_ApprovedECP {
             get {
