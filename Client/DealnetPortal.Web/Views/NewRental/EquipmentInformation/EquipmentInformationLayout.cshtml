@@ -30,9 +30,9 @@
             </p>
 
             <p class="text-semibold preapproved-text">
-                @if (ViewBag.AgreementTypeAccessRights != "lease")
+                @if(ViewBag.AgreementTypeAccessRights != "lease")
                 {
-                    if (Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                    if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
                     {
                         <text>
                             @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
@@ -41,7 +41,7 @@
                     else
                     {
                         <text>
-                            @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                            @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
                         </text>
 
                     }
@@ -63,7 +63,7 @@
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
             </p>
             <p class="text-semibold preapproved-text">
-                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
             </p>
         }
     </div>

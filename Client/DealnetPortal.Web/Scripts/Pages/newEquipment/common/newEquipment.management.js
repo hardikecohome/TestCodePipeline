@@ -464,7 +464,7 @@
         return Object.keys(state.equipmentTypes)
             .map(idToValue(state.equipmentTypes))
             .filter(function (type) {
-                return state.agreementType == 0 || type.Leased;
+                return state.agreementType == 0 || state.agreementType == 3 || type.Leased;//3 mean Clarity propgram
             }).sort(function (a, b) {
                 return a.Description == b.Description ? 0 :
                     a.Description > b.Description ? 1 : -1;
