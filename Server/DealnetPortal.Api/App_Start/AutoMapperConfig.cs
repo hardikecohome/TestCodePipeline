@@ -253,6 +253,8 @@ namespace DealnetPortal.Api.App_Start
                                                                        .Replace("(", string.Empty)
                                                                        .Replace(")", string.Empty)) ?? src.DealStatus : null,
                         Status = src.DealStatus,
+                        CreditAmount = src.OverrideCreditAmountLimit,
+                        OverrideCustomerRiskGroup = src.OverrideCustomerRiskGroup,
                         AgreementType =
                             src.AgreementType == "RENTAL"
                                 ? AgreementType.RentalApplication
