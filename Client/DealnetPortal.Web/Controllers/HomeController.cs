@@ -20,6 +20,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
+using DealnetPortal.Api.Common.Helpers;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -130,9 +131,25 @@ namespace DealnetPortal.Web.Controllers
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
 
             var tier = await _contractServiceAgent.GetDealerTier();
+            var isClarityDealer = ((ClaimsIdentity)User.Identity).HasClaim(ClaimContstants.ClarityDealer, "True");
+            
             contractsVms.ForEach(c =>
             {
-                if(c.RateCardId.HasValue)
+                if(string.IsNullOrEmpty(c.AgreementType))
+                {
+                    return;
+                }
+                if(c.AgreementType == Models.Enumeration.AgreementType.RentalApplication.GetEnumDescription())
+                {
+                    c.ProgramOption = Resources.Resources.LeaseApplication;
+                    return;
+                }
+                if(isClarityDealer && (contracts.FirstOrDefault(d=>d.Id == c.Id).Equipment?.IsClarityProgram ?? false))
+                {
+                    c.ProgramOption = Resources.Resources.ClarityProgram;
+                    return;
+                }
+                if(c.AgreementType == Models.Enumeration.AgreementType.LoanApplication.GetEnumDescription() && c.RateCardId.HasValue)
                 {
                     var rateCard = tier.RateCards.FirstOrDefault(r => r.Id == c.RateCardId);
                     switch(rateCard.CardType)
@@ -147,7 +164,7 @@ namespace DealnetPortal.Web.Controllers
                             c.ProgramOption = Resources.Resources.EqualPayments;
                             break;
                         case Api.Common.Enumeration.RateCardType.Deferral:
-                            c.ProgramOption = $"{rateCard.DeferralPeriod} {Resources.Resources.Days} {Resources.Resources.Deferral}";
+                            c.ProgramOption = $"{Convert.ToInt32(rateCard.DeferralPeriod)} {Resources.Resources.Months} {Resources.Resources.Deferral}";
                             break;
                     }
                 }
