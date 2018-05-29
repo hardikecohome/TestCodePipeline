@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -13,7 +11,6 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;

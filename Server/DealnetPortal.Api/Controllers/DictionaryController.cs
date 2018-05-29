@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers

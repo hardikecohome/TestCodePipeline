@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 using System.Web.Http;
 using Crypteron;
-using Crypteron.ConfigFile;
 using DealnetPortal.DataAccess;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.App_Start

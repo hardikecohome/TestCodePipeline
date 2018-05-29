@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Xml.Linq;
-using AutoMapper;
 using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Storage;
-using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.AspNet.Identity.Owin;
-using System.Web.Hosting;
 using DealnetPortal.Api.Integration.Interfaces;
 
 namespace DealnetPortal.Api.Controllers

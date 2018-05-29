@@ -6,7 +6,6 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Helpers;
-using Newtonsoft.Json;
 
 namespace DealnetPortal.Api.Core.ApiClient
 {
@@ -15,11 +14,10 @@ namespace DealnetPortal.Api.Core.ApiClient
         public HttpApiClient(string baseAddress)
         {
             Cookies = new CookieContainer();
-            Handler = new HttpClientHandler()
+            Handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
                 UseCookies = true,
-                //UseDefaultCredentials = true,
                 CookieContainer = Cookies
             };
 
@@ -28,7 +26,6 @@ namespace DealnetPortal.Api.Core.ApiClient
                 BaseAddress = new Uri(baseAddress),
                 Timeout = Timeout.InfiniteTimeSpan
             };
-            //Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/bson"));
         }
 
         public Uri ConstructUrl(string requestUri)
@@ -54,126 +51,86 @@ namespace DealnetPortal.Api.Core.ApiClient
         public async Task<T> PostAsync<T>(string requestUri, T content,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
-            {                
-                var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);                
-                if (response?.Content == null)
-                    return default(T);
-                return await response.Content.ReadAsAsync<T>(cancellationToken);
-            }
-            catch (HttpRequestException)
-            {
-                throw;
-            }
+            var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);                
+            if (response?.Content == null)
+                return default(T);
+            return await response.Content.ReadAsAsync<T>(cancellationToken);
         }
 
         public async Task<T2> PostAsync<T1, T2>(string requestUri, T1 content,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
-            {
-                var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
+            var response = await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
 
-                if (response?.Content == null)
-                    return default(T2);
+            if (response?.Content == null)
+                return default(T2);
 
-                return await response.Content.ReadAsAsync<T2>(cancellationToken);
-            }
-            catch (HttpRequestException)
-            {
-                throw;
-            }
+            return await response.Content.ReadAsAsync<T2>(cancellationToken);
         }
 
         public async Task<HttpResponseMessage> PostAsyncWithHttpResponse<T>(string requestUri, T content,
             AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
+            var request = new HttpRequestMessage
             {
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Post,
-                    RequestUri = new Uri(requestUri)
-                };
-                //var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
-                request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
-                if (authenticationHeader != null)
-                {
-                    request.Headers.Authorization = authenticationHeader;
-                }
-                if (!string.IsNullOrEmpty(culture))
-                {
-                    var filteredCulture = CultureHelper.FilterCulture(culture);
-                    request.Headers.AcceptLanguage.Clear();
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
-                }
-                return await Client.SendAsync(request, cancellationToken);               
-            }
-            catch (HttpRequestException)
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(requestUri)
+            };
+            request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
+            if (authenticationHeader != null)
             {
-                throw;
+                request.Headers.Authorization = authenticationHeader;
             }
-            //return await Client.PostAsJsonAsync(requestUri, content, cancellationToken);
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            }
+            return await Client.SendAsync(request, cancellationToken);
         }
 
         public async Task<T2> PostAsyncXmlWithXmlResponce<T1, T2>(string requestUri, T1 content,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
-            {
-                var response = await Client.PostAsXmlWithSerializerAsync(requestUri, content, cancellationToken).ConfigureAwait(false);
+            var response = await Client.PostAsXmlWithSerializerAsync(requestUri, content, cancellationToken).ConfigureAwait(false);
 
-                if (response?.Content == null)
-                    return default(T2);
-                return XmlSerializerHelper.DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
-            }
-            catch (HttpRequestException)
-            {
-                throw;
-            }
+            if (response?.Content == null)
+                return default(T2);
+            return XmlSerializerHelper.DeserializeFromString<T2>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<T2> PostAsyncEx<T1, T2>(string requestUri, T1 content,
             AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             MediaTypeFormatter formatter = null, CancellationToken cancellationToken = new CancellationToken())
         {
-            try
+            var request = new HttpRequestMessage
             {
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Post,
-                    RequestUri = new Uri(requestUri)
-                };
-                //var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
-                request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());
-                if (authenticationHeader != null)
-                {
-                    request.Headers.Authorization = authenticationHeader;
-                }
-                if (!string.IsNullOrEmpty(culture))
-                {
-                    var filteredCulture = CultureHelper.FilterCulture(culture);
-                    request.Headers.AcceptLanguage.Clear();
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
-                }
-                var response = await Client.SendAsync(request, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                if (response?.Content == null)
-                    return default(T2);
-                if (formatter == null)
-                {
-                    return await response.Content.ReadAsAsync<T2>(cancellationToken);
-                }
-                else
-                {
-                    return await response.Content.ReadAsAsync<T2>(new[] { formatter, }, cancellationToken);
-                }
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(requestUri)
+            };
+            //var formatter = new MediaTypeFormatter[] {new JsonMediaTypeFormatter()};
+            request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());
+            if (authenticationHeader != null)
+            {
+                request.Headers.Authorization = authenticationHeader;
             }
-            catch (HttpRequestException)
-            {                
-                throw;
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
             }
+            var response = await Client.SendAsync(request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            if (response?.Content == null)
+                return default(T2);
+            if (formatter == null)
+            {
+                return await response.Content.ReadAsAsync<T2>(cancellationToken);
+            }
+            return await response.Content.ReadAsAsync<T2>(new[] { formatter, }, cancellationToken);
         }
 
         /// <summary>
@@ -212,41 +169,32 @@ namespace DealnetPortal.Api.Core.ApiClient
                 // by calling .Result you are synchronously reading the result
                 return responseContent.ReadAsAsync<T>().Result;
             }
-            else
-                return default(T);
+            return default(T);
         }
 
         public async Task<T> GetAsyncEx<T>(string requestUri, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
+            var request = new HttpRequestMessage
             {
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Get,
-                    RequestUri = new Uri(requestUri)
-                };
-                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter()};
-                if (authenticationHeader != null)
-                {
-                    request.Headers.Authorization = authenticationHeader;
-                }
-                if (!string.IsNullOrEmpty(culture))
-                {
-                    var filteredCulture = CultureHelper.FilterCulture(culture);
-                    request.Headers.AcceptLanguage.Clear();
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
-                }
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(requestUri)
+            };
+            if (authenticationHeader != null)
+            {
+                request.Headers.Authorization = authenticationHeader;
+            }
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            }
 
-                var response = await Client.SendAsync(request, cancellationToken);
-                if (response?.Content == null)
-                    return default(T);
-                return await response.Content.ReadAsAsync<T>(cancellationToken);
-            }
-            catch (HttpRequestException)
-            {
-                throw;
-            }
+            var response = await Client.SendAsync(request, cancellationToken);
+            if (response?.Content == null)
+                return default(T);
+            return await response.Content.ReadAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -261,50 +209,35 @@ namespace DealnetPortal.Api.Core.ApiClient
         public async Task<T> PutAsync<T>(string requestUri, T content,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
-            {
-                var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
-                return await response.Content.ReadAsAsync<T>(cancellationToken);
-            }
-            catch (HttpRequestException)
-            {
-                throw;
-            }
+            var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
+            return await response.Content.ReadAsAsync<T>(cancellationToken);
         }
 
         public async Task<T> PutAsyncEx<T>(string requestUri, T content, AuthenticationHeaderValue authenticationHeader = null,
             string culture = null,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
+            var request = new HttpRequestMessage
             {
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Put,
-                    RequestUri = new Uri(requestUri)
-                };
-                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
-                request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
-                if (authenticationHeader != null)
-                {
-                    request.Headers.Authorization = authenticationHeader;
-                }
-                if (!string.IsNullOrEmpty(culture))
-                {
-                    var filteredCulture = CultureHelper.FilterCulture(culture);
-                    request.Headers.AcceptLanguage.Clear();
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
-                }
-                var response = await Client.SendAsync(request, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                if (response?.Content == null)
-                    return default(T);
-                return await response.Content.ReadAsAsync<T>(cancellationToken);
-            }
-            catch (HttpRequestException)
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(requestUri)
+            };
+            request.Content = new ObjectContent<T>(content, new JsonMediaTypeFormatter());
+            if (authenticationHeader != null)
             {
-                throw;
+                request.Headers.Authorization = authenticationHeader;
             }
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            }
+            var response = await Client.SendAsync(request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            if (response?.Content == null)
+                return default(T);
+            return await response.Content.ReadAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -320,90 +253,65 @@ namespace DealnetPortal.Api.Core.ApiClient
         public async Task<T2> PutAsync<T1, T2>(string requestUri, T1 content,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            try
-            {
-                var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
+            var response = await Client.PutAsJsonAsync(requestUri, content, cancellationToken);
 
-                if (response?.Content == null)
-                    return default(T2);
+            if (response?.Content == null)
+                return default(T2);
 
-                return await response.Content.ReadAsAsync<T2>(cancellationToken);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw;
-            }
+            return await response.Content.ReadAsAsync<T2>(cancellationToken);
         }
 
         public async Task<T2> PutAsyncEx<T1, T2>(string requestUri, T1 content, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             MediaTypeFormatter formatter = null, CancellationToken cancellationToken = new CancellationToken())
         {
-            try
+            var request = new HttpRequestMessage
             {
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Put,
-                    RequestUri = new Uri(requestUri)
-                };
-                //var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
-                request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());                
-                if (authenticationHeader != null)
-                {
-                    request.Headers.Authorization = authenticationHeader;                    
-                }
-                if (!string.IsNullOrEmpty(culture))
-                {
-                    var filteredCulture = CultureHelper.FilterCulture(culture);
-                    request.Headers.AcceptLanguage.Clear();
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
-                }
-                var response = await Client.SendAsync(request, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                if (response?.Content == null)
-                    return default(T2);
-                if (formatter == null)
-                {
-                    return await response.Content.ReadAsAsync<T2>(cancellationToken);
-                }
-                else
-                {
-                    return await response.Content.ReadAsAsync<T2>(new MediaTypeFormatter[] { formatter, }, cancellationToken);
-                }
-            }
-            catch (HttpRequestException)
+                Method = HttpMethod.Put,
+                RequestUri = new Uri(requestUri)
+            };
+            request.Content = new ObjectContent<T1>(content, formatter ?? new JsonMediaTypeFormatter());                
+            if (authenticationHeader != null)
             {
-                throw;
+                request.Headers.Authorization = authenticationHeader;                    
             }
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            }
+            var response = await Client.SendAsync(request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            if (response?.Content == null)
+                return default(T2);
+            if (formatter == null)
+            {
+                return await response.Content.ReadAsAsync<T2>(cancellationToken);
+            }
+            return await response.Content.ReadAsAsync<T2>(new MediaTypeFormatter[] { formatter, }, cancellationToken);
         }
 
         public async Task DeleteAsyncEx(string requestUri, AuthenticationHeaderValue authenticationHeader = null,
             string culture = null, CancellationToken cancellationToken = new CancellationToken())
         {
-            try
+            var request = new HttpRequestMessage
             {
-                var request = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Delete,
-                    RequestUri = new Uri(requestUri)
-                };
-                var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
-                if (authenticationHeader != null)
-                {
-                    request.Headers.Authorization = authenticationHeader;
-                }
-                if (!string.IsNullOrEmpty(culture))
-                {
-                    var filteredCulture = CultureHelper.FilterCulture(culture);
-                    request.Headers.AcceptLanguage.Clear();
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
-                }
-                var response = await Client.SendAsync(request, cancellationToken);                
-                response.EnsureSuccessStatusCode();                
-            }
-            catch (HttpRequestException)
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri(requestUri)
+            };
+            var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
+            if (authenticationHeader != null)
             {
-                throw;
+                request.Headers.Authorization = authenticationHeader;
             }
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            }
+            var response = await Client.SendAsync(request, cancellationToken);                
+            response.EnsureSuccessStatusCode();
         }
     }
 }

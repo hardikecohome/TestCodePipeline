@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
-using DealnetPortal.Api.Integration.Services.ESignature;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Unity.Interception.Utilities;
 

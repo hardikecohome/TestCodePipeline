@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
-using DocuSign.eSign.Model;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.AcroForms;
 using PdfSharp.Pdf.IO;

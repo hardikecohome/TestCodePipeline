@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.ServiceAgents;

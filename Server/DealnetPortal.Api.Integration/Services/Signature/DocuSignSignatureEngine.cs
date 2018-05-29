@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using DocuSign.eSign.Api;

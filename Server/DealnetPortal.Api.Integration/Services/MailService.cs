@@ -11,7 +11,6 @@ using System.Web.Hosting;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using System.Globalization;
 using System.Text.RegularExpressions;

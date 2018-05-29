@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Integration.Services;
+﻿using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.DataAccess;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Messaging;
 

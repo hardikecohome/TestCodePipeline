@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -16,14 +12,11 @@ using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using DocuSign.eSign.Model;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services

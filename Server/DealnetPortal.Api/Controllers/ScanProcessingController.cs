@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Integration;
 using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Scanning;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers

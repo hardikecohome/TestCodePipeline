@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain

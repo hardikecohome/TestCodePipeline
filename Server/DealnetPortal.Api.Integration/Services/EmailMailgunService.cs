@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Messaging;
 using Unity.Interception.Utilities;
 
