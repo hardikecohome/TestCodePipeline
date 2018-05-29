@@ -143,12 +143,11 @@
         this.pager = new Paginator(this.filteredList());
 
         // computed
-
         this.searchedList = ko.computed(function () {
             var searchTerm = this.search().toLowerCase();
 
             function includesSearchTerm(val) {
-                return stringIncludes(val, searchTerm);
+                return val != null && stringIncludes(val, searchTerm);
             }
             return this.filteredList().filter(function (deal) {
                 return includesSearchTerm(deal.CustomerName) ||
@@ -246,6 +245,7 @@
             this.typeOfPayment('');
             this.valueFrom('');
             this.valueTo('');
+            this.filterList();
             localStorage.removeItem(filters.agreementType);
             localStorage.removeItem(filters.status);
             localStorage.removeItem(filters.dateFrom);

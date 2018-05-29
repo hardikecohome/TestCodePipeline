@@ -10,24 +10,22 @@
             {
                 @Html.Action("GetMaintanenceBanner", "Home")
             }
-            @*<!-- ko if: showLearnMore -->
-            <div class="new-notification-wp">
+            <div class="new-notification-wp" data-bind="visible: showLearnMore" style="display:none;">
                 <div class="new-notification-blank">
                     <span class="new-notification-blank__text">
                         @Resources.LearnMoreHomePage
                     </span>
                 </div>
             </div>
-            <!-- /ko -->*@
         </div>
     </div>
-    <!-- ko if: list().length > 0 -->
-    <div class="margin-block">
+
+    <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
         <div class="row">
             <div class="filters">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    @*<div class="filters-head__learn-more">
+                    <div class="filters-head__learn-more">
                         <i class="lamp-ico"></i>
                         <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
                             <!-- ko if: showLearnMore -->
@@ -37,7 +35,7 @@
                             @Resources.LearnMoreAboutThisPage
                             <!-- /ko -->
                         </a>
-                    </div>*@
+                    </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
@@ -66,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="filters-advanced homepage-mod"data-bind="visible: showFilters() || showSorters()">
+                <div class="filters-advanced homepage-mod" data-bind="visible: showFilters() || showSorters()">
 
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap">
@@ -213,7 +211,7 @@
                         </div>
                         <!-- /ko -->
                     </div>
-                    
+
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
@@ -224,7 +222,7 @@
             </div>
         </div>
     </div>
-    <div class="margin-block">
+    <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
         <div class="row">
 
             <div class="main-table">
@@ -417,7 +415,7 @@
                             </span>
                             <!-- ko if: $data.CustomerComment -->
                             <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}">
-                                <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}"></i>
+                                <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
                                 <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
                                 <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
                             </div>
@@ -442,7 +440,7 @@
                                 <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal, click:function(){$parent.exportToExcel($data.Id);}">
                                     <i class="excel-ico"></i>
                                     <span>
-                                        <a >@Resources.ExportToExcel</a>
+                                        <a>@Resources.ExportToExcel</a>
                                     </span>
                                 </div>
                                 <div class="table-row-settings-popup__help" data-bind="visible: !$data.IsInternal,click:function(){$parent.openHelpModal($data.TransactionId)}">
@@ -587,21 +585,21 @@
                                                 <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                             </span>
                                         </div>
-                                        <div class="table-row-settings-popup__export" 
+                                        <div class="table-row-settings-popup__export"
                                              data-bind="visible: !$data.IsInternal,click:function(){$parent.exportToExcel($data.Id);}">
                                             <i class="excel-ico"></i>
                                             <span>
-                                                <a >@Resources.ExportToExcel</a>
+                                                <a>@Resources.ExportToExcel</a>
                                             </span>
                                         </div>
-                                        <div class="table-row-settings-popup__help" 
+                                        <div class="table-row-settings-popup__help"
                                              data-bind="visible: !$data.IsInternal,click:function(){$parent.openHelpModal($data.TransactionId)}">
                                             <i class="ask-help-ico"></i>
                                             <span>
                                                 <a>@Resources.AskForHelp</a>
                                             </span>
                                         </div>
-                                        <div class="table-row-settings-popup__help" 
+                                        <div class="table-row-settings-popup__help"
                                              data-bind="visible: $data.IsInternal,click:function(){$parent.removeContract($data.Id)}">
                                             <i class="delete-ico"></i>
                                             <span>
@@ -641,7 +639,7 @@
         </div>
     </div>
 
-    <div class="margin-block" data-bind="visible: selectedIds().length > 0">
+    <div class="margin-block" data-bind="visible: selectedIds().length > 0" style="display:none;">
         <div class="row">
             <div class="col-md-3">
                 <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
@@ -652,7 +650,7 @@
         </div>
     </div>
 
-    <div class="margin-block" data-bind="with: pager">
+    <div class="margin-block" data-bind="with: pager, visible: list().length > 0" style="display:none;">
         <div class="row">
             <div class="new-pagination-wp">
                 <div class="new-pagination">
@@ -671,7 +669,6 @@
             </div>
         </div>
     </div>
-    <!-- /ko -->
 
     <div class="nw-placeholder" data-bind="visible: list().length < 1">
         <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
