@@ -22,14 +22,15 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
+                            @Html.HiddenFor(m => m.NewEquipment[0].TypeId)
                             @Html.LabelFor(m => m.NewEquipment[0].Type)
                             @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                     {
-                                         Value = x.Type,
-                                         Text = x.Description
-                                     }),
-                                     new { @class = "form-control", @Value = 0 })
+                                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
+                                                                                                   {
+                                                                                                           Value = x.Type,
+                                                                                                           Text = x.Description
+                                                                                                   }),
+                                    new { @class = "form-control equipment-select", @Value = 0 })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
@@ -102,12 +103,25 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.NewEquipment[0].Type)
                             @Html.DropDownListFor(m => m.NewEquipment[0].Type,
-                                                                       ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
+                                                                       ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
+                                                                               .Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
                                                                        new
                                                                        {
                                                                            @class = "form-control equipment-select",
                                                                            @Value = 0
                                                                        })
+                        </div>
+                    </div>
+                    <div class="col-md-2 hidden sub-type-col">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.NewEquipment[0].EquipmentSubTypeId)
+                            @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentSubTypeId,
+                                    Enumerable.Empty<SelectListItem>(), new
+                                                                        {
+                                                                                @class = "form-control sub-type-select", @Value = "",
+                                                                                required="true"
+                                                                        })
+                            @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentSubTypeId, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6 description-col">
@@ -162,10 +176,11 @@
                                 {
                                     @class = "text-danger"
                                 })
+                                <span class="text-warning"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-xs-12 estimated-retail-col hidden">
+                    <div class="col-md-2 col-xs-12 estimated-retail-col">
                         <div class="form-group">
                             @Html.LabelFor(m => m.NewEquipment[0].EstimatedRetailCost)
                             <div class="control-group has-addon-left">

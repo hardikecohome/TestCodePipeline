@@ -10,6 +10,8 @@ namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
     {
         public int Id { get; set; }
         public string Type { get; set; }
+        public EquipmentTypeDTO EquipmentType { get; set; }
+        public EquipmentSubTypeDTO EquipmentSubType { get; set; }
         public string TypeDescription { get; set; }
         public string Description { get; set; }
         public decimal? Cost { get; set; }

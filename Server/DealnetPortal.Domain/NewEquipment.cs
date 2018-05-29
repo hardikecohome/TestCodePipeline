@@ -8,6 +8,15 @@
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Type { get; set; }
+
+        public int? EquipmentTypeId { get; set; }
+        [ForeignKey("EquipmentTypeId")]
+        public virtual EquipmentType EquipmentType { get; set; }
+
+        public int? EquipmentSubTypeId { get; set; }
+        [ForeignKey("EquipmentSubTypeId")]
+        public virtual EquipmentSubType EquipmentSubType { get; set; }
+
         public string Description { get; set; }
         public decimal? Cost { get; set; }
         public decimal? MonthlyCost { get; set; }

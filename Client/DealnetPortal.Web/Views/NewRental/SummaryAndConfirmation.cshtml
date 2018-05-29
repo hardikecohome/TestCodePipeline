@@ -953,7 +953,7 @@
     <div class="form-section">
 
         @Html.Partial("SummaryAndConfirmation/_EquipmentInformation", Model)
-        
+
         <hr>
         @using(Html.BeginForm(null, null, FormMethod.Post, new { @class = "clearfix", id = "payment-info-form" }))
         {
@@ -1073,22 +1073,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
-                                    {
-                                        @class = "dealnet-field-caption col-xs-6"
-                                    })
-                                    <div class="dealnet-field-holder col-xs-6">
-                                        @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
-                                        {
-                                            id = "",
-                                            @readonly = "readonly",
-                                            @class = "dealnet-disabled-input"
-                                        })
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1189,7 +1173,7 @@
                                             </div>
                                             @Html.HiddenFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.ResponsibleForRemovalValue)
                                         }
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <div class="row">
                                                 <div class="dealnet-field-caption col-xs-6">
                                                     @Html.LabelFor(m => m.EquipmentInfo.ExistingEquipment[i].Model)
@@ -1928,99 +1912,17 @@
                                                     id = "enbridge-gas-distribution-account",
                                                     placeholder = Resources.TwelveDigitsNumber
                                                 })
-                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, "", new { @class = "text-danger" })
+                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.EnbridgeGasDistributionAccount, "",
+                                                        new
+                                                        {
+                                                                @class = "text-danger"
+                                                        })
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="enbridge-payment row">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
-                                    {
-                                        @class = "dealnet-field-caption"
-                                    })
-                                    <div class="dealnet-field-holder">
-                                        <div class="control-group">
-                                            @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, new
-                                            {
-                                                @class = "form-control dealnet-input",
-                                                type = "text",
-                                                id = "meter-number",
-                                                placeholder = Resources.SevenDigitsNumber
-                                            })
-                                            @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.MeterNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @* <div class="row pap-payment">
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
-                                        {
-                                            @class = "dealnet-field-caption"
-                                        })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, new
-                                                {
-                                                    @class = "form-control dealnet-input",
-                                                    type = "text",
-                                                    id = "account-number",
-                                                    placeholder = Resources.AccountNumber
-                                                })
-                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.AccountNumber, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new
-                                        {
-                                            @class = "dealnet-field-caption"
-                                        })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, new
-                                                {
-                                                    @class = "form-control dealnet-input",
-                                                    type = "text",
-                                                    id = "transit-number",
-                                                    placeholder = Resources.TransitNumber
-                                                })
-                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.TransitNumber, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row pap-payment">
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new
-                                        {
-                                            @class = "dealnet-field-caption"
-                                        })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, new
-                                                {
-                                                    @class = "form-control dealnet-input",
-                                                    id = "bank-number",
-                                                    type = "text",
-                                                    placeholder = Resources.BlankNumber
-                                                })
-                                                @Html.ValidationMessageFor(m => m.ContactAndPaymentInfo.PaymentInfo.BlankNumber, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
                     }
                 </div>
 

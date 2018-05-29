@@ -47,22 +47,13 @@
         });
 
         /**
-          * Entry Point
-          * @param {number} id - contract id 
-          * @param {Object<>} cards - list of available rate cards for the dealer 
-          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
-          * @returns {void} 
-          */
-        var init = function(id, cards, onlyCustomRateCard) {
-            var isOnlyLoan = $(settings.isQuebecProvinceId).val().toLowerCase() === 'true';
-
-            if (isOnlyLoan) {
-                if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
-                    $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
-                }
-                $(settings.agreementTypeId).attr('disabled', true);
-            }
-
+         * Entry Point
+         * @param {number} id - contract id
+         * @param {Object<>} cards - list of available rate cards for the dealer
+         * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card
+         * @returns {void}
+         */
+        var init = function (id, cards, onlyCustomRateCard) {
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             _initHandlers();
@@ -89,7 +80,7 @@
             });
         };
 
-        function _submitForm (event) {
+        function _submitForm(event) {
             $(settings.formId).valid();
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             var rateCard = $('.checked');
@@ -152,15 +143,17 @@
             }
         }
 
-        function _toggleCustomRateCard () {
+        function _toggleCustomRateCard() {
             var isRental = +$(settings.agreementTypeId).val() !== 0;
             var option = $('.checked > ' + settings.rateCardTypeId).text();
             toggleDisableClassOnInputs(isRental || option !== settings.customRateCardName && option !== '');
         }
 
-        function _initHandlers () {
+        function _initHandlers() {
             $(settings.submitButtonId).on('click', _submitForm);
-            constants.rateCards.forEach(function (option) { $('#' + option.name + '-amortDropdown').on('change', recalculateValuesAndRender); });
+            constants.rateCards.forEach(function (option) {
+                $('#' + option.name + '-amortDropdown').on('change', recalculateValuesAndRender);
+            });
             $(settings.addEquipmentId).on('click', equipment.addEquipment);
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
@@ -173,7 +166,7 @@
             $(settings.deferralDropdownId).on('change', setters.setDeferralPeriod('Deferral'));
         }
 
-        function _initDatepickers () {
+        function _initDatepickers() {
             var datepickerOptions = {
                 yearRange: '1900:2200',
                 minDate: new Date()
@@ -199,5 +192,7 @@
             );
         }
 
-        return { init: init };
+        return {
+            init: init
+        };
     });

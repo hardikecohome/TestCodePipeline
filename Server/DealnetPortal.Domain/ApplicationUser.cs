@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Crypteron;
+using DealnetPortal.Api.Common.Enumeration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -34,9 +35,12 @@ namespace DealnetPortal.Domain
         [ForeignKey("ParentDealerId")]
         public virtual ApplicationUser ParentDealer { get; set; }
 
+        /// <summary>
+        /// User settings, mostly for UI
+        /// </summary>
         public int? UserSettingsId { get; set; }
         [ForeignKey("UserSettingsId")]
-        public UserSettings Settings { get; set; }
+        public UserSettings Settings { get; set; }        
 
         public int? CustomerLinkId { get; set; }
         [ForeignKey("CustomerLinkId")]
@@ -48,6 +52,11 @@ namespace DealnetPortal.Domain
         public string OnboardingLink { get; set; }
 
         public int? DealerProfileId { get; set; }
+
+        /// <summary>
+        /// Supported program types for a dealer: NULL - both
+        /// </summary>
+        public string DealerType { get; set; }
 
         public int? TierId { get; set; }
         [ForeignKey("TierId")]

@@ -1,6 +1,7 @@
-﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+﻿@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-<div class="row loan-element">
+<div class="row loan-element @(Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
   <div class="col-md-6">
     <div class="row form-group">
       <div class="col-xs-6">@Resources.DealerInvoiceAmount</div>
