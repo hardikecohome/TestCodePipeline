@@ -222,9 +222,9 @@ namespace DealnetPortal.Web.Controllers
                 DealerName = dealerSupportRequest.DealerName,
                 YourName = dealerSupportRequest.IsPreferedContactPerson ? dealerSupportRequest.PreferedContactPerson : dealerSupportRequest.YourName,
                 LoanNumber = dealerSupportRequest.LoanNumber,
-                SupportType = dealerSupportRequest.SupportType.ToString(),
+                SupportType = dealerSupportRequest.SupportType,
                 HelpRequested = dealerSupportRequest.HelpRequested,
-                BestWay = dealerSupportRequest.BestWay.ToString(),
+                BestWay = dealerSupportRequest.BestWay,
                 ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
             };
             var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
