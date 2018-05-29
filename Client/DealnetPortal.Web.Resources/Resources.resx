@@ -2723,4 +2723,19 @@ Additional program options may become available when customer’s credit details
   <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
     <value>Additional applicant address should be in Quebec</value>
   </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Dealer Profile Update</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Funded Deals</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Pending Deals</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Portal Inquiries</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Program Inquiries</value>
+  </data>
 </root>

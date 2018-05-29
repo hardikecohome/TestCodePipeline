@@ -25,6 +25,7 @@ using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 namespace DealnetPortal.Web.App_Start
 {
     using Api.Models.Contract.EquipmentInformation;
+    using DealnetPortal.Api.Models.Notify;
     using Models.EquipmentInformation;
 
     public class AutoMapperConfig
@@ -369,7 +370,14 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.LeadSource, d => d.Ignore());
             cfg.CreateMap<TierViewModel, TierDTO>();
             cfg.CreateMap<RateCardViewModel, RateCardDTO>();
-
+            cfg.CreateMap<HelpPopUpViewModal, SupportRequestDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.YourName, d => d.MapFrom(src => src.IsPreferedContactPerson ? src.PreferedContactPerson : src.YourName))
+                .ForMember(x => x.LoanNumber, d => d.MapFrom(src => src.LoanNumber))
+                .ForMember(x => x.SupportType, d => d.MapFrom(src => src.SupportType.ConvertTo<Api.Common.Enumeration.SupportTypeEnum>()))
+                .ForMember(x => x.HelpRequested, d => d.MapFrom(src => src.HelpRequested))
+                .ForMember(x => x.BestWay, d => d.MapFrom(src => src.BestWay.ConvertTo<Api.Common.Enumeration.BestWayEnum>()))
+                .ForMember(x => x.ContactDetails, d => d.MapFrom(src => src.BestWay == Models.Enumeration.BestWayEnum.Phone ? src.Phone : src.Email));
             cfg.CreateMap<EmploymentInformationViewModel, EmploymentInfoDTO>()
                 .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<Api.Common.Enumeration.Employment.EmploymentStatus>()))
                 .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<Api.Common.Enumeration.Employment.IncomeType>()))

@@ -2367,6 +2367,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dealer Profile Update.
+        /// </summary>
+        public static string DealerProfileUpdate {
+            get {
+                return ResourceManager.GetString("DealerProfileUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dealer/Sales agent.
         /// </summary>
         public static string DealerSalesAgent {
@@ -3308,6 +3317,15 @@ namespace DealnetPortal.Web.Resources {
         public static string FullTime {
             get {
                 return ResourceManager.GetString("FullTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funded Deals.
+        /// </summary>
+        public static string FundedDeals {
+            get {
+                return ResourceManager.GetString("FundedDeals", resourceCulture);
             }
         }
         
@@ -5157,6 +5175,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending Deals.
+        /// </summary>
+        public static string PendingDeals {
+            get {
+                return ResourceManager.GetString("PendingDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Percentage of ownership.
         /// </summary>
         public static string PercentageOfOwnership {
@@ -5445,6 +5472,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Portal Inquiries.
+        /// </summary>
+        public static string PortalInquiries {
+            get {
+                return ResourceManager.GetString("PortalInquiries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postal Code.
         /// </summary>
         public static string PostalCode {
@@ -5693,6 +5729,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Program {
             get {
                 return ResourceManager.GetString("Program", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Inquiries.
+        /// </summary>
+        public static string ProgramInquiries {
+            get {
+                return ResourceManager.GetString("ProgramInquiries", resourceCulture);
             }
         }
         

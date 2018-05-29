@@ -83,6 +83,7 @@
     <Compile Include="Enumeration\RentalDeferralType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
     <Compile Include="Enumeration\ResponsibleForRemoval.cs" />
+    <Compile Include="Enumeration\SupportTypeEnum.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Enumeration\YearsInBusiness.cs" />
     <Compile Include="Enumeration\YearsOfEmployment.cs" />
