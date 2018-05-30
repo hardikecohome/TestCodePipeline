@@ -246,11 +246,14 @@ namespace DealnetPortal.Web.Controllers
             var model = await _contractManager.GetEquipmentInfoAsync(contractId);
             var equipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
 
-            foreach(var newEquipment in model.NewEquipment)
+            if(model.NewEquipment != null)
             {
-                if(newEquipment.EquipmentType != null && !equipmentTypes.Any(e => e.Id == newEquipment.EquipmentType.Id))
+                foreach(var newEquipment in model.NewEquipment)
                 {
-                    equipmentTypes.Add(newEquipment.EquipmentType);
+                    if(newEquipment.EquipmentType != null && !equipmentTypes.Any(e => e.Id == newEquipment.EquipmentType.Id))
+                    {
+                        equipmentTypes.Add(newEquipment.EquipmentType);
+                    }
                 }
             }
 
