@@ -259,7 +259,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
+        ///   Looks up a localized string similar to Awaiting Enbridge Approval.
         /// </summary>
         public static string _26_Pre_Approved {
             get {
@@ -268,7 +268,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
+        ///   Looks up a localized string similar to Awaiting Enbridge Approval.
         /// </summary>
         public static string _26_Pre_Approved15k {
             get {
@@ -277,7 +277,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Awaiting Enbridge confirmation.
+        ///   Looks up a localized string similar to Awaiting Enbridge Approval.
         /// </summary>
         public static string _26_Pre_ApprovedECP {
             get {
@@ -1200,15 +1200,6 @@ namespace DealnetPortal.Api.Resources {
         public static string CreditCheckInitiated {
             get {
                 return ResourceManager.GetString("CreditCheckInitiated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Credit Decision.
-        /// </summary>
-        public static string CreditDecision {
-            get {
-                return ResourceManager.GetString("CreditDecision", resourceCulture);
             }
         }
         
