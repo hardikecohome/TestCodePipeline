@@ -28,7 +28,8 @@
                                                                                                            Value = x.Type,
                                                                                                            Text = x.Description
                                                                                                    }),
-                                    new { @class = "form-control equipment-select", @Value = 0 })
+                                    new { @class = "form-control equipment-select", @Value = 0, required="true" })
+                            @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentType.Type, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
@@ -107,8 +108,10 @@
                                                                        new
                                                                        {
                                                                            @class = "form-control equipment-select",
-                                                                           @Value = 0
+                                                                           @Value = 0,
+                                                                           required="true"
                                                                        })
+                            @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentType.Type, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="col-md-2 hidden sub-type-col">
