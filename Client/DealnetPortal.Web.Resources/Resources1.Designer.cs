@@ -6184,6 +6184,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rate Reduction.
+        /// </summary>
+        public static string RateReduction {
+            get {
+                return ResourceManager.GetString("RateReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rates Approved.
         /// </summary>
         public static string RatesApproved {

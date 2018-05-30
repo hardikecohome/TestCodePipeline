@@ -2866,4 +2866,7 @@ Additional program options may become available when customer’s credit details
   <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
     <value>Additional applicant address should be in Quebec</value>
   </data>
+  <data name="RateReduction" xml:space="preserve">
+    <value>Rate Reduction</value>
+  </data>
 </root>
