@@ -141,12 +141,12 @@ namespace DealnetPortal.Web.Controllers
                 }
                 if(c.AgreementType == Models.Enumeration.AgreementType.RentalApplication.GetEnumDescription())
                 {
-                    c.ProgramOption = Resources.Resources.LeaseApplication.ToUpper();
+                    c.ProgramOption = Resources.Resources.LeaseApplication;
                     return;
                 }
                 if(isClarityDealer && (contracts.FirstOrDefault(d => d.Id == c.Id).Equipment?.IsClarityProgram ?? false))
                 {
-                    c.ProgramOption = Resources.Resources.ClarityProgram.ToUpper();
+                    c.ProgramOption = Resources.Resources.ClarityProgram;
                     return;
                 }
                 if(c.AgreementType == Models.Enumeration.AgreementType.LoanApplication.GetEnumDescription() && c.RateCardId.HasValue)
@@ -155,16 +155,16 @@ namespace DealnetPortal.Web.Controllers
                     switch(rateCard?.CardType)
                     {
                         case Api.Common.Enumeration.RateCardType.Custom:
-                            c.ProgramOption = Resources.Resources.Custom.ToUpper();
+                            c.ProgramOption = Resources.Resources.Custom;
                             break;
                         case Api.Common.Enumeration.RateCardType.FixedRate:
-                            c.ProgramOption = (c.HasRateReduction ? Resources.Resources.RateReduction : Resources.Resources.StandardRate).ToUpper();
+                            c.ProgramOption = c.HasRateReduction ? Resources.Resources.RateReduction : Resources.Resources.StandardRate;
                             break;
                         case Api.Common.Enumeration.RateCardType.NoInterest:
-                            c.ProgramOption = Resources.Resources.EqualPayments.ToUpper();
+                            c.ProgramOption = Resources.Resources.EqualPayments;
                             break;
                         case Api.Common.Enumeration.RateCardType.Deferral:
-                            c.ProgramOption = $"{Convert.ToInt32(rateCard.DeferralPeriod)} {Resources.Resources.Months} {Resources.Resources.Deferral}".ToUpper();
+                            c.ProgramOption = $"{Convert.ToInt32(rateCard.DeferralPeriod)} {Resources.Resources.Months} {Resources.Resources.Deferral}";
                             break;
                     }
                 }
