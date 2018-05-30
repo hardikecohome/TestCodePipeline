@@ -46,7 +46,8 @@
                                 Text = x.Description,
                                 Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.EquipmentType.Id == x.Id
                             }),
-                            new {@class = "form-control equipment-select"})
+                            new {@class = "form-control equipment-select",required="true"})
+                    @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentType.Type, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-2 hidden sub-type-col">
