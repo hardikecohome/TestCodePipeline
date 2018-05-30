@@ -169,7 +169,7 @@
             state.equipments[i] = {
                 id: i.toString(),
                 cost: cost,
-                type: $('#NewEquipment_' + i + '__Type').val()
+                type: $('#NewEquipment_' + i + '__EquipmentType_Type').val()
             };
         } else {
             state.equipments[i].cost = cost;
@@ -179,7 +179,7 @@
             state.equipments[i] = {
                 id: i.toString(),
                 monthlyCost: cost,
-                type: $('#NewEquipment_' + i + '__Type').val()
+                type: $('#NewEquipment_' + i + '__EquipmentType_Type').val()
             };
         } else {
             state.equipments[i].monthlyCost = cost;
@@ -191,7 +191,7 @@
                 state.equipments[i] = {
                     id: i.toString(),
                     estimatedRetail: cost,
-                    type: $('#NewEquipment_' + i + '__Type').val()
+                    type: $('#NewEquipment_' + i + '__EquipmentType_Type').val()
                 };
             } else {
                 state.equipments[i].estimatedRetail = cost;
@@ -316,17 +316,20 @@
      */
     function updateType() {
         var mvcId = $(this).attr('id');
-        var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
+        var id = mvcId.split('__EquipmentType_Type')[0].substr(mvcId.split('__EquipmentType_Type')[0].lastIndexOf('_') + 1);
         var equip = state.equipmentTypes[this.value];
-        $('#NewEquipment_' + id + '__TypeId').val(equip.Id);
-        state.equipments[id].type = this.value;
+
+        if (equip) {
+            $('#NewEquipment_' + id + '__EquipmentType_Id').val(equip.Id);
+            state.equipments[id].type = this.value;
+        }
 
         settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
     }
 
     function updateSubType() {
         var mvcId = $(this).attr('id');
-        var id = mvcId.split('__EquipmentSubTypeId')[0].substr(mvcId.split('__EquipmentSubTypeId')[0].lastIndexOf('_') + 1);
+        var id = mvcId.split('__EquipmentSubType_Id')[0].substr(mvcId.split('__EquipmentSubType_Id')[0].lastIndexOf('_') + 1);
         state.equipments[id].subType = this.value;
 
         var monthlyCost = $('#NewEquipment_' + id + '__MonthlyCost');
@@ -464,7 +467,7 @@
         return Object.keys(state.equipmentTypes)
             .map(idToValue(state.equipmentTypes))
             .filter(function (type) {
-                return state.agreementType == 0 || state.agreementType == 3 || type.Leased;//3 mean Clarity propgram
+                return state.agreementType == 0 || state.agreementType == 3 || type.Leased; //3 mean Clarity propgram
             }).sort(function (a, b) {
                 return a.Description == b.Description ? 0 :
                     a.Description > b.Description ? 1 : -1;
