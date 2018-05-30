@@ -47,6 +47,7 @@
             $('.add-equip-link').addClass("hidden");
         }
         state.equipments[newId].template = newTemplate;
+        $('#new-equipments').append(newTemplate);
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
@@ -69,9 +70,9 @@
                 .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate))
 
         }
-        equipSelect.change();
         newTemplate.find('.sub-type-select')
             .on('change', updateSubType);
+        equipSelect.change();
 
         if (state.isStandardRentalTier) {
             settings.configureMonthlyCostCaps(newTemplate.find('.monthly-cost'));
@@ -81,7 +82,6 @@
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
 
-        $('#new-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
 
         $('#new-equipments').find('.monthly-cost').each(function () {
