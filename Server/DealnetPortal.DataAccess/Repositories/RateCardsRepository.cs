@@ -57,7 +57,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<RateReductionCard> GetRateReductionCard()
         {
-            return _dbContext.RateReductionCards.ToList();
+            return _dbContext.RateReductionCards.OrderBy(r => r.CustomerReduction).ToList();
         }
     }
 }
