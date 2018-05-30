@@ -1220,7 +1220,7 @@
     <value>Votre formulaire a été correctement mis à jour, mais il est pour l’instant désactivé et les clients ne seront pas en mesure de l’utiliser.</value>
   </data>
   <data name="ApplyForFinancing" xml:space="preserve">
-    <value>Faire une demande de financement</value>
+    <value>Demande de financement/location</value>
   </data>
   <data name="YourInformation" xml:space="preserve">
     <value>Vos renseignements</value>
@@ -2851,5 +2851,20 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   </data>
   <data name="SubType" xml:space="preserve">
     <value>Sous-type</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Mise à jour du profil du marchand</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Demandes financées</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Demandes en attente</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Informations sur le portail</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Informations sur le programme</value>
   </data>
 </root>
