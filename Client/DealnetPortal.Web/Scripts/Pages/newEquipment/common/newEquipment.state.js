@@ -66,6 +66,11 @@
         }],
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
         notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
+        applicationType: {
+            'loanApplication': '0',
+            'rentalApplicationHwt': '1',
+            'rentalApplication': '2'
+        },
         minimumLoanValue: 1000,
         amortizationValueToDisable: 180,
         totalAmountFinancedFor180amortTerm: TotalAmtFinancedFor180amortTerm,

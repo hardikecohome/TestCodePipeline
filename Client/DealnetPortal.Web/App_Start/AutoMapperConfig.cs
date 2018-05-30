@@ -112,12 +112,11 @@ namespace DealnetPortal.Web.App_Start
                 }));
 
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
-                .ForMember(x => x.EquipmentSubType, d => d.ResolveUsing(src => src.EquipmentSubTypeId.HasValue ? new EquipmentSubTypeDTO {Id = src.EquipmentSubTypeId.Value} : null))
-                .ForMember(x => x.EquipmentType, d => d.ResolveUsing(src => src.TypeId.HasValue ? new EquipmentTypeDTO {Id = src.TypeId.Value} : null))
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
                 .ForMember(x => x.AssetNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
-                .ForMember(x => x.InstalledModel, d => d.Ignore());
+                .ForMember(x => x.InstalledModel, d => d.Ignore())
+                .ForMember(x => x.Type, d => d.ResolveUsing(src => src.EquipmentType?.Type));
             cfg.CreateMap<ExistingEquipmentInformation, ExistingEquipmentDTO>();
             cfg.CreateMap<InstallationPackageInformation, InstallationPackageDTO>();
             cfg.CreateMap<PaymentInfoViewModel, PaymentInfoDTO>()
@@ -650,10 +649,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
-            cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>()
-                    .ForMember(x => x.EquipmentSubTypeId, d => d.ResolveUsing(src => src.EquipmentSubType?.Id))
-                    .ForMember(x => x.TypeId, d => d.ResolveUsing(src => src.EquipmentType?.Id))
-                    .ForMember(x => x.EquipmentSubTypeDescription, d => d.ResolveUsing(src => src.EquipmentSubType?.Description));
+            cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
             cfg.CreateMap<InstallationPackageDTO, InstallationPackageInformation>();
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()

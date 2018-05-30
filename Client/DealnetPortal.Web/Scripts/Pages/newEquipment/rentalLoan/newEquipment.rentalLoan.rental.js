@@ -117,7 +117,7 @@
 
     function updateEquipmentSubtypes(parent, type) {
         var select = parent.find('.sub-type-select');
-        if (state.isStandardRentalTier && state.agreementType !== 0 && state.equipmentTypes[type].SubTypes.length) {
+        if (state.isStandardRentalTier && state.agreementType !== 0 && type !== "" && state.equipmentTypes[type].SubTypes.length) {
             var value = select.val();
             var selected = state.equipmentTypes[type].SubTypes.find(function (item) {
                 return item.Id == value;
@@ -160,9 +160,9 @@
 
         if ($input[0].form) {
             $input.rules('add', 'rentalCaps');
-        } else {
-            $input.attr('data-rule-rentalCaps', true);
         }
+        $input.attr('data-rule-rentalCaps', true);
+
         if ($input.val()) {
             checkRentalCaps($input.val(), $input);
         }
@@ -178,7 +178,7 @@
         var mvcId = $input.attr('id');
         var id = mvcId.split('__MonthlyCost')[0].substr(mvcId.split('__MonthlyCost')[0].lastIndexOf('_') + 1);
 
-        if (!(new RegExp($input.data('valRegexPattern')).test(value))) return true;
+        if (!(new RegExp($input.data('valRegexPattern')).test(value)) || value[-1] === '.') return true;
 
         var val = parseFloat(value);
 

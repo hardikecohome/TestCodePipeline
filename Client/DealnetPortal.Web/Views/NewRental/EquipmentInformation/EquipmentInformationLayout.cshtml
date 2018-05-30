@@ -30,9 +30,9 @@
             </p>
 
             <p class="text-semibold preapproved-text">
-                @if (ViewBag.AgreementTypeAccessRights != "lease")
+                @if(ViewBag.AgreementTypeAccessRights != "lease")
                 {
-                    if (Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                    if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
                     {
                         <text>
                             @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
@@ -41,7 +41,7 @@
                     else
                     {
                         <text>
-                            @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                            @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
                         </text>
 
                     }
@@ -62,7 +62,9 @@
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
             </p>
-            
+            <p class="text-semibold preapproved-text">
+                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
+            </p>
         }
     </div>
 </div>
@@ -83,7 +85,6 @@
     translations['enterZero'] = "@Resources.PleaseEnterAtLeastZero";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
     translations['months'] = "@Resources.Months";
-    translations['months'] = "@Resources.Months";
     translations['theFieldMustBeMaximum'] = "@Resources.TheFieldMustBeMaximum"
     translations['monthlyCostOfOwnership'] = "@Resources.MonthlyCostOfOwnership";
     translations['coveredByCustomer'] = "@Resources.CoveredByCustomer";
@@ -93,7 +94,7 @@
     translations['AcknowledgeAndAgree']='@Resources.AcknowledgeAndAgree';
     translations['MonthlyCostExceedsMaxTitle']='@Resources.MonthlyCostExceedsSoftCapTitle';
     translations['MonthlyCostExceedsMaxBody']='@Resources.MonthlyCostExceedsSoftCapBody';
-    translations['SoftCapWarning']='@Resources.SoftCapWarning';
+    translations['SoftCapWarning']='@Html.Raw(Resources.SoftCapWarning)';
     translations['HardCapWarning'] = '@Resources.HardCapWarning';
 }
 
