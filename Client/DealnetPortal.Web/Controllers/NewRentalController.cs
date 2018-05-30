@@ -389,7 +389,7 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
-
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
 
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));

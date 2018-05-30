@@ -112,7 +112,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 equipmentInfo.Conditions.IsNewContract = true;
             }
             equipmentInfo.RequestedTerm = 120;
-            var mainAddressProvinceCode = result.Item1.PrimaryCustomer.Locations.First(l => l.AddressType == AddressType.MainAddress).State.ToProvinceCode();
+            var mainAddressProvinceCode = (result.Item1.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)
+                ?? result.Item1.PrimaryCustomer.Locations.FirstOrDefault())?.State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;
 
             if(rate != null)
@@ -528,7 +529,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             //DEAL-3471 
             //Adding other payments to Enbridge gas bills is not possible outside Ontario province, therefore we should block this option for customers from other provinces.
-            var mainAddressProvinceCode = contract.PrimaryCustomer.Locations.First(x => x.AddressType == AddressType.MainAddress).State.ToProvinceCode();
+            var mainAddressProvinceCode = (contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)
+                                           ?? contract.PrimaryCustomer.Locations.FirstOrDefault())?.State.ToProvinceCode();
             contactAndPaymentInfo.IsAllPaymentTypesAvailable = mainAddressProvinceCode == ContractProvince.ON.ToString();
         }
 
