@@ -111,8 +111,6 @@ namespace DealnetPortal.Web.App_Start
                 }));
 
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
-                .ForMember(x => x.EquipmentSubType, d => d.ResolveUsing(src => src.EquipmentSubTypeId.HasValue ? new EquipmentSubTypeDTO { Id = src.EquipmentSubTypeId.Value } : null))
-                .ForMember(x => x.EquipmentType, d => d.ResolveUsing(src => src.TypeId.HasValue ? new EquipmentTypeDTO { Id = src.TypeId.Value } : null))
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
                 .ForMember(x => x.AssetNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
@@ -676,7 +674,8 @@ namespace DealnetPortal.Web.App_Start
                 {
                     return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
                 }))
-                .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId));
+                .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId))
+                .ForMember(d => d.HasRateReduction, s => s.ResolveUsing(src => src.Equipment?.RateReductionCardId.HasValue ?? false));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))

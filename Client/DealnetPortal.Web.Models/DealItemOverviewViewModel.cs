@@ -46,6 +46,7 @@ namespace DealnetPortal.Web.Models
         public string CreditExpiry { get; set; }
         public string Address { get; set; }
         public string ProgramOption { get; set; }
+        public bool HasRateReduction { get; set; }
         public string LoanAmount { get; set; }
         public string Term { get; set; }
         public string Amort { get; set; }
