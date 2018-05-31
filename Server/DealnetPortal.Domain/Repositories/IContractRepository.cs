@@ -160,6 +160,14 @@ namespace DealnetPortal.Domain.Repositories
         /// <returns>List of Equipment Type</returns>
         IList<DocumentType> GetStateDocumentTypes(string state);
 
+        IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId);
+
+        /// <summary>
+        /// Get Document Types specified for contract, that can be defined for province and/or dealer
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        IList<DocumentType> GetContractDocumentTypes(int contractId, string contractOwnerId);
+
         /// <summary>
         /// Get Province Tax Rate
         /// </summary>

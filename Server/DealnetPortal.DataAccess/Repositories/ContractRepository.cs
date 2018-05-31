@@ -717,9 +717,45 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.FundingCheckDocuments.Where(x=>x.ListId == checkList.ListId).Select(d=>d.DocumentType).ToList();
         }
 
+        public IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId)
+        {
+            var checkList = _dbContext.FundingCheckLists
+                .Include(s => s.FundingCheckDocuments)
+                .FirstOrDefault(l => l.DealerId == contractOwnerId && l.Province == state);
+            if (checkList == null)
+            {
+                checkList = _dbContext.FundingCheckLists
+                    .Include(s => s.FundingCheckDocuments)
+                    .FirstOrDefault(l => l.Province == state);
+            }
+            if (checkList != null)
+            {
+                return _dbContext.FundingCheckDocuments.Where(x => x.ListId == checkList.ListId)
+                    .Select(d => d.DocumentType).ToList();
+            }
+            return new List<DocumentType>();                
+        }        
+
         public IList<DocumentType> GetAllDocumentTypes()
         {
             return _dbContext.DocumentTypes.ToList();
+        }
+
+        /// Get Document Types specified for contract
+        public IList<DocumentType> GetContractDocumentTypes(int contractId, string contractOwnerId)
+        {
+            var contract = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .FirstOrDefault(c => c.Id == contractId &&
+                                     (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
+            if (contract != null)
+            {
+                var state = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
+                state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
+                return GetDealerDocumentTypes(state, contractOwnerId);
+            }
+            return new List<DocumentType>();
         }
 
         public ProvinceTaxRate GetProvinceTaxRate(string province)
