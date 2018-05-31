@@ -30,7 +30,7 @@
             </p>
 
             <p class="text-semibold preapproved-text">
-                @if(ViewBag.AgreementTypeAccessRights != "lease")
+                @if (ViewBag.ShowPreapprovalAmount == true)
                 {
                     if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
                     {
