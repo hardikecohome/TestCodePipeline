@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -296,7 +296,6 @@
     <Compile Include="Models\ContactInfoViewModel.cs" />
     <Compile Include="Models\CustomerRiskGroupViewModel.cs" />
     <Compile Include="Models\EquipmentInformation\CommonExistingEquipmentInfo.cs" />
-    <Compile Include="Models\EquipmentInformation\ContactAndPaymentInfoViewModelNew.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
@@ -313,7 +312,7 @@
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\EmploymentInformationViewModel.cs" />
     <Compile Include="Models\EquipmentInformation\ContractConditions.cs" />
-    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModelNew.cs" />
+    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\EquipmentInformation\SalesRepInformation.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\HelpPopUpViewModal.cs" />
@@ -329,7 +328,6 @@
     <Compile Include="Models\SubDealer.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
-    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModel.cs" />
     <Compile Include="Models\EquipmentInformation\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -776,6 +774,7 @@
     <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="Content\less\slick\fonts\slick.svg" />
     <Content Include="Content\less\slick\ajax-loader.gif" />
+    <Content Include="DeployParameters.Web.Dealnet.xml" />
     <Content Include="DeployParameters.Web.deaslnet01vm.xml" />
     <Content Include="DeployParameters.Web.deaslnet02vm.xml" />
     <Content Include="favicon-dealer.ico" />
