@@ -81,13 +81,14 @@
                     <ul class="nav nav-pills nav-stacked documents-pills">
                         @for(var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
+                            var documentValue = Model.UploadDocumentsInfo.DocumentTypes[i].Value;
                             var document = Model.UploadDocumentsInfo
                                 .ExistingDocuments
                                 .FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
                             var documentReady = document != null
                                                 || (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" && Model.ESignature?.Status == SignatureStatus.Completed);
-                            <li class="@(i == 0 ? "active" : "") @( documentReady  ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
-                                <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
+                            <li class="@(i == 0 ? "active" : "") @( documentReady  ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(documentValue)">
+                                <a href="#tab@(documentValue)" class="documents-pills-link" aria-controls="tab@(documentValue)" role="tab" data-toggle="tab">
                                     @if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
                                     {
                                         <text>@Resources.OtherDocuments</text>
@@ -109,21 +110,22 @@
                     <div class="tab-content doc-tab-content documents-pills" role="tablist">
                         @for(var i = 0; i < Model.UploadDocumentsInfo.DocumentTypes?.Count; i++)
                         {
-                            if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "7")
+                            var documentValue = Model.UploadDocumentsInfo.DocumentTypes[i].Value;
+                            if(documentValue == "7")
                             {
                                 continue;
                             }
                             var document = Model
                                 .UploadDocumentsInfo
                                 .ExistingDocuments
-                                .FirstOrDefault(x => x.DocumentTypeId.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value);
+                                .FirstOrDefault(x => x.DocumentTypeId.ToString() == documentValue);
 
                             var documentReady = document != null ||
                                                 (Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1" &&
                                                 Model.ESignature?.Status == SignatureStatus.Completed);
 
-                            <div class="@(i == 0 ? "active" : "") @(documentReady ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(i+1)">
-                                <a href="#tab@(i+1)" class="documents-pills-link" aria-controls="tab@(i+1)" role="tab" data-toggle="tab">
+                            <div class="@(i == 0 ? "active" : "") @(documentReady ? "uploaded" : "") @(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value) ? "mandatory" : "" ) documents-pills-item tab-container-@(documentValue)">
+                                <a href="#tab@(documentValue)" class="documents-pills-link" aria-controls="tab@(documentValue)" role="tab" data-toggle="tab">
                                     <span class="mandatory-text">
                                         @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
                                         @if(Model.UploadDocumentsInfo.MandatoryDocumentTypes.Any(md => md.ToString() == Model.UploadDocumentsInfo.DocumentTypes[i].Value))
@@ -133,7 +135,7 @@
                                     </span>
                                 </a>
                             </div>
-                            <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(i + 1)">
+                            <div role="tabpanel" class="tab-pane @(i == 0 ? "active" : "")" id="tab@(documentValue)">
                                 @if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "1")
                                 {
                                     <h3 class="document-pane-header">
@@ -145,7 +147,7 @@
                                     }
                                     else
                                     {
-                                        using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
+                                        using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + documentValue }))
                                         {
                                             <div class="well position-well danger-well clear-border error-descr collapse">
                                                 <svg aria-hidden="true" class="icon icon-error">
@@ -206,7 +208,7 @@
                                 }
                                 else
                                 {
-                                    using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + (i + 1) }))
+                                    using(Html.BeginForm("UploadDocument", "MyDeals", FormMethod.Post, new { enctype = "multipart/form-data", data_container = "tab-container-" + documentValue }))
                                     {
                                         <h3 class="document-pane-header">
                                             @(Model.UploadDocumentsInfo.DocumentTypes[i].Text)
@@ -217,7 +219,7 @@
                                             </svg>
                                             <span class="error-message"></span>
                                         </div>
-                                        if(Model.UploadDocumentsInfo.DocumentTypes[i].Value == "2")
+                                        if(documentValue == "2")
                                         {
                                             <div>
                                                 <a href="" onclick="$('#download-certificate-modal').modal(); return false;"
