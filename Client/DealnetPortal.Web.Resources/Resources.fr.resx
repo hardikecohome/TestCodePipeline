@@ -2867,4 +2867,10 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   <data name="ProgramInquiries" xml:space="preserve">
     <value>Informations sur le programme</value>
   </data>
+  <data name="WithEscalatedPayments" xml:space="preserve">
+    <value>Avec des paiements échelonnés</value>
+  </data>
+  <data name="WithoutEscalatedPayments" xml:space="preserve">
+    <value>Sans paiements échelonnés</value>
+  </data>
 </root>

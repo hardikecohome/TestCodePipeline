@@ -7705,6 +7705,24 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to With escalated payments.
+        /// </summary>
+        public static string WithEscalatedPayments {
+            get {
+                return ResourceManager.GetString("WithEscalatedPayments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Without escalated payments.
+        /// </summary>
+        public static string WithoutEscalatedPayments {
+            get {
+                return ResourceManager.GetString("WithoutEscalatedPayments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Without the link, the data you have entered cannot be retrieved and you will have to start filling out your application at the beginning..
         /// </summary>
         public static string WithoutLinkDataLost {
