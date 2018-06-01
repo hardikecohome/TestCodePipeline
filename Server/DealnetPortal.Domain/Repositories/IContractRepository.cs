@@ -162,6 +162,8 @@ namespace DealnetPortal.Domain.Repositories
 
         IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId);
 
+        IDictionary<string, IList<DocumentType>> GetDealerDocumentTypes(string contractOwnerId);
+
         /// <summary>
         /// Get Document Types specified for contract, that can be defined for province and/or dealer
         /// </summary>

@@ -14,10 +14,10 @@ namespace DealnetPortal.Domain
 
         public int ListId { get; set; }
         [ForeignKey("ListId")]
-        public virtual FundingCheckList FundingCheckList { get; set; }
+        public FundingDocumentList FundingDocumentList { get; set; }
 
         public int DocumentTypeId { get; set; }
         [ForeignKey("DocumentTypeId")]
-        public DocumentType DocumentType { get; set; }
+        public virtual DocumentType DocumentType { get; set; }
     }
 }

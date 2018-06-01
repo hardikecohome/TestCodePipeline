@@ -144,6 +144,36 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("DealerDocumentTypes")]
+        [Authorize]
+        [HttpGet]
+        public IHttpActionResult GetDealerDocumentTypes()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var provinceDocTypes = Mapper.Map<IDictionary<string, IList<DocumentTypeDTO>>>(_contractRepository.GetDealerDocumentTypes(LoggedInUser?.UserId));
+                if (provinceDocTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Document Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>(provinceDocTypes, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Document Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Authorize]
         [Route("DealerEquipmentTypes")]
         [HttpGet]
