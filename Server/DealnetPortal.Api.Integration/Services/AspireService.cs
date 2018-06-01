@@ -1212,7 +1212,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 } 
                 
-                account.UDFs = GetCustomerUdfs(c, location, setLeadSource, isBorrower,
+                account.UDFs = GetCustomerUdfs(c, setLeadSource, isBorrower,
                                              contract.HomeOwners?.Any(hw => hw.Id == c.Id) == true ? (bool?)true : null, existingCustomer).ToList();                
 
                 if (!string.IsNullOrEmpty(role))
@@ -1537,7 +1537,7 @@ namespace DealnetPortal.Api.Integration.Services
             application.Notes = contract.Details?.Notes ?? contract.Equipment?.Notes;
             //TODO: Implement finance program selection
             application.FinanceProgram = contract.Dealer?.Application?.FinanceProgram;//"EcoHome Finance Program";
-            application.UDFs = GetApplicationUdfs(contract, leadSource, contractor).ToList();
+            application.UDFs = GetApplicationUdfs(contract, leadSource).ToList();
 
             if (contractor != null)
             {
@@ -1547,7 +1547,7 @@ namespace DealnetPortal.Api.Integration.Services
             return application;
         }
 
-        private Tuple<bool, IList<Alert>> AnalyzeResponse(DealUploadResponse response, Contract contract, ICollection<NewEquipment> newEquipments = null)
+        private Tuple<bool, IList<Alert>> AnalyzeResponse(DealUploadResponse response, Contract contract)
         {
             bool updated = false;
             var alerts = new List<Alert>();
@@ -1777,7 +1777,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetApplicationUdfs(Contract contract, string leadSource = null, ContractorDTO contractor = null)
+        private IList<UDF> GetApplicationUdfs(Contract contract, string leadSource = null)
         {
             var udfList = new List<UDF>();
             if (contract?.Equipment != null)
@@ -2350,7 +2350,7 @@ namespace DealnetPortal.Api.Integration.Services
             return udfList;
         }
 
-        private IList<UDF> GetCustomerUdfs(Customer customer, Location mainLocation, string leadSource, bool isBorrower, bool? isHomeOwner = null, bool? existingCustomer = null)
+        private IList<UDF> GetCustomerUdfs(Customer customer, string leadSource, bool isBorrower, bool? isHomeOwner = null, bool? existingCustomer = null)
         {
             var udfList = new List<UDF>();
             if (!string.IsNullOrEmpty(leadSource))

@@ -217,14 +217,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (contractUpdated && (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null))
                     {
-                        var aspireAlerts = 
-                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
+                        _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (contractUpdated && updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
-                        var aspireAlerts = 
-                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
+                        _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
                     else if (contractUpdated && (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue))
                     {

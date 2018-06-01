@@ -299,7 +299,6 @@ namespace DealnetPortal.Api.Core.ApiClient
                 Method = HttpMethod.Delete,
                 RequestUri = new Uri(requestUri)
             };
-            var formatter = new MediaTypeFormatter[] { new JsonMediaTypeFormatter() };
             if (authenticationHeader != null)
             {
                 request.Headers.Authorization = authenticationHeader;

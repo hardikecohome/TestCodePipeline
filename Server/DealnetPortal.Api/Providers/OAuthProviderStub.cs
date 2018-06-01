@@ -10,13 +10,7 @@ namespace DealnetPortal.Api.Providers
 {
     public class OAuthProviderStub : OAuthAuthorizationServerProvider
     {
-        private const string DefaultClientId = "123";
         private const string DefaultClientName = "TestUser";
-
-        public OAuthProviderStub()
-        {
-
-        }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {

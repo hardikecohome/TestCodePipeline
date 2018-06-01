@@ -734,8 +734,6 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
         protected CookieContainer ReadCookies(HttpResponseMessage response)
         {
-            var pageUri = response.RequestMessage.RequestUri;
-
             IEnumerable<string> cookies;
             //TODO: delete path
             if (response.Headers.TryGetValues("set-cookie", out cookies))

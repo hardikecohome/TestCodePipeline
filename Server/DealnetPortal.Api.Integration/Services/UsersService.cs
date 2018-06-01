@@ -355,11 +355,11 @@ namespace DealnetPortal.Api.Integration.Services
                     var address = aspireUser.Locations.FirstOrDefault();
                     dealerProfile.Address = new Address
                     {
-                        City = address.City,
-                        State = address.State,
-                        PostalCode = address.PostalCode,
-                        Street = address.Street,
-                        Unit = address.Unit
+                        City = address?.City,
+                        State = address?.State,
+                        PostalCode = address?.PostalCode,
+                        Street = address?.Street,
+                        Unit = address?.Unit
                     };
                 }
                 _dealerRepository.UpdateDealerProfile(dealerProfile);

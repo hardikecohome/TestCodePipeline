@@ -30,7 +30,7 @@ namespace DealnetPortal.Api
             }
             catch (Exception ex)
             {
-                
+                throw ex;
             }
         }
 

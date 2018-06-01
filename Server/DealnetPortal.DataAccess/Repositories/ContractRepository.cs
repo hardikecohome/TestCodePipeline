@@ -1209,7 +1209,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return paymentSummary;
         }
 
-        private EquipmentInfo UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
+        private void UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
         {            
             if (!string.IsNullOrEmpty(equipmentInfo.SalesRep))
             {
@@ -1300,7 +1300,7 @@ namespace DealnetPortal.DataAccess.Repositories
             dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
 		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
 
-            return dbEquipment;
+            return;
         }
 
         private bool AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)

@@ -2019,7 +2019,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (contract.Details.AgreementType != AgreementType.LoanApplication)
                 {
-                    FillTotalAmountPayable(formFields, contract, ownerUserId);
+                    FillTotalAmountPayable(formFields, contract);
                 }
             }
             if (contract.Equipment != null)
@@ -2174,7 +2174,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillTotalAmountPayable(List<FormField> formFields, Contract contract, string ownerUserId)
+        private void FillTotalAmountPayable(List<FormField> formFields, Contract contract)
         {
             if (contract.Details.AgreementType != AgreementType.LoanApplication && contract.Equipment.RentalProgramType.HasValue)
             {
