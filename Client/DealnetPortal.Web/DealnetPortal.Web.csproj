@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -919,6 +919,8 @@
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.bill59.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
+    <Content Include="Scripts\utils\camera-capture.js" />
+    <Content Include="Scripts\utils\dl-scanner.js" />
     <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\utils\idToValue.js" />
     <Content Include="Scripts\utils\polyfills.js" />

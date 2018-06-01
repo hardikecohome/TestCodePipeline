@@ -558,6 +558,8 @@
     <script type="text/javascript">
         var isMobileRequest = '@ViewBag.IsMobileRequest';
         var checkCustomerUrl = '@Url.Action("CheckCustomerExisting", "MortgageBroker")';
+        var recognizeDLPhotoUrl = '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")';
+        var uploadCaptureUrl = '@Url.Action("RecognizeDriverLicense", "NewRental")';
 
         configInitialized.then(function () {
             module.require('basic-information-view');

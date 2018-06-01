@@ -8,19 +8,10 @@
     var scrollPageTo = require('scrollPageTo');
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
     var hideDynamicAlertModal = require('alertModal').hideDynamicAlertModal;
-    var addAdditionalButton, aditional1Section;
+    var cameraModule = require('camera-capture');
+    var dlScanner = require('dl-scanner');
 
-    function setDataAttrInModal(index) {
-        var modal = document.getElementById('camera-modal');
-        modal.setAttribute('data-fnToFill', 'additional-first-name-' + index);
-        modal.setAttribute('data-lnToFill', 'additional-last-name-' + index);
-        modal.setAttribute('data-bdToFill', 'additional-birth-date-' + index);
-        modal.setAttribute('data-dlToFill', 'additional-dl-number-' + index);
-        modal.setAttribute('data-stToFill', 'additional-street-' + index);
-        modal.setAttribute('data-ctToFill', 'additional-locality-' + index);
-        modal.setAttribute('data-prToFill', 'additional-administrative_area_level_1-' + index);
-        modal.setAttribute('data-pcToFill', 'additional-postal_code-' + index);
-    }
+    var addAdditionalButton, aditional1Section;
 
     function hideAditional1Section() {
         aditional1Section.hide();
@@ -35,9 +26,9 @@
         });
         aditional1Section.data('active', false);
         addAdditionalButton.show();
-		$('#proceed-error-message').hide();
-		//$(this).removeClass('input-custom-err');
-		//$('#additional-applicant-qcError').text('');
+        $('#proceed-error-message').hide();
+        //$(this).removeClass('input-custom-err');
+        //$('#additional-applicant-qcError').text('');
     }
 
     function enableMailingAddress(section) {
@@ -62,11 +53,12 @@
         aditional1Section.data('active', true);
         addAdditionalButton.hide();
     }
-	
+
     function init() {
 
         configInitialized
             .then(function () {});
+        cameraModule.init();
 
         $('input[type="text"]').on('change', function () {
             this.value = this.value.trim();
@@ -124,54 +116,54 @@
         });
 
         var province = $('#administrative_area_level_1');
-		var additionalApplicantProvince = $('#additional-administrative_area_level_1-1');
+        var additionalApplicantProvince = $('#additional-administrative_area_level_1-1');
 
-		province.change(function (e) {
-			var isQuebec = e.target.value === 'QC';
-			var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
+        province.change(function (e) {
+            var isQuebec = e.target.value === 'QC';
+            var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
 
-			if (isQuebec) {
-				if (!isQuebecDealer) {
-					$(this).addClass('input-custom-err');
-					$('#qcError').text(translations.InstallationAddressCannotInQuebec);
-				} else {
-					$(this).removeClass('input-custom-err');
-					$('#qcError').text('');
-				}
-			} else {
-				if (isQuebecDealer) {
-					$('#qcError').text(translations.InstallationAddressInQuebec);
-					$(this).addClass('input-custom-err');
-				} else {
-					$(this).removeClass('input-custom-err');
-					$('#qcError').text('');
-				}
-			}
-		});
+            if (isQuebec) {
+                if (!isQuebecDealer) {
+                    $(this).addClass('input-custom-err');
+                    $('#qcError').text(translations.InstallationAddressCannotInQuebec);
+                } else {
+                    $(this).removeClass('input-custom-err');
+                    $('#qcError').text('');
+                }
+            } else {
+                if (isQuebecDealer) {
+                    $('#qcError').text(translations.InstallationAddressInQuebec);
+                    $(this).addClass('input-custom-err');
+                } else {
+                    $(this).removeClass('input-custom-err');
+                    $('#qcError').text('');
+                }
+            }
+        });
 
-		additionalApplicantProvince.change(function(e) {
-			var isQuebec = e.target.value === 'QC';
-			var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
+        additionalApplicantProvince.change(function (e) {
+            var isQuebec = e.target.value === 'QC';
+            var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
 
-			if (isQuebec) {
-				if (!isQuebecDealer) {
-					$(this).addClass('input-custom-err');
-					$('#additional-applicant-qcError').text(translations.AdditionalApplicantAddressCannotInQuebec);
-				} else {
-					$(this).removeClass('input-custom-err');
-					$('#additional-applicant-qcError').text('');
-				}
-			} else {
-				if (isQuebecDealer) {
-					$('#additional-applicant-qcError').text(translations.AdditionalApplicantAddressInQuebec);
-					$(this).addClass('input-custom-err');
-				} else {
-					$(this).removeClass('input-custom-err');
-					$('#additional-applicant-qcError').text('');
-				}
-			}
-		});
-		
+            if (isQuebec) {
+                if (!isQuebecDealer) {
+                    $(this).addClass('input-custom-err');
+                    $('#additional-applicant-qcError').text(translations.AdditionalApplicantAddressCannotInQuebec);
+                } else {
+                    $(this).removeClass('input-custom-err');
+                    $('#additional-applicant-qcError').text('');
+                }
+            } else {
+                if (isQuebecDealer) {
+                    $('#additional-applicant-qcError').text(translations.AdditionalApplicantAddressInQuebec);
+                    $(this).addClass('input-custom-err');
+                } else {
+                    $(this).removeClass('input-custom-err');
+                    $('#additional-applicant-qcError').text('');
+                }
+            }
+        });
+
         $('.check-age').change(function () {
             var atLeastOneValid = checkApplicantsAge();
             if (atLeastOneValid) {
@@ -196,7 +188,7 @@
         } else {
             hideAditional1Section();
         }
-		
+
         $('.address-checkbox').each(function () {
             var checkBox = $(this);
             var correspondingSection = $('#' + checkBox.data('section'));
@@ -212,7 +204,7 @@
                     disableMailingAddress(correspondingSection);
                 }
             });
-		});
+        });
 
 
         $('.clear-address').on('click', function () {
@@ -236,22 +228,76 @@
                 'event_action': 'button_click',
                 'event_label': 'DrivingLicense'
             });
-            if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
-                e.preventDefault();
-                var modal = document.getElementById('camera-modal');
-                modal.setAttribute('data-fnToFill', 'first-name');
-                modal.setAttribute('data-lnToFill', 'last-name');
-                modal.setAttribute('data-bdToFill', 'birth-date');
-                modal.setAttribute('data-dlToFill', 'dl-number');
-                modal.setAttribute('data-stToFill', 'street');
-                modal.setAttribute('data-ctToFill', 'locality');
-                modal.setAttribute('data-prToFill', "administrative_area_level_1");
-                modal.setAttribute('data-pcToFill', "postal_code");
+
+            function success(data) {
+                debugger
+                $('#first-name').val(data.FirstName).keyup();
+                $('#last-name').val(data.LastName).keyup();
+                var bDate = new Date(data.DateOfBirthStr);
+                $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
+                $('#dl-number').val(data.Id).keyup();
+                $('#street').val(data.Street).keyup();
+                $('#locality').val(data.City).keyup();
+                $('#administrative_area_level_1').val(data.State).keyup();
+                $('#postal_code').val(data.PostalCode).keyup();
             }
+            var submitUpload = function (e) {
+                debugger
+                dlScanner.submitUpload(e.target.files, success);
+            };
+
+            var capture = function (e) {
+                debugger
+                var data = cameraModule.takePhoto();
+                $('#upload-capture').one('click', function () {
+                    debugger
+                    dlScanner.uploadCapture(data, success);
+                });
+            };
+
+            $('#owner-upload-file').one('change', submitUpload);
+            $('#upload-file').one('change', submitUpload);
+            $('#capture-btn').one('click', capture)
+            $('#camera-modal').one('hidden.bs.modal', function () {
+                $('#owner-upload-file').off('change', submitUpload);
+                $('#upload-file').off('change', submitUpload);
+                $('#upload-capture').off();
+            });
             return true;
         });
         $('#additional1-scan-button').click(function () {
-            setDataAttrInModal(1);
+            var success = function (data) {
+                debugger
+                $('#additional-first-name-1').val(data.FirstName).keyup();
+                $('#additional-last-name-1').val(data.LastName).keyup();
+                var bDate = new Date(data.DateOfBirthStr);
+                $('#additional-birth-date-1').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
+                $('#additional-dl-number').val(data.Id).keyup();
+                $('#additional-street').val(data.Street).keyup();
+                $('#additional-locality').val(data.City).keyup();
+                $('#additional-administrative_area_level_1').val(data.State).keyup();
+                $('#additional-postal_code').val(data.PostalCode).keyup();
+            };
+            var submitUpload = function (e) {
+                debugger
+                dlScanner.submitUpload(e.target.files, success);
+            };
+            var capture = function (e) {
+                debugger
+                var data = cameraModule.takePhoto();
+                $('#upload-capture').one('click', function () {
+                    debugger
+                    dlScanner.uploadCapture(data, success);
+                });
+            };
+            $('#additional1-scan-button').one('change', submitUpload);
+            $('#upload-file').one('change', submitUpload);
+            $('#capture-btn').one('click', capture)
+            $('#camera-modal').one('hidden.bs.modal', function () {
+                $('#additional1-scan-button').off('change', submitUpload);
+                $('#upload-file').off('change', submitUpload);
+                $('#upload-capture').off();
+            });
         });
         addAdditionalButton.click(function () {
             if (!aditional1Section.data('active')) {
@@ -279,31 +325,30 @@
             var isApprovalAge = checkApplicantsAge();
             var isHomeOwner = $('#homeowner-checkbox').is(':checked');
             var isAgreesToCreditCheck = checkCreditAgree();
-			var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
-			var isAddressInQc = province.val().toLowerCase() === 'qc';
-			var isAdditionalApplicantProvinceInQc = additionalApplicantProvince.val().toLocaleLowerCase() === 'qc';
+            var isQuebecDealer = $('#is-quebec-dealer').val().toLowerCase() === 'true';
+            var isAddressInQc = province.val().toLowerCase() === 'qc';
+            var isAdditionalApplicantProvinceInQc = additionalApplicantProvince.val().toLocaleLowerCase() === 'qc';
             var isValidProcvinceAddress = false;
-			var isValidProvinceForAdditionalApplicant = false;
-			var additionalApplicantAddressNotSame = $('#mailing-address-checkbox-add-app1');
+            var isValidProvinceForAdditionalApplicant = false;
+            var additionalApplicantAddressNotSame = $('#mailing-address-checkbox-add-app1');
 
-			if (!aditional1Section.is(':hidden') && additionalApplicantAddressNotSame.is(':checked')) {
-				if (isQuebecDealer) {
-					if (!isAdditionalApplicantProvinceInQc) {
-						isValidProvinceForAdditionalApplicant = false;
-					} else {
-						isValidProvinceForAdditionalApplicant = true;
-					}
-				} else {
-					if (isAdditionalApplicantProvinceInQc) {
-						isValidProvinceForAdditionalApplicant = false;
-					} else {
-						isValidProvinceForAdditionalApplicant = true;
-					}
-				}
-			}
-			else {
-				isValidProvinceForAdditionalApplicant = true
-			}
+            if (!aditional1Section.is(':hidden') && additionalApplicantAddressNotSame.is(':checked')) {
+                if (isQuebecDealer) {
+                    if (!isAdditionalApplicantProvinceInQc) {
+                        isValidProvinceForAdditionalApplicant = false;
+                    } else {
+                        isValidProvinceForAdditionalApplicant = true;
+                    }
+                } else {
+                    if (isAdditionalApplicantProvinceInQc) {
+                        isValidProvinceForAdditionalApplicant = false;
+                    } else {
+                        isValidProvinceForAdditionalApplicant = true;
+                    }
+                }
+            } else {
+                isValidProvinceForAdditionalApplicant = true
+            }
             if (isQuebecDealer) {
                 if (!isAddressInQc) {
                     isValidProcvinceAddress = false;
@@ -328,15 +373,15 @@
                 scrollPageTo($('#proceed-error-message'));
             }
 
-			if (!isValidProcvinceAddress || !isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !isValidProvinceForAdditionalApplicant) {
+            if (!isValidProcvinceAddress || !isHomeOwner || !isApprovalAge || !isAgreesToCreditCheck || !isValidProvinceForAdditionalApplicant) {
                 if (!isValidProcvinceAddress) {
                     $(this).addClass('input-custom-err');
                     $('#qcError').text(isQuebecDealer ? translations.InstallationAddressInQuebec : translations.InstallationAddressCannotInQuebec);
-				}
-				if (!isValidProvinceForAdditionalApplicant) {
-					$(this).addClass('input-custom-err');
-					$('#additional-applicant-qcError').text(isQuebecDealer ? translations.AdditionalApplicantAddressInQuebec : translations.AdditionalApplicantAddressCannotInQuebec);
-				}
+                }
+                if (!isValidProvinceForAdditionalApplicant) {
+                    $(this).addClass('input-custom-err');
+                    $('#additional-applicant-qcError').text(isQuebecDealer ? translations.AdditionalApplicantAddressInQuebec : translations.AdditionalApplicantAddressCannotInQuebec);
+                }
                 if ($('#main-form').valid()) {
                     event.preventDefault();
                 } else {
