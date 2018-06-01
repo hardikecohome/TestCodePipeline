@@ -6,10 +6,13 @@
     var settings = {
         recalculateValuesAndRender: {},
         recalculateAndRenderRentalValues: {},
-        recalculateClarityValuesAndRender: {}
-    }
+        recalculateClarityValuesAndRender: {},
+        updateEquipmentSubTypes: function () {},
+        configureMonthlyCostCaps: function () {}
+    };
 
     var resetPlaceholder = require('resetPlaceholder');
+    var idToValue = require('idToValue');
 
     /**
      * Add new equipment ot list of new equipments
@@ -44,6 +47,7 @@
             $('.add-equip-link').addClass("hidden");
         }
         state.equipments[newId].template = newTemplate;
+        $('#new-equipments').append(newTemplate);
 
         // equipment handlers
         newTemplate.find('.equipment-cost').on('change', updateCost);
@@ -54,18 +58,30 @@
         newTemplate.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
         var equipSelect = newTemplate.find('.equipment-select');
+
+        equipSelect.html(_getEquipmentTypeSelectList());
+
         equipSelect.on('change', updateType);
         if (!state.isClarity) {
             equipSelect
-                .on('change', require('bill59').onEquipmentChange);
+                .on('change', require('bill59').onEquipmentChange)
+                .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate));
+            newTemplate.find('.sub-type-select')
+                .on('change', configureValidateMonthlyCostOnTypeChange(newTemplate))
+
         }
+        newTemplate.find('.sub-type-select')
+            .on('change', updateSubType);
         equipSelect.change();
+
+        if (state.isStandardRentalTier) {
+            settings.configureMonthlyCostCaps(newTemplate.find('.monthly-cost'));
+        }
 
         customizeSelect();
         toggleClearInputIcon($(newTemplate).find('textarea, input'));
         resetPlaceholder($(newTemplate).find('textarea, input'));
 
-        $('#new-equipments').append(newTemplate);
         resetFormValidator("#equipment-form");
 
         $('#new-equipments').find('.monthly-cost').each(function () {
@@ -153,7 +169,7 @@
             state.equipments[i] = {
                 id: i.toString(),
                 cost: cost,
-                type: $('#NewEquipment_' + i + '__Type').val()
+                type: $('#NewEquipment_' + i + '__EquipmentType_Type').val()
             };
         } else {
             state.equipments[i].cost = cost;
@@ -163,7 +179,7 @@
             state.equipments[i] = {
                 id: i.toString(),
                 monthlyCost: cost,
-                type: $('#NewEquipment_' + i + '__Type').val()
+                type: $('#NewEquipment_' + i + '__EquipmentType_Type').val()
             };
         } else {
             state.equipments[i].monthlyCost = cost;
@@ -175,7 +191,7 @@
                 state.equipments[i] = {
                     id: i.toString(),
                     estimatedRetail: cost,
-                    type: $('#NewEquipment_' + i + '__Type').val()
+                    type: $('#NewEquipment_' + i + '__EquipmentType_Type').val()
                 };
             } else {
                 state.equipments[i].estimatedRetail = cost;
@@ -188,14 +204,24 @@
 
         equipSelect.on('change', updateType);
         if (!state.isClarity) {
-            equipSelect.on('change', require('bill59').onEquipmentChange);
+            equipSelect.on('change', require('bill59').onEquipmentChange)
+                .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow));
+            equipmentRow.find('.sub-type-select')
+                .on('change', configureValidateMonthlyCostOnTypeChange(equipmentRow));
         }
+        equipmentRow.find('.sub-type-select')
+            .on('change', updateSubType)
+            .change();
         equipmentRow.find('.equipment-cost')
             .on('change', updateCost);
         equipmentRow.find('.monthly-cost')
             .on('change', updateMonthlyCost);
         equipmentRow.find('.estimated-retail')
             .on('change', updateEstimatedRetail);
+
+        if (state.isStandardRentalTier) {
+            settings.configureMonthlyCostCaps(equipmentRow.find('.monthly-cost'));
+        }
 
         customizeSelect();
         //if not first equipment add handler (first equipment should always be visible)
@@ -290,8 +316,26 @@
      */
     function updateType() {
         var mvcId = $(this).attr('id');
-        var id = mvcId.split('__Type')[0].substr(mvcId.split('__Type')[0].lastIndexOf('_') + 1);
-        state.equipments[id].type = this.value;
+        var id = mvcId.split('__EquipmentType_Type')[0].substr(mvcId.split('__EquipmentType_Type')[0].lastIndexOf('_') + 1);
+        var equip = state.equipmentTypes[this.value];
+
+        if (equip) {
+            $('#NewEquipment_' + id + '__EquipmentType_Id').val(equip.Id);
+            state.equipments[id].type = this.value;
+        }
+
+        settings.updateEquipmentSubTypes($(this).parents('.new-equipment'), this.value);
+    }
+
+    function updateSubType() {
+        var mvcId = $(this).attr('id');
+        var id = mvcId.split('__EquipmentSubType_Id')[0].substr(mvcId.split('__EquipmentSubType_Id')[0].lastIndexOf('_') + 1);
+        state.equipments[id].subType = this.value;
+
+        var monthlyCost = $('#NewEquipment_' + id + '__MonthlyCost');
+        if (monthlyCost.val()) {
+            monthlyCost.valid();
+        }
     }
 
     /**
@@ -342,6 +386,16 @@
         var mvcId = $this.attr("id");
         var id = mvcId.split('__EstimatedRetailCost')[0].substr(mvcId.split('__EstimatedRetailCost')[0].lastIndexOf('_') + 1);
         state.equipments[id].estimatedRetail = Globalize.parseNumber($this.val());
+    }
+
+    function configureValidateMonthlyCostOnTypeChange($parent) {
+        return function (e) {
+            if (state.isInitialized && state.agreementType > 0) {
+                if ($parent.find('.monthly-cost').val()) {
+                    $parent.find('.monthly-cost').valid();
+                }
+            }
+        };
     }
 
     function _removeNewEquipment() {
@@ -409,11 +463,29 @@
         }
     }
 
+    function _getEquipmentTypeSelectList() {
+        return Object.keys(state.equipmentTypes)
+            .map(idToValue(state.equipmentTypes))
+            .filter(function (type) {
+                return state.agreementType == 0 || state.agreementType == 3 || type.Leased; //3 mean Clarity propgram
+            }).sort(function (a, b) {
+                return a.Description == b.Description ? 0 :
+                    a.Description > b.Description ? 1 : -1;
+            }).map(function (type) {
+                return $('<option/>', {
+                    value: type.Type,
+                    text: type.Description
+                });
+            });
+    }
+
     function init(params) {
 
         if (!params.isClarity) {
             settings.recalculateAndRenderRentalValues = params.recalculateAndRenderRentalValues;
             settings.recalculateValuesAndRender = params.recalculateValuesAndRender;
+            settings.updateEquipmentSubTypes = params.updateEquipmentSubTypes;
+            settings.configureMonthlyCostCaps = params.configureMonthlyCostCaps;
         } else {
             settings.recalculateClarityValuesAndRender = params.recalculateClarityValuesAndRender;
         }

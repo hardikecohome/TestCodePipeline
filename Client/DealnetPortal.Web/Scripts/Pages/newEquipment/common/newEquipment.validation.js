@@ -25,6 +25,11 @@
     };
 
     var initValidators = function () {
+        var rateCardNotPresent = !Object.keys(settings).every(function(el) {
+            return $(el).length > 0;
+        });
+        if (rateCardNotPresent) return;
+
         $(settings.customYearCostId).rules('add', {
             required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,

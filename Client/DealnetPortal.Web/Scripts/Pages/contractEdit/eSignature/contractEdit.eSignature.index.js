@@ -235,7 +235,9 @@
     var disableDigitalContract = function () {
         var form = $('#signer-form');
         form.find('input, button').prop('disabled', true);
-        var status = $('#signature-status').val().toLowerCase();
+        var $signatureStatus = $('#signature-status');
+        if (!$signatureStatus.length) return;
+        var status = $signatureStatus.val().toLowerCase();
         if (status !== 'completed') {
             var tabs = $('#esign-tabs');
             tabs.find('a[href="#paper-contract"]').tab('show');

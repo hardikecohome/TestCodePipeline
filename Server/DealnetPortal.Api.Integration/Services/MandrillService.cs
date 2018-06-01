@@ -15,6 +15,7 @@ using DealnetPortal.Api.Models.Notify;
 using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Api.Common.Enumeration;
 using System.Globalization;
+using DealnetPortal.Api.Common.Helpers;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -311,18 +312,12 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email)
         {
             string BestWay = "";
-            if (SupportDetails.BestWay == "Phone")
-            {
-                BestWay =$"<strong>Phone : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
-            }
-            else if (SupportDetails.BestWay == "Email")
-            {
-                BestWay = $"<strong>Email: </strong> { SupportDetails.ContactDetails ?? string.Empty}";
-            }
-
+            BestWay = $"<strong> { SupportDetails.BestWay.GetEnumDescription() } : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
+            var supportTypeDescription = SupportDetails.SupportType.GetEnumDescription();
+            
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
-            myVariables.Add(new Variable() { name = "RequestType", content = SupportDetails.SupportType ?? "Not provided" });
+            myVariables.Add(new Variable() { name = "RequestType", content = supportTypeDescription ?? "Not provided" });
             myVariables.Add(new Variable() { name = "DealerName", content = SupportDetails.DealerName });
             myVariables.Add(new Variable() { name = "YourName", content = SupportDetails.YourName });
             myVariables.Add(new Variable() { name = "LoanNumber", content = SupportDetails.LoanNumber ?? "Not provided" });
@@ -352,8 +347,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = $"Support Request - { SupportDetails.SupportType}",
-                text = $"Support Request - { SupportDetails.SupportType}",
+                subject = $"Support Request - { supportTypeDescription }",
+                text = $"Support Request - { supportTypeDescription }",
                 to = new List<MandrillTo>() {
                         new MandrillTo(){
                             email = email,
@@ -435,7 +430,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 address = $"{addresItem.Street}, {addresItem.City}, {addresItem.State}, {addresItem.PostalCode}";
             }
-            if (contractData.CreditAmount > 0 && contractData.isPreApproved)
+            if (contractData.CreditAmount > 0 && contractData.IsPreApproved)
             {
                 approvalStatus = $"{Resources.Resources.PreApproved}: ${contractData.CreditAmount.ToString("N0", CultureInfo.InvariantCulture)}";
             }

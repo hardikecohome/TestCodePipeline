@@ -48,6 +48,28 @@ function pv(rate, nper, pmt, fv) {
 
 }
 
+function fv(rate, nper, pmt, pv, type) {
+	rate = parseFloat(rate);
+	nper = parseFloat(nper);
+	pmt = parseFloat(pmt);
+	pv = parseFloat(pv);
+	type = parseFloat(type);
+
+	var pow = Math.pow(1 + rate, nper);
+	var fv = 0;
+
+	if (nper == 0) {
+		return (0);
+	}
+
+	if (rate) {
+		fv = (pmt * (1 + rate * type) * (1 - pow) / rate) - pv * pow;
+	} else {
+		fv = -1 * (pv + pmt * nper);
+	}
+	return (fv);
+}
+
 function conv_number(expr, decplaces) {
     var str = "" + Math.round(eval(expr) * Math.pow(10, decplaces));
 

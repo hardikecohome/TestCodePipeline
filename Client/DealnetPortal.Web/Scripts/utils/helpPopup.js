@@ -2,23 +2,28 @@
     $('.credit-funding-contact').on('click', function () {
         $('body').removeClass('open-menu menu-animated');
         $('.dealnet-sidebar').removeClass('in');
-        sendEmailModel('', '0');
-    });
+        sendEmailModel('', '1');
+	});
+	$('.funding-contact').on('click', function () {
+		$('body').removeClass('open-menu menu-animated');
+		$('.dealnet-sidebar').removeClass('in');
+		sendEmailModel('', '2');
+	});
     $('.dealer-support-contact').on('click', function () {
         $('body').removeClass('open-menu menu-animated');
         $('.dealnet-sidebar').removeClass('in');
-        sendEmailModel('', '2');
+        sendEmailModel('', '0');
     });
     $('.customer-service-contact').on('click', function () {
         $('body').removeClass('open-menu menu-animated');
         $('.dealnet-sidebar').removeClass('in');
-        sendEmailModel('', '1');
+        sendEmailModel('', '6');
     });
 });
 
 function sendEmailModel (rowTransactionId, supportType) {
     if (supportType == null) {
-        supportType = '3';
+        supportType = '6';
     }
     if (rowTransactionId == null) {
         rowTransactionId = '';

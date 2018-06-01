@@ -20,6 +20,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
+using AutoMapper;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -173,12 +174,7 @@ namespace DealnetPortal.Web.Controllers
                     }                    
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult OnBoard()
-        {
-            return View();
-        }
+        }      
 
         [HttpGet]
         public ActionResult GetMaintanenceBanner()
@@ -197,10 +193,6 @@ namespace DealnetPortal.Web.Controllers
             return Content(string.Empty);
         }
 
-        public ActionResult OnBoardSuccess()
-        {
-            return View();
-	    }
         [HttpGet]
         public PartialViewResult DealerSupportRequestEmail(string contractId)
         {
@@ -217,16 +209,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<string> DealerSupportRequestEmail(HelpPopUpViewModal dealerSupportRequest)
         {
-            SupportRequestDTO dealerSupport = new SupportRequestDTO() {
-                Id = dealerSupportRequest.Id,
-                DealerName = dealerSupportRequest.DealerName,
-                YourName = dealerSupportRequest.IsPreferedContactPerson ? dealerSupportRequest.PreferedContactPerson : dealerSupportRequest.YourName,
-                LoanNumber = dealerSupportRequest.LoanNumber,
-                SupportType = dealerSupportRequest.SupportType.ToString(),
-                HelpRequested = dealerSupportRequest.HelpRequested,
-                BestWay = dealerSupportRequest.BestWay.ToString(),
-                ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
-            };
+            var dealerSupport = Mapper.Map<SupportRequestDTO>(dealerSupportRequest);
             var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";
         }

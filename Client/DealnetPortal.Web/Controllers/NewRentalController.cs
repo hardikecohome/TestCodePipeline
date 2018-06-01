@@ -244,8 +244,21 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             var model = await _contractManager.GetEquipmentInfoAsync(contractId);
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.CardTypes = model.DealerTier?.RateCards?.Where(q => q.CardType != RateCardType.Custom).Select(x => x.CardType).Distinct().ToList();
+            var equipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+
+            if(model.NewEquipment != null)
+            {
+                foreach(var newEquipment in model.NewEquipment)
+                {
+                    if(newEquipment.EquipmentType != null && !equipmentTypes.Any(e => e.Id == newEquipment.EquipmentType.Id))
+                    {
+                        equipmentTypes.Add(newEquipment.EquipmentType);
+                    }
+                }
+            }
+
+            ViewBag.EquipmentTypes = equipmentTypes.OrderBy(e => e.Description).ToList();
+            ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
             if(model.DealerTier != null && model.DealerTier.Name == System.Configuration.ConfigurationManager.AppSettings[PortalConstants.ClarityTierNameKey])
@@ -267,10 +280,10 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             }
             ViewBag.AdminFee = 0;
-	        var identity = (ClaimsIdentity) User.Identity;
-	        var quebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
-            ViewBag.IsStandardRentalTier = ((ClaimsIdentity)User.Identity).HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
-            ViewBag.IsQuebecDealer = quebecDealer;
+            var identity = (ClaimsIdentity)User.Identity;
+            ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)) || identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
+            ViewBag.IsQuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
+            ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value.ToLower() ?? string.Empty;
             if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
@@ -294,7 +307,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
-            var ratecardValid = await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
+            var ratecardValid = equipmentInfo.AgreementType != AgreementType.LoanApplication ? true : await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
 
             if(ratecardValid)
             {
@@ -360,9 +373,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             var contract = await _contractServiceAgent.GetContract(contractId);
+
             if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed || contract.Item1.Equipment == null)
             {
                 var alerts = new List<Alert>()
@@ -377,6 +389,9 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
 

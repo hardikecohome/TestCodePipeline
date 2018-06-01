@@ -4,6 +4,8 @@
         var recalculateAndRenderRentalValues = require('newEquipment.rental').recalculateAndRenderRentalValues;
         var recalculateRentalTaxAndPrice = require('newEquipment.rental').recalculateRentalTaxAndPrice;
         var onProgramTypeChange = require('newEquipment.rental').onProgramTypeChange;
+        var updateEquipmentSubTypes = require('newEquipment.rental').updateEquipmentSubTypes;
+        var configureMonthlyCostCaps = require('newEquipment.rental').configureMonthlyCostCaps;
         var submitRateCard = require('rate-cards').submitRateCard;
         var rateCardCalculationInit = require('rate-cards').init;
         var setters = require('value-setters');
@@ -19,11 +21,16 @@
 
         var navigateToStep = require('navigateToStep');
         var datepicker = require('datepicker');
+        var idToValue = require('idToValue');
+        var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+        var hideDynamicAlertModal = require('alertModal').hideDynamicAlertModal;
+        var showLoader = require('loader').showLoader;
 
         var settings = Object.freeze({
             customRateCardName: 'Custom',
             formId: '#equipment-form',
             agreementTypeId: '#typeOfAgreementSelect',
+            isNewContractId: '#IsNewContract',
             rentalProgramTypeId: '#rental-program-type',
             submitButtonId: '#submit',
             rateCardTypeId: '#hidden-option',
@@ -48,7 +55,7 @@
             adminFeeSectionId: '#admin-fee-section',
             totalMonthlyPaymentRowId: '#total-monthly-payment-row',
             escalationLimitErrorMsgId: '#escalation-limit-error-msg',
-            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',            
+            isCustomerFoundInCreditBureauId: '#isCustomerFoundInCreditBureau',
             fixedRateReductionId: '#FixedRate-reduction',
             deferralReductionId: '#Deferral-reduction',
             applicationType: {
@@ -65,20 +72,22 @@
          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
          * @returns {void} 
          */
-        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable) {
-            var isOnlyLoan = $(settings.dealProvinceId).val().toLowerCase() == 'qc';
-
-            if (isOnlyLoan) {
-                if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication) {
-                    $(settings.agreementTypeId).val(settings.applicationType.loanApplication);
-                }
-                $(settings.agreementTypeId).attr('disabled', true);
-            }
-
+        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
             state.isCustomerFoundInCreditBureau = $(settings.isCustomerFoundInCreditBureauId).val().toLowerCase() === 'true';
+            state.onlyCustomRateCard = onlyCustomRateCard;
+            // check if we have any prefilled values in database
+            // related to this contract, if yes contract is not new
+            state.isNewContract = $(settings.isNewContractId).val().toLowerCase() === 'true';
+            _modifyAgreementTypes();
+            rateCardBlock.toggleAgreementTypeSection(state.agreementType);
+
+            state.equipmentTypes = equipments.reduce(function (acc, equip) {
+                acc[equip.Type] = equip;
+                return acc;
+            }, {});
 
             if (state.isDisplayAdminFee) {
                 $(settings.adminFeeSectionId).removeClass('hidden');
@@ -105,7 +114,9 @@
                 isClarity: false,
                 recalculateValuesAndRender: recalculateValuesAndRender,
                 recalculateAndRenderRentalValues: recalculateAndRenderRentalValues,
-                recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice
+                recalculateRentalTaxAndPrice: recalculateRentalTaxAndPrice,
+                updateEquipmentSubTypes: updateEquipmentSubTypes,
+                configureMonthlyCostCaps: configureMonthlyCostCaps
             });
 
             rateCardsInit.init(id, cards, rateCardReductionTable, onlyCustomRateCard);
@@ -126,6 +137,8 @@
                 }
                 return false;
             });
+            state.isInitialized = true;
+            $(settings.agreementTypeId).change();
         };
 
         function _submitForm(event) {
@@ -156,16 +169,20 @@
                     _toggleCustomRateCard();
                     submitRateCard(option);
                 }
-            } 
+            } else {
+                $('#SelectedRateCardId').val(null);
+            }
 
             if ($(settings.escalationLimitErrorMsgId).is(':visible')) {
                 event.preventDefault();
+                return;
             }
 
             if ($('#sales-rep-types').is(':visible')) {
                 if (!$('#sales-rep-types').find('input[type=checkbox]:checked').length) {
                     event.preventDefault();
                     _toggleSalesRepErrors(true);
+                    return;
                 }
             }
 
@@ -173,11 +190,36 @@
                 if (!$('#agreement-types').find('input[name="Conditions.HasExistingAgreements"]:checked').length) {
                     event.preventDefault();
                     _toggleAgreementErrors(true);
+                    return;
                 }
             }
 
             if (!$(settings.formId).valid()) {
                 event.preventDefault();
+                return;
+            }
+
+            var softCapExceeded = Object.keys(state.equipments)
+                .map(idToValue(state.equipments))
+                .reduce(function (acc, curr) {
+                    return acc || curr.softCapExceeded;
+                }, false);
+
+            if (state.agreementType != 0 && softCapExceeded && !state.softCapExceededConfirmed) {
+                event.preventDefault();
+                dynamicAlertModal({
+                    message: translations.MonthlyCostExceedsMaxBody,
+                    title: translations.MonthlyCostExceedsMaxTitle,
+                    confirmBtnText: translations.AcknowledgeAndAgree
+                });
+
+                $('#confirmAlert').one('click', function () {
+                    state.softCapExceededConfirmed = true;
+                    hideDynamicAlertModal();
+                    showLoader();
+                    $(settings.submitButtonId).click();
+                });
+                return;
             }
 
             $(settings.formId).submit();
@@ -228,7 +270,11 @@
             $(settings.addExistingEquipmentId).on('click', equipment.addExistingEquipment);
             $(settings.toggleRateCardBlockId).on('click', _toggleRateCardBlock);
             $(settings.downPaymentId).on('change', setters.setDownPayment);
-            $(settings.agreementTypeId).on('change', setters.setAgreement).on('change', _toggleCustomRateCard);
+            $(settings.agreementTypeId)
+                .on('change', setters.setAgreement)
+                .on('change', _toggleCustomRateCard)
+                .on('change', _toggleEquipmentSelectionForRental)
+                .on('change', _updateEquipmentSubTypes);
             $(settings.totalMonthlyPaymentId)
                 .on('change', setters.setRentalMPayment)
                 .on('change', function (e) {
@@ -321,6 +367,85 @@
                 },
                 translations['EnterValidDate']
             );
+        }
+
+        function _adjustAgreementTypesByRights(rightsAccess) {
+            if (rightsAccess == '') return;
+
+            var rigthDictionary = {
+                'both': function () {},
+                'loan': function () {
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.rentalApplication)
+                        _removeAgeementOptionByKey(settings.applicationType.rentalApplication);
+                },
+                'lease': function () {
+                    if ($(settings.agreementTypeId).find(":selected").val() !== settings.applicationType.loanApplication || state.isNewContract)
+                        _removeAgeementOptionByKey(settings.applicationType.loanApplication);
+                }
+            };
+
+            rigthDictionary[rightsAccess]();
+        }
+
+        function _removeAgeementOptionByKey(key) {
+            $(settings.agreementTypeId + " option[value='" + key + "']").remove();
+        }
+
+        function _modifyAgreementTypes() {
+            var rentalTypeHwt = settings.applicationType.rentalApplicationHwt;
+            if ($(settings.agreementTypeId).find(":selected").val() !== rentalTypeHwt) {
+                _removeAgeementOptionByKey(rentalTypeHwt);
+            }
+
+            _adjustAgreementTypesByRights(agreementTypeAccessRights);
+
+            if ($(settings.agreementTypeId + ' > option').length === 1) {
+                $(settings.agreementTypeId).addClass('loan-only-dropdown-disabled');
+                $(settings.agreementTypeId).attr('readonly', true);
+            }
+        }
+
+        function _updateEquipmentSubTypes() {
+            Object.keys(state.equipments)
+                .map(idToValue(state.equipments))
+                .map(function (equipment) {
+                    var type = equipment.type;
+                    var parent = $('#new-equipment-' + equipment.id);
+                    updateEquipmentSubTypes(parent, type);
+                });
+        }
+
+        function _toggleEquipmentSelectionForRental(e) {
+            var equipArr = Object.keys(state.equipments)
+                .map(idToValue(state.equipments));
+
+            var selectedEquipments = !state.isInitialized && !state.isNewContract ?
+                equipArr.map(function (equip) {
+                    return equip.type;
+                }) : [];
+            var selectList = Object.keys(state.equipmentTypes)
+                .map(idToValue(state.equipmentTypes))
+                .filter(function (type) {
+                    return e.target.value == 0 || selectedEquipments.includes(type.Type) || type.Leased;
+                }).sort(function (a, b) {
+                    return a.Description == b.Description ? 0 :
+                        a.Description > b.Description ? 1 : -1;
+                }).map(function (type) {
+                    return $('<option/>', {
+                        value: type.Type,
+                        text: type.Description
+                    });
+                });
+            equipArr.forEach(function (equip) {
+                var clone = selectList.map(function (opt) {
+                    var clone = opt.clone();
+                    if (clone.val() == equip.type) {
+                        clone.attr('selected', true);
+                    }
+                    return clone;
+                });
+                $('#new-equipment-' + equip.id + ' .equipment-select').html(clone).change();
+            });
         }
 
         return {

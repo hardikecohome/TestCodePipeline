@@ -235,7 +235,7 @@ namespace DealnetPortal.Api.Integration.Services
         private bool IsFrenchSymbols(Contract contract)
         {
             var result = IsCustomerHasFrenchSymbols(contract.PrimaryCustomer);
-            foreach (var customer in contract.SecondaryCustomers)
+            foreach (var customer in contract.SecondaryCustomers.Where(sc => sc.IsDeleted != true))
             {
                 if (IsCustomerHasFrenchSymbols(customer))
                 {

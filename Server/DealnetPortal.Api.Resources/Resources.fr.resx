@@ -676,10 +676,10 @@
     <value>Refusé (sans avis par courriel)</value>
   </data>
   <data name="_26_Pre_Approved15k" xml:space="preserve">
-    <value>Préautorisé 15 000 $</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_26_Pre_ApprovedECP" xml:space="preserve">
-    <value>Préautorisé (ECP)</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_27_FinalReview_RecommendApproval" xml:space="preserve">
     <value>Examen final – Recommander l’autorisation</value>
@@ -853,7 +853,7 @@
     <value>Refusé Blue Chip</value>
   </data>
   <data name="_26_Pre_Approved" xml:space="preserve">
-    <value>Préapprouvé</value>
+    <value>En attente de l'approbation d'Enbridge</value>
   </data>
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Autorisé Blue Chip</value>
@@ -1003,6 +1003,15 @@
   <data name="LeaseApplication" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="_PreApproved15K" xml:space="preserve">
+    <value>Préapprouvé 15 000</value>
+  </data>
+  <data name="_PreApproved75K" xml:space="preserve">
+    <value>Préapprouvé 7 500</value>
+  </data>
+  <data name="_Pre_Approved20K" xml:space="preserve">
+    <value>Préapprouvé 20 000</value>
+  </data>
   <data name="Prime" xml:space="preserve">
     <value>A risque élevé</value>
   </data>
@@ -1011,5 +1020,53 @@
   </data>
   <data name="SuperPrime" xml:space="preserve">
     <value>A faible risque</value>
+  </data>
+  <data name="CombiBoiler" xml:space="preserve">
+    <value>chaudière  mixte</value>
+  </data>
+  <data name="HotWaterHeaterCV" xml:space="preserve">
+    <value>chauffe eau (évent conventionnel)</value>
+  </data>
+  <data name="HotWaterHeaterPV" xml:space="preserve">
+    <value>chauffe eau (évent de puissance )</value>
+  </data>
+  <data name="HumidifierWithFurnace" xml:space="preserve">
+    <value>Humidificateur avec four</value>
+  </data>
+  <data name="MediaFilterNSAU" xml:space="preserve">
+    <value>Filtre média (pas d'unités autonomes)</value>
+  </data>
+  <data name="ReverseOsmosisNSAU" xml:space="preserve">
+    <value>Osmose inverse (pas d'unités autonomes)</value>
+  </data>
+  <data name="TwoPiecesofEquipmentWSCF" xml:space="preserve">
+    <value>2 pièces d'équipement (adoucisseur d'eau / filtre à charbon)</value>
+  </data>
+  <data name="WaterFilter" xml:space="preserve">
+    <value>Filtre à eau</value>
+  </data>
+  <data name="WaterFilterWaterSoftener" xml:space="preserve">
+    <value>Filtre à eau et adoucisseur d'eau</value>
+  </data>
+  <data name="WaterSoftener" xml:space="preserve">
+    <value>Adoucisseur d'eau</value>
+  </data>
+  <data name="WholeHomeCombo" xml:space="preserve">
+    <value>Combo maison entière</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Mise à jour du profil du marchand</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Demandes financées</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Demandes en attente</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Informations sur le portail</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Informations sur le programme</value>
   </data>
 </root>

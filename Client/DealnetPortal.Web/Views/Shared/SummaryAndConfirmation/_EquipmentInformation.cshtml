@@ -37,14 +37,9 @@
     </div>
     <div id="new-equipment-info-section">
         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
-            @{
-                var bill59EquipTypes = Model.ProvinceTaxRate.Province.ToUpper() == "ON" ?
-                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Where(e => e.UnderBill59).Select(e => e.Type) : 
-                    new List<string>();
-            }
+            
             @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
             {
-                var displayResponsibility = bill59EquipTypes.Contains(Model.EquipmentInfo.NewEquipment[i].Type);
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
                         @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
@@ -59,22 +54,37 @@
                         <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Type, new
-                                {
-                                    @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
-                                })
+                                                                                          {
+                                                                                                  @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                                                          })
                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                                                                                                                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
-                                                                                                                                            {
-                                                                                                                                                Value = x.Type,
-                                                                                                                                                Text = x.Description,
-                                                                                                                                                Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                                                                                                            }),
-                                                                                                                                            new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentType.Description,
+                                            new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 </div>
                             </div>
                         </div>
 
+                        @if(Model.EquipmentInfo.NewEquipment[i].EquipmentSubType!=null)
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentSubType,
+                                            new {
+                                                        @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
+                                                })
+                                    <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
+                                        @Html.TextBoxFor(m => m.EquipmentInfo
+                                                                      .NewEquipment[i].EquipmentSubType.Description,
+                                                new
+                                                {
+                                                        id = "",
+                                                @readonly = "readonly",
+                                                    @class = "dealnet-disabled-input"
+                                                })
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div class="form-group">
                             <div class="row">
                                 @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new
@@ -166,7 +176,7 @@
                                     </div>
                                 </div>
                             </div>
-                            if(displayResponsibility)
+                            if(Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59)
                             {
                                 <div class="form-group">
                                     <div class="row">

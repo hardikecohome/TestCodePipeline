@@ -896,12 +896,13 @@
     <Content Include="Content\files\resources\en\qc\Credit Application.pdf" />
     <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
-    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to June 2018.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to May 28 2018.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Lease Rate Card May 2018.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 Quick Reference.pdf" />
     <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 User Guide.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Lease User Guide.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card May 29 2018 to June 20 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
@@ -921,6 +922,7 @@
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
     <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
     <Content Include="Scripts\utils\idToValue.js" />
+    <Content Include="Scripts\utils\polyfills.js" />
     <Content Include="Scripts\vendor\jquery.selectric.min.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
@@ -1226,7 +1228,7 @@
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Custom.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />
