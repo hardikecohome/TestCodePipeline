@@ -369,16 +369,8 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 item.CustomerAccountId = ConvertFromDbVal<string>(dr["Customer ID"]);
                 item.CustomerFirstName = fstName;
                 item.CustomerLastName = lstName;
-                if (item.TransactionId % 5 == 0)
-                {
-                    item.OverrideCreditAmountLimit = 25000;
-                    item.OverrideCustomerRiskGroup = "Super Prime";
-                }
-                else
-                {
-                    item.OverrideCreditAmountLimit = null;
-                    item.OverrideCustomerRiskGroup = null;
-                }
+                item.OverrideCreditAmountLimit = ConvertFromDbVal<decimal>(dr["OverrideCreditAmountLimit"]);
+                item.OverrideCustomerRiskGroup = ConvertFromDbVal<string>(dr["OverrideCustomerRiskGroup"]);
 
                 return item;
             }
