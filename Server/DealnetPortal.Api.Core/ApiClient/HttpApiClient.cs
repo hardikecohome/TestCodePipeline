@@ -130,7 +130,7 @@ namespace DealnetPortal.Api.Core.ApiClient
             {
                 return await response.Content.ReadAsAsync<T2>(cancellationToken);
             }
-            return await response.Content.ReadAsAsync<T2>(new[] { formatter, }, cancellationToken);
+            return await response.Content.ReadAsAsync<T2>(new[] { formatter }, cancellationToken);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace DealnetPortal.Api.Core.ApiClient
             {
                 return await response.Content.ReadAsAsync<T2>(cancellationToken);
             }
-            return await response.Content.ReadAsAsync<T2>(new MediaTypeFormatter[] { formatter, }, cancellationToken);
+            return await response.Content.ReadAsAsync<T2>(new MediaTypeFormatter[] { formatter }, cancellationToken);
         }
 
         public async Task DeleteAsyncEx(string requestUri, AuthenticationHeaderValue authenticationHeader = null,

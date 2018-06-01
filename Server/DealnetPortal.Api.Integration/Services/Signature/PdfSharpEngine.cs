@@ -67,7 +67,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "PDF Sharp error",
@@ -88,14 +88,14 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 PdfAcroForm form = document.AcroForm;                
                 // Get all form fields of the whole document
                 PdfAcroField.PdfAcroFieldCollection fields = form.Fields;
-                ffields = fields.Names?.Select(f => new FormField()
+                ffields = fields.Names?.Select(f => new FormField
                 {
-                    Name = f,
+                    Name = f
                 }).ToList();                
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "PDF Sharp error",

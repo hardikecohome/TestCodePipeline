@@ -57,7 +57,7 @@ namespace DealnetPortal.DataAccess
 
         private void SetTestUsers(ApplicationDbContext context, Application[] applications)
         {
-            var user1 = new ApplicationUser()
+            var user1 = new ApplicationUser
             {
                 Email = "user@user.com",
                 UserName = "user@user.com",
@@ -72,7 +72,7 @@ namespace DealnetPortal.DataAccess
                 //Password: 123_Qwe
                 SecurityStamp = "27a6bb1c-4737-4ab1-b0f8-ec3122ee2773"
             };
-            var user2 = new ApplicationUser()
+            var user2 = new ApplicationUser
             {
                 Email = "user2@user.com",
                 UserName = "user2@user.com",
@@ -126,7 +126,7 @@ namespace DealnetPortal.DataAccess
         private void SetAspireTestUsers(ApplicationDbContext context, Application[] applications)
         {
             //EcoSmarts users
-            var ecosmartUser = new ApplicationUser()
+            var ecosmartUser = new ApplicationUser
             {
                 Email = "ecosmart@eco.com",
                 UserName = "ecosmart",
@@ -143,9 +143,9 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Eco Smart Home Services",
                 AspireAccountId = "70017",
-                AspireLogin = "ecosmart",            };
+                AspireLogin = "ecosmart"            };
             context.Users.Add(ecosmartUser);
-            var canadianhomeUser = new ApplicationUser()
+            var canadianhomeUser = new ApplicationUser
             {
                 Email = "canadianhome@eco.com",
                 UserName = "canadianhome",
@@ -162,10 +162,10 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Canadian Home Efficiency Services",
                 AspireAccountId = "70122",
-                AspireLogin = "canadianhome",
+                AspireLogin = "canadianhome"
             };
             context.Users.Add(canadianhomeUser);
-            var enertechUser = new ApplicationUser()
+            var enertechUser = new ApplicationUser
             {
                 Email = "enertech@eco.com",
                 UserName = "enertech",
@@ -182,10 +182,10 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Enertech Home Services",
                 AspireAccountId = "70133",
-                AspireLogin = "enertech",
+                AspireLogin = "enertech"
             };
             context.Users.Add(enertechUser);
-            var efficiencyUser = new ApplicationUser()
+            var efficiencyUser = new ApplicationUser
             {
                 Email = "efficiency@eco.com",
                 UserName = "efficiency",
@@ -202,12 +202,12 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Efficiency Standard Home Services",
                 AspireAccountId = "70116",
-                AspireLogin = "efficiency",
+                AspireLogin = "efficiency"
             };
             context.Users.Add(efficiencyUser);
             
             //EcoEnergy users
-            var ecoenergyUser = new ApplicationUser()
+            var ecoenergyUser = new ApplicationUser
             {
                 Email = "ecoenergy@eco.com",
                 UserName = "ecoenergy",
@@ -224,11 +224,11 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Eco Energy Home Services",
                 AspireAccountId = "70015",
-                AspireLogin = "ecoenergy",
+                AspireLogin = "ecoenergy"
             };
 
             ecoenergyUser.SubDealers = new HashSet<ApplicationUser>();
-            var ecoenergySubUser = new ApplicationUser()
+            var ecoenergySubUser = new ApplicationUser
             {
                 Email = "",
                 UserName = "Apex Home Services",
@@ -245,10 +245,10 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Apex Home Services",
                 AspireAccountId = "70015",
-                AspireLogin = "ecoenergy",
+                AspireLogin = "ecoenergy"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
-            ecoenergySubUser = new ApplicationUser()
+            ecoenergySubUser = new ApplicationUser
             {
                 Email = "",
                 UserName = "Ontario Safety Standards",
@@ -265,10 +265,10 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Ontario Safety Standards",
                 AspireAccountId = "70015",
-                AspireLogin = "ecoenergy",
+                AspireLogin = "ecoenergy"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
-            ecoenergySubUser = new ApplicationUser()
+            ecoenergySubUser = new ApplicationUser
             {
                 Email = "",
                 UserName = "Ikotel O/A Ontario Water Health Safety",
@@ -285,10 +285,10 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Ikotel O/A Ontario Water Health Safety",
                 AspireAccountId = "70015",
-                AspireLogin = "ecoenergy",
+                AspireLogin = "ecoenergy"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
-            ecoenergySubUser = new ApplicationUser()
+            ecoenergySubUser = new ApplicationUser
             {
                 Email = "",
                 UserName = "Ontario Green Solutions",
@@ -305,10 +305,10 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "Ontario Green Solutions",
                 AspireAccountId = "70015",
-                AspireLogin = "ecoenergy",
+                AspireLogin = "ecoenergy"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
-            ecoenergySubUser = new ApplicationUser()
+            ecoenergySubUser = new ApplicationUser
             {
                 Email = "",
                 UserName = "EcoLife",
@@ -325,7 +325,7 @@ namespace DealnetPortal.DataAccess
                 Company = "ECO",
                 DisplayName = "EcoLife",
                 AspireAccountId = "70015",
-                AspireLogin = "ecoenergy",
+                AspireLogin = "ecoenergy"
             };
             ecoenergyUser.SubDealers.Add(ecoenergySubUser);
 
@@ -408,13 +408,13 @@ namespace DealnetPortal.DataAccess
         {
             var documentTypes = new[]
             {
-                new DocumentType()  {Description = "Signed contract", Prefix = "SC_"},
-                new DocumentType()  {Description = "Signed Installation certificate", Prefix = "SIC_"},
-                new DocumentType()  {Description = "Invoice", Prefix = "INV_"},
-                new DocumentType()  {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
-                new DocumentType()  {Description = "Extended Warranty Form", Prefix = "EWF_"},
-                new DocumentType()  {Description = "Third party verification call", Prefix = "TPV_"},
-                new DocumentType()  {Description = "Other", Prefix = ""},
+                new DocumentType {Description = "Signed contract", Prefix = "SC_"},
+                new DocumentType {Description = "Signed Installation certificate", Prefix = "SIC_"},
+                new DocumentType {Description = "Invoice", Prefix = "INV_"},
+                new DocumentType {Description = "Copy of Void Personal Cheque", Prefix = "VPC_"},
+                new DocumentType {Description = "Extended Warranty Form", Prefix = "EWF_"},
+                new DocumentType {Description = "Third party verification call", Prefix = "TPV_"},
+                new DocumentType {Description = "Other", Prefix = ""}
             };
             context.DocumentTypes.AddRange(documentTypes);
         }

@@ -16,7 +16,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public string GetParentDealerId(string dealerId)
         {
-            return base.GetUserById(dealerId).ParentDealerId;
+            return GetUserById(dealerId).ParentDealerId;
         }
 
         public string GetUserIdByName(string userName)

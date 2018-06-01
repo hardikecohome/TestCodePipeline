@@ -13,7 +13,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
     {
         Draft = 0,
         Signed = 1
-    };
+    }
 
     public interface ISignatureEngine
     {

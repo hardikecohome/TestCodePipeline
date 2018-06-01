@@ -74,8 +74,7 @@ namespace DealnetPortal.Api.Common.Helpers
             // Create a local array containing supported password characters
             // grouped by types. You can remove character groups from this
             // array, but doing so will weaken the password strength.
-            char[][] charGroups = new char[][]
-        {
+            char[][] charGroups = {
             PASSWORD_CHARS_LCASE.ToCharArray(),
             PASSWORD_CHARS_UCASE.ToCharArray(),
             PASSWORD_CHARS_NUMERIC.ToCharArray(),
@@ -120,7 +119,7 @@ namespace DealnetPortal.Api.Common.Helpers
             Random random = new Random(seed);
 
             // This array will hold password characters.
-            char[] password = null;
+            char[] password;
 
             // Allocate appropriate memory for the password.
             if (minLength < maxLength)

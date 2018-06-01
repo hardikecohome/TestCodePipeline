@@ -59,7 +59,7 @@ namespace DealnetPortal.Api.Controllers
                 if (docTypes == null)
                 {
                     var errorMsg = "Cannot retrieve Document Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -88,7 +88,7 @@ namespace DealnetPortal.Api.Controllers
                 if (docTypes == null)
                 {
                     var errorMsg = "Cannot retrieve Document Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -141,7 +141,7 @@ namespace DealnetPortal.Api.Controllers
                 if (equipmentTypes == null)
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -171,7 +171,7 @@ namespace DealnetPortal.Api.Controllers
                 if (licenseDocuments == null)
                 {
                     var errorMsg = "Cannot retrieve License documents";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.LicenseDocumentsRetrievalFailed,
@@ -201,7 +201,7 @@ namespace DealnetPortal.Api.Controllers
                 if (provinceTaxRate == null)
                 {
                     var errorMsg = "Cannot retrieve Province Tax Rate";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -231,7 +231,7 @@ namespace DealnetPortal.Api.Controllers
                 if (provinceTaxRates == null)
                 {
                     var errorMsg = "Cannot retrieve all Province Tax Rates";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -261,7 +261,7 @@ namespace DealnetPortal.Api.Controllers
                 if (verificationId == null)
                 {
                     var errorMsg = "Cannot retrieve Province Tax Rate";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -291,7 +291,7 @@ namespace DealnetPortal.Api.Controllers
                 if (verificationIds == null)
                 {
                     var errorMsg = "Cannot retrieve all Verification Ids";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -440,7 +440,7 @@ namespace DealnetPortal.Api.Controllers
             var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
             if (binSetting != null)
             {
-                var bin = new BinarySettingDTO()
+                var bin = new BinarySettingDTO
                 {
                     Name = binSetting.Item?.Name,
                     ValueBytes = binSetting.BinaryValue
@@ -459,7 +459,7 @@ namespace DealnetPortal.Api.Controllers
             var binSetting = SettingsRepository.GetUserBinarySettingByHashDealerName(sType, hashDealerName);
             if (binSetting != null)
             {
-                var bin = new BinarySettingDTO()
+                var bin = new BinarySettingDTO
                 {
                     Name = binSetting.Item?.Name,
                     ValueBytes = binSetting.BinaryValue
@@ -569,7 +569,7 @@ namespace DealnetPortal.Api.Controllers
                 if (reductionCards == null)
                 {
                     var errorMsg = "Cannot retrieve Rate Reduction Cards";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Message = errorMsg

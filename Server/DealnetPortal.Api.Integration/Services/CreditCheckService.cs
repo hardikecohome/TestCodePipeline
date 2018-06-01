@@ -175,9 +175,9 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var useTestAspire = false;
+                    bool useTestAspire;
                     bool.TryParse(_configuration.GetSetting(WebConfigKeys.USE_TEST_ASPIRE), out useTestAspire);
-                    CreditReport dbCreditReport = null;
+                    CreditReport dbCreditReport;
                     if (useTestAspire)
                     {
                         //check user on Aspire

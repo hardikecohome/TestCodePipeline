@@ -278,7 +278,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                var errorMsg = $"Cannot submit dealer onboarding form";
+                var errorMsg = "Cannot submit dealer onboarding form";
                 alerts.Add(new Alert
                 {
                     Type = AlertType.Error,

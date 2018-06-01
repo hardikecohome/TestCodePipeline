@@ -42,7 +42,7 @@ namespace DealnetPortal.Api.Controllers
             if (result?.Item2?.Any(a => a.Type == AlertType.Warning) ?? false)
             {
                 var warnMsg = string.Format("Scan warnings: {0}",
-                    result?.Item2.Where(a => a.Type == AlertType.Warning).Aggregate(string.Empty, (current, alert) =>
+                    result.Item2.Where(a => a.Type == AlertType.Warning).Aggregate(string.Empty, (current, alert) =>
                         current + $"{alert.Header}: {alert.Message};"));
                 _loggingService.LogWarning(warnMsg);
             }

@@ -6,6 +6,6 @@
         Favicon = 2,
         LogoImage = 3,
         LogoImage2X = 4,
-        LogoImage3X = 5,
+        LogoImage3X = 5
     }
 }

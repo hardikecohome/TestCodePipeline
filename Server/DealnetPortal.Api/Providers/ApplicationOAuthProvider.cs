@@ -74,7 +74,7 @@ namespace DealnetPortal.Api.Providers
                 if (aspireRes?.Item2?.Any(e => e.Type == AlertType.Error) ?? false)
                 {
                     user = null;
-                    if (aspireRes?.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed) ?? false)
+                    if ((bool) aspireRes.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed))
                     {
                         context.SetError(ErrorConstants.ServiceFailed, Resources.Resources.ExternalServiceUnavailable);
                         return;
@@ -235,14 +235,14 @@ namespace DealnetPortal.Api.Providers
                     }
                     else
                     {
-                        var newUser = new ApplicationUser()
+                        var newUser = new ApplicationUser
                         {
                             UserName = context.UserName,
                             Email = "",
                             ApplicationId = applicationId,
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
-                            AspireLogin = context.UserName,
+                            AspireLogin = context.UserName
                         };                        
 
                         try

@@ -203,7 +203,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         STANDARD,
 
         /// <remarks/>
-        WET_INK,
+        WET_INK
     }
 
     /// <remarks/>
@@ -444,6 +444,6 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         STANDARD,
 
         /// <remarks/>
-        WET_INK,
+        WET_INK
     }
 }

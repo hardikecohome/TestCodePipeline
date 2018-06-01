@@ -933,7 +933,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         OldScript,
 
         /// <remarks/>
-        WaltDisney,
+        WaltDisney
     }
 
     /// <remarks/>
@@ -957,7 +957,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         BoldItalics,
 
         /// <remarks/>
-        Outline,
+        Outline
     }
 
     /// <remarks/>
@@ -1840,7 +1840,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         OldScript,
 
         /// <remarks/>
-        WaltDisney,
+        WaltDisney
     }    
 
     /// <remarks/>
@@ -1857,7 +1857,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         Left,
 
         /// <remarks/>
-        Right,
+        Right
     }
 
     /// <remarks/>
@@ -1874,7 +1874,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         Middle,
 
         /// <remarks/>
-        Top,
+        Top
     }            
 
     /// <remarks/>
@@ -2267,7 +2267,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         sigStringAppearance,
 
         /// <remarks/>
-        textAppearance,
+        textAppearance
     }
 
     /// <remarks/>
@@ -2375,7 +2375,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         sigBlockPlacement,
 
         /// <remarks/>
-        signaturePlacement,
+        signaturePlacement
     }        
 
     /// <remarks/>

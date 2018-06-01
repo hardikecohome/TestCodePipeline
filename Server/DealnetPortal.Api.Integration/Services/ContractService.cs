@@ -325,7 +325,7 @@ namespace DealnetPortal.Api.Integration.Services
             var report = new AgreementDocument
             {
                 DocumentRaw = stream.ToArray(),
-                Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx",
+                Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx"
             };
             return report;
         }

@@ -30,7 +30,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
             SampleObjects = new Dictionary<Type, object>();
             SampleObjectFactories = new List<Func<HelpPageSampleGenerator, Type, object>>
             {
-                DefaultSampleObjectFactory,
+                DefaultSampleObjectFactory
             };
         }
 

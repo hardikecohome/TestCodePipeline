@@ -15,7 +15,7 @@ namespace DealnetPortal.Api.App_Start
             var loggingService =
                 (ILoggingService)
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
-            Database.SetInitializer(new MigrateDatabaseToLatestVersionWithLog<ApplicationDbContext, DealnetPortal.DataAccess.Migrations.Configuration>(loggingService));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersionWithLog<ApplicationDbContext, DataAccess.Migrations.Configuration>(loggingService));
             //Force migration
             //var dbMigrator = new DbMigrator(new DealnetPortal.DataAccess.Migrations.Configuration());
             //dbMigrator.Update();

@@ -132,7 +132,7 @@ namespace DealnetPortal.Api.Controllers
                 var contract = _contractService.CreateContract(LoggedInUser?.UserId);
                 if (contract == null)
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractCreateFailed,
@@ -143,7 +143,7 @@ namespace DealnetPortal.Api.Controllers
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.ContractCreateFailed,

@@ -504,7 +504,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var sortOrder = new eoConfigureSortOrder
                 {
-                    transactionSid = transactionSid.ToString(),                
+                    transactionSid = transactionSid.ToString()                
                 };
                 if (dpSids?.Any() ?? false)
                 {
@@ -618,7 +618,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                         firstName = senderFirstName,
                         lastName = senderLastName,
                         email = senderEmail
-                    },                    
+                    }                    
                 };
 
                 XmlSerializer x = new XmlSerializer(configInvitation.GetType());
@@ -664,7 +664,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var values = new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("dpSid", dpSid.ToString()),
+                    new KeyValuePair<string, string>("dpSid", dpSid.ToString())
                 };                
                 var data = new FormUrlEncodedContent(values);
 
@@ -702,7 +702,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var values = new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("transactionSid", transactionSid.ToString()),
+                    new KeyValuePair<string, string>("transactionSid", transactionSid.ToString())
                 };
                 var data = new FormUrlEncodedContent(values);
 
@@ -764,7 +764,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 {
                     Type = AlertType.Error,
                     Message = e.ItemsElementName.Contains(ItemsChoiceType16.message) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.message)] : string.Empty,
-                    Header = e.ItemsElementName.Contains(ItemsChoiceType16.minorCode) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.minorCode)] : string.Empty,                    
+                    Header = e.ItemsElementName.Contains(ItemsChoiceType16.minorCode) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.minorCode)] : string.Empty                    
                 })
                 );
 

@@ -26,7 +26,7 @@ namespace DealnetPortal.Api
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = false,
+                RequireUniqueEmail = false
                 
             };
             // Configure validation logic for passwords
@@ -44,7 +44,7 @@ namespace DealnetPortal.Api
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,
-                RequireUppercase = false,
+                RequireUppercase = false
             };
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

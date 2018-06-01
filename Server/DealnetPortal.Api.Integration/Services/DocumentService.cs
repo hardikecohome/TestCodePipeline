@@ -166,7 +166,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error,
                     Header = "eSignature error",
-                    Message = $"{msg}:{ex.ToString()}"
+                    Message = $"{msg}:{ex}"
                 });
             }
 
@@ -353,18 +353,16 @@ namespace DealnetPortal.Api.Integration.Services
                 LogAlerts(alerts);
                 return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
             }
-            else
+            
+            var error = $"Can't get contract [{contractId}] for processing";
+            alerts.Add(new Alert
             {
-                var errorMsg = $"Can't get contract [{contractId}] for processing";
-                alerts.Add(new Alert
-                {
-                    Code = ErrorCodes.CantGetContractFromDb,
-                    Type = AlertType.Error,
-                    Header = "eSignature error",
-                    Message = errorMsg
-                });
-                _loggingService.LogError(errorMsg);
-            }
+                Code = ErrorCodes.CantGetContractFromDb,
+                Type = AlertType.Error,
+                Header = "eSignature error",
+                Message = error
+            });
+            _loggingService.LogError(error);
 
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
@@ -590,7 +588,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error,
                     Header = "eSignature error",
-                    Message = $"{msg}:{ex.ToString()}"
+                    Message = $"{msg}:{ex}"
                 });
             }            
             return alerts;
@@ -664,7 +662,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     Type = AlertType.Error,                   
                     Header = "Cannot parse DocuSign notification",
-                    Message = $"Error occurred during parsing request from DocuSign: {ex.ToString()}"
+                    Message = $"Error occurred during parsing request from DocuSign: {ex}"
                 });
             }
             LogAlerts(alerts);
@@ -2146,10 +2144,6 @@ namespace DealnetPortal.Api.Integration.Services
                         Name = PdfFormFields.LoanTotalBorowingCost,
                         Value = paySummary.LoanDetails.TotalBorowingCost.ToString("F", CultureInfo.InvariantCulture)
                     });                    
-                }
-                else
-                {
-                    //for rentals
                 }
 
                 if (contract.Equipment.DeferralType != DeferralType.NoDeferral)

@@ -114,7 +114,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private DealerInfo CreateDealerInfo()
         {
-            var dealerInfo = new DealerInfo()
+            var dealerInfo = new DealerInfo
             {
                 CreationTime = DateTime.UtcNow,
                 LastUpdateTime = DateTime.UtcNow,

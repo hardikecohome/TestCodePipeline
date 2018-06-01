@@ -98,7 +98,7 @@ namespace DealnetPortal.Api
             {
                 container.RegisterType<IAspireStorageReader, AspireStorageReader>(
                     new InjectionConstructor(new ResolvedParameter<IDatabaseService>(), new ResolvedParameter<IQueriesStorage>(), new ResolvedParameter<ILoggingService>(),
-                    new Dictionary<string,string>()
+                    new Dictionary<string,string>
                     {
                         {"GetDealerDeals", "GetDealerDeals.dev" },
                         {"SearchCustomerAgreements", "SearchCustomerAgreements.dev" }

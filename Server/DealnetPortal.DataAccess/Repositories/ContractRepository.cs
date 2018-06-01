@@ -29,13 +29,13 @@ namespace DealnetPortal.DataAccess.Repositories
             var dealer = GetUserById(contractOwnerId);
             if (dealer != null)
             {
-                contract = new Contract()
+                contract = new Contract
                 {
                     ContractState = ContractState.Started,
                     CreationTime = DateTime.UtcNow,
                     LastUpdateTime = DateTime.UtcNow,
                     Dealer = dealer,
-                    CreateOperator = dealer.UserName,
+                    CreateOperator = dealer.UserName
                 };
                 _dbContext.Contracts.Add(contract);
             }
@@ -871,7 +871,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ContractData GetContractData(int contractId, string contractOwnerId)
         {
-            ContractData contractData = new ContractData()
+            ContractData contractData = new ContractData
             {
                 Id = contractId
             };

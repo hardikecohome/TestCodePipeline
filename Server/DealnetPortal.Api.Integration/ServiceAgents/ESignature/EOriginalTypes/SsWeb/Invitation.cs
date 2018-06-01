@@ -161,7 +161,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         email,
 
         /// <remarks/>
-        role,
+        role
     }
 
     /// <remarks/>

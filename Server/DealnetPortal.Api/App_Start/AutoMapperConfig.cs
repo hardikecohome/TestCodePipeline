@@ -249,7 +249,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.CreationTime, s => s.MapFrom(src => src.LastUpdateDateTime))
                 .ForMember(d => d.Details, s => s.ResolveUsing(src =>
                 {
-                    var details = new ContractDetailsDTO()
+                    var details = new ContractDetailsDTO
                     {
                         TransactionId = src.TransactionId.ToString(),
                         LocalizedStatus = !string.IsNullOrEmpty(src.DealStatus) ?
@@ -270,7 +270,7 @@ namespace DealnetPortal.Api.App_Start
                 }))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing(src =>
                 {
-                    var equipment = new EquipmentInfoDTO()
+                    var equipment = new EquipmentInfoDTO
                     {
                         Id = 0,
                         LoanTerm = src.Term,
@@ -280,13 +280,13 @@ namespace DealnetPortal.Api.App_Start
                             src.AgreementType == "RENTAL"
                                 ? AgreementType.RentalApplication
                                 : AgreementType.LoanApplication,
-                        NewEquipment = new List<NewEquipmentDTO>()
+                        NewEquipment = new List<NewEquipmentDTO>
                         {
-                            new NewEquipmentDTO()
+                            new NewEquipmentDTO
                             {
                                 Id = 0,
                                 Description = src.EquipmentDescription,
-                                Type = src.EquipmentType,
+                                Type = src.EquipmentType
                             }
                         }
                     };
@@ -294,12 +294,12 @@ namespace DealnetPortal.Api.App_Start
                 }))
                 .ForMember(d => d.PrimaryCustomer, s => s.ResolveUsing(src =>
                 {
-                    var primaryCustomer = new CustomerDTO()
+                    var primaryCustomer = new CustomerDTO
                     {
                         Id = 0,
                         AccountId = src.CustomerAccountId,
                         LastName = src.CustomerLastName,
-                        FirstName = src.CustomerFirstName,
+                        FirstName = src.CustomerFirstName
                     };
                     return primaryCustomer;
                 }))                
@@ -319,7 +319,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Signers, s => s.Ignore())
                 .ForMember(d => d.SalesRepInfo, s => s.Ignore());
 
-            mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, CustomerDTO>()
+            mapperConfig.CreateMap<Entity, CustomerDTO>()
                 .ForMember(d => d.Id, s => s.UseValue(0))
                 .ForMember(d => d.AccountId, s => s.MapFrom(src => src.EntityId))
                 .ForMember(d => d.Emails, s => s.ResolveUsing(src =>
@@ -327,9 +327,9 @@ namespace DealnetPortal.Api.App_Start
                     List<EmailDTO> emails = null;
                     if (!string.IsNullOrEmpty(src.EmailAddress))
                     {
-                        emails = new List<EmailDTO>()
+                        emails = new List<EmailDTO>
                         {
-                            new EmailDTO()
+                            new EmailDTO
                             {
                                 EmailType = EmailType.Main,
                                 EmailAddress = src.EmailAddress
@@ -342,9 +342,9 @@ namespace DealnetPortal.Api.App_Start
                 {
                     if (!string.IsNullOrEmpty(src.PostalCode))
                     {
-                        var locations = new List<LocationDTO>()
+                        var locations = new List<LocationDTO>
                         {
-                            new LocationDTO()
+                            new LocationDTO
                             {
                                 AddressType = AddressType.MainAddress,
                                 City = src.City,
@@ -362,9 +362,9 @@ namespace DealnetPortal.Api.App_Start
                 {
                     if (!string.IsNullOrEmpty(src.PhoneNum))
                     {
-                        var phones = new List<PhoneDTO>()
+                        var phones = new List<PhoneDTO>
                         {
-                            new PhoneDTO()
+                            new PhoneDTO
                             {
                                 PhoneNum = src.PhoneNum,
                                 PhoneType = PhoneType.Home
@@ -386,7 +386,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.CreditReport, s => s.Ignore())
                 .ForMember(d => d.RelationshipToMainBorrower, s => s.Ignore());
                 
-            mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, DealerDTO>()
+            mapperConfig.CreateMap<Entity, DealerDTO>()
                 .IncludeBase<Entity, CustomerDTO>()
                 .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName))
                 .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name))
@@ -397,7 +397,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.Ratecard, s => s.Ignore())
                 .ForMember(d => d.EmploymentInfo, s => s.Ignore());
 
-            mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.DealerRoleEntity, DealerDTO>()
+            mapperConfig.CreateMap<DealerRoleEntity, DealerDTO>()
                 .IncludeBase<Entity, DealerDTO>()
                 .ForMember(d => d.ParentDealerUserName, s => s.MapFrom(src => src.ParentUserName))
                 .ForMember(d => d.FirstName, s => s.MapFrom(src => src.FirstName ?? src.Name))
@@ -513,9 +513,9 @@ namespace DealnetPortal.Api.App_Start
 
             mapperConfig.CreateMap<CustomerLinkDTO, CustomerLink>()                
                 .ForMember(x => x.EnabledLanguages, d => d.ResolveUsing(src =>
-                    src.EnabledLanguages?.Select(l => new DealerLanguage() {LanguageId = (int)l, Language = new Language() { Id = (int)l } }).ToList()))
+                    src.EnabledLanguages?.Select(l => new DealerLanguage {LanguageId = (int)l, Language = new Language { Id = (int)l } }).ToList()))
                 .ForMember(x => x.Services, d => d.ResolveUsing(src =>
-                    src.Services?.SelectMany(ds => ds.Value.Select(dsv => new DealerService() {LanguageId = (int)ds.Key, Service = dsv}))))
+                    src.Services?.SelectMany(ds => ds.Value.Select(dsv => new DealerService {LanguageId = (int)ds.Key, Service = dsv}))))
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.HashLink, d => d.MapFrom(s=>s.HashLink));
             mapperConfig.CreateMap<DealerEquipmentDTO, DealerEquipment>()
@@ -527,8 +527,8 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<DealerProfileDTO, DealerProfile>()
                 .ForMember(x => x.Id, d => d.MapFrom( src => src.Id))
                 .ForMember(x => x.DealerId, d => d.MapFrom( src => src.DealerId))
-                .ForMember(x => x.Equipments, d => d.MapFrom( src => src.EquipmentList.Select( s=> new DealerEquipment() {EquipmentId = s.Equipment.Id, ProfileId = src.Id})))
-                .ForMember(x => x.Areas, d => d.MapFrom( src => src.PostalCodesList.Select(s => new DealerArea() {ProfileId = src.Id, PostalCode = s.PostalCode})))
+                .ForMember(x => x.Equipments, d => d.MapFrom( src => src.EquipmentList.Select( s=> new DealerEquipment {EquipmentId = s.Equipment.Id, ProfileId = src.Id})))
+                .ForMember(x => x.Areas, d => d.MapFrom( src => src.PostalCodesList.Select(s => new DealerArea {ProfileId = src.Id, PostalCode = s.PostalCode})))
                 .ForMember(x => x.Dealer, d => d.Ignore());
             mapperConfig.CreateMap<ProvinceTaxRateDTO, ProvinceTaxRate>()
                 .ForMember(x => x.Name, d => d.Ignore());
@@ -547,7 +547,7 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<CompanyInfoDTO, CompanyInfo>()
                 .ForMember(x => x.CompanyAddress, d => d.ResolveUsing(src => src.CompanyAddress))
                 .ForMember(x => x.Provinces, d => d.ResolveUsing(src =>
-                                                src.Provinces?.Select(p => new CompanyProvince() {Province = p}).ToList()));
+                                                src.Provinces?.Select(p => new CompanyProvince {Province = p}).ToList()));
             mapperConfig.CreateMap<EquipmentTypeDTO, ProductService>()
                 .ForMember(x => x.Id, d => d.Ignore())
                 .ForMember(x => x.ProductInfo, d => d.Ignore())
@@ -556,7 +556,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.EquipmentId, d => d.MapFrom(src => src.Id));
             mapperConfig.CreateMap<ProductInfoDTO, ProductInfo>()
                 .ForMember(x => x.Brands, d => d.ResolveUsing(src =>
-                                                src.Brands?.Select(b => new ManufacturerBrand() {Brand = b}).ToList()))
+                                                src.Brands?.Select(b => new ManufacturerBrand {Brand = b}).ToList()))
                 .ForMember(x => x.Services, d => d.MapFrom(src => src.ServiceTypes));
             mapperConfig.CreateMap<OwnerInfoDTO, OwnerInfo>()
                 .ForMember(x => x.Address, d => d.MapFrom(src => src.Address))
