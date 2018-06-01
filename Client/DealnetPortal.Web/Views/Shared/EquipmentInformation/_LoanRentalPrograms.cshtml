@@ -25,7 +25,7 @@
 
     @if(hasStandardRentalTier)
     {
-        <div class="col-md-4 rental-element">
+        <div class="col-md-4 rental-element" style="@(Model.AgreementType==AgreementType.LoanApplication?"display:none":"")">
             <div class="form-group">
                 @Html.LabelFor(m => m.RentalProgramType)
                 @Html.DropDownListFor(m => m.RentalProgramType, new SelectList(new[] {
@@ -60,7 +60,7 @@
 @Html.Partial("EquipmentInformation/Agreements/_Rental", Model)
 @Html.Partial("EquipmentInformation/Agreements/_Loan", Model)
 <br>
-<div class="row downpayment-row">
+<div class="row downpayment-row" style="@(Model.AgreementType != AgreementType.LoanApplication || ViewBag.AgreementTypeAccessRights.ToLower() == "lease" ? "display:none":"")">
     <div class="col-md-3">
         <div class="form-group">
             @Html.LabelFor(m => m.DownPayment)
@@ -95,7 +95,7 @@
 
 <div class="financing-options">
     <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 loan-element">
+        <div class="col-xs-12 col-sm-8 col-md-6 loan-element" style="@(Model.AgreementType == AgreementType.LoanApplication ? "" : "display:none")">
             <h3 class="dealnet-middle-header">
                 @Resources.FinancingOptions
                 @if (Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
@@ -107,7 +107,7 @@
                 </span>
             </h3>
         </div>
-        <div class="col-xs-12 col-sm-8 col-md-6 rental-element">
+        <div class="col-xs-12 col-sm-8 col-md-6 rental-element" style="@(Model.AgreementType == AgreementType.RentalApplication ? "" : "display:none")">
             <h3 class="dealnet-middle-header">
                 @Resources.FinancingOptions
                 @if (hasStandardRentalTier && Model.DealerTier.CustomerRiskGroup != null)

@@ -3,7 +3,9 @@
         var $el = $(element);
         var observable = valueAccessor();
         var options = allBindingsAccessor().options || allBindingsAccessor().foreach;
-        $el.selectric('init');
+        $el.selectric({
+            responsive: true
+        });
         $el.on('selectric-change', function (event, element, selectric) {
             observable(element.value);
         });

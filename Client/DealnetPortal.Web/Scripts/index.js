@@ -83,9 +83,9 @@
             });
         }, 500);
 
-        $('select.custom-select').selectric({
-            responsive: true,
-        });
+        // $('select.custom-select').selectric({
+        //     responsive: true,
+        // });
 
         makeMobileNav("#mobile-navigation", ".mobile-navigation__active-item")();
         makeMobileNav("#mobile-navigation-help", ".mobile-help__toggle")();

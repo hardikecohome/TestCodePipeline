@@ -277,11 +277,29 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional applicant address cannot be in Quebec.
+        /// </summary>
+        public static string AdditionalApplicantAddressCannotInQuebec {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressCannotInQuebec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional Applicant Address Information.
         /// </summary>
         public static string AdditionalApplicantAddressInfo {
             get {
                 return ResourceManager.GetString("AdditionalApplicantAddressInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional applicant address should be in Quebec.
+        /// </summary>
+        public static string AdditionalApplicantAddressInQuebec {
+            get {
+                return ResourceManager.GetString("AdditionalApplicantAddressInQuebec", resourceCulture);
             }
         }
         
@@ -4536,7 +4554,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The total amount financed cannot exceed the pre-approval amount of $.
+        ///   Looks up a localized string similar to The total amount financed cannot exceed the amount of $.
         /// </summary>
         public static string MaximumAmountCapingOut {
             get {
@@ -6166,6 +6184,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rate Reduction.
+        /// </summary>
+        public static string RateReduction {
+            get {
+                return ResourceManager.GetString("RateReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rates Approved.
         /// </summary>
         public static string RatesApproved {
@@ -7449,6 +7476,15 @@ namespace DealnetPortal.Web.Resources {
         public static string TotalMonthlyPayment {
             get {
                 return ResourceManager.GetString("TotalMonthlyPayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total monthly payment cannot exceed the amount of.
+        /// </summary>
+        public static string TotalMonthlyPaymentCannotExceedTheAmountOf {
+            get {
+                return ResourceManager.GetString("TotalMonthlyPaymentCannotExceedTheAmountOf", resourceCulture);
             }
         }
         

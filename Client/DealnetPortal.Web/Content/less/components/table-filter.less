@@ -278,7 +278,7 @@
                 font-weight: 500;
 
                 .checked-ico {
-                    background-image: url(../images/redesign_icons/check-mark.svg);
+                    background-image: url(../../images/redesign_icons/check-mark.svg);
                     background-size: 10px 13px;
                     min-width: 10px;
                     min-height: 10px;
@@ -334,7 +334,8 @@
         &__date-to,
         &__type,
         &__created-by,
-        &__sales-rep {
+        &__sales-rep,
+        &__project {
             flex-basis: 13%;
         }
 
@@ -350,7 +351,8 @@
         }
 
         &__deal-from,
-        &__deal-to {
+        &__deal-to,
+        &__project {
             display: none;
         }
 
@@ -374,7 +376,8 @@
             }
 
             .filters-advanced__deal-from,
-            .filters-advanced__deal-to {
+            .filters-advanced__deal-to,
+            .filters-advanced__project {
                 display: block;
                 .custom-text-input-group {
                 width: 100%;
@@ -402,8 +405,14 @@
                 order: 4;
             }
 
-            .filters-advanced__apply-btn {
+            .filters-advanced__project {
+                flex-basis: 20%;
+                margin-right: 24px;
                 order: 5;
+            }
+
+            .filters-advanced__apply-btn {
+                order: 6;
                 margin-left: auto;
             }
         }
@@ -424,6 +433,7 @@
                 }
 
                 &__learn-more {
+                    margin-left: 0;
                     order: 2;
                 }
 
@@ -519,11 +529,16 @@
 
                 .filters-advanced__type {
                     order: 1;
+                    flex-basis: 27%;
+
+                    .custom-select-wrap {
+                        flex-basis: 100%;
+                    }
                 }
 
                 .filters-advanced__sales-rep {
                     margin-top: 0;
-                    flex-basis: 37%;
+                    flex-basis: 26%;
                     order: 2;
 
                     .custom-select-wrap {
@@ -538,6 +553,7 @@
 
                 .filters-advanced__deal-from {
                     order: 3;
+                    margin-left: 0;
                 }
 
                 .filters-advanced__deal-to {
@@ -545,8 +561,15 @@
                     order: 4;
                 }
 
-                .filters-advanced__apply-btn {
+                .filters-advanced__project {
+                    flex-basis: 27%;
                     order: 5;
+                    margin-top: 24px;
+                }
+
+                .filters-advanced__apply-btn {
+                    flex-basis: 17%;
+                    order: 6;
                     margin-left: auto;
                 }
             }
@@ -602,6 +625,7 @@
 
             &__apply-btn {
                 flex-basis: 14.5%;
+                margin-top: 32px;
             }
         }
     }
@@ -774,6 +798,7 @@
 
                 .filters-advanced__apply-btn {
                     order: 6;
+                    margin-left: 8px;
                 }
             }
 

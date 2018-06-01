@@ -13,6 +13,13 @@
 
     var prepareStatusList = require('tableFuncs').prepareStatusList;
 
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+
+    var hideDynamicModal = require('alertModal').hideDynamicAlertModal;
+
+    var showLoader = require('loader').showLoader;
+    var hideLoader = require('loader').hideLoader;
+
     function stringIncludes(str, value) {
         return str.toLowerCase().includes(value);
     }
@@ -35,17 +42,72 @@
             valueFrom: 'myDeals-valueFromFilter',
             valueTo: 'myDeals-valueToFilter'
         });
+        this.sortDirections = Object.freeze({
+            default: 'default',
+            asc: 'asc',
+            desc: 'desc'
+        });
         this.sortFields = Object.freeze({
             transactionId: 'TransactionId',
-            date: 'Date',
+            date: 'DateVal',
             applicantName: 'CustomerName',
             creditExpiry: 'CreditExpiry',
-            loanAmount: 'Value',
+            loanAmount: 'valueNum',
             term: 'LoanTerm',
             amort: 'Amort',
             payment: 'MonthlPayment',
             status: 'LocalizedStatus',
             sign: 'SignatureStatus'
+        });
+        this.sortDdValues = Object.freeze({
+            transactionIdAsc: {
+                field: this.sortFields.transactionId,
+                dir: this.sortDirections.asc
+            },
+            transactionIdDesc: {
+                field: this.sortFields.transactionId,
+                dir: this.sortDirections.desc
+            },
+            dateAsc: {
+                field: this.sortFields.date,
+                dir: this.sortDirections.asc
+            },
+            dateDesc: {
+                field: this.sortFields.date,
+                dir: this.sortDirections.desc
+            },
+            applicantNameAsc: {
+                field: this.sortFields.applicantName,
+                dir: this.sortDirections.asc
+            },
+            applicantNameDesc: {
+                field: this.sortFields.applicantName,
+                dir: this.sortDirections.desc
+            },
+            creditExpiryAsc: {
+                field: this.sortFields.creditExpiry,
+                dir: this.sortDirections.asc
+            },
+            creditExpiryDesc: {
+                field: this.sortFields.creditExpiry,
+                dir: this.sortDirections.desc
+            },
+            statusAsc: {
+                field: this.sortFields.status,
+                dir: this.sortDirections.asc
+            },
+            statusDesc: {
+                field: this.sortFields.status,
+                dir: this.sortDirections.desc
+            },
+            signAsc: {
+                field: this.sortFields.sign,
+                dir: this.sortDirections.asc
+            },
+            signDesc: {
+                field: this.sortFields.sign,
+                dir: this.sortDirections.desc
+            },
         });
 
         this.agreementOptions = ko.observableArray(filterAndSortList(data, 'AgreementType'));
@@ -64,9 +126,14 @@
         this.valueFrom = ko.observable(localStorage.getItem(filters.valueFrom) || '');
         this.valueTo = ko.observable(localStorage.getItem(filters.valueTo) || '');
         this.search = ko.observable('');
+        this.singleId = ko.observable('');
+        this.sorter = ko.observable('');
         this.sortedColumn = ko.observable();
+        this.sortDirection = ko.observable(this.sortDirections.default);
 
         this.showFilters = ko.observable(true);
+        this.showSorters = ko.observable(false);
+        this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
 
         this.list = ko.observableArray(data);
@@ -76,20 +143,56 @@
         this.pager = new Paginator(this.filteredList());
 
         // computed
+        this.searchedList = ko.computed(function () {
+            var searchTerm = this.search().toLowerCase();
+
+            function includesSearchTerm(val) {
+                return val != null && stringIncludes(val, searchTerm);
+            }
+            return this.filteredList().filter(function (deal) {
+                return includesSearchTerm(deal.CustomerName) ||
+                    includesSearchTerm(deal.LocalizedStatus) ||
+                    includesSearchTerm(deal.Email) ||
+                    includesSearchTerm(deal.Phone) ||
+                    includesSearchTerm(deal.TransactionId) ||
+                    includesSearchTerm(deal.ProgramOption) ||
+                    includesSearchTerm(deal.Value) ||
+                    includesSearchTerm(deal.Equipment) ||
+                    includesSearchTerm(deal.Address) ||
+                    includesSearchTerm(deal.SalesRep) ||
+                    includesSearchTerm(deal.EnteredBy) ||
+                    includesSearchTerm(deal.CustomerComment);
+            });
+        }, this);
+
         this.sortedList = ko.computed(function () {
-            return this.filteredList();
+            var field = this.sortedColumn();
+            var dir = this.sortDirection();
+
+            var tempList1 = this.searchedList().slice();
+            if (dir == this.sortDirections.default || field == '') {
+                return tempList1;
+            }
+            if (dir == this.sortDirections.asc) {
+                return tempList1.sort(function (a, b) {
+                    return sortAscending(a[field], b[field]);
+                });
+            } else
+                return tempList1.sort(function (a, b) {
+                    return sortAscending(a[field], b[field]);
+                }).reverse();
         }, this);
 
         this.grandTotal = ko.computed(function () {
             return this.filteredList().reduce(function (sum, curr) {
-                return sum + (parseFloat(curr.Value.substr(2)) || 0);
+                return sum + (curr.valueNum || 0);
             }, 0).toFixed(2);
         }, this);
 
         this.selectedTotal = ko.computed(function () {
             return this.pager.pagedList().reduce(function (sum, curr) {
                 return curr.isSelected() ?
-                    sum + (parseFloat(curr.Value.substr(2)) || 0) :
+                    sum + (curr.valueNum || 0) :
                     sum;
             }, 0).toFixed(2);
         }, this);
@@ -103,6 +206,34 @@
         }, this);
 
         // functions
+        this.toggleFilters = function () {
+            this.showSorters(false);
+            this.showFilters(!this.showFilters());
+        };
+
+        this.toggleSorters = function () {
+            this.showFilters(false);
+            this.showSorters(!this.showSorters());
+        };
+
+        this.configureSortClick = function (field) {
+            return function () {
+                var dir = this.sortDirection();
+                if (field == this.sortedColumn()) {
+                    var newDir = dir == this.sortDirections.asc ? this.sortDirections.desc :
+                        dir == this.sortDirections.desc ? this.sortDirections.default :
+                        this.sortDirections.asc;
+                    if (newDir == this.sortDirections.default)
+                        this.sortedColumn('');
+                    this.sortDirection(newDir);
+                } else {
+                    dir = this.sortDirections.asc;
+                    this.sortDirection(dir);
+                    this.sortedColumn(field);
+                }
+            }.bind(this);
+        };
+
         this.clearFilters = function () {
             this.agreementType('');
             this.status('');
@@ -114,6 +245,7 @@
             this.typeOfPayment('');
             this.valueFrom('');
             this.valueTo('');
+            this.filterList();
             localStorage.removeItem(filters.agreementType);
             localStorage.removeItem(filters.status);
             localStorage.removeItem(filters.dateFrom);
@@ -124,6 +256,11 @@
             localStorage.removeItem(filters.typeOfPayment);
             localStorage.removeItem(filters.valueFrom);
             localStorage.removeItem(filters.valueTo);
+        };
+
+        this.clearSort = function () {
+            this.sortedColumn('');
+            this.sortDirection(this.sortDirections.default);
         };
 
         this.saveFilters = function () {
@@ -143,6 +280,13 @@
             return editContractUrl + '/' + id;
         };
 
+        this.filterClasses = function (field) {
+            if (this.sortedColumn() == field) {
+                return 'filter-ico filter-ico--' + this.sortDirection();
+            }
+            return 'filter-ico filter-ico--' + this.sortDirections.default;
+        };
+
         this.filterList = function () {
             var stat = this.status();
             var equip = this.equipment();
@@ -157,18 +301,16 @@
             var vTo = parseFloat(this.valueTo());
 
             var tempList = this.list().reduce(function (acc, item) {
-                var itemDate = Date.parseExact(item.Date, 'M/d/yyyy');
-
                 if ((!stat || stat === item.LocalizedStatus) &&
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
                     (created == '' || createdBool == item.IsCreatedByCustomer) &&
-                    (!dTo || !itemDate || itemDate <= dTo) &&
-                    (!dFrom || !itemDate || itemDate >= dFrom) &&
+                    (!dTo || !item.DateVal || item.DateVal <= dTo) &&
+                    (!dFrom || !item.DateVal || item.DateVal >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&
-                    (isNaN(vTo) || !isNaN(item.Value) && item.Value <= vTo) &&
-                    (isNaN(vFrom) || !isNaN(item.Value) && item.Value >= vFrom)) {
+                    (isNaN(vTo) || item.valueNum && item.valueNum <= vTo) &&
+                    (isNaN(vFrom) || item.valueNum && item.valueNum >= vFrom)) {
                     return acc.concat(item);
                 }
                 return acc;
@@ -183,7 +325,9 @@
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
                     showNotes: ko.observable(false),
-                    isExpired: false
+                    isExpired: false,
+                    valueNum: parseFloat(item.Value.substr(2)) || 0,
+                    DateVal: item.Date ? new Date(item.Date) : ''
                 });
             });
             this.list(tempList);
@@ -199,6 +343,21 @@
             $('#export-form').submit();
         };
 
+        this.exportAll = function () {
+            var selected = this.filteredList().filter(function (item) {
+                return item.isSelected();
+            }).map(function (item) {
+                return item.Id;
+            });
+            this.filteredList().forEach(function (item) {
+                item.isSelected(true);
+            });
+            $('#export-form').submit();
+            this.filteredList().forEach(function (item) {
+                item.isSelected(selected.includes(item.Id));
+            });
+        };
+
         this.previewContracts = function () {
             var ids = this.selectedIds();
             if (ids.length > 1) {
@@ -210,6 +369,39 @@
 
         this.openHelpModal = function (id) {
             sendEmailModel(id);
+        };
+
+        this.removeContract = function (id) {
+            debugger
+            dynamicAlertModal({
+                message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
+                title: translations['Remove'],
+                confirmBtnText: translations['Remove']
+            });
+            var that = this;
+            $('#confirmAlert').one('click', function () {
+                that.singleId(id);
+                showLoader();
+                $("#remove-contract-form").ajaxSubmit({
+                    method: 'post',
+                    success: function (result) {
+                        if (result.isSuccess) {
+                            that.list.remove(function (item) {
+                                return item.Id == id;
+                            });
+                        } else if (result.isError) {
+                            alert(translations['Error']);
+                        }
+                    },
+                    error: function () {
+                        alert(translations['Error']);
+                    },
+                    complete: function (xhr) {
+                        hideLoader();
+                        hideDynamicAlertModal();
+                    }
+                });
+            });
         };
 
         //subscriptions

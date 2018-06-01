@@ -111,8 +111,6 @@ namespace DealnetPortal.Web.App_Start
                 }));
 
             cfg.CreateMap<NewEquipmentInformation, NewEquipmentDTO>()
-                .ForMember(x => x.EquipmentSubType, d => d.ResolveUsing(src => src.EquipmentSubTypeId.HasValue ? new EquipmentSubTypeDTO {Id = src.EquipmentSubTypeId.Value} : null))
-                .ForMember(x => x.EquipmentType, d => d.ResolveUsing(src => src.TypeId.HasValue ? new EquipmentTypeDTO {Id = src.TypeId.Value} : null))
                 .ForMember(x => x.TypeDescription, d => d.Ignore())
                 .ForMember(x => x.AssetNumber, d => d.Ignore())
                 .ForMember(x => x.InstalledSerialNumber, d => d.Ignore())
@@ -527,7 +525,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.PaymentType,
                     s => s.ResolveUsing(src =>
-                        src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription()??string.Empty))
+                        src.PaymentInfo?.PaymentType.ConvertTo<Models.Enumeration.PaymentType>().GetEnumDescription() ?? string.Empty))
                 .ForMember(d => d.Action, s => s.Ignore())
                 .ForMember(d => d.Email,
                     s => s.ResolveUsing(src =>
@@ -626,7 +624,8 @@ namespace DealnetPortal.Web.App_Start
 
                     return src.Details.SignatureStatus.GetEnumDescription();
                 }))
-                .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src => {
+                .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src =>
+                {
                     var status = src.Details.SignatureStatus;
                     if(!status.HasValue)
                         return string.Empty;
@@ -656,7 +655,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
                 .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm.ToString() : string.Empty))
                 .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm.ToString() : string.Empty))
-                .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src => {
+                .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
+                {
                     return src.Equipment != null ? FormattableString.Invariant($"$ {src.Equipment.TotalMonthlyPayment:0.00}") : string.Empty;
 
                 }))
@@ -670,10 +670,12 @@ namespace DealnetPortal.Web.App_Start
                     }
                     return string.Empty;
                 }))
-                .ForMember(d => d.StatusColor,
-                    s => s.ResolveUsing(src => {
-                        return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-'); 
-                    }));
+                .ForMember(d => d.StatusColor, s => s.ResolveUsing(src =>
+                {
+                    return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
+                }))
+                .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId))
+                .ForMember(d => d.HasRateReduction, s => s.ResolveUsing(src => src.Equipment?.RateReductionCardId.HasValue ?? false));
 
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
@@ -687,10 +689,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.UnitNumber, d => d.MapFrom(src => src.Unit))
                 .ForMember(x => x.Province, d => d.MapFrom(src => src.State));
 
-            cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>()
-                    .ForMember(x => x.EquipmentSubTypeId, d => d.ResolveUsing(src => src.EquipmentSubType?.Id))
-                    .ForMember(x => x.TypeId, d => d.ResolveUsing(src => src.EquipmentType?.Id))
-                    .ForMember(x => x.EquipmentSubTypeDescription, d => d.ResolveUsing(src => src.EquipmentSubType?.Description));
+            cfg.CreateMap<NewEquipmentDTO, NewEquipmentInformation>();
             cfg.CreateMap<ExistingEquipmentDTO, ExistingEquipmentInformation>();
             cfg.CreateMap<InstallationPackageDTO, InstallationPackageInformation>();
             cfg.CreateMap<EquipmentInfoDTO, EquipmentInformationViewModel>()

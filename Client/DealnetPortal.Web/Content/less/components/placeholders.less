@@ -1,5 +1,5 @@
 ﻿.nw-placeholder {
-    width: 100%;
+    width: 98%;
     display: flex;
     min-height: 600px;
     flex-wrap: wrap;
@@ -10,6 +10,12 @@
     background-color: white;
     z-index: 999;
     border: 2px dashed #bcc6d9;
+    @media @tablet-down {
+        width: 96%;
+    }
+    @media @mobile {
+        width: 92%;
+    }
 
     &__icon {
     }

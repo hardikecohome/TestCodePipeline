@@ -242,9 +242,8 @@ table
                 flex-grow: 0;
                 flex-basis: 9%;
                 min-height: 64px;
-                //word-break: break-word;
-                -ms-word-break: break-all;
-                word-break: break-all;
+                -ms-word-break: break-word;
+                word-break: break-word;
                 display: flex;
                 font-size: 13px;
                 color: #5f5f5f;
@@ -374,7 +373,7 @@ table
                             text-align: center;
 
                             &.filter-ico {
-                                margin-left: 5px;
+                                margin-left: 1%;
                             }
                         }
                     }
@@ -602,6 +601,7 @@ table
             &__row {
                 &__cell {
                     /*ctrl-k ctrl-c ctrl-k ctrl-u*/
+                    word-break: normal;
                     &.deal-status {
                         flex-basis: 19%;
                     }
@@ -743,6 +743,7 @@ table
             &--header {
                 .main-table__block__row {
                     &__cell {
+                        word-break: normal;
                         &.e-sign {
                             flex-basis: 19%;
                         }

@@ -36,10 +36,10 @@ module.exports('table', function (require) {
         });
         this.sortFields = Object.freeze({
             transactionId: 'TransactionId',
-            date: 'Date',
+            date: 'DateVal',
             applicantName: 'CustomerName',
             creditExpiry: 'CreditExpiry',
-            loanAmount: 'Value',
+            loanAmount: 'valueNum',
             term: 'LoanTerm',
             amort: 'Amort',
             payment: 'MonthlPayment',
@@ -155,14 +155,14 @@ module.exports('table', function (require) {
 
         this.grandTotal = ko.computed(function () {
             return this.filteredList().reduce(function (sum, curr) {
-                return sum + (parseFloat(curr.Value.substr(2)) || 0);
+                return sum + curr.valueNum || 0;
             }, 0).toFixed(2);
         }, this);
 
         this.selectedTotal = ko.computed(function () {
             return this.pager.pagedList().reduce(function (sum, curr) {
                 return curr.isSelected() ?
-                    sum + (parseFloat(curr.Value.substr(2)) || 0) :
+                    sum + curr.valueNum || 0 :
                     sum;
             }, 0).toFixed(2);
         }, this);
@@ -264,14 +264,12 @@ module.exports('table', function (require) {
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
 
             var tempList = this.list().reduce(function (acc, item) {
-
-                var itemDate = Date.parseExact(item.Date, 'M/d/yyyy');
                 if ((!stat || stat === item.LocalizedStatus) &&
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (!to || !itemDate || itemDate <= to) &&
-                    (!dFrom || !itemDate || itemDate >= dFrom))
+                    (!to || !item.DateVal || item.DateVal <= to) &&
+                    (!dFrom || !item.DateVal || item.DateVal >= dFrom))
                     return acc.concat(item);
 
                 return acc;
@@ -285,7 +283,9 @@ module.exports('table', function (require) {
                     isSelected: ko.observable(false),
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
-                    showNotes: ko.observable(false)
+                    showNotes: ko.observable(false),
+                    valueNum: parseFloat(item.Value.substr(2)) || 0,
+                    DateVal: item.Date ? new Date(item.Date) : ''
                 });
             });
             this.list(tempList);

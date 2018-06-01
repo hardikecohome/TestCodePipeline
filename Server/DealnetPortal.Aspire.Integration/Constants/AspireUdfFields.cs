@@ -80,6 +80,8 @@
         public static string CustomerHasExistingAgreements = "customerhasexistingagreements";
         public static string CustomerRiskGroup = "CustomerRiskGroup";
         public static string RentalProgramType = "contractprogramtype";
+        public static string ContractRentalRate = "contractrentalrate";
+        public static string ContractEscalationRate = "contractescalationrate";        
         public static string RateReduction = "contractinterestratereductionrate";
         public static string RateReductionCost = "contractinterestratereductioncost";
 

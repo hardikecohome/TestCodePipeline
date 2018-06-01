@@ -2769,9 +2769,6 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>appartient au client</value>
   </data>
   <data name="MaximumAmountCapingOut" xml:space="preserve">
-    <value>Le montant total financé ne peut dépasser le montant  pré-approuvé</value>
-  </data>
-  <data name="MaximumAmountCapingOutCreditReview" xml:space="preserve">
     <value>Le montant total financé ne peut dépasser le montant  demandé</value>
   </data>
   <data name="NameOfExistingSupplier" xml:space="preserve">
@@ -2822,10 +2819,37 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
     <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
   </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel ne peut pas être au Québec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel devrait être au Québec</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Le paiement mensuel total ne peut pas dépasser le montant de</value>
+  </data>
   <data name="PreApproved" xml:space="preserve">
     <value>Préautorisé</value>
   </data>
   <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
     <value>Félicitations, vous avez été pré-approuvé</value>
+  </data>
+  <data name="BorrowerShouldBeHomeOwner" xml:space="preserve">
+    <value>L'emprunteur devrait être un propriétaire de la maison.</value>
+  </data>
+  <data name="HardCapWarning" xml:space="preserve">
+    <value>La valeur dépasse le coût mensuel maximum autorisé pour le type d'équipement donné</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapBody" xml:space="preserve">
+    <value>Le coût mensuel de l'équipement dépasse la valeur maximale autorisée. La demande ne sera acceptée que dans des exceptions admissibles, par exemple: l'installation d'un chauffe-eau nécessite le passage de l'huile au gaz ou l'installation du four nécessite un remplacement du conduit. Vous devrez fournir une raison appropriée pour dépasser le coût mensuel autorisé.</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapTitle" xml:space="preserve">
+    <value>Le coût mensuel dépasse la valeur maximale autorisée</value>
+  </data>
+  <data name="SoftCapWarning" xml:space="preserve">
+    <value>La valeur dépasse le coût maximal autorisé. Seules les exceptions éligibles seront acceptées</value>
+  </data>
+  <data name="SubType" xml:space="preserve">
+    <value>Sous-type</value>
   </data>
 </root>
