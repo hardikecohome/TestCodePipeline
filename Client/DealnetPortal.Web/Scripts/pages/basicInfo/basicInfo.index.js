@@ -293,7 +293,7 @@
                 });
             };
 
-            $('#additional1-scan-button').one('change', submitUpload);
+            $('#additional1-scan-file').one('change', submitUpload);
             $('#upload-file').one('change', submitUpload);
             $('#capture-btn').on('click', capture)
             $('#camera-modal').one('hidden.bs.modal', function () {

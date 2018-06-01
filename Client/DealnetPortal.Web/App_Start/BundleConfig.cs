@@ -228,8 +228,8 @@ namespace DealnetPortal.Web
                 .Include(
                 "~/Scripts/vendor/datejs.js",
                 "~/Scripts/utils/general-address-autocomplete.js",
-                "~/Scripts/utils/dl-scanning.js",
-                "~/Scripts/utils/camera-capturing.js",
+                "~/Scripts/utils/dl-scanner.js",
+                "~/Scripts/utils/camera-capture.js",
                 "~/Scripts/utils/logger/logdebug.js",
                 "~/Scripts/utils/functionUtils.js",
                 "~/Scripts/utils/logMiddleware.js",

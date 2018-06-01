@@ -17,6 +17,8 @@
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
     var panelCollapsed = require('panelCollapsed');
 
+    var cameraModule = require('camera-capture');
+
     var dispatch = clientStore.dispatch;
 
     // view layer
@@ -41,22 +43,58 @@
     //datepickers
 
     //license-scan
-    $('#capture-buttons-1').on('click', takePhoto);
-    $('#retake').on('click', retakePhoto);
-    $('#retake').on('click', retakePhoto);
+    cameraModule.init();
+    $('#capture-buttons-1').on('click', cameraModule.takePhoto);
     $('#owner-scan-button').on('click', function (e) {
-        if (!(isMobileRequest.toLowerCase() === 'true')) {
-            e.preventDefault();
-            var modal = document.getElementById('camera-modal');
-            modal.setAttribute('data-fnToFill', 'first-name');
-            modal.setAttribute('data-lnToFill', 'last-name');
-            modal.setAttribute('data-bdToFill', 'birth-date');
-            modal.setAttribute('data-dlToFill', 'dl-number');
-            modal.setAttribute('data-stToFill', 'street');
-            modal.setAttribute('data-ctToFill', 'locality');
-            modal.setAttribute('data-prToFill', "province");
-            modal.setAttribute('data-pcToFill', "postal_code");
+        // if (!(isMobileRequest.toLowerCase() === 'true')) {
+        //     e.preventDefault();
+        //     var modal = document.getElementById('camera-modal');
+        //     modal.setAttribute('data-fnToFill', 'first-name');
+        //     modal.setAttribute('data-lnToFill', 'last-name');
+        //     modal.setAttribute('data-bdToFill', 'birth-date');
+        //     modal.setAttribute('data-dlToFill', 'dl-number');
+        //     modal.setAttribute('data-stToFill', 'street');
+        //     modal.setAttribute('data-ctToFill', 'locality');
+        //     modal.setAttribute('data-prToFill', "province");
+        //     modal.setAttribute('data-pcToFill', "postal_code");
+        // }
+        // return true;
+        function success(data) {
+            $('#first-name').val(data.FirstName).change();
+            $('#last-name').val(data.LastName).change();
+            var bDate = new Date(data.DateOfBirthStr);
+            $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
+            $('#dl-number').val(data.Id).change();
+            $('#street').val(data.Street).change();
+            $('#locality').val(data.City).change();
+            $('#province').val(data.State).change();
+            $('#postal_code').val(data.PostalCode).change();
         }
+        var submitUpload = function (e) {
+            dlScanner.submitUpload(e.target.files, success);
+            e.target.value = '';
+        };
+
+        var capture = function (e) {
+            var data = cameraModule.takePhoto();
+            $('#upload-capture').on('click', function () {
+                dlScanner.uploadCaptured(data, success);
+            });
+            $('#retake').one(function () {
+                $('#upload-capture').off();
+            });
+        };
+
+        $('#owner-upload-file').one('change', submitUpload);
+        $('#upload-file').one('change', submitUpload);
+        $('#capture-btn').on('click', capture);
+        $('#camera-modal').one('hidden.bs.modal', function () {
+            $('#capture-btn').off();
+            $('#owner-upload-file').off('change', submitUpload);
+            $('#upload-file').off('change', submitUpload);
+            $('#upload-capture').off();
+            $('#retake').off();
+        });
         return true;
     });
 
@@ -113,7 +151,7 @@
         }
     });
 
-    function trimValues () {
+    function trimValues() {
         $.grep(trimFieldsIds, function (field) {
             var value = $('#' + field).val();
             if (value !== '') {
@@ -233,7 +271,9 @@
         $('#ageErrors').empty();
         if (props.errors.length > 0) {
             props.errors
-                .filter(function (error) { return error.type === 'birthday' })
+                .filter(function (error) {
+                    return error.type === 'birthday'
+                })
                 .forEach(function (error) {
                     $('#ageErrors').append(createError(window.translations[error.messageKey]));
                 });
