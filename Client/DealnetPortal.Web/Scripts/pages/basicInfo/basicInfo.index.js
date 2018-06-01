@@ -230,73 +230,78 @@
             });
 
             function success(data) {
-                debugger
-                $('#first-name').val(data.FirstName).keyup();
-                $('#last-name').val(data.LastName).keyup();
+                $('#first-name').val(data.FirstName).change();
+                $('#last-name').val(data.LastName).change();
                 var bDate = new Date(data.DateOfBirthStr);
                 $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
-                $('#dl-number').val(data.Id).keyup();
-                $('#street').val(data.Street).keyup();
-                $('#locality').val(data.City).keyup();
-                $('#administrative_area_level_1').val(data.State).keyup();
-                $('#postal_code').val(data.PostalCode).keyup();
+                $('#dl-number').val(data.Id).change();
+                $('#street').val(data.Street).change();
+                $('#locality').val(data.City).change();
+                $('#administrative_area_level_1').val(data.State).change();
+                $('#postal_code').val(data.PostalCode).change();
             }
             var submitUpload = function (e) {
-                debugger
                 dlScanner.submitUpload(e.target.files, success);
+                e.target.value = '';
             };
 
             var capture = function (e) {
-                debugger
                 var data = cameraModule.takePhoto();
-                $('#upload-capture').one('click', function () {
-                    debugger
-                    dlScanner.uploadCapture(data, success);
+                $('#upload-capture').on('click', function () {
+                    dlScanner.uploadCaptured(data, success);
+                });
+                $('#retake').one(function () {
+                    $('#upload-capture').off();
                 });
             };
 
             $('#owner-upload-file').one('change', submitUpload);
             $('#upload-file').one('change', submitUpload);
-            $('#capture-btn').one('click', capture)
+            $('#capture-btn').on('click', capture);
             $('#camera-modal').one('hidden.bs.modal', function () {
+                $('#capture-btn').off();
                 $('#owner-upload-file').off('change', submitUpload);
                 $('#upload-file').off('change', submitUpload);
                 $('#upload-capture').off();
+                $('#retake').off();
             });
             return true;
         });
         $('#additional1-scan-button').click(function () {
             var success = function (data) {
-                debugger
-                $('#additional-first-name-1').val(data.FirstName).keyup();
-                $('#additional-last-name-1').val(data.LastName).keyup();
+                $('#additional-first-name-1').val(data.FirstName).change();
+                $('#additional-last-name-1').val(data.LastName).change();
                 var bDate = new Date(data.DateOfBirthStr);
                 $('#additional-birth-date-1').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
-                $('#additional-dl-number').val(data.Id).keyup();
-                $('#additional-street').val(data.Street).keyup();
-                $('#additional-locality').val(data.City).keyup();
-                $('#additional-administrative_area_level_1').val(data.State).keyup();
-                $('#additional-postal_code').val(data.PostalCode).keyup();
+                $('#additional-dl-number').val(data.Id).change();
+                $('#additional-street').val(data.Street).change();
+                $('#additional-locality').val(data.City).change();
+                $('#additional-administrative_area_level_1').val(data.State).change();
+                $('#additional-postal_code').val(data.PostalCode).change();
             };
             var submitUpload = function (e) {
-                debugger
                 dlScanner.submitUpload(e.target.files, success);
+                e.target.value = '';
             };
             var capture = function (e) {
-                debugger
                 var data = cameraModule.takePhoto();
                 $('#upload-capture').one('click', function () {
-                    debugger
-                    dlScanner.uploadCapture(data, success);
+                    dlScanner.uploadCaptured(data, success);
+                });
+                $('#retake').one(function () {
+                    $('#upload-capture').off();
                 });
             };
+
             $('#additional1-scan-button').one('change', submitUpload);
             $('#upload-file').one('change', submitUpload);
-            $('#capture-btn').one('click', capture)
+            $('#capture-btn').on('click', capture)
             $('#camera-modal').one('hidden.bs.modal', function () {
+                $('#capture-btn').off();
                 $('#additional1-scan-button').off('change', submitUpload);
                 $('#upload-file').off('change', submitUpload);
                 $('#upload-capture').off();
+                $('#retake').off();
             });
         });
         addAdditionalButton.click(function () {

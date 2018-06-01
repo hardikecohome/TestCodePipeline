@@ -3,7 +3,6 @@
     var hideLoader = require('loader').hideLoader;
 
     var uploadCaptured = function (data, callback) {
-        //var data = document.getElementById('big-capture-canvas').toDataUrl();
         showLoader(translations['ProcessingImage']);
         $.post(uploadCaptureUrl, {
                 imgBase64: data
@@ -23,7 +22,11 @@
                 for (var x = 0; x < files.length; x++) {
                     data.append("file" + x, files[x]);
                 }
-                $.post(recognizeDLPhotoUrl, {
+                $.ajax({
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        url: recognizeDLPhotoUrl,
                         data: data
                     }).done(callback)
                     .fail(function (xhr, status, p3) {

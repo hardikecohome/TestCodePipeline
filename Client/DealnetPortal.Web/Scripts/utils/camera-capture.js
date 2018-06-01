@@ -94,7 +94,7 @@
             video.setAttribute('style', 'display:none');
             canvas.removeAttribute('style');
             submitBtns.removeAttribute('style');
-            return bigCanvas.toDataUrl();
+            return bigCanvas.toDataURL();
         }
         return null;
     };
