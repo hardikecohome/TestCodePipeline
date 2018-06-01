@@ -1,10 +1,10 @@
 ﻿@using System.Security.Claims
 
-@model Dictionary<string, string>
+@model Dictionary<string, List<DealnetPortal.Web.Models.ResourceListModel>>
 
 @{
     ViewBag.Title = Resources.Library;
-    if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true))
+    if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true))
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
@@ -15,15 +15,22 @@
 }
 
 <div class="dealnet-large-header">@Resources.Library</div>
-
-<div>
-    <ul>
-        @foreach(var doc in @Model)
+@if (Model != null)
+{
+    foreach (var key in Model.Keys)
+    {
+        if (key != "NO_DIR")
         {
-            <li>
-                <a href="@Url.Content(doc.Key)" target="_blank">@doc.Value</a>
-            </li>
+           <h3>@key</h3>
         }
-    </ul>
-</div>
+        <ul>
+            @foreach (var doc in Model[key])
+            {
+                <li>
+                    <a href="@Url.Content(doc.FilePath)" target="_blank">@doc.FileName</a>
+                </li>
+            }
+        </ul>
+    }
+}
 

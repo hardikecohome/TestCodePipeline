@@ -19,10 +19,13 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44322</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -324,6 +327,7 @@
     <Compile Include="Models\PaymentInfoViewModel.cs" />
     <Compile Include="Models\ReductionCardViewModel.cs" />
     <Compile Include="Models\RateCardViewModel.cs" />
+    <Compile Include="Models\ResourceListModel.cs" />
     <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
     <Compile Include="Models\SubDealer.cs" />

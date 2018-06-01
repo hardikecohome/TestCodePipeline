@@ -1,4 +1,5 @@
-﻿using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
+﻿using System;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +9,8 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Web.Hosting;
 using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Models;
+using WebGrease.Css.Extensions;
 
 namespace DealnetPortal.Web.Infrastructure.Managers
 {
@@ -21,6 +24,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         private static string _rootPath = HostingEnvironment.MapPath(@"~\");
         private static string _contentFolderFullPath = Path.Combine(_rootPath, ContentPath);
         private static string MortgageBrokerPrefic = "MortgageBroker";
+	    private static string GeneralFiles = "general";
+	    private static string NoDirectoryFlag = "NO_DIR";
+
+	    private Func<string, ResourceListModel> _resourceSelector = file => new ResourceListModel
+	    {
+		    FileName = FormatFileName(file),
+		    FilePath = GetRelativePathToFile(file)
+	    };
 
         public string GetMaitanenceBannerByCulture(string culture, bool quebecDealer = false)
         {
@@ -34,23 +45,43 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return !Directory.Exists(bannerPath) ? string.Empty : GetRelativeBannerPath(culture, quebecDealer, isMobile);
         }
 
-        public Dictionary<string, string> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity)
+        public Dictionary<string, List<ResourceListModel>> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity)
         {
             //identity.HasClaim("QuebecDealer", "True")
             //var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, quebecDealer ? QuebecPrefic : string.Empty);
             var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, userIdentity.HasClaim(ClaimContstants.QuebecDealer, "True") ? QuebecPrefic :
-                                                                                                                   userIdentity.HasClaim("MortgageBroker", "True") ? MortgageBrokerPrefic : string.Empty);
-            if (!Directory.Exists(resourcesFullPathWithCulture) || !Directory.GetFiles(resourcesFullPathWithCulture).Any()) return new Dictionary<string, string>();
+                                                                                                                   userIdentity.HasClaim("MortgageBroker", "True") ? MortgageBrokerPrefic : GeneralFiles);
+            if (!Directory.Exists(resourcesFullPathWithCulture)) return null;
 
             return GetResourcecFilesDictionary(resourcesFullPathWithCulture);
         }
 
-        private Dictionary<string, string> GetResourcecFilesDictionary(string fullPath)
+        private Dictionary<string, List<ResourceListModel>> GetResourcecFilesDictionary(string fullPath)
         {
-            return Directory.GetFiles(fullPath).ToDictionary(GetRelativePathToFile, FormatFileName);
+	        if (Directory.GetDirectories(fullPath).Any())
+	        {
+		        return Directory.GetDirectories(fullPath).Aggregate(new Dictionary<string, List<ResourceListModel>>(), (dict, dir) =>
+		        {
+			        var dictName = Path.GetFileName(dir) ?? NoDirectoryFlag;
+			        if (!dict.ContainsKey(dictName))
+			        {
+				        dict.Add(dictName, new List<ResourceListModel>());
+			        }
+
+			        dict[dictName].AddRange(Directory.GetFiles(dictName == NoDirectoryFlag ? fullPath : dir).Select(_resourceSelector));
+
+			        return dict;
+		        });
+	        }
+	        return new Dictionary<string, List<ResourceListModel>>
+	        {
+		        {
+			        NoDirectoryFlag, Directory.GetFiles(fullPath).Select(_resourceSelector).ToList()
+		        }
+	        };
         }
 
-        private string FormatFileName(string fullPath)
+        private static string FormatFileName(string fullPath)
         {
             var fileInfo = new FileInfo(fullPath);
             var nameWithoutExtension = Path.GetFileNameWithoutExtension(fileInfo.Name);
@@ -71,7 +102,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return File.Exists(fullPath) ? GetRelativePathToFile(fullPath) : string.Empty;
         }
 
-        private string GetRelativePathToFile(string fullPath)
+        private static string GetRelativePathToFile(string fullPath)
         {
             var fullDirectoryInfo = new DirectoryInfo(_rootPath);
             var relativePath = fullPath.Substring(fullDirectoryInfo.FullName.Length);
