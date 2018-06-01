@@ -2762,4 +2762,10 @@ Additional program options may become available when customer’s credit details
   <data name="ProgramInquiries" xml:space="preserve">
     <value>Program Inquiries</value>
   </data>
+  <data name="WithEscalatedPayments" xml:space="preserve">
+    <value>With escalated payments</value>
+  </data>
+  <data name="WithoutEscalatedPayments" xml:space="preserve">
+    <value>Without escalated payments</value>
+  </data>
 </root>
