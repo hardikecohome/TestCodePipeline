@@ -522,30 +522,6 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<TierDTO> GetDealerTier()
-        {
-            try
-            {
-                return await Client.GetAsyncEx<TierDTO>($"{_fullUri}/GetDealerTier", AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get tier", ex);
-                throw;
-            }
-        }
-
-        public async Task<TierDTO> GetDealerTier(int contractId)
-        {
-            try
-            {
-                return await Client.GetAsyncEx<TierDTO>($"{_fullUri}/GetDealerTier?contractId={contractId}", AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get dealer tier", ex);
-                throw;
-            }
-        }
+        
     }
 }

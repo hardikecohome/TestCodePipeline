@@ -544,40 +544,6 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerTier")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetDealerTier()
-        {
-            try
-            {
-                var submitResult = _rateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
-
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("GetDealerTier")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetDealerTier(int contractId)
-        {
-            try
-            {
-                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
-
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
         [Route("CheckCustomerExisting")]
         [HttpGet]
         [AllowAnonymous]

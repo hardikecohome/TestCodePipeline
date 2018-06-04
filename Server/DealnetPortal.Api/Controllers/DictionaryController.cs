@@ -23,18 +23,19 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository _contractRepository { get; set; }
-        private IRateCardsRepository _rateCardsRepository { get; set; }
+        //private IRateCardsRepository _rateCardsRepository { get; set; }
         private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageReader AspireStorageReader { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
         private IContractService _contractService { get; set; }
+        private IRateCardsService _rateCardsService { get; set; }
 
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
             IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
-            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsRepository rateCardsRepository)
+            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsRepository rateCardsRepository, IRateCardsService rateCardsService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -45,7 +46,8 @@ namespace DealnetPortal.Api.Controllers
             _contractService = contractService;
             _dealerRepository = dealerRepository;
             _licenseDocumentRepository = licenseDocumentRepository;            
-            _rateCardsRepository = rateCardsRepository;
+            //_rateCardsRepository = rateCardsRepository;
+            _rateCardsService = rateCardsService;
         }             
 
         [Route("AllDocumentTypes")]
@@ -316,7 +318,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var creditAmount =  _rateCardsRepository.GetCreditAmount(creditScore);
+                var creditAmount = _rateCardsService.GetCreditAmount(creditScore);
                 return Ok(creditAmount);
             }
             catch (Exception ex)
@@ -565,7 +567,7 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var reductionCards = _rateCardsRepository.GetRateReductionCard();
+                var reductionCards = _rateCardsService.GetRateReductionCards();
                 if (reductionCards == null)
                 {
                     var errorMsg = "Cannot retrieve Rate Reduction Cards";
@@ -576,14 +578,47 @@ namespace DealnetPortal.Api.Controllers
                     });
                     LoggingService.LogError(errorMsg);
                 }
-                var reductionCardsDtos = Mapper.Map<IList<RateReductionCardDTO>>(reductionCards);
                 
-                var result = new Tuple<IList<RateReductionCardDTO>, IList<Alert>>(reductionCardsDtos, alerts);
+                var result = new Tuple<IList<RateReductionCardDTO>, IList<Alert>>(reductionCards, alerts);
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier()
+        {
+            try
+            {
+                var submitResult = _rateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier(int contractId)
+        {
+            try
+            {
+                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
                 return InternalServerError(ex);
             }
         }

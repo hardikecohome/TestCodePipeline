@@ -81,5 +81,14 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture);
 
         Task<Tuple<IList<RateReductionCardDTO>, IList<Alert>>> GetAllRateReductionCards();
+
+        /// <summary>
+        /// Get dealer tier by Id
+        /// </summary>
+        Task<TierDTO> GetDealerTier();
+        /// <summary>
+        /// Get dealer tier by contract Id
+        /// </summary>
+        Task<TierDTO> GetDealerTier(int contractId);
     }
 }
