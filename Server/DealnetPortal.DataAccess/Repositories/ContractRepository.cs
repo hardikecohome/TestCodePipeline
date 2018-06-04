@@ -743,7 +743,7 @@ namespace DealnetPortal.DataAccess.Repositories
             var lists = _dbContext.FundingCheckLists
                 .Include(s => s.FundingDocumentList)
                 .Include(s => s.FundingDocumentList.FundingCheckDocuments)
-                .Where(l => l.DealerId == contractOwnerId || string.IsNullOrEmpty(l.DealerId)).AsQueryable();
+                .Where(l => l.DealerId == contractOwnerId || string.IsNullOrEmpty(l.DealerId)).ToList();
             var provLists = lists.GroupBy(l => l.Province)
                 .ToDictionary(g => g.Key, g => (IList<DocumentType>)(g.FirstOrDefault(fl => !string.IsNullOrEmpty(fl.DealerId)) ?? g.FirstOrDefault())?
                                                                 .FundingDocumentList?.FundingCheckDocuments?.Select(fcd => fcd.DocumentType).ToList());
