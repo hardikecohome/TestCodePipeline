@@ -232,7 +232,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     contractData.Equipment = new EquipmentInfo()
                     {
-                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType.Type, Description = improvmentType.Description } }
+                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType.Type, Description = improvmentType.Description, Id = improvmentType.Id} }
                     };
                 }
 
