@@ -729,6 +729,7 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 checkList = _dbContext.FundingCheckLists
                     .Include(s => s.FundingDocumentList)
+                    .Include(s => s.FundingDocumentList.FundingCheckDocuments)
                     .FirstOrDefault(l => l.Province == state);
             }
             if (checkList != null)
