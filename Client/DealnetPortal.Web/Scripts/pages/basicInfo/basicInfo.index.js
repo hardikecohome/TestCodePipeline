@@ -239,6 +239,7 @@
                 $('#locality').val(data.City).change();
                 $('#administrative_area_level_1').val(data.State).change();
                 $('#postal_code').val(data.PostalCode).change();
+                $('#camera-modal').modal('hide');
             }
             var submitUpload = function (e) {
                 dlScanner.submitUpload(e.target.files, success);
@@ -273,11 +274,17 @@
                 $('#additional-last-name-1').val(data.LastName).change();
                 var bDate = new Date(data.DateOfBirthStr);
                 $('#additional-birth-date-1').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
-                $('#additional-dl-number').val(data.Id).change();
-                $('#additional-street').val(data.Street).change();
-                $('#additional-locality').val(data.City).change();
-                $('#additional-administrative_area_level_1').val(data.State).change();
-                $('#additional-postal_code').val(data.PostalCode).change();
+                $('#additional-dl-number-1').val(data.Id).change();
+                $('#additional-street-1').val(data.Street).change();
+
+                if (data.Street != $('#street').val() && !$('#mailing-address-checkbox-add-app1').is(':checked')) {
+                    $('#mailing-address-checkbox-add-app1').click();
+                }
+
+                $('#additional-locality-1').val(data.City).change();
+                $('#additional-administrative_area_level_1-1').val(data.State).change();
+                $('#additional-postal_code-1').val(data.PostalCode).change();
+                $('#camera-modal').modal('hide');
             };
             var submitUpload = function (e) {
                 dlScanner.submitUpload(e.target.files, success);
@@ -295,7 +302,7 @@
 
             $('#additional1-scan-file').one('change', submitUpload);
             $('#upload-file').one('change', submitUpload);
-            $('#capture-btn').on('click', capture)
+            $('#capture-btn').on('click', capture);
             $('#camera-modal').one('hidden.bs.modal', function () {
                 $('#capture-btn').off();
                 $('#additional1-scan-button').off('change', submitUpload);

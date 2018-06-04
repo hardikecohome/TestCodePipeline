@@ -3,11 +3,17 @@
     var hideLoader = require('loader').hideLoader;
 
     var uploadCaptured = function (data, callback) {
-        showLoader(translations['ProcessingImage']);
+        showLoader(translations.ProcessingImage);
         $.post(uploadCaptureUrl, {
                 imgBase64: data
             })
-            .done(callback)
+            .done(function (json) {
+                if (json.isError) {
+                    alert(translations.CannotRecognizeDriverLicense);
+                } else {
+                    callback(json);
+                }
+            })
             .fail(function (xhr, status, p3) {
                 alert(xhr.responseText);
             }).always(function () {
@@ -16,6 +22,7 @@
     };
 
     var submitUpload = function (files, callback) {
+        showLoader(translations.ProcessingImage);
         if (files.length > 0) {
             if (window.FormData !== undefined) {
                 var data = new FormData();
@@ -28,14 +35,20 @@
                         processData: false,
                         url: recognizeDLPhotoUrl,
                         data: data
-                    }).done(callback)
+                    }).done(function (json) {
+                        if (json.isError) {
+                            alert(translations.CannotRecognizeDriverLicense);
+                        } else {
+                            callback(json);
+                        }
+                    })
                     .fail(function (xhr, status, p3) {
                         alert(xhr.responseText);
                     }).always(function () {
                         hideLoader();
                     });
             } else {
-                alert(translations['BrowserNotSupportFileUpload']);
+                alert(translations.BrowserNotSupportFileUpload);
             }
         }
     };
