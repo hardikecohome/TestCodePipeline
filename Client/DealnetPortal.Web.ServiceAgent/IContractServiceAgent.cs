@@ -93,6 +93,13 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
 
+        /// <summary>
+        /// Get funding checklist docs for contract
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <returns></returns>
+        Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetContractDocumentTypes(int contractId);
+
         Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData);
 
         /// <summary>
