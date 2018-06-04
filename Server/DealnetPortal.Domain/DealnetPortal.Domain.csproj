@@ -89,6 +89,7 @@
     <Compile Include="EquipmentSubType.cs" />
     <Compile Include="FundingCheckDocument.cs" />
     <Compile Include="FundingCheckList.cs" />
+    <Compile Include="FundingDocumentList.cs" />
     <Compile Include="InstallationPackage.cs" />
     <Compile Include="LicenseDocument.cs" />
     <Compile Include="LicenseType.cs" />
