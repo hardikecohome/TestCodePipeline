@@ -18,6 +18,7 @@
     var panelCollapsed = require('panelCollapsed');
 
     var cameraModule = require('camera-capture');
+    var dlScanner = require('dl-scanner');
 
     var dispatch = clientStore.dispatch;
 
@@ -44,32 +45,20 @@
 
     //license-scan
     cameraModule.init();
-    $('#capture-buttons-1').on('click', cameraModule.takePhoto);
     $('#owner-scan-button').on('click', function (e) {
-        // if (!(isMobileRequest.toLowerCase() === 'true')) {
-        //     e.preventDefault();
-        //     var modal = document.getElementById('camera-modal');
-        //     modal.setAttribute('data-fnToFill', 'first-name');
-        //     modal.setAttribute('data-lnToFill', 'last-name');
-        //     modal.setAttribute('data-bdToFill', 'birth-date');
-        //     modal.setAttribute('data-dlToFill', 'dl-number');
-        //     modal.setAttribute('data-stToFill', 'street');
-        //     modal.setAttribute('data-ctToFill', 'locality');
-        //     modal.setAttribute('data-prToFill', "province");
-        //     modal.setAttribute('data-pcToFill', "postal_code");
-        // }
-        // return true;
         function success(data) {
-            $('#first-name').val(data.FirstName).change();
-            $('#last-name').val(data.LastName).change();
+            $('#first-name').val(data.FirstName).keyup();
+            $('#last-name').val(data.LastName).keyup();
             var bDate = new Date(data.DateOfBirthStr);
             $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
-            $('#dl-number').val(data.Id).change();
-            $('#street').val(data.Street).change();
-            $('#locality').val(data.City).change();
-            $('#province').val(data.State).change();
-            $('#postal_code').val(data.PostalCode).change();
+            $('#dl-number').val(data.Id).keyup();
+            $('#locality').val(data.City).keyup();
+            $('#province').val(data.State).keyup();
+            $('#postal_code').val(data.PostalCode).keyup();
+            $('#street').val(data.Street).keyup();
+            $('#camera-modal').modal('hide');
         }
+
         var submitUpload = function (e) {
             dlScanner.submitUpload(e.target.files, success);
             e.target.value = '';
@@ -95,7 +84,6 @@
             $('#upload-capture').off();
             $('#retake').off();
         });
-        return true;
     });
 
     window.initAutocomplete = initAutocomplete;

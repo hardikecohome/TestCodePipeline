@@ -16,7 +16,7 @@
         });
         initDob(birth.parents('.dob-group'));
 
-        function dispatchDl () {
+        function dispatchDl() {
             var obj = {
                 firstName: $('#first-name').val(),
                 lastName: $('#last-name').val(),
@@ -25,14 +25,13 @@
                 locality: $('#locality').val(),
                 province: $('#province').val(),
                 postalCode: $('#postal_code').val()
-            }
+            };
 
             dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
         }
 
         var name = $('#first-name');
 
-        name.on('uploadSuccess', dispatchDl);
         $('#camera-modal').on('hidden.bs.modal', dispatchDl);
 
         name.on('change', function (e) {

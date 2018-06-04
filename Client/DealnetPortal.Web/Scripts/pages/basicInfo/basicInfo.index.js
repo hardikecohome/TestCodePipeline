@@ -27,8 +27,6 @@
         aditional1Section.data('active', false);
         addAdditionalButton.show();
         $('#proceed-error-message').hide();
-        //$(this).removeClass('input-custom-err');
-        //$('#additional-applicant-qcError').text('');
     }
 
     function enableMailingAddress(section) {
@@ -359,7 +357,7 @@
                     }
                 }
             } else {
-                isValidProvinceForAdditionalApplicant = true
+                isValidProvinceForAdditionalApplicant = true;
             }
             if (isQuebecDealer) {
                 if (!isAddressInQc) {
