@@ -19,9 +19,9 @@ namespace DealnetPortal.Web.Models
         public bool IsLessThenSix { get; set; }
         public bool IsUnknownAddress { get; set; }
         public bool IsLiveInCurrentAddress { get; set; }
-
+                                                                             
         [Display(ResourceType = typeof(Resources.Resources), Name = "HomeImprovementType")]
-        public List<string> HomeImprovementTypes { get; set; }
+        public List<EquipmentTypeDTO> SelectedEquipmentTypes { get; set; }
 
         [StringLength(500, ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [Display(ResourceType = typeof(Resources.Resources), Name = "CustomersComment")]
