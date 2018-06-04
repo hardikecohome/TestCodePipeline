@@ -2737,7 +2737,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
+                            @if(!((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ?? false)
                             {
                                 <div class="form-group pap-payment-form">
                                     <div class="row">

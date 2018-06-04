@@ -248,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-                @if(Model.IsAllPaymentTypesAvailable)
+                @if(!((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ?? false)
                 {
                     <div class="col-xs-12 col-md-4 pap-payment">
                         <div class="form-group">
