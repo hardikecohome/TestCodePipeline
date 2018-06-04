@@ -2653,7 +2653,7 @@
                                 <div class="row">
                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                         <div>
-                                            <text>@Resources.TotalMonthlyPaymentWithoutTaxes</text>
+											<text>@(Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication ? Resources.TotalMonthlyPaymentWithoutTaxes : Resources.TotalMonthlyPaymentWithTaxes)</text>
                                         </div>
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
