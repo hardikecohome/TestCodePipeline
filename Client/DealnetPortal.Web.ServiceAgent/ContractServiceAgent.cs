@@ -280,6 +280,22 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetContractDocumentTypes(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/{contractId}/DocumentTypes", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get document types list for contract", ex);
+                throw;
+            }
+        }
+
         public async Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId)
         {
             try

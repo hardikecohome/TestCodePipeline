@@ -7,7 +7,6 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Web.Common.Constants;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
@@ -85,21 +84,7 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            if(contractId == null)
-            {
-                var contract = await _contractServiceAgent.CreateContract();
-                if(contract?.Item1 != null)
-                {
-                    contractId = contract.Item1.Id;
-                }
-                else
-                {
-                    TempData[PortalConstants.CurrentAlerts] = contract?.Item2;
-                    return RedirectToAction("Error", "Info");
-                }
-            }
-
-            var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
+            var viewModel = contractId.HasValue ? await _contractManager.GetBasicInfoAsync(contractId.Value) : new BasicInfoViewModel();
             viewModel.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
 
@@ -142,9 +127,14 @@ namespace DealnetPortal.Web.Controllers
                 await _contractServiceAgent.CreateContract() :
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
 
-            if(result.Item1 == null)
+            if(result?.Item1 == null)
             {
+                TempData[PortalConstants.CurrentAlerts] = result?.Item2;
                 return RedirectToAction("Error", "Info");
+            }
+            if (!basicInfo.ContractId.HasValue)
+            {
+                basicInfo.ContractId = result.Item1.Id;
             }
 
             var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
@@ -244,7 +234,20 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> EquipmentInformation(int contractId)
         {
             var model = await _contractManager.GetEquipmentInfoAsync(contractId);
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            var equipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+
+            if(model.NewEquipment != null)
+            {
+                foreach(var newEquipment in model.NewEquipment)
+                {
+                    if(newEquipment.EquipmentType != null && !equipmentTypes.Any(e => e.Id == newEquipment.EquipmentType.Id))
+                    {
+                        equipmentTypes.Add(newEquipment.EquipmentType);
+                    }
+                }
+            }
+
+            ViewBag.EquipmentTypes = equipmentTypes.OrderBy(e => e.Description).ToList();
             ViewBag.CardTypes = model.DealerTier?.RateCards?.Select(x => x.CardType).Distinct().ToList();
             ViewBag.AmortizationTerm = model.DealerTier?.RateCards?.ConvertToAmortizationSelectList();
             ViewBag.DefferalPeriod = model.DealerTier?.RateCards?.ConvertToDeferralSelectList();
@@ -267,11 +270,15 @@ namespace DealnetPortal.Web.Controllers
                 ViewBag.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
             }
             ViewBag.AdminFee = 0;
-	        var identity = (ClaimsIdentity) User.Identity;
+            var identity = (ClaimsIdentity)User.Identity;
             ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
             ViewBag.IsQuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
 	        ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value.ToLower() ?? string.Empty;
-            if(model.ContractState >= ContractState.Closed)
+            var hidePreApprovalAmountsForLeaseDealers = false;
+            bool.TryParse(System.Configuration.ConfigurationManager.AppSettings[PortalConstants.HidePreApprovalAmountsForLeaseDealersKey], out hidePreApprovalAmountsForLeaseDealers);
+            ViewBag.ShowPreapprovalAmount = ViewBag.AgreementTypeAccessRights != "lease" || !hidePreApprovalAmountsForLeaseDealers;
+
+                if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
                         {
@@ -360,9 +367,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> SummaryAndConfirmation(int contractId)
         {
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
-            ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             var contract = await _contractServiceAgent.GetContract(contractId);
+
             if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed || contract.Item1.Equipment == null)
             {
                 var alerts = new List<Alert>()
@@ -377,6 +383,9 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
+            ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
+
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
         }
 

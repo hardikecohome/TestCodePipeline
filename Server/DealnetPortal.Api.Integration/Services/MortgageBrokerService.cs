@@ -66,9 +66,9 @@ namespace DealnetPortal.Api.Integration.Services
 
                 var contractsResultList = new List<Tuple<Contract, bool>>();
 
-                if (newCustomer.HomeImprovementTypes != null && newCustomer.HomeImprovementTypes.Any())
+                if (newCustomer.SelectedEquipmentTypes != null && newCustomer.SelectedEquipmentTypes.Any())
                 {
-                    foreach (var improvmentType in newCustomer.HomeImprovementTypes)
+                    foreach (var improvmentType in newCustomer.SelectedEquipmentTypes)
                     {
                         var result = await InitializeCreating(contractOwnerId, newCustomer, improvmentType);
 
@@ -205,7 +205,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, string improvmentType = null)
+        private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, EquipmentTypeDTO improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
             var equipmentType = _contractRepository.GetEquipmentTypes();
@@ -224,12 +224,11 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id
                 };
 
-                if (!string.IsNullOrEmpty(improvmentType))
+                if (improvmentType!=null)
                 {
-                    var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
-                    contractData.Equipment = new EquipmentInfo
+                    contractData.Equipment = new EquipmentInfo()
                     {
-                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq?.Description } }
+                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType.Type, Description = improvmentType.Description, EquipmentTypeId = improvmentType.Id} }
                     };
                 }
 

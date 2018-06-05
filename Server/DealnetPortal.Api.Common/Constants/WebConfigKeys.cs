@@ -59,6 +59,8 @@
         public static readonly string ONBOARDING_DRAFT_STATUS_KEY = "OnboardingDraftStatus";
         public static readonly string RISK_BASED_STATUS_KEY = "RiskBasedStatus";
 
+        public static readonly string HIDE_PREAPPROVAL_AMOUNT_FOR_LEASEDEALERS_KEY = "HidePreApprovalAmountsForLeaseDealers";        
+
         //Describing portal constants
         //Ecohome
         public static readonly string PORTAL_DESCRIBER_ECOHOME_CONFIG_KEY = "PortalDescriber.df460bb2-f880-42c9-aae5-9e3c76cdcd0f";

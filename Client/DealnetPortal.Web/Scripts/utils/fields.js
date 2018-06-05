@@ -39,19 +39,6 @@
         has_scrollbar($(this), 'textarea-has-scroll');
     });
 
-    $('select').each(function (i, el) {
-        if (!el.value) {
-            $(el).addClass('not-selected');
-        }
-    });
-    $('body').on('change', 'select', function () {
-        if (this.value) {
-            $(this).removeClass('not-selected');
-        } else {
-            $(this).addClass('not-selected');
-        }
-    });
-
     $(window).on('mouseup', function (e) {
         if (resizeInt !== null) {
             clearInterval(resizeInt);
@@ -62,7 +49,7 @@
     $('input, textarea').placeholder();
 });
 
-function addIconsToFields (fields) {
+function addIconsToFields(fields) {
     var localFields = fields || ($('.control-group input, .control-group textarea'));
     var fieldDateParent = localFields.parent('.control-group.date-group');
     var fieldPassParent = localFields.parent('.control-group.control-group-pass, .control-group.control-hidden-value');
@@ -95,7 +82,7 @@ function addIconsToFields (fields) {
     }, 100);
 }
 
-function toggleClearInputIcon (fields) {
+function toggleClearInputIcon(fields) {
     var localFields = fields || $('.control-group input, .control-group textarea');
     var fieldParent = localFields.parent('.control-group:not(.date-group):not(.control-group-pass)');
     localFields.each(function () {
@@ -110,7 +97,7 @@ function toggleClearInputIcon (fields) {
     });
 }
 
-function toggleClickInp (inp) {
+function toggleClickInp(inp) {
     if (inp.val().length !== 0) {
         inp.siblings('.clear-input').css('display', 'block');
     } else {
@@ -118,7 +105,7 @@ function toggleClickInp (inp) {
     }
 }
 
-function customDPSelect (elem) {
+function customDPSelect(elem) {
     var selectClasses = 'custom-select datepicker-select';
     if ($('select.ui-datepicker-month').length && !$('.ui-datepicker-month').parents('.custom-select').length) {
         $('.ui-datepicker-month')
@@ -137,7 +124,7 @@ function customDPSelect (elem) {
     }
 }
 
-function customizeSelect () {
+function customizeSelect() {
     setTimeout(function () {
         $('select').each(function () {
             //Added opt group to each select to fix long value inside option for IOS.
@@ -157,7 +144,7 @@ function customizeSelect () {
     }, 300);
 }
 
-function recoverPassword (e) {
+function recoverPassword(e) {
     var pass = $(e.target).parents('.control-group').find('input');
     if (pass.prop('type') == 'password') {
         pass.prop('type', 'text');
@@ -167,7 +154,7 @@ function recoverPassword (e) {
     return false;
 }
 
-function has_scrollbar (elem, className) {
+function has_scrollbar(elem, className) {
     if (elem[0].clientHeight < elem[0].scrollHeight)
         elem.parents('.control-group').addClass(className);
     else

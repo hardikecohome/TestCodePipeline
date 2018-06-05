@@ -30,9 +30,9 @@
   color: #444;
   height: 38px;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .selectric .button {
@@ -98,9 +98,9 @@
   opacity: 0.5;
   cursor: default;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .selectric-hide-select {
@@ -158,6 +158,7 @@
 }
 
 /* Items box */
+
 .selectric-items {
   display: none;
   position: absolute;
@@ -174,12 +175,174 @@
   overflow: auto;
 }
 
+.selectric-items .selectric-scroll li {
+  display: flex;
+  align-items: center;
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico::before {
+  content: '';
+  margin-right: 10px;
+  background-size: 24px 24px;
+  min-width: 24px;
+  min-height: 24px;
+  display: inline-block;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-image: url('../images/redesign_icons/info-grey.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--green::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--booked::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--funded::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--46-funded-syndicated::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---funded::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--funded-syndicated::before {
+  background-image: url('../images/redesign_icons/info-green.svg');
+}
+
+/* 
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--grey::before {
+} */
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--yellow::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--14-cbr-warnings::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--cbr-warnings::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--16-cbr-failure::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--cbr-failure::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--22-mir::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--mir::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--22-mir-blue-chip::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--mir-blue-chip::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--22-mir-northstar::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--mir-northstar::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--22-more-info-wo-email-notice::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--more-info-wo-email-notice::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--23-mir-not-received::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--mir-not-recieved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--34-docs-back-incomplete::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--docs-back-incomplete::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--50-audited-deficient::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--audited-deficient::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---more-information::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--more-information::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--20-credit-review::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--credit-review::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--20-credit-review-ecp::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--credit-review-ecp::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---credit-review::before {
+  background-image: url('../images/redesign_icons/info-yellow.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--red::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--declined::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--25-declined::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--25-declined-woemail-notice::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--declined-woemail-notice::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--25-declined-blue-chip::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--declined-blue-chip::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--25-declined-enable-deals::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--25-declined-northstar::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--declined-enable-deals::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--declined-northstar::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--29-declined-wou-email-notification::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--declined-wou-email-notification::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--35-dead-deal::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--dead-deal::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--84-expired-approval::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--expired-approval::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--85-customer-changed-mind::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--customer-changed-mind::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--86-cancelled::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--cancelled::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--86-opportunity-lost::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--opportunity-lost::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--91-terminated::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--terminated::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---dead::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--dead::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---declined::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--credit-check-declined::before {
+  background-image: url('../images/redesign_icons/info-red.svg');
+}
+
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--grass::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--26-pre-approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--26-pre-approved-15k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--26-pre-approved-15-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--pre-approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--pre-approved-15-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--pre-approved-15k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--pre-approved-20-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--pre-approved-5-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-10-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--26-pre-approved-ecp::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--pre-approved-ecp::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--27-final-review-recommend-approval::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--final-review-recommend-approval::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-15k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-15-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-eco-energy::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-ecp::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-enbridge::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-utile-credit::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-woemail-notice::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-blue-chip::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-enable::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-northstar::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-northstar-wo-email::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-second-look::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--28-approved-vault::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--40-deal-funding-requested::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--42-ready-for-audit::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--48-audit-in-progress::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--sent-to-audit::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--49-funding-tomorrow::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--51-audited-awaiting-tpv::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--52-tpv-confirmed::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--53-tpv-internal::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--s---funding-requested::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--credit-check-approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-15k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-15-k::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-eco-energy::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-ecp::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-enbridge::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-utile-credit::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approvedwoemail-notice::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-blue-chip::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-enable::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-northstar::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-northstarwo-email::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-second-look::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--approved-vault::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--deal-funding-requested::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--ready-for-audit::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--audit-in-progress::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--sent-to-audit::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--funding-tomorrow::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--audited-awaiting-tpv::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--tpv-confirmed::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--tpv-internal::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--funding-requested::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--credit-check-approved::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--32-docs-received::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--docs-received::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--cvc-confirmed::before,
+.selectric-items .selectric-scroll li.deal-status-ico.deal-status-ico--cvc-waiting-to-fund::before {
+  background-image: url('../images/redesign_icons/info-grass.svg');
+}
+
 .selectric-above .selectric-items {
   top: auto;
   bottom: 100%;
 }
 
-.selectric-items ul, .selectric-items li {
+.selectric-items ul,
+.selectric-items li {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -217,9 +380,9 @@
   background: none !important;
   color: #666 !important;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .selectric-items .selectric-group .selectric-group-label {
@@ -227,9 +390,9 @@
   padding-left: 10px;
   cursor: default;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   background: none;
   color: #444;
 }

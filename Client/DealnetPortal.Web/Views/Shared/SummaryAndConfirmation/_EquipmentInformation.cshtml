@@ -2,10 +2,6 @@
 @using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
-@{
-    var equipmentTypes = ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes);
-}
-
 @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "new-equipment-info-form", @class = "clearfix" }))
 {
     @Html.AntiForgeryToken()
@@ -41,24 +37,9 @@
     </div>
     <div id="new-equipment-info-section">
         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
-            @{
-                var bill59EquipTypes = Model.ProvinceTaxRate.Province.ToUpper() == "ON" ?
-                    equipmentTypes.Where(e => e.UnderBill59).Select(e => e.Type).ToList() :
-                    new List<string>();
-            }
+            
             @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
             {
-                var displayResponsibility = bill59EquipTypes.Contains(Model.EquipmentInfo.NewEquipment[i].Type);
-                var selectedEquipment = equipmentTypes.FirstOrDefault(e => e.Type == Model.EquipmentInfo.NewEquipment[i].Type);
-                var subTypesSelectList = selectedEquipment == null || !selectedEquipment.SubTypes.Any() ?
-                                                 Enumerable.Empty<SelectListItem>() :
-                                                 selectedEquipment.SubTypes
-                                                         .Select(e => new SelectListItem
-                                                         {
-                                                             Value = e.Id.ToString(),
-                                                             Text = e.Description,
-                                                             Selected = e.Id == Model.EquipmentInfo.NewEquipment[i].EquipmentSubTypeId
-                                                         }).ToList();
                 <div class="col-md-6 grid-column">
                     <div class="dealnet-credit-check-section">
                         @Html.HiddenFor(m => m.EquipmentInfo.NewEquipment[i].Id)
@@ -77,30 +58,23 @@
                                                                                                   @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
                                                                                           })
                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                    @Html.DropDownListFor(m => m.EquipmentInfo.NewEquipment[i].Type,
-                                            ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
-                                                    .Select(x => new SelectListItem
-                                                    {
-                                                            Value = x.Type,
-                                                            Text = x.Description,
-                                                            Selected = Model?.EquipmentInfo?.NewEquipment != null && Model.EquipmentInfo.NewEquipment[i]?.Type == x.Type
-                                                    }),
+                                    @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentType.Description,
                                             new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                 </div>
                             </div>
                         </div>
 
-                        @if(Model.EquipmentInfo.NewEquipment[i].EquipmentSubTypeId.HasValue)
+                        @if(Model.EquipmentInfo.NewEquipment[i].EquipmentSubType!=null)
                         {
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentSubTypeDescription,
+                                    @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentSubType,
                                             new {
                                                         @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
                                                 })
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.DropDownListFor(m => m.EquipmentInfo
-                                                                      .NewEquipment[i].EquipmentSubTypeId, subTypesSelectList,
+                                        @Html.TextBoxFor(m => m.EquipmentInfo
+                                                                      .NewEquipment[i].EquipmentSubType.Description,
                                                 new
                                                 {
                                                         id = "",
@@ -202,7 +176,7 @@
                                     </div>
                                 </div>
                             </div>
-                            if(displayResponsibility)
+                            if(Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59)
                             {
                                 <div class="form-group">
                                     <div class="row">

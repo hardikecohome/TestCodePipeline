@@ -1,0 +1,229 @@
+.custom-select-wrap {
+  position: relative;
+
+  label {
+    font-weight: 400;
+    font-size: 12px;
+    position: absolute;
+    z-index: 1000;
+    top: -8px;
+    left: 9px;
+    background: white;
+  }
+
+  .selectric {
+    background-color: #ffffff;
+  	border: solid 1px #ccdbec;
+    height: 40px;
+
+    .label {
+      text-align: left;
+      font-weight: 400;
+      font-size: 13px;
+      color: black;
+      line-height: 20px;
+      margin: 0 38px 0 0;
+      height: 40px;
+      border-radius: 0;
+      vertical-align: middle;
+      padding: 9px;
+    }
+
+    .button {
+      background-color: white;
+
+      &:after {
+        border-top-color: #525251;
+      }
+    }
+  }
+
+  .selectric-open {
+    z-index: 999;
+  }
+
+  .selectric-open,
+  .selectric-items {
+    box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+  }
+
+  .selectric-items {
+    li {
+      border-bottom: 1px solid #ccdbec;
+      background-color: white;
+      color: black;
+      font-size: 13px;
+    }
+    li.highlighted,
+    li:hover {
+      background-color: #ccdcec0a;
+    }
+  }
+
+}
+
+
+.selectric-items .selectric-scroll li {
+    display: flex;
+    align-items: center;
+    &.deal-status-ico{
+      &::before {
+        content: '';
+        margin-right: 10px;
+        background-size: 24px 24px;
+        min-width: 24px;
+        min-height: 24px;
+        display: inline-block;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-image: url('../../images/redesign_icons/info-grey.svg');
+      }
+      &.deal-status-ico
+      {
+        &--green,
+        &--booked,
+        &--funded,
+        &--46-funded-syndicated,
+        &--s---funded,
+        &--funded-syndicated {
+          &::before  {
+            background-image: url('../../images/redesign_icons/info-green.svg');
+          }
+        }
+        &--yellow,
+        &--14-cbr-warnings,
+        &--cbr-warnings,
+        &--16-cbr-failure,
+        &--cbr-failure,
+        &--22-mir,
+        &--mir,
+        &--22-mir-blue-chip,
+        &--mir-blue-chip,
+        &--22-mir-northstar,
+        &--mir-northstar,
+        &--22-more-info-wo-email-notice,
+        &--more-info-wo-email-notice,
+        &--23-mir-not-received,
+        &--mir-not-recieved,
+        &--34-docs-back-incomplete,
+        &--docs-back-incomplete,
+        &--50-audited-deficient,
+        &--audited-deficient,
+        &--s---more-information,
+        &--more-information,
+        &--20-credit-review,
+        &--credit-review,
+        &--20-credit-review-ecp,
+        &--credit-review-ecp,
+        &--s---credit-review {
+          &::before  {
+            background-image: url('../../images/redesign_icons/info-yellow.svg');
+          }
+        }
+        &--red,
+        &--declined,
+        &--25-declined,
+        &--25-declined-woemail-notice,
+        &--declined-woemail-notice,
+        &--25-declined-blue-chip,
+        &--declined-blue-chip,
+        &--25-declined-enable-deals,
+        &--25-declined-northstar,
+        &--declined-enable-deals,
+        &--declined-northstar,
+        &--29-declined-wou-email-notification,
+        &--declined-wou-email-notification,
+        &--35-dead-deal,
+        &--dead-deal,
+        &--84-expired-approval,
+        &--expired-approval,
+        &--85-customer-changed-mind,
+        &--customer-changed-mind,
+        &--86-cancelled,
+        &--cancelled,
+        &--86-opportunity-lost,
+        &--opportunity-lost,
+        &--91-terminated,
+        &--terminated,
+        &--s---dead,
+        &--dead,
+        &--s---declined,
+        &--credit-check-declined {
+          &::before{
+            background-image: url('../../images/redesign_icons/info-red.svg');
+          }
+        }
+        &--grass,
+        &--26-pre-approved,
+        &--26-pre-approved-15-k,
+        &--pre-approved,
+        &--pre-approved-15-k,
+        &--pre-approved-15k,
+        &--pre-approved-20-k,
+        &--pre-approved-5-k,
+        &--approved-10-k,
+        &--26-pre-approved-ecp,
+        &--pre-approved-ecp,
+        &--27-final-review-recommend-approval,
+        &--final-review-recommend-approval,
+        &--28-approved,
+        &--28-approved-15k,
+        &--28-approved-15-k,
+        &--28-approved-eco-energy,
+        &--28-approved-ecp,
+        &--28-approved-enbridge,
+        &--28-approved-utile-credit,
+        &--28-approved-woemail-notice,
+        &--28-approved-blue-chip,
+        &--28-approved-enable,
+        &--28-approved-northstar,
+        &--28-approved-northstar-wo-email,
+        &--28-approved-second-look,
+        &--28-approved-vault,
+        &--40-deal-funding-requested,
+        &--42-ready-for-audit,
+        &--48-audit-in-progress,
+        &--sent-to-audit,
+        &--49-funding-tomorrow,
+        &--51-audited-awaiting-tpv,
+        &--52-tpv-confirmed,
+        &--53-tpv-internal,
+        &--s---approved,
+        &--s---funding-requested,
+        &--credit-check-approved,
+        &--approved,
+        &--approved-15k,
+        &--approved-15-k,
+        &--approved-eco-energy,
+        &--approved-ecp,
+        &--approved-enbridge,
+        &--approved-utile-credit,
+        &--approvedwoemail-notice,
+        &--approved-blue-chip,
+        &--approved-enable,
+        &--approved-northstar,
+        &--approved-northstarwo-email,
+        &--approved-second-look,
+        &--approved-vault,
+        &--deal-funding-requested,
+        &--ready-for-audit,
+        &--audit-in-progress,
+        &--sent-to-audit,
+        &--funding-tomorrow,
+        &--audited-awaiting-tpv,
+        &--tpv-confirmed,
+        &--tpv-internal,
+        &--funding-requested,
+        &--credit-check-approved,
+        &--32-docs-received,
+        &--docs-received,
+        &--cvc-confirmed,
+        &--cvc-waiting-to-fund
+        {
+          &::before {
+            background-image: url('../../images/redesign_icons/info-grass.svg');
+          }
+        }
+      }
+    }
+  }

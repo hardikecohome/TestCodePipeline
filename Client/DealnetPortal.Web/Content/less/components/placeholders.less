@@ -1,0 +1,52 @@
+﻿.nw-placeholder {
+    width: 98%;
+    display: flex;
+    min-height: 600px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: white;
+    z-index: 999;
+    border: 2px dashed #bcc6d9;
+    @media @tablet-down {
+        width: 96%;
+    }
+    @media @mobile {
+        width: 92%;
+    }
+
+    &__icon {
+    }
+
+    p {
+        max-width: 650px;
+        margin: 18px 0;
+        font-size: 16px;
+        text-align: center;
+
+        & > a {
+            font-family: Mukta;
+            color: @green-link-color;
+            text-decoration: underline;
+
+            &:hover {
+                cursor: pointer;
+                color: @green-link-color;
+            }
+        }
+    }
+
+    &__links {
+        flex-wrap: wrap;
+        margin: 18px 0;
+        display: flex;
+        justify-content: center;
+
+        .icon-link-green {
+            margin: 14px 0;
+            margin-right: 24px;
+        }
+    }
+}
