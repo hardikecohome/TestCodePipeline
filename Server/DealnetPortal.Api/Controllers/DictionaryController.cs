@@ -23,30 +23,27 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository _contractRepository { get; set; }
-        //private IRateCardsRepository _rateCardsRepository { get; set; }
-        private ISettingsRepository SettingsRepository { get; set; }
-        private IAspireStorageReader AspireStorageReader { get; set; }
-        private ICustomerFormService CustomerFormService { get; set; }
+        private ISettingsRepository _settingsRepository { get; set; }
+        private IAspireStorageReader _aspireStorageReader { get; set; }
+        private ICustomerFormService _customerFormService { get; set; }
         private IContractService _contractService { get; set; }
         private IRateCardsService _rateCardsService { get; set; }
-
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
             IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
-            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsRepository rateCardsRepository, IRateCardsService rateCardsService)
+            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsService rateCardsService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
-            SettingsRepository = settingsRepository;
-            AspireStorageReader = aspireStorageReader;
-            CustomerFormService = customerFormService;
+            _settingsRepository = settingsRepository;
+            _aspireStorageReader = aspireStorageReader;
+            _customerFormService = customerFormService;
             _contractService = contractService;
             _dealerRepository = dealerRepository;
             _licenseDocumentRepository = licenseDocumentRepository;            
-            //_rateCardsRepository = rateCardsRepository;
             _rateCardsService = rateCardsService;
         }             
 
@@ -401,7 +398,7 @@ namespace DealnetPortal.Api.Controllers
 
                 try
                 {                
-                    dealerDto.UdfSubDealers = Mapper.Map<IList<SubDealerDTO>>(AspireStorageReader.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName));
+                    dealerDto.UdfSubDealers = Mapper.Map<IList<SubDealerDTO>>(_aspireStorageReader.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName));
                 }
                 catch (Exception ex)
                 {
@@ -467,7 +464,7 @@ namespace DealnetPortal.Api.Controllers
         {
             IList<StringSettingDTO> list = null;
 	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
-            var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
+            var settings = _settingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
 	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
@@ -483,7 +480,7 @@ namespace DealnetPortal.Api.Controllers
         {
             IList<StringSettingDTO> list = null;
 	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
-            var settings = SettingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
+            var settings = _settingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
             if (settings?.Any() ?? false)
             {
 	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
@@ -499,7 +496,7 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerBinSetting(int settingType)
         {
             SettingType sType = (SettingType) settingType;
-            var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
+            var binSetting = _settingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
             if (binSetting != null)
             {
                 var bin = new BinarySettingDTO
@@ -518,7 +515,7 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerBinSetting(int settingType, string hashDealerName)
         {
             SettingType sType = (SettingType)settingType;
-            var binSetting = SettingsRepository.GetUserBinarySettingByHashDealerName(sType, hashDealerName);
+            var binSetting = _settingsRepository.GetUserBinarySettingByHashDealerName(sType, hashDealerName);
             if (binSetting != null)
             {
                 var bin = new BinarySettingDTO
@@ -539,7 +536,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                return Ok(SettingsRepository.CheckUserSkinExist(LoggedInUser?.UserId));
+                return Ok(_settingsRepository.CheckUserSkinExist(LoggedInUser?.UserId));
             }
             catch (Exception ex)
             {
@@ -554,7 +551,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                return Ok(SettingsRepository.CheckUserSkinExist(dealer));
+                return Ok(_settingsRepository.CheckUserSkinExist(dealer));
             }
             catch (Exception ex)
             {
@@ -568,7 +565,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetCustomerLinkSettings")]
         public IHttpActionResult GetCustomerLinkSettings()
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
+            var linkSettings = _customerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);
@@ -581,7 +578,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetCustomerLinkSettings")]
         public IHttpActionResult GetCustomerLinkSettings(string dealer)
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkSettingsByDealerName(dealer);
+            var linkSettings = _customerFormService.GetCustomerLinkSettingsByDealerName(dealer);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);
@@ -597,7 +594,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = CustomerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
+                var alerts = _customerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -611,7 +608,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetCustomerLinkLanguageOptions")]
         public IHttpActionResult GetCustomerLinkLanguageOptions(string hashDealerName, string lang)
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
+            var linkSettings = _customerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);

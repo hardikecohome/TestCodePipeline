@@ -19,42 +19,6 @@ namespace DealnetPortal.Api.Controllers
             _documentService = documentService;
         }
 
-        //[AllowAnonymous]
-        //[Route("UploadAgreementTemplate")]
-        //[HttpPost]
-        //public async Task<IHttpActionResult> PostUploadAgreementTemplate(AgreementTemplateDTO newAgreementTemplate)
-        //{
-        //    try
-        //    {
-        //        var result = await Task.Run(() =>
-        //        {
-        //            var newAgreement = Mapper.Map<AgreementTemplate>(newAgreementTemplate);
-
-        //            if (string.IsNullOrEmpty(newAgreement.DealerId) &&
-        //                !string.IsNullOrEmpty(newAgreementTemplate.DealerName))
-        //            {
-        //                var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //                var user = userManager?.FindByNameAsync(newAgreementTemplate.DealerName).GetAwaiter().GetResult();
-        //                if (user != null)
-        //                {
-        //                    newAgreement.DealerId = user.Id;
-        //                }
-        //            }
-
-        //            var addedAgreement = _fileRepository.AddOrUpdateAgreementTemplate(newAgreement);
-        //            _unitOfWork.Save();
-        //            return addedAgreement;
-        //        });
-        //        var resDto = Mapper.Map<AgreementTemplateDTO>(result);                
-        //        return Ok(resDto);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return InternalServerError(ex);
-        //    }
-        //}
-
-
         [AllowAnonymous]
         [Route("NotifySignatureStatus")]
         [HttpPost]
