@@ -171,12 +171,12 @@
                                 <option value="dateDesc">
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
-                                <option value="creditExpiryAsc">
+                                @*<option value="creditExpiryAsc">
                                     @Resources.CreditExpiryAsc
                                 </option>
                                 <option value="creditExpiryDesc">
                                     @Resources.CreditExpiryDesc
-                                </option>
+                                </option>*@
                             </select>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                         <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.creditExpiry -->
+                        @*<!-- ko if: sortedColumn() == sortFields.creditExpiry -->
                         <div class="filters-advanced__days-left">
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             @Resources.CreditExpiryAsc
@@ -247,7 +247,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
+                        <!-- /ko -->*@
                     </div>
                     
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -304,13 +304,13 @@
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell days-left" data-bind="click:configureSortClick(sortFields.creditExpiry)">
+                        @*<div class="main-table__block__row__cell days-left" data-bind="click:configureSortClick(sortFields.creditExpiry)">
                             <span>@Resources.CreditApprovalExpiry</span>
                             <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
-                        </div>
+                        </div>*@
                         <div class="main-table__block__row__cell program-option">
                             <span>@Resources.ProgramOption</span>
                         </div>
@@ -359,9 +359,9 @@
                         <div class="main-table__block__row__cell sales-rep">
                             <span>@Resources.SalesRep</span>
                         </div>
-                        <div class="main-table__block__row__cell entered-by">
+                        @*<div class="main-table__block__row__cell entered-by">
                             <span>@Resources.EnteredBy</span>
-                        </div>
+                        </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span>@Resources.Notes</span>
                         </div>
@@ -375,8 +375,8 @@
                 </div>
                 <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row">
-                        <div class="main-table__block__row__cell checkbox-cell" data-bind="css:{ 'new-deal': $data.IsNewlyCreated,'expired-deal':$data.isExpired }">
+                    <div class="main-table__block__row" data-bind="css:{ 'new-deal': $data.IsNewlyCreated,'expired-deal':$data.isExpired }">
+                        <div class="main-table__block__row__cell checkbox-cell">
                             <label class="customized-checkbox-icon" data-bind="if:!$data.IsInternal && $data.Id!=0">
                                 <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
                                 <span class="customized-checkbox-icon__image"></span>
@@ -386,9 +386,9 @@
                             <!-- ko if: $data.IsNewlyCreated -->
                             <span class="contract-number__notification contract-number__notification--blue">@Resources.New</span>
                             <!-- /ko -->
-                            <!-- ko if: $data.CreditExpiry && $data.CreditExpiry < 20 -->
+                            @*<!-- ko if: $data.CreditExpiry && $data.CreditExpiry < 20 -->
                             <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
-                            <!-- /ko -->
+                            <!-- /ko -->*@
                             <!-- ko ifnot: $data.Id -->
                             <span data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
@@ -414,9 +414,9 @@
                         <div class="main-table__block__row__cell applicant-name">
                             <span data-bind="text: $data.CustomerName"></span>
                         </div>
-                        <div class="main-table__block__row__cell days-left">
+                        @*<div class="main-table__block__row__cell days-left">
                             <span data-bind="text: $data.CreditExpiry"></span>
-                        </div>
+                        </div>*@
                         <div class="main-table__block__row__cell program-option">
                             <span data-bind="text: $data.ProgramOption"></span>
                         </div>
@@ -449,9 +449,9 @@
                         <div class="main-table__block__row__cell sales-rep">
                             <span data-bind="text: $data.SalesRep"></span>
                         </div>
-                        <div class="main-table__block__row__cell entered-by">
+                        @*<div class="main-table__block__row__cell entered-by">
                             <span data-bind="text: $data.EnteredBy"></span>
-                        </div>
+                        </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span data-bind="click:function(){$data.showNotes(!$data.showNotes());}">
                                 <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
@@ -518,14 +518,14 @@
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Date"></div>
 
-                                <div class="table-row-details__left__days-left">
+                                @*<div class="table-row-details__left__days-left">
                                     <span>@Resources.CreditApprovalExpiry</span>
                                     <span class="filter-ico filter-ico--desc">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
 
                                 <div class="table-row-details__left__loan-amount">
                                     <span>@Resources.LoanAmount</span>
@@ -604,11 +604,11 @@
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.SalesRep"></div>
 
-                                <div class="table-row-details__left__entered-by">
+                                @*<div class="table-row-details__left__entered-by">
                                     <span>@Resources.EnteredBy</span>
 
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text:$data.EnteredBy"></div>
+                                <div class="table-row-details__left__value" data-bind="text:$data.EnteredBy"></div>*@
 
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>
