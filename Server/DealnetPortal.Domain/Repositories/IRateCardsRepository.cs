@@ -5,7 +5,7 @@ namespace DealnetPortal.Domain.Repositories
 {
     public interface IRateCardsRepository
     {
-        Tier GetTierByDealerId(string dealerId, int? beacons, DateTime? validDate);
+        Tier GetTierByDealerId(string dealerId, int? beacons, DateTime? validDate, string OverrideCustomerRiskGroup);
         Tier GetTierByName(string tierName);
 
         /// <summary>

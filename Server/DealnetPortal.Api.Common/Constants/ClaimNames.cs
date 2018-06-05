@@ -13,5 +13,6 @@
         public const string MortgageBroker = "MortgageBroker";
         public const string LeaseTier = "LeaseTier";
         public const string AgreementType = "AgreementType";
+        public const string IsEmcoDealer = "IsEmcoDealer";
     }
 }

@@ -1235,7 +1235,7 @@
     <value>Type your equipment/service</value>
   </data>
   <data name="ApplyForFinancing" xml:space="preserve">
-    <value>Apply for financing</value>
+    <value>Apply for Financing/Lease</value>
   </data>
   <data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
     <value>I agree that dealer or its representatives may contact me by email or phone</value>
@@ -2510,7 +2510,7 @@ changing contract terms or signing contract on paper.</value>
     <value>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
-    <value>By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425 Boul. De Maisonneuve O. Montréal, Quebec, H3A 3G5</value>
+    <value>By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 4055 Rue Saint Catherine Ouest, Bureau 196, Westmount, Quebec H3Z 3J8</value>
   </data>
   <data name="Pre" xml:space="preserve">
     <value>Pre</value>
@@ -2746,5 +2746,26 @@ Additional program options may become available when customer’s credit details
   </data>
   <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
     <value>Additional applicant address should be in Quebec</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Dealer Profile Update</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Funded Deals</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Pending Deals</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Portal Inquiries</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Program Inquiries</value>
+  </data>
+  <data name="WithEscalatedPayments" xml:space="preserve">
+    <value>With escalated payments</value>
+  </data>
+  <data name="WithoutEscalatedPayments" xml:space="preserve">
+    <value>Without escalated payments</value>
   </data>
 </root>
