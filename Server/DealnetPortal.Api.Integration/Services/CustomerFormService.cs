@@ -611,8 +611,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 var contractDataDto = new ContractDataDTO()
                 {
-                    PrimaryCustomer = primaryCustomer,
-                    //HomeOwners = new List<Customer> { customer },
+                    PrimaryCustomer = primaryCustomer,                    
                     DealerId = contractOwnerId,
                     Id = contract.Id,
                     Equipment = !string.IsNullOrEmpty(equipmentType)

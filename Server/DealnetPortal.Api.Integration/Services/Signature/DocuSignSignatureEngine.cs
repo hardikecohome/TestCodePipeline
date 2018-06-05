@@ -625,7 +625,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {
                 EnvelopesApi envelopesApi = new EnvelopesApi();
                 var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
-                if (envelope.Status != "completed")
+                if (envelope.Status != "completed" && envelope.Status != "declined")
                 {
                     envelope = new Envelope
                     {

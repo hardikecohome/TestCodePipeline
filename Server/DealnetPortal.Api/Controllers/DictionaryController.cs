@@ -56,7 +56,7 @@ namespace DealnetPortal.Api.Controllers
             _rateCardsRepository = rateCardsRepository;
         }             
 
-        [Route("AllDocumentTypes")]
+        [Route("DocumentTypes")]
         [HttpGet]
         public IHttpActionResult GetAllDocumentTypes()
         {
@@ -85,7 +85,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("StateDocumentTypes")]
+        [Route("DocumentTypes/{state}")]
         [HttpGet]
         public IHttpActionResult GetStateDocumentTypes(string state)
         {
@@ -105,6 +105,66 @@ namespace DealnetPortal.Api.Controllers
                     LoggingService.LogError(errorMsg);
                 }
                 var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Document Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("DealerDocumentTypes/{state}")]
+        [Authorize]
+        [HttpGet]
+        public IHttpActionResult GetDealerDocumentTypes(string state)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var docTypes = Mapper.Map<IList<DocumentTypeDTO>>(_contractRepository.GetDealerDocumentTypes(state, LoggedInUser?.UserId));
+                if (docTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Document Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Document Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("DealerDocumentTypes")]
+        [Authorize]
+        [HttpGet]
+        public IHttpActionResult GetDealerDocumentTypes()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var provinceDocTypes = Mapper.Map<IDictionary<string, IList<DocumentTypeDTO>>>(_contractRepository.GetDealerDocumentTypes(LoggedInUser?.UserId));
+                if (provinceDocTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Document Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>(provinceDocTypes, alerts);
                 return Ok(result);
             }
             catch (Exception ex)
