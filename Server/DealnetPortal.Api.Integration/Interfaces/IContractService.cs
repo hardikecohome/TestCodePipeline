@@ -37,6 +37,8 @@ namespace DealnetPortal.Api.Integration.Interfaces
 
         IList<FlowingSummaryItemDTO> GetDealsFlowingSummary(string contractsOwnerId, FlowingSummaryType summaryType);
 
+        Tuple<IList<DocumentTypeDTO>, IList<Alert>> GetContractDocumentTypes(int contractId, string contractOwnerId);
+
         Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId);
 
         IList<Alert> RemoveContractDocument(int documentId, string contractOwnerId);

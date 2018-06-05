@@ -41,11 +41,12 @@
         $('#improvment-equipment').on('change', function () {
             var equipmentValue = $(this).val();
             dispatch(createAction(clientActions.SET_NEW_EQUIPMENT, equipmentValue));
-            var equipmentText = $("#improvment-equipment :selected").text();
+            var equipment = $("#improvment-equipment :selected");
             if (equipmentValue) {
                 if (improvments.indexOf(equipmentValue) === -1) {
                     improvments.push(equipmentValue);
-                    $('#improvement-types').append($('<li><input class="hidden" name="HomeImprovementTypes" value="' + equipmentValue + '">' + equipmentText + ' <span class="icon-remove" id="' + equipmentValue + '"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
+                    var index = improvments.length - 1;
+                    $('#improvement-types').append($('<li><input type="hidden" name="SelectedEquipmentTypes[' + index + '].Type" value="' + equipmentValue + '"><input type="hidden" name="SelectedEquipmentTypes[' + index + '].Id" value="' + equipment.data('id') + '" />' + equipment.text() + ' <span class="icon-remove" id="' + equipmentValue + '"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-remove-cross"></use></svg></span></li>'));
                     $('#' + equipmentValue).on('click', deleteEquipment);
                 }
                 $(this).val("");
@@ -99,7 +100,7 @@
             dispatch(createAction(clientActions.SET_IMPROVMENT_POSTAL_CODE, e.target.value));
         });
 
-        function deleteEquipment () {
+        function deleteEquipment() {
             $(this).parent().remove();
 
             var imprValue = $(this).attr('id');
@@ -108,6 +109,18 @@
             if (index !== -1) {
                 improvments.splice(index, 1);
             }
+
+            for (;;) {
+                index++;
+                var inputs = $('input[name^="SelectedEquipmentTypes[' + index + '"]');
+                if (!inputs.length) {
+                    break;
+                }
+                inputs.each(function () {
+                    $(this).attr('name', $(this).attr('name').replace('SelectedEquipmentTypes[' + index, 'SelectedEquipmentTypes[' + (index - 1)));
+                });
+            }
+
         }
         var observeCustomerFormStore = observe(store);
 

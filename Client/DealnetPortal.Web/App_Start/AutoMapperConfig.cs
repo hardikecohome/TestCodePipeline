@@ -272,7 +272,6 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<NewCustomerViewModel, NewCustomerDTO>()
                 .ForMember(x => x.CustomerComment, d => d.MapFrom(src => src.CustomerComment))
-                .ForMember(x => x.HomeImprovementTypes, d => d.MapFrom(src => src.HomeImprovementTypes))
                 .ForMember(x => x.PrimaryCustomer, d => d.MapFrom(src => src.HomeOwnerContactInfo))
                 .ForMember(x => x.LeadSource, d => d.Ignore());
 

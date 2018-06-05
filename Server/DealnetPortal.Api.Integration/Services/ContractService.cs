@@ -867,6 +867,31 @@ namespace DealnetPortal.Api.Integration.Services
             return null;
         }
 
+        public Tuple<IList<DocumentTypeDTO>, IList<Alert>> GetContractDocumentTypes(int contractId,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            IList<DocumentTypeDTO> docTypes = null;
+            try
+            {
+                docTypes = Mapper.Map<IList<DocumentTypeDTO>>(_contractRepository.GetContractDocumentTypes(contractId, contractOwnerId));                                
+            }
+            catch (Exception ex)
+            {
+                var errorMsg = "Cannot retrieve Document Types";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg, ex);
+            }
+
+            var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
+            return result;
+        }
+
         public Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
         {
             var alerts = new List<Alert>();
@@ -1115,6 +1140,18 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.LastUpdateTime = DateTime.UtcNow;
                         isChanged = true;
                     }
+                    if (aspireDeal.Details?.CreditAmount != null)
+                    {
+                        if (contract.Details.CreditAmount == null || contract.Details.CreditAmount < aspireDeal.Details.CreditAmount) {
+                            contract.Details.CreditAmount = aspireDeal.Details.CreditAmount;
+                            isChanged = true;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(aspireDeal.Details?.OverrideCustomerRiskGroup))
+                    {
+                        contract.Details.OverrideCustomerRiskGroup = aspireDeal.Details.OverrideCustomerRiskGroup;
+                        isChanged = true;
+                    }
                     //update contract state in any case
                     isChanged |= UpdateContractState(contract);
                 }
@@ -1194,7 +1231,7 @@ namespace DealnetPortal.Api.Integration.Services
             bool isValid = false;
             var state = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
             state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
-            var reqDocs = _contractRepository.GetStateDocumentTypes(state).Where(x=>x.IsMandatory);
+            var reqDocs = _contractRepository.GetDealerDocumentTypes(state, contract.DealerId).Where(x=>x.IsMandatory);
             //required documents
             isValid |= reqDocs.All(x => contract.Documents.Any(d => d.DocumentTypeId == x.Id) || x.Id == (int)DocumentTemplateType.SignedContract);
 

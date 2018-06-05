@@ -30,7 +30,7 @@
             </p>
 
             <p class="text-semibold preapproved-text">
-                @if(ViewBag.AgreementTypeAccessRights != "lease")
+                @if (ViewBag.ShowPreapprovalAmount == true)
                 {
                     if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
                     {
@@ -62,9 +62,18 @@
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
             </p>
-            <p class="text-semibold preapproved-text">
-                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
-            </p>
+            if (ViewBag.ShowPreapprovalAmount == true)
+            {
+                <p class="text-semibold preapproved-text">
+                    @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
+                </p>
+            }
+            else
+            {
+                <p class="text-semibold preapproved-text">
+                    @Resources.PreApproved
+                </p>
+            }
         }
     </div>
 </div>

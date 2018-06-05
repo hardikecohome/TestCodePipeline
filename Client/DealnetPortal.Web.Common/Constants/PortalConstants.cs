@@ -15,6 +15,7 @@
         public const string MortgageBrokerLeadSourceKey = "MortgageBrokerLeadSource";
         public const string OnboardingLeadSourceKey = "OnboardingLeadSource";
         public const string OnboardingLeadSourceFrenchKey = "OnboardingLeadSourceFrench";
+        public const string HidePreApprovalAmountsForLeaseDealersKey = "HidePreApprovalAmountsForLeaseDealers";
 
         public const string ClarityTierNameKey = "ClarityTierName";
         public const string CultureCookieName = "DEALNET_CULTURE_COOKIE";
