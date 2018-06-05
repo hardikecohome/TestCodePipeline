@@ -40,6 +40,9 @@ namespace DealnetPortal.Api.App_Start
             var configuration = new AppConfiguration(WebConfigSections.AdditionalSections);
             var creditReviewStates = configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
             var riskBasedStatus = configuration.GetSetting(WebConfigKeys.RISK_BASED_STATUS_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
+            var hidePreapprovalAmountForLeaseDealers = false;
+            bool.TryParse(configuration.GetSetting(WebConfigKeys.HIDE_PREAPPROVAL_AMOUNT_FOR_LEASEDEALERS_KEY),
+                out hidePreapprovalAmountForLeaseDealers);
             var leaseType = "Lease";
 
             mapperConfig.CreateMap<ApplicationUser, ApplicationUserDTO>()
@@ -128,7 +131,7 @@ namespace DealnetPortal.Api.App_Start
                             d.PrimaryCustomer.CreditReport.CreditLastUpdateTime > d.LastUpdateTime;
                     }
                     if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true ) 
-                        && c.Dealer?.DealerType != leaseType && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
+                        && (!hidePreapprovalAmountForLeaseDealers || c.Dealer?.DealerType != leaseType) && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
                     {
                         if (riskBasedStatus.Contains(c.Details.Status))
                         {
@@ -262,6 +265,8 @@ namespace DealnetPortal.Api.App_Start
                                                                        .Replace("(", string.Empty)
                                                                        .Replace(")", string.Empty)) ?? src.DealStatus : null,
                         Status = src.DealStatus,
+                        CreditAmount = src.OverrideCreditAmountLimit,
+                        OverrideCustomerRiskGroup = src.OverrideCustomerRiskGroup,
                         AgreementType =
                             src.AgreementType == "RENTAL"
                                 ? AgreementType.RentalApplication
