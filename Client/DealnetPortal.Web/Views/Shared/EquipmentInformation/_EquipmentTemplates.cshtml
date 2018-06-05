@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            @Html.HiddenFor(m => m.NewEquipment[0].EquipmentType.Id, new { @class = "new-equipment-id" })
+                            @Html.HiddenFor(m => m.NewEquipment[0].EquipmentType.Id)
                             @Html.LabelFor(m => m.NewEquipment[0].EquipmentType)
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentType.Type,
                                     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
@@ -100,7 +100,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            @Html.HiddenFor(m => m.NewEquipment[0].EquipmentType.Id, new { @class = "new-equipment-id" })
+                            @Html.HiddenFor(m => m.NewEquipment[0].EquipmentType.Id)
                             @Html.LabelFor(m => m.NewEquipment[0].EquipmentType)
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentType.Type,
                                                                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)

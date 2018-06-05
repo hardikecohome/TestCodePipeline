@@ -7,7 +7,6 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Web.Common.Constants;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
@@ -283,8 +282,12 @@ namespace DealnetPortal.Web.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
             ViewBag.IsQuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
-            ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value.ToLower() ?? string.Empty;
-            if(model.ContractState >= ContractState.Closed)
+	        ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value.ToLower() ?? string.Empty;
+            var hidePreApprovalAmountsForLeaseDealers = false;
+            bool.TryParse(System.Configuration.ConfigurationManager.AppSettings[PortalConstants.HidePreApprovalAmountsForLeaseDealersKey], out hidePreApprovalAmountsForLeaseDealers);
+            ViewBag.ShowPreapprovalAmount = ViewBag.AgreementTypeAccessRights != "lease" || !hidePreApprovalAmountsForLeaseDealers;
+
+                if(model.ContractState >= ContractState.Closed)
             {
                 var alerts = new List<Alert>()
                         {
@@ -389,7 +392,7 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
-
+            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
 
             return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
