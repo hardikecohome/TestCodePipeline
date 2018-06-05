@@ -150,7 +150,10 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/utils/loader.js")
                 .Include("~/Scripts/utils/tables.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
-                .Include("~/Scripts/pages/leads/leads.js"));
+	            .Include("~/Scripts/utils/tableFuncs.js")
+	            .Include("~/Scripts/components/ko.paginator.js")
+                .Include("~/Scripts/pages/leads/index.js")
+                .Include("~/Scripts/pages/leads/leadsPageTable.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/my-deals")
                 .Include("~/Scripts/vendor/datejs.js")
