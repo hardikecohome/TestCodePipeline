@@ -411,6 +411,254 @@ a.disabled{
     }
 }
 
+.nw-disabled {
+    pointer-events: none !important;
+    opacity: .5 !important;
+}
+
+.new-btn-solid-red,
+.new-btn-solid-green,
+.new-btn-solid-grey,
+.new-btn-red,
+.new-btn-red-filter,
+.new-sort-btn-red,
+.new-btn-green,
+.new-btn-grey {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    box-sizing: border-box;
+    font-size: 14px;
+
+    span, i {
+        align-self: center;
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+.new-btn-red-filter {
+    border: 1px solid #ff5f2a;
+    color: #ff5b40;
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(110deg, #f75d38, #ef2c50);
+
+        span {
+            margin-left: 4px;
+            color: white;
+        }
+
+        i {
+            width: 24px;
+            height: 24px;
+            background-image: url('../../images/redesign_icons/filter-enabled-white.svg');
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+.new-btn-red {
+    border: 1px solid #ff5f2a;
+    color: #ff5b40;
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(110deg, #f75d38, #ef2c50);
+
+        span {
+            color: white;
+        }
+    }
+}
+
+.new-btn-green {
+    border: 1px solid #96c400;
+    color: #68bf00;
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(293deg, #89c800, #71b301);
+
+        span {
+            color: white;
+        }
+    }
+}
+
+.new-btn-grey {
+    border: 1px solid #c4c4c4;
+    color: #8f8f8f;
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(110deg, #c2c2c2, #7b7a7a);
+
+        span {
+            color: white;
+        }
+    }
+}
+
+.new-btn-solid-red {
+    color: white;
+    background-image: linear-gradient(110deg, #ff613c, #ff3258);
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(110deg, #f75d38, #ef2c50);
+    }
+}
+
+.new-btn-solid-green {
+    color: white;
+    background-image: linear-gradient(293deg, #94d802, #7cc501);
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(293deg, #89c800, #71b301);
+    }
+
+}
+
+.new-btn-solid-grey {
+    color: white;
+    background-image: linear-gradient(110deg, #d6d6d6, #949494);
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(110deg, #c2c2c2, #7b7a7a);
+    }
+
+}
+
+.new-sort-btn-red {
+    border: 1px solid #ff5f2a;
+    color: #ff5b40;
+
+    &:hover {
+        cursor: pointer;
+        background-image: linear-gradient(110deg, #f75d38, #ef2c50);
+
+        span {
+            margin-left: 4px;
+            color: white;
+        }
+
+        i {
+            width: 24px;
+            height: 24px;
+            background-image: url('../../images/redesign_icons/filter-enabled-white.svg');
+        }
+    }
+}
+
+.icon-link-grey,
+.icon-link-green {
+    display: flex;
+    align-items: center;
+
+    a {
+        font-family: Mukta;
+        font-size: 14px;
+        margin-left: 6px;
+        color: @green-link-color;
+        text-decoration: underline;
+
+        &:hover {
+            cursor: pointer;
+            color: @green-link-color;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+
+.icon-link-grey {
+    display: flex;
+    align-items: center;
+
+    a {
+        font-family: Mukta;
+        font-size: 14px;
+        margin-left: 6px;
+        color: #8f8f8f;
+        text-decoration: underline;
+
+        &:hover {
+            cursor: pointer;
+            color: #8f8f8f;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+.add-link-blue {
+    display: flex;
+    align-items: center;
+
+    a {
+        font-family: Mukta;
+        font-size: 14px;
+        margin-left: 6px;
+        margin-top: 1px;
+        color: @blue-link-color;
+
+        &:hover {
+            cursor: pointer;
+            color: @blue-link-color;
+            text-decoration: none;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+.nw-clear-link {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+
+    i, a {
+        color: #395369;
+        cursor: pointer;
+        margin: 0 8px;
+        text-decoration: none;
+
+        &:hover {
+            color: #395369;
+        }
+    }
+
+    &--disabled {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
 body.ios-device {
     .btn-green {
         &:hover,

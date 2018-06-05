@@ -1,6 +1,7 @@
-﻿@using DealnetPortal.Api.Core.Helpers
-@using DealnetPortal.Web.Models.Enumeration
+﻿@using System.Configuration
 @using System.Security.Claims;
+@using DealnetPortal.Api.Core.Helpers
+@using DealnetPortal.Web.Models.Enumeration
 @using DealnetPortal.Web.Infrastructure.Managers
 
 <!DOCTYPE html>
@@ -16,15 +17,7 @@
     <title>@ViewBag.Title - DealNet</title>
     <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
     @RenderSection("Styles", false)
-    @switch(ApplicationSettingsManager.PortalType)
-    {
-        case PortalType.Odi:
-            @Styles.Render("~/Content/less/main-dealer.less")
-            break;
-        default:
-            @Styles.Render("~/Content/less/main-new.less")
-            break;
-    }
+    <link href="@Url.Content("~/Content/less/main-new.less")" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
     <script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
@@ -41,45 +34,45 @@
         translations['Cancel'] = "@Resources.Cancel";
         translations['new'] = '@Resources.New';
         @RenderSection("Translations", false)
-	</script>
-	@Scripts.Render("~/bundles/jquery")
-	@Scripts.Render("~/bundles/modernizr")
-	@Scripts.Render("~/bundles/bootstrap")
-	@Scripts.Render("~/bundles/dealnet")
-	@Scripts.Render("~/bundles/jqueryval")
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dealnet")
+    @Scripts.Render("~/bundles/jqueryval")
 
-	@switch (CultureHelper.CurrentCultureType)
-	{
-		case CultureType.French:
-			<script type="text/javascript"
-					src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
-			</script>
-			<script type="text/javascript">
-				$.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
-				$.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
-					"juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-				$.datepicker.setDefaults($.datepicker.regional['fr']);
-			</script>
-			break;
-	}
+    @switch(CultureHelper.CurrentCultureType)
+    {
+        case CultureType.French:
+            <script type="text/javascript"
+                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+            </script>
+            <script type="text/javascript">
+                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+                $.datepicker.setDefaults($.datepicker.regional['fr']);
+            </script>
+            break;
+    }
 
-	@*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])"></script>
-	<script>
+    @*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])"></script>
+    <script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
 		gtag('js', new Date());
 
-		gtag('config', '@System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"]');
-	</script>
+		gtag('config', '@ConfigurationManager.AppSettings["GoogleAnalyticsScript"]');
+    </script>
 
 
 </head>
 @{
     string phone = (bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ?
-                           System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] :
-                           System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
+                           ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] :
+                           ConfigurationManager.AppSettings["DealerSupportPhone"];
     string phoneToCall = phone.Replace("-", "");
 }
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized")">
@@ -93,219 +86,231 @@
                     </a>
                 </div>
                 @if(User.Identity.IsAuthenticated)
-    {
-            <div class="header__actions-tablet visible-md-block visible-sm-block">
+                {
+                    <div class="header__actions-tablet visible-md-block visible-sm-block">
 
-                @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
-    {
-            <div class="header__language pull-right">
-                <div class="dropdown dropdown-custom">
-                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                         aria-expanded="true">
-                        <span>
-                            @switch(CultureHelper.CurrentCultureType)
-                {
-                    case CultureType.English:
-                        @:En
-break;
-        case CultureType.French:
-            @:Fr
-break;
-}
-                        </span>
-                    </div>
-                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                        <li>
-                            @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
-                        </li>
-                    </ul>
-                </div>
-            </div>
-}
-                <div class="header__language pull-right">
-                    <div class="dropdown dropdown-custom">
-                        <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span>@User.Identity.Name</span>
-                        </div>
-                        <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li>
-                                @Html.ActionLink(Resources.Logout, "LogOff", "Account")
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="header__right-panel hidden-xs">
-                <div class="visible-lg-block">
-                    @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
-        {
-            <div class="header__language pull-right">
-                <div class="dropdown dropdown-custom">
-                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                         aria-expanded="true">
-                        <span>
-                            @switch(CultureHelper.CurrentCultureType)
-                {
-                    case CultureType.English:
-                        @:En
-break;
-        case CultureType.French:
-            @:Fr
-break;
-}
-                        </span>
-                    </div>
-                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                        <li>
-                            @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
-                        </li>
-                    </ul>
-                </div>
-            </div>
-}
-                    <div class="header__language pull-right">
-                        <div class="dropdown dropdown-custom">
-                            <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span>@User.Identity.Name</span>
+                        @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
+                        {
+                            <div class="header__language pull-right">
+                                <div class="dropdown dropdown-custom">
+                                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                                         aria-expanded="true">
+                                        <span>
+                                            @switch(CultureHelper.CurrentCultureType)
+                                            {
+                                                case CultureType.English:
+                                                    @:En
+                                                    break;
+                                                case CultureType.French:
+                                                    @:Fr
+                                                    break;
+                                            }
+                                        </span>
+                                    </div>
+                                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                        @if(CultureHelper.CurrentCultureType == CultureType.French)
+                                        {
+                                            <li>
+                                                @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                            </li>
+                                        }
+                                        @if(CultureHelper.CurrentCultureType == CultureType.English)
+                                        {
+                                            <li>
+                                                @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
-                            <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                <li>@Html.ActionLink(Resources.Logout, "LogOff", "Account")</li>
+                        }
+                        <div class="header__language pull-right">
+                            <div class="dropdown dropdown-custom">
+                                <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span>@User.Identity.Name</span>
+                                </div>
+                                <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                    <li>
+                                        @Html.ActionLink(Resources.Logout, "LogOff", "Account")
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header__right-panel hidden-xs">
+                        <div class="visible-lg-block">
+                            @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
+                            {
+                                <div class="header__language pull-right">
+                                    <div class="dropdown dropdown-custom">
+                                        <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                                             aria-expanded="true">
+                                            <span>
+                                                @switch(CultureHelper.CurrentCultureType)
+                                                {
+                                                    case CultureType.English:
+                                                        @:En
+                                                        break;
+                                                    case CultureType.French:
+                                                        @:Fr
+                                                        break;
+                                                }
+                                            </span>
+                                        </div>
+                                        <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                            @if(CultureHelper.CurrentCultureType == CultureType.French)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                                </li>
+                                            }
+                                            @if(CultureHelper.CurrentCultureType == CultureType.English)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                            <div class="header__language pull-right">
+                                <div class="dropdown dropdown-custom">
+                                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span>@User.Identity.Name</span>
+                                    </div>
+                                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                        <li>@Html.ActionLink(Resources.Logout, "LogOff", "Account")</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header__help">
+                            @Resources.HowCanWeHelp
+                            <div class="clearfix"></div>
+                            <span class="header__phone">@phone</span>
+                        </div>
+                        <div class="clearfix visible-lg-block"></div>
+                        <div class="header__support">
+                            <ul class="header__support-links-list">
+                                <li class="credit-funding-contact">
+                                    <span class="icon-support"></span>
+                                    <a href="#">@Resources.Credit</a>
+                                </li>
+                                <li class="dealer-support-contact">
+                                    <span class="icon-dealer-support"></span>
+                                    <a href="#">@Resources.DealerSupport/@Resources.Funding</a>
+                                </li>
+                                <li class="customer-service-contact">
+                                    <span class="icon-customer-service-support"></span>
+                                    <a href="#">@Resources.CustomerService</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div class="header__help">
-                    @Resources.HowCanWeHelp
-                    <div class="clearfix"></div>
-                    <span class="header__phone">@phone</span>
-                </div>
-                <div class="clearfix visible-lg-block"></div>
-                <div class="header__support">
-                    <ul class="header__support-links-list">
-                        <li class="credit-funding-contact">
-                            <span class="icon-support"></span>
-                            <a href="#">@Resources.Credit</a>
-                        </li>
-                        <li class="dealer-support-contact">
-                            <span class="icon-dealer-support"></span>
-                            <a href="#">@Resources.DealerSupport/@Resources.Funding</a>
-                        </li>
-                        <li class="customer-service-contact">
-                            <span class="icon-customer-service-support"></span>
-                            <a href="#">@Resources.CustomerService</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="clearfix visible-md-block visible-sm-block"></div>
+                    <div class="clearfix visible-md-block visible-sm-block"></div>
                     var hasAbout = (User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false;
-            <nav class="header__navigation hidden-xs @(hasAbout?"has-about":"")">
-                <ul>
-                    <li>
-                        <a href="@Url.Action("Index", "Home")">
-                            <span class="header__nav-icon icon-home"></span>
-                            <span>@Resources.Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a id="sidebar-item-newrental" href="@Url.Action("BasicInfo", "NewRental")">
-                            <span class="header__nav-icon icon-new_document"></span>
-                            <span>@Resources.NewApplication</span>
-                        </a>
-                    </li>
-                    @*<li>
-                <a>
-                    <span class="header__nav-icon icon-new_document"></span>
-                    <span>New Rental</span>
-                </a>
-            </li>*@
-                    <li>
-                        <a href="@Url.Action("Index", "MyDeals")">
-                            <span class="header__nav-icon icon-deals"></span>
-                            <span>@Resources.MyDeals</span>
-                            <div class="notification">
-                                <div class="new-deals-number"></div>
+                    <nav class="header__navigation hidden-xs @(hasAbout?"has-about":"")">
+                        <ul>
+                            <li>
+                                <a href="@Url.Action("Index", "Home")">
+                                    <span class="header__nav-icon icon-home"></span>
+                                    <span>@Resources.Home</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="sidebar-item-newrental" href="@Url.Action("BasicInfo", "NewRental")">
+                                    <span class="header__nav-icon icon-new_document"></span>
+                                    <span>@Resources.NewApplication</span>
+                                </a>
+                            </li>
+                            @*<li>
+                                    <a>
+                                        <span class="header__nav-icon icon-new_document"></span>
+                                        <span>New Rental</span>
+                                    </a>
+                                </li>*@
+                            <li>
+                                <a href="@Url.Action("Index", "MyDeals")">
+                                    <span class="header__nav-icon icon-deals"></span>
+                                    <span>@Resources.MyDeals</span>
+                                    <div class="notification">
+                                        <div class="new-deals-number"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Calculator")">
+                                    <span class="header__nav-icon icon-calculator"></span>
+                                    <span>@Resources.Calculator</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "ShareableLink")">
+                                    <span class="header__nav-icon icon-customer-link"></span>
+                                    <span>@Resources.ShareableLink</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Leads")">
+                                    <span class="header__nav-icon icon-cart"></span>
+                                    <span>@Resources.Leads</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Profile")">
+                                    <span class="header__nav-icon icon-profile"></span>
+                                    <span>@Resources.MyProfile</span>
+                                </a>
+                            </li>
+                            @if(hasAbout)
+                            {
+                                <li>
+                                    <a href="@Url.Action("About", "Home")">
+                                        <span class="header__nav-icon icon-about"></span>
+                                        <span>@Resources.AboutUs</span>
+                                    </a>
+                                </li>
+                            }
+                            <li>
+                                <a href="@Url.Action("Library", "Home")">
+                                    <span class="header__nav-icon icon-library"></span>
+                                    <span>@Resources.Library</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="mobile-help hidden-sm-up" id="mobile-navigation-help">
+                        <span class="icon-how-can-we-help"></span>
+                        <div name="select-help" id="" class="mobile-help__toggle">
+                            @Resources.HowCanWeHelp
+                        </div>
+                        <div class="mobile-navigation__dropdown">
+                            <ul>
+                                <li class="credit-funding-contact">
+                                    <span class="icon-support"></span>
+                                    <a href="#">
+                                        @Resources.Credit
+                                    </a>
+                                </li>
+                                <li class="dealer-support-contact">
+                                    <span class="icon-dealer-support"></span>
+                                    <a href="#">
+                                        @Resources.DealerSupport/@Resources.Funding
+                                    </a>
+                                </li>
+                                <li class="customer-service-contact">
+                                    <span class="icon-customer-service-support"></span>
+                                    <a href="#">
+                                        @Resources.CustomerService
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="mobile-help__phone">
+                                <a href="tel:+@phoneToCall">@phone</a>
                             </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Calculator")">
-                            <span class="header__nav-icon icon-calculator"></span>
-                            <span>@Resources.Calculator</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "ShareableLink")">
-                            <span class="header__nav-icon icon-customer-link"></span>
-                            <span>@Resources.ShareableLink</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Leads")">
-                            <span class="header__nav-icon icon-cart"></span>
-                            <span>@Resources.Leads</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Profile")">
-                            <span class="header__nav-icon icon-profile"></span>
-                            <span>@Resources.MyProfile</span>
-                        </a>
-                    </li>
-                    @if(hasAbout)
-        {
-            <li>
-                <a href="@Url.Action("About", "Home")">
-                    <span class="header__nav-icon icon-about"></span>
-                    <span>@Resources.AboutUs</span>
-                </a>
-            </li>
-}
-                    <li>
-                        <a href="@Url.Action("Library", "Home")">
-                            <span class="header__nav-icon icon-library"></span>
-                            <span>@Resources.Library</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="mobile-help hidden-sm-up" id="mobile-navigation-help">
-                <span class="icon-how-can-we-help"></span>
-                <div name="select-help" id="" class="mobile-help__toggle">
-                    @Resources.HowCanWeHelp
-                </div>
-                <div class="mobile-navigation__dropdown">
-                    <ul>
-                        <li class="credit-funding-contact">
-                            <span class="icon-support"></span>
-                            <a href="#">
-                                @Resources.Credit
-                            </a>
-                        </li>
-                        <li class="dealer-support-contact">
-                            <span class="icon-dealer-support"></span>
-                            <a href="#">
-                                @Resources.DealerSupport/@Resources.Funding
-                            </a>
-                        </li>
-                        <li class="customer-service-contact">
-                            <span class="icon-customer-service-support"></span>
-                            <a href="#">
-                                @Resources.CustomerService
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="mobile-help__phone">
-                        <a href="tel:+@phoneToCall">@phone</a>
+                        </div>
                     </div>
-                </div>
-            </div>
                     string navIcon = string.Empty;
                     string navHeader = string.Empty;
                     string activeItem = string.Empty;
@@ -326,7 +331,7 @@ break;
                                     navHeader = Resources.AboutUs;
                                     break;
                                 default:
-                                    navHeader=Resources.Home;
+                                    navHeader = Resources.Home;
                                     break;
                             }
                             break;
@@ -336,7 +341,7 @@ break;
                             break;
                         case "ShareableLink":
                             navIcon = "icon-customer-link";
-                            navHeader=Resources.ShareableLink;
+                            navHeader = Resources.ShareableLink;
                             break;
                         case "MyDeals":
                             navIcon = "icon-deals";
@@ -352,128 +357,130 @@ break;
                             navHeader = Resources.MyProfile;
                             break;
                     }
-            <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
-                <div class="mobile-navigation__active-item @activeItem">
-                    <span class="mobile-navigation__nav-icon @navIcon"></span>
-                    <span id="mobile-current-page">
-                        @navHeader
-                    </span>
+                    <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
+                        <div class="mobile-navigation__active-item @activeItem">
+                            <span class="mobile-navigation__nav-icon @navIcon"></span>
+                            <span id="mobile-current-page">
+                                @navHeader
+                            </span>
 
-                </div>
+                        </div>
 
-                <div class="mobile-navigation__dropdown">
-                    <ul>
-                        <li>
-                            <a href="@Url.Action("Index", "Home")">
-                                <span class="mobile-navigation__nav-icon icon-home"></span>
-                                <span>@Resources.Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("BasicInfo", "NewRental")">
-                                <span class="mobile-navigation__nav-icon icon-new_document"></span>
-                                <span>@Resources.NewApplication</span>
-                            </a>
-                        </li>
-                        @*<li>
-                    <a>
-                        <span class="mobile-navigation__nav-icon icon-new_document"></span>
-                        <span>New Rental</span>
-                    </a>
-                </li>*@
-                        <li>
-                            <a href="@Url.Action("Index", "MyDeals")">
-                                <span class="mobile-navigation__nav-icon icon-deals"></span>
-                                <span>@Resources.MyDeals</span>
-                                <div class="notification">
-                                    <div class="new-deals-number"></div>
+                        <div class="mobile-navigation__dropdown">
+                            <ul>
+                                <li>
+                                    <a href="@Url.Action("Index", "Home")">
+                                        <span class="mobile-navigation__nav-icon icon-home"></span>
+                                        <span>@Resources.Home</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("BasicInfo", "NewRental")">
+                                        <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                                        <span>@Resources.NewApplication</span>
+                                    </a>
+                                </li>
+                                @*<li>
+                                        <a>
+                                            <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                                            <span>New Rental</span>
+                                        </a>
+                                    </li>*@
+                                <li>
+                                    <a href="@Url.Action("Index", "MyDeals")">
+                                        <span class="mobile-navigation__nav-icon icon-deals"></span>
+                                        <span>@Resources.MyDeals</span>
+                                        <div class="notification">
+                                            <div class="new-deals-number"></div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Calculator")">
+                                        <span class="mobile-navigation__nav-icon icon-calculator"></span>
+                                        <span>@Resources.Calculator</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "ShareableLink")">
+                                        <span class="mobile-navigation__nav-icon icon-customer-link"></span>
+                                        <span>@Resources.ShareableLink</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="leads" href="@Url.Action("Index", "Leads")">
+                                        <span class="mobile-navigation__nav-icon icon-cart"></span>
+                                        <span>@Resources.Leads</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Profile")">
+                                        <span class="mobile-navigation__nav-icon icon-profile"></span>
+                                        <span>@Resources.MyProfile</span>
+                                    </a>
+                                </li>
+                                @if(hasAbout)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("About", "Home")">
+                                            <span class="mobile-navigation__nav-icon icon-about"></span>
+                                            <span>@Resources.AboutUs</span>
+                                        </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="@Url.Action("Library", "Home")">
+                                        <span class="mobile-navigation__nav-icon icon-library"></span>
+                                        <span>@Resources.Library</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
+                            {
+                                <div class="mobile-navigation__action-block">
+                                    <div class="dropdown dropdown-custom">
+                                        <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                                             aria-expanded="true">
+                                            @switch(CultureHelper.CurrentCultureType)
+                                            {
+                                                case CultureType.English:
+                                                    @:En
+                                                    break;
+                                                case CultureType.French:
+                                                    @:Fr
+                                                    break;
+                                            }
+                                        </div>
+                                        <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                                            @if(CultureHelper.CurrentCultureType == CultureType.French)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
+                                                </li>
+                                            }
+                                            @if(CultureHelper.CurrentCultureType == CultureType.English)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Calculator")">
-                                <span class="mobile-navigation__nav-icon icon-calculator"></span>
-                                <span>@Resources.Calculator</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "ShareableLink")">
-                                <span class="mobile-navigation__nav-icon icon-customer-link"></span>
-                                <span>@Resources.ShareableLink</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="leads" href="@Url.Action("Index", "Leads")">
-                                <span class="mobile-navigation__nav-icon icon-cart"></span>
-                                <span>@Resources.Leads</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Profile")">
-                                <span class="mobile-navigation__nav-icon icon-profile"></span>
-                                <span>@Resources.MyProfile</span>
-                            </a>
-                        </li>
-                        @if(hasAbout)
-            {
-                <li>
-                    <a href="@Url.Action("About", "Home")">
-                        <span class="mobile-navigation__nav-icon icon-about"></span>
-                        <span>@Resources.AboutUs</span>
-                    </a>
-                </li>
-}
-                        <li>
-                            <a href="@Url.Action("Library", "Home")">
-                                <span class="mobile-navigation__nav-icon icon-library"></span>
-                                <span>@Resources.Library</span>
-                            </a>
-                        </li>
-                    </ul>
-                    @if((bool?)TempData["LangSwitcherAvailable"] ?? false)
-        {
-            <div class="mobile-navigation__action-block">
-                <div class="dropdown dropdown-custom">
-                    <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                         aria-expanded="true">
-                        @switch(CultureHelper.CurrentCultureType)
-            {
-                case CultureType.English:
-                    @:En
-        break;
-    case CultureType.French:
-            @:Fr
-break;
-}
-                    </div>
-                    <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                        <li>
-                            @Html.ActionLink("En", "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("Fr", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
-                        </li>
-                    </ul>
-                </div>
-            </div>
-}
-                    <div class="mobile-navigation__user">
-                        @User.Identity.Name
-                        @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "mobile-navigation__logout" })
-                    </div>
-                </div>
-            </nav>
-}
+                            }
+                            <div class="mobile-navigation__user">
+                                @User.Identity.Name
+                                @Html.ActionLink(Resources.Logout, "LogOff", "Account", null, new { @class = "mobile-navigation__logout" })
+                            </div>
+                        </div>
+                    </nav>
+                }
                 <div class="clearfix"></div>
             </div>
         </div>
     </header>
     <div class="clearfix"></div>
     @{
-        var viewPath = ((RazorView)ViewContext.View).ViewPath;
-    }
-    @if(viewPath.Contains("Home/Index"))
-    {
         var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
         var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
 
@@ -481,7 +488,7 @@ break;
         {
             <div class="custom-container">
                 <a class="banner" @(!string.IsNullOrEmpty(bannerLink) ? "href=" + bannerLink + " target=\"_blank\"" : "")>
-                    <img src="@Url.Content(ViewBag.Banner)"/>
+                    <img src="@Url.Content(ViewBag.Banner)" />
                 </a>
             </div>
             <div class="clearfix"></div>

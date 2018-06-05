@@ -991,6 +991,30 @@
   <data name="StandardRate" xml:space="preserve">
     <value>Standard Rate</value>
   </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Declined</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="NotInitiated" xml:space="preserve">
+    <value>Not Initiated</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="Signed" xml:space="preserve">
+    <value>Signed</value>
+  </data>
   <data name="LeaseApplication" xml:space="preserve">
     <value>Lease</value>
   </data>
