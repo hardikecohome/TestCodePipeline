@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
@@ -21,8 +15,6 @@ using Microsoft.Owin.Security;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    using Api.Models.Contract.EquipmentInformation;
-
     public class ContractServiceAgent : ApiBase, IContractServiceAgent
     {
         private const string ContractApi = "Contract";
@@ -143,7 +135,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.PutAsyncEx<string, IList<Alert>>(
-                            $"{_fullUri}/NotifyContractEdit?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/{contractId}/NotifyEdit", "", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -161,7 +153,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
+                _loggingService.LogError($"Can't update client data for contract {contractData.Id}", ex);
                 throw;
             }
         }
@@ -175,26 +167,26 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError("Can't update customers data", ex);
+                _loggingService.LogError("Can't update customers data", ex);
                 throw;
             }            
         }
 
-        public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
-        {
-            try
-            {
-                return
-                    await
-                        Client.PutAsyncEx<string, IList<Alert>>(
-                            $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
-                throw;
-            }
-        }
+        //public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
+        //{
+        //    try
+        //    {
+        //        return
+        //            await
+        //                Client.PutAsyncEx<string, IList<Alert>>(
+        //                    $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
+        //        throw;
+        //    }
+        //}
 
         public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
         {
@@ -219,7 +211,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
+                _loggingService.LogError($"Can't update signature users for contract {signatureUsers.ContractId}", ex);
                 throw;
             }
         }
@@ -235,7 +227,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
+                _loggingService.LogError($"Can't cancel digital signature for contract {contractId}", ex);
                 throw;
             }
         }        
@@ -263,7 +255,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.GetAsyncEx<Tuple<CreditCheckDTO, IList<Alert>>>(
-                            $"{_fullUri}/GetCreditCheckResult?contractId={contractId}", AuthenticationHeader, CurrentCulture);
+                            $"{_fullUri}/{contractId}/creditcheck", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -284,6 +276,22 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get contract print agreement", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetContractDocumentTypes(int contractId)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/{contractId}/DocumentTypes", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get document types list for contract", ex);
                 throw;
             }
         }
@@ -409,7 +417,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError("Can't add document to contract", ex);
+                _loggingService.LogError("Can't add document to contract", ex);
                 throw;
             }
         }

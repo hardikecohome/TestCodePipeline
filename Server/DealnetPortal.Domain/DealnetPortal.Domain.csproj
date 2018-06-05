@@ -86,7 +86,10 @@
     <Compile Include="Contract.cs" />
     <Compile Include="ContractDetails.cs" />
     <Compile Include="ContractDocument.cs" />
+    <Compile Include="ContractSalesRepInfo.cs" />
     <Compile Include="ContractSigner.cs" />
+    <Compile Include="CreditAmountSetting.cs" />
+    <Compile Include="CustomerCreditReport.cs" />
     <Compile Include="DealerArea.cs" />
     <Compile Include="DealerEquipment.cs" />
     <Compile Include="DealerProfile.cs" />
@@ -107,8 +110,10 @@
     <Compile Include="Email.cs" />
     <Compile Include="EmploymentInfo.cs" />
     <Compile Include="EquipmentInfo.cs" />
+    <Compile Include="EquipmentSubType.cs" />
     <Compile Include="FundingCheckDocument.cs" />
     <Compile Include="FundingCheckList.cs" />
+    <Compile Include="FundingDocumentList.cs" />
     <Compile Include="InstallationPackage.cs" />
     <Compile Include="LicenseDocument.cs" />
     <Compile Include="LicenseType.cs" />
@@ -124,6 +129,7 @@
     <Compile Include="Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinceTaxRate.cs" />
+    <Compile Include="RateReductionCard.cs" />
     <Compile Include="RateCard.cs" />
     <Compile Include="Repositories\IApplicationRepository.cs" />
     <Compile Include="Repositories\IContractRepository.cs" />
@@ -136,6 +142,7 @@
     <Compile Include="Repositories\ISettingsRepository.cs" />
     <Compile Include="SettingItem.cs" />
     <Compile Include="SettingValue.cs" />
+    <Compile Include="CustomerRiskGroup.cs" />
     <Compile Include="Tier.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="VerifiactionId.cs" />

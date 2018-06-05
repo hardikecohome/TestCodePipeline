@@ -29,7 +29,7 @@ namespace DealnetPortal.DataAccess.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            //AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
             _configuration = new Utilities.Configuration.AppConfiguration(WebConfigSections.AdditionalSections);
         }
@@ -68,6 +68,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 SetSettingItems(context);
                 SetUserSettings(context);                
                 SetRateCards(context);
+                SetCreditAmountConfiguration(context);
             }
             //read updated pdf templates anyway
             SetExistingPdfTemplates(context);
@@ -2012,65 +2013,72 @@ namespace DealnetPortal.DataAccess.Migrations
                     {
                         Description = "Air Conditioner",
                         DescriptionResource = "AirConditioner",
-                        Type = "ECO1"
+                        Type = "ECO1",
+                        UnderBill59 = true, UsefulLife = 15
                     },
-                    new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2"},
-                    new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3"},
-                    new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4"},
-                    new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5"},
-                    new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6"},
-                    new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7"},
-                    new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9"},
-                    new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10"},
+                    new EquipmentType {Description = "Boiler", DescriptionResource = "Boiler", Type = "ECO2", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Doors", DescriptionResource = "Doors", Type = "ECO3", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Fireplace", DescriptionResource = "Fireplace", Type = "ECO4", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Furnace", DescriptionResource = "Furnace", Type = "ECO5", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "HWT", DescriptionResource = "Hwt", Type = "ECO6", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Plumbing", DescriptionResource = "Plumbing", Type = "ECO7", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Roofing", DescriptionResource = "Roofing", Type = "ECO9", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Siding", DescriptionResource = "Siding", Type = "ECO10", UnderBill59 = false, UsefulLife = 15},
                     new EquipmentType
                     {
                         Description = "Tankless Water Heater",
                         DescriptionResource = "TanklessWaterHeater",
-                        Type = "ECO11"
+                        Type = "ECO11",
+                        UnderBill59 = false, UsefulLife = 15
                     },
-                    new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13"},
-                    new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38"},
-                    new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40"},
-                    new EquipmentType {Description = "Pool", DescriptionResource = "Pool", Type = "ECO53"},
+                    new EquipmentType {Description = "Windows", DescriptionResource = "Windows", Type = "ECO13", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Sunrooms", DescriptionResource = "Sunrooms", Type = "ECO38", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Air Handler", DescriptionResource = "AirHandler", Type = "ECO40", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Pool", DescriptionResource = "Pool", Type = "ECO53", UnderBill59 = false, UsefulLife = 15},
                     new EquipmentType
                     {
                         Description = "Porch Enclosure",
                         DescriptionResource = "PorchEnclosure",
-                        Type = "ECO43"
+                        Type = "ECO43",
+                        UnderBill59 = false, UsefulLife = 15
                     },
                     new EquipmentType
                     {
                         Description = "Water Treatment System",
                         DescriptionResource = "WaterTreatmentSystem",
-                        Type = "ECO44"
+                        Type = "ECO44",
+                        UnderBill59 = false, UsefulLife = 10
                     },
-                    new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45"},
-                    new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46"},
-                    new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47"},
-                    new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48"},
-                    new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49"},
+                    new EquipmentType {Description = "Heat Pump", DescriptionResource = "HeatPump", Type = "ECO45", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "HRV", DescriptionResource = "Hrv", Type = "ECO46", UnderBill59 = true, UsefulLife = 15},
+                    new EquipmentType {Description = "Bathroom", DescriptionResource = "Bathroom", Type = "ECO47", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Kitchen", DescriptionResource = "Kitchen", Type = "ECO48", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Hepa System", DescriptionResource = "HepaSystem", Type = "ECO49", UnderBill59 = true, UsefulLife = 10},
                     //new EquipmentType {Description = "Unknown", DescriptionResource = "Unknown", Type = "ECO50"},
                     //new EquipmentType {Description = "c", DescriptionResource = "SecuritySystem", Type = "ECO52"},
                     new EquipmentType
                     {
                         Description = "Basement Repair",
                         DescriptionResource = "BasementRepair",
-                        Type = "ECO55"
+                        Type = "ECO55",
+                        UnderBill59 = false, UsefulLife = 15
                     },
-                    new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58"},
-                    new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59"},
+                    new EquipmentType {Description = "Spa", DescriptionResource = "Spa", Type = "ECO58", UnderBill59 = false, UsefulLife = 15},
+                    new EquipmentType {Description = "Well pump", DescriptionResource = "WellPump", Type = "ECO59", UnderBill59 = false, UsefulLife = 10},
                     new EquipmentType
                     {
                         Description = "Air Filtration",
                         DescriptionResource = "AirFiltration",
-                        Type = "ECO23"
+                        Type = "ECO23",
+                        UnderBill59 = true, UsefulLife = 10
                     },
-                    new EquipmentType {Description = "Hot Tub", DescriptionResource = "HotTub", Type = "ECO54"},
+                    new EquipmentType {Description = "Hot Tub", DescriptionResource = "HotTub", Type = "ECO54", UnderBill59 = false, UsefulLife = 15},
                     new EquipmentType
                     {
                         Description = "Vertical Fan/HRV Combo",
                         DescriptionResource = "VerticalFanHRVCombo",
-                        Type = "ECO60"
+                        Type = "ECO60",
+                        UnderBill59 = false, UsefulLife = 15
                     }
                 };
                 //leave existing data
@@ -2081,46 +2089,113 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetTestProvinceTaxRates(ApplicationDbContext context)
         {
-            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
-            var taxRates = new List<ProvinceTaxRate>
+            if (!context.ProvinceTaxRates.Any())
             {
-                new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "GST", Name = "Alberta"},
-                new ProvinceTaxRate {Province = "BC", Rate = 12, Description = "GST + PST", Name = "British Columbia"},
-                new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GST + PST", Name = "Manitoba"},
-                new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "HST", Name = "New Brunswick"},
-                new ProvinceTaxRate {Province = "NL", Rate = 15, Description = "HST", Name = "Newfoundland and Labrador"},
-                new ProvinceTaxRate {Province = "NT", Rate = 5, Description = "GST", Name = "Northwest Territories"},
-                new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "HST", Name = "Nova Scotia"},
-                new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "GST", Name = "Nunavut"},
-                new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "HST", Name = "Ontario"},
-                new ProvinceTaxRate {Province = "PE", Rate = 15, Description = "HST", Name = "Prince Edward Island"},
-                new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GST + QST", Name = "Quebec"},
-                new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GST + PST", Name = "Saskatchewan"},
-                new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "GST", Name = "Yukon"}
-            };
-            //leave existing data
-            taxRates.RemoveAll(t => context.ProvinceTaxRates.ToList().Any(dbt => dbt.Province == t.Province && dbt.Name == t.Name && dbt.Description == t.Description));
-            context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+                //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+                var taxRates = new List<ProvinceTaxRate>
+                {
+                    new ProvinceTaxRate {Province = "AB", Rate = 5, Description = "GST", Name = "Alberta"},
+                    new ProvinceTaxRate
+                    {
+                        Province = "BC",
+                        Rate = 12,
+                        Description = "GST + PST",
+                        Name = "British Columbia"
+                    },
+                    new ProvinceTaxRate {Province = "MB", Rate = 13, Description = "GST + PST", Name = "Manitoba"},
+                    new ProvinceTaxRate {Province = "NB", Rate = 15, Description = "HST", Name = "New Brunswick"},
+                    new ProvinceTaxRate
+                    {
+                        Province = "NL",
+                        Rate = 15,
+                        Description = "HST",
+                        Name = "Newfoundland and Labrador"
+                    },
+                    new ProvinceTaxRate
+                    {
+                        Province = "NT",
+                        Rate = 5,
+                        Description = "GST",
+                        Name = "Northwest Territories"
+                    },
+                    new ProvinceTaxRate {Province = "NS", Rate = 15, Description = "HST", Name = "Nova Scotia"},
+                    new ProvinceTaxRate {Province = "NU", Rate = 5, Description = "GST", Name = "Nunavut"},
+                    new ProvinceTaxRate {Province = "ON", Rate = 13, Description = "HST", Name = "Ontario"},
+                    new ProvinceTaxRate
+                    {
+                        Province = "PE",
+                        Rate = 15,
+                        Description = "HST",
+                        Name = "Prince Edward Island"
+                    },
+                    new ProvinceTaxRate {Province = "QC", Rate = 14.975, Description = "GST + QST", Name = "Quebec"},
+                    new ProvinceTaxRate {Province = "SK", Rate = 11, Description = "GST + PST", Name = "Saskatchewan"},
+                    new ProvinceTaxRate {Province = "YT", Rate = 5, Description = "GST", Name = "Yukon"}
+                };
+                //leave existing data
+                taxRates.RemoveAll(t => context.ProvinceTaxRates.ToList().Any(dbt =>
+                    dbt.Province == t.Province && dbt.Name == t.Name && dbt.Description == t.Description));
+                context.ProvinceTaxRates.AddOrUpdate(t => t.Province, taxRates.ToArray());
+            }
         }
 
         private void SetTestVerficationIds(ApplicationDbContext context)
         {
-            //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
-            var VerificationIds = new List<VerifiactionId>
+            if (context.VerificationIds.Any())
             {
-                new VerifiactionId {VerificationIdName = "Driver’s license", VerificationIdNameResource = "DriverLicense"},
-                new VerifiactionId {VerificationIdName = "BYID card", VerificationIdNameResource = "ByidCard"},
-                new VerifiactionId {VerificationIdName = "Canadian or foreign passport", VerificationIdNameResource = "CanadianPassport"},
-                new VerifiactionId {VerificationIdName = "Canadian citizenship card", VerificationIdNameResource = "CanadianCitizenshipCard" },
-                new VerifiactionId {VerificationIdName = "Possession and Acquisition License (PAL card)", VerificationIdNameResource = "PalCard" },
-                new VerifiactionId {VerificationIdName = "Permanent Residency Card", VerificationIdNameResource = "PermanentResidencyCard"},
-                new VerifiactionId {VerificationIdName = "Certificate of Indian Status", VerificationIdNameResource = "CertificateInidanStatus" },
-                new VerifiactionId {VerificationIdName = "Canadian National Institute for the Blind identification card", VerificationIdNameResource = "CanadianBlindIdentificationCard" },
-                new VerifiactionId {VerificationIdName = "Canadian Military Employment Card ", VerificationIdNameResource = "CanadianMilitaryCard" },
-                new VerifiactionId {VerificationIdName = "Canadian Military Family Identification Card", VerificationIdNameResource = "CanadianFamilyMilitaryCard" }
+                //Obtained from http://www.retailcouncil.org/quickfacts/taxrates
+                var VerificationIds = new List<VerifiactionId>
+                {
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Driver’s license",
+                        VerificationIdNameResource = "DriverLicense"
+                    },
+                    new VerifiactionId {VerificationIdName = "BYID card", VerificationIdNameResource = "ByidCard"},
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian or foreign passport",
+                        VerificationIdNameResource = "CanadianPassport"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian citizenship card",
+                        VerificationIdNameResource = "CanadianCitizenshipCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Possession and Acquisition License (PAL card)",
+                        VerificationIdNameResource = "PalCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Permanent Residency Card",
+                        VerificationIdNameResource = "PermanentResidencyCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Certificate of Indian Status",
+                        VerificationIdNameResource = "CertificateInidanStatus"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian National Institute for the Blind identification card",
+                        VerificationIdNameResource = "CanadianBlindIdentificationCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian Military Employment Card ",
+                        VerificationIdNameResource = "CanadianMilitaryCard"
+                    },
+                    new VerifiactionId
+                    {
+                        VerificationIdName = "Canadian Military Family Identification Card",
+                        VerificationIdNameResource = "CanadianFamilyMilitaryCard"
+                    }
 
-            };
-            context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
+                };
+                context.VerificationIds.AddOrUpdate(t => t.VerificationIdName, VerificationIds.ToArray());
+            }
         }
 
         private void SetAspireStatuses(ApplicationDbContext context)
@@ -3152,6 +3227,39 @@ namespace DealnetPortal.DataAccess.Migrations
                     // ignored
                 }
             });
+        }
+
+        private void SetCreditAmountConfiguration(ApplicationDbContext context)
+        {
+            if (!context.CreditAmountSettings.Any())
+            {
+                List<CreditAmountSetting> settings = new List<CreditAmountSetting>();
+                settings.Add(new CreditAmountSetting()
+                {
+                    CreditScoreFrom = 0,
+                    CreditScoreTo = 718,
+                    CreditAmount = 7500,
+                    EscalatedLimit = 105,
+                    NonEscalatedLimit = 115
+                });
+                settings.Add(new CreditAmountSetting()
+                {
+                    CreditScoreFrom = 719,
+                    CreditScoreTo = 768,
+                    CreditAmount = 12500,
+                    EscalatedLimit = 205,
+                    NonEscalatedLimit = 230
+                });
+                settings.Add(new CreditAmountSetting()
+                {
+                    CreditScoreFrom = 769,
+                    CreditScoreTo = 999,
+                    CreditAmount = 20000,
+                    EscalatedLimit = 345,
+                    NonEscalatedLimit = 390
+                });
+                context.CreditAmountSettings.AddOrUpdate(ca => new {ca.CreditScoreFrom, ca.CreditScoreTo}, settings.ToArray());
+            }
         }
 
         private void SetSettingItems(ApplicationDbContext context)

@@ -126,7 +126,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         {
             _creditCheckServiceMock.Setup(
                 s =>
-                    s.GetCreditCheckResult(It.IsAny<int>(), It.IsAny<string>())
+                    s.ContractCreditCheck(It.IsAny<int>(), It.IsAny<string>())
                     ).Returns(new Tuple<CreditCheckDTO, IList<Alert>>(new CreditCheckDTO(), new List<Alert>() {new Alert()}));
             var responseRes = _contractController.GetCreditCheckResult(1);
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();

@@ -1,6 +1,7 @@
 ﻿module.exports('rate-cards-ui', function (require) {
 
     var state = require('state').state;
+    var constants = require('state').constants;
     var validateCustomCard = require('validation').validateCustomCard;
 
     var setEqualHeightRows = require('setEqualHeightRows');
@@ -18,6 +19,20 @@
         if (!$('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').addClass('hidden');
         }
+
+        if (!$('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').addClass('hidden');
+        }
+
+        if (state.isCustomerFoundInCreditBureau) {
+            if (!$('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').addClass('hidden');
+            }
+        } else {
+            if ($('#bureau-program').hasClass('hidden')) {
+                $('#bureau-program').removeClass('hidden');
+            }
+        }
     }
 
     var hideRateCardBlock = function () {
@@ -30,6 +45,10 @@
 
         if ($('#paymentInfo').hasClass('hidden')) {
             $('#paymentInfo').removeClass('hidden');
+        }
+
+        if (!$('#bureau-program').hasClass('hidden')) {
+            $('#bureau-program').addClass('hidden');
         }
     }
 
@@ -66,6 +85,15 @@
             });
         }
     }
+    var toggleIsAdminFeeCovered = function (isCovered) {
+        if (isCovered == null) return;
+
+        constants.rateCards.forEach(function (option) {
+            $('#' + option.name + 'AFee').parent().removeClass('hidden');
+            var text = isCovered ? translations.coveredByCustomer : translations.coveredByDealer;
+            $('#' + option.name + 'AdminFeeHolder').text('(' + text + ')');
+        });
+    }
 
     var setHeight = function () {
         setEqualHeightRows($(".equal-height-label-1"));
@@ -80,41 +108,65 @@
 
     var onAgreemntSelect = function () {
         var agreementType = +$(this).find("option:selected").val();
-        if (agreementType === 0) {
-            //If loan is chosen
-            setHeight();
-            if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
-                if (!state.onlyCustomRateCard) {
-                    $('#submit').addClass('disabled');
-                    $('#submit').parent().popover();
-                }
-            }
+        toggleAgreementTypeSection(agreementType);
+    }
 
-            $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
-            $('.rental-element').hide();
-            if ($('#rateCardsBlock').find('div.checked').length) {
-                toggleRateCardBlock(false);
-            } else {
-                var show = state.onlyCustomRateCard ? !validateCustomCard(true) : true;
-                toggleRateCardBlock(show);
-            }
-            $("#requested-term").rules("remove", "required");
-        } else {
-            //If rental is chosen
-            if ($("#submit").hasClass('disabled')) {
-                $('#submit').removeClass('disabled');
-                $('#submit').parent().popover('destroy');
-            }
-            setHeight();
-            $('.rental-element').show();
-            $('#loanRateCardToggle, .loan-element, .downpayment-row').hide();
-            $('#rateCardsBlock').removeClass('opened').addClass('closed');
-            if (!$('#paymentInfo').hasClass('hidden')) {
-                $('#paymentInfo').addClass('hidden');
-            }
-            $("#requested-term").rules("add", "required");
-        }
+    var toggleAgreementTypeSection = function (agreementType) {
+
+        if (agreementType == constants.applicationType.loanApplication) _loanAgreementType();
+        if (agreementType == constants.applicationType.rentalApplication) _leaseAgreementType();
+        if (agreementType == constants.applicationType.rentalApplicationHwt) _leaseAgreementType();
+
         updateEquipmentCosts(agreementType);
+    };
+
+    function _loanAgreementType() {
+        setHeight();
+        if (!$("#submit").hasClass('disabled') && $('#rateCardsBlock').find('div.checked').length === 0) {
+            if (!state.onlyCustomRateCard) {
+                $('#submit').addClass('disabled');
+                $('#submit').parent().popover();
+            }
+        }
+
+        $('#loanRateCardToggle, .loan-element, .downpayment-row').show();
+        $('.rental-element').hide();
+        $('.rental-element input, .rental-element select').each(function () {
+            var $this = $(this);
+            $this.prop('disabled', true);
+            $this.rules('remove', 'required');
+        });
+        if ($('#rateCardsBlock').find('div.checked').length) {
+            toggleRateCardBlock(false);
+        } else {
+            var show = state.onlyCustomRateCard ? !validateCustomCard(true) : true;
+            toggleRateCardBlock(show);
+        }
+        $("#requested-term").rules("remove", "required");
+    }
+
+    function _leaseAgreementType() {
+        if ($("#submit").hasClass('disabled')) {
+            $('#submit').removeClass('disabled');
+            $('#submit').parent().popover('destroy');
+        }
+        setHeight();
+        $('.rental-element').show();
+        $('.rental-element input, .rental-element select').each(function () {
+            var $this = $(this);
+            $this.prop('disabled', false);
+            $this.rules('add', 'required');
+        });
+        $('#loanRateCardToggle, .loan-element, .downpayment-row').hide();
+        $('#rateCardsBlock').removeClass('opened').addClass('closed');
+        if (!$('#paymentInfo').hasClass('hidden')) {
+            $('#paymentInfo').addClass('hidden');
+        }
+        $("#requested-term").rules("add", "required");
+
+        if (!$('#bureau-program').hasClass('hidden')) {
+            $('#bureau-program').addClass('hidden');
+        }
     }
 
     var highlightCardBySelector = function (selector) {
@@ -159,7 +211,7 @@
             $('#rateCardsBlock').addClass('one-rate-card');
         }
 
-        $('#typeOfAgreementSelect').on('change', onAgreemntSelect).change();
+        $('#typeOfAgreementSelect').on('change', onAgreemntSelect);
 
         setHeight();
         carouselRateCards();
@@ -192,121 +244,121 @@
         });
     }
 
-    function carouselRateCards () {
+    function carouselRateCards() {
 
-    if (state.onlyCustomRateCard) {
-        return;
-    }
+        if (state.onlyCustomRateCard) {
+            return;
+        }
 
-    var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
-    if (jcarousel.length < 1) {
-        return;
-    }
+        var jcarousel = $('.rate-cards-container:not(".one-rate-card") .jcarousel');
+        if (jcarousel.length < 1) {
+            return;
+        }
 
-    var windowWidth = $(window).width();
-    var paginationItems;
-    var targetSlides;
-    if (windowWidth >= 1400) {
-        paginationItems = 5;
-        targetSlides = 0;
-    } else if (windowWidth >= 1024) {
-        paginationItems = 4;
-        targetSlides = 3;
-    } else if (windowWidth >= 768) {
-        paginationItems = 2;
-        targetSlides = 2;
-    } else {
-        paginationItems = 1;
-        targetSlides = 1;
-    }
+        var windowWidth = $(window).width();
+        var paginationItems;
+        var targetSlides;
+        if (windowWidth >= 1400) {
+            paginationItems = 5;
+            targetSlides = 0;
+        } else if (windowWidth >= 1024) {
+            paginationItems = 4;
+            targetSlides = 3;
+        } else if (windowWidth >= 768) {
+            paginationItems = 2;
+            targetSlides = 2;
+        } else {
+            paginationItems = 1;
+            targetSlides = 1;
+        }
 
-    var numItems = jcarousel.find('li').length;
-    if (paginationItems > numItems)
-        paginationItems = numItems;
-    var width = viewport().width
+        var numItems = jcarousel.find('li:visible').length;
+        if (paginationItems > numItems)
+            paginationItems = numItems;
+        var width = viewport().width
 
-    var carouselItemsToView = width >= 1400 ? numItems : width >= 768 && width < 1024 ? 2 : width < 768 ? 1 : numItems;
+        var carouselItemsToView = width >= 1400 ? numItems : width >= 768 && width < 1024 ? 2 : width < 768 ? 1 : numItems;
 
-    jcarousel
-        .on('jcarousel:reload jcarousel:create', function () {
-            var carousel = $(this),
-                carouselWidth = carousel.innerWidth(),
-                width = carouselWidth / carouselItemsToView;
+        jcarousel
+            .on('jcarousel:reload jcarousel:create', function () {
+                var carousel = $(this),
+                    carouselWidth = carousel.innerWidth(),
+                    width = carouselWidth / carouselItemsToView;
 
-            carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-        }).jcarousel();
+                carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+            }).jcarousel();
 
-    if (width < 1400) {
-        jcarousel.swipe({
-            //Generic swipe handler for all directions
-            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
-                $('.link-over-notify').each(function () {
-                    if ($(this).attr('aria-describedby')) {
-                        $(this).click();
+        if (width < 1400) {
+            jcarousel.swipe({
+                //Generic swipe handler for all directions
+                swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                    $('.link-over-notify').each(function () {
+                        if ($(this).attr('aria-describedby')) {
+                            $(this).click();
+                        }
+                    });
+
+                    if (direction === "left") {
+                        jcarousel.jcarousel('scroll', '+=' + carouselItemsToView);
+                    } else if (direction === "right") {
+                        jcarousel.jcarousel('scroll', '-=' + carouselItemsToView);
+                    } else {
+                        event.preventDefault();
                     }
-                });
+                },
+                excludedElements: "button, input, select, textarea, .noSwipe, a",
+                threshold: 50,
+                allowPageScroll: "auto",
+                triggerOnTouchEnd: false
+            });
+        }
 
-                if (direction === "left") {
-                    jcarousel.jcarousel('scroll', '+=' + carouselItemsToView);
-                } else if (direction === "right") {
-                    jcarousel.jcarousel('scroll', '-=' + carouselItemsToView);
+        if (numItems > paginationItems) {
+            jcarousel.css('padding-top', '40px');
+            $('.jcarousel-controls').show();
+        } else {
+            jcarousel.css('padding-top', 0);
+            $('.jcarousel-controls').hide();
+        }
+
+        $('.jcarousel-control-prev')
+            .jcarouselControl({
+                target: '-=' + targetSlides
+            });
+
+        $('.jcarousel-control-next')
+            .jcarouselControl({
+                target: '+=' + targetSlides
+            });
+
+        $('.jcarousel-pagination')
+            .on('jcarouselpagination:active', 'a', function () {
+                $(this).addClass('active');
+                if ($(this).is(':first-child')) {
+                    $('.jcarousel-control-prev').addClass('disabled');
                 } else {
-                    event.preventDefault();
+                    $('.jcarousel-control-prev').removeClass('disabled');
                 }
-            },
-            excludedElements: "button, input, select, textarea, .noSwipe, a",
-            threshold: 50,
-            allowPageScroll: "auto",
-            triggerOnTouchEnd: false
-        });
+                if ($(this).is(':last-child')) {
+                    $('.jcarousel-control-next').addClass('disabled');
+                } else {
+                    $('.jcarousel-control-next').removeClass('disabled');
+                }
+
+            })
+            .on('jcarouselpagination:inactive', 'a', function () {
+                $(this).removeClass('active');
+            })
+            .on('click', function (e) {
+                e.preventDefault();
+            })
+            .jcarouselPagination({
+                carousel: jcarousel,
+                item: function (page, items) {
+                    return '<a href="#' + page + '">' + page + '</a>';
+                }
+            });
     }
-
-    if (numItems > paginationItems) {
-        jcarousel.css('padding-top', '40px');
-        $('.jcarousel-controls').show();
-    } else {
-        jcarousel.css('padding-top', 0);
-        $('.jcarousel-controls').hide();
-    }
-
-    $('.jcarousel-control-prev')
-        .jcarouselControl({
-            target: '-=' + targetSlides
-        });
-
-    $('.jcarousel-control-next')
-        .jcarouselControl({
-            target: '+=' + targetSlides
-        });
-
-    $('.jcarousel-pagination')
-        .on('jcarouselpagination:active', 'a', function () {
-            $(this).addClass('active');
-            if ($(this).is(':first-child')) {
-                $('.jcarousel-control-prev').addClass('disabled');
-            } else {
-                $('.jcarousel-control-prev').removeClass('disabled');
-            }
-            if ($(this).is(':last-child')) {
-                $('.jcarousel-control-next').addClass('disabled');
-            } else {
-                $('.jcarousel-control-next').removeClass('disabled');
-            }
-
-        })
-        .on('jcarouselpagination:inactive', 'a', function () {
-            $(this).removeClass('active');
-        })
-        .on('click', function (e) {
-            e.preventDefault();
-        })
-        .jcarouselPagination({
-            carousel: jcarousel,
-            item: function (page, items) {
-                return '<a href="#' + page + '">' + page + '</a>';
-            }
-        });
-}
 
     return {
         init: init,
@@ -314,8 +366,9 @@
         show: showRateCardBlock,
         toggle: toggleRateCardBlock,
         highlightCard: highlightCard,
+        toggleAgreementTypeSection: toggleAgreementTypeSection,
         togglePromoLabel: togglePromoLabel,
-        highlightCardBySelector: highlightCardBySelector
+        highlightCardBySelector: highlightCardBySelector,
+        toggleIsAdminFeeCovered: toggleIsAdminFeeCovered
     };
 });
-

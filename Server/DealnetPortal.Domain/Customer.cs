@@ -51,6 +51,13 @@ namespace DealnetPortal.Domain
 
         public string DealerInitial { get; set; }
 
+        [MaxLength(50)]
+        public string RelationshipToMainBorrower { get; set; }
+
         public EmploymentInfo EmploymentInfo { get; set; }
+
+        public CustomerCreditReport CreditReport { get; set; }
+
+        public bool? IsDeleted { get; set; }
     }
 }

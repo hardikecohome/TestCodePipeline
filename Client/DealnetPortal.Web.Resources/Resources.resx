@@ -238,7 +238,7 @@
     <value>An error occurred while removing comment</value>
   </data>
   <data name="ErrorWhileUploadingFile" xml:space="preserve">
-    <value>An error occurred while uploading file. (Maximum file size 20 MB)</value>
+    <value>An error occurred while uploading file.</value>
   </data>
   <data name="ExistingEquipmentInformation" xml:space="preserve">
     <value>Existing Equipment Information</value>
@@ -511,7 +511,7 @@
     <value>Admin Fee is in incorrect format</value>
   </data>
   <data name="AdminFee" xml:space="preserve">
-    <value>Customer Fee</value>
+    <value>Admin Fee</value>
   </data>
   <data name="DownPaymentIncorrectFormat" xml:space="preserve">
     <value>Down Payment is in incorrect format</value>
@@ -905,7 +905,7 @@
     <value>Print the contract</value>
   </data>
   <data name="Rental" xml:space="preserve">
-    <value>Rental</value>
+    <value>Lease</value>
   </data>
   <data name="ResendEmails" xml:space="preserve">
     <value>Resend Emails</value>
@@ -990,10 +990,10 @@
     <value>Loan</value>
   </data>
   <data name="RentalApplicationHwt" xml:space="preserve">
-    <value>Rental (HWT)</value>
+    <value>Lease (HWT)</value>
   </data>
   <data name="RentalApplication" xml:space="preserve">
-    <value>Rental</value>
+    <value>Lease</value>
   </data>
   <data name="StartedToFillNewContract" xml:space="preserve">
     <value>Started to fill new contract</value>
@@ -1025,8 +1025,8 @@
   <data name="EnbridgeCapital" xml:space="preserve">
     <value>ENBRIDGE</value>
   </data>
-  <data name="PapCapital" xml:space="preserve">
-    <value>PAP</value>
+  <data name="PadCapital" xml:space="preserve">
+    <value>PAD</value>
   </data>
   <data name="Own" xml:space="preserve">
     <value>Own</value>
@@ -1235,7 +1235,7 @@
     <value>Type your equipment/service</value>
   </data>
   <data name="ApplyForFinancing" xml:space="preserve">
-    <value>Apply for financing</value>
+    <value>Apply for Financing/Lease</value>
   </data>
   <data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
     <value>I agree that dealer or its representatives may contact me by email or phone</value>
@@ -2348,7 +2348,7 @@ changing contract terms or signing contract on paper.</value>
     <value>Annual Salary/Income</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>Borrower Employment Information</value>
+    <value>Borrower Mortgage &amp; Employment Information</value>
   </data>
   <data name="CompanyAddress" xml:space="preserve">
     <value>Company Address</value>
@@ -2510,7 +2510,7 @@ changing contract terms or signing contract on paper.</value>
     <value>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
-    <value>By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 425 Boul. De Maisonneuve O. Montréal, Quebec, H3A 3G5</value>
+    <value>By checking this box, you consent to receive commercial electronic messages from Services financiers Ecohome at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact Services financiers Ecohome Inc. at 4055 Rue Saint Catherine Ouest, Bureau 196, Westmount, Quebec H3Z 3J8</value>
   </data>
   <data name="Pre" xml:space="preserve">
     <value>Pre</value>
@@ -2557,7 +2557,215 @@ changing contract terms or signing contract on paper.</value>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="EstimatedCostIncorrectFormat" xml:space="preserve">
+    <value>Estimated Retail Cost is in incorrect format</value>
+  </data>
+  <data name="EstimatedRetailCost" xml:space="preserve">
+    <value>Estimated Retail Cost</value>
+  </data>
+  <data name="PreferredInstallDate" xml:space="preserve">
+    <value>Preferred Install Date</value>
+  </data>
+  <data name="PreferredInstallTime" xml:space="preserve">
+    <value>Preferred Install Time</value>
+  </data>
+  <data name="ConcludedAgreement" xml:space="preserve">
+    <value>Concluded agreement</value>
+  </data>
+  <data name="InitiatedContract" xml:space="preserve">
+    <value>Initiated contract</value>
+  </data>
+  <data name="NegotiatedAgreement" xml:space="preserve">
+    <value>Negotiated agreement</value>
+  </data>
+  <data name="RoleOfSalesRep" xml:space="preserve">
+    <value>Role of the sales rep</value>
+  </data>
+  <data name="ExistingSupplier" xml:space="preserve">
+    <value>Existing Supplier</value>
+  </data>
+  <data name="N_A" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="ResponsibleForCostRemoval" xml:space="preserve">
+    <value>Responsible for cost of removal</value>
+  </data>
+  <data name="RelationshipToMainBorrower" xml:space="preserve">
+    <value>Relationship to Main Borrower</value>
+  </data>
+  <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
+    <value>Relationship to Main Borrower is in incorrect format</value>
+  </data>
+  <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
+    <value>Void Cheque Bank PAD Authorization Letter</value>
+  </data>
+  <data name="CoveredByCustomer" xml:space="preserve">
+    <value>Covered by Customer</value>
+  </data>
+  <data name="CoveredByDealer" xml:space="preserve">
+    <value>Covered by Dealer</value>
+  </data>
+  <data name="CustomerFee" xml:space="preserve">
+    <value>Customer Fee</value>
+  </data>
+  <data name="MCOReducedDownPayment" xml:space="preserve">
+    <value>MCO reduced by down payment</value>
+  </data>
+  <data name="TotalMCOReducedDownPayment" xml:space="preserve">
+    <value>Total MCO reduced by down payment</value>
+  </data>
+  <data name="PassAdminFeeToCustomer" xml:space="preserve">
+    <value>Pass the administration fee to the customer</value>
+  </data>
+  <data name="PassAdminFeeToDealer" xml:space="preserve">
+    <value>I will pay the administration fee</value>
+  </data>
+  <data name="CustomerCoveredByBureauLoan" xml:space="preserve">
+    <value>Customer’s credit details are currently unavailable; default Prime program rates apply. 
+Additional program options may become available when customer’s credit details are obtained/updated.</value>
+  </data>
+  <data name="CustomerNotFoundInBureau" xml:space="preserve">
+    <value>We were not able to match the Customer’s credit details. Please ensure that the Customer information provided matches their Government issued ID (e.g. driver’s license). Continue with the application for credit adjudication upon submission.</value>
+  </data>
+  <data name="EditCustomerInformation" xml:space="preserve">
+    <value>Edit customer information</value>
+  </data>
+  <data name="CustomerCreditUpdated" xml:space="preserve">
+    <value>Customer’s credit information has been updated.</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="YouCanNowReviewFinancingBelow" xml:space="preserve">
+    <value>You can now review financing options below.</value>
+  </data>
+  <data name="YouCanNowReviewFinancingHere" xml:space="preserve">
+    <value>You can now review financing options {0}here{1}.</value>
+  </data>
   <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
     <value>Some special characters like ', &lt;, &gt;, &amp; are not allowed</value>
+  </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Annual Salary/Income is in incorrect format</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Hourly Rate is in incorrect format</value>
+  </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Monthly Mortgage Payment (principal &amp; interest)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Monthly Mortgage Payment is in incorrect format</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Additional Applicant Mortgage &amp; Employment Information</value>
+  </data>
+  <data name="EnbrideFeeNotification" xml:space="preserve">
+    <value>Enbridge payment option is available at a Dealer fee of $100</value>
+  </data>
+  <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
+    <value>Pre-Approved up to a maximum of</value>
+  </data>
+  <data name="MaximumAmountCapingOut" xml:space="preserve">
+    <value>The total amount financed cannot exceed the amount of $</value>
+  </data>
+  <data name="CustomerOwned" xml:space="preserve">
+    <value>Customer Owned?</value>
+  </data>
+  <data name="NameOfExistingSupplier" xml:space="preserve">
+    <value>Name of Existing Supplier</value>
+  </data>
+  <data name="CustomerHaveAgreementsWithEcoHome" xml:space="preserve">
+    <value>Does the Customer have any agreements with EcoHome Financial?</value>
+  </data>
+  <data name="BeforeProceedingVerifyCustId" xml:space="preserve">
+    <value>Before Proceeding please verify Customer ID</value>
+  </data>
+  <data name="VerifyCustomerID" xml:space="preserve">
+    <value>Verify Customer ID</value>
+  </data>
+  <data name="Escalation_0" xml:space="preserve">
+    <value>13.99% lease rate and 0% annual escalation</value>
+  </data>
+  <data name="Escalation_35" xml:space="preserve">
+    <value>10.99% lease rate and 3.5% annual escalation</value>
+  </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Lease</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Lease (HWT)</value>
+  </data>
+  <data name="ProgramType" xml:space="preserve">
+    <value>Program Type</value>
+  </data>
+  <data name="TotalMonthlyPaymentWithoutTaxes" xml:space="preserve">
+    <value>TOTAL MONTHLY PAYMENT (TAX EXCL.)</value>
+  </data>
+  <data name="CustomerRateReduction" xml:space="preserve">
+    <value>Customer Rate Reduction</value>
+  </data>
+  <data name="NoReduction" xml:space="preserve">
+    <value>No Reduction</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>for</value>
+  </data>
+  <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
+    <value>Total monthly payment exceed pre-approved amount</value>
+  </data>
+  <data name="BorrowerShouldBeHomeOwner" xml:space="preserve">
+    <value>The borrower should be a home owner.</value>
+  </data>
+  <data name="SubType" xml:space="preserve">
+    <value>Sub-Type</value>
+  </data>
+  <data name="HardCapWarning" xml:space="preserve">
+    <value>Value exceeds maximum allowed monthly cost for the given type of equipment</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapBody" xml:space="preserve">
+    <value>Equipment monthly cost exceeds maximum allowed value. Application will be accepted only in eligible exceptions, e.g.: water heater installation requires switching from oil to gas or furnace installation requires duct work replacement. You will be required to provide suitable reason for exceeding allowed monthly cost.</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapTitle" xml:space="preserve">
+    <value>Monthly cost exceeds maximum allowed value</value>
+  </data>
+  <data name="SoftCapWarning" xml:space="preserve">
+    <value>Value exceeds maximum allowed cost. Only eligible exceptions will be accepted</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Pre-Approved</value>
+  </data>
+  <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
+    <value>Congratulations, you have been pre-approved</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Total monthly payment cannot exceed the amount of</value>
+  </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>Additional applicant address cannot be in Quebec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>Additional applicant address should be in Quebec</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Dealer Profile Update</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Funded Deals</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Pending Deals</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Portal Inquiries</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Program Inquiries</value>
+  </data>
+  <data name="WithEscalatedPayments" xml:space="preserve">
+    <value>With escalated payments</value>
+  </data>
+  <data name="WithoutEscalatedPayments" xml:space="preserve">
+    <value>Without escalated payments</value>
   </data>
 </root>

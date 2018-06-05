@@ -1,8 +1,10 @@
 ﻿module.exports('navigateToStep', function (require) {
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
-    return function navigateToStep (targetLink) {
+
+    function navigateToStep(target) {
+        var targetLink = $(target);
         var url = targetLink.attr('href');
-        var stepName = targetLink.text() === 'Edit' ? '1' : targetLink.text();
+        var stepName = targetLink.data('step') || translations['Edit'];
         var data = {
             message: translations['IfYouChangeInfo'],
             title: translations['NavigateToStep'] + ' ' + stepName + '?',
@@ -14,4 +16,5 @@
             window.location.href = url;
         });
     }
+    return navigateToStep;
 });

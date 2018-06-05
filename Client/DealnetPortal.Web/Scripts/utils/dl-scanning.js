@@ -4,7 +4,7 @@ $(document).ready(function () {
     hideLoader = module.require('loader').hideLoader;
 })
 
-function uploadCaptured (uploadUrl) {
+function uploadCaptured(uploadUrl) {
     var dataUrl = bigCanvas.toDataURL();
     showLoader(translations['ProcessingImage']);
     $.ajax({
@@ -20,14 +20,20 @@ function uploadCaptured (uploadUrl) {
             } else {
                 var modal = document.getElementById('camera-modal');
                 document.getElementById(modal.getAttribute('data-fnToFill')).value = json.FirstName;
+                $('#' + modal.getAttribute('data-fnToFill')).keyup();
                 document.getElementById(modal.getAttribute('data-lnToFill')).value = json.LastName;
+                $('#' + modal.getAttribute('data-lnToFill')).keyup();
                 var date = new Date(json.DateOfBirthStr);
                 $("#" + modal.getAttribute('data-bdToFill')).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
                 document.getElementById(modal.getAttribute('data-dlToFill')).value = json.Id;
                 document.getElementById(modal.getAttribute('data-stToFill')).value = json.Street;
+                $('#' + modal.getAttribute('data-stToFill')).keyup();
                 document.getElementById(modal.getAttribute('data-ctToFill')).value = json.City;
+                $('#' + modal.getAttribute('data-ctToFill')).keyup();
                 document.getElementById(modal.getAttribute('data-prToFill')).value = json.State;
+                $('#' + modal.getAttribute('data-prToFill')).change();
                 document.getElementById(modal.getAttribute('data-pcToFill')).value = json.PostalCode;
+                $('#' + modal.getAttribute('data-pcToFill')).keyup();
                 $('#camera-modal').modal('hide');
             }
         },
@@ -38,13 +44,13 @@ function uploadCaptured (uploadUrl) {
     });
 }
 
-function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
+function submitUpload(sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
 
     var files = sender.files;
     if (files.length > 0) {
         if (window.FormData !== undefined) {
             var data = new FormData();
-            for (var x = 0;x < files.length;x++) {
+            for (var x = 0; x < files.length; x++) {
                 data.append("file" + x, files[x]);
             }
             showLoader(translations['ProcessingImage']);
@@ -61,18 +67,20 @@ function submitUpload (sender, uploadUrl, fn, ln, bd, dl, st, ct, pr, pc) {
                     } else {
                         var modal = document.getElementById('camera-modal');
                         document.getElementById(fn || modal.getAttribute('data-fnToFill')).value = json.FirstName;
+                        $('#' + fn || modal.getAttribute('data-fnToFill')).keyup();
                         document.getElementById(ln || modal.getAttribute('data-lnToFill')).value = json.LastName;
+                        $('#' + ln || modal.getAttribute('data-lnToFill')).keyup();
                         var date = new Date(json.DateOfBirthStr);
                         $("#" + (bd || modal.getAttribute('data-bdToFill'))).val((date.getUTCMonth() + 1) + '/' + date.getUTCDate() + '/' + date.getUTCFullYear()).change();
                         document.getElementById(dl || modal.getAttribute('data-dlToFill')).value = json.Id;
                         document.getElementById(st || modal.getAttribute('data-stToFill')).value = json.Street;
-                        $('#' + (st || modal.getAttribute('data-prToFill'))).change();
+                        $('#' + (st || modal.getAttribute('data-stToFill'))).keyup().change();
                         document.getElementById(ct || modal.getAttribute('data-ctToFill')).value = json.City;
-                        $('#' + (ct || modal.getAttribute('data-prToFill'))).change();
-						document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
-						$('#' + (pr || modal.getAttribute('data-prToFill'))).removeClass('not-selected').change();
+                        $('#' + (ct || modal.getAttribute('data-ctToFill'))).keyup().change();
+                        document.getElementById(pr || modal.getAttribute('data-prToFill')).value = json.State;
+                        $('#' + (pr || modal.getAttribute('data-prToFill'))).keyup().change();
                         document.getElementById(pc || modal.getAttribute('data-pcToFill')).value = json.PostalCode;
-                        $('#' + (pc || modal.getAttribute('data-prToFill'))).change();
+                        $('#' + (pc || modal.getAttribute('data-pcToFill'))).keyup().change();
                         $('#camera-modal').modal('hide');
                         $('#' + fn).trigger('uploadSuccess');
                     }

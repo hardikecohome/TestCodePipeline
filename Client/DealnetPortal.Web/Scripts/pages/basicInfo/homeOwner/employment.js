@@ -14,7 +14,7 @@
     var city;
     var province;
     var postal;
-
+	var monthlyMortgagePayment;
     var requiredObj = {
         required: true,
         messages: {
@@ -87,7 +87,10 @@
         province.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
 
         postal = $('#ho-employment-postal-code');
-        postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
+		postal.prop('disabled', disabled || statusVal === '0' || statusVal === '2');
+
+		monthlyMortgagePayment = $('#ho-employment-monthly-mortgage');
+		monthlyMortgagePayment.prop('disabled', disabled);
 
         if (!disabled) {
             enable();
@@ -199,7 +202,8 @@
 
     function enable() {
         $('#ho-employment-info').removeClass('hidden');
-        status.prop('disabled', false).change();
+		status.prop('disabled', false).change();
+		monthlyMortgagePayment.prop('disabled', false).change();
     }
 
     function disable() {

@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="Constants\AspireUdfFields.cs" />
     <Compile Include="Models\AspireDb\Contract.cs" />
+    <Compile Include="Models\AspireDb\CreditReport.cs" />
+    <Compile Include="Models\AspireDb\CustomerAgreementShortInfo.cs" />
     <Compile Include="Models\AspireDb\DealerRoleEntity.cs" />
     <Compile Include="Models\AspireDb\DropDownItem.cs" />
     <Compile Include="Models\AspireDb\Entity.cs" />

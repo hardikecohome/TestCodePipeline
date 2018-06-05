@@ -105,11 +105,14 @@
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PhoneType.cs" />
     <Compile Include="Enumeration\PreferredContactMethod.cs" />
+    <Compile Include="Enumeration\AnnualEscalationType.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
+    <Compile Include="Enumeration\ResponsibleForRemovalType.cs" />
     <Compile Include="Enumeration\SettingType.cs" />
     <Compile Include="Enumeration\SignatureRole.cs" />
     <Compile Include="Enumeration\SignatureStatus.cs" />
+    <Compile Include="Enumeration\SupportTypeEnum.cs" />
     <Compile Include="Enumeration\UserRole.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
     <Compile Include="Helpers\DomainCodesHelper.cs" />

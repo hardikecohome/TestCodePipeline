@@ -47,7 +47,7 @@ namespace DealnetPortal.Web.Controllers
                 return Json(new { Errors = errorList }, JsonRequestBehavior.AllowGet);
             }
             var quebecPostalCodes = ConfigurationManager.AppSettings[PortalConstants.QuebecPostalCodesNameKey].Split(',');
-            if (model.QuebecDealer && model.PostalCodes.Any(x => quebecPostalCodes.All(p=> p != x.PostalCode[0].ToString())) )
+            if (model.QuebecDealer && (model.PostalCodes != null && model.PostalCodes.Any(x => quebecPostalCodes.All(p=> p != x.PostalCode[0].ToString()))))
             {
                 return Json(new { Errors = new List<string> {Resources.Resources.ServiceAreaInQc } }, JsonRequestBehavior.AllowGet);
             }

@@ -65,6 +65,12 @@ namespace DealnetPortal.Api.Integration.Services
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
                 claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
                 claims.Add(new Claim(ClaimNames.MortgageBroker, (aspireUserInfo.Role != null && mbConfigRoles.Contains(aspireUserInfo.Role)).ToString()));
+                claims.Add(new Claim(ClaimNames.LeaseTier, user.LeaseTier));
+                claims.Add(new Claim(ClaimNames.IsEmcoDealer, (!string.IsNullOrEmpty(user.LeaseTier) && user.LeaseTier.ToLower() == _сonfiguration.GetSetting(WebConfigKeys.EMCO_LEASE_TIER_NAME).ToString().ToLower()).ToString()));
+            }
+            if (!string.IsNullOrEmpty(user.DealerType))
+            {
+                claims.Add(new Claim(ClaimNames.AgreementType, user.DealerType));
             }
 
             if (settings?.SettingValues != null)
@@ -116,7 +122,9 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         alerts.AddRange(rolesAlerts);
                     }
-                    if (user.Tier?.Name != aspireDealerInfo.Ratecard)
+                    if (user.Tier?.Name != aspireDealerInfo.Ratecard ||
+                        user.LeaseTier != aspireDealerInfo.LeaseRatecard ||
+                        user.DealerType != aspireDealerInfo.ProductType)
                     {
                         var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManager);
                         if (tierAlerts.Any())
@@ -299,16 +307,29 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
             try
             {
-                var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
+                var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);               
+
                 var updateUser = await userManager.FindByIdAsync(userId);
-                if (updateUser != null && tier != null)
+                if (updateUser != null)
                 {
-                    updateUser.TierId = tier.Id;
+                    updateUser.LeaseTier = aspireUser.LeaseRatecard;
+                    if (tier != null)
+                    {
+                        updateUser.TierId = tier.Id;
+                    }
+                    if (!string.IsNullOrEmpty(aspireUser.ProductType))
+                    {                        
+                        if (updateUser.DealerType != aspireUser.ProductType)
+                        {
+                            updateUser.DealerType = aspireUser.ProductType;
+                        }
+                    }
                     var updateRes = await userManager.UpdateAsync(updateUser);
                     if (updateRes.Succeeded)
                     {
                         {
                             _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{updateUser.Id}]");
+                            _loggingService.LogInfo($"Lease Tier [{aspireUser.LeaseRatecard}] was set to an user [{updateUser.Id}]");
                         }
                     }
                 }
@@ -363,7 +384,7 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Error during update dealer profile for an user {userId}", ex);
             }
-            return alerts;
+            return await Task.FromResult(alerts);
         }
 
         #endregion

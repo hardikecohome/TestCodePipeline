@@ -6,19 +6,28 @@
     postal_code: 'short_name',
     postal_code_prefix: 'short_name'
 };
+
 function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
     var streetInput = document.getElementById(streetId);
     var cityInput = document.getElementById(cityId);
+    var streetAutoAttr = streetInput && streetInput.autocomplete || 'false';
+    var cityAutoAttr = cityInput && cityInput.autocomplete || 'false';
     var provenceInput = document.getElementById(provenceId);
     var postalCodeInput = document.getElementById(postalCodeId);
-    if (streetInput == null || cityInput == null || provenceInput == null || postalCodeInput == null) { return; }
+    if (streetInput == null || cityInput == null || provenceInput == null || postalCodeInput == null) {
+        return;
+    }
     var streetsOptions = {
         types: ['geocode'],
-        componentRestrictions: { country: "ca" }
+        componentRestrictions: {
+            country: "ca"
+        }
     };
     var citiesOptions = {
         types: ['(cities)'],
-        componentRestrictions: { country: "ca" }
+        componentRestrictions: {
+            country: "ca"
+        }
     };
     var streetAutocomplete1 = new google.maps.places.Autocomplete(streetInput, streetsOptions);
     var cityAutocomplete1 = new google.maps.places.Autocomplete(cityInput, citiesOptions);
@@ -58,19 +67,19 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
                 }
                 if (addressType == 'locality') {
                     cityInput.value = val;
-                    $(cityInput).change();
+                    $(cityInput).keyup().change();
                     $(cityInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'administrative_area_level_1') {
                     provenceInput.value = val;
-                    $(provenceInput).change();
+                    $(provenceInput).keyup().change();
                     $(provenceInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
                 if (addressType == 'postal_code' || addressType == 'postal_code_prefix') {
                     postalCodeInput.value = val.replace(/\s+/g, '');
-                    $(postalCodeInput).change();
+                    $(postalCodeInput).keyup().change();
                     $(postalCodeInput).removeClass('pac-placeholder').removeClass('placeholder');
                     continue;
                 }
@@ -78,12 +87,15 @@ function initGoogleServices(streetId, cityId, provenceId, postalCodeId) {
         }
         if (street) {
             streetInput.value = street;
-            $(streetInput).change();
+            $(streetInput).keyup().change();
             $(streetInput).removeClass('pac-placeholder').removeClass('placeholder');
         } else {
             streetInput.value = '';
-            $(streetInput).change();
+            $(streetInput).keyup().change();
             $(streetInput).placeholder();
         }
     });
+
+    streetInput.autocomplete = streetAutoAttr;
+    cityInput.autocomplete = cityAutoAttr;
 }

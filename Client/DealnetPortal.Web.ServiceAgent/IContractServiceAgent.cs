@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.ServiceAgent
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
-        Task<IList<Alert>> InitiateCreditCheck(int contractId);
+        //Task<IList<Alert>> InitiateCreditCheck(int contractId);
 
         /// <summary>
         /// Initiate a process of digital signature of contract
@@ -92,6 +92,13 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
+
+        /// <summary>
+        /// Get funding checklist docs for contract
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <returns></returns>
+        Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetContractDocumentTypes(int contractId);
 
         Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData);
 

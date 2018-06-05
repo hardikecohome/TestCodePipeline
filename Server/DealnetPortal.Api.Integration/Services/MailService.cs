@@ -372,7 +372,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendNotifyMailNoDealerAcceptLead(Contract contract)
         {
-            string equipment = contract.Equipment.NewEquipment?.FirstOrDefault()?.Description.ToLower() ?? string.Empty;
+            string equipment = contract.Equipment.NewEquipment?.FirstOrDefault()?.EquipmentType?.Description?.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
             string customerEmail = contract.PrimaryCustomer.Emails?.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
@@ -528,19 +528,20 @@ namespace DealnetPortal.Api.Integration.Services
             string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
             switch (SupportDetails.SupportType)
             {
-                case "creditFunding":
-                    mailTo = dealerProvince=="QC" ?  ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
-                    SupportDetails.SupportType = "Credit Decision";
+                case SupportTypeEnum.creditDecision:
+
+                    mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
                     break;
-                case "customerService":
+                case SupportTypeEnum.dealerProfileUpdate:
+                case SupportTypeEnum.portalInquiries:
+                case SupportTypeEnum.programInquiries:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDocsDealNetEmail"] : ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
-                    SupportDetails.SupportType = "Credit Docs";
                     break;
-                case "dealerSupport":
+                case SupportTypeEnum.pendingDeals:
+                case SupportTypeEnum.fundedDeals:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecFundingDocsDealNetEmail"] : ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
-                    SupportDetails.SupportType = "Funding Docs";
                     break;
-                case "Other":
+                default:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecOtherDealNetEmail"] : ConfigurationManager.AppSettings["OtherDealNetEmail"];
                     break;
             }

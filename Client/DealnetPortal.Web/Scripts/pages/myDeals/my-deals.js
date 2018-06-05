@@ -19,7 +19,7 @@ $(document)
         commonDataTablesSettings();
     });
 
-function showTable () {
+function showTable() {
     $.ajax(itemsUrl, {
         cache: false,
         mode: 'GET',
@@ -77,7 +77,7 @@ function showTable () {
 
             table = $('#work-items-table')
                 .DataTable({
-                    autoWidth:false,
+                    autoWidth: false,
                     data: data,
                     rowId: 'Id',
                     responsive: {
@@ -85,14 +85,34 @@ function showTable () {
                             type: 'column',
                             target: 1
                         },
-                        breakpoints: [
-                            { name: 'desktop-lg', width: Infinity },
-                            { name: 'desktop', width: 1169 },
-                            { name: 'tablet-l', width: $('body').is('.tablet-device') ? 1025 : 1023 },
-                            { name: 'tablet', width: 1023 },
-                            { name: 'mobile', width: 767 },
-                            { name: 'mobile-l', width: 767 },
-                            { name: 'mobile-p', width: 480 },
+                        breakpoints: [{
+                                name: 'desktop-lg',
+                                width: Infinity
+                            },
+                            {
+                                name: 'desktop',
+                                width: 1169
+                            },
+                            {
+                                name: 'tablet-l',
+                                width: $('body').is('.tablet-device') ? 1025 : 1023
+                            },
+                            {
+                                name: 'tablet',
+                                width: 1023
+                            },
+                            {
+                                name: 'mobile',
+                                width: 767
+                            },
+                            {
+                                name: 'mobile-l',
+                                width: 767
+                            },
+                            {
+                                name: 'mobile-p',
+                                width: 480
+                            },
                         ]
                     },
                     oLanguage: {
@@ -118,15 +138,16 @@ function showTable () {
                                 .prepend('<span class="label-new-deal">' + translations['New'] + '</span>');
                         }
                     },
-                    columns: [
-                        {
+                    columns: [{
                             "render": function (sdata, type, row) {
                                 if (row.IsInternal)
                                     return '';
                                 if (row.Id != 0) {
-                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                    return '<label class="custom-checkbox"><input type="checkbox"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' +
+                                        urlContent +
+                                        'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
                                 } else {
-                                    return '<label class="custom-checkbox"><input type="checkbox" disabled="disabled"><span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-checked"></use></svg></span></label>';
+                                    return '';
                                 }
                             },
                             className: 'checkbox-cell',
@@ -135,16 +156,23 @@ function showTable () {
                         {
                             //"data": 'TransactionId',
                             render: function (sdate, type, row) {
-                                var content = row.Id === 0 ? row.TransactionId : '<a href="' + editContractUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
+                                var content = row.Id === 0 ?
+                                    row.TransactionId :
+                                    '<a href="' + editContractUrl + '/' + row.Id + '" title="' + translations['Edit'] + '">' + row.TransactionId + '</a>';
 
                                 return '<div class="status-hold">' +
                                     '<div class="icon-hold"><span class="icon icon-status"></span></div>' +
                                     '<div class="text-hold"><span class="text">' +
                                     content + '</span></div></div>';
                             },
-                            className: 'contract-cell'
+                            className: 'contract-cell',
+                            type: 'html-num',
+                            orderData: 17
                         },
-                        { "data": "CustomerName", className: 'customer-cell' },
+                        {
+                            "data": "CustomerName",
+                            className: 'customer-cell'
+                        },
                         {
                             //"data": 'Status',
                             "render": function (sdata, type, row) {
@@ -160,13 +188,34 @@ function showTable () {
                             },
                             className: 'status-cell'
                         },
-                        { "data": "AgreementType", className: 'type-cell' },
-                        { "data": "Email", className: 'email-cell' },
-                        { "data": "Phone", className: 'phone-cell' },
-                        { "data": "Date", className: 'date-cell' },
-                        { "data": "Equipment", className: 'equipment-cell' },
-                        { "data": "SalesRep", className: "sales-rep-cell" },
-                        { "data": "Value", className: 'value-cell' },
+                        {
+                            "data": "AgreementType",
+                            className: 'type-cell'
+                        },
+                        {
+                            "data": "Email",
+                            className: 'email-cell'
+                        },
+                        {
+                            "data": "Phone",
+                            className: 'phone-cell'
+                        },
+                        {
+                            "data": "Date",
+                            className: 'date-cell'
+                        },
+                        {
+                            "data": "Equipment",
+                            className: 'equipment-cell'
+                        },
+                        {
+                            "data": "SalesRep",
+                            className: "sales-rep-cell"
+                        },
+                        {
+                            "data": "Value",
+                            className: 'value-cell'
+                        },
                         {
                             "data": "RemainingDescription",
                             "visible": false
@@ -218,23 +267,35 @@ function showTable () {
                             "data": "IsCreatedByCustomer",
                             "visible": false
                         },
-                        { "data": "LocalizedStatus", visible: false }
+                        {
+                            "data": "LocalizedStatus",
+                            visible: false
+                        },
+                        {
+                            render: function (sdata, type, row) {
+                                return row.TransactionId.toLowerCase().indexOf(':') > -1 ?
+                                    row.Id :
+                                    row.TransactionId;
+                            },
+                            visible: false
+                        }
                     ],
-                    dom:
-                        "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
-                            "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
-                            "<'row'<'col-md-12 col-sm-6'l>>" +
-                            "<'row'<'col-md-12''<'#section-before-table'>'>>" +
-                            "<'row'<'col-md-12'tr>>" +
-                            "<'table-footer'>" +
-                            "<'row'<'col-md-12'p>>" +
-                            "<'row'<'col-md-12'i>>",
+                    dom: "<'row'<'col-md-8''<'#table-title.dealnet-caption'>'><'col-md-4 col-sm-6'f>>" +
+                        "<'row'<'col-md-12''<'#expand-table-filter'>'>>" +
+                        "<'row'<'col-md-12 col-sm-6'l>>" +
+                        "<'row'<'col-md-12''<'#section-before-table'>'>>" +
+                        "<'row'<'col-md-12'tr>>" +
+                        "<'table-footer'>" +
+                        "<'row'<'col-md-12'p>>" +
+                        "<'row'<'col-md-12'i>>",
                     renderer: 'bootstrap',
                     footerCallback: createTableFooter,
                     order: [],
                     drawCallback: function (settings) {
                         var api = this.api();
-                        var count = api.rows({ page: 'current' }).data().count();
+                        var count = api.rows({
+                            page: 'current'
+                        }).data().count();
                         if (count === 0) {
                             $('#export-all-excel').attr("disabled", "disabled");
                         } else {
@@ -266,11 +327,21 @@ function showTable () {
                 var el = $(this);
                 var attr = el.attr('aria-sort');
 
-                if (attr !== undefined && attr === 'descending') {
+                if (el.is('.contract-cell')) {
+                    if (el.is('.sorting_asc') && !attr) {
+                        attr = 'ascending';
+                    }
+                    if (el.is('.sorting_desc') && !attr) {
+                        attr = 'descending';
+                    }
+                    el.attr('aria-sort', attr);
+                }
+
+                if (attr && attr === 'descending') {
                     el.attr('def-sort', 'true');
                 }
 
-                if (attr !== undefined && attr === 'ascending') {
+                if (attr && attr === 'ascending') {
                     if (el.attr('def-sort') !== undefined) {
                         el.removeAttr('aria-sort')
                             .removeAttr('def-sort')
@@ -293,7 +364,9 @@ function showTable () {
             });
 
             table.on('page.dt', function (ev, settings) {
-                var rows = table.rows('tr.selected', { page: 'current' }).nodes();
+                var rows = table.rows('tr.selected', {
+                    page: 'current'
+                }).nodes();
                 if (rows.length > 0)
                     $('#check-all').prop('checked', true);
                 else
@@ -305,24 +378,30 @@ function showTable () {
             });
 
             $('#clear-filters').click(function () {
-                $('.filter-input').val("");
+                $('.filter-input').val("").change();
                 table.search('').draw();
             });
 
             $('#export-excel').click(function () {
-                var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                var ids = $.map(table.rows('tr.selected', {
+                    search: 'applied'
+                }).nodes(), function (tr) {
                     return tr.id;
                 });
                 submitExportRequest(ids);
             });
             $('#export-all-excel').click(function () {
-                var ids = $.map(table.rows('tr', { search: 'applied' }).nodes(), function (tr) {
+                var ids = $.map(table.rows('tr', {
+                    search: 'applied'
+                }).nodes(), function (tr) {
                     return tr.id ? tr.id : null;
                 });
                 submitExportRequest(ids);
             });
             $('#preview-button').click(function () {
-                var ids = $.map(table.rows('tr.selected', { search: 'applied' }).nodes(), function (tr) {
+                var ids = $.map(table.rows('tr.selected', {
+                    search: 'applied'
+                }).nodes(), function (tr) {
                     return tr.id;
                 });
                 if (ids.length > 1) {
@@ -334,15 +413,23 @@ function showTable () {
 
             $('#check-all').on('click', function () {
                 var checked = this.checked;
-                var rows = table.rows('tr', { page: 'current' }).nodes();
-                $(rows).find('input[type="checkbox"]')
+                var indexes = table.rows('tr', {
+                    page: 'current'
+                }).
+                eq(0).filter(function (rowIdx) {
+
+                    return table.row(rowIdx).id() !== '0' ? true : false;
+
+                });
+                var pageRows = table.rows(indexes).nodes();
+                $(pageRows).find('input[type="checkbox"]')
                     .prop('checked', !checked).click();
             });
         }
     });
 };
 
-function exportItem () {
+function exportItem() {
     var tr = $(this).parents('tr');
     //var id = $(tr).find(':nth-child(2)').text();
     var id = $(tr)[0].id;
@@ -351,7 +438,7 @@ function exportItem () {
     submitExportRequest(arr);
 };
 
-function getSignatureDetails () {
+function getSignatureDetails() {
     var tr = $(this).parents('tr');
     var id;
     if ($(tr).hasClass('child')) {
@@ -368,7 +455,7 @@ function getSignatureDetails () {
     });
 }
 
-function previewItem () {
+function previewItem() {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     submitSinglePreviewRequest(id);
@@ -420,7 +507,7 @@ $.fn.dataTable.ext.search.push(
         }
     }());
 
-function submitExportRequest (ids) {
+function submitExportRequest(ids) {
     $("#export-ids").empty();
     $.each(ids, function (index, item) {
         $("#export-ids").append($('<input>', {
@@ -432,11 +519,11 @@ function submitExportRequest (ids) {
     $("#export-form").submit();
 }
 
-function submitSinglePreviewRequest (id) {
+function submitSinglePreviewRequest(id) {
     window.location.href = contractPreviewUrl + id;
 }
 
-function submitMultiplePreviewRequest (ids) {
+function submitMultiplePreviewRequest(ids) {
     $("#contract-preview-ids").empty();
     $.each(ids, function (index, item) {
         $("#contract-preview-ids").append($('<input>', {
@@ -448,7 +535,7 @@ function submitMultiplePreviewRequest (ids) {
     $("#multiple-preview-form").submit();
 }
 
-function createFilter () {
+function createFilter() {
     var iconFilter = '<span class="icon-filter-control"><svg aria-hidden="true" class="icon icon-filter"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-filter"></use></svg></span>';
     var iconSearch = '<span class="icon-search-control"><svg aria-hidden="true" class="icon icon-search"><use xlink:href="' + urlContent + 'Content/images/sprite/sprite.svg#icon-search"></use></svg></span>';
 
@@ -468,19 +555,21 @@ function createFilter () {
     $('.table-length-filter').html($('#work-items-table_length').detach());
 }
 
-function createTableFooter (row, data, start, end, display) {
+function createTableFooter(row, data, start, end, display) {
     $('.table-footer').html($('.reports-table-footer').detach());
 }
 
-function getIntValue (value) {
+function getIntValue(value) {
     return typeof value === 'string' ?
         value.replace(/[\$,]/g, '') * 1 :
         typeof value === 'number' ?
-            value : 0;
+        value : 0;
 }
 
-function recalculateGrandTotal (table) {
-    var sum = table.column(10, { search: 'applied' }).data().reduce(function (acc, value) {
+function recalculateGrandTotal(table) {
+    var sum = table.column(10, {
+        search: 'applied'
+    }).data().reduce(function (acc, value) {
         return acc + getIntValue(value);
     }, 0);
 
@@ -488,8 +577,10 @@ function recalculateGrandTotal (table) {
     return sum;
 }
 
-function recalculateTotalForSelected (table) {
-    var data = table.rows('tr.selected', { search: 'applied' }).data();
+function recalculateTotalForSelected(table) {
+    var data = table.rows('tr.selected', {
+        search: 'applied'
+    }).data();
     var sum = data.reduce(function (acc, value) {
         return acc + getIntValue(value.Value);
     }, 0);
@@ -501,7 +592,7 @@ function recalculateTotalForSelected (table) {
     }
 }
 
-function getTotalForSelectedCheckboxes (table) {
+function getTotalForSelectedCheckboxes(table) {
     return function (ev) {
         var tr = $(ev.target).parents('tr');
         if (ev.target.checked) {
@@ -513,8 +604,10 @@ function getTotalForSelectedCheckboxes (table) {
     }
 }
 
-function recalculateSelectedTotals (table) {
-    var sel = table.rows('tr.selected', { search: 'applied' }).data();
+function recalculateSelectedTotals(table) {
+    var sel = table.rows('tr.selected', {
+        search: 'applied'
+    }).data();
     var sum = sel.reduce(function (sum, item) {
         return sum + getIntValue(item.Value);
     }, 0.0);
@@ -526,7 +619,7 @@ function recalculateSelectedTotals (table) {
     }
 }
 
-function removeContract () {
+function removeContract() {
     var tr = $(this).parents('tr');
     var id = $(tr)[0].id;
     var data = {

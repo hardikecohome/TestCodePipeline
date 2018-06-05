@@ -30,12 +30,24 @@
         background-image: url('../images/forms/selectArrow.svg');
         background-repeat: no-repeat;
         background-position: 92% center;
+        .mobile-navigation__nav-icon {
+            &:lang(fr),
+            &:lang(fr-CA) {
+                &.icon-new_document,
+                &.icon-deals {
+                    padding-right: 5px;
+                }
+                &.icon-new_document {
+                    padding-left: 5px;
+                }
+            }
+        }
         &.leads:lang(fr),
         &.leads:lang(fr-CA) {
             line-height: 13px;
             padding-top: 9px;
             .mobile-navigation__nav-icon {
-                padding: 0 10px
+                padding: 0 10px;
             }
             span:not(.mobile-navigation__nav-icon) {
                 padding-top: 5px;
@@ -92,10 +104,10 @@
                         border-radius: 15px;
                         background-image: linear-gradient(111deg, #ff613c, #ff3258);
                         color: white;
-                        width: 42px;
+                        width: 50px;
                         &:lang(fr) {
                             right: 143px;
-                            width: 64px;
+                            width: 68px;
                         }
                     }
                 }

@@ -31,6 +31,7 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository _contractRepository { get; set; }
+        private IRateCardsRepository _rateCardsRepository { get; set; }
         private ISettingsRepository SettingsRepository { get; set; }
         private IAspireStorageReader AspireStorageReader { get; set; }
         private ICustomerFormService CustomerFormService { get; set; }
@@ -38,10 +39,10 @@ namespace DealnetPortal.Api.Controllers
 
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
-        private readonly ILoggingService _loggingService;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository, ILoggingService loggingService1)
+            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
+            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsRepository rateCardsRepository)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
@@ -51,11 +52,11 @@ namespace DealnetPortal.Api.Controllers
             CustomerFormService = customerFormService;
             _contractService = contractService;
             _dealerRepository = dealerRepository;
-            _licenseDocumentRepository = licenseDocumentRepository;
-            _loggingService = loggingService1;
+            _licenseDocumentRepository = licenseDocumentRepository;            
+            _rateCardsRepository = rateCardsRepository;
         }             
 
-        [Route("AllDocumentTypes")]
+        [Route("DocumentTypes")]
         [HttpGet]
         public IHttpActionResult GetAllDocumentTypes()
         {
@@ -84,7 +85,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("StateDocumentTypes")]
+        [Route("DocumentTypes/{state}")]
         [HttpGet]
         public IHttpActionResult GetStateDocumentTypes(string state)
         {
@@ -104,6 +105,66 @@ namespace DealnetPortal.Api.Controllers
                     LoggingService.LogError(errorMsg);
                 }
                 var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Document Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("DealerDocumentTypes/{state}")]
+        [Authorize]
+        [HttpGet]
+        public IHttpActionResult GetDealerDocumentTypes(string state)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var docTypes = Mapper.Map<IList<DocumentTypeDTO>>(_contractRepository.GetDealerDocumentTypes(state, LoggedInUser?.UserId));
+                if (docTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Document Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Document Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("DealerDocumentTypes")]
+        [Authorize]
+        [HttpGet]
+        public IHttpActionResult GetDealerDocumentTypes()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var provinceDocTypes = Mapper.Map<IDictionary<string, IList<DocumentTypeDTO>>>(_contractRepository.GetDealerDocumentTypes(LoggedInUser?.UserId));
+                if (provinceDocTypes == null)
+                {
+                    var errorMsg = "Cannot retrieve Document Types";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var result = new Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>(provinceDocTypes, alerts);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -316,6 +377,23 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("CreditAmount")]
+        [HttpGet]
+        // GET api/dict/CreditAmount?creditScore={creditScore}
+        public IHttpActionResult GetCreditAmount(int creditScore)
+        {
+            try
+            {
+                var creditAmount =  _rateCardsRepository.GetCreditAmount(creditScore);
+                return Ok(creditAmount);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to retrieve credit amount settings for creditScore = {creditScore}", ex);
+                return InternalServerError(ex);
+            }            
+        }
+
 
         [Authorize]
         [Route("GetDealerInfo")]
@@ -394,11 +472,11 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerSettings()
         {
             IList<StringSettingDTO> list = null;
-            _loggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
+	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
             var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
-                _loggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
+	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
             return Ok(list);
@@ -410,11 +488,11 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerSettings(string hashDealerName)
         {
             IList<StringSettingDTO> list = null;
-            _loggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
+	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
             var settings = SettingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
             if (settings?.Any() ?? false)
             {
-                _loggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
+	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
                 list = Mapper.Map<IList<StringSettingDTO>>(settings);
             }
             return Ok(list);
@@ -545,6 +623,37 @@ namespace DealnetPortal.Api.Controllers
                 return Ok(linkSettings);
             }
             return NotFound();
+        }
+
+        [Authorize]
+        [Route("AllRateReductionCards")]
+        [HttpGet]
+        public IHttpActionResult GetAllRateReductionCards()
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var reductionCards = _rateCardsRepository.GetRateReductionCard();
+                if (reductionCards == null)
+                {
+                    var errorMsg = "Cannot retrieve Rate Reduction Cards";
+                    alerts.Add(new Alert()
+                    {
+                        Type = AlertType.Error,
+                        Message = errorMsg
+                    });
+                    LoggingService.LogError(errorMsg);
+                }
+                var reductionCardsDtos = Mapper.Map<IList<RateReductionCardDTO>>(reductionCards);
+                
+                var result = new Tuple<IList<RateReductionCardDTO>, IList<Alert>>(reductionCardsDtos, alerts);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                return InternalServerError(ex);
+            }
         }
     }
 }

@@ -12,10 +12,20 @@
      * @param {Array<object>} rateCards - list of rate cards for current user
      * @returns {} 
      */
-    function _initRateCards(plans, rateCards, taxes) {
+    function _initRateCards(plans, rateCards, taxes, rateCardReductionTable) {
         state.cards = rateCards;
         state.taxes = taxes;
-        rateCardsCalculator.init(rateCards);
+        rateCardsCalculator.init(rateCards, rateCardReductionTable);
+        state.programsAvailable = $('#programs-available').val().toLowerCase() === 'true';
+        state.isDisplayAdminFee = $('#isPassAdminFee').val().toLowerCase() === 'true';
+
+        if (!state.programsAvailable) {
+            $('#option1-programDropdown').closest('.row').addClass('hidden');
+        }
+
+        if (state.isDisplayAdminFee) {
+            $('#option1-aFeeOptionsHolder').removeClass('hidden');
+        }
 
         $('#option1-taxDescription').text(state.description);
 
@@ -43,10 +53,21 @@
         });
     }
 
-    var init = function (plans, rateCards, taxes) {
-        _initRateCards(plans, rateCards, taxes);
+    var init = function (plans, rateCards, taxes, rateCardReductionTable) {
+        _initRateCards(plans, rateCards, taxes, rateCardReductionTable);
+        _setCustomRateCardAdminFee(rateCards);
         calculatorJCourusel.init();
         calculatorOption.init();
+    }
+
+    function _setCustomRateCardAdminFee(cards) {
+        var customRcId = constants.rateCards.filter(function(card) { return card.name === 'Custom' })[0].id;
+        var customRateCards = cards.filter(function(card) { return card.CardType === customRcId });
+        if (!customRateCards.length) return;
+
+        $.grep(customRateCards, function(card) {
+            state.customRateCardBoundaires[card.LoanValueFrom + '-' + card.LoanValueTo] = { adminFee: card.AdminFee };
+        });
     }
 
     return { init: init };

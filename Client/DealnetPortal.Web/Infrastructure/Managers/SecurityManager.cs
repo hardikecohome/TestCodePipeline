@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -11,8 +14,10 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
+using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
+using Newtonsoft.Json;
 
 namespace DealnetPortal.Web.Infrastructure.Managers
 {
@@ -20,7 +25,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
     {
         protected readonly ISecurityServiceAgent _securityService;
         protected readonly IUserManagementServiceAgent _userManagementService;
-        protected readonly ILoggingService _loggingService;
+        protected readonly ILoggingService _loggingService;                
 
         protected const string EmptyUser = "Admin";//use administrator here because for testing empty username and password are using
 
@@ -120,6 +125,25 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
 
             _userManagementService?.Logout();
+        }
+
+        public async Task<bool> VerifyRecaptcha(string response)
+        {
+            var secret = ConfigurationManager.AppSettings["ReCaptchaSecret"];
+            var request = WebRequest.CreateHttp($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={response}");
+
+            using(var res = (HttpWebResponse)request.GetResponse())
+            {
+                using(var responseStream = res.GetResponseStream())
+                {
+                    using(var reader = new StreamReader(responseStream))
+                    {
+                        var responseString = await reader.ReadToEndAsync();
+                        var result = JsonConvert.DeserializeObject<RecaptchaResponseModel>(responseString);
+                        return Convert.ToBoolean(result.Success);
+                    }
+                }
+            }
         }
 
         private void CreateCookie(IPrincipal user, bool isPersistent = false)

@@ -168,6 +168,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.EmploymentInfo)
                 .Include(c => c.SecondaryCustomers)
+                .Include(c=>c.SecondaryCustomers.Select(s=>s.EmploymentInfo))
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
                 .Include(c => c.Equipment)
@@ -178,8 +179,24 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Signers)
                 .Where(
                     c =>
-                        ids.Any(id => id == c.Id) &&
+                        ids.Contains(c.Id) &&
                         (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();
+            return contracts;
+        }
+
+        public IList<Contract> GetContractsEquipmentInfo(IEnumerable<int> ids, string ownerUserId)
+        {
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.InstallationPackages)
+                .Where(
+                    c =>
+                        ids.Contains(c.Id) &&
+                        (c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)).ToList();           
+
             return contracts;
         }
 
@@ -229,8 +246,11 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.WasDeclined = false;
                 }
 
-                contract.LastUpdateTime = DateTime.UtcNow;
-                contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+                if (_dbContext.Entry(contract).State != EntityState.Unchanged)
+                {
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    contract.LastUpdateOperator = GetDealer(contractOwnerId)?.UserName;
+                }
             }
             return contract;
         }
@@ -241,10 +261,12 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.EmploymentInfo)
+                .Include(c => c.PrimaryCustomer.CreditReport)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
+                .Include(c => c.SalesRepInfo)
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
@@ -263,6 +285,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.PrimaryCustomer)
                 .Include(c => c.PrimaryCustomer.Locations)
                 .Include(c => c.PrimaryCustomer.EmploymentInfo)
+                .Include(c => c.PrimaryCustomer.CreditReport)
                 .Include(c => c.SecondaryCustomers)
                 .Include(c => c.HomeOwners)
                 .Include(c => c.InitialCustomers)
@@ -290,6 +313,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.NewEquipment)
                 .Include(c => c.Equipment.InstallationPackages)
                 .Include(c => c.Signers)
+                .Include(c => c.SalesRepInfo)
                 .AsNoTracking().
                 FirstOrDefault(
                     c =>
@@ -341,7 +365,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     contract.DealerId = dealer.Id;
                     contract.IsNewlyCreated = true;
                     contract.IsCreatedByBroker = false;
-                    contract.IsCreatedByCustomer = false;
+                    //contract.IsCreatedByCustomer = false;
                     contract.LastUpdateTime = DateTime.UtcNow;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;
@@ -442,61 +466,93 @@ namespace DealnetPortal.DataAccess.Repositories
                         {
                             contractData.PrimaryCustomer.Id = contract.PrimaryCustomer.Id;
                         }                        
-                        var homeOwner = UpdateCustomer(contractData.PrimaryCustomer);                            
+                        var homeOwner = UpdateCustomer(contractData.PrimaryCustomer);
                         if (homeOwner != null)
                         {
                             contract.PrimaryCustomer = homeOwner;
-                            if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
-                            { 
+                            var userUpdated = _dbContext.Entry(contract.PrimaryCustomer).State != EntityState.Unchanged
+                                        || contract.PrimaryCustomer?.EmploymentInfo != null && _dbContext.Entry(contract.PrimaryCustomer?.EmploymentInfo).State != EntityState.Unchanged;
+                            updated |= (userUpdated || _dbContext.Locations.Local.Any(l => _dbContext.Entry(l).State != EntityState.Unchanged)
+                                        || _dbContext.Phones.Local.Any(p => _dbContext.Entry(p).State != EntityState.Unchanged)
+                                        || _dbContext.Emails.Local.Any(e => _dbContext.Entry(e).State != EntityState.Unchanged)
+                                        || _dbContext.ChangeTracker.Entries().Any(e => e.State == EntityState.Deleted));
+                            if (userUpdated && contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                            {
                                 contract.ContractState = ContractState.CustomerInfoInputted;
                             }
-                            updated = true;
                         }
                     }
 
                     if (contractData.SecondaryCustomers != null)
                     {
-                        AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
-                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                        var usersUpdated = AddOrUpdateAdditionalApplicants(contract, contractData.SecondaryCustomers);
+                        usersUpdated |=
+                            contract.SecondaryCustomers.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged)
+                            || _dbContext.Customers.Local.Any(c => _dbContext.Entry(c).State != EntityState.Unchanged);                        
+                        updated |= (usersUpdated || _dbContext.Locations.Local.Any(l => _dbContext.Entry(l).State != EntityState.Unchanged)
+                                    || _dbContext.Phones.Local.Any(p => _dbContext.Entry(p).State != EntityState.Unchanged)
+                                    || _dbContext.Emails.Local.Any(e => _dbContext.Entry(e).State != EntityState.Unchanged)
+                                    || _dbContext.ChangeTracker.Entries().Any(e => e.State == EntityState.Deleted));
+                        if (usersUpdated && contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
                         {
                             contract.ContractState = ContractState.CustomerInfoInputted;
                         }
-                        updated = true;
                     }
 
                     if (contractData.HomeOwners != null)
-                    {
-                        AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
-                        if (contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
+                    {                        
+                        var usersUpdated = AddOrUpdateHomeOwners(contract, contractData.HomeOwners);
+                        if (usersUpdated && contract.ContractState != ContractState.Completed && contract.ContractState != ContractState.Closed)
                         {
                             contract.ContractState = ContractState.CustomerInfoInputted;
                         }
-                        updated = true;
+                        updated |= usersUpdated;
                     }
 
                     if (!contract.WasDeclined.HasValue || contract.WasDeclined == false)
                     {
-                        AddOrUpdateInitialCustomers(contract);
-                        updated = true;
+                        updated |= AddOrUpdateInitialCustomers(contract);
                     }
-
+                    
                     if (contractData.Equipment != null)
+                    {                        
+                        updated |= AddOrUpdateEquipment(contract, contractData.Equipment);
+                    }                    
+
+                    if (contractData.SalesRepInfo != null)
                     {
-                        AddOrUpdateEquipment(contract, contractData.Equipment);
-                        updated = true;
+                        var salesRepRole = contractData.SalesRepInfo;
+                        salesRepRole.Id = contract.Id;
+                        salesRepRole.Contract = contract;
+                        _dbContext.ContractSalesRepInfoes.AddOrUpdate(salesRepRole);                        
+                        updated |= _dbContext.Entry(contract.SalesRepInfo).State != EntityState.Unchanged;
                     }
 
                     if (contractData.Details != null)
                     {
                         AddOrUpdateContactDetails(contract, contractData.Details);
-                        updated = true;
+                        updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
+                    }
+
+                    //this condition after equipment and details updates
+                    if (contract.Equipment != null)
+                    {
+                        var paymentSummary = GetContractPaymentsSummary(contract);
+                        contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
+
+                        if (!IsBill59Contract(contract.Id))
+                        {
+                            contract.Equipment.HasExistingAgreements = null;
+                        }
                     }
 
                     if (contractData.PaymentInfo != null)
                     {
                         AddOrUpdatePaymentInfo(contract, contractData.PaymentInfo);
-                        updated = true;
+                        updated |= _dbContext.Entry(contract.PaymentInfo).State != EntityState.Unchanged;
                     }
+
+                    updated |= _dbContext.Entry(contract).State != EntityState.Unchanged;
 
                     if (updated)
                     {
@@ -539,9 +595,10 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
-        public Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations,
+        public bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations,
             IList<Phone> phones, IList<Email> emails)
         {
+            bool updated = false;
             var dbCustomer = GetCustomer(customerId);
             if (dbCustomer != null)
             {
@@ -575,25 +632,61 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         dbCustomer.VerificationIdName = customerInfo.VerificationIdName;
                     }
-                    
-                    //AddOrUpdateCustomer(customerInfo);
+
+                    if (customerInfo.EmploymentInfo != null)
+                    {
+                        AddOrUpdateEmploymentInfo(dbCustomer, customerInfo.EmploymentInfo);
+                    }
+
+                    if (customerInfo.CreditReport != null)
+                    {
+                        AddOrUpdateCustomerCreditReport(dbCustomer, customerInfo.CreditReport);
+                    }
                 }
+
+                updated = _dbContext.Entry(dbCustomer).State != EntityState.Unchanged;
 
                 if (locations != null)
                 {
-                    AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
+                    updated |= AddOrUpdateCustomerLocations(dbCustomer, locations.ToList());
                 }
                 if (phones != null)
                 {
-                    AddOrUpdateCustomerPhones(dbCustomer, phones.ToList());
+                    updated |= AddOrUpdateCustomerPhones(dbCustomer, phones.ToList());
                 }
                 if (emails != null)
                 {
-                    AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
+                    updated |= AddOrUpdateCustomerEmails(dbCustomer, emails.ToList());
                 }
-                return dbCustomer;
+                //return dbCustomer;
             }
-            return null;
+            return updated;
+        }
+
+        public bool UpdateCustomerEmails(int customerId, IList<Email> emails)
+        {
+            bool updated = false;
+            var dbCustomer = GetCustomer(customerId);
+            if (dbCustomer != null)
+            {
+                emails?.ForEach(email =>
+                {
+                    var curEmail =
+                        dbCustomer.Emails.FirstOrDefault(e => e.EmailType == email.EmailType);
+                    if (curEmail == null)
+                    {
+                        email.Customer = dbCustomer;
+                        dbCustomer.Emails.Add(email);
+                        updated = true;
+                    }
+                    else
+                    {
+                        curEmail.EmailAddress = email.EmailAddress;
+                        updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged;
+                    }
+                });
+            }
+            return updated;
         }
 
         public Customer GetCustomer(int customerId)
@@ -619,14 +712,65 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<DocumentType> GetStateDocumentTypes(string state)
         {
             var checkList = _dbContext.FundingCheckLists
-                .Include(s => s.FundingCheckDocuments)
-                .FirstOrDefault(l => l.Province == state);
-            return _dbContext.FundingCheckDocuments.Where(x=>x.ListId == checkList.ListId).Select(d=>d.DocumentType).ToList();
+                .Include(s => s.FundingDocumentList)
+                .Include(s => s.FundingDocumentList.FundingCheckDocuments)
+                .FirstOrDefault(l => l.Province == state && string.IsNullOrEmpty(l.DealerId))?.
+                FundingDocumentList?.FundingCheckDocuments.Select(d => d.DocumentType).ToList();
+            return checkList;
+        }
+
+        public IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId)
+        {
+            var checkList = _dbContext.FundingCheckLists
+                    .Include(s => s.FundingDocumentList)
+                    .Include(s => s.FundingDocumentList.FundingCheckDocuments)
+                .FirstOrDefault(l => l.DealerId == contractOwnerId && l.Province == state);
+            if (checkList == null)
+            {
+                checkList = _dbContext.FundingCheckLists
+                    .Include(s => s.FundingDocumentList)
+                    .Include(s => s.FundingDocumentList.FundingCheckDocuments)
+                    .FirstOrDefault(l => l.Province == state);
+            }
+            if (checkList != null)
+            {
+                return checkList.FundingDocumentList.FundingCheckDocuments.Select(d => d.DocumentType).ToList();
+            }
+            return new List<DocumentType>();                
+        }
+
+        public IDictionary<string, IList<DocumentType>> GetDealerDocumentTypes(string contractOwnerId)
+        {
+            var lists = _dbContext.FundingCheckLists
+                .Include(s => s.FundingDocumentList)
+                .Include(s => s.FundingDocumentList.FundingCheckDocuments)
+                .Where(l => l.DealerId == contractOwnerId || string.IsNullOrEmpty(l.DealerId)).ToList();
+            var provLists = lists.GroupBy(l => l.Province)
+                .ToDictionary(g => g.Key, g => (IList<DocumentType>)(g.FirstOrDefault(fl => !string.IsNullOrEmpty(fl.DealerId)) ?? g.FirstOrDefault())?
+                                                                .FundingDocumentList?.FundingCheckDocuments?.Select(fcd => fcd.DocumentType).ToList());
+            return provLists;
         }
 
         public IList<DocumentType> GetAllDocumentTypes()
         {
             return _dbContext.DocumentTypes.ToList();
+        }
+
+        /// Get Document Types specified for contract
+        public IList<DocumentType> GetContractDocumentTypes(int contractId, string contractOwnerId)
+        {
+            var contract = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .FirstOrDefault(c => c.Id == contractId &&
+                                     (c.Dealer.Id == contractOwnerId || c.Dealer.ParentDealerId == contractOwnerId));
+            if (contract != null)
+            {
+                var state = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
+                state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
+                return GetDealerDocumentTypes(state, contractOwnerId);
+            }
+            return new List<DocumentType>();
         }
 
         public ProvinceTaxRate GetProvinceTaxRate(string province)
@@ -859,6 +1003,32 @@ namespace DealnetPortal.DataAccess.Repositories
             return isClarity;
         }
 
+        public bool IsBill59Contract(int contractId)
+        {
+            bool isBill59 = false;
+
+            var contract = _dbContext.Contracts
+                .Include(c => c.Equipment)
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.Equipment.NewEquipment)
+                .FirstOrDefault(c => c.Id == contractId);
+
+
+            if (contract != null)
+            {
+                var location = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress) ??
+                           contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress) ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault();
+                if (contract.Details.AgreementType != AgreementType.LoanApplication &&
+                    location?.State?.ToProvinceCode() == "ON")
+                {
+                    isBill59 = contract.Equipment?.NewEquipment?.Any(ne => GetEquipmentTypeInfo(ne.Type)?.UnderBill59 ?? false) ?? false;
+                }                    
+            }
+
+            return isBill59;
+        }
+
         public IList<Contract> GetExpiredContracts(DateTime expiredDate)
         {
             var contractCreatorRoleId = _dbContext.Roles.FirstOrDefault(r => r.Name == UserRole.CustomerCreator.ToString())?.Id;
@@ -962,8 +1132,9 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Any(c => c.Id == contractId && c.Dealer.Id == contractOwnerId);
         }
 
-        private EquipmentInfo AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
+        private bool AddOrUpdateEquipment(Contract contract, EquipmentInfo equipmentInfo)
         {
+            var updated = false;
             var newEquipments = equipmentInfo.NewEquipment;
             var existingEquipments = equipmentInfo.ExistingEquipment;
             var installationPackages = equipmentInfo.InstallationPackages;
@@ -982,25 +1153,26 @@ namespace DealnetPortal.DataAccess.Repositories
                 UpdateEquipmentBaseInfo(dbEquipment, equipmentInfo);               
             }
 
+            updated = _dbContext.Entry(dbEquipment).State != EntityState.Unchanged;
+
             if (newEquipments != null)
             {
-                AddOrUpdateNewEquipments(dbEquipment, newEquipments);
+                updated |= AddOrUpdateNewEquipments(dbEquipment, newEquipments);
             }
 
             if (existingEquipments != null)
             {
-                AddOrUpdateExistingEquipments(dbEquipment, existingEquipments);
+                updated |= AddOrUpdateExistingEquipments(dbEquipment, existingEquipments);
             }
 
             if (installationPackages != null)
             {
-                AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
-            }
+                updated |= AddOrUpdateInstallationPackages(dbEquipment, installationPackages);
+            }            
+            
+            updated |= _dbContext.Entry(dbEquipment).State != EntityState.Unchanged;
 
-            var paymentSummary = GetContractPaymentsSummary(contract);
-            dbEquipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?) paymentSummary.TotalAmountFinanced : (double?) paymentSummary.TotalMonthlyPayment;
-
-            return dbEquipment;
+            return updated;
         }
 
         private PaymentSummary GetContractPaymentsSummary(Contract contract, decimal? priceOfEquipment = null)
@@ -1047,9 +1219,9 @@ namespace DealnetPortal.DataAccess.Repositories
                             LoanTerm = contract.Equipment?.LoanTerm ?? 0,
                             AmortizationTerm = contract.Equipment?.AmortizationTerm ?? 0,
                             PriceOfEquipment = (double?)priceOfEquipment ?? 0.0,
-                            AdminFee = contract.Equipment?.AdminFee ?? 0,
-                            DownPayment = contract.Equipment?.DownPayment ?? 0,
-                            CustomerRate = contract.Equipment?.CustomerRate ?? 0,
+                            AdminFee = contract.Equipment?.IsFeePaidByCutomer == true ? (double)(contract.Equipment?.AdminFee ?? 0) : 0.0,
+                            DownPayment = (double)(contract.Equipment?.DownPayment ?? 0),
+                            CustomerRate = (double)(contract.Equipment?.CustomerRate ?? 0),
                             IsClarity = contract.Dealer?.Tier?.Name ==
                                         _config.GetSetting(WebConfigKeys.CLARITY_TIER_NAME),
                             IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null &&
@@ -1080,6 +1252,9 @@ namespace DealnetPortal.DataAccess.Repositories
                         paymentSummary.TotalAllMonthlyPayment = paymentSummary.TotalMonthlyPayment *
                                                                 (contract.Equipment.RequestedTerm ?? 0);
                         paymentSummary.TotalAmountFinanced = paymentSummary.TotalAllMonthlyPayment;
+                        paymentSummary.SoftCapLimit =
+                        contract.Equipment.NewEquipment.Any(eq => eq.MonthlyCost > eq.EquipmentType?.SoftCap && eq.EquipmentType?.HardCap >= eq.MonthlyCost) ||
+                        contract.Equipment.NewEquipment.Any(eq => eq.MonthlyCost > eq.EquipmentSubType?.SoftCap  && eq.EquipmentSubType?.HardCap >= eq.MonthlyCost);
                     }
                 }
             }
@@ -1145,9 +1320,13 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.EstimatedInstallationDate = equipmentInfo.EstimatedInstallationDate;
             }
-            if (equipmentInfo.RateCardId.HasValue)
+            if (equipmentInfo.CustomerRiskGroupId.HasValue)
             {
-                dbEquipment.RateCardId = equipmentInfo.RateCardId;
+                dbEquipment.CustomerRiskGroupId = equipmentInfo.CustomerRiskGroupId;
+            }
+            if (equipmentInfo.IsFeePaidByCutomer.HasValue)
+            {
+                dbEquipment.IsFeePaidByCutomer = equipmentInfo.IsFeePaidByCutomer;
             }
             if (equipmentInfo.DealerCost.HasValue)
             {
@@ -1161,17 +1340,30 @@ namespace DealnetPortal.DataAccess.Repositories
             {
                 dbEquipment.IsClarityProgram = equipmentInfo.IsClarityProgram;
             }
+            if (equipmentInfo.HasExistingAgreements.HasValue)
+            {
+                dbEquipment.HasExistingAgreements = equipmentInfo.HasExistingAgreements;
+            }
+            if (equipmentInfo.RentalProgramType.HasValue)
+            {
+                dbEquipment.RentalProgramType = equipmentInfo.RentalProgramType;
+            }
+            dbEquipment.RateCardId = equipmentInfo.RateCardId;
+            dbEquipment.RateReduction = equipmentInfo.RateReduction;
+            dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
+		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
 
             return dbEquipment;
         }
 
-        private EquipmentInfo AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)
+        private bool AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)
         {
+            var updated = false;
             var existingEntities =
                 dbEquipment.NewEquipment.Where(
-                    a => newEquipments.Any(ne => ne.Id == a.Id)).ToList();
+                    a => newEquipments.Any(ne => ne.Id == a.Id) || a.IsDeleted == true).ToList();
             var entriesForDelete = dbEquipment.NewEquipment.Except(existingEntities).ToList();
-            //entriesForDelete.ForEach(e => _dbContext.NewEquipment.Remove(e));
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e =>
             {
                 e.IsDeleted = true;
@@ -1186,38 +1378,62 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (curEquipment == null || ne.Id == 0)
                 {
                     dbEquipment.NewEquipment.Add(ne);
+                    updated = true;
                 }
                 else
-                {
-                    ne.EquipmentInfoId = curEquipment.EquipmentInfoId;
-                    if (ne.AssetNumber == null)
+                {                    
+                    if (!string.IsNullOrEmpty(ne.InstalledModel))
                     {
-                        ne.AssetNumber = curEquipment.AssetNumber;
+                        curEquipment.InstalledModel = ne.InstalledModel;
                     }
-                    if (string.IsNullOrEmpty(ne.InstalledModel))
+                    if (!string.IsNullOrEmpty(ne.InstalledSerialNumber))
                     {
-                        ne.InstalledModel = curEquipment.InstalledModel;
+                        curEquipment.InstalledSerialNumber = ne.InstalledSerialNumber;
                     }
-                    if (string.IsNullOrEmpty(ne.InstalledSerialNumber))
+                    if (ne.EstimatedInstallationDate.HasValue)
                     {
-                        ne.InstalledSerialNumber = curEquipment.InstalledSerialNumber;
+                        curEquipment.EstimatedInstallationDate = ne.EstimatedInstallationDate;
                     }
-                    if (!ne.EstimatedInstallationDate.HasValue)
+                    if (ne.EstimatedInstallationDate.HasValue)
                     {
-                        ne.EstimatedInstallationDate = curEquipment.EstimatedInstallationDate;
+                        curEquipment.EstimatedInstallationDate = ne.EstimatedInstallationDate;
                     }
-                    _dbContext.NewEquipment.AddOrUpdate(ne);
+                    if (!string.IsNullOrEmpty(ne.Type))
+                    {
+                        curEquipment.Type = ne.Type;
+                    }
+                    if (!string.IsNullOrEmpty(ne.Description))
+                    {
+                        curEquipment.Description = ne.Description;
+                    }
+                    if (ne.Cost.HasValue)
+                    {
+                        curEquipment.Cost = ne.Cost;
+                    }
+                    if (ne.MonthlyCost.HasValue)
+                    {
+                        curEquipment.MonthlyCost = ne.MonthlyCost;
+                    }
+                    if (ne.EstimatedRetailCost.HasValue)
+                    {
+                        curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
+                    }
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                    
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;                    
+                    updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
-            return dbEquipment;
+            return updated;
         }
 
-        private EquipmentInfo AddOrUpdateExistingEquipments(EquipmentInfo dbEquipment, IEnumerable<ExistingEquipment> existingEquipments)
+        private bool AddOrUpdateExistingEquipments(EquipmentInfo dbEquipment, IEnumerable<ExistingEquipment> existingEquipments)
         {
+            var updated = false;
             var existingEntities =
                 dbEquipment.ExistingEquipment.Where(
                     a => existingEquipments.Any(ee => ee.Id == a.Id)).ToList();
             var entriesForDelete = dbEquipment.ExistingEquipment.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.ExistingEquipment.Remove(e));
 
             existingEquipments.ForEach(ee =>
@@ -1227,22 +1443,26 @@ namespace DealnetPortal.DataAccess.Repositories
                 if (curEquipment == null || ee.Id == 0)
                 {
                     dbEquipment.ExistingEquipment.Add(ee);
+                    updated = true;
                 }
                 else
                 {
                     ee.EquipmentInfoId = curEquipment.EquipmentInfoId;
                     _dbContext.ExistingEquipment.AddOrUpdate(ee);
+                    updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
-            return dbEquipment;
+            return updated;
         }
 
-        private EquipmentInfo AddOrUpdateInstallationPackages(EquipmentInfo dbEquipment, IEnumerable<InstallationPackage> installationPackages)
+        private bool AddOrUpdateInstallationPackages(EquipmentInfo dbEquipment, IEnumerable<InstallationPackage> installationPackages)
         {
+            var updated = false;
             var existingEntities =
                 dbEquipment.InstallationPackages.Where(
                     a => installationPackages.Any(ee => ee.Id == a.Id)).ToList();
             var entriesForDelete = dbEquipment.InstallationPackages.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.InstallationPackages.Remove(e));
 
             installationPackages.ForEach(ip =>
@@ -1253,25 +1473,29 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     ip.EquipmentInfo = dbEquipment;
                     dbEquipment.InstallationPackages.Add(ip);
+                    updated = true;
                 }
                 else
                 {
                     ip.EquipmentInfoId = dbEquipment.Id;
                     ip.Id = curPackage.Id;
                     _dbContext.InstallationPackages.AddOrUpdate(ip);
+                    updated |= _dbContext.Entry(curPackage).State != EntityState.Unchanged;
                 }
             });
-            return dbEquipment;
+            return updated;
         }
 
-        private Customer AddOrUpdateCustomerLocations(Customer customer, IEnumerable<Location> locations)
+        private bool AddOrUpdateCustomerLocations(Customer customer, IEnumerable<Location> locations)
         {
+            bool updated = false;
             //??
             locations = locations.ToList();
             var existingEntities =
                 customer.Locations.Where(
                     a => locations.Any(ca => ca.Id == a.Id || ca.AddressType == a.AddressType)).ToList();
             var entriesForDelete = customer.Locations.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
             locations.ForEach(addr =>
@@ -1282,25 +1506,28 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     addr.Customer = customer;
                     customer.Locations.Add(addr);
+                    updated = true;
                 }
                 else
                 {
                     addr.Customer = customer;
                     addr.Id = curAddress.Id;
                     _dbContext.Locations.AddOrUpdate(addr);
-                    //_dbContext.Entry<Location>(addr).State = EntityState.Modified;                    
-                }
+                    updated |= _dbContext.Entry(addr).State != EntityState.Unchanged;
+                }                
             });
 
-            return customer;
+            return updated;
         }
 
-        private Customer AddOrUpdateCustomerPhones(Customer customer, IList<Phone> phones)
+        private bool AddOrUpdateCustomerPhones(Customer customer, IList<Phone> phones)
         {
+            bool updated = false;
             var existingEntities =
                 customer.Phones.Where(
                     p => phones.Any(pa => pa.Id == p.Id || pa.PhoneType == p.PhoneType)).ToList();
             var entriesForDelete = customer.Phones.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
 
             phones.ForEach(phone =>
@@ -1311,27 +1538,28 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     phone.Customer = customer;
                     customer.Phones.Add(phone);
+                    updated = true;
                 }
                 else
                 {
-                    phone.Customer = customer;
-                    phone.Id = curPhone.Id;
-                    _dbContext.Phones.AddOrUpdate(phone);
-                    //_dbContext.Entry<Phone>(phone).State = EntityState.Modified;
-                }
+                    curPhone.PhoneNum = phone.PhoneNum;
+                    updated |= _dbContext.Entry(curPhone).State != EntityState.Unchanged;
+                }                
             });
 
-            return customer;
+            return updated;
         }
 
-        private Customer AddOrUpdateCustomerEmails(Customer customer, IList<Email> emails)
+        private bool AddOrUpdateCustomerEmails(Customer customer, IList<Email> emails)
         {
+            bool updated = false;
             var existingEntities =
                 customer.Emails.Where(
                     e => emails.Any(em => e.Id == em.Id || e.EmailType == em.EmailType)).ToList();
             var entriesForDelete = customer.Emails.Except(existingEntities).ToList();
-            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);
-
+            updated = entriesForDelete.Any();
+            entriesForDelete.ForEach(e => _dbContext.Entry(e).State = EntityState.Deleted);            
+            
             emails.ForEach(email =>
             {
                 var curEmail =
@@ -1340,17 +1568,16 @@ namespace DealnetPortal.DataAccess.Repositories
                 {
                     email.Customer = customer;
                     customer.Emails.Add(email);
+                    updated = true;
                 }
                 else
                 {
-                    email.Customer = customer;
-                    email.Id = curEmail.Id;
-                    _dbContext.Emails.AddOrUpdate(email);
-                    //_dbContext.Entry<Email>(email).State = EntityState.Modified;
-                }
+                    curEmail.EmailAddress = email.EmailAddress;                    
+                    updated |= _dbContext.Entry(curEmail).State != EntityState.Unchanged;
+                }                
             });
 
-            return customer;
+            return updated;
         }
 
         private void AddOrUpdateContactDetails(Contract contract, ContractDetails contractDetails)
@@ -1365,10 +1592,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract.Details.AgreementType = contractDetails.AgreementType;
                 if (contract.Equipment != null)
                 {
-                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;
-
-                    var paymentSummary = GetContractPaymentsSummary(contract);
-                    contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? (double?)paymentSummary.TotalAmountFinanced : (double?)paymentSummary.TotalMonthlyPayment;
+                    contract.Equipment.AgreementType = contractDetails.AgreementType.Value;                    
                 }
             }
             if (contractDetails.SignatureDocumentId != null)
@@ -1442,6 +1666,7 @@ namespace DealnetPortal.DataAccess.Repositories
             }
             else
             {
+                customer.EmploymentInfo.MonthlyMortgagePayment = employmentInfo.MonthlyMortgagePayment;
                 customer.EmploymentInfo.AnnualSalary = employmentInfo.AnnualSalary;
                 customer.EmploymentInfo.CompanyName = employmentInfo.CompanyName;
                 customer.EmploymentInfo.CompanyPhone = employmentInfo.CompanyPhone;
@@ -1466,6 +1691,12 @@ namespace DealnetPortal.DataAccess.Repositories
             }
         }
 
+        private void AddOrUpdateCustomerCreditReport(Customer customer, CustomerCreditReport creditReport)
+        {
+            creditReport.Customer = customer;
+            _dbContext.CustomerCreditReports.AddOrUpdate(creditReport);
+        }
+
         private Customer AddOrUpdateCustomer(Customer customer)
         {
             var dbCustomer = customer.Id == 0 ? null : _dbContext.Customers.Find(customer.Id);
@@ -1485,11 +1716,17 @@ namespace DealnetPortal.DataAccess.Repositories
                 dbCustomer.DriverLicenseNumber = customer.DriverLicenseNumber;
                 dbCustomer.VerificationIdName = customer.VerificationIdName;
                 dbCustomer.DealerInitial = customer.DealerInitial;
+                dbCustomer.RelationshipToMainBorrower = customer.RelationshipToMainBorrower; 
             }
 
             if (customer.EmploymentInfo != null)
             {
                 AddOrUpdateEmploymentInfo(dbCustomer, customer.EmploymentInfo);
+            }
+
+            if (customer.CreditReport != null)
+            {
+                AddOrUpdateCustomerCreditReport(dbCustomer, customer.CreditReport);
             }
 
             return dbCustomer;
@@ -1507,35 +1744,43 @@ namespace DealnetPortal.DataAccess.Repositories
 
         private bool AddOrUpdateAdditionalApplicants(Contract contract, IList<Customer> customers)
         {
+            var updated = false;
             var existingEntities =
                 contract.SecondaryCustomers.Where(
-                    ho => customers.Any(cho => cho.Id == ho.Id) /*|| (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))*/).ToList();
+                    ho => customers.Any(cho => cho.Id == ho.Id) || ho.IsDeleted == true /*|| (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))*/).ToList();
 
             var entriesForDelete = contract.SecondaryCustomers.Except(existingEntities).ToList();
-            entriesForDelete.ForEach(e => contract.SecondaryCustomers.Remove(e));            
+            updated = entriesForDelete.Any();
+            entriesForDelete.ForEach(e =>
+            {
+                e.IsDeleted = true;
+            });            
             customers.ForEach(ho =>
             {
                 var customer = UpdateCustomer(ho);
                 if (existingEntities.Find(e => e.Id == customer.Id) == null)
                 {
                     contract.SecondaryCustomers.Add(customer);
+                    updated = true;
                 }
             });
 
-            contract.LastUpdateTime = DateTime.UtcNow;
-
-            return true;
+            return updated;
         }
 
         private bool AddOrUpdateHomeOwners(Contract contract, IList<Customer> homeOwners)
         {
+            var updated = false;
             var existingEntities =
                 contract.HomeOwners.Where(
-                    ho => homeOwners.Any(cho => cho.Id == ho.Id) || (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))).ToList();
+                    ho => homeOwners.Any(cho => cho.Id == ho.Id) || (contract.WasDeclined == true && contract.InitialCustomers.Any(ic => ic.Id == ho.Id))).ToList();            
             var entriesForDelete = contract.HomeOwners.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             entriesForDelete.ForEach(e => contract.HomeOwners.Remove(e));
 
-            homeOwners.ForEach(ho =>
+            var entriesForAdd = homeOwners.Where(ho => ho.Id == 0 || existingEntities.All(ee => ee.Id != ho.Id));
+
+            entriesForAdd.ForEach(ho =>
             {
                 Customer sc = null;
                 if (ho.Id != 0)
@@ -1557,20 +1802,23 @@ namespace DealnetPortal.DataAccess.Repositories
                             contract.SecondaryCustomers.FirstOrDefault(
                                 c =>
                                     c.FirstName == ho.FirstName && c.LastName == ho.LastName &&
-                                    c.DateOfBirth == ho.DateOfBirth);
+                                    c.DateOfBirth == ho.DateOfBirth &&
+                                    c.IsDeleted != true);
                     }
                 }
                 if (sc != null && (contract.WasDeclined != true || contract.InitialCustomers.All(ic => ic.Id != sc.Id)))
                 {
                     contract.HomeOwners.Add(sc);
+                    updated = true;
                 }
             });
 
-            return true;
+            return updated;
         }
 
         private bool AddOrUpdateInitialCustomers(Contract contract)
         {
+            bool updated = false;
             var currentCustomers = new List<Customer>();
             if (contract.PrimaryCustomer != null)
             {
@@ -1585,11 +1833,13 @@ namespace DealnetPortal.DataAccess.Repositories
                 contract.InitialCustomers.Where(
                     ic => currentCustomers.Any(cc => cc == ic)).ToList();
             var entriesForDelete = contract.InitialCustomers.Except(existingEntities).ToList();
+            updated = entriesForDelete.Any();
             var entriesForAdd = currentCustomers.Except(contract.InitialCustomers).ToList();
+            updated = entriesForAdd.Any();
             entriesForDelete.ForEach(e => contract.InitialCustomers.Remove(e));
             entriesForAdd.ForEach(e => contract.InitialCustomers.Add(e));
 
-            return true;
+            return updated;
         }
         #endregion
 

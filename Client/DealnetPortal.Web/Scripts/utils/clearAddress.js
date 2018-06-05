@@ -2,7 +2,7 @@
     return function clearAddress() {
             $(this).parents('.address-container').find('input, select').each(function () {
                 if ($(this).not('.placeholder')) {
-                    $(this).val("");
+                    $(this).val("").change();
                 }
             });
             return false;

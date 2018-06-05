@@ -16,6 +16,8 @@ namespace DealnetPortal.Domain
 
         public AgreementType? AgreementType { get; set; }
 
+        public AnnualEscalationType? AnnualEscalation { get; set; }
+
         public int? DocumentTypeId { get; set; }
         [ForeignKey("DocumentTypeId")]
         public DocumentType DocumentType { get; set; }

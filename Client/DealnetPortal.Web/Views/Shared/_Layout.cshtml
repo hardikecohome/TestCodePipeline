@@ -5,72 +5,87 @@
 @using DealnetPortal.Web.Common.Constants
 @using DealnetPortal.Web.Infrastructure.Managers
 
+@{
+    var viewPath = ((RazorView)ViewContext.View).ViewPath.ToUpper();
+    var isCustomerFormOrOnboarding = viewPath.Contains("CustomerForm".ToUpper()) || viewPath.Contains("OnBoarding".ToUpper());
+    bool isAuthenticated = !isCustomerFormOrOnboarding && User.Identity.IsAuthenticated;
+}
+
 <!DOCTYPE html>
 <html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")">
 <!--[if IE 9 ]><html lang="@(CultureHelper.CurrentCultureType == CultureType.English ? "en-CA" : "fr-CA")" class="ie9"><![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="true">
-    <meta name="format-detection" content="telephone=no">
-    <title>@ViewBag.Title - DealNet</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
-    <link rel="stylesheet" href="~/Content/css/jquery-ui.css">
-    @RenderSection("Styles", false)
-    @switch(ApplicationSettingsManager.PortalType)
-    {
-        case PortalType.Odi:
-            @Styles.Render("~/Content/less/main-dealer.less")
-            break;
-        default:
-            @Styles.Render("~/Content/less/main.less")
-            break;
-    }
-    <link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
-    <script type="text/javascript">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="HandheldFriendly" content="true">
+	<meta name="format-detection" content="telephone=no">
+	<title>@ViewBag.Title - DealNet</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900" rel="stylesheet" type='text/css'>
+	<link rel="stylesheet" href="~/Content/css/jquery-ui.css">
+	@RenderSection("Styles", false)
+	@switch (ApplicationSettingsManager.PortalType)
+	{
+		case PortalType.Odi:
+			@Styles.Render("~/Content/less/main-dealer.less")
+			break;
+		default:
+			@Styles.Render("~/Content/less/main.less")
+			break;
+	}
+	<link rel="shortcut icon" href="@Url.Action("Favicon", "Settings", new { version = DateTime.Now.Ticks.ToString(), hashDealerName = ViewBag.HashDealerName as string })" type="image/x-icon" />
+	<script type="text/javascript">
         var urlContent = "@Url.Content("~/")";
         var layotSettingsUrl = "@(User.Identity.IsAuthenticated ? Url.Action("LayoutSettings", "Home") : null)";
 		var customerDealsCountUrl = "@(User.Identity.IsAuthenticated ? Url.Action("CustomersDealsCount", "Home") : null)";
 		var SupportUrl = "@(User.Identity.IsAuthenticated ? Url.Action("DealerSupportRequestEmail", "Home") : null)";
 		var DealerName = "@User.Identity.Name";
-        var translations = {};
-        translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
+		var translations = {};
+		translations['IfYouChangeInfo'] = "@Resources.IfYouChangeInfo";
         translations['NavigateToStep'] = "@Resources.NavigateToStep";
         translations['GoToStep'] = "@Resources.GoToStep";
         translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
         translations['EnterValidDate'] = "@Resources.EnterValidDate";
         translations['Cancel'] = "@Resources.Cancel";
         @RenderSection("Translations", false)
-    </script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/dealnet")
-    @Scripts.Render("~/bundles/jqueryval")
+	</script>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/dealnet")
+	@Scripts.Render("~/bundles/jqueryval")
 
-    @switch(CultureHelper.CurrentCultureType)
-    {
-        case CultureType.French:
-            <script type="text/javascript"
-                    src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
-            </script>
-            <script type="text/javascript">
-                $.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
-                $.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
-                    "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-                $.datepicker.setDefaults($.datepicker.regional['fr']);
-            </script>
-            break;
-    }
-    @RenderSection("OutrunningScripts", false)
-    @*<!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->*@
-    @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])
+	@switch (CultureHelper.CurrentCultureType)
+	{
+		case CultureType.French:
+			<script type="text/javascript"
+					src="https://cdn.rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-fr.js">
+			</script>
+			<script type="text/javascript">
+				$.datepicker.regional['fr'].dayNamesMin = ['di', 'lu', 'ma', 'me', 'je', 've', 'sa'];
+				$.datepicker.regional['fr'].monthNamesShort = ["janvier", "février", "mars", "avril", "mai", "juin",
+					"juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+				$.datepicker.setDefaults($.datepicker.regional['fr']);
+			</script>
+			break;
+	}
+	@RenderSection("OutrunningScripts", false)
+	@*<!--<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>-->*@
+	@*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', '@System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"]');
+	</script>
 
 </head>
 @{
     string themeClass;
-    switch (ApplicationSettingsManager.PortalType)
+    switch(ApplicationSettingsManager.PortalType)
     {
         case PortalType.Odi:
             themeClass = "theme-one-dealer";
@@ -79,20 +94,20 @@
             themeClass = "";
             break;
     }
-    string phone = (bool) ((ClaimsPrincipal) User)?.HasClaim(ClaimContstants.QuebecDealer, "True") ? 
-                           System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] : 
+    string phone = (bool)((ClaimsPrincipal)User)?.HasClaim(ClaimContstants.QuebecDealer, "True") ?
+                           System.Configuration.ConfigurationManager.AppSettings["QuebecDealerSupportPhone"] :
                            System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"];
     string phoneToCall = phone.Replace("-", "");
 
 }
 
-<body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized") @themeClass">
+<body class="@(isAuthenticated ? "authorized" : "no-authorized") @themeClass">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-inverse navbar-fixed-side @(ViewBag.AdditionalNavbarClasses!=null?ViewBag.AdditionalNavbarClasses:"")">
                     <div class="navbar-header">
-                        @if (User.Identity.IsAuthenticated)
+                        @if(isAuthenticated)
                         {
                             <div class="burger-hold">
                                 <button class="navbar-toggle pull-left" data-target=".navbar-collapse" data-toggle="collapse">
@@ -106,7 +121,7 @@
                         <div class="logo-container">
                             <div class="dealnet-image-ecologo main-logo"></div>
                         </div>
-                        @if (User.Identity.IsAuthenticated && (User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
+                        @if(isAuthenticated && (User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
                         {
                             <div class="contact-container">
                                 <div class="contact-btn contact-phone-container">
@@ -143,33 +158,33 @@
                             <div class="dealnet-login-buttons-holder pull-right">
                                 @Html.Partial("LoginButtons")
                             </div>
-                            @if (User.Identity.IsAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                            @if(isAuthenticated && ((bool?)TempData["LangSwitcherAvailable"] ?? false))
                             {
                                 <div class="lang-switcher pull-right">
                                     <div class="chosen-language">
                                         <div class="lang-item">
                                             <a href="#" class="chosen-language-link">
-                                                @switch (CultureHelper.CurrentCultureType)
+                                                @switch(CultureHelper.CurrentCultureType)
                                                 {
                                                     case CultureType.English:
                                                         @:English
-                                                    break;
+                                                        break;
                                                     case CultureType.French:
                                                         @:Français
-                                                    break;
+                                                        break;
                                                 }
                                                 <span class="caret"></span>
                                             </a>
                                         </div>
                                     </div>
                                     <ul class="lang-list">
-                                        @if (CultureHelper.CurrentCultureType != CultureType.English)
+                                        @if(CultureHelper.CurrentCultureType != CultureType.English)
                                         {
                                             <li class="lang-item active">
                                                 @Html.ActionLink(Resources.English, "ChangeCulture", "Home", new { culture = "en" }, new { @class = "lang-link" })
                                             </li>
                                         }
-                                        @if (CultureHelper.CurrentCultureType != CultureType.French)
+                                        @if(CultureHelper.CurrentCultureType != CultureType.French)
                                         {
                                             <li class="lang-item">
                                                 @Html.ActionLink(Resources.French, "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "lang-link" })
@@ -184,7 +199,7 @@
             </div>
         </div>
         <div class="row">
-            @if (User.Identity.IsAuthenticated)
+            @if(isAuthenticated)
             {
                 <div class="dealnet-sidebar collapse navbar-collapse" aria-expanded="false">
                     <div class="sidebar-inner">
@@ -198,7 +213,7 @@
                                     <span class="icon-bar"></span>
                                 </button>
                             </div>
-                            @if (Request.IsAuthenticated)
+                            @if(Request.IsAuthenticated)
                             {
                                 {
                                     @*@Html.AntiForgeryToken()*@
@@ -211,7 +226,7 @@
                                 }
                             }
                             <ul class="nav nav-sidebar">
-                                @if ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
+                                @if((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
                                 {
                                     <li class="dealnet-sidebar-item" id="sidebar-item-homepage">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-home"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-home")"></use></svg></span>
@@ -242,7 +257,7 @@
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
                                         @Html.ActionLink(Resources.MyProfile, "Index", "Profile", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
-                                    if ((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                                    if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
                                     {
                                         <li class="dealnet-sidebar-item">
                                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>
@@ -255,7 +270,7 @@
                                     </li>
 
                                 }
-                                @if ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) == true)
+                                @if((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) == true)
                                 {
                                     <li class="dealnet-sidebar-item">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-new-client"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-client")"></use></svg></span>
@@ -265,7 +280,7 @@
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account")"></use></svg></span>
                                         @Html.ActionLink(Resources.MyClients, "MyClients", "MortgageBroker", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
-									<li class="dealnet-sidebar-item" id="sidebar-item-help">
+                                    <li class="dealnet-sidebar-item" id="sidebar-item-help">
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg></span>
                                         @Html.ActionLink(Resources.Library, "Library", "Home", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
@@ -275,7 +290,7 @@
 
 
                         </div>
-                        @if ((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
+                        @if((User as ClaimsPrincipal)?.IsInRole(RoleContstants.MortgageBroker) != true)
                         {
                             <div class="sidebar-row sidebar-row-expanded contact-container">
                                 <ul class="nav nav-sidebar">
@@ -315,10 +330,10 @@
                             </div>
                         }
                         <div class="sidebar-bottom sidebar-row">
-                            @if (((bool?)TempData["LangSwitcherAvailable"] ?? false))
+                            @if(((bool?)TempData["LangSwitcherAvailable"] ?? false))
                             {
                                 <div class="dealnet-sidebar-item sidebar-lang-item">
-                                    @switch (CultureHelper.CurrentCultureType)
+                                    @switch(CultureHelper.CurrentCultureType)
                                     {
                                         case CultureType.English:
                                             @:@Html.ActionLink("Switch to French", "ChangeCulture", "Home", new { culture = "fr" }, new { @class = "dealnet-sidebar-link no-icon" })
@@ -336,7 +351,7 @@
                     </div>
                 </div>
             }
-            <div class="@(User.Identity.IsAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">
+            <div class="@(isAuthenticated ? "col-md-9 col-lg-10 col-md-offset-3 col-lg-offset-2 dealnet-body-container" : "col-md-12 col-lg-12")">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 dealnet-body">
                         @RenderBody()
@@ -368,23 +383,23 @@
     </div>
     <div class="floatingHelpBtn">
         <div id="email_buttons">
-           
-            @if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole(UserRole.MortgageBroker.ToString()) != true))
-            {
-			<div class="pull-right">
 
-				<i onclick="sendEmailModel();">
-					<button class="btn btn-lg btn-success helpbutton">
-						<svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
-						@Resources.Help
-					</button>
-				</i>
-			</div>
-			}
-		</div>
-	</div>
-	@Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())
-	
+            @if(isAuthenticated && ((User as ClaimsPrincipal)?.IsInRole(UserRole.MortgageBroker.ToString()) != true))
+            {
+                <div class="pull-right">
+
+                    <i onclick="sendEmailModel();">
+                        <button class="btn btn-lg btn-success helpbutton">
+                            <svg aria-hidden="true" class="icon icon-help-page"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-help-page")"></use></svg>
+                            @Resources.Help
+                        </button>
+                    </i>
+                </div>
+            }
+        </div>
+    </div>
+    @Html.Partial("_HelpPopUp", new DealnetPortal.Web.Models.HelpPopUpViewModal())
+
     @RenderSection("Scripts", false)
 </body>
 </html>

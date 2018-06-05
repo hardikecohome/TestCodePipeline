@@ -103,7 +103,7 @@
             street.val(props.street);
             unit.val(props.unit);
             city.val(props.city);
-            province.val(props.province);
+            province.val(props.province).change();
             postalCode.val(props.postalCode);
         });
 
@@ -119,7 +119,7 @@
             pstreet.val(props.street);
             punit.val(props.unit);
             pcity.val(props.city);
-            pprovince.val(props.province);
+            pprovince.val(props.province).change();
             ppostalCode.val(props.postalCode);
         });
 

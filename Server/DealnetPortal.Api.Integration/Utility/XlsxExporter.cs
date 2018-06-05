@@ -93,10 +93,11 @@ namespace DealnetPortal.Api.Integration.Utility
                                 LoanTerm = contract.Equipment.LoanTerm ?? 0,
                                 AmortizationTerm = contract.Equipment.AmortizationTerm ?? 0,
                                 PriceOfEquipment = (double)priceOfEquipment,
-                                AdminFee = contract.Equipment.AdminFee ?? 0,
-                                DownPayment = contract.Equipment.DownPayment ?? 0,
-                                CustomerRate = contract.Equipment.CustomerRate ?? 0,
-                                IsClarity = contract.Equipment.IsClarityProgram
+                                AdminFee = contract.Equipment?.IsFeePaidByCutomer == true ? (double)(contract.Equipment?.AdminFee ?? 0) : 0.0,
+                                DownPayment = (double)(contract.Equipment.DownPayment ?? 0),
+                                CustomerRate = (double)(contract.Equipment.CustomerRate ?? 0),
+                                IsClarity = contract.Equipment.IsClarityProgram,
+
                             };
                             var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                             worksheet.Cells[counter, 13].Value = loanCalculatorOutput.PriceOfEquipmentWithHst;

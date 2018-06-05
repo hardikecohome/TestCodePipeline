@@ -19,7 +19,8 @@
             '-tmPayments': 'totalMonthlyPayments',
             '-rBalance': 'residualBalance',
             '-tObligation': 'totalObligation',
-            '-yCost': 'yourCost'
+            '-yCost': 'yourCost',
+            '-aFee': 'adminFee'
         },
         totalPriceFields: {
             '-totalEquipmentPrice': 'equipmentSum',
@@ -30,7 +31,8 @@
             '-cRate': 'CustomerRate'
         },
         numberFields: ['equipmentSum', 'LoanTerm', 'AmortizationTerm', 'CustomerRate', 'DealerCost', 'AdminFee'],
-        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm']
+        notCero: ['equipmentSum', 'LoanTerm', 'AmortizationTerm'],
+        reductionCards: ['FixedRate', 'Deferral']
     }
 
     function _optionSetup(option, callback) {
@@ -46,6 +48,10 @@
         $('#' + option + '-customCRate').on('change', setters.setCustomerRate(option, callback));
         $('#' + option + '-customYCostVal').on('change', setters.setYourCost(option, callback));
         $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
+        $('#' + option + '-customAFee').on('change', setters.setAdminFee(option, callback));
+        $('#' + option + '-aFeeOptionsHolder').find('.custom-radio').on('click', _setAdminFeeCoveredBy(option, callback));
+        $('#' + option + '-programDropdown').on('change', setters.setProgram(option, callback));
+        $('#' + option + '-reduction').on('change', setters.setReductionCost(option, callback));
 
         if (option === 'option1') {
             var nextIndex = state[option].equipmentNextIndex;
@@ -97,6 +103,29 @@
         validation.setValidationForOption(option);
     };
 
+    function _setAdminFeeCoveredBy(option, callback) {
+        return function() {
+            var $this = $(this);
+            $('#' + option + '-errorAdminFee').addClass('hidden');
+            $('#' + option + '-aFeeOptionsHolder').find('.afee-is-covered').prop('checked', false);
+            var $input = $this.find('input');
+            var val = $input.val().toLowerCase() === 'true';
+
+            $input.prop('checked', true);
+
+            _toggleIsAdminFeeCovered(option, val);
+            setters.setAdminFeeIsCovered(option, val, callback);
+        }
+    }
+
+    function _toggleIsAdminFeeCovered(option, isCovered) {
+        if (isCovered == null) return;
+
+        $('#' + option + '-aFee').parent().removeClass('hidden');
+        var text = isCovered ? translations.coveredByCustomer : translations.coveredByDealer;
+        $('#' + option + '-aFeeHolder').text('(' + text + ')');
+    }
+
     function _removeOption(callback) {
         var optionToDelete = $(this).parent().parent().attr('id').split('-')[0];
         if (optionToDelete === 'option1') {
@@ -135,6 +164,13 @@
 
         if (!$('#' + optionToCopy + '-container > form').valid()) {
             return;
+        }
+
+        if ($('#' + optionToCopy + '-aFeeOptionsHolder').is(':visible') && !$('#' + optionToCopy + '-aFeeOptionsHolder').find('input:checked').length) {
+            $('#' + optionToCopy + '-errorAdminFee').removeClass('hidden');
+            return;
+        } else {
+            $('#' + optionToCopy + '-errorAdminFee').addClass('hidden');
         }
 
         var secondIndex = index + 1;
@@ -178,6 +214,14 @@
         optionContainer.attr('id', newOption + '-container');
         optionContainer.append(template);
         $('#options-container').append(optionContainer);
+
+        if ($('#' + optionToCopy + '-aFeeOptionsHolder').find('input:radio:checked').length) {
+            if (state[newOption].includeAdminFee) {
+                $('#' + newOption + '-radioWillPay').prop('checked', true);
+            } else {
+                $('#' + newOption + '-radioNotPay').prop('checked', true);
+            }
+        };
 
         $('#' + newOption + '-container')
             .find('.add-equip-link')
@@ -281,15 +325,38 @@
                     var e = document.getElementById(option + '-amortDropdown');
                     e.selectedIndex = -1;
                 }
-                
-                rateCardsRenderEngine.renderDropdownValues({ rateCardPlan: state[option].plan, standaloneOption: option, totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced() });
+                if (state.programsAvailable) {
+                    rateCardsRenderEngine.renderProgramDropdownValues({
+                        rateCardPlan: state[option].plan,
+                        standaloneOption: option,
+                        totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced()
+                    });
+                    state[option].Program = $('#' + option + '-programDropdown option:selected').val();
+                }
+
+                rateCardsRenderEngine.renderDropdownValues({
+                    rateCardPlan: state[option].plan,
+                    standaloneOption: option,
+                    totalAmountFinanced: rateCardsCalculator.getTotalAmountFinanced()
+                });
                 state[option].AmortizationTerm = +$('#' + option + '-amortDropdown option:selected').val();
+            } else {
+                _setAdminFeeByEquipmentSum(option, eSumData.totalPrice !== "-" ? eSumData.totalPrice : 0);
             }
 
             var rateCard = rateCardsCalculator.filterRateCard({ rateCardPlan: state[option].plan, standaloneOption: option });
 
             if (rateCard !== null && rateCard !== undefined) {
+                if (!state[option].CustomerReduction || !state[option].InterestRateReduction) {
+                    state[option].CustomerReduction = !state[option].CustomerReduction ? 0 : state[option].CustomerReduction;
+                    state[option].InterestRateReduction = !state[option].InterestRateReduction ? 0 : state[option].InterestRateReduction;
+                }
+
                 $.extend(true, state[option], rateCard);
+
+                if (settings.reductionCards.indexOf(state[option].plan) !== -1) {
+                    _setReductionRates(option);
+                }
 
                 rateCardsRenderEngine.renderAfterFiltration(state[option].plan, { deferralPeriod: state[option].DeferralPeriod, adminFee: state[option].AdminFee, dealerCost: state[option].DealerCost, customerRate: state[option].CustomerRate });
             }
@@ -302,9 +369,56 @@
             var selectedRateCard = $('#rateCardsBlock').find('div.checked').length > 0
                 ? $('#rateCardsBlock').find('div.checked').find('#hidden-option').text()
                 : '';
+            delete data.CustomerRiskGroup;
+            delete data.Program;
 
             rateCardsRenderEngine.renderOption(option, selectedRateCard, data);
         });
+    }
+
+    function _setReductionRates(rateCardOption) {
+
+        var taf = rateCardsCalculator.getTotalAmountFinanced({
+            includeAdminFee: state[rateCardOption].includeAdminFee,
+            AdminFee: state[rateCardOption].AdminFee
+        });
+
+        rateCardsRenderEngine.renderReductionDropdownValues({
+            standaloneOption: rateCardOption,
+            rateCardPlan: state[rateCardOption].plan,
+            customerRate: state[rateCardOption].CustomerRate,
+            totalAmountFinanced: taf
+        });
+
+        var reducedCustomerRate = state[rateCardOption].CustomerRate - state[rateCardOption].CustomerReduction;
+        if (reducedCustomerRate < 0) {
+            state[rateCardOption].ReductionId = null;
+            state[rateCardOption].CustomerReduction = 0;
+            state[rateCardOption].InterestRateReduction = 0;
+        } else {
+            state[rateCardOption].CustomerRate = reducedCustomerRate;
+        }
+    }
+
+    function _setAdminFeeByEquipmentSum(option, eSum) {
+        if($.isEmptyObject(state.customRateCardBoundaires)) return;
+
+        var keys = Object.keys(state.customRateCardBoundaires);
+        for (var i = 0; i < keys.length; i++) {
+
+            var numbers = keys[i].split('-');
+            var lowBound = +numbers[0];
+            var highBound = +numbers[1];
+
+            if (eSum <= lowBound || eSum >= highBound) {
+                state[option].AdminFee = 0;
+            }
+
+            if (lowBound <= eSum && highBound >= eSum) {
+                state[option].AdminFee  = +state.customRateCardBoundaires[keys[i]].adminFee;
+                break;
+            }
+        }
     }
 
     function _initHandlers() {

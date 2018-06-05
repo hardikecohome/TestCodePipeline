@@ -12,7 +12,7 @@
     }
 
     var validateOnSelect = function (reset) {
-        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal', 'CustomAFee'].reduce(function (acc, field) {
+        var isValid = ['CustomCRate', 'CustomAmortTerm', 'CustomLoanTerm', 'CustomYCostVal'].reduce(function (acc, field) {
             var $field = $('#' + field);
             var valid = $field.valid();
             if (reset) {
@@ -25,11 +25,14 @@
     };
 
     var initValidators = function () {
+        var rateCardNotPresent = !Object.keys(settings).every(function(el) {
+            return $(el).length > 0;
+        });
+        if (rateCardNotPresent) return;
+
         $(settings.customYearCostId).rules('add', {
             required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
             messages: {
                 regex: translations.yourCostFormat,
                 required: function (ele) {
@@ -43,8 +46,6 @@
         $(settings.customCustomerRateId).rules('add', {
             required: true,
             regex: /(^[0]?|(^[1-9]\d{0,1}))([.,][0-9]{1,2})?$/,
-            min: 0,
-            number: true,
             messages: {
                 regex: translations.customerRateFormat,
                 required: function (ele) {
@@ -55,14 +56,14 @@
             }
         });
 
-        $(settings.customAdminFeeId).rules('add', {
-            regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
-            number: true,
-            min: 0,
-            messages: {
-                regex: translations.adminFeeFormat
-            }
-        });
+        //$(settings.customAdminFeeId).rules('add', {
+        //    regex: /(^[0]?|(^[1-9]\d{0,11}))([.,][0-9]{1,2})?$/,
+        //    number: true,
+        //    min: 0,
+        //    messages: {
+        //        regex: translations.adminFeeFormat
+        //    }
+        //});
 
         $(settings.customAmortTermId).rules('add', {
             required: true,

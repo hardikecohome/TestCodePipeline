@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -120,8 +120,8 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -246,6 +246,7 @@
     <Compile Include="Controllers\SupportRequestController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
+    <Compile Include="Controllers\VerifyRecaptchaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -283,11 +284,19 @@
     <Compile Include="Infrastructure\RequreSecureConnectionFilter.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdditionalInfoViewModel.cs" />
     <Compile Include="Models\AddressInfomation.cs" />
+    <Compile Include="Models\ApplicantsViewModel.cs" />
+    <Compile Include="Models\BasicInfoViewModel.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
     <Compile Include="Models\ClientsInformationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\ContactAndPaymentInfoViewModel.cs" />
+    <Compile Include="Models\ContactInfoViewModel.cs" />
+    <Compile Include="Models\CustomerRiskGroupViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\CommonExistingEquipmentInfo.cs" />
+    <Compile Include="Models\EquipmentInformation\ContactAndPaymentInfoViewModelNew.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
@@ -303,29 +312,38 @@
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
     <Compile Include="Models\EmploymentInformationViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\ContractConditions.cs" />
+    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModelNew.cs" />
+    <Compile Include="Models\EquipmentInformation\SalesRepInformation.cs" />
     <Compile Include="Models\ESignatureViewModel.cs" />
     <Compile Include="Models\HelpPopUpViewModal.cs" />
     <Compile Include="Models\InstallationPackageInformation.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
+    <Compile Include="Models\PaymentInfoViewModel.cs" />
+    <Compile Include="Models\ReductionCardViewModel.cs" />
     <Compile Include="Models\RateCardViewModel.cs" />
     <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
+    <Compile Include="Models\SubDealer.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
-    <Compile Include="Models\EquipmentInformationViewModel.cs" />
-    <Compile Include="Models\ExistingEquipmentInformation.cs" />
+    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\NewEquipmentInformation.cs" />
-    <Compile Include="Models\NewRentalViewModels.cs" />
+    <Compile Include="Models\EquipmentInformation\NewEquipmentInformation.cs" />
+    <Compile Include="Models\ApplicantPersonalInfo.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\ShareableLinkViewModel.cs" />
+    <Compile Include="Models\SummaryAndConfirmationViewModel.cs" />
     <Compile Include="Models\TierViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
+    <Compile Include="Models\Validation\CheckEquipmentsCostAttribute.cs" />
     <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
+    <Compile Include="Models\Validation\EligibleAgeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -487,6 +505,8 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
+    <Content Include="Content\files\banners\en\Bill-59-Banner-mobile.jpg" />
+    <Content Include="Content\files\banners\en\Bill-59-Banner.jpg" />
     <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
     <Content Include="Content\files\banners\en\home-banner.jpg" />
     <Content Include="Content\files\HTML\en\AgreementPersonalData.html" />
@@ -842,7 +862,6 @@
     <Content Include="Content\files\resources\en\Loan-Agreement-Changes-From-August-To-September.pdf" />
     <Content Include="Content\files\resources\en\Myhome-Wallet-Detailed-Description.pdf" />
     <Content Include="Content\files\resources\en\Myhome-Wallet-Short-Description.pdf" />
-    <Content Include="Content\files\resources\en\Portal-User-Guide.pdf" />
     <Content Include="Content\less\components\status-colors.less" />
     <Content Include="Content\less\components\dob-control.less" />
     <Content Include="Content\files\Dealer Portal Update Oct 2017.pdf" />
@@ -862,14 +881,28 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\bootstrap\bootstrap.new.less" />
-    <Content Include="Content\files\resources\en\EcoHome Rate Card - V2.0-10-11-2017.pdf" />
-    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Full Reference Guide.pdf" />
-    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Quick Reference Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card October 2017 to April 2018.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Consumer FAQs for Mortgage-Real Estate Channel.pdf" />
+    <Content Include="Content\files\resources\en\Bill 59 Readiness Assessment.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Ontario Bill 59 Cover Page.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Loan Agreement Ontario.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-info-deck Dealer.pdf" />
+    <Content Include="Content\files\resources\en\Supplemental Information Sheet.pdf" />
+    <Content Include="Content\files\resources\fr\qc\Portail d entrepreneur pour la signature electronique fevrier 2018.pdf" />
+    <Content Include="Content\files\resources\en\qc\Credit Application.pdf" />
+    <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
+    <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to May 28 2018.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease Rate Card May 2018.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 Quick Reference.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card May 29 2018 to June 20 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -887,8 +920,11 @@
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.conversion.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.bill59.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
     <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
+    <Content Include="Scripts\utils\idToValue.js" />
+    <Content Include="Scripts\utils\polyfills.js" />
     <Content Include="Scripts\vendor\jquery.selectric.min.js" />
     <Content Include="Scripts\vendor\knockout.validation.js" />
     <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
@@ -960,7 +996,6 @@
     <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
     <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.custom-rate-card.js" />
-    <Content Include="Scripts\pages\newEquipment\newEquipment.index.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.init.js" />
     <Content Include="Scripts\pages\newEquipment\common\newEquipment.rate-cards.ui.js" />
     <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.js" />
@@ -1195,7 +1230,7 @@
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Custom.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />
@@ -1241,7 +1276,6 @@
     <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
     <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
-    <Content Include="webdeployClient.ps1" />
     <Content Include="Views\Shared\_AlertModal.cshtml" />
     <None Include="Web.Staging.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1260,8 +1294,6 @@
     <Folder Include="App_Data\Upload\" />
     <Folder Include="Content\files\banners\en\qc\" />
     <Folder Include="Content\files\banners\fr\qc\" />
-    <Folder Include="Content\files\resources\en\qc\" />
-    <Folder Include="Content\files\resources\fr\qc\" />
     <Folder Include="Content\themes\" />
     <Folder Include="Views\Shared\Maintenance\en\qc\" />
     <Folder Include="Views\Shared\Maintenance\fr\qc\" />

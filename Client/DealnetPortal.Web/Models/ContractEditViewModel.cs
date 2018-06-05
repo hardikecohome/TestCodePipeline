@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Api.Models.Contract;
@@ -32,5 +30,6 @@ namespace DealnetPortal.Web.Models
         public List<string> CustomerComments { get; set; }
         public bool IsClarityDealer { get; set; }
         public bool IsOldClarityDeal { get; set; }
+        public bool IsBeaconUpdated { get; set; }
     }
 }

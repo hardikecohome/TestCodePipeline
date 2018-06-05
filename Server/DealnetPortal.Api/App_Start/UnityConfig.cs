@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
@@ -91,7 +92,25 @@ namespace DealnetPortal.Api
             container.RegisterType<IQueriesStorage, QueriesFileStorage>(new InjectionConstructor(queryFolder));
             container.RegisterType<IDatabaseService, MsSqlDatabaseService>(
                 new InjectionConstructor(ConfigurationManager.ConnectionStrings["AspireConnection"].ConnectionString));
-            container.RegisterType<IAspireStorageReader, AspireStorageReader>();
+
+            bool useTestAspire = false;
+            bool.TryParse(configReader.GetSetting(WebConfigKeys.USE_TEST_ASPIRE), out useTestAspire);
+            if (useTestAspire)
+            {
+                container.RegisterType<IAspireStorageReader, AspireStorageReader>(
+                    new InjectionConstructor(new ResolvedParameter<IDatabaseService>(), new ResolvedParameter<IQueriesStorage>(), new ResolvedParameter<ILoggingService>(),
+                    new Dictionary<string,string>()
+                    {
+                        {"GetDealerDeals", "GetDealerDeals.dev" },
+                        {"SearchCustomerAgreements", "SearchCustomerAgreements.dev" }
+                    }));
+            }
+            else
+            {
+                container.RegisterType<IAspireStorageReader, AspireStorageReader>(
+                    new InjectionConstructor(new ResolvedParameter<IDatabaseService>(), new ResolvedParameter<IQueriesStorage>(), new ResolvedParameter<ILoggingService>(),
+                    new InjectionParameter<Dictionary<string, string>>(null)));
+            }            
             container.RegisterType<IUsersService, UsersService>();
 
             container.RegisterType<IESignatureServiceAgent, ESignatureServiceAgent>(new InjectionConstructor(new ResolvedParameter<IHttpApiClient>("EcoreClient"), new ResolvedParameter<ILoggingService>()));

@@ -13,6 +13,10 @@ select{
   appearance: none;
   box-shadow: none !important;
 }
+option:disabled{
+  background: #eeeeee;
+  color:#999999;
+}
 
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
@@ -213,6 +217,11 @@ html.ie9{
       }
     }
   }
+  .verify-section {
+    .well {
+      padding: 0;
+    }
+  }
 }
 .scanlicence-hold{
   .dealnet-success-button{
@@ -372,6 +381,15 @@ html.ie9{
   &.text-center{
     display: block;
     text-align: center;
+  }
+}
+.text-warning {
+  display: block;
+  text-align: left;
+  font: 11px @usual-font-family;
+  color: @warning-color;
+  &:not(:empty){
+    margin-top: 5px;
   }
 }
 

@@ -57,7 +57,6 @@
             modal.setAttribute('data-prToFill', "province");
             modal.setAttribute('data-pcToFill', "postal_code");
         }
-        //ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 

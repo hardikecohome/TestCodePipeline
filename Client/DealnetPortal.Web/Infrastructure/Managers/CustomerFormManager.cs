@@ -61,16 +61,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         public async Task<SubmittedCustomerFormViewModel> GetSubmittedCustomerFormSummary(int contractId, string hashDealerName, string culture)
         {
             var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
-            var viewModel = new SubmittedCustomerFormViewModel();
             var submitedData = await _customerFormServiceAgent.GetCustomerContractInfo(contractId, languageOptions.DealerName);
-            viewModel.CreditAmount = submitedData.CreditAmount;
-            viewModel.DealerName = submitedData.DealerName;
-            viewModel.Street = submitedData.DealerAdress?.Street;
-            viewModel.City = submitedData.DealerAdress?.City;
-            viewModel.Province = submitedData.DealerAdress?.State;
-            viewModel.PostalCode = submitedData.DealerAdress?.PostalCode;
-            viewModel.Phone = submitedData.DealerPhone;
-            viewModel.Email = submitedData.DealerEmail;
+            var viewModel = Mapper.Map<SubmittedCustomerFormViewModel>(submitedData);
             
             return viewModel;
         }

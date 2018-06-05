@@ -25,9 +25,8 @@
 
     var requiredFields = ['name', 'lastName', 'birthday', 'street', 'province', 'postalCode', 'email', 'creditAgreement', 'contactAgreement', 'ownership', 'captchaCode'];
     var requiredPFields = ['birthday', 'pstreet', 'pprovince', 'ppostalCode'];
-    var requiredEmployment = [];
 
-    var getErrors = configGetErrors(requiredFields, requiredPFields, requiredEmployment);
+    var getErrors = configGetErrors(requiredFields, requiredPFields);
 
     var flowMiddleware = function (store) {
         return function (next) {
@@ -67,10 +66,12 @@
                         next(createAction(customerActions.ACTIVATE_CONTACT_INFO, true));
                     }
                 }
-                
+
                 var stateAfter = store.getState();
                 var errors = getErrors(stateAfter);
-                var installationErrors = errors.filter(function (error) { return error.type === 'ownership'; });
+                var installationErrors = errors.filter(function (error) {
+                    return error.type === 'ownership';
+                });
                 if (stateAfter.displaySubmitErrors && installationErrors.length > 0) {
                     next(createAction(customerActions.DISPLAY_INSTALLATION, true));
                 }
@@ -116,13 +117,28 @@
 
     if (config.reCaptchaEnabled) {
         window.onLoadCaptcha = function () {
-            grecaptcha.render('gcaptcha', {
+            var recaptch = grecaptcha.render('gcaptcha', {
                 sitekey: window.config.reCaptchaKey,
                 callback: function (response) {
-                    dispatch(createAction(customerActions.SET_CAPTCHA_CODE, response));
+                    $.post(window.config.verifyRecaptchaUrl, {
+                            Response: response,
+                            "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val()
+                        })
+                        .done(function (res) {
+                            if (res.result) {
+                                dispatch(createAction(customerActions.SET_CAPTCHA_CODE, response));
+                            } else {
+                                dispatch(createAction(customerActions.SET_CAPTCHA_CODE, ''));
+                                grecaptcha.reset(recaptch);
+                            }
+                        }).fail(function (res) {
+                            dispatch(createAction(customerActions.SET_CAPTCHA_CODE, ''));
+                            grecaptcha.reset(recaptch);
+                        });
                 },
                 'expired-callback': function () {
                     dispatch(createAction(customerActions.SET_CAPTCHA_CODE, ''));
+                    grecaptcha.reset(recaptch);
                 }
             });
         };
@@ -152,16 +168,22 @@
 
     var setAutocomplete = function (streetElmId, cityElmId) {
         var extendCommonOpts = extendObj({
-            componentRestrictions: { country: 'ca' }
+            componentRestrictions: {
+                country: 'ca'
+            }
         });
 
         var streetElm = document.getElementById(streetElmId);
         var streetAutocomplete = new google.maps.places
-            .Autocomplete(streetElm, extendCommonOpts({ types: ['geocode'] }));
+            .Autocomplete(streetElm, extendCommonOpts({
+                types: ['geocode']
+            }));
 
         var cityElm = document.getElementById(cityElmId);
         var cityAutocomplete = new google.maps.places
-            .Autocomplete(cityElm, extendCommonOpts({ types: ['(cities)'] }));
+            .Autocomplete(cityElm, extendCommonOpts({
+                types: ['(cities)']
+            }));
 
         return {
             street: streetAutocomplete,
@@ -180,16 +202,19 @@
                     var place = gAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
-                    dispatch(createAction(customerActions.SET_ADDRESS,
-                        {
-                            street: place['route'] || '',
-                            number: place['street_number'] || '',
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
-                        }));
+                    dispatch(createAction(customerActions.SET_ADDRESS, {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
+                    }));
 
-                    $('#province').change();
+                    $('#street').keyup();
+                    $('#unit').keyup();
+                    $('#city').keyup();
+                    $('#province').keyup();
+                    $('#postalCode').keyup();
                 });
 
             gAutoCompletes.city.addListener('place_changed',
@@ -197,11 +222,13 @@
                     var place = gAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
-                    dispatch(createAction(customerActions.SET_ADDRESS,
-                        {
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                        }));
+                    dispatch(createAction(customerActions.SET_ADDRESS, {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+
+                    $('#city').keyup();
+                    $('#province').keyup();
                 });
 
             gPAutoCompletes.street.addListener('place_changed',
@@ -209,16 +236,19 @@
                     var place = gPAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
-                    dispatch(createAction(customerActions.SET_PADDRESS,
-                        {
-                            street: place['route'] || '',
-                            number: place['street_number'] || '',
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
-                        }));
+                    dispatch(createAction(customerActions.SET_PADDRESS, {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
+                    }));
 
-                    $('#pprovince').change();
+                    $('#pstreet').keyup();
+                    $('#punit').keyup();
+                    $('#pcity').keyup();
+                    $('#pprovince').keyup();
+                    $('#ppostalCode').keyup();
                 });
 
             gPAutoCompletes.city.addListener('place_changed',
@@ -226,11 +256,13 @@
                     var place = gPAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
-                    dispatch(createAction(customerActions.SET_PADDRESS,
-                        {
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                        }));
+                    dispatch(createAction(customerActions.SET_PADDRESS, {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+
+                    $('#pcity').keyup();
+                    $('#pprovince').keyup();
                 });
 
             gCAutoCompletes.street.addListener('place_changed',
@@ -238,16 +270,19 @@
                     var place = gCAutoCompletes.street.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
-                    dispatch(createAction(customerActions.SET_CADDRESS,
-                        {
-                            street: place['route'] || '',
-                            number: place['street_number'] || '',
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                            postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
-                        }));
+                    dispatch(createAction(customerActions.SET_CADDRESS, {
+                        street: place['route'] || '',
+                        number: place['street_number'] || '',
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                        postalCode: place['postal_code'] ? place['postal_code'].replace(' ', '') : place['postal_code_prefix'] ? place['postal_code_prefix'].replace(' ', '') : '',
+                    }));
 
-                    $('#company-province').change();
+                    $('#company-street').keyup();
+                    $('#company-unit').keyup();
+                    $('#company-city').keyup();
+                    $('#company-province').keyup();
+                    $('#company-postal-code').keyup();
                 });
 
             gCAutoCompletes.city.addListener('place_changed',
@@ -255,11 +290,13 @@
                     var place = gCAutoCompletes.city.getPlace().address_components
                         .map(getAddress(addressForm)).reduce(concatObj);
 
-                    dispatch(createAction(customerActions.SET_CADDRESS,
-                        {
-                            city: place['locality'] || '',
-                            province: place['administrative_area_level_1'] || '',
-                        }));
+                    dispatch(createAction(customerActions.SET_CADDRESS, {
+                        city: place['locality'] || '',
+                        province: place['administrative_area_level_1'] || '',
+                    }));
+
+                    $('#company-city').keyup();
+                    $('#company-province').keyup();
                 });
         });
     };
@@ -281,8 +318,8 @@
             initInstallationAddress(customerFormStore);
             initContactInfo(customerFormStore);
             initAgreement(customerFormStore);
-			initEmployment(customerFormStore);
-			
+            initEmployment(customerFormStore);
+
             $('.j-personal-data-used-modal').on('click', function (e) {
                 var data = {
                     message: $('#personal-data-used').html(),
@@ -345,69 +382,10 @@
                 }
 
                 if (props.activePanel === 'contactInfo') {
-                    $('#addtionalInfoPanel').addClass('active-panel');
+                    $('#additionalInfoPanel').addClass('active-panel');
                 } else {
-                    $('#addtionalInfoPanel').removeClass('active-panel');
+                    $('#additionalInfoPanel').removeClass('active-panel');
                 }
-                });
-
-            observeCustomerFormStore(function(state) {
-                return {
-                    province: state.province,
-                    employStatus: state.employStatus,
-                    incomeType: state.incomeType,
-                    isQuebecDealer: state.isQuebecDealer
-                }
-            })(function (props) {
-                requiredEmployment = [];
-                if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
-                    if (props.employStatus === '') {
-                        requiredEmployment.push('employStatus');
-                    }
-                    if (props.employStatus === '0') {
-                        requiredEmployment = requiredEmployment.concat(['employStatus',
-                            'incomeType',
-                            'yearsOfEmploy',
-                            'employType',
-                            'jobTitle',
-                            'companyName',
-                            'companyPhone',
-                            'cstreet',
-                            'cunit',
-                            'ccity',
-                            'cprovince',
-                            'cpostalCode']);
-                        if (props.incomeType === '0') {
-                            requiredEmployment.push('annualSalary');
-                        }
-                        if (props.incomeType === '1') {
-                            requiredEmployment.push('hourlyRate');
-                        }
-                        if (props.yearsOfEmploy !== '10+') {
-                            requiredEmployment.push('monthsOfEmploy');
-                        }
-                    }
-                    if (props.employStatus === '1' || props.employStatus === '3') {
-                        requiredEmployment = requiredEmployment.concat(['employStatus', 'annualSalary']);
-                    }
-                    if (props.employStatus === '2') {
-                        requiredEmployment.concat(['employStatus',
-                            'annualSalary',
-                            'yearsOfEmploy',
-                            'employType',
-                            'jobTitle',
-                            'companyName',
-                            'companyPhone',
-                            'cstreet',
-                            'cunit',
-                            'ccity' ,
-                            'cprovince',
-                            'cpostalCode']);
-                        if (props.yearsOfEmploy !== '10+') {
-                            requiredEmployment.push('monthsOfEmploy');
-                        }
-                    }
-                } 
             });
 
             var createError = function (msg) {
@@ -429,14 +407,18 @@
 
                 if (props.errors.length > 0) {
                     props.errors
-                        .filter(function(error) { return error.type === 'birthday' })
-                        .forEach(function(error) {
+                        .filter(function (error) {
+                            return error.type === 'birthday'
+                        })
+                        .forEach(function (error) {
                             $('#yourInfoErrors').append(createError(window.translations[error.messageKey]));
                         });
 
                     props.errors
-                        .filter(function (error) { return error.type === 'quebec'; })
-                        .forEach(function(error) {
+                        .filter(function (error) {
+                            return error.type === 'quebec';
+                        })
+                        .forEach(function (error) {
                             $('#qcError').text(window.translations[error.messageKey]);
                             $('#province').addClass('input-custom-err');
                         });

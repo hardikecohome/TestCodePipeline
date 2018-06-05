@@ -8,13 +8,6 @@ namespace DealnetPortal.Api.Integration.Services
 {
     public static class PdfFormFields
     {
-        //Hiren have requested temporarily need to be cleaned up later
-        public static string DSFirstName = "DSFirstName";
-        public static string DSLastName = "DSLastName";
-        public static string DSFirstName2 = "DSFirstName_2";
-        public static string DSLastName2 = "DSLastName_2";
-        public static string DSDealerName = "DSDealerName";
-        public static string DSLoanTotalBorowingCost = "DSLoanTotalBorowingCost";
         //Application/Transaction ID
         public static string ApplicationId = "ApplicationId";
         //Customer Fields
@@ -37,6 +30,14 @@ namespace DealnetPortal.Api.Integration.Services
         public static string PreviousAddress2 = "PreviousAddress_2";
         public static string MailingOrPreviousAddress2 = "MailingOrPreviousAddress_2";
 
+        public static string CustomerIdTypeDriverLicense = "Tiv1";
+        public static string CustomerIdTypeOther = "Tiv1Other";
+        public static string CustomerIdTypeOtherValue = "OtherID";
+
+        public static string AllowCommunicate = "AllowCommunicate";
+        public static string AllowCommunicate2 = "AllowCommunicate_2";
+        public static string RelationshipToCustomer2 = "RelationshipToCustomer_2";
+
         public static string Sin = "SIN";
         public static string DriverLicense = "DriverLicense";
         public static string Dl = "DL";
@@ -53,6 +54,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string CellPhone2 = "CellPhone_2";
         public static string BusinessPhone = "BusinessPhone";
         public static string BusinessOrCellPhone = "BusinessOrCellPhone";
+        public static string CellOrHomePhone = "CellOrHomePhone";
         public static string EmailAddress = "EmailAddress";
         public static string EmailAddress2 = "EmailAddress_2";
         public static string IsMailingDifferent = "IsMailingDifferent";
@@ -73,6 +75,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string IsAirConditioner = "IsAirConditioner";
         public static string IsBoiler = "IsBoiler";
         public static string IsWaterFiltration = "IsWaterFiltration";
+        public static string IsWaterHeater = "IsWaterHeater";
         public static string IsOther1 = "IsOther1";
         public static string IsOther2 = "IsOther2";
         public static string IsOtherBase = "IsOther";
@@ -80,6 +83,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string AirConditionerDetails = "AirConditionerDetails";
         public static string BoilerDetails = "BoilerDetails";
         public static string WaterFiltrationDetails = "WaterFiltrationDetails";
+        public static string WaterHeaterDetails = "WatherHeaterDetails";
         public static string OtherDetails1 = "OtherDetails1";
         public static string OtherDetails2 = "OtherDetails2";
         public static string OtherDetailsBase = "OtherDetails";
@@ -87,13 +91,18 @@ namespace DealnetPortal.Api.Integration.Services
         public static string AirConditionerMonthlyRental = "AirConditionerMonthlyRental";
         public static string BoilerMonthlyRental = "BoilerMonthlyRental";
         public static string WaterFiltrationMonthlyRental = "WaterFiltrationMonthlyRental";
+        public static string WaterHeaterMonthlyRental = "WaterHeaterMonthlyRental";
         public static string OtherMonthlyRental1 = "OtherMonthlyRental1";
         public static string OtherMonthlyRental2 = "OtherMonthlyRental2";
         public static string OtherMonthlyRentalBase = "OtherMonthlyRental";
 
+        public static string TotalRetailPrice = "TotalRetailPrice";
+        public static string TotalAmountUsefulLife = "TotalAmountUsefulLife";
+        public static string TotalAmountRentalTerm = "TotalAmountRentalTerm";
+
         public static string MonthlyPayment = "MonthlyPayment";
-        public static string CustomerRate = "CustomerRate";
-        public static string CustomerRate2 = "CustomerRate2";
+        public static string CustomerRate = "CustomerRate"; //AnnualInterestRate
+        public static string CustomerRate2 = "CustomerRate2";//Annual Percentage Rate
         public static string TotalPayment = "TotalPayment";
         public static string TotalMonthlyPayment = "TotalMonthlyPayment";
         public static string Hst = "HST";
@@ -133,7 +142,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string AccountNumber = "AccountNumber";
         public static string Bn = "BN";
         public static string Tn = "TN";
-        public static string An = "AN";
+        public static string An = "BankAccNumber";
 
         //Dealer and SalesRep fields
         public static string SalesRep = "SalesRep";
@@ -142,6 +151,11 @@ namespace DealnetPortal.Api.Integration.Services
         public static string DealerPhone = "DealerPhone";
         public static string DealerFax = "DealerFax";
         public static string DealerEmail = "DealerEmail";
+        public static string DealerInitials = "ID1";
+
+        public static string SalesRepInitiatedContact = "SalesRepInitiatedContact";
+        public static string SalesRepNegotiatedAgreement = "SalesRepNegotiatedAgreement";
+        public static string SalesRepConcludedAgreement = "SalesRepConcludedAgreement";
 
         //For Signed Installation Certificate
         public static string InstallerName = "InstallerName";
@@ -157,6 +171,19 @@ namespace DealnetPortal.Api.Integration.Services
         public static string ExistingEquipmentSerialNumber = "ExistingEquipmentSerialNumber";
         public static string ExistingEquipmentGeneralCondition = "ExistingEquipmentGeneralCondition";
         public static string ExistingEquipmentAge = "ExistingEquipmentAge";
+
+        // Existing Equipment
+        public static string ExistingEquipmentRemovalCustomer = "ExistingEquipmentRemovalCustomer";
+        public static string ExistingEquipmentRemovalSupplier = "ExistingEquipmentRemovalSupplier";
+        public static string ExistingEquipmentRemovalOther = "ExistingEquipmentRemovalOther";
+        public static string ExistingEquipmentRemovalOtherValue = "ExistingEquipmentRemovalOtherValue";
+        public static string ExistingEquipmentRemovalNA = "ExistingEquipmentRemovalNA";
+
+        //Bill 59 - Customer Existing agreements information
+        public static string ExistingLoansDescription = "ExistingLoansDescription";
+        public static string ExistingRentalsDescription = "ExistingRentalsDescription";
+        public static string ExistingRentalsDateEntered = "ExistingRentalsDateEntered";
+        public static string ExistingRentalsTerminationDate = "ExistingRentalsTerminationDate";
 
         //Custom envelop fields
         public static string ApplicationID = "ApplicationID";

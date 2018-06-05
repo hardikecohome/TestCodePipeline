@@ -33,6 +33,9 @@ namespace DealnetPortal.Api.Common.Helpers
             //TODO: why double, not decimal?
             //TODO: because methods from Financial class outputs value in double
             public double TotalMonthlyPayment { get; set; }
+            //Monthly cost of ownership - for clarity = MOC reduced by Down payment
+            public double TotalMCO { get; set; }
+            public double AnnualPercentageRate { get; set; }
             public double TotalAllMonthlyPayments { get; set; }
             public double ResidualBalance { get; set; }
             public double TotalObligation { get; set; }
@@ -47,42 +50,68 @@ namespace DealnetPortal.Api.Common.Helpers
             output.Hst = input.TaxRate/100*input.PriceOfEquipment;
             output.PriceOfEquipmentWithHst = output.Hst + input.PriceOfEquipment;
             var customerRate = input.CustomerRate / 100 / 12;
+            var mco = 0.0;
+            var admeenFee = input.AdminFee;
             if (input.IsClarity == true)
             {
                 if (input.IsOldClarityDeal)
                 {
-                    output.TotalAmountFinanced = input.PriceOfEquipment /*+ input.AdminFee*/ - input.DownPayment;//output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
+                    output.TotalAmountFinanced = input.PriceOfEquipment + admeenFee - input.DownPayment;
+                    //output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
                     output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                         customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
                             : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+                    output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
+                    mco = output.TotalMonthlyPayment;                    
                 }
                 else
                 {
+                    admeenFee = 0.0;
                     const double clarityPaymentFactor = 0.010257;
-                    output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;
-                    //output.TotalAmountFinanced = customerRate == 0.0 ? 0.0 :
-                    //    (1.0 - Math.Pow(1 + customerRate,
-                    //                   -input.AmortizationTerm)) / customerRate;
-                    //output.TotalAmountFinanced *= output.TotalMonthlyPayment;
-                    output.TotalAmountFinanced = output.TotalMonthlyPayment / clarityPaymentFactor;
-                    output.PriceOfEquipmentWithHst = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
+                    output.TotalMonthlyPayment = output.PriceOfEquipmentWithHst;                             
+                    output.PriceOfEquipmentWithHst = output.TotalMonthlyPayment / clarityPaymentFactor;
+                    output.TotalAmountFinanced = output.PriceOfEquipmentWithHst + admeenFee - input.DownPayment;
+                    mco = Math.Round(output.TotalMonthlyPayment, 2) - input.DownPayment * clarityPaymentFactor;
+                    output.TotalAllMonthlyPayments = Math.Round(mco, 2) * input.LoanTerm;                    
                 }
+                output.TotalMCO = mco;
             }
             else
             {
-                output.TotalAmountFinanced = input.PriceOfEquipment /*+ input.AdminFee*/ - input.DownPayment;//output.PriceOfEquipmentWithHst /*+ input.AdminFee*/ - input.DownPayment;
+                output.TotalAmountFinanced = input.PriceOfEquipment + admeenFee - input.DownPayment;
                 output.TotalMonthlyPayment = customerRate == 0 && input.AmortizationTerm == 0 ? 0 :
                     customerRate > 0 ? Math.Round(output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1), 2)
-                        : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);
+                        : output.TotalAmountFinanced * Financial.Pmt(customerRate, input.AmortizationTerm, -1);                
+                output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2) * input.LoanTerm;
+                mco = output.TotalMonthlyPayment;
+                output.TotalMCO = mco;
+
+                if (customerRate == 0.0 && input.AmortizationTerm == input.LoanTerm)
+                {
+                    //logic for Equal payments program (0%)
+                    output.TotalAllMonthlyPayments = output.TotalAmountFinanced;
+                    output.AnnualPercentageRate = 0.0;
+                }
+                else
+                {                    
+                    try
+                    {
+                        output.AnnualPercentageRate = Financial.Rate(input.AmortizationTerm, -mco, output.TotalAmountFinanced - admeenFee) * 1200;
+                    }
+                    catch (ArgumentException)
+                    {
+                        //sometimes we get exception here
+                        output.AnnualPercentageRate = 0.0;
+                    }                    
+                }                
             }
-            output.LoanTotalCashPrice = output.TotalAmountFinanced - input.AdminFee + input.DownPayment;
-            output.TotalAllMonthlyPayments = Math.Round(output.TotalMonthlyPayment, 2)*input.LoanTerm;
+            output.LoanTotalCashPrice = output.TotalAmountFinanced - admeenFee + input.DownPayment;
             if (input.LoanTerm != input.AmortizationTerm)
             {
-                output.ResidualBalance = Math.Round(-Financial.PV(customerRate, input.AmortizationTerm - input.LoanTerm, output.TotalMonthlyPayment) * (1 + customerRate),2);
+                output.ResidualBalance = Math.Round(Financial.FV(customerRate, input.LoanTerm, Math.Round(mco, 2), -output.TotalAmountFinanced), 2);
             }
-            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments + input.AdminFee;
-            output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced - input.AdminFee,2);
+            output.TotalObligation = output.ResidualBalance + output.TotalAllMonthlyPayments; // + admeenFee;
+            output.TotalBorowingCost = Math.Round(output.TotalObligation - output.TotalAmountFinanced + admeenFee, 2);
             return output;
         }
     }

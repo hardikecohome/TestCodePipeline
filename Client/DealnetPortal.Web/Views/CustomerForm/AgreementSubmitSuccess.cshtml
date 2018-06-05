@@ -16,10 +16,20 @@
         </div>
     </div>
     <div class="align-middle-inner">
-        @if (Model.CreditAmount > 0)
+        @if (Model.CreditAmount > 0 && Model.IsPreApproved)
         {
             <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-            <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{Model.CreditAmount:0,00}"))</h2>
+            if (Model.CustomerBeacon != 0)
+            {
+                if (ViewBag.ShowPreapprovalAmount == true)
+                {
+                    <h2 class="page-heading">@(Resources.CongratulationsYouBeenPreApprovedFor.Replace("{0}", $"{Model.CreditAmount:0,00}"))</h2>
+                }
+                else
+                {
+                    <h2 class="page-heading">@Resources.CongratulationsYouBeenPreApproved</h2>
+                }
+            }
         }
         <p>@Resources.YourFinancingApplicationWasSubmitted @Resources.WillContactYouSoon.Replace("{0}", Model.DealerName ?? Resources.Dealer)</p>
         @if (isContactSection)

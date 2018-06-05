@@ -57,6 +57,9 @@
         public static readonly string CREDIT_REVIEW_STATUS_CONFIG_KEY = "CreditReviewStatus";
         public static readonly string ONBOARDING_INIT_STATUS_KEY = "OnboardingInitStatus";
         public static readonly string ONBOARDING_DRAFT_STATUS_KEY = "OnboardingDraftStatus";
+        public static readonly string RISK_BASED_STATUS_KEY = "RiskBasedStatus";
+
+        public static readonly string HIDE_PREAPPROVAL_AMOUNT_FOR_LEASEDEALERS_KEY = "HidePreApprovalAmountsForLeaseDealers";        
 
         //Describing portal constants
         //Ecohome
@@ -95,6 +98,11 @@
 
         public static readonly string CLARITY_TIER_NAME = "ClarityTierName";
 
+        public static readonly string EMCO_LEASE_TIER_NAME = "EmcoLeaseTierName";
+
         public static readonly string QUEBEC_POSTAL_CODES = "QuebecPostalCodes";
+
+        //
+        public static readonly string USE_TEST_ASPIRE = "UseTestAspire";
     }
 }

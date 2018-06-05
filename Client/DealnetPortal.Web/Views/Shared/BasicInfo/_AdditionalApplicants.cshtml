@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims;
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 
-@for (var i = 0; i < 1; i++)
+@for(var i = 0; i < 1; i++)
 {
     <div id="additional@(i + 1)-section" @if(Model?.AdditionalApplicants != null && Model.AdditionalApplicants.Count > 0 && Model.AdditionalApplicants[i]?.FirstName != null) { <text> data-initialized="true" </text>  @* if (Model.ContractWasDeclined && (Model.AdditionalApplicants[i]?.IsInitialCustomer ?? false)) { <text>class="hidden"</text> } *@ }>
         <div class="personal-info-section">
@@ -61,184 +61,206 @@
                 </div>
             }
 
-			<div class="owner-info">
-				<div class="row">
-					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].FirstName, new { @for = "additional-first-name-" + (i + 1) })
-							<div class="control-group">
-								@Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId, new { @class = "form-control dealnet-input", id = "additional-id-" + (i + 1), disabled = "disabled" })
-								@Html.TextBoxFor(m => m.AdditionalApplicants[i].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-" + (i + 1), placeholder = Resources.FirstName, disabled = "disabled" })
-								@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].FirstName, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].LastName, new { @for = "additional-last-name-" + (i + 1) })
-							<div class="control-group">
-								@Html.TextBoxFor(m => m.AdditionalApplicants[i].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-" + (i + 1), placeholder = Resources.LastName, disabled = "disabled" })
-								@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].LastName, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].BirthDate, new { @for = "additional-birth-date-" + (i + 1) })
-							<div class="control-group dob-group">
+            <div class="owner-info">
+                <div class="row">
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].FirstName, new { @for = "additional-first-name-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.HiddenFor(m => m.AdditionalApplicants[i].CustomerId, new { @class = "form-control dealnet-input", id = "additional-id-" + (i + 1), disabled = "disabled" })
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].FirstName, new { @class = "form-control dealnet-input", id = "additional-first-name-" + (i + 1), placeholder = Resources.FirstName, disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].FirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].LastName, new { @for = "additional-last-name-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].LastName, new { @class = "form-control dealnet-input", id = "additional-last-name-" + (i + 1), placeholder = Resources.LastName, disabled = "disabled" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].BirthDate, new { @for = "additional-birth-date-" + (i + 1) })
+                            <div class="control-group dob-group">
 
-								<div class="dob-input-hold">
-									@Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM/dd/yyyy}", new { @class = "check-age dob-input", id = "additional-birth-date-" + (i + 1), placeholder = Resources.DateFormat })
-								</div>
-								@{
-									var day = 0;
-									var month = 0;
-									var year = 0;
-									if (Model.AdditionalApplicants[i] != null && Model.AdditionalApplicants[i].BirthDate.HasValue)
-									{
-										day = Model.AdditionalApplicants[i].BirthDate.Value.Day;
-										month = Model.AdditionalApplicants[i].BirthDate.Value.Month;
-										year = Model.AdditionalApplicants[i].BirthDate.Value.Year;
-									}
-									else
-									{
-										month = 0;
-										day = 0;
-										year = 0;
-									}
-								}
-								<div class="dealnet-input no-border">
-									<div class="custom-select">
-										<select class="form-control dealnet-input dob-month">
-											<option value="">mm</option>
-											@for (var j = 1; j < 13; j++)
-											{
-												<option value="@j" @( month == j ? "selected=selected" : "" )>@j</option>
-											}
-										</select>
-										<span class="caret"></span>
-									</div>
-									<div class="custom-select">
-										<select class="form-control dealnet-input dob-day">
-											<option value="">dd</option>
-											@for (var j = 1; j < 32; j++)
-											{
-												<option value="@j" @( day == j ? "selected=selected" : "" )>@j</option>
-											}
-										</select>
-										<span class="caret"></span>
-									</div>
-									<div class="custom-select last">
-										<select class="form-control dealnet-input dob-year">
-											<option value="">yyyy</option>
-											@{ var yearLess18 = DateTime.Now.Year - 18;}
-											@for (var j = yearLess18; j >= 1900; j--)
-											{
-												<option value="@j" @( year == j ? "selected=selected" : "" )>@j</option>
-											}
-										</select>
-										<span class="caret"></span>
-									</div>
-								</div>
-								@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4 col-lg-4 hidden">
-						<div class="form-group">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })
-							<div class="control-group">
-								@Html.TextBoxFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "additional-dl-number-" + (i + 1), placeholder = Resources.DriverLicenseNumber })
-								@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-					<!--New Code to map new contract-->
-					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].VerificationIdName, new { @for = "additional-verification-id" + (i + 1) })
-							<div class="control-group">
-								@Html.DropDownListFor(m => m.AdditionalApplicants[i].VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName, Selected = Model.AdditionalApplicants?[i]?.VerificationIdName == x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "additional-verification-id" + (i + 1), Required = "required" })
-								@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].VerificationIdName, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-lg-4">
-						<div class="form-group">
-							@Html.LabelFor(m => m.AdditionalApplicants[i].DealerInitial, new { @for = "additional-dealer-initial" + (i + 1) })
-							<div class="control-group">
-								@Html.TextBoxFor(m => m.AdditionalApplicants[i].DealerInitial, new { @class = "form-control dealnet-input", id = "additional-dealer-initial" + (i + 1), placeholder = Resources.DealerInitial, Required = "required" })
-								@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DealerInitial, "", new { @class = "text-danger" })
-							</div>
-						</div>
-					</div>
-				</div>
+                                <div class="dob-input-hold">
+                                    @Html.TextBoxFor(m => m.AdditionalApplicants[i].BirthDate, @"{0:MM/dd/yyyy}", new { @class = "check-age dob-input", id = "additional-birth-date-" + (i + 1), placeholder = Resources.DateFormat })
+                                </div>
+                                @{
+                                    var day = 0;
+                                    var month = 0;
+                                    var year = 0;
+                                    if(Model.AdditionalApplicants != null && Model.AdditionalApplicants[i].BirthDate.HasValue)
+                                    {
+                                        day = Model.AdditionalApplicants[i].BirthDate.Value.Day;
+                                        month = Model.AdditionalApplicants[i].BirthDate.Value.Month;
+                                        year = Model.AdditionalApplicants[i].BirthDate.Value.Year;
+                                    }
+                                    else
+                                    {
+                                        month = 0;
+                                        day = 0;
+                                        year = 0;
+                                    }
+                                }
+                                <div class="dealnet-input no-border">
+                                    <div class="custom-select">
+                                        <select class="form-control dealnet-input dob-month">
+                                            <option value="">mm</option>
+                                            @for(var j = 1; j < 13; j++)
+                                            {
+                                                <option value="@j" @( month == j ? "selected=selected" : "" )>@j</option>
+                                            }
+                                        </select>
+                                        <span class="caret"></span>
+                                    </div>
+                                    <div class="custom-select">
+                                        <select class="form-control dealnet-input dob-day">
+                                            <option value="">dd</option>
+                                            @for(var j = 1; j < 32; j++)
+                                            {
+                                                <option value="@j" @( day == j ? "selected=selected" : "" )>@j</option>
+                                            }
+                                        </select>
+                                        <span class="caret"></span>
+                                    </div>
+                                    <div class="custom-select last">
+                                        <select class="form-control dealnet-input dob-year">
+                                            <option value="">yyyy</option>
+                                            @{ var yearLess18 = DateTime.Now.Year - 18;}
+                                            @for(var j = yearLess18; j >= 1900; j--)
+                                            {
+                                                <option value="@j" @( year == j ? "selected=selected" : "" )>@j</option>
+                                            }
+                                        </select>
+                                        <span class="caret"></span>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].BirthDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-lg-4 hidden">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @for = "additional-dl-number-" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, new { @class = "form-control dealnet-input", id = "additional-dl-number-" + (i + 1), placeholder = Resources.DriverLicenseNumber })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DriverLicenseNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--New Code to map new contract-->
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].VerificationIdName, new { @for = "additional-verification-id" + (i + 1) })
+                            <div class="control-group">
+                                @Html.DropDownListFor(m => m.AdditionalApplicants[i].VerificationIdName, (Model.VarificationIds).Select(x => new SelectListItem { Value = x.VerificationIdName, Text = x.VerificationIdName, Selected = Model.AdditionalApplicants?[i]?.VerificationIdName == x.VerificationIdName }), "", new { @class = "form-control dealnet-input", id = "additional-verification-id" + (i + 1), Required = "required" })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].VerificationIdName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].DealerInitial, new { @for = "additional-dealer-initial" + (i + 1) })
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].DealerInitial, new
+                                {
+                                    Required = "required",
+                                    @class = "form-control dealnet-input",
+                                    placeholder = Resources.DealerInitial,
+                                    id = "additional-dealer-initial" + (i + 1)
+                                })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].DealerInitial, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalApplicants[i].RelationshipToMainBorrower)
+                            <div class="control-group">
+                                @Html.TextBoxFor(m => m.AdditionalApplicants[i].RelationshipToMainBorrower, new
+                                {
+                                    required = "required",
+                                    @class = "form-control dealnet-input",
+                                    id = "additional-relationship-" + (i + 1)
+                                })
+                                @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].RelationshipToMainBorrower, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<!-- Additional Applicant Home Address-->
-		<div id="mailing-address-different-add-app@(i+1)" class="form-group">
-			<label for="mailing-address-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
-				<input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox-add-app@(i+1)" @if (Model?.AdditionalApplicants?[i]?.AddressInformation != null) { <text> checked</text> } data-section="mailing-address-add-app@(i+1)" />
-				<span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
-				<span>@Resources.AdditionalApplicantAddressNotSameAsBorrower</span>
-			</label>
-		</div>
-		<div id="mailing-address-add-app@(i+1)" style="display: none;">
+        <!-- Additional Applicant Home Address-->
+        <div id="mailing-address-different-add-app@(i+1)" class="form-group">
+            <label for="mailing-address-checkbox-add-app@(i+1)" class="align-middle custom-checkbox">
+                <input type="checkbox" class="dealnet-checkbox address-checkbox" id="mailing-address-checkbox-add-app@(i+1)" @if(Model?.AdditionalApplicants?[i]?.AddressInformation != null) { <text> checked</text> } data-section="mailing-address-add-app@(i+1)" />
+                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                <span>@Resources.AdditionalApplicantAddressNotSameAsBorrower</span>
+            </label>
+        </div>
+        <div id="mailing-address-add-app@(i+1)" style="display: none;">
 
-			<h2 class="dealnet-middle-header no-margin-top">@Resources.AdditionalApplicantAddressInfo</h2>
-			<!-- <div class="owner-info">
-								<a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
-							</div>
-			-->
-			<div class="row address-info1">
-				<div class="col-md-6 col-lg-6">
-					<div class="form-group">
-						@Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Street, new { @for = "additional-street-" + (i + 1) })
-						<div class="control-group">
-							@Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = Resources.StreetPlaceholder })
-							@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Street, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</div>
-				<div class="col-md-2 col-lg-2">
-					<div class="form-group">
-						@Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
-						<div class="control-group">
-							@Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
-							@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-lg-4">
-					<div class="form-group">
-						@Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @for = "additional-locality-" + (i + 1) })
-						<div class="control-group">
-							@Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = Resources.Ottawa })
-							@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.City, "", new { @class = "text-danger" })
-						</div>
-					</div>
-				</div>
-			</div>
+            <h2 class="dealnet-middle-header no-margin-top">@Resources.AdditionalApplicantAddressInfo</h2>
+            <!-- <div class="owner-info">
+                                <a class="dealnet-info-link" onclick="useHomeOwnerAddress(@(i+1));">Use Home Owner address information</a>
+                            </div>
+            -->
+            <div class="row address-info1">
+                <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Street, new { @for = "additional-street-" + (i + 1) })
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.Street, new { @class = "form-control dealnet-input", id = "additional-street-" + (i + 1), placeholder = Resources.StreetPlaceholder })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Street, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @for = "additional-unit_number-" + (i + 1) })
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, new { @class = "form-control dealnet-input", type = "text", id = "additional-unit_number-" + (i + 1), placeholder = "12345" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.UnitNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @for = "additional-locality-" + (i + 1) })
+                        <div class="control-group">
+                            @Html.TextBoxFor(m => m.AdditionalApplicants[i].AddressInformation.City, new { @class = "form-control dealnet-input", id = "additional-locality-" + (i + 1), placeholder = Resources.Ottawa })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.City, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row address-info2">
                 <div class="col-md-4 col-lg-4">
                     <div class="form-group">
                         @Html.LabelFor(m => m.AdditionalApplicants[i].AddressInformation.Province, new { @for = "additional-administrative_area_level_1-" + (i + 1) })
-                        <div class="control-group">
-                            @Html.DropDownListFor(m => m.AdditionalApplicants[i].AddressInformation.Province,
-                                                                                                (Model.ProvinceTaxRates).Select(x => new SelectListItem
-                                                                                                {
-                                                                                                    Value = x.Province,
-                                                                                                    Text = x.Province,
-                                                                                                    Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
-                                                                                                }), "",
-                                                                                                new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
-                        </div>
+						<div class="control-group">
+							@Html.DropDownListFor(m => m.AdditionalApplicants[i].AddressInformation.Province,
+																									  (Model.ProvinceTaxRates).Select(x => new SelectListItem
+																									  {
+																										  Value = x.Province,
+																										  Text = x.Province,
+																										  Selected = Model.AdditionalApplicants?[i]?.AddressInformation?.Province == x.Province
+																									  }), "",
+																									  new { @class = "form-control dealnet-input", id = "additional-administrative_area_level_1-" + (i + 1) })
+							@Html.ValidationMessageFor(m => m.AdditionalApplicants[i].AddressInformation.Province, "", new { @class = "text-danger" })
+							<span id="additional-applicant-qcError" class="text-danger field-validation-error"></span>
+						</div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
@@ -254,7 +276,7 @@
                     <div class="form-group">
                         <label class="visible-md visible-lg">&nbsp;</label>
                         <div class="control-group">
-                            <a href="#" class="action-link grey clear-address">
+                            <a href="#" class="grey clear-address">
                                 <svg aria-hidden="true" class="icon icon-remove">
                                     <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
                                 </svg>
@@ -311,8 +333,8 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, new { @for = "additional-previous-administrative_area_level_1-" + (i + 1) })
                         <div class="control-group">
                             @Html.DropDownListFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province,
-                                                                                                (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
-                                                                                                new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
+                                                                                                                         (Model.ProvinceTaxRates).Select(x => new SelectListItem { Value = x.Province, Text = x.Province, Selected = Model.AdditionalApplicants?[i]?.PreviousAddressInformation?.Province == x.Province }), "",
+                                                                                                                         new { @class = "form-control dealnet-input", id = "additional-previous-administrative_area_level_1-" + (i + 1) })
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].PreviousAddressInformation.Province, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -347,7 +369,11 @@
             <label for="add-applicant-checkbox@(i+1)" class="align-middle custom-checkbox">
                 @Html.CheckBoxFor(m => m.AdditionalApplicants[i].IsHomeOwner, new { @class = "dealnet-checkbox check-homeowner", id = "add-applicant-checkbox" + (i + 1) })
                 @*<input type="checkbox" class="dealnet-checkbox" id="add-applicant-checkbox@(i+1)" checked="checked"/>*@
-                <span class="checkbox-icon"><svg aria-hidden="true" class="icon icon-checked"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use></svg></span>
+                <span class="checkbox-icon">
+                    <svg aria-hidden="true" class="icon icon-checked">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                    </svg>
+                </span>
                 <span>@Resources.AdditionalIsHomeOwner</span>
             </label>
         </div>
@@ -355,7 +381,16 @@
         <!--Borrower Employment Information-->
         <div id="add@(i+1)-employment-info"
              @(Model.HomeOwner?.AddressInformation?.Province.ToUpper() != "QC" ? "class=hidden" : "") class="personal-info-section">
-            <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.AdditionalApplicant @Resources.EmploymentInformation</h2>
+            <h2 class="dealnet-middle-header address-info-label no-margin-top">@Resources.AdditionalApplicantEmploymentInformation</h2>		<div class="row">
+                <div class="col-md-4 form-group">
+                    @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, new { @class = "form-control dealnet-input", id = $"add{i + 1}-monthly-mortgage" })
+                        @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthlyMortgagePayment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-2 col-sm-6 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.EmploymentStatus)
@@ -373,33 +408,17 @@
                 </div>
                 <div class="col-md-3 col-sm-12 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)
-                    <div class="control-group">
-                        <select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary)" id="add@(i+1)-employment-annual">
-                            <option value=""></option>
-                            <option value="<20000" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "<20000" ? "selected" : "")>@Resources.LessThan $20,000</option>
-                            @for(var j = 20000; j < 200000; j += 15000)
-                            {
-                                var val = $"{j}-{j + 15000}";
-                                <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == val ? "selected" : "")>$@($"{j:n0}") - $@($"{j + 15000:n0}")</option>
-                            }
-                            <option value="200000+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.AnnualSalary == "200000+" ? "selected" : "")>$200,000+</option>
-                        </select>
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, new { @class = "form-control dealnet-input", id = "add" + (i + 1) + "-employment-annual" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.AnnualSalary, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-12 form-group">
                     @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)
-                    <div class="control-group">
-                        <select class="form-control dealnet-input" name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate)" id="add@(i+1)-employment-hourly">
-                            <option value=""></option>
-                            <option value="<10" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "<10" ? "selected" : "")>@Resources.LessThan $10</option>
-                            @for(var j = 10; j < 80; j += 5)
-                            {
-                                var val = $"{j}-{j + 5}";
-                                <option value="@val" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == val ? "selected" : "")>$@j - $@(j + 5)</option>
-                            }
-                            <option value="80+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.HourlyRate == "80+" ? "selected" : "")>$80+</option>
-                        </select>
+                    <div class="control-group  has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate, new { @class = "form-control dealnet-input", id = "add" + (i + 1) + "-employment-hourly" })
                         @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.HourlyRate, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -408,21 +427,21 @@
                     <div class="row control-group length-of-employ">
                         <div class="select-hold years">
                             <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-years">
-                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
+                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants?[i]?.EmploymentInformation?.YearsOfEmployment) ? "selected" : "")>@Resources.Year_s_</option>
                                 @for(int j = 0; j < 10; j++)
                                 {
-                                    <option value="@j" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
+                                    <option value="@j" @(Model.AdditionalApplicants?[i]?.EmploymentInformation?.YearsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
                                 }
-                                <option value="10+" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == "10+" ? "selected" : "")>10+</option>
+                                <option value="10+" @(Model.AdditionalApplicants?[i]?.EmploymentInformation?.YearsOfEmployment == "10+" ? "selected" : "")>10+</option>
                             </select>
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment, "", new { @class = "text-danger" })
                         </div>
                         <div class="select-hold months">
-                            <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-months" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.YearsOfEmployment == "10+" ? "disabled=disabled" : "")>
-                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>@Resources.Month_s_</option>
+                            <select name="@Html.NameFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment)" class="form-control dealnet-input" id="add@(i+1)-employment-months" @(Model.AdditionalApplicants?[i]?.EmploymentInformation?.YearsOfEmployment == "10+" ? "disabled=disabled" : "")>
+                                <option value="" @(string.IsNullOrEmpty(Model.AdditionalApplicants?[i]?.EmploymentInformation?.MonthsOfEmployment) ? "selected" : "")>@Resources.Month_s_</option>
                                 @for(int j = 0; j < 12; j++)
                                 {
-                                    <option value="@j" @(Model.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
+                                    <option value="@j" @(Model.AdditionalApplicants?[i]?.EmploymentInformation?.MonthsOfEmployment == j.ToString() ? "selected" : "")>@j</option>
                                 }
                             </select>
                             @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment, "", new { @class = "text-danger" })
@@ -443,7 +462,7 @@
                         @Html.LabelFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle)
                         <div class="control-group">
                             @Html.TextBoxFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-job-title" })
-                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, "", new { @class = "text-danger", data_bind = "validationMessage: jobTitle" })
+                            @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.JobTitle, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -508,7 +527,7 @@
                                 {
                                     Value = x.Province,
                                     Text = x.Province,
-                                    Selected = Model.AdditionalApplicants[i]?.EmploymentInformation?.CompanyAddress?.Province == x.Province
+                                    Selected = Model.AdditionalApplicants?[i]?.EmploymentInformation?.CompanyAddress?.Province == x.Province
                                 }), "", new { @class = "form-control dealnet-input", id = $"add{i + 1}-employment-province", autocomplete = $"add{i + 1}-employment address-level1" })
                                 @Html.ValidationMessageFor(m => m.AdditionalApplicants[i].EmploymentInformation.CompanyAddress.Province, "", new { @class = "text-danger" })
                             </div>
@@ -544,7 +563,7 @@
         <div class="consents-checkbox-hold" id="agreement-checkbox1">
             <div class="dealnet-agrees form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("additional-owner-agrees", new { id = "additional-owner-agrees" })
+                    @Html.CheckBox("additional-owner-agrees", new { id = "additional-owner-agrees", @class = "agreement-checkbox" })
                     <span class="checkbox-icon">
                         <svg aria-hidden="true" class="icon icon-checked">
                             <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>

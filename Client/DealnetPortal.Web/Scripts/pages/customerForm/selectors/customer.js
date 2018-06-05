@@ -8,8 +8,30 @@
             cellPhone: state.phone === ''
         };
     };
-    
-    var getErrors = function (requiredFields, requiredPFields,requiredEmploy) {
+
+    var isEmployedOrSelfEmployed = function (state) {
+        return state.employStatus == 0 || state.employStatus == 2;
+    }
+    var getRequiredEmpoyment = function (state) {
+        return state.isQuebecDealer ? {
+            employStatus: state.employStatus === '',
+            incomeType: state.employStatus === 0 && state.incomeType == '',
+            annualSalary: state.employStatus === 0 && state.incomeType === 0 && state.annualSalary == '' || true,
+            hourlyRate: (state.employStatus == 0 && state.incomeType == 1 && state.hourlyRate == '') || false,
+            yearsOfEmploy: isEmployedOrSelfEmployed(state) && state.yearsOfEmploy == '',
+            monthsOfEmploy: isEmployedOrSelfEmployed(state) && state.yearsOfEmploy != '10+' && state.monthsOfEmploy == '',
+            employType: state.employStatus == 0 && state.employType == '',
+            jobTitle: isEmployedOrSelfEmployed(state) && state.jobTitle == '',
+            companyName: isEmployedOrSelfEmployed(state) && state.companyName == '',
+            companyPhone: isEmployedOrSelfEmployed(state) && state.companyPhone == '',
+            cstreet: isEmployedOrSelfEmployed(state) && state.cstreet == '',
+            ccity: isEmployedOrSelfEmployed(state) && state.ccity == '',
+            cprovince: isEmployedOrSelfEmployed(state) && state.cprovince == '',
+            cpostalCode: isEmployedOrSelfEmployed(state) && state.cpostalCode == ''
+        } : {};
+    };
+
+    var getErrors = function (requiredFields, requiredPFields) {
         return function (state) {
             var errors = [];
 
@@ -51,8 +73,10 @@
 
             var requiredP = state.lessThanSix ? requiredPFields : [];
 
-            var requiredE = isQuebecAddress ? requiredEmploy : [];
-            
+            var requiredE = isQuebecAddress ? filterObj(function (key, obj) {
+                return obj[key];
+            })(getRequiredEmpoyment(state)) : [];
+
             var emptyErrors = requiredFields.concat(requiredPhones).concat(requiredP).concat(requiredE).map(mapObj(state))
                 .some(function (val) {
                     return typeof val === 'string' ? val === '' : !val;

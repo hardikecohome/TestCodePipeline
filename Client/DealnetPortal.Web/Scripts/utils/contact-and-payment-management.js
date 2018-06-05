@@ -4,14 +4,15 @@
         var settings = {
             homePhoneClass: '.home-phone',
             cellPhoneClass: '.cell-phone',
-            gasAccountId: '#enbridge-gas-distribution-account',
-            meterNumberId: '#meter-number',
+            enbridgeClass: '.enbridge-payment',
+            papClass: '.pap-payment',
             paymentInfoAvailableId: '#payment-info-available',
             paymentTypeId: '#payment-type',
             paymentTypes: {
-                'ENBRIDGE': '0',
-                'PAP': '1'
-            }
+                'PAP': '0',
+                'ENBRIDGE': '1'
+            },
+            enbridgeFeeNotificationId: '#enbridge-fee-notification'
         }
 
         $(settings.homePhoneClass).each(function () {
@@ -21,11 +22,6 @@
         $(settings.cellPhoneClass).each(function () {
             $(this).rules("add", "required");
         });
-        var $gasAccountSelector = $(settings.gasAccountId);
-        var $meterNumberSelector = $(settings.meterNumberId);
-
-        $gasAccountSelector.rules("add", "required");
-        $meterNumberSelector.rules("add", "required");
 
         $('.mandatory-phones').each(function () {
             var homePhone = $(this).find(settings.homePhoneClass);
@@ -36,12 +32,9 @@
                 setValidationRelation(cellPhone, homePhone);
             }
         });
-        setValidationRelation($gasAccountSelector, $meterNumberSelector);
-        setValidationRelation($meterNumberSelector, $gasAccountSelector);
+
         $(settings.homePhoneClass).change();
         $(settings.cellPhoneClass).change();
-        $gasAccountSelector.change();
-        $meterNumberSelector.change();
 
         var isAllPaymentInfoAvailable = $(settings.paymentInfoAvailableId).val().toLowerCase() === 'true';
         var $paymentTypeSelector = $(settings.paymentTypeId);
@@ -71,31 +64,36 @@
                 e.preventDefault();
             }
         });
-    });
 
-function managePaymentElements(paymentType) {
-    var $papPaymentSelector = $(".pap-payment");
-    var $enbridgePaymentSelector = $(".enbridge-payment");
-    switch (paymentType) {
-        case '0':
-            $papPaymentSelector.hide();
-            $papPaymentSelector.find('input, select').each(function () {
-                $(this).prop("disabled", true);
-            });
-            $enbridgePaymentSelector.show();
-            $enbridgePaymentSelector.find('input, select').each(function () {
-                $(this).prop("disabled", false);
-            });
-            break;
-        case '1':
-            $enbridgePaymentSelector.hide();
-            $enbridgePaymentSelector.find('input, select').each(function () {
-                $(this).prop("disabled", true);
-            });
-            $papPaymentSelector.show();
-            $papPaymentSelector.find('input, select').each(function () {
-                $(this).prop("disabled", false);
-            });
-            break;
-    }
-}
+        function managePaymentElements(paymentType) {
+            var $papPaymentSelector = $(settings.papClass);
+            var $enbridgePaymentSelector = $(settings.enbridgeClass);
+            var $enbridgeFeeNotification = $(settings.enbridgeFeeNotificationId);
+            switch (paymentType) {
+                case settings.paymentTypes.ENBRIDGE:
+                    $papPaymentSelector.hide();
+                    $papPaymentSelector.find('input, select').each(function () {
+                        $(this).prop("disabled", true);
+                    });
+                    $enbridgePaymentSelector.show();
+                    $enbridgePaymentSelector.find('input, select').each(function () {
+                        $(this).prop("disabled", false);
+                        $(this).rules('add', 'required');
+                    });
+                    $enbridgeFeeNotification.show();
+                    break;
+                case settings.paymentTypes.PAP:
+                    $enbridgePaymentSelector.hide();
+                    $enbridgePaymentSelector.find('input, select').each(function () {
+                        $(this).prop("disabled", true);
+                        $(this).rules('remove', 'required');
+                    });
+                    $enbridgeFeeNotification.hide();
+                    $papPaymentSelector.show();
+                    $papPaymentSelector.find('input, select').each(function () {
+                        $(this).prop("disabled", false);
+                    });
+                    break;
+            }
+        }
+    });

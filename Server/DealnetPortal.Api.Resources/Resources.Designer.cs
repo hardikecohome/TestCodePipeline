@@ -259,7 +259,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre Approved.
+        ///   Looks up a localized string similar to Awaiting Enbridge Approval.
         /// </summary>
         public static string _26_Pre_Approved {
             get {
@@ -268,7 +268,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre-Approved $15k.
+        ///   Looks up a localized string similar to Awaiting Enbridge Approval.
         /// </summary>
         public static string _26_Pre_Approved15k {
             get {
@@ -277,7 +277,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pre-Approved (ECP).
+        ///   Looks up a localized string similar to Awaiting Enbridge Approval.
         /// </summary>
         public static string _26_Pre_ApprovedECP {
             get {
@@ -1006,7 +1006,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Void Cheque or Bank PAP Authorization Letter.
+        ///   Looks up a localized string similar to Void Cheque or Bank PAD Authorization Letter.
         /// </summary>
         public static string ChequeBankPAP {
             get {
@@ -1047,6 +1047,15 @@ namespace DealnetPortal.Api.Resources {
         public static string ClientsComment {
             get {
                 return ResourceManager.GetString("ClientsComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combi Boiler.
+        /// </summary>
+        public static string CombiBoiler {
+            get {
+                return ResourceManager.GetString("CombiBoiler", resourceCulture);
             }
         }
         
@@ -1101,6 +1110,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Contract {
             get {
                 return ResourceManager.GetString("Contract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contract was changed.
+        /// </summary>
+        public static string ContractChangedCancelledEsign {
+            get {
+                return ResourceManager.GetString("ContractChangedCancelledEsign", resourceCulture);
             }
         }
         
@@ -1186,6 +1204,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer.
         /// </summary>
         public static string Customer {
@@ -1254,6 +1281,15 @@ namespace DealnetPortal.Api.Resources {
         public static string DealerInvoiceAmount {
             get {
                 return ResourceManager.GetString("DealerInvoiceAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dealer Profile Update.
+        /// </summary>
+        public static string DealerProfileUpdate {
+            get {
+                return ResourceManager.GetString("DealerProfileUpdate", resourceCulture);
             }
         }
         
@@ -1353,6 +1389,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Employed {
             get {
                 return ResourceManager.GetString("Employed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0% Equal Payments.
+        /// </summary>
+        public static string EqualPayments {
+            get {
+                return ResourceManager.GetString("EqualPayments", resourceCulture);
             }
         }
         
@@ -1483,6 +1528,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funded Deals.
+        /// </summary>
+        public static string FundedDeals {
+            get {
+                return ResourceManager.GetString("FundedDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Furnace.
         /// </summary>
         public static string Furnace {
@@ -1582,6 +1636,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hot Water Heater (CV).
+        /// </summary>
+        public static string HotWaterHeaterCV {
+            get {
+                return ResourceManager.GetString("HotWaterHeaterCV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hot Water Heater (PV).
+        /// </summary>
+        public static string HotWaterHeaterPV {
+            get {
+                return ResourceManager.GetString("HotWaterHeaterPV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hourly rate.
         /// </summary>
         public static string HourlyRate {
@@ -1605,6 +1677,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Hst {
             get {
                 return ResourceManager.GetString("Hst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Humidifier with Furnace.
+        /// </summary>
+        public static string HumidifierWithFurnace {
+            get {
+                return ResourceManager.GetString("HumidifierWithFurnace", resourceCulture);
             }
         }
         
@@ -1726,6 +1807,24 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lease.
+        /// </summary>
+        public static string LeaseApplication {
+            get {
+                return ResourceManager.GetString("LeaseApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lease (HWT).
+        /// </summary>
+        public static string LeaseApplicationHwt {
+            get {
+                return ResourceManager.GetString("LeaseApplicationHwt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Leasing.
         /// </summary>
         public static string Leasing {
@@ -1785,6 +1884,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Mail {
             get {
                 return ResourceManager.GetString("Mail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Media Filter (no stand alone units).
+        /// </summary>
+        public static string MediaFilterNSAU {
+            get {
+                return ResourceManager.GetString("MediaFilterNSAU", resourceCulture);
             }
         }
         
@@ -1942,6 +2050,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending Deals.
+        /// </summary>
+        public static string PendingDeals {
+            get {
+                return ResourceManager.GetString("PendingDeals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Permanent Residency Card.
         /// </summary>
         public static string PermanentResidencyCard {
@@ -2014,6 +2131,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Portal Inquiries.
+        /// </summary>
+        public static string PortalInquiries {
+            get {
+                return ResourceManager.GetString("PortalInquiries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Postal Code.
         /// </summary>
         public static string PostalCode {
@@ -2037,6 +2163,33 @@ namespace DealnetPortal.Api.Resources {
         public static string PreferredContactMethod {
             get {
                 return ResourceManager.GetString("PreferredContactMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prime.
+        /// </summary>
+        public static string Prime {
+            get {
+                return ResourceManager.GetString("Prime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prime Plus.
+        /// </summary>
+        public static string PrimePlus {
+            get {
+                return ResourceManager.GetString("PrimePlus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Inquiries.
+        /// </summary>
+        public static string ProgramInquiries {
+            get {
+                return ResourceManager.GetString("ProgramInquiries", resourceCulture);
             }
         }
         
@@ -2100,6 +2253,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Retired {
             get {
                 return ResourceManager.GetString("Retired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reverse Osmosis (no stand alone units).
+        /// </summary>
+        public static string ReverseOsmosisNSAU {
+            get {
+                return ResourceManager.GetString("ReverseOsmosisNSAU", resourceCulture);
             }
         }
         
@@ -2212,6 +2374,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Standard Rate.
+        /// </summary>
+        public static string StandardRate {
+            get {
+                return ResourceManager.GetString("StandardRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started to fill new contract.
         /// </summary>
         public static string StartedToFillNewContract {
@@ -2244,6 +2415,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Sunrooms {
             get {
                 return ResourceManager.GetString("Sunrooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super Prime.
+        /// </summary>
+        public static string SuperPrime {
+            get {
+                return ResourceManager.GetString("SuperPrime", resourceCulture);
             }
         }
         
@@ -2365,6 +2545,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2 Pieces of Equipment (water softener/carbon filter).
+        /// </summary>
+        public static string TwoPiecesofEquipmentWSCF {
+            get {
+                return ResourceManager.GetString("TwoPiecesofEquipmentWSCF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string Type {
@@ -2464,11 +2653,47 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Void Cheque Bank PAD Authorization Letter.
+        /// </summary>
+        public static string VoidChequeBankPAPAuthorizationLetter {
+            get {
+                return ResourceManager.GetString("VoidChequeBankPAPAuthorizationLetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy of Void Personal Cheque.
         /// </summary>
         public static string VoidPersonalChequeCopy {
             get {
                 return ResourceManager.GetString("VoidPersonalChequeCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Filter.
+        /// </summary>
+        public static string WaterFilter {
+            get {
+                return ResourceManager.GetString("WaterFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Filter &amp; Water Softener.
+        /// </summary>
+        public static string WaterFilterWaterSoftener {
+            get {
+                return ResourceManager.GetString("WaterFilterWaterSoftener", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Water Softener.
+        /// </summary>
+        public static string WaterSoftener {
+            get {
+                return ResourceManager.GetString("WaterSoftener", resourceCulture);
             }
         }
         
@@ -2523,6 +2748,15 @@ namespace DealnetPortal.Api.Resources {
         public static string WellPump {
             get {
                 return ResourceManager.GetString("WellPump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Whole Home Combo.
+        /// </summary>
+        public static string WholeHomeCombo {
+            get {
+                return ResourceManager.GetString("WholeHomeCombo", resourceCulture);
             }
         }
         

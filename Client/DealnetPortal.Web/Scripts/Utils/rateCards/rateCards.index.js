@@ -1,4 +1,4 @@
-﻿module.exports('rateCards.index', function(require) {
+﻿module.exports('rateCards.index', function (require) {
     var totalObligation = require('financial-functions').totalObligation;
     var totalRentalObligation = require('financial-functions').totalRentalObligation;
     var totalPrice = require('financial-functions').totalPrice;
@@ -14,32 +14,45 @@
     var totalRentalBorrowingCost = require('financial-functions').totalRentalBorrowingCost;
     var yourCost = require('financial-functions').yourCost;
     var rentalYourCost = require('financial-functions').rentalYourCost;
+    var tafBuyDownRate = require('financial-functions').tafBuyDownRate;
     var tax = require('financial-functions').tax;
-    var notNaN = function (num) { return !isNaN(num); };
+    var notNaN = function (num) {
+        return !isNaN(num);
+    };
 
     var clarityCalculations = require('financial-functions.clarity');
     var state = require('rateCards.state').state;
     var constants = require('rateCards.state').constants;
 
-    var idToValue = function (obj) {
-        return function (id) {
-            return obj.hasOwnProperty(id) ? obj[id] : '';
-        };
-    };
-    
+    var idToValue = require('idToValue');
+
     var equipmentSum = function (equipments) {
         return Object.keys(equipments)
             .map(idToValue(equipments))
-            .map(function (equipment) { return parseFloat(equipment.cost); })
+            .map(function (equipment) {
+                return parseFloat(equipment.cost);
+            })
             .filter(notNaN)
-            .reduce(function (sum, cost) { return sum + cost; }, 0);
+            .reduce(function (sum, cost) {
+                return sum + cost;
+            }, 0);
     };
-    var getTotalAmountFinanced = function() {
-        return totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
+    var getTotalAmountFinanced = function (data) {
+        if (!data) data = {};
+
+        return totalAmountFinanced($.extend(data, {
+            equipmentSum: state.eSum,
+            downPayment: state.downPayment
+        }));
     }
 
-    var init = function(ratecards) {
-        constants.rateCards.forEach(function (option) { state.rateCards[option.name] = $.grep(ratecards, function (card) { return card.CardType === option.id; }); });
+    var init = function (ratecards, rateCardReduction) {
+        constants.rateCards.forEach(function (option) {
+            state.rateCards[option.name] = $.grep(ratecards, function (card) {
+                return card.CardType === option.id;
+            });
+        });
+        state.rateCardReduction = rateCardReduction;
     }
 
     var getRateCardOnSubmit = function (cardType, deferral, amortTerm, adminFee, customerRate) {
@@ -53,12 +66,17 @@
         })[0];
     }
 
-    var filterRateCard = function(dataObject) {
+    var filterRateCard = function (dataObject) {
         var totalCash = constants.minimumLoanValue;
-        var totalAmount = totalAmountFinanced($.extend({}, { equipmentSum: state.eSum, downPayment: state.downPayment }));
+        var totalAmount = totalAmountFinanced($.extend({}, {
+            equipmentSum: state.eSum,
+            downPayment: state.downPayment
+        }));
 
         if (state[dataObject.rateCardPlan] === undefined) {
-            state[dataObject.rateCardPlan] = $.extend({}, { totalAmountFinanced: totalAmount });
+            state[dataObject.rateCardPlan] = $.extend({}, {
+                totalAmountFinanced: totalAmount
+            });
         } else {
             state[dataObject.rateCardPlan].totalAmountFinanced = totalAmount;
         }
@@ -72,7 +90,7 @@
         return _filterRateCardByValues(dataObject, totalCash);
     }
 
-    var calculateTotalPrice = function(equipments, downPayment, regionTax) {
+    var calculateTotalPrice = function (equipments, downPayment, regionTax) {
         state.downPayment = downPayment;
         state.tax = regionTax;
 
@@ -81,42 +99,46 @@
 
         return {
             equipmentSum: eSum !== 0 ? eSum : '-',
-            tax: eSum !== 0 ? tax({ equipmentSum: eSum, tax: state.tax }) : '-',
-            totalPrice: eSum !== 0 ? totalPrice({ equipmentSum: eSum, tax: state.tax }) : '-'
+            tax: eSum !== 0 ? tax({
+                equipmentSum: eSum,
+                tax: state.tax
+            }) : '-',
+            totalPrice: eSum !== 0 ? totalPrice({
+                equipmentSum: eSum,
+                tax: state.tax
+            }) : '-'
         }
     }
 
-    var caclulateClarityBriefValues = function(data) {
-        return $.extend({}, data,
-            {
-               tax: clarityCalculations.tax(data),
-               totalMonthlyCostOfOwnership: clarityCalculations.totalMonthlyCostOfOwnership(data),
-               totalPriceOfEquipment: clarityCalculations.totalPriceOfEquipment(data)
-            });
+    var caclulateClarityBriefValues = function (data) {
+        return $.extend({}, data, {
+            tax: clarityCalculations.tax(data),
+            totalMonthlyCostOfOwnership: clarityCalculations.totalMonthlyCostOfOwnership(data),
+            totalPriceOfEquipment: clarityCalculations.totalPriceOfEquipment(data)
+        });
     }
 
-    var calculateClarityValuesForRender = function(data) {
-        return $.extend({}, data,
-            {
-                costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
-                totalAmountFinanced: clarityCalculations.totalPriceOfEquipment(data),
-                totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
-                residualBalance: clarityCalculations.residualBalance(data),
-                totalObligation: clarityCalculations.totalObligation(data),
-                yourCost: clarityCalculations.yourCost(data),
-                loanTerm: data.LoanTerm,
-                amortTerm: data.AmortizationTerm,
-                customerRate: data.CustomerRate
-            });
+    var calculateClarityValuesForRender = function (data) {
+        return $.extend({}, data, {
+            costOfBorrowing: clarityCalculations.totalBorrowingCost(data),
+            totalAmountFinanced: clarityCalculations.totalAmountFinanced(data),
+            totalMonthlyPayments: clarityCalculations.totalMonthlyPayments(data),
+            residualBalance: clarityCalculations.residualBalance(data),
+            totalObligation: clarityCalculations.totalObligation(data),
+            yourCost: clarityCalculations.yourCost(data),
+            loanTerm: data.LoanTerm,
+            amortTerm: data.AmortizationTerm,
+            customerRate: data.CustomerRate,
+            totalMonthlyCostTaxDP: clarityCalculations.totalMonthlyPaymentsLessDownPayment(data)
+        });
     }
 
-    var calculateValuesForRender = function(data) {
-        data = $.extend({}, data,
-            {
-                equipmentSum: state.eSum,
-                downPayment: state.downPayment,
-                tax: state.tax
-            });
+    var calculateValuesForRender = function (data) {
+        data = $.extend({}, data, {
+            equipmentSum: state.eSum,
+            downPayment: state.downPayment,
+            tax: state.tax
+        });
 
         return $.extend({}, data,
             {
@@ -127,8 +149,10 @@
                 residualBalance: residualBalance(data),
                 totalObligation: totalObligation(data),
                 yourCost: yourCost(data),
+                tafBuyDownRate: tafBuyDownRate(data),
                 loanTerm: data.LoanTerm,
-                amortTerm: data.AmortizationTerm
+                amortTerm: data.AmortizationTerm,
+                adminFee: data.AdminFee
             });
     }
 
@@ -140,9 +164,10 @@
      */
     function _filterRateCardByValues(dataObject, totalCash) {
         var selectedValues;
-
+        var groupName;
         if (dataObject.hasOwnProperty('standaloneOption')) {
             selectedValues = $('#' + dataObject.standaloneOption + '-amortDropdown option:selected').text().split('/');
+            groupName = $('#' + dataObject.standaloneOption + '-programDropdown option:selected').val();
         } else {
             selectedValues = $('#' + dataObject.rateCardPlan + '-amortDropdown option:selected').text().split('/');
         }
@@ -162,14 +187,26 @@
                 deferralPeriod = +$('#' + dataObject.standaloneOption + '-deferralDropdown').val();
             }
         }
+        var card;
+        if (dataObject.hasOwnProperty('standaloneOption')) {
+            card = $.grep(items, function (i) {
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return (i.CustomerRiskGroup == null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return (i.CustomerRiskGroup == null || i.CustomerRiskGroup.GroupName === groupName) && i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
+            })[0];
 
-        var card = $.grep(items, function (i) {
-            if (totalCash >= constants.maxRateCardLoanValue) {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
-            } else {
-                return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
-            }
-        })[0];
+        } else {
+            card = $.grep(items, function (i) {
+                if (totalCash >= constants.maxRateCardLoanValue) {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= constants.maxRateCardLoanValue;
+                } else {
+                    return i.DeferralPeriod === deferralPeriod && i.AmortizationTerm === amortTerm && i.LoanTerm === loanTerm && i.LoanValueFrom <= totalCash && i.LoanValueTo >= totalCash;
+                }
+            })[0];
+
+        }
 
         if ((card !== undefined && card !== null) && (card.ValidFrom !== null || card.ValidTo !== null)) {
             card.ValidFrom = null;

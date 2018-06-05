@@ -46,10 +46,15 @@
 
         public static string CustomerType = "Customer Type";
 
+        public static string RelationshipToCustomer = "Relationship to customer";
+
         public static string DeferralType = "Deferral Type";
         public static string RequestedTerm = "Requested Term";
+        public static string AmortizationTerm = "Amortization Term";
+        public static string TermType = "Term Type";
 
         public static string DealerSalesRep = "Dealer Sales Rep";
+        public static string DealerSalesRepRoles = "Dealer Sales Rep Roles";        
         public static string LeadSource = "LeadSource";
         public static string CustomerLeadSource = "Lead Source";
 
@@ -62,7 +67,42 @@
         public static string InstallMonthlyPay = "Install Monthly Pay";
         public static string InstallPackageDescr = "Install Package Descr";
 
+        public static string AdminFee = "Admin Fee";
+        public static string FeePaidBy = "fee paid by";
+        public static string DownPayment = "Down Payment";
+        public static string CustomerRate = "Customer Rate";
+        public static string CustomerApr = "customerapr";
+        public static string DealerCost = "Dealer Cost";
+        public static string DealerRate = "Dealer Rate";
+        public static string RateCardType = "Rate Card Type";
+        public static string DealerTierName = "Dealer Tier Name";
+        public static string ContractPreapprovalLimit = "contractpreapprovallimit";
+        public static string CustomerHasExistingAgreements = "customerhasexistingagreements";
+        public static string CustomerRiskGroup = "CustomerRiskGroup";
+        public static string RentalProgramType = "contractprogramtype";
+        public static string ContractRentalRate = "contractrentalrate";
+        public static string ContractEscalationRate = "contractescalationrate";        
+        public static string RateReduction = "contractinterestratereductionrate";
+        public static string RateReductionCost = "contractinterestratereductioncost";
+
+        public static string RentalMonthlyPayment = "EH Rental Payment Amount";
+        //used both for contract and equipment
+        public static string MonthlyPayment = "Monthly Payment";
+        public static string ContractSoftCapLimit = "contractsoftcaplimit";
+
+        public static string BorrowingCost = "Borrowing Cost";
+        public static string TotalAmountFinanced = "Total Amount Financed";
+        public static string TotalOfAllMonthlyPayment = "Total of all Monthly Payment";
+        public static string ResidualValue = "Residual Value";
+        public static string TotalObligation = "Total Obligation";
+        public static string TotalEquipmentPrice = "Total Equipment Price";
+        public static string PstRate = "PST Rate";        
+
+        public static string EstimatedRetailPrice = "Estimated Retail Price";
+        public static string ResponsibilityForCostOfRemoval = "Responsibility for cost of removal";
+
         #region Dealer onboarding UDFs        
+        public static string LegalName = "LegalName";
         public static string OperatingName = "Operating Name";
         public static string NumberOfInstallers = "Number of Installers";
         public static string NumberOfSalesPeople = "Number of Sales People";
@@ -136,7 +176,16 @@
         public static string EmployerName  = "Employer Name";
         public static string EmployerPhone = "Employer Phone Number";
         public static string EmployerAddress = "Employer Address";
+        public static string MonthlyMortgage = "Monthly Mortgage";
 
+        #endregion
+
+        #region Payment information
+        public static string EnbridgeMeter = "Enbridge Meter";
+        public static string PapAccountNumber = "PAP Account Number";
+        public static string PapBankNumber = "PAP Bank Number";
+        public static string PapTransitNumber = "PAP Transit Number";
+        public static string PapWithdrawalDate = "PAP Withdrawal Date";
         #endregion
     }
 }

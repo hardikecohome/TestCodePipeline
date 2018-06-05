@@ -85,6 +85,11 @@
             dispatch(createAction(customerActions.SET_CPOSTAL_CODE, e.target.value));
         });
 
+        var monthlyMortgage = $('#emp-monthly-mortgage');
+        monthlyMortgage.on('change', function (e) {
+            dispatch(createAction(customerActions.SET_MONTHLYMORTGAGEPAYMENT, e.target.value));
+        }).rules('add', 'required');
+
         $('#cclear-address').on('click', function (e) {
             e.preventDefault();
             dispatch(createAction(customerActions.CLEAR_CADDRESS, e.target.value));
@@ -104,7 +109,7 @@
                     break;
             }
         }
-        
+
         function changeToEmployed() {
             incomeType.change().prop('disabled', false).parents('.form-group').removeClass('hidden');
             $('#income-label').removeClass('hidden');
@@ -114,7 +119,8 @@
             $('#hourly-label').addClass('hidden');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
             $('#length-label').removeClass('hidden');
-            months.prop('disabled', false);
+            if (years.val() != '10+')
+                months.prop('disabled', false);
             empType.prop('disabled', false).parents('.form-group').removeClass('hidden');
             $('#type-label').removeClass('hidden');
             $('#company-info-hold').removeClass('hidden');
@@ -159,7 +165,8 @@
             $('#annual-label').removeClass('hidden');
             $('#length-label').removeClass('hidden');
             years.prop('disabled', false).parents('.form-group').removeClass('hidden');
-            months.prop('disabled', false);
+            if (years.val() != '10+')
+                months.prop('disabled', false);
             $('#company-info-hold').removeClass('hidden');
             jobTitle.prop('disabled', false);
             name.prop('disabled', false);
@@ -224,7 +231,8 @@
             ccity: city,
             cprovince: province,
             cpostalCode: postal,
-            isQuebecDealer: $('#isQuebecDealer')
+            isQuebecDealer: $('#isQuebecDealer'),
+            monthlyMortgagePayment: monthlyMortgage
         };
 
         dispatch(createAction(customerActions.SET_INITIAL_STATE, readInitialStateFromFields(initialStateMap)));
@@ -243,7 +251,7 @@
             street.val(props.street);
             unit.val(props.unit);
             city.val(props.city);
-            province.val(props.province);
+            province.val(props.province).change();
             postal.val(props.postalCode);
         });
 
@@ -251,11 +259,12 @@
             return {
                 province: state.province,
                 isQuebecDealer: state.isQuebecDealer
-        };
+            };
         })(function (props) {
             if (props.province.toLowerCase() === 'qc' && props.isQuebecDealer) {
                 $('#employmentInfoForm').removeClass('hidden');
                 status.val('0').change().prop('disabled', false);
+                monthlyMortgage.prop('disabled', false).change();
             } else {
                 $('#employmentInfoForm').addClass('hidden').find('input, select').each(function () {
                     $(this).prop('disabled', true);

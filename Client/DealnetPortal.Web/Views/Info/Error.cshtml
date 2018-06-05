@@ -3,33 +3,41 @@
 @model IList<DealnetPortal.Api.Core.Types.Alert>
 
 @{
-    ViewBag.Title = Resources.Error;
+	ViewBag.Title = Resources.Error;
 }
 
 <div class="page-container">
-    @if (Model?.Any(a => a.Type == AlertType.Error) ?? false)
-    {
-        var errorAlerts = Model.Where(a => a.Type == AlertType.Error).ToList();
-        for (int i = 0; i < errorAlerts.Count; i++)
-        {
-            <ul class="list-unstyled">
-                <li class="well danger-well error-descr">
-                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                    @errorAlerts[i].Message
-                </li>
-            </ul>
-        }
-    }
-    @if (!Model?.Any() ?? false)
-    {
-        <ul class="list-unstyled">
-            <li class="well danger-well error-descr">
-                <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-                @Resources.Error
-            </li>
-        </ul>
-    }
-    <div class="text-center">
-        @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new {@class = "btn dealnet-button dealnet-success-button"})
-    </div>
+	@if (Model?.Any(a => a.Type == AlertType.Error) ?? false)
+	{
+		var errorAlerts = Model.Where(a => a.Type == AlertType.Error).ToList();
+		for (int i = 0; i < errorAlerts.Count; i++)
+		{
+			<ul class="list-unstyled">
+				<li class="well danger-well error-descr">
+					<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+					@errorAlerts[i].Message
+				</li>
+			</ul>
+		}
+	}
+	@if (!Model?.Any() ?? false)
+	{
+		<ul class="list-unstyled">
+			<li class="well danger-well error-descr">
+				<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+				@Resources.Error
+			</li>
+		</ul>
+	}
+	<div class="text-center">
+    @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental", null, new {@class = "btn btn-green dealnet-button dealnet-success-button" })
+	</div>
 </div>
+@section scripts
+{
+<script type="text/javascript">
+		$(document).ready(function () {
+			gtag('event', 'Error Page', { 'event_category': 'Error Page', 'event_action': 'Info/Error', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
+		});
+</script>
+}

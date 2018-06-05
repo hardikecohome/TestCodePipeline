@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
-
+using DealnetPortal.Web.Models.Enumeration;
 namespace DealnetPortal.Web.Models
 {
     public class HelpPopUpViewModal
@@ -18,7 +18,7 @@ namespace DealnetPortal.Web.Models
         public bool IsPreferedContactPerson { get; set; }
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredContactPerson")]
-        [StringLength(20, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
+        [StringLength(30, MinimumLength = 2, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMinimumAndMaximum")]
         [RegularExpression(@"^[ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿa-zA-Z \.‘'`-]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "NameIncorrectFormat")]
         public string PreferedContactPerson { get; set; }
         [Display(ResourceType = typeof(Resources.Resources), Name = "ContractNumber")]
@@ -51,25 +51,5 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmailAddress")]
         [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
-    }
-
-    public enum SupportTypeEnum
-    {
-        [Display(ResourceType = typeof(Resources.Resources), Name = "CreditDecision")]
-        creditFunding = 0,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "CreditDocs")]
-        customerService = 1,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "FundingDocs")]
-        dealerSupport = 2,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Other")]
-        Other = 3
-    }
-
-    public enum BestWayEnum
-    {
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Phone")]
-        Phone = 0,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
-        Email = 1
     }
 }

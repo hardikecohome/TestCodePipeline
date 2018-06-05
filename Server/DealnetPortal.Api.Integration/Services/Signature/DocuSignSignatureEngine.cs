@@ -144,7 +144,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             _checkboxTabs.Add(new Checkbox()
                             {
-                                TabLabel = ff.Name,
+                                TabLabel = "\\*" + ff.Name,
                                 Selected = ff.Value
                             });
                         }
@@ -152,7 +152,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             _textTabs.Add(new Text()
                             {
-                                TabLabel = ff.Name,
+                                TabLabel = "\\*" + ff.Name,
                                 Value = ff.Value
                             });
                         }
@@ -602,7 +602,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             Type = doc.Type,
                             Name = doc.Name
                         };                        
-                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, doc.DocumentId);
+                        var docStream = envelopesApi.GetDocument(AccountId, TransactionId, "combined");
                         document.DocumentRaw = new byte[docStream.Length];
                         await docStream.ReadAsync(document.DocumentRaw, 0, (int)docStream.Length);
                     }                    
@@ -618,19 +618,19 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<AgreementDocument, IList<Alert>>(document, alerts);
         }
 
-        public async Task<IList<Alert>> CancelSignature()
+        public async Task<IList<Alert>> CancelSignature(string cancelReason = null)
         {
             var alerts = new List<Alert>();
             try
             {
                 EnvelopesApi envelopesApi = new EnvelopesApi();
                 var envelope = await envelopesApi.GetEnvelopeAsync(AccountId, TransactionId);
-                if (envelope.Status != "completed")
+                if (envelope.Status != "completed" && envelope.Status != "declined")
                 {
                     envelope = new Envelope
                     {
                         Status = "voided",
-                        VoidedReason = Resources.Resources.DealerCancelledEsign
+                        VoidedReason = cancelReason ?? Resources.Resources.DealerCancelledEsign
                     };
                     var updateEnvelopeRes = await
                         envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
@@ -897,14 +897,26 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             _signers.ForEach(signer =>
             {
-                rolesList.Add(new TemplateRole()
+                if (signer.RoleName == "Signer1")
                 {
-                    Name = signer.Name,
-                    Email = signer.Email,
-                    //RoutingOrder = signer.RoutingOrder, //?
-                    RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}",
-                    Tabs = signer.Tabs
-                });
+                    rolesList.Add(new TemplateRole()
+                    {
+                        Name = signer.Name,
+                        Email = signer.Email,
+                        //RoutingOrder = signer.RoutingOrder, //?
+                        RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}",
+                        Tabs = signer.Tabs
+                    });
+                }
+                else
+                {
+                    rolesList.Add(new TemplateRole()
+                    {
+                        Name = signer.Name,
+                        Email = signer.Email,
+                        RoleName = signer.RoleName ?? $"Signer{signer.RoutingOrder}"
+                    });
+                }
             });            
 
             _copyViewers.ForEach(viewer =>

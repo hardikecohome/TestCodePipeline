@@ -88,6 +88,7 @@ namespace DealnetPortal.Api.Controllers
             {
                 return Ok(contract);
             }
+
             return NotFound();
         }
 
@@ -168,7 +169,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("NotifyContractEdit")]
+        [Route("{contractId}/NotifyEdit")]
         [HttpPut]
         public IHttpActionResult NotifyContractEdit(int contractId)
         {
@@ -189,7 +190,9 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                //TODO: remove after CW review
+                //var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                var alerts = new List<Alert>();
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -288,13 +291,28 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCreditCheckResult")]
+        [Route("{contractId}/creditcheck")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)
         {
             try
             {
-                var result = _creditCheckService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                var result = _creditCheckService.ContractCreditCheck(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("{contractId}/DocumentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetContractDocumentTypes(int contractId)
+        {
+            try
+            {
+                var result = _contractService.GetContractDocumentTypes(contractId, LoggedInUser?.UserId);                    
                 return Ok(result);
             }
             catch (Exception ex)
@@ -566,7 +584,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = _rateCardsService.GetRateCardsByDealerId(contractId, LoggedInUser?.UserId);
+                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
 
                 return Ok(submitResult);
             }

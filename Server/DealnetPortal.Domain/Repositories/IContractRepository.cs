@@ -38,6 +38,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <returns>List of contracts</returns>
         IList<Contract> GetContractsCreatedByUser(string userId);
 
+        IList<Contract> GetExpiredContracts(DateTime expiredDate);
+
         /// <summary>
         /// Get count of customers user contracts list
         /// </summary>
@@ -53,7 +55,13 @@ namespace DealnetPortal.Domain.Repositories
         /// <returns>List of contracts</returns>
         IList<Contract> GetContracts(IEnumerable<int> ids, string ownerUserId);
 
+        IList<Contract> GetContractsEquipmentInfo(IEnumerable<int> ids, string ownerUserId);
+
         Contract FindContractBySignatureId(string signatureTransactionId);
+
+        Customer GetCustomer(int customerId);
+
+        ContractState? GetContractState(int contractId, string contractOwnerId);
 
         /// <summary>
         /// Delete contract with all linked data
@@ -83,16 +91,7 @@ namespace DealnetPortal.Domain.Repositories
         /// </summary>
         /// <param name="contractData">Structure with data related to contract</param>
         /// <returns>Result of update</returns>
-        Contract UpdateContractData(ContractData contractData, string contractOwnerId);
-
-        /// <summary>
-        /// Update contract customers data
-        /// </summary>
-        /// <param name="contractId">Contract Id</param>
-        /// <param name="addresses">Updated addresses list, or null</param>
-        /// <param name="customers">Updated cutomers list, or null</param>
-        /// <returns>Updated contract record</returns>
-        //Contract UpdateContractPrimaryClientData(int contractId, IList<Location> locations, IList<Phone> phones);
+        Contract UpdateContractData(ContractData contractData, string contractOwnerId);        
 
         /// <summary>
         /// Update customer
@@ -108,11 +107,10 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="locations">locations to set</param>
         /// <param name="phones">phones to set</param>
         /// <param name="emails">emails to set</param>
-        Customer UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
+        /// <returns>Is customer updated</returns>
+        bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
-        Customer GetCustomer(int customerId);
-
-        ContractState? GetContractState(int contractId, string contractOwnerId);
+        bool UpdateCustomerEmails(int customerId, IList<Email> emails);        
 
         /// <summary>
         /// Update contract state
@@ -121,6 +119,10 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="newState">A new state of contract</param>
         /// <returns>Updated contract record</returns>
         Contract UpdateContractState(int contractId, string contractOwnerId, ContractState newState);
+
+        Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
+
+        Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false);
 
         /// <summary>
         /// Get contract
@@ -157,6 +159,16 @@ namespace DealnetPortal.Domain.Repositories
         /// </summary>
         /// <returns>List of Equipment Type</returns>
         IList<DocumentType> GetStateDocumentTypes(string state);
+
+        IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId);
+
+        IDictionary<string, IList<DocumentType>> GetDealerDocumentTypes(string contractOwnerId);
+
+        /// <summary>
+        /// Get Document Types specified for contract, that can be defined for province and/or dealer
+        /// </summary>
+        /// <returns>List of Equipment Type</returns>
+        IList<DocumentType> GetContractDocumentTypes(int contractId, string contractOwnerId);
 
         /// <summary>
         /// Get Province Tax Rate
@@ -204,6 +216,7 @@ namespace DealnetPortal.Domain.Repositories
 
         IList<ContractDocument> GetContractDocumentsList(int contractId, string contractOwnerId);
 
+
         IList<ApplicationUser> GetSubDealers(string dealerId);
 
         ApplicationUser GetDealer(string dealerId);
@@ -228,11 +241,7 @@ namespace DealnetPortal.Domain.Repositories
 
         bool IsClarityProgram(int contractId);
 
-        IList<Contract> GetExpiredContracts(DateTime expiredDate);
-
-        Contract UpdateContractAspireSubmittedDate(int contractId, string contractOwnerId);
-
-        Contract UpdateContractSigners(int contractId, IList<ContractSigner> signers, string contractOwnerId, bool syncOnly = false);
+        bool IsBill59Contract(int contractId);
 
         bool IsMortgageBrokerCustomerExist(string email);
     }

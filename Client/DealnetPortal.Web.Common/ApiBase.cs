@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Web;
 using DealnetPortal.Api.Core.ApiClient;
+using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Common.Security;
 using Microsoft.Owin.Security;
 
@@ -15,7 +16,7 @@ namespace DealnetPortal.Web.Common
         protected readonly string _fullUri;
         protected readonly IAuthenticationManager _authenticationManager;
 
-        protected const string CultureCookieName = "DEALNET_CULTURE_COOKIE";
+        protected const string CultureCookieName = PortalConstants.CultureCookieName;
 
         public ApiBase(IHttpApiClient client, string controllerName)
         {

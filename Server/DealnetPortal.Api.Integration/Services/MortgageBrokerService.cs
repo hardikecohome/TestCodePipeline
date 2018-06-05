@@ -70,9 +70,9 @@ namespace DealnetPortal.Api.Integration.Services
 
                 var contractsResultList = new List<Tuple<Contract, bool>>();
 
-                if (newCustomer.HomeImprovementTypes != null && newCustomer.HomeImprovementTypes.Any())
+                if (newCustomer.SelectedEquipmentTypes != null && newCustomer.SelectedEquipmentTypes.Any())
                 {
-                    foreach (var improvmentType in newCustomer.HomeImprovementTypes)
+                    foreach (var improvmentType in newCustomer.SelectedEquipmentTypes)
                     {
                         var result = await InitializeCreating(contractOwnerId, newCustomer, improvmentType);
 
@@ -117,16 +117,9 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError($"Cannot submit deal {contractResult.Item1.Id} in Aspire", ex);
-                    }
+                    }                    
 
-                    var initAlerts = _creditCheckService.InitiateCreditCheck(contractResult.Item1.Id, contractOwnerId);
-
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
-
-                    var checkResult = _creditCheckService.GetCreditCheckResult(contractResult.Item1.Id, contractOwnerId);
+                    var checkResult = _creditCheckService.ContractCreditCheck(contractResult.Item1.Id, contractOwnerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);
@@ -147,7 +140,8 @@ namespace DealnetPortal.Api.Integration.Services
                 }
 
                 //select any of newly created contracts for create a new user in Customer Wallet portal
-                var creditReviewStates = _configuration.GetSetting("CreditReviewStatus")?.Split(',').Select(s => s.Trim()).ToArray();
+
+                var creditReviewStates = _configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
                 var succededContracts = contractsResultList.Where(r => r.Item1 != null && r.Item1.ContractState >= ContractState.CreditConfirmed
                                                                 && creditReviewStates?.Contains(r.Item1?.Details?.Status) != true).Select(r => r.Item1).ToList();
                 if (succededContracts != null && succededContracts.Any())
@@ -215,7 +209,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, string improvmentType = null)
+        private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, EquipmentTypeDTO improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
             var equipmentType = _contractRepository.GetEquipmentTypes();
@@ -234,12 +228,11 @@ namespace DealnetPortal.Api.Integration.Services
                     Id = contract.Id,
                 };
 
-                if (!string.IsNullOrEmpty(improvmentType))
+                if (improvmentType!=null)
                 {
-                    var eq = equipmentType.SingleOrDefault(x => x.Type == improvmentType);
                     contractData.Equipment = new EquipmentInfo()
                     {
-                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType, Description = eq?.Description } }
+                        NewEquipment = new List<NewEquipment> { new NewEquipment { Type = improvmentType.Type, Description = improvmentType.Description, EquipmentTypeId = improvmentType.Id} }
                     };
                 }
 

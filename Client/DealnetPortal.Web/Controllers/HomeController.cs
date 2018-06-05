@@ -20,6 +20,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
+using AutoMapper;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -128,26 +129,32 @@ namespace DealnetPortal.Web.Controllers
                     .ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-            var identity = (ClaimsIdentity) User.Identity;
-            var province = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? ContractProvince.QC : ContractProvince.ON;
-            var docTypes = await _dictionaryServiceAgent.GetStateDocumentTypes(province.ToString());
+            var provincesDocTypes = await _dictionaryServiceAgent.GetAllStateDocumentTypes();
 
-            if (docTypes?.Item1 != null)
+            if (provincesDocTypes?.Item1 != null)
             {
                 contracts.Where(c => c.ContractState == ContractState.Completed).ForEach(c =>
                 {
-                    var absentDocs =
-                        docTypes.Item1.Where(
-                            dt => dt.IsMandatory && c.Documents.All(d => dt.Id != d.DocumentTypeId) && (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
-                            .ToList();
-                    if (absentDocs.Any())
+                    var cProvince = c.PrimaryCustomer?.Locations
+                                       .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State
+                                   ?? c.PrimaryCustomer?.Locations.FirstOrDefault()?.State;
+                    if (!string.IsNullOrEmpty(cProvince))
                     {
-                        var actList = new StringBuilder();
-                        absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
-                        var cntrc = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
-                        if (cntrc != null)
+                        var docTypes = provincesDocTypes.Item1[cProvince];
+                        var absentDocs =
+                            docTypes?.Where(
+                                    dt => dt.IsMandatory && c.Documents.All(d => dt.Id != d.DocumentTypeId) &&
+                                          (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
+                                .ToList();
+                        if (absentDocs?.Any() ?? false)
                         {
-                            cntrc.Action = actList.ToString();
+                            var actList = new StringBuilder();
+                            absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
+                            var cntrc = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
+                            if (cntrc != null)
+                            {
+                                cntrc.Action = actList.ToString();
+                            }
                         }
                     }
                 });
@@ -173,12 +180,7 @@ namespace DealnetPortal.Web.Controllers
                     }                    
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult OnBoard()
-        {
-            return View();
-        }
+        }      
 
         [HttpGet]
         public ActionResult GetMaintanenceBanner()
@@ -197,10 +199,6 @@ namespace DealnetPortal.Web.Controllers
             return Content(string.Empty);
         }
 
-        public ActionResult OnBoardSuccess()
-        {
-            return View();
-	    }
         [HttpGet]
         public PartialViewResult DealerSupportRequestEmail(string contractId)
         {
@@ -217,16 +215,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<string> DealerSupportRequestEmail(HelpPopUpViewModal dealerSupportRequest)
         {
-            SupportRequestDTO dealerSupport = new SupportRequestDTO() {
-                Id = dealerSupportRequest.Id,
-                DealerName = dealerSupportRequest.DealerName,
-                YourName = dealerSupportRequest.IsPreferedContactPerson ? dealerSupportRequest.PreferedContactPerson : dealerSupportRequest.YourName,
-                LoanNumber = dealerSupportRequest.LoanNumber,
-                SupportType = dealerSupportRequest.SupportType.ToString(),
-                HelpRequested = dealerSupportRequest.HelpRequested,
-                BestWay = dealerSupportRequest.BestWay.ToString(),
-                ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
-            };
+            var dealerSupport = Mapper.Map<SupportRequestDTO>(dealerSupportRequest);
             var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";
         }

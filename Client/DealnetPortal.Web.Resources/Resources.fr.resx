@@ -1025,8 +1025,8 @@
   <data name="EnbridgeCapital" xml:space="preserve">
     <value>ENBRIDGE</value>
   </data>
-  <data name="PapCapital" xml:space="preserve">
-    <value>PAP</value>
+  <data name="PadCapital" xml:space="preserve">
+    <value>PPA</value>
   </data>
   <data name="Own" xml:space="preserve">
     <value>Possède</value>
@@ -1220,7 +1220,7 @@
     <value>Votre formulaire a été correctement mis à jour, mais il est pour l’instant désactivé et les clients ne seront pas en mesure de l’utiliser.</value>
   </data>
   <data name="ApplyForFinancing" xml:space="preserve">
-    <value>Faire une demande de financement</value>
+    <value>Demande de financement / location</value>
   </data>
   <data name="YourInformation" xml:space="preserve">
     <value>Vos renseignements</value>
@@ -1714,7 +1714,7 @@
     <value>Consentements</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
-    <value>Lorsque vous cochez cette case, vous consentez à recevoir des messages électroniques commerciaux de Services financiers EcoHome à l’adresse électronique et aux numéros de téléphone que vous avez indiqués dans cette demande ou à l’occasion relativement à votre compte, y compris des communications électroniques qui ont pour but de commercialiser ou promouvoir nos programmes, produits, services, offres, événements ou sondages qui peuvent vous intéresser. Vous pouvez retirer votre consentement à tout moment. Vous pouvez communiquer avec Services financiers EcoHome au 425 Boul. De Maisonneuve O. Montréal, Quebec, H3A 3G5</value>
+    <value>Lorsque vous cochez cette case, vous consentez à recevoir des messages électroniques commerciaux de Services financiers EcoHome à l’adresse électronique et aux numéros de téléphone que vous avez indiqués dans cette demande ou à l’occasion relativement à votre compte, y compris des communications électroniques qui ont pour but de commercialiser ou promouvoir nos programmes, produits, services, offres, événements ou sondages qui peuvent vous intéresser. Vous pouvez retirer votre consentement à tout moment. Vous pouvez communiquer avec Services financiers EcoHome au 4055 Rue Saint Catherine Ouest, Bureau 196, Westmount, Quebec H3Z 3J8</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessages1" xml:space="preserve">
     <value> Vous vous engagez à accepter, à recevoir et à utiliser sous forme électronique les ententes, avis et autres documents ou communications liés à la présente demande que Services financiers EcoHome peut vous transmettre. </value>
@@ -2390,7 +2390,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>Meilleure façon de communiquer avec vous</value>
   </data>
   <data name="BorrowerEmploymentInformation" xml:space="preserve">
-    <value>L'information sur l'emploi de l'emprunteur</value>
+    <value>Information sur l'hypothèque et l'emploi de l'emprunteur</value>
   </data>
   <data name="ByidCard" xml:space="preserve">
     <value>Carte BYID</value>
@@ -2603,7 +2603,7 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
     <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie EcoHome Financial à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de EcoHome Financial inc. au 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
   </data>
   <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
-    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 425 Boul. De Maisonneuve O. Montréal, Quebec, H3A 3G5</value>
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 4055 Rue Saint Catherine Ouest, Bureau 196, Westmount, Quebec H3Z 3J8</value>
   </data>
   <data name="Pre" xml:space="preserve">
     <value>Pré</value>
@@ -2640,5 +2640,237 @@ Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
   </data>
   <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
     <value>Certains caractères spéciaux comme ', &lt;,&gt;, &amp; ne sont pas autorisés</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Crédit</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Page d’accueil</value>
+  </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Le format du salaire annuel/revenue est incorrect</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Le format du Salaire Horaire est incorrect</value>
+  </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Paiement Hypothécaire Mensuel (montant initial &amp; intérêts)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Le format du Paiement Hypothécaire Mensuel est incorrect</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Renseignements supplémentaires sur l'hypothèque et l'emploi du demandeur</value>
+  </data>
+  <data name="ConcludedAgreement" xml:space="preserve">
+    <value>Accord conclu</value>
+  </data>
+  <data name="CoveredByCustomer" xml:space="preserve">
+    <value>Couvert par le client</value>
+  </data>
+  <data name="CoveredByDealer" xml:space="preserve">
+    <value>Couvert par le Marchand</value>
+  </data>
+  <data name="CustomerCoveredByBureauLoan" xml:space="preserve">
+    <value>Les informations de crédit du client sont actuellement indisponibles, les taux par défaut du programme Principale s'appliquent.Des options de programme supplémentaires peuvent être disponibles lorsque les informations de crédit du client sont obtenues / mises à jour.</value>
+  </data>
+  <data name="CustomerCreditUpdated" xml:space="preserve">
+    <value>Les informations de crédit du client ont été mises à jour.</value>
+  </data>
+  <data name="CustomerFee" xml:space="preserve">
+    <value>Frais de client</value>
+  </data>
+  <data name="CustomerNotFoundInBureau" xml:space="preserve">
+    <value>Nous n'avons pas été en mesure de faire correspondre les détails de crédit du client.
+Veuillez vous assurer que les informations fournies par le client correspondent à la pièce d'identité émise par le gouvernement (par exemple, permis de conduire).</value>
+  </data>
+  <data name="EditCustomerInformation" xml:space="preserve">
+    <value>Modifier les informations client</value>
+  </data>
+  <data name="EnbrideFeeNotification" xml:space="preserve">
+    <value>L'option de paiement d'Enbridge est disponible moyennant des frais  100 $</value>
+  </data>
+  <data name="EstimatedCostIncorrectFormat" xml:space="preserve">
+    <value>Le coût de détail estimé est dans un format incorrect</value>
+  </data>
+  <data name="EstimatedRetailCost" xml:space="preserve">
+    <value>Coût de détail estimé</value>
+  </data>
+  <data name="ExistingSupplier" xml:space="preserve">
+    <value>Fournisseur existant</value>
+  </data>
+  <data name="InitiatedContract" xml:space="preserve">
+    <value>Contrat initié</value>
+  </data>
+  <data name="MCOReducedDownPayment" xml:space="preserve">
+    <value>Coût mensuel de propriété est reduit par l'acompte</value>
+  </data>
+  <data name="NegotiatedAgreement" xml:space="preserve">
+    <value>Accord négocié</value>
+  </data>
+  <data name="N_A" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="PassAdminFeeToCustomer" xml:space="preserve">
+    <value>Transmettre les frais d'administration au client</value>
+  </data>
+  <data name="PassAdminFeeToDealer" xml:space="preserve">
+    <value>Je paierai les frais d'administration</value>
+  </data>
+  <data name="PreferredInstallDate" xml:space="preserve">
+    <value>Date d'installation préférée</value>
+  </data>
+  <data name="PreferredInstallTime" xml:space="preserve">
+    <value>Heure d'installation préféré</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Programme</value>
+  </data>
+  <data name="RelationshipToMainBorrower" xml:space="preserve">
+    <value>Relation avec l'emprunteur principal</value>
+  </data>
+  <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
+    <value>La relation avec l'emprunteur principal est dans un format incorrect</value>
+  </data>
+  <data name="ResponsibleForCostRemoval" xml:space="preserve">
+    <value>Responsable des frais pour la desinstallation</value>
+  </data>
+  <data name="RoleOfSalesRep" xml:space="preserve">
+    <value>Rôle du représentant des ventes</value>
+  </data>
+  <data name="ServiceAreaInQc" xml:space="preserve">
+    <value>Votre zone de service devrait être au Québec</value>
+  </data>
+  <data name="ServiceAreaNotInQc" xml:space="preserve">
+    <value>Votre zone de service ne peut pas être au Québec</value>
+  </data>
+  <data name="TotalMCOReducedDownPayment" xml:space="preserve">
+    <value>le total du Coût mensuel de propriété est reduit par l'acompte</value>
+  </data>
+  <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
+    <value>Spécimen de chèque, lettre d'autorisation de prélèvement automatique</value>
+  </data>
+  <data name="YouCanNowReviewFinancingBelow" xml:space="preserve">
+    <value>Vous pouvez maintenant examiner les options de financement ci-dessous.</value>
+  </data>
+  <data name="YouCanNowReviewFinancingHere" xml:space="preserve">
+    <value>Vous pouvez maintenant consulter les options de financement {0} ici {1}.</value>
+  </data>
+  <data name="BeforeProceedingVerifyCustId" xml:space="preserve">
+    <value>Avant de poursuivre, veuillez vérifier l'identité du client</value>
+  </data>
+  <data name="ContractChangedCancelledEsign" xml:space="preserve">
+    <value>Le contrat a été modifié</value>
+  </data>
+  <data name="CustomerHaveAgreementsWithEcoHome" xml:space="preserve">
+    <value>Le client a-t-il des ententes avec Services Financiers EcoHome?</value>
+  </data>
+  <data name="CustomerOwned" xml:space="preserve">
+    <value>appartient au client</value>
+  </data>
+  <data name="MaximumAmountCapingOut" xml:space="preserve">
+    <value>Le montant total financé ne peut dépasser le montant  demandé</value>
+  </data>
+  <data name="NameOfExistingSupplier" xml:space="preserve">
+    <value>Nom du fournisseur actuel</value>
+  </data>
+  <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
+    <value>Préapprouvé jusqu'à un maximum de</value>
+  </data>
+  <data name="Prime" xml:space="preserve">
+    <value>A risque élevé</value>
+  </data>
+  <data name="PrimePlus" xml:space="preserve">
+    <value>A risque normal</value>
+  </data>
+  <data name="SuperPrime" xml:space="preserve">
+    <value>A faible risque</value>
+  </data>
+  <data name="VerifyCustomerID" xml:space="preserve">
+    <value>Vérifier l'identifiant du client</value>
+  </data>
+  <data name="Escalation_0" xml:space="preserve">
+    <value>Taux de location de 13,99% et rajustement annuel de 0%</value>
+  </data>
+  <data name="Escalation_35" xml:space="preserve">
+    <value>Taux de location de 10,99% et rajustement annuel de 3,5%</value>
+  </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Location (Réservoir  d'eau chaude)</value>
+  </data>
+  <data name="ProgramType" xml:space="preserve">
+    <value>Type de program</value>
+  </data>
+  <data name="TotalMonthlyPaymentWithoutTaxes" xml:space="preserve">
+    <value>PAIEMENT MENSUEL TOTAL</value>
+  </data>
+  <data name="CustomerRateReduction" xml:space="preserve">
+    <value>Réduction du tarif client</value>
+  </data>
+  <data name="NoReduction" xml:space="preserve">
+    <value>Pas de Réduction</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>pour</value>
+  </data>
+  <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
+    <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
+  </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel ne peut pas être au Québec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel devrait être au Québec</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Le paiement mensuel total ne peut pas dépasser le montant de</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Préautorisé</value>
+  </data>
+  <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
+    <value>Félicitations, vous avez été pré-approuvé</value>
+  </data>
+  <data name="BorrowerShouldBeHomeOwner" xml:space="preserve">
+    <value>L'emprunteur devrait être un propriétaire de la maison.</value>
+  </data>
+  <data name="HardCapWarning" xml:space="preserve">
+    <value>La valeur dépasse le coût mensuel maximum autorisé pour le type d'équipement donné</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapBody" xml:space="preserve">
+    <value>Le coût mensuel de l'équipement dépasse la valeur maximale autorisée. La demande ne sera acceptée que dans des exceptions admissibles, par exemple: l'installation d'un chauffe-eau nécessite le passage de l'huile au gaz ou l'installation du four nécessite un remplacement du conduit. Vous devrez fournir une raison appropriée pour dépasser le coût mensuel autorisé.</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapTitle" xml:space="preserve">
+    <value>Le coût mensuel dépasse la valeur maximale autorisée</value>
+  </data>
+  <data name="SoftCapWarning" xml:space="preserve">
+    <value>La valeur dépasse le coût maximal autorisé. Seules les exceptions éligibles seront acceptées</value>
+  </data>
+  <data name="SubType" xml:space="preserve">
+    <value>Sous-type</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Mise à jour du profil du marchand</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Demandes financées</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Demandes en attente</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Informations sur le portail</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Informations sur le programme</value>
+  </data>
+  <data name="WithEscalatedPayments" xml:space="preserve">
+    <value>Avec des paiements échelonnés</value>
+  </data>
+  <data name="WithoutEscalatedPayments" xml:space="preserve">
+    <value>Sans paiements échelonnés</value>
   </data>
 </root>

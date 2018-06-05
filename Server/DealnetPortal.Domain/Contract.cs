@@ -75,6 +75,8 @@ namespace DealnetPortal.Domain
 
         public ContractDetails Details { get; set; }
 
+        public ContractSalesRepInfo SalesRepInfo { get; set; }
+
         public virtual ICollection<Comment> Comments { get; set; }
         
         public ICollection<ContractDocument> Documents { get; set; }

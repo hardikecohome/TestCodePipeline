@@ -33,11 +33,13 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly IDealerRepository _dealerRepository;
+        private readonly IRateCardsRepository _rateCardsRepository;
         private readonly ILoggingService _loggingService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
-        private readonly ICustomerWalletService _customerWalletService;
+        private readonly ICreditCheckService _creditCheckService;
+        //private readonly ICustomerWalletService _customerWalletService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
         private readonly IDocumentService _documentService;
@@ -46,22 +48,24 @@ namespace DealnetPortal.Api.Integration.Services
             IContractRepository contractRepository, 
             IUnitOfWork unitOfWork, 
             IAspireService aspireService,
-            IAspireStorageReader aspireStorageReader, 
-            ICustomerWalletService customerWalletService,
+            IAspireStorageReader aspireStorageReader,            
+            ICreditCheckService creditCheckService,
             IMailService mailService, 
             ILoggingService loggingService, IDealerRepository dealerRepository,
-            IAppConfiguration configuration, IDocumentService documentService)
+            IAppConfiguration configuration, IDocumentService documentService,
+            IRateCardsRepository rateCardsRepository)
         {
             _contractRepository = contractRepository;
             _loggingService = loggingService;
             _dealerRepository = dealerRepository;
             _unitOfWork = unitOfWork;
+            _creditCheckService = creditCheckService;
             _aspireService = aspireService;
-            _aspireStorageReader = aspireStorageReader;
-            _customerWalletService = customerWalletService;
+            _aspireStorageReader = aspireStorageReader;            
             _mailService = mailService;
             _configuration = configuration;
             _documentService = documentService;
+            _rateCardsRepository = rateCardsRepository;
         }
 
         public ContractDTO CreateContract(string contractOwnerId)
@@ -144,6 +148,27 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+            var beaconUpdated = false;
+            //check credit report status and update if needed
+            if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
+                contract.ContractState > ContractState.CustomerInfoInputted &&
+                contract.PrimaryCustomer != null &&                 
+                contract.PrimaryCustomer.CreditReport == null)
+            {
+                var creditReport = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                beaconUpdated = creditReport?.BeaconUpdated ?? false;
+                var beacon = creditReport?.Beacon;
+                if (beacon.HasValue)
+                {
+                    contract.Details.CreditAmount = 
+                        contract.Details.Status.Contains("Approved") && 
+                        (contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount) ? 
+                        creditReport.CreditAmount : contract.Details.CreditAmount;
+                    _unitOfWork.Save();
+                }
+
+            }
+            
 
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
@@ -156,7 +181,27 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractDTO != null)
             {
                 AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                //AftermapComments(contract.Comments, contractDTO.Comments, contractOwnerId);
+                if (contractDTO.PrimaryCustomer?.CreditReport != null)
+                {
+                    // here is just aftermapping for get credit amount and escalation limits for customers who has credit report
+                    contractDTO.PrimaryCustomer.CreditReport =
+                        _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
+                    contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
+                }
+                else
+                {
+	                var lowestCreditScoreValue = 0;
+	                var creditAmountSettings = _rateCardsRepository.GetCreditAmountSetting(lowestCreditScoreValue);
+	                if (contractDTO.PrimaryCustomer != null)
+	                {
+		                contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
+		                {
+                            CreditAmount = creditAmountSettings.CreditAmount,
+			                EscalatedLimit = creditAmountSettings.EscalatedLimit,
+			                NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
+		                };
+	                }
+                }
             }
             return contractDTO;
         }
@@ -167,40 +212,38 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 var contractData = Mapper.Map<ContractData>(contract);
+                var lastUpdateTime = _contractRepository.GetContract(contract.Id, contractOwnerId)?.LastUpdateTime;
                 var updatedContract = _contractRepository.UpdateContractData(contractData, contractOwnerId);
                 if (updatedContract != null)
                 {
                     _unitOfWork.Save();
                     _loggingService.LogInfo($"A contract [{contract.Id}] updated");
+                    var contractUpdated = updatedContract.LastUpdateTime > lastUpdateTime || string.IsNullOrEmpty(updatedContract.Details?.TransactionId);
 
-                    if (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null)
+                    if (contractUpdated && (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null))
                     {
                         var aspireAlerts = 
                             _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
-                    if (updatedContract.ContractState != ContractState.Completed &&
+                    if (contractUpdated && updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
                         var aspireAlerts = 
                             _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
-                    else if (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue)
+                    else if (contractUpdated && (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue))
                     {
                         //if Contract has been submitted already, we will resubmit it to Aspire after each contract changes 
                         //(DEAL-3628: [DP] Submit deal after each step when editing previously submitted deal)
-                        var submitRes = SubmitContract(contract.Id, contractOwnerId);
-                        if (submitRes?.Item2?.Any() == true)
+                        var submitResTask =
+                            Task.Run(async () =>
+                                await ReSubmitContract(contract.Id, contractOwnerId));
+                        var submitRes = submitResTask.GetAwaiter().GetResult();
+                        if (submitRes?.Any() == true)
                         {
-                            alerts.AddRange(submitRes.Item2);
+                            alerts.AddRange(submitRes);
                         }
-                    }
-
-                    //check contract signature status and clean if needed
-                    if (updatedContract.Details.SignatureStatus != null || !string.IsNullOrEmpty(updatedContract.Details?.SignatureTransactionId) &&
-                        updatedContract.LastUpdateTime > updatedContract.Details.SignatureInitiatedTime)
-                    {
-                        _documentService.CleanSignatureInfo(updatedContract.Id, contractOwnerId);
-                    }
+                    }                    
                 }
                 else
                 {
@@ -238,6 +281,11 @@ namespace DealnetPortal.Api.Integration.Services
                 try
                 {
                     contract.IsNewlyCreated = false;
+                    contract.LastUpdateTime = DateTime.UtcNow;
+                    if (!string.IsNullOrEmpty(contract.Dealer?.UserName))
+                    {
+                        contract.LastUpdateOperator = contract.Dealer?.UserName;
+                    }
                     _unitOfWork.Save();
                 }
                 catch (Exception ex)
@@ -268,8 +316,16 @@ namespace DealnetPortal.Api.Integration.Services
         public AgreementDocument GetContractsFileReport(IEnumerable<int> ids, string contractOwnerId, int? timeZoneOffset = null)
         {
             var stream = new MemoryStream();
-            var contracts = GetContracts(ids, contractOwnerId);
+            var contracts =
+                Mapper.Map<IList<ContractDTO>>(_contractRepository.GetContractsEquipmentInfo(ids, contractOwnerId));                
             var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();
+
+            var equipmentTypes = _contractRepository.GetEquipmentTypes();
+            foreach (var contract in contracts)
+            {
+                AftermapNewEquipment(contract.Equipment?.NewEquipment, equipmentTypes);
+            }
+
             XlsxExporter.Export(contracts, stream, provincialTaxRates);
             var report = new AgreementDocument()
             {
@@ -373,8 +429,9 @@ namespace DealnetPortal.Api.Integration.Services
                                 ContractState.CreditCheckDeclined);
                             break;
                         default:
-                            contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                                ContractState.Completed);
+                            var aspireStatus = _contractRepository.GetAspireStatus(_contractRepository.GetContract(contractId).Details?.Status);
+                            contract = (aspireStatus != null && aspireStatus.ContractState == ContractState.Closed) ? _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Closed)
+                                : _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
                             break;
                     }
                     contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);
@@ -429,7 +486,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
                             summary.Add(new FlowingSummaryItemDTO()
                             {
@@ -460,7 +517,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -486,7 +543,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
-                                totalSum += c.Equipment?.ValueOfDeal ?? 0;
+                                totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
                             summary.Add(new FlowingSummaryItemDTO()
@@ -565,34 +622,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
                 throw;
             }
-        }
-
-        public Tuple<ProvinceTaxRateDTO, IList<Alert>> GetVerificationId(int id)
-        {
-            var alerts = new List<Alert>();
-            try
-            {
-                var verificationid = _contractRepository.GetVerficationId(id);
-                var verificationidsDto = Mapper.Map<ProvinceTaxRateDTO>(verificationid);
-                if (verificationid == null)
-                {
-                    var errorMsg = "Cannot retrieve Verification Id";
-                    alerts.Add(new Alert()
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
-                        Message = errorMsg
-                    });
-                    _loggingService.LogError(errorMsg);
-                }
-                return new Tuple<ProvinceTaxRateDTO, IList<Alert>>(verificationidsDto, alerts);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Failed to retrieve Province Tax Rate", ex);
-                throw;
-            }
-        }
+        }        
 
         public CustomerDTO GetCustomer(int customerId)
         {
@@ -607,7 +637,7 @@ namespace DealnetPortal.Api.Integration.Services
             try
             {
                 // update only new customers for declined deals
-                if (customers?.Any() ?? false)
+                if (customers?.Any() == true)
                 {
                     var contractId = customers.FirstOrDefault(c => c.ContractId.HasValue)?.ContractId;
                     var contract = contractId.HasValue
@@ -615,35 +645,75 @@ namespace DealnetPortal.Api.Integration.Services
                         : null;
 
                     var customersUpdated = false;
+                    var customersMailsUpdated = false;
 
                     customers.ForEach(c =>
                     {
                         if (contract == null || contract.WasDeclined != true ||
                             (contract.InitialCustomers?.All(ic => ic.Id != c.Id) ?? false))
                         {
-                            _contractRepository.UpdateCustomerData(c.Id, Mapper.Map<Customer>(c.CustomerInfo),
-                                Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
-                                Mapper.Map<IList<Email>>(c.Emails));
-                            customersUpdated = true;
+                            if (c.CustomerInfo == null && c.Locations?.Any() != true &&
+                                c.Phones?.Any() != true &&
+                                c.Emails?.Any() == true)
+                            {
+                                var mails = Mapper.Map<IList<Email>>(c.Emails);
+                                mails.ForEach(email =>
+                                {
+                                    if (email.EmailType == EmailType.Main)
+                                    {
+                                        customersUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
+                                            new List<Email>(){ email });
+                                    }
+                                    else
+                                    {
+                                        customersMailsUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
+                                            new List<Email>() { email });
+                                    }
+                                });                                
+                            }
+                            else
+                            {
+                                customersUpdated |= _contractRepository.UpdateCustomerData(c.Id,
+                                    Mapper.Map<Customer>(c.CustomerInfo),
+                                    Mapper.Map<IList<Location>>(c.Locations), Mapper.Map<IList<Phone>>(c.Phones),
+                                    Mapper.Map<IList<Email>>(c.Emails));
+                            }
                         }
                     });
 
-                    if (customersUpdated == true)
+                    if (customersUpdated || customersMailsUpdated)
                     {
                         _unitOfWork.Save();
+                    }
 
+                    if (customersUpdated == true)
+                    {                                            
                         // get latest contract changes
                         if (contractId.HasValue)
                         {
-                            contract = _contractRepository.GetContractAsUntracked(contractId.Value, contractOwnerId);
-                        }                        
+                            contract = _contractRepository.GetContractAsUntracked(contractId.Value,
+                                contractOwnerId);
+                        }
                         if (contract != null)
-                        {                            
+                        {
                             // update customers on aspire
                             var leadSource = customers.FirstOrDefault(c => !string.IsNullOrEmpty(c.LeadSource))
                                 ?.LeadSource;
                             _aspireService.UpdateContractCustomer(contractId.Value, contractOwnerId, leadSource);
-                        }
+
+                            if (contract.ContractState == ContractState.Completed ||
+                                contract.DateOfSubmit.HasValue)
+                            {
+                                var submitResTask =
+                                    Task.Run(async () =>
+                                        await ReSubmitContract(contract.Id, contractOwnerId));
+                                var submitRes = submitResTask.GetAwaiter().GetResult();
+                                if (submitRes?.Any() == true)
+                                {
+                                    alerts.AddRange(submitRes);
+                                }
+                            }
+                        }                       
                     }
                 }
             }
@@ -795,6 +865,31 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
             }
             return null;
+        }
+
+        public Tuple<IList<DocumentTypeDTO>, IList<Alert>> GetContractDocumentTypes(int contractId,
+            string contractOwnerId)
+        {
+            var alerts = new List<Alert>();
+            IList<DocumentTypeDTO> docTypes = null;
+            try
+            {
+                docTypes = Mapper.Map<IList<DocumentTypeDTO>>(_contractRepository.GetContractDocumentTypes(contractId, contractOwnerId));                                
+            }
+            catch (Exception ex)
+            {
+                var errorMsg = "Cannot retrieve Document Types";
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                    Message = errorMsg
+                });
+                _loggingService.LogError(errorMsg, ex);
+            }
+
+            var result = new Tuple<IList<DocumentTypeDTO>, IList<Alert>>(docTypes, alerts);
+            return result;
         }
 
         public Tuple<int?, IList<Alert>> AddDocumentToContract(ContractDocumentDTO document, string contractOwnerId)
@@ -1045,6 +1140,18 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.LastUpdateTime = DateTime.UtcNow;
                         isChanged = true;
                     }
+                    if (aspireDeal.Details?.CreditAmount != null)
+                    {
+                        if (contract.Details.CreditAmount == null || contract.Details.CreditAmount < aspireDeal.Details.CreditAmount) {
+                            contract.Details.CreditAmount = aspireDeal.Details.CreditAmount;
+                            isChanged = true;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(aspireDeal.Details?.OverrideCustomerRiskGroup))
+                    {
+                        contract.Details.OverrideCustomerRiskGroup = aspireDeal.Details.OverrideCustomerRiskGroup;
+                        isChanged = true;
+                    }
                     //update contract state in any case
                     isChanged |= UpdateContractState(contract);
                 }
@@ -1088,12 +1195,43 @@ namespace DealnetPortal.Api.Integration.Services
             return isChanged;
         }
 
+        private async Task<IList<Alert>> ReSubmitContract(int contractId, string contractOwnerId)
+        {
+            var alerts = new List<Alert>();            
+            var submitRes = SubmitContract(contractId, contractOwnerId);            
+            //check contract signature status and clean if needed
+            if (submitRes != null)
+            {
+                if (submitRes.Item2?.Any() == true)
+                {
+                    alerts.AddRange(submitRes.Item2);
+                }
+                var contract = _contractRepository.GetContract(contractId, contractOwnerId);
+                if (contract != null)
+                {
+                    if (contract.Details.SignatureStatus != null ||
+                                            !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
+                                            contract.LastUpdateTime >
+                                            contract.Details.SignatureInitiatedTime)
+                    {
+                        var cancelRes = await _documentService.CancelSignatureProcess(contractId, contractOwnerId, Resources.Resources.ContractChangedCancelledEsign);
+                        if (cancelRes?.Item2?.Any() == true)
+                        {
+                            alerts.AddRange(cancelRes.Item2);
+                        }
+                        _documentService.CleanSignatureInfo(contractId, contractOwnerId);
+                    }
+                }
+            }            
+            return alerts;
+        }
+
         private bool IsSentToAuditValid(Contract contract)
         {
             bool isValid = false;
             var state = contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State;
             state = state ?? contract.PrimaryCustomer?.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.State;
-            var reqDocs = _contractRepository.GetStateDocumentTypes(state).Where(x=>x.IsMandatory);
+            var reqDocs = _contractRepository.GetDealerDocumentTypes(state, contract.DealerId).Where(x=>x.IsMandatory);
             //required documents
             isValid |= reqDocs.All(x => contract.Documents.Any(d => d.DocumentTypeId == x.Id) || x.Id == (int)DocumentTemplateType.SignedContract);
 

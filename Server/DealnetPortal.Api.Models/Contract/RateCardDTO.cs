@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
@@ -30,5 +31,9 @@ namespace DealnetPortal.Api.Models.Contract
         public DateTime? ValidTo { get; set; }
 
         public bool IsPromo { get; set; }
+
+        public CustomerRiskGroupDTO CustomerRiskGroup { get; set; }
+
+        public List<RateReductionCardDTO> RateReductionCards { get; set; }
     }
 }
