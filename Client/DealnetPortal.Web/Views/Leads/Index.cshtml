@@ -1,90 +1,4 @@
-﻿@*<div class="expand-filter-template leads-filter">
-        <div class="reset-form-inline">
-            <div class="row">
-                <div class="col-sm-6 col-md-3">
-                    <div class="form-group">
-                        <label for="">@Resources.PostalCode</label>
-                        <div class="control-group">
-                            <select id="postal-code" class="form-control select-filter filter-input"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="form-group">
-                        <label for="">@Resources.PreApprovedFor</label>
-                        <div class="control-group">
-                            <select id="pre-approved-for" class="form-control select-filter filter-input"></select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="form-group">
-                        <label for="">@Resources.DateFrom</label>
-                        <div class="control-group date-group">
-                            <input type="text" class="form-control date-input filter-input" id="date-from">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="form-group">
-                        <label for="">@Resources.DateTo</label>
-                        <div class="control-group date-group">
-                            <input type="text" class="form-control date-input filter-input" id="date-to">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6">
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <div class="control-group">
-                            <a class="action-link grey not-positioned-link" id="clear-filters">
-                                <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearFilters</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-6 text-right col-md-offset-10 col-sm-offset-6">
-                    <div class="form-group">
-                        <button class="btn btn-green col-xs-12 filter-button">@Resources.Filter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @{
-        var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
-    }
-    <div class="well position-well clear-border collapse" id="msg-lead-accepted">
-      <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-      <span id="lead-msg"></span>
-    </div>
-
-    <div class="well position-well danger-well error-descr clear-border collapse" id="leads-error-message">
-      <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-      <span id="error-msg-text"></span>
-    </div>
-
-    <div class="hidden" id="success-message-template">
-        @if (wasAcceptedResource.Length >= 2)
-        {
-            @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
-        }
-    </div>
-
-    <table id="work-items-table" class="display responsive my-deals-table my-leads-table " width="100%">
-        <thead>
-            <tr>
-                <th class="all date-cell">@Resources.Date</th>
-                <th class="min-mobile code-cell">@Resources.PostalCode</th>
-                <th class="min-mobile-l preapproved-cell">@Resources.PreApprovedFor</th>
-                <th class="min-tablet equipment-cell">@Resources.ProjectType</th>
-                <th class="min-tablet customer-cell">@Resources.CustomerComment</th>
-                <th class="all controls-cell accept-cell">@Resources.AcceptLead</th>
-            </tr>
-        </thead>
-    </table>*@
-<div id="leads-body" data-bind="with: table">
+﻿<div id="leads-body" data-bind="with: table">
     <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
         <div class="row">
             <div class="filters my-deals-page">
@@ -166,7 +80,9 @@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey"><span>Clear</span></div>
-                    <div class="filters-advanced__apply-btn new-btn-solid-red"><span>Apply</span></div>
+                    <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
+                        <span>@Resources.Apply</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -299,7 +215,7 @@
                     </div>
                 </div>
                 <!-- /ko -->
-                <div class="main-table__block__row__entries-number new-input-group">
+                <div class="main-table__entries-number new-input-group">
                     <div class="custom-select-wrap">
                         <label for="entries-number">@Resources.NumberOfEntries</label>
                         <select name="entries-number"
