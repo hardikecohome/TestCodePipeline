@@ -1142,7 +1142,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     if (aspireDeal.Details?.CreditAmount != null)
                     {
-                        if (contract.Details.CreditAmount == null || contract.Details.CreditAmount < aspireDeal.Details.CreditAmount) {
+                        if (contract.Details.CreditAmount == null || contract.Details.CreditAmount != aspireDeal.Details.CreditAmount) {
                             contract.Details.CreditAmount = aspireDeal.Details.CreditAmount;
                             isChanged = true;
                         }
