@@ -130,7 +130,7 @@ namespace DealnetPortal.Web.Controllers
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
 
-            var tier = await _contractServiceAgent.GetDealerTier();
+            var tier = await _dictionaryServiceAgent.GetDealerTier();
             var isClarityDealer = ((ClaimsIdentity)User.Identity).HasClaim(ClaimContstants.ClarityDealer, "True");
 
             contractsVms.ForEach(c =>
