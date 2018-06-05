@@ -165,6 +165,20 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
+        public async Task<Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>> GetAllStateDocumentTypes()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>>(
+                    $"{_fullUri}/DealerDocumentTypes", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get document types list for dealer", ex);
+                throw;
+            }
+        }
+
         public async Task<ApplicationUserDTO> GetDealerInfo()
         {
             try

@@ -62,6 +62,8 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetStateDocumentTypes(string state);
 
+        Task<Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>> GetAllStateDocumentTypes();
+
         Task<ApplicationUserDTO> GetDealerInfo();
 
         Task<string> GetDealerCulture(string dealerName = null);

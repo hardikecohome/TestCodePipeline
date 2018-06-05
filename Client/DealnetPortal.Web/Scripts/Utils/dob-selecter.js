@@ -1,5 +1,5 @@
 ﻿module.exports('dob-selecters',
-    function() {
+    function () {
         function initDobGroup(el) {
             var $el = $(el);
             var $input = $el.find('.dob-input');
@@ -10,30 +10,30 @@
 
             setValidation($day, $month, $year, $input);
             $input.on('change',
-                function() {
+                function () {
                     var dateTime = new Date($input.val());
                     if (isNaN(dateTime.getTime())) {
                         $input.val('');
                     } else {
-                        $day.val(dateTime.getDate()).removeClass('not-selected');
-                        $month.val(dateTime.getMonth() + 1).removeClass('not-selected');
-                        $year.val(dateTime.getFullYear()).removeClass('not-selected');
+                        $day.val(dateTime.getDate());
+                        $month.val(dateTime.getMonth() + 1);
+                        $year.val(dateTime.getFullYear());
                     }
                 });
             $day.on('change',
-                function() {
+                function () {
                     resetDay($day, $month, $year);
                     setInputValue($day, $month, $year, $input);
                     $day.valid();
                 });
             $month.on('change',
-                function() {
+                function () {
                     resetDay($day, $month, $year);
                     setInputValue($day, $month, $year, $input);
                     $month.valid();
                 });
             $year.on('change',
-                function() {
+                function () {
                     resetDay($day, $month, $year);
                     setInputValue($day, $month, $year, $input);
                     $year.valid();
@@ -64,32 +64,28 @@
         }
 
         function setValidation($day, $month, $year, $input) {
-            $day.rules('add',
-                {
-                    required: true,
-                    messages: {
-                        required: translations['ThisFieldIsRequired']
-                    }
-                });
-            $month.rules('add',
-                {
-                    required: true,
-                    messages: {
-                        required: translations['ThisFieldIsRequired']
-                    }
-                });
-            $year.rules('add',
-                {
-                    required: true,
-                    messages: {
-                        required: translations['ThisFieldIsRequired']
-                    }
-                });
+            $day.rules('add', {
+                required: true,
+                messages: {
+                    required: translations['ThisFieldIsRequired']
+                }
+            });
+            $month.rules('add', {
+                required: true,
+                messages: {
+                    required: translations['ThisFieldIsRequired']
+                }
+            });
+            $year.rules('add', {
+                required: true,
+                messages: {
+                    required: translations['ThisFieldIsRequired']
+                }
+            });
             $input.attr('data-val-over18', translations['Over18'])
-                .rules('add',
-                    {
-                        over18: true
-                    });
+                .rules('add', {
+                    over18: true
+                });
         }
 
         function resetValidation(el) {

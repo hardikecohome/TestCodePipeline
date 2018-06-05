@@ -11,7 +11,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <div class="dealnet-middle-header">@Resources.ScanLicense</div>
                     <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
 
@@ -259,9 +261,7 @@
                                        Text = x.Province,
                                        Selected = Model.HomeOwner?.AddressInformation?.Province == x.Province
                                    }), "Please Select",
-                       new {
-                           @class = "form-control dealnet-input",
-                           id = "province" })
+                       new { @class = "form-control dealnet-input", id = "province" })
                                     @Html.ValidationMessageFor(m => m.HomeOwner.AddressInformation.Province, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -584,11 +584,17 @@
                         <div class="form-group">
                             <label>@Resources.HomeImprovementType</label>
                             <div class="control-group">
-                                @Html.DropDownList("ImpromventTypes",
-                               (Model.EquipmentTypes).Select(x => new SelectListItem {
-                                   Value = x.Type,
-                                   Text = x.Description }), Resources.PleaseSelect,
-                     new { @class = "form-control dealnet-input", id = "improvment-equipment" })
+                                <select class="form-control dealnet-input" id="improvment-equipment">
+                                    <option value="">@Resources.PleaseSelect</option>
+                                    @foreach(var improvement in Model.EquipmentTypes)
+                                    {
+                                        <option value="@improvement.Type" data-id="@improvement.Id">@improvement.Description</option>
+                                    }
+                                </select>
+                                @*@Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem {
+                               Value = x.Type,
+                               Text = x.Description }), Resources.PleaseSelect,
+                     new { @class = "form-control dealnet-input", id = "improvment-equipment" })*@
                             </div>
                         </div>
                     </div>
@@ -597,13 +603,15 @@
                             <label class="hidden-xs">&nbsp;</label>
 
                             <ul class="customer-needs-list tags-list" id="improvement-types">
-                                @if(Model.HomeImprovementTypes != null)
+                                @if(Model.SelectedEquipmentTypes != null)
                                 {
-                                    foreach(var imporvment in Model.HomeImprovementTypes)
+                                    for(var i =0; i<Model.SelectedEquipmentTypes.Count;i++)
                                     {
                                         <li>
-                                            <input class="hidden" name="HomeImprovementTypes" value="@imporvment">@imporvment
-                                            <span class="icon-remove" onclick="$(this).parent().remove()">
+                                            @Html.HiddenFor(m=>m.SelectedEquipmentTypes[i].Id, new { id=$"selected-equipment-id-{i}" })
+                                            @Html.HiddenFor(m=>m.SelectedEquipmentTypes[i].Type, new { id=$"selected-equipment-{i}"})
+                                            @Model.SelectedEquipmentTypes[i].Description
+                                            <span class="icon-remove" >
                                                 <svg aria-hidden="true" class="icon icon-remove-cross">
                                                     <use xlink:href="@Url.Content("/Content/images/sprite/sprite.svg#icon-remove-cross")"></use>
                                                 </svg>

@@ -712,29 +712,44 @@ namespace DealnetPortal.DataAccess.Repositories
         public IList<DocumentType> GetStateDocumentTypes(string state)
         {
             var checkList = _dbContext.FundingCheckLists
-                .Include(s => s.FundingCheckDocuments)
-                .FirstOrDefault(l => l.Province == state);
-            return _dbContext.FundingCheckDocuments.Where(x=>x.ListId == checkList.ListId).Select(d=>d.DocumentType).ToList();
+                .Include(s => s.FundingDocumentList)
+                .Include(s => s.FundingDocumentList.FundingCheckDocuments)
+                .FirstOrDefault(l => l.Province == state && string.IsNullOrEmpty(l.DealerId))?.
+                FundingDocumentList?.FundingCheckDocuments.Select(d => d.DocumentType).ToList();
+            return checkList;
         }
 
         public IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId)
         {
             var checkList = _dbContext.FundingCheckLists
-                .Include(s => s.FundingCheckDocuments)
+                    .Include(s => s.FundingDocumentList)
+                    .Include(s => s.FundingDocumentList.FundingCheckDocuments)
                 .FirstOrDefault(l => l.DealerId == contractOwnerId && l.Province == state);
             if (checkList == null)
             {
                 checkList = _dbContext.FundingCheckLists
-                    .Include(s => s.FundingCheckDocuments)
+                    .Include(s => s.FundingDocumentList)
+                    .Include(s => s.FundingDocumentList.FundingCheckDocuments)
                     .FirstOrDefault(l => l.Province == state);
             }
             if (checkList != null)
             {
-                return _dbContext.FundingCheckDocuments.Where(x => x.ListId == checkList.ListId)
-                    .Select(d => d.DocumentType).ToList();
+                return checkList.FundingDocumentList.FundingCheckDocuments.Select(d => d.DocumentType).ToList();
             }
             return new List<DocumentType>();                
-        }        
+        }
+
+        public IDictionary<string, IList<DocumentType>> GetDealerDocumentTypes(string contractOwnerId)
+        {
+            var lists = _dbContext.FundingCheckLists
+                .Include(s => s.FundingDocumentList)
+                .Include(s => s.FundingDocumentList.FundingCheckDocuments)
+                .Where(l => l.DealerId == contractOwnerId || string.IsNullOrEmpty(l.DealerId)).ToList();
+            var provLists = lists.GroupBy(l => l.Province)
+                .ToDictionary(g => g.Key, g => (IList<DocumentType>)(g.FirstOrDefault(fl => !string.IsNullOrEmpty(fl.DealerId)) ?? g.FirstOrDefault())?
+                                                                .FundingDocumentList?.FundingCheckDocuments?.Select(fcd => fcd.DocumentType).ToList());
+            return provLists;
+        }
 
         public IList<DocumentType> GetAllDocumentTypes()
         {
@@ -1404,8 +1419,8 @@ namespace DealnetPortal.DataAccess.Repositories
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
                     }
                     curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                    
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;                    
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
-                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;
                 }
             });
             return updated;

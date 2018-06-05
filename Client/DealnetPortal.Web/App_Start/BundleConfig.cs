@@ -11,22 +11,16 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery")
                 .Include("~/Scripts/vendor/jquery-{version}.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/vendor-styles")
-                .Include("~/Content/css/jquery-ui.css")
-                .Include("~/Content/css/bootstrap.css")
-                .Include("~/Content/css/selectric.css"));
-
-            bundles.Add(new StyleBundle("~/bundles/styles")
-                .Include("~/Content/css/styles.css")
-                .Include("~/Content/css/styles-tablet.css")
-                .Include("~/Content/css/styles-mobile.css"));
+            bundles.Add(new ScriptBundle("~/bundles/knockout")
+                .Include("~/Scripts/vendor/knockout-3.4.2.debug.js",
+                "~/Scripts/vendor/knockout.validation.js",
+                "~/Scripts/common/ko.selectric.js",
+                "~/Scripts/common/ko.datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").NonOrdering()
                 .Include(
                 "~/Scripts/vendor/jquery.validate*",
-                "~/Scripts/vendor/jquery-validation-messages.js"
-                            //,"~/Scripts/vendor/knockout.validation.js"
-                            ));
+                "~/Scripts/vendor/jquery-validation-messages.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -52,7 +46,6 @@ namespace DealnetPortal.Web
                     "~/Scripts/vendor/jquery.loader.js",
                     "~/Scripts/vendor/jquery.jcarousel.min.js",
                     "~/Scripts/vendor/jquery.touchSwipe.min.js",
-                    // "~/Scripts/vendor/knockout-3.4.2.debug.js",
                     "~/Scripts/vendor/js.cookie.js",
                     "~/Scripts/utils/modules/index.js",
                     "~/Scripts/utils/helpPopup.js",
@@ -82,11 +75,14 @@ namespace DealnetPortal.Web
             bundles.Add(new ScriptBundle("~/bundles/home-page")
                 .Include(
                 "~/Scripts/vendor/js.cookie.js",
-                "~/Scripts/vendor/chart.js",
                 "~/Scripts/vendor/jquery.form.js",
+                "~/Scripts/vendor/datejs.js",
                 "~/Scripts/utils/loader.js",
-                "~/Scripts/utils/tables.js",
-                "~/Scripts/pages/homePage/home-page.js"));
+                "~/Scripts/utils/datepicker.js",
+                "~/Scripts/utils/tableFuncs.js",
+                "~/Scripts/components/ko.paginator.js",
+                "~/Scripts/pages/homePage/homePageTable.js",
+                "~/Scripts/pages/homePage/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/basic-info")
                 .Include("~/Scripts/vendor/datejs.js")
@@ -161,9 +157,11 @@ namespace DealnetPortal.Web
                 .Include("~/Scripts/vendor/js.cookie.js")
                 .Include("~/Scripts/vendor/jquery.form.js")
                 .Include("~/Scripts/utils/datepicker.js")
-                .Include("~/Scripts/utils/loader.js")
-                .Include("~/Scripts/utils/tables.js")
-                .Include("~/Scripts/pages/myDeals/my-deals.js"));
+                .Include("~/Scripts/utils/loader.js")  
+                .Include("~/Scripts/utils/tableFuncs.js")
+                .Include("~/Scripts/components/ko.paginator.js")
+                .Include("~/Scripts/pages/myDeals/table.js")
+                .Include("~/Scripts/pages/myDeals/index.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/reports")
                 .Include("~/Scripts/vendor/datejs.js")
@@ -248,7 +246,7 @@ namespace DealnetPortal.Web
             );
 
             bundles.Add(new ScriptBundle("~/bundles/equipment-info-layout")
-                .Include("~/Scripts/vendor/datejs.js") 
+                .Include("~/Scripts/vendor/datejs.js")
                 .Include("~/Scripts/utils/idToValue.js")
                 .Include("~/Scripts/utils/financial-functions.js")
                 .Include("~/Scripts/utils/loan-calculator.js")
