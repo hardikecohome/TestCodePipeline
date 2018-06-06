@@ -159,11 +159,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> RemoveContract(int contractId);
 
-        /// <summary>
-        /// Get Rates Card by Dealer
-        /// </summary>
-        Task<TierDTO> GetDealerTier();
-        Task<TierDTO> GetDealerTier(int contractId);
+        
 
         Task<IList<Alert>> AssignContract(int contractId);
         Task<IList<Alert>> CheckCustomerExisting(string email);

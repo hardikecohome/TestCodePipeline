@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Integration.Services;
+﻿using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.DataAccess;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Messaging;
 
@@ -29,7 +26,7 @@ namespace DealnetPortal.Api
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = false,
+                RequireUniqueEmail = false
                 
             };
             // Configure validation logic for passwords
@@ -47,7 +44,7 @@ namespace DealnetPortal.Api
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,
-                RequireUppercase = false,
+                RequireUppercase = false
             };
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

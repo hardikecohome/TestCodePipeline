@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -16,14 +12,11 @@ using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using DocuSign.eSign.Model;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
@@ -103,7 +96,7 @@ namespace DealnetPortal.Api.Integration.Services
             var alerts = new List<Alert>();
 
             //get user info from aspire DB
-            DealerDTO aspireDealerInfo = null;
+            DealerDTO aspireDealerInfo;
             try
             {
                 aspireDealerInfo =
@@ -140,10 +133,9 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                aspireDealerInfo = null;
                 var errorMsg = $"Cannot connect to aspire database for get [{user.UserName}] info";
                 _loggingService?.LogWarning(errorMsg);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Code = ErrorCodes.AspireDatabaseConnectionFailed,
                     Header = errorMsg,
@@ -220,7 +212,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         updateRes.Errors?.ForEach(e =>
                         {
-                            alerts.Add(new Alert()
+                            alerts.Add(new Alert
                             {
                                 Type = AlertType.Error,
                                 Header = "Error during update Aspire user",
@@ -249,11 +241,11 @@ namespace DealnetPortal.Api.Integration.Services
                     IdentityResult addRes;
                     if (mbConfigRoles.Contains(aspireUser.Role))
                     {
-                        addRes = await userManager.AddToRolesAsync(userId, new[] {UserRole.MortgageBroker.ToString()});
+                        addRes = await userManager.AddToRolesAsync(userId, UserRole.MortgageBroker.ToString());
                     }
                     else
                     {
-                        addRes = await userManager.AddToRolesAsync(userId, new[] {UserRole.Dealer.ToString()});
+                        addRes = await userManager.AddToRolesAsync(userId, UserRole.Dealer.ToString());
                     }
                     
                     var updateRes = await userManager.UpdateAsync(user);
@@ -266,7 +258,7 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         removeRes.Errors?.ForEach(e =>
                         {
-                            alerts.Add(new Alert()
+                            alerts.Add(new Alert
                             {
                                 Type = AlertType.Error,
                                 Header = "Error during remove role",
@@ -276,7 +268,7 @@ namespace DealnetPortal.Api.Integration.Services
                         });
                         addRes.Errors?.ForEach(e =>
                         {
-                            alerts.Add(new Alert()
+                            alerts.Add(new Alert
                             {
                                 Type = AlertType.Error,
                                 Header = "Error during add role",
@@ -290,7 +282,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Error during update role",
@@ -334,12 +326,12 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] tier is not available. Rate card is not configured for user  [{updateUser?.Id}]");
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] tier is not available. Rate card is not configured for user  [{userId}]");
                 }
             }
             catch(Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Error during update user tier",
@@ -361,13 +353,13 @@ namespace DealnetPortal.Api.Integration.Services
                 if (aspireUser.Locations?.Any() == true)
                 {
                     var address = aspireUser.Locations.FirstOrDefault();
-                    dealerProfile.Address = new Address()
+                    dealerProfile.Address = new Address
                     {
-                        City = address.City,
-                        State = address.State,
-                        PostalCode = address.PostalCode,
-                        Street = address.Street,
-                        Unit = address.Unit
+                        City = address?.City,
+                        State = address?.State,
+                        PostalCode = address?.PostalCode,
+                        Street = address?.Street,
+                        Unit = address?.Unit
                     };
                 }
                 _dealerRepository.UpdateDealerProfile(dealerProfile);
@@ -375,7 +367,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Error during update dealer profile",

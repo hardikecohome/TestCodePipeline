@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
+﻿using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb
@@ -208,7 +203,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         STANDARD,
 
         /// <remarks/>
-        WET_INK,
+        WET_INK
     }
 
     /// <remarks/>
@@ -449,6 +444,6 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         STANDARD,
 
         /// <remarks/>
-        WET_INK,
+        WET_INK
     }
 }

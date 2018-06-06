@@ -236,9 +236,9 @@ namespace DealnetPortal.Api.Areas.HelpPage
 
         private static HelpPageApiModel GenerateApiModel(ApiDescription apiDescription, HttpConfiguration config)
         {
-            HelpPageApiModel apiModel = new HelpPageApiModel()
+            HelpPageApiModel apiModel = new HelpPageApiModel
             {
-                ApiDescription = apiDescription,
+                ApiDescription = apiDescription
             };
 
             ModelDescriptionGenerator modelGenerator = config.GetModelDescriptionGenerator();
@@ -304,13 +304,13 @@ namespace DealnetPortal.Api.Areas.HelpPage
 
                         if (!parameterDescriptor.IsOptional)
                         {
-                            uriParameter.Annotations.Add(new ParameterAnnotation() { Documentation = "Required" });
+                            uriParameter.Annotations.Add(new ParameterAnnotation { Documentation = "Required" });
                         }
 
                         object defaultValue = parameterDescriptor.DefaultValue;
                         if (defaultValue != null)
                         {
-                            uriParameter.Annotations.Add(new ParameterAnnotation() { Documentation = "Default value is " + Convert.ToString(defaultValue, CultureInfo.InvariantCulture) });
+                            uriParameter.Annotations.Add(new ParameterAnnotation { Documentation = "Default value is " + Convert.ToString(defaultValue, CultureInfo.InvariantCulture) });
                         }
                     }
                     else
@@ -344,7 +344,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
             {
                 Name = apiParameter.Name,
                 Documentation = apiParameter.Documentation,
-                TypeDescription = typeDescription,
+                TypeDescription = typeDescription
             };
 
             apiModel.UriParameters.Add(parameterDescription);
@@ -404,7 +404,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
             }
             catch (Exception e)
             {
-                apiModel.ErrorMessages.Add(String.Format(CultureInfo.CurrentCulture,
+                apiModel.ErrorMessages.Add(string.Format(CultureInfo.CurrentCulture,
                     "An exception has occurred while generating the sample. Exception message: {0}",
                     HelpPageSampleGenerator.UnwrapException(e).Message));
             }

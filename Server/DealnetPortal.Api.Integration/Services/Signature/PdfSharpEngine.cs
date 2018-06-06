@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
-using DocuSign.eSign.Model;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.AcroForms;
 using PdfSharp.Pdf.IO;
@@ -72,7 +67,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "PDF Sharp error",
@@ -93,14 +88,14 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 PdfAcroForm form = document.AcroForm;                
                 // Get all form fields of the whole document
                 PdfAcroField.PdfAcroFieldCollection fields = form.Fields;
-                ffields = fields.Names?.Select(f => new FormField()
+                ffields = fields.Names?.Select(f => new FormField
                 {
-                    Name = f,
+                    Name = f
                 }).ToList();                
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "PDF Sharp error",

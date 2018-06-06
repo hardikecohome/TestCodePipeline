@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -10,11 +9,8 @@ using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
@@ -90,7 +86,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
 
                     var errorMsg = "Cannot create contract";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractCreateFailed,
@@ -185,7 +181,7 @@ namespace DealnetPortal.Api.Integration.Services
                     cr =>
                     {
                         _loggingService.LogWarning($"Internal Contract {cr.Item1.Id} is removing from DB");
-                        creditCheckAlerts.Add(new Alert()
+                        creditCheckAlerts.Add(new Alert
                         {
                             Type = AlertType.Warning,
                             Header = "Internal contract removed",
@@ -225,7 +221,7 @@ namespace DealnetPortal.Api.Integration.Services
                     PrimaryCustomer = customer,
                     HomeOwners = new List<Customer> { customer },
                     DealerId = contractOwnerId,
-                    Id = contract.Id,
+                    Id = contract.Id
                 };
 
                 if (improvmentType!=null)
@@ -261,7 +257,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!string.IsNullOrEmpty(newCustomer.CustomerComment))
             {
-                var comment = new Comment()
+                var comment = new Comment
                 {
                     ContractId = contractData.Id,
                     IsCustomerComment = true,
@@ -292,7 +288,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = "Cannot remove contract";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractRemoveFailed,
@@ -304,7 +300,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to remove contract", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.DocumentUpdateFailed,

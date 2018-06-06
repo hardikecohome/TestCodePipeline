@@ -1,9 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using Hangfire;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using System.Configuration;
 
 [assembly: OwinStartup(typeof(DealnetPortal.Api.Startup))]
 

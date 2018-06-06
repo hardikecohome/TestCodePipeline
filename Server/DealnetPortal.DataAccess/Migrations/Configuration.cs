@@ -20,7 +20,7 @@ using Unity.Interception.Utilities;
 namespace DealnetPortal.DataAccess.Migrations
 {    
 
-    public sealed class Configuration : DbMigrationsConfiguration<DealnetPortal.DataAccess.ApplicationDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         private const string EcohomeAppId = "df460bb2-f880-42c9-aae5-9e3c76cdcd0f";
         private const string OdiAppId = "606cfa8b-0e2c-47ef-b646-66c5f639aebd";
@@ -31,10 +31,10 @@ namespace DealnetPortal.DataAccess.Migrations
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
             ContextKey = "DealnetPortal.DataAccess.ApplicationDbContext";
-            _configuration = new Utilities.Configuration.AppConfiguration(WebConfigSections.AdditionalSections);
+            _configuration = new AppConfiguration(WebConfigSections.AdditionalSections);
         }
 
-        protected override void Seed(DealnetPortal.DataAccess.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -105,7 +105,7 @@ namespace DealnetPortal.DataAccess.Migrations
                     new LicenseType {Name = "Ontario Colleges of Trades Certification"},
                     new LicenseType {Name = "Saskatchewan Apprenticeship and Trade Certification Commission"},
                     new LicenseType {Name = "Technical Standards and Safety Authority Certification"},
-                    new LicenseType {Name = "Commission de la Construction du Québec"},
+                    new LicenseType {Name = "Commission de la Construction du Québec"}
 
                 };
                 //leave existing data
@@ -1382,7 +1382,7 @@ namespace DealnetPortal.DataAccess.Migrations
                         Equipment = context.EquipmentTypes.Local.SingleOrDefault(eq=>eq.Type == "ECO10") ?? context.EquipmentTypes.SingleOrDefault(eq=>eq.Type == "ECO10"),
                         Province = context.ProvinceTaxRates.Local.SingleOrDefault(pr=>pr.Province=="AB")  ?? context.ProvinceTaxRates.SingleOrDefault(pr=>pr.Province=="AB"),
                         License = context.LicenseTypes.Local.SingleOrDefault(l=>l.Name == "Apprenticeship and Industry Training Certification")
-                    },
+                    }
                     #endregion
                     //#region Security System
                     //new LicenseDocument
@@ -1410,7 +1410,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 context.Tiers.AddOrUpdate(new Tier
                 {
                     Id = 2,
-                    Name = "Tier 2",
+                    Name = "Tier 2"
 
                 });
             }
@@ -1418,7 +1418,7 @@ namespace DealnetPortal.DataAccess.Migrations
 
         private void SetRoles(ApplicationDbContext context)
         {
-            var roles = Enum.GetValues(typeof(UserRole)).Cast<UserRole>().Select(r => new IdentityRole() {Name = r.ToString()});
+            var roles = Enum.GetValues(typeof(UserRole)).Cast<UserRole>().Select(r => new IdentityRole {Name = r.ToString()});
             context.Roles.AddOrUpdate(r => r.Name, roles.ToArray());
         }
 
@@ -1443,7 +1443,7 @@ namespace DealnetPortal.DataAccess.Migrations
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
             if (userManager.FindByName(customerCreatorUserName) == null)
             {
-                var customerCreator = new ApplicationUser()
+                var customerCreator = new ApplicationUser
                 {
                     Email = "customerCreator@user.com",
                     UserName = customerCreatorUserName,
@@ -1516,7 +1516,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Green Essential Services",
                 AspireAccountId = string.Empty,
                 AspireLogin = "greenessential",
-                AspirePassword = "123456",
+                AspirePassword = "123456"
             };
             users.Add(onedealerUser);
 
@@ -1539,7 +1539,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 DisplayName = "Ontario HVAC and Water",
                 AspireAccountId = string.Empty,
                 AspireLogin = "ohwater",
-                AspirePassword = "123456",
+                AspirePassword = "123456"
             };
             users.Add(onedealerUser);
 
@@ -2309,7 +2309,7 @@ namespace DealnetPortal.DataAccess.Migrations
             templates.Add(template);            
             template = new AgreementTemplateDocument()
             {
-                TemplateName = "EcoHome Certificate of Completion - Loans",                
+                TemplateName = "EcoHome Certificate of Completion - Loans"                
             };
             templates.Add(template);
             #endregion
@@ -3467,7 +3467,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@button-link-hover-color", "#007a60"},
                 { "@button-link-disabled-color", "#4db19c"},
                 { "@button-link-active-color", "#007051"},
-                { "@table-tr-hover-bg", "rgba(0, 144, 113, 0.05)" },
+                { "@table-tr-hover-bg", "rgba(0, 144, 113, 0.05)" }
             };
             SetDealerStringSettings(context, "ecoenergy", ecoenergySettings);
             var smarthomeSettings = new Dictionary<string, string>()
@@ -3498,7 +3498,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@button-link-hover-color", "#0092ce"},
                 { "@button-link-disabled-color", "#87dafc"},
                 { "@button-link-active-color", "#0075a5"},
-                { "@table-tr-hover-bg", "rgba(0, 163, 230, 0.05)" },
+                { "@table-tr-hover-bg", "rgba(0, 163, 230, 0.05)" }
             };
             SetDealerStringSettings(context, "smarthome", smarthomeSettings);
             var lifetimewaterSettings = new Dictionary<string, string>()
@@ -3518,7 +3518,7 @@ namespace DealnetPortal.DataAccess.Migrations
                 { "@btn-success-active-bg", "#62a700"},
                 { "@btn-success-active-shadow", "0 1px 0 0 #599700"},
                 { "@well-success-icon-color", "#76c900"},
-                { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" },
+                { "@table-tr-hover-bg", "rgba(118, 201, 0, 0.05)" }
             };
             SetDealerStringSettings(context, "lifetimewater", lifetimewaterSettings);
             //var climatecareSettings = new Dictionary<string, string>()
@@ -3639,7 +3639,7 @@ namespace DealnetPortal.DataAccess.Migrations
                                     {
                                         UserSettings = u.Settings,
                                         Item =
-                                            context.SettingItems.Local.FirstOrDefault(si => si.SettingType.ToString() == st),                                        
+                                            context.SettingItems.Local.FirstOrDefault(si => si.SettingType.ToString() == st)                                        
                                     };
                                     u.Settings?.SettingValues.Add(logo);
                                 }

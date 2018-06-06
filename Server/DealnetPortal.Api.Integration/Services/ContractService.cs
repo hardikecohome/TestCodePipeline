@@ -14,11 +14,9 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
@@ -80,11 +78,8 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogInfo($"A new contract [{newContract.Id}] created by user [{contractOwnerId}]");
                     return contractDTO;
                 }
-                else
-                {
-                    _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]");
-                    return null;
-                }
+                _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]");
+                return null;
             }
             catch (Exception ex)
             {
@@ -222,14 +217,12 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (contractUpdated && (contract.PrimaryCustomer != null || contract.SecondaryCustomers != null))
                     {
-                        var aspireAlerts = 
-                            _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
+                        _aspireService.UpdateContractCustomer(updatedContract, contractOwnerId, contract.LeadSource).GetAwaiter().GetResult();
                     }
                     if (contractUpdated && updatedContract.ContractState != ContractState.Completed &&
                         updatedContract.ContractState != ContractState.Closed && !updatedContract.DateOfSubmit.HasValue)
                     {
-                        var aspireAlerts = 
-                            _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
+                        _aspireService.SendDealUDFs(updatedContract, contractOwnerId, contract.LeadSource, contractor).GetAwaiter().GetResult();
                     }
                     else if (contractUpdated && (updatedContract.ContractState == ContractState.Completed || updatedContract.DateOfSubmit.HasValue))
                     {
@@ -249,7 +242,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var errorMsg =
                         $"Cannot find a contract [{contract.Id}] for update. Contract owner: [{contractOwnerId}]";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractUpdateFailed,
@@ -261,7 +254,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to update a contract [{contract.Id}]", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.ContractUpdateFailed,
@@ -290,7 +283,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 catch (Exception ex)
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractUpdateFailed,
@@ -302,7 +295,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.CantGetContractFromDb,
@@ -327,10 +320,10 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             XlsxExporter.Export(contracts, stream, provincialTaxRates);
-            var report = new AgreementDocument()
+            var report = new AgreementDocument
             {
                 DocumentRaw = stream.ToArray(),
-                Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx",
+                Name = $"{DateTime.Now.ToString(CultureInfo.CurrentCulture).Replace(":", ".")}-report.xlsx"
             };
             return report;
         }
@@ -383,7 +376,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.CreditCheckFailed,
@@ -421,22 +414,22 @@ namespace DealnetPortal.Api.Integration.Services
                 if (alerts.All(a => a.Type != AlertType.Error) && creditCheckRes?.Item1 != null)
                 {
                     creditCheck = creditCheckRes?.Item1;
-                    Contract contract = null;
+                    Contract contract;
                     switch (creditCheckRes?.Item1.CreditCheckState)
                     {
                         case CreditCheckState.Declined:
-                            contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
+                            _contractRepository.UpdateContractState(contractId, contractOwnerId,
                                 ContractState.CreditCheckDeclined);
                             break;
                         default:
                             var aspireStatus = _contractRepository.GetAspireStatus(_contractRepository.GetContract(contractId).Details?.Status);
-                            contract = (aspireStatus != null && aspireStatus.ContractState == ContractState.Closed) ? _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Closed)
-                                : _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
+                            if (aspireStatus != null && aspireStatus.ContractState == ContractState.Closed)
+                                _contractRepository.UpdateContractState(contractId, contractOwnerId,ContractState.Closed);
+                            else
+                                _contractRepository.UpdateContractState(contractId, contractOwnerId, ContractState.Completed);
                             break;
                     }
                     contract = _contractRepository.UpdateContractAspireSubmittedDate(contractId, contractOwnerId);
-                    //var contract = _contractRepository.UpdateContractState(contractId, contractOwnerId,
-                    //    ContractState.Completed);
                     if (contract != null)
                     {
                         _unitOfWork.Save();
@@ -448,7 +441,7 @@ namespace DealnetPortal.Api.Integration.Services
                     else
                     {
                         var errorMsg = $"Cannot submit contract [{contractId}]";
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = ErrorConstants.SubmitFailed,
@@ -488,7 +481,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
                                 totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
-                            summary.Add(new FlowingSummaryItemDTO()
+                            summary.Add(new FlowingSummaryItemDTO
                             {
                                 ItemLabel = i.ToString(),
                                 ItemCount = contractsG?.Count() ?? 0, //grDaysM.Count(g => g.Key == i),
@@ -520,7 +513,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
-                            summary.Add(new FlowingSummaryItemDTO()
+                            summary.Add(new FlowingSummaryItemDTO
                             {
                                 ItemLabel = weekDays[i],
                                 ItemCount = contractsW?.Count() ?? 0,
@@ -546,7 +539,7 @@ namespace DealnetPortal.Api.Integration.Services
                                 totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
-                            summary.Add(new FlowingSummaryItemDTO()
+                            summary.Add(new FlowingSummaryItemDTO
                             {
                                 ItemLabel = DateTimeFormatInfo.CurrentInfo.MonthNames[i],
                                 ItemCount = contractsM?.Count() ?? 0,
@@ -580,7 +573,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (!equipmentTypes.Any())
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -607,7 +600,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (provinceTaxRate == null)
                 {
                     var errorMsg = "Cannot retrieve Province Tax Rate";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -662,12 +655,12 @@ namespace DealnetPortal.Api.Integration.Services
                                     if (email.EmailType == EmailType.Main)
                                     {
                                         customersUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
-                                            new List<Email>(){ email });
+                                            new List<Email> { email });
                                     }
                                     else
                                     {
                                         customersMailsUpdated |= _contractRepository.UpdateCustomerEmails(c.Id,
-                                            new List<Email>() { email });
+                                            new List<Email> { email });
                                     }
                                 });                                
                             }
@@ -686,7 +679,7 @@ namespace DealnetPortal.Api.Integration.Services
                         _unitOfWork.Save();
                     }
 
-                    if (customersUpdated == true)
+                    if (customersUpdated)
                     {                                            
                         // get latest contract changes
                         if (contractId.HasValue)
@@ -720,7 +713,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to update customers data", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Failed to update customers data",
@@ -747,7 +740,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = "Cannot update contract comment";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.CommentUpdateFailed,
@@ -759,7 +752,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to update contract comment", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.CommentUpdateFailed,
@@ -784,7 +777,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = "Cannot update contract comment";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.CommentUpdateFailed,
@@ -796,7 +789,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to update contract comment", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.CommentUpdateFailed,
@@ -904,7 +897,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var aspireAlerts = _aspireService.UploadDocument(document.ContractId, document, contractOwnerId).GetAwaiter().GetResult();
                 if (aspireAlerts.Any())
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = "Failed to add document to contract",
@@ -923,7 +916,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to add document to contract", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error, Header = "Failed to add document to contract", Message = ex.ToString()
                 });
@@ -944,7 +937,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = "Cannot remove contract document";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.DocumentUpdateFailed,
@@ -956,7 +949,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to remove contract document", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.DocumentUpdateFailed,
@@ -1009,7 +1002,7 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError("Failed to submit All Documents Uploaded Request", ex);
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "Failed to submit All Documents Uploaded Request",
@@ -1019,7 +1012,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Header = "Not all mandatory documents were uploaded",
                         Message = $"Not all mandatory documents were uploaded for contract with id {contractId}",
@@ -1030,7 +1023,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.CantGetContractFromDb,
@@ -1054,7 +1047,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = "Cannot remove contract";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractRemoveFailed,
@@ -1066,7 +1059,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to remove contract", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.DocumentUpdateFailed,
@@ -1096,7 +1089,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = Resources.Resources.UnfortunatelyThisLeadIsNoLongerAvailable;
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractUpdateFailed,
@@ -1109,7 +1102,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to assign contract", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.DocumentUpdateFailed,

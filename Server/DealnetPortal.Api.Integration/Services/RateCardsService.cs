@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Logging;
 
@@ -34,6 +34,17 @@ namespace DealnetPortal.Api.Integration.Services
             var tier = _rateCardsRepository.GetTierByDealerId(dealerId, beacons, contract.DateOfSubmit);
             _loggingService.LogInfo($"Got tier for dealer {dealerId}: tier id = {tier.Id}, rate cards count = {tier.RateCards.Count}.");
             return Mapper.Map<TierDTO>(tier);
+        }
+
+        public decimal? GetCreditAmount(int creditScore)
+        {
+            return _rateCardsRepository.GetCreditAmount(creditScore);
+        }
+
+        public IList<RateReductionCardDTO> GetRateReductionCards()
+        {
+            var reductionCards =  _rateCardsRepository.GetRateReductionCard();
+            return Mapper.Map<IList<RateReductionCardDTO>>(reductionCards);
         }
     }
 }

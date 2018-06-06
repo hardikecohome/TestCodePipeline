@@ -8,7 +8,6 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
@@ -133,7 +132,7 @@ namespace DealnetPortal.Api.Controllers
                 var contract = _contractService.CreateContract(LoggedInUser?.UserId);
                 if (contract == null)
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractCreateFailed,
@@ -144,7 +143,7 @@ namespace DealnetPortal.Api.Controllers
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.ContractCreateFailed,
@@ -553,40 +552,6 @@ namespace DealnetPortal.Api.Controllers
                 var result = await _contractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
 
                 return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("GetDealerTier")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetDealerTier()
-        {
-            try
-            {
-                var submitResult = _rateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
-
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("GetDealerTier")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetDealerTier(int contractId)
-        {
-            try
-            {
-                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
-
-                return Ok(submitResult);
             }
             catch (Exception ex)
             {

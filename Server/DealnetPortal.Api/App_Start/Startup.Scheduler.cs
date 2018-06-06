@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Utilities.Configuration;
@@ -35,7 +30,7 @@ namespace DealnetPortal.Api
             }
             catch (Exception ex)
             {
-                
+                throw ex;
             }
         }
 

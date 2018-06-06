@@ -84,21 +84,7 @@ namespace DealnetPortal.Web.Controllers
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
 
-            if(contractId == null)
-            {
-                var contract = await _contractServiceAgent.CreateContract();
-                if(contract?.Item1 != null)
-                {
-                    contractId = contract.Item1.Id;
-                }
-                else
-                {
-                    TempData[PortalConstants.CurrentAlerts] = contract?.Item2;
-                    return RedirectToAction("Error", "Info");
-                }
-            }
-
-            var viewModel = await _contractManager.GetBasicInfoAsync(contractId.Value);
+            var viewModel = contractId.HasValue ? await _contractManager.GetBasicInfoAsync(contractId.Value) : new BasicInfoViewModel();
             viewModel.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
             viewModel.VarificationIds = (await _dictionaryServiceAgent.GetAllVerificationIds()).Item1;
 
@@ -141,9 +127,14 @@ namespace DealnetPortal.Web.Controllers
                 await _contractServiceAgent.CreateContract() :
                 await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
 
-            if(result.Item1 == null)
+            if(result?.Item1 == null)
             {
+                TempData[PortalConstants.CurrentAlerts] = result?.Item2;
                 return RedirectToAction("Error", "Info");
+            }
+            if (!basicInfo.ContractId.HasValue)
+            {
+                basicInfo.ContractId = result.Item1.Id;
             }
 
             var updateResult = await _contractManager.UpdateContractAsync(basicInfo);

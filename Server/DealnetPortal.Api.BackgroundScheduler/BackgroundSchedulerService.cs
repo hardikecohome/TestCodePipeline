@@ -1,10 +1,7 @@
 ﻿using DealnetPortal.Utilities.Logging;
 using System;
-using System.Linq;
 using System.Web.Http;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Domain.Repositories;
 
 namespace DealnetPortal.Api.BackgroundScheduler

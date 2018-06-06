@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Security.Policy;
-using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -31,13 +29,13 @@ namespace DealnetPortal.DataAccess.Repositories
             var dealer = GetUserById(contractOwnerId);
             if (dealer != null)
             {
-                contract = new Contract()
+                contract = new Contract
                 {
                     ContractState = ContractState.Started,
                     CreationTime = DateTime.UtcNow,
                     LastUpdateTime = DateTime.UtcNow,
                     Dealer = dealer,
-                    CreateOperator = dealer.UserName,
+                    CreateOperator = dealer.UserName
                 };
                 _dbContext.Contracts.Add(contract);
             }
@@ -924,7 +922,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ContractData GetContractData(int contractId, string contractOwnerId)
         {
-            ContractData contractData = new ContractData()
+            ContractData contractData = new ContractData
             {
                 Id = contractId
             };
@@ -1262,7 +1260,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return paymentSummary;
         }
 
-        private EquipmentInfo UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
+        private void UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
         {            
             if (!string.IsNullOrEmpty(equipmentInfo.SalesRep))
             {
@@ -1353,7 +1351,7 @@ namespace DealnetPortal.DataAccess.Repositories
             dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
 		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
 
-            return dbEquipment;
+            return;
         }
 
         private bool AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)

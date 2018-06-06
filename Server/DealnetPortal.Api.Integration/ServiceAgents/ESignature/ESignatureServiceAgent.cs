@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Helpers;
@@ -22,9 +16,6 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
-using DealnetPortal.Api.Integration.Utility;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Unity.Interception.Utilities;
 using DocumentType = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb.DocumentType;
@@ -35,14 +26,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
     public class ESignatureServiceAgent : IESignatureServiceAgent
     {
         private IHttpApiClient Client { get; set; }
-        private ILoggingService LoggingService { get; set; }
+        private ILoggingService _loggingService { get; set; }
         private readonly string _fullUri;
         private readonly string _setupUri;
         public ESignatureServiceAgent(IHttpApiClient ecoreClient, ILoggingService loggingService)
         {
             Client = ecoreClient;
-            LoggingService = loggingService;
-            //AspireApiClient = aspireClient;
+            _loggingService = loggingService;
             _fullUri = string.Format("{0}/{1}", Client.Client.BaseAddress, "ecore");
             _setupUri = string.Format("{0}/{1}", Client.Client.BaseAddress, "ssweb/setup");
         }
@@ -75,7 +65,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.EcoreConnectionFailed,
@@ -90,7 +80,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
         {
             var response = await Client.Client.PostAsync(_fullUri + "/?action=eoLogout", null).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
-            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+            var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
             return eResponse.status == responseStatus.ok;
         }
@@ -100,7 +90,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             IList<Alert> alerts = new List<Alert>();
             var data = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("transactionName", transactionName),                
+                new KeyValuePair<string, string>("transactionName", transactionName)                
             });            
 
             var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateTransaction", data).ConfigureAwait(false);
@@ -111,7 +101,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             {
                 if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
                 {
-                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
+                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as transactionListType1;
                     return new Tuple<transactionType, IList<Alert>>(transactionList?.transaction?.FirstOrDefault(), alerts);
                 }
             }
@@ -139,13 +129,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
             var response = await Client.Client.PostAsync(_fullUri + "/?action=eoCreateDocumentProfile", data).ConfigureAwait(false);
 
-            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+            var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
             if (eResponse?.status == responseStatus.ok)
             {
                 if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.transactionList))
                 {
-                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as EOriginalTypes.transactionListType1;
+                    var transactionList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.transactionList)] as transactionListType1;
                     var documentProfileList = transactionList?.transaction?.FirstOrDefault()?.documentProfileList;
                     return new Tuple<documentProfileType, IList<Alert>>(documentProfileList?.FirstOrDefault(), alerts);
                 }
@@ -177,14 +167,14 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
             var response = await Client.Client.PostAsync(_fullUri + "/?action=eoUploadDocument", content).ConfigureAwait(false);
 
-            var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+            var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
             //??
             if (eResponse?.status == responseStatus.ok)
             {
                 if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
                 {
-                    var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                    var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as documentProfileListType;
                     var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
                     return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
                 }
@@ -210,7 +200,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 if (signBlocks?.Any() ?? false)
                 {
-                    transformationInstructions.Add(new AddSigBlocks()
+                    transformationInstructions.Add(new AddSigBlocks
                     {
                         name = "addSigBlock",
                         sigBlockList = signBlocks
@@ -220,7 +210,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 if (textFields?.Any() ?? false)
                 {
-                    transformationInstructions.Add(new AddTextFields()
+                    transformationInstructions.Add(new AddTextFields
                     {
                         name = "addTextField",
                         textFieldList = textFields
@@ -231,7 +221,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 if (textData?.Any() ?? false)
                 {
-                    transformationInstructions.Add(new AddTextData()
+                    transformationInstructions.Add(new AddTextData
                     {
                         name = "addTextData",
                         textDataList = textData
@@ -239,7 +229,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                     exportTypes.Add(typeof(AddTextData));
                 }
 
-                var ts = new transformationInstructionSet()
+                var ts = new transformationInstructionSet
                 {                    
                     transformationInstructions = transformationInstructions.ToArray()
                 };                
@@ -271,13 +261,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoInsertFormFields", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status == responseStatus.ok)
                 {
                     if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
                     {
-                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as documentProfileListType;
                         var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
                         return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
                     }
@@ -291,6 +281,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -306,13 +297,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var exportTypes = new List<Type>();
                 exportTypes.Add(typeof(FormFields));
 
-                transformationInstructions.Add(new FormFields()
+                transformationInstructions.Add(new FormFields
                 {
                     name = "editFormField",
                     formFieldList = formFields.ToList()
                 });                
 
-                var ts = new transformationInstructionSet()
+                var ts = new transformationInstructionSet
                 {
                     transformationInstructions = transformationInstructions.ToArray()
                 };
@@ -344,13 +335,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoEditFormFieldProperties", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status == responseStatus.ok)
                 {
                     if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
                     {
-                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as documentProfileListType;
                         var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
                         return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
                     }
@@ -364,7 +355,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
-
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -380,13 +371,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 var exportTypes = new List<Type>();
                 exportTypes.Add(typeof(FormFields));
 
-                transformationInstructions.Add(new FormFields()
+                transformationInstructions.Add(new FormFields
                 {
                     name = "removeFormField",
                     formFieldList = formFields.ToList()
                 });                
 
-                var ts = new transformationInstructionSet()
+                var ts = new transformationInstructionSet
                 {
                     transformationInstructions = transformationInstructions.ToArray()
                 };
@@ -414,13 +405,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoRemoveFormFields", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status == responseStatus.ok)
                 {
                     if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentProfileList))
                     {
-                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as EOriginalTypes.documentProfileListType;
+                        var documentProfileList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentProfileList)] as documentProfileListType;
                         var documentVersion = documentProfileList?.documentProfile?.FirstOrDefault()?.documentVersionList?.FirstOrDefault();
                         return new Tuple<documentVersionType, IList<Alert>>(documentVersion, alerts);
                     }
@@ -434,7 +425,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
-
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -451,7 +442,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 if (textData?.Any() ?? false)
                 {
-                    transformationInstructions.Add(new AddTextData()
+                    transformationInstructions.Add(new AddTextData
                     {
                         name = "addTextData",
                         textDataList = textData
@@ -459,14 +450,10 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                     exportTypes.Add(typeof(AddTextData));
                 }
 
-                var ts = new transformationInstructionSet()
+                var ts = new transformationInstructionSet
                 {
                     transformationInstructions = transformationInstructions.ToArray()
                 };
-
-                //XmlSerializer x = new System.Xml.Serialization.XmlSerializer(ts.GetType(), exportTypes.ToArray());
-                //MemoryStream ms = new MemoryStream();
-                //x.Serialize(ms, ts);
 
                 var x = new XmlSerializer(ts.GetType(), exportTypes.ToArray());
                 var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
@@ -489,7 +476,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoMergeData", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status == responseStatus.ok)
                 {
@@ -504,7 +491,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
-
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -515,31 +502,29 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             {            
                 IList<Alert> alerts = new List<Alert>();
 
-                var sortOrder = new eoConfigureSortOrder()
+                var sortOrder = new eoConfigureSortOrder
                 {
-                    transactionSid = transactionSid.ToString(),                
+                    transactionSid = transactionSid.ToString()                
                 };
                 if (dpSids?.Any() ?? false)
                 {
-                    List<ESignature.EOriginalTypes.SsWeb.DocumentType> docs = new List<DocumentType>();
+                    List<DocumentType> docs = new List<DocumentType>();
                     dpSids.ForEach(dsid =>
-                        docs.Add(new DocumentType()
-                                {
+                        docs.Add(new DocumentType
+                        {
                                     Value = dsid.ToString()
                                 }));
                     sortOrder.documentList = docs.ToArray();
                 }                
 
-                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(sortOrder.GetType());
+                XmlSerializer x = new XmlSerializer(sortOrder.GetType());
                 var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
                 var writer = XmlWriter.Create(ms, settings);
-                //XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);                
                 x.Serialize(writer, sortOrder);
                 writer.Flush();
                 ms.Position = 0;
 
-                //var fileContent = new ByteArrayContent(fileBytes);
                 var fileContent = new ByteArrayContent(ms.ToArray());
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data")
@@ -553,7 +538,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureSortOrder", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status != responseStatus.ok)
                 {
@@ -564,7 +549,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
-
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -575,22 +560,20 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             {
                 IList<Alert> alerts = new List<Alert>();
 
-                var configRoles = new eoConfigureRoles()
+                var configRoles = new eoConfigureRoles
                 {
                     transactionSid = transactionSid.ToString(),
                     rolesList = roles
                 };
 
-                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configRoles.GetType());
+                XmlSerializer x = new XmlSerializer(configRoles.GetType());
                 var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
                 var writer = XmlWriter.Create(ms, settings);
-                //XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
                 x.Serialize(writer, configRoles);
                 writer.Flush();
                 ms.Position = 0;
 
-                //var fileContent = new ByteArrayContent(fileBytes);
                 var fileContent = new ByteArrayContent(ms.ToArray());
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data")
@@ -604,7 +587,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureRoles", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status != responseStatus.ok)
                 {
@@ -613,7 +596,8 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
                 return alerts;
             }
             catch (Exception ex)
-            {                
+            {
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -624,34 +608,27 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             {
                 IList<Alert> alerts = new List<Alert>();
 
-                var configInvitation = new eoConfigureInvitation()
+                var configInvitation = new eoConfigureInvitation
                 {                    
                     transactionSid = transactionSid.ToString(),
                     ItemsElementName = new ItemsChoiceTypeInvitation[] { ItemsChoiceTypeInvitation.role},
                     Items = new string[] { roleName},
-                    sender = new eoConfigureInvitationSender()
+                    sender = new eoConfigureInvitationSender
                     {
                         firstName = senderFirstName,
                         lastName = senderLastName,
                         email = senderEmail
-                    },                    
+                    }                    
                 };
 
-                XmlSerializer x = new System.Xml.Serialization.XmlSerializer(configInvitation.GetType());
+                XmlSerializer x = new XmlSerializer(configInvitation.GetType());
                 var settings = new XmlWriterSettings { NewLineHandling = NewLineHandling.Entitize };
                 MemoryStream ms = new MemoryStream();
                 var writer = XmlWriter.Create(ms, settings);
-                //MemoryStream ms = new MemoryStream();
-                //XmlWriter writer = new XmlTextWriter(ms, Encoding.UTF8);
                 x.Serialize(writer, configInvitation);
                 writer.Flush();
                 ms.Position = 0;
-
-                //XmlWriter xmlWriter = new XmlTextWriter("testInvitation.xml", Encoding.UTF8);
-                //x.Serialize(xmlWriter, configInvitation);
-                //xmlWriter.Flush();
-
-                //var fileContent = new ByteArrayContent(fileBytes);
+               
                 var fileContent = new ByteArrayContent(ms.ToArray());
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("form-data")
@@ -665,7 +642,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoConfigureInvitation", content).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status != responseStatus.ok)
                 {
@@ -675,6 +652,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -686,19 +664,19 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var values = new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("dpSid", dpSid.ToString()),
+                    new KeyValuePair<string, string>("dpSid", dpSid.ToString())
                 };                
                 var data = new FormUrlEncodedContent(values);
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoGetCopy", data).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status == responseStatus.ok)
                 {
                     if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.documentList))
                     {
-                        var documentList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentList)] as EOriginalTypes.documentListType;
+                        var documentList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.documentList)] as documentListType;
                         var document = documentList?.document?.FirstOrDefault();
                         return new Tuple<documentType, IList<Alert>>(document, alerts);
                     }
@@ -711,7 +689,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
-                
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
@@ -724,19 +702,19 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
 
                 var values = new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>("transactionSid", transactionSid.ToString()),
+                    new KeyValuePair<string, string>("transactionSid", transactionSid.ToString())
                 };
                 var data = new FormUrlEncodedContent(values);
 
                 var response = await Client.Client.PostAsync(_fullUri + "/?action=eoSearchSignatureResults", data).ConfigureAwait(false);
 
-                var eResponse = await response.Content.DeserializeFromStringAsync<EOriginalTypes.response>();
+                var eResponse = await response.Content.DeserializeFromStringAsync<response>();
 
                 if (eResponse?.status == responseStatus.ok)
                 {
                     if (eResponse.eventResponse.ItemsElementName.Contains(ItemsChoiceType15.signatureResultTransactionList))
                     {
-                        var signatureResultList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.signatureResultTransactionList)] as EOriginalTypes.signatureResultListType;
+                        var signatureResultList = eResponse.eventResponse.Items[Array.IndexOf(eResponse.eventResponse.ItemsElementName, ItemsChoiceType15.signatureResultTransactionList)] as signatureResultListType;
                         var signResult = signatureResultList?.transaction?.FirstOrDefault();
                         return new Tuple<signatureResultListTypeTransaction, IList<Alert>>(signResult, alerts);
                     }
@@ -749,15 +727,13 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             }
             catch (Exception ex)
             {
-
+                _loggingService.LogError(ex.Message);
                 throw;
             }
         }
 
         protected CookieContainer ReadCookies(HttpResponseMessage response)
         {
-            var pageUri = response.RequestMessage.RequestUri;
-
             IEnumerable<string> cookies;
             //TODO: delete path
             if (response.Headers.TryGetValues("set-cookie", out cookies))
@@ -782,11 +758,11 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature
             var alerts = new List<Alert>();
 
             response?.errorList?.ForEach(e =>
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Message = e.ItemsElementName.Contains(ItemsChoiceType16.message) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.message)] : string.Empty,
-                    Header = e.ItemsElementName.Contains(ItemsChoiceType16.minorCode) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.minorCode)] : string.Empty,                    
+                    Header = e.ItemsElementName.Contains(ItemsChoiceType16.minorCode) ? e.Items[Array.IndexOf(e.ItemsElementName, ItemsChoiceType16.minorCode)] : string.Empty                    
                 })
                 );
 

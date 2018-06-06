@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using DealnetPortal.Api.App_Start;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Helpers;
-using DealnetPortal.Api.Infrastucture;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Api
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
