@@ -97,12 +97,34 @@
         this.showFilters = ko.observable(true);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
-
+        this.selectedLeadId = ko.observable(0);
         this.list = ko.observableArray(list);
-
+        this.isError = ko.observable(false);
+        this.errorMessage = ko.observable('');
+        this.showResultMessage = ko.observable(false);
+        this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
 
         this.pager = new Paginator(this.filteredList());
+        this.acceptLead = function() {
+            var selectedLeadId = this.selectedLeadId();
+            $.ajax({
+                type: "POST",
+                url: 'leads/acceptLead?id=' + selectedLeadId
+            }).done(function(json) {
+                this.isError(json.isError);
+                if (json.Errors) {
+                    this.errorMessage(json.Errors.reduce(function (acc, error) { 
+                        acc += error + '.\n';
+                        return acc;
+                    }, ''));
+                }
+                this.showResultMessage(true);
+                var temp = this.filteredList().filter(function(item) { return item.TransactionId != selectedLeadId });
+                this.filteredList(temp);
+                this.showLeadPopup(false);
+            }.bind(this));
+        }
 
         this.sortedList = ko.computed(function () {
             var field = this.sortedColumn();

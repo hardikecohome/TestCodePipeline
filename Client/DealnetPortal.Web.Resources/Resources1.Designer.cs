@@ -1870,6 +1870,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to contact dealer support.
+        /// </summary>
+        public static string ContactDealerSupport {
+            get {
+                return ResourceManager.GetString("ContactDealerSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact Information.
         /// </summary>
         public static string ContactInformation {
@@ -5027,6 +5036,34 @@ namespace DealnetPortal.Web.Resources {
         public static string NoInterest {
             get {
                 return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have any leads yet. 
+        ///On this page we will present you leads from actual clients from your neighborhood interested in home improvements you offer..
+        /// </summary>
+        public static string NoLeadsFirstPart {
+            get {
+                return ResourceManager.GetString("NoLeadsFirstPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to use this functionality please make sure that you have configured offered projects and your service area in {0}..
+        /// </summary>
+        public static string NoLeadsSecondPart {
+            get {
+                return ResourceManager.GetString("NoLeadsSecondPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you need help please visit {0} to view manual or contact dealer support {1}.
+        /// </summary>
+        public static string NoLeadsThirdPart {
+            get {
+                return ResourceManager.GetString("NoLeadsThirdPart", resourceCulture);
             }
         }
         

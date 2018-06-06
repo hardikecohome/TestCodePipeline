@@ -6,14 +6,14 @@
                     <div class="filters-head__title">@Resources.Leads</div>
                     <div class="filters-head__learn-more">
                         @*<i class="lamp-ico"></i>
-                        <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
-                            <!-- ko if: showLearnMore -->
-                            @Resources.Hide
-                            <!-- /ko-->
-                            <!-- ko ifnot: showLearnMore -->
-                            @Resources.LearnMoreAboutThisPage
-                            <!-- /ko -->
-                        </a>*@
+                            <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                                <!-- ko if: showLearnMore -->
+                                @Resources.Hide
+                                <!-- /ko-->
+                                <!-- ko ifnot: showLearnMore -->
+                                @Resources.LearnMoreAboutThisPage
+                                <!-- /ko -->
+                            </a>*@
                     </div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
@@ -69,16 +69,6 @@
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
-
-                    <div class="filters-advanced__filters-cloud">
-                        <div class="filters-advanced__contract-number">Contract number - ascending<i class="cross-ico"></i></div>
-                        <div class="filters-advanced__deal-status">Deal status - <i class="info-ico info-ico--red"></i> to <i class="info-ico info-ico--grey"></i> <i class="cross-ico"></i></div>
-                        <div class="filters-advanced__e-sign">E-sign status - <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i> <i class="cross-ico"></i></div>
-                        <div class="filters-advanced__applicant-name">Applicant name from Z to A<i class="cross-ico"></i></div>
-                        <div class="filters-advanced__last-activity">Last activity — latest<i class="cross-ico"></i></div>
-                        <div class="filters-advanced__days-left">Days left from ... to 1<i class="cross-ico"></i></div>
-                    </div>
-
                     <div class="filters-advanced__clear-btn new-btn-grey"><span>Clear</span></div>
                     <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
                         <span>@Resources.Apply</span>
@@ -87,33 +77,31 @@
             </div>
         </div>
     </div>
-
-    @*<div class="margin-block">
-            <div class="row">
-                <div class="new-lead-notification-wp">
-                    <div class="new-lead-notification new-lead-notification--success">
-                        <span class="new-lead-notification__left-icon-block">
-                            <i class="new-lead-notification__notification-ico"></i>
-                        </span>
-                        <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
-                    </div>
+    <div class="margin-block" style="display: none" data-bind="visible: !isError() && showResultMessage()">
+        <div class="row">
+            <div class="new-lead-notification-wp">
+                <div class="new-lead-notification new-lead-notification--success">
+                    <span class="new-lead-notification__left-icon-block">
+                        <i class="new-lead-notification__notification-ico"></i>
+                    </span>
+                    <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="margin-block">
-            <div class="row">
-                <div class="new-lead-notification-wp">
-                    <div class="new-lead-notification new-lead-notification--error">
-                        <span class="new-lead-notification__left-icon-block">
-                            <i class="new-lead-notification__notification-ico"></i>
-                        </span>
-                        <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
-                    </div>
+    <div class="margin-block" style="display: none" data-bind="visible: isError() && showResultMessage()">
+        <div class="row">
+            <div class="new-lead-notification-wp">
+                <div class="new-lead-notification new-lead-notification--error">
+                    <span class="new-lead-notification__left-icon-block">
+                        <i class="new-lead-notification__notification-ico"></i>
+                    </span>
+                    <span class="new-lead-notification__message" data-bind="text: errorMessage()"></span>
                 </div>
             </div>
-        </div>*@
-
+        </div>
+    </div>
     <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
         <div class="row">
 
@@ -177,15 +165,15 @@
                         </div>
                         <div class="main-table__block__row__cell project-type">
                             <span data-bind="text: $data.Equipment"></span>
-                        </div>  
+                        </div>
                         <div class="main-table__block__row__cell customer-comment">
                             <span data-bind="text: $data.CustomerComment"></span>
                         </div>
-                        <div class="main-table__block__row__cell accept-lead">
-                            <span>+</span><span>Accept lead</span>
+                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.selectedLeadId($data.TransactionId); $parent.showLeadPopup(true);}">
+                            <span>+</span><span>@Resources.AcceptLead</span>
                         </div>
                         <div class="main-table__block__row__cell info">
-                            <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());console.log($data.showInfo());}"></i>
+                            <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());}"></i>
                             <span class="show-details" data-bind="click:function(){$data.showInfo(!$data.showInfo());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
@@ -252,35 +240,27 @@
         </div>
     </div>
 
-    @*<div class="accept-lead-popup">
-        <i class="cross-ico"></i>
-        <span class="accept-lead-popup__title">Accept lead</span>
-        <span class="accept-lead-popup__legend">Are you sure? </br>On acceptance of lead a 1% of pre-approved loan value will be applied to your account as a lead free.</span>
-        <div class="accept-lead-popup__buttons">
-            <div class="new-btn-grey"><span>Cancel</span></div>
-            <div class="new-btn-solid-green"><span>Accept lead</span></div>
+    <div class="accept-lead-popup" data-bind="visible: showLeadPopup()" style="display:none;">
+            <i class="cross-ico" data-bind="click: function () {  showLeadPopup(false) }"></i>
+            <span class="accept-lead-popup__title">Accept lead</span>
+            <span class="accept-lead-popup__legend">Are you sure? </br>On acceptance of lead a 1% of pre-approved loan value will be applied to your account as a lead free.</span>
+            <div class="accept-lead-popup__buttons">
+                <div class="new-btn-grey" data-bind="click: function () { showLeadPopup(false); }"><span>Cancel</span></div>
+                <div class="new-btn-solid-green" data-bind="click: function () {acceptLead(); }"><span>Accept lead</span></div>
+            </div>
         </div>
-    </div>*@
 
     <div class="nw-placeholder" data-bind="visible: list().length < 1">
         <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
         <p>
-            @Resources.YouDontHaveDealsClickBelowToCreate
+            @Resources.NoLeadsFirstPart
         </p>
-        <div class="nw-placeholder__links">
-            <div class="icon-link-green">
-                <i class="lamp-ico"></i>
-                @* Change to Resources.CreateNewLoan for phase 4 *@
-                @Html.ActionLink(Resources.NewApplication, "BasicInfo", "NewRental")
-            </div>
-            @*
-                        Uncomment in phase 4
-                        <div class="icon-link-green">
-                        <i class="lamp-ico"></i>
-                        @Html.ActionLink(Resources.CreateNewLease, "BasicInfo", "NewRental")
-                    </div>
-                *@
-        </div>
+        <p>
+            @Html.Raw(@Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
+        </p>
+        <p>
+           @Html.Raw(@Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", Resources.ContactDealerSupport))
+        </p>
     </div>
 </div>
 
