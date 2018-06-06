@@ -149,7 +149,7 @@
 
                         <div class="main-table__block__row__cell customer-comment" data-bind="click:configureSortClick(sortFields.customerComment)">
                             <span>@Resources.CustomerComment</span>
-                            <span class="filter-ico filter-ico--desc" data-bind="click:configureSortClick(sortFields.customerComment)">
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.customerComment)}">
                                 <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
