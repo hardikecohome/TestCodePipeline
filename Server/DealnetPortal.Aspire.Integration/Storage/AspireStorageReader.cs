@@ -368,7 +368,10 @@ namespace DealnetPortal.Aspire.Integration.Storage
 
                 item.CustomerAccountId = ConvertFromDbVal<string>(dr["Customer ID"]);
                 item.CustomerFirstName = fstName;
-                item.CustomerLastName = lstName;                
+                item.CustomerLastName = lstName;
+                item.OverrideCreditAmountLimit = ConvertFromDbVal<decimal>(dr["OverrideCreditAmountLimit"]);
+                item.OverrideCustomerRiskGroup = ConvertFromDbVal<string>(dr["OverrideCustomerRiskGroup"]);
+
                 return item;
             }
             catch (Exception ex)

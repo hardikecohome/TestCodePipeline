@@ -30,6 +30,7 @@
     public static class ClaimContstants
     {
         public const string QuebecDealer = "QuebecDealer";
+        public const string IsEmcoDealer = "IsEmcoDealer";
         public const string ClarityDealer = "ClarityDealer";
     }
 

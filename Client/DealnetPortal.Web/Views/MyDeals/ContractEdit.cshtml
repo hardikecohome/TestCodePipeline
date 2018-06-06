@@ -10,27 +10,27 @@
 @using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType
 @using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState
 @using DealnetPortal.Api.Common.Constants
-
+@using DealnetPortal.Web.Common.Constants
 @model ContractEditViewModel
 @{
-    bool contractDeclined = Model.AdditionalInfo.ContractState == ContractState.CreditCheckDeclined;
-    bool contractClosed = Model.AdditionalInfo.ContractState == ContractState.Closed;
+	bool contractDeclined = Model.AdditionalInfo.ContractState == ContractState.CreditCheckDeclined;
+	bool contractClosed = Model.AdditionalInfo.ContractState == ContractState.Closed;
 
-    Func<string, string> formatIncome = str =>
-    {
-        if(str.Contains('<'))
-        {
-            return str.Replace("<", Resources.LessThan + " $");
-        }
-        if(str.Contains('-'))
-        {
-            return "$" + str.Replace("-", " - $");
-        }
-        return "$" + str;
-    };
+	Func<string, string> formatIncome = str =>
+	{
+		if (str.Contains('<'))
+		{
+			return str.Replace("<", Resources.LessThan + " $");
+		}
+		if (str.Contains('-'))
+		{
+			return "$" + str.Replace("-", " - $");
+		}
+		return "$" + str;
+	};
 
-    var identity = (ClaimsIdentity)User.Identity;
-    var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
+	var identity = (ClaimsIdentity)User.Identity;
+	var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)) || identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
 }
 
 <span class="hidden" id="cookieName">@DealnetPortal.Web.Common.Constants.PortalConstants.CultureCookieName.ToString()</span>
@@ -650,7 +650,7 @@
                                         <div class="control-group">
                                             <input readonly="readonly"
                                                    class="dealnet-disabled-input"
-                                                   value="@Model.EquipmentInfo.RentalProgramType.GetEnumDescription()" />
+                                                   value="@ViewBag.LeaseProgramDisplayMessage" />
                                         </div>
                                     </div>
                                 </div>
@@ -2670,7 +2670,7 @@
                                 <div class="row">
                                     <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12">
                                         <div>
-                                            <text>@Resources.TotalMonthlyPaymentWithoutTaxes</text>
+											<text>@(Model.EquipmentInfo.AgreementType != AgreementType.LoanApplication ? Resources.TotalMonthlyPaymentWithoutTaxes : Resources.TotalMonthlyPaymentWithTaxes)</text>
                                         </div>
                                     </div>
                                     <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
@@ -2755,7 +2755,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(!((bool)((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True")))
+                            @if(!((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ?? false)
                             {
                                 <div class="form-group pap-payment-form">
                                     <div class="row">
@@ -3177,327 +3177,329 @@
 </div>
 
 @helper AddComments(IEnumerable<CommentViewModel> comments)
-{
-    if(comments == null)
-    { return; }
-    foreach(var comment in comments)
-    {
-        <div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
-            <div class="commetn-header">
-                <span class="comment-user">
-                    <svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
-                    <span class="comment-username">@comment.AuthorName</span>
-                </span>
-                <span class="comment-update">
-                    <span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
-                </span>
-                @if(comment.IsOwn)
-                {
-                    <span class="owner-comment">@Resources.YourComment</span>
-                }
-            </div>
-            <div class="comment-body">
-                <input hidden name="comment-id" value="@comment.Id" />
-                <p style="white-space: pre-wrap;">@comment.Text</p>
-                <a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
-                    <svg aria-hidden="true" class="icon icon-remove">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                    </svg>
-                </a>
-            </div>
-            <div class="comment-footer">
-                <a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
-                <a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
-            </div>
+	{
+		if (comments == null)
+		{ return; }
+		foreach (var comment in comments)
+		{
+			<div class="comment @if (comment.Replies != null && comment.Replies.Any()) { <text>active</text> }">
+				<div class="commetn-header">
+					<span class="comment-user">
+						<svg aria-hidden="true" class="icon icon-user"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use></svg>
+						<span class="comment-username">@comment.AuthorName</span>
+					</span>
+					<span class="comment-update">
+						<span class="comment-update-time">@comment.Date.ToString("hh:mm tt MM/d/yyyy", CultureInfo.InvariantCulture)</span>
+					</span>
+					@if (comment.IsOwn)
+					{
+						<span class="owner-comment">@Resources.YourComment</span>
+					}
+				</div>
+				<div class="comment-body">
+					<input hidden name="comment-id" value="@comment.Id" />
+					<p style="white-space: pre-wrap;">@comment.Text</p>
+					<a href="#" class="comment-remove-link" @(!comment.IsOwn || (comment.Replies != null && comment.Replies.Any()) ? "style=display:none;" : "")>
+						<svg aria-hidden="true" class="icon icon-remove">
+							<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+						</svg>
+					</a>
+				</div>
+				<div class="comment-footer">
+					<a href="#" class="show-comments-answers"><span class="answers-quantity">@(comment.Replies?.Count() ?? 0)</span> @Resources.Answers</a>
+					<a href="#" class="dealnet-success-link write-reply-link @(comment.Replies != null && comment.Replies.Any()?"active":"") ">@Resources.WriteReply</a>
+				</div>
 
-        </div>
+			</div>
 
-        <ul class="child-comments-list list-unstyled">
-            <li>
-                @AddComments(comment.Replies)
-            </li>
-        </ul>
-    }
+			<ul class="child-comments-list list-unstyled">
+				<li>
+					@AddComments(comment.Replies)
+				</li>
+			</ul>
+		}
 }
 <div class="hidden">
-    <div class="comment-reply-form" id="comment-reply-form">
-        @using(Html.BeginForm("AddComment", "MyDeals"))
-        {
-            @Html.AntiForgeryToken()
-            @Html.Hidden("ParentCommentId")
-            <label for="">@Resources.AddComment</label>
-            <textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
-            <div class="row">
-                <div class="col-sm-5 col-md-3">
-                    <button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12">@Resources.Reply</button>
-                </div>
-            </div>}
-    </div>
+	<div class="comment-reply-form" id="comment-reply-form">
+		@using (Html.BeginForm("AddComment", "MyDeals"))
+		{
+			@Html.AntiForgeryToken()
+			@Html.Hidden("ParentCommentId")
+			<label for="">@Resources.AddComment</label>
+			<textarea name="Text" cols="30" rows="2" class="form-control base-comment-text" placeholder="@Resources.WriteReply"></textarea>
+			<div class="row">
+				<div class="col-sm-5 col-md-3">
+					<button type="button" class="btn btn-green col-xs-12 col-sm-12 col-md-12">@Resources.Reply</button>
+				</div>
+			</div>}
+	</div>
 </div>
 <div class="hidden">
-    <div class="comment" id="comment-template">
-        <div class="commetn-header">
-            <span class="comment-user">
-                <svg aria-hidden="true" class="icon icon-user">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use>
-                </svg>
-                <span class="comment-username"></span>
-            </span>
-            <span class="comment-update">
-                <span class="comment-update-time"></span>
-            </span>
-            <span class="owner-comment">@Resources.YourComment</span>
-        </div>
-        <div class="comment-body">
-            <input hidden name="comment-id" />
-            <p></p>
-            <a href="#" class="comment-remove-link">
-                <svg aria-hidden="true" class="icon icon-remove">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
-                </svg>
-            </a>
-        </div>
-        <div class="comment-footer">
-            <a href="#" class="show-comments-answers"><span class="answers-quantity">0</span> @Resources.Answers</a>
-            <a href="#" class="dealnet-success-link write-reply-link">@Resources.WriteReply</a>
-        </div>
-    </div>
+	<div class="comment" id="comment-template">
+		<div class="commetn-header">
+			<span class="comment-user">
+				<svg aria-hidden="true" class="icon icon-user">
+					<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-user")"></use>
+				</svg>
+				<span class="comment-username"></span>
+			</span>
+			<span class="comment-update">
+				<span class="comment-update-time"></span>
+			</span>
+			<span class="owner-comment">@Resources.YourComment</span>
+		</div>
+		<div class="comment-body">
+			<input hidden name="comment-id" />
+			<p></p>
+			<a href="#" class="comment-remove-link">
+				<svg aria-hidden="true" class="icon icon-remove">
+					<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use>
+				</svg>
+			</a>
+		</div>
+		<div class="comment-footer">
+			<a href="#" class="show-comments-answers"><span class="answers-quantity">0</span> @Resources.Answers</a>
+			<a href="#" class="dealnet-success-link write-reply-link">@Resources.WriteReply</a>
+		</div>
+	</div>
 </div>
 <div class="hidden">
-    <ul class="child-comments-list list-unstyled" id="replies-template">
-        <li>
-        </li>
-    </ul>
+	<ul class="child-comments-list list-unstyled" id="replies-template">
+		<li>
+		</li>
+	</ul>
 </div>
-@using(Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form" }))
+@using (Html.BeginForm("RemoveComment", "MyDeals", FormMethod.Post, new { id = "remove-comment-form" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.Hidden("commentId")
+	@Html.AntiForgeryToken()
+	@Html.Hidden("commentId")
 }
 <div class="text-center back-to-top-hold">
-    <br />
-    <a href="#" class="dealnet-info-link" id="back-to-top">
-        <svg aria-hidden="true" class="icon icon-back-to-top">
-            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use>
-        </svg>
-        @Resources.BackToTop
-    </a>
+	<br />
+	<a href="#" class="dealnet-info-link" id="back-to-top">
+		<svg aria-hidden="true" class="icon icon-back-to-top">
+			<use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-back-to-top")"></use>
+		</svg>
+		@Resources.BackToTop
+	</a>
 </div>
 
 <div class="modal fade editor-modal modal-wide" tabindex="-1" role="dialog" id="download-certificate-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="modal-title dealnet-large-header">@Resources.DownloadCertificateTemplate</div>
-            </div>
-            <div class="modal-body no-padding-top">
-                <div class="dealnet-credit-check-section dealnet-modal-section">
-                    @using(Html.BeginForm("PrepareInstallationCertificate", "MyDeals", FormMethod.Post, new { id = "install-certificate-info-section-modal" }))
-                    {
-                        @Html.HiddenFor(m => m.InstallCertificateInformation.ContractId)
-                        for(var i = 0; i < Model.EquipmentInfo?.NewEquipment.Count; i++)
-                        {
-                            <div class="certificate-equipment">
-                                @Html.HiddenFor(m => m.InstallCertificateInformation.Equipments[i].Id)
-                                <h3 class="dealnet-section-title">&#8470;@(i + 1)</h3>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-3 col-xs-4">
-                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentType, new { @class = "dealnet-field-caption" })
-                                        </div>
-                                        <div class="col-sm-9 col-xs-8">
-                                            <div class="dealnet-field-holder text-left text-uppercase text-normal">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentType.Description,
-                                               new {
-                                                   @readonly = "readonly",
-                                                   @class = "dealnet-disabled-input",
-                                                   id = "" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-3 col-xs-4">
-                                            @Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new
-                                            {
-                                                @class = "dealnet-field-caption"
-                                            })
-                                        </div>
-                                        <div class="col-sm-9 col-xs-8">
-                                            <div class="dealnet-field-holder text-left text-normal">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new
-                                                {
-                                                    @readonly = "readonly",
-                                                    @class = "dealnet-disabled-input"
-                                                })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new
-                                            {
-                                                @class = "dealnet-field-caption"
-                                            })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new
-                                                    {
-                                                        @class = "form-control dealnet-input"
-                                                    })
-                                                    @Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, "", new
-                                                    {
-                                                        @class = "text-danger"
-                                                    })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].Model, new
-                                            {
-                                                @class = "dealnet-field-caption"
-                                            })
-                                            <div class="dealnet-field-holder">
-                                                <div class="control-group">
-                                                    @Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new
-                                                    {
-                                                        @class = "form-control dealnet-input"
-                                                    })
-                                                    @Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].Model, "", new
-                                                    {
-                                                        @class = "text-danger"
-                                                    })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-title dealnet-large-header">@Resources.DownloadCertificateTemplate</div>
+			</div>
+			<div class="modal-body no-padding-top">
+				<div class="dealnet-credit-check-section dealnet-modal-section">
+					@using (Html.BeginForm("PrepareInstallationCertificate", "MyDeals", FormMethod.Post, new { id = "install-certificate-info-section-modal" }))
+					{
+						@Html.HiddenFor(m => m.InstallCertificateInformation.ContractId)
+						for (var i = 0; i < Model.EquipmentInfo?.NewEquipment.Count; i++)
+						{
+							<div class="certificate-equipment">
+								@Html.HiddenFor(m => m.InstallCertificateInformation.Equipments[i].Id)
+								<h3 class="dealnet-section-title">&#8470;@(i + 1)</h3>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3 col-xs-4">
+											@Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentType, new { @class = "dealnet-field-caption" })
+										</div>
+										<div class="col-sm-9 col-xs-8">
+											<div class="dealnet-field-holder text-left text-uppercase text-normal">
+												@Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].EquipmentType.Description,
+													new
+													{
+														@readonly = "readonly",
+														@class = "dealnet-disabled-input",
+														id = ""
+													})
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-3 col-xs-4">
+											@Html.LabelFor(m => m.EquipmentInfo.NewEquipment[i].Description, new
+											{
+												@class = "dealnet-field-caption"
+											})
+										</div>
+										<div class="col-sm-9 col-xs-8">
+											<div class="dealnet-field-holder text-left text-normal">
+												@Html.TextBoxFor(m => m.EquipmentInfo.NewEquipment[i].Description, new
+												{
+													@readonly = "readonly",
+													@class = "dealnet-disabled-input"
+												})
+											</div>
+										</div>
+									</div>
+								</div>
+								<br />
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											@Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new
+											{
+												@class = "dealnet-field-caption"
+											})
+											<div class="dealnet-field-holder">
+												<div class="control-group">
+													@Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, new
+													{
+														@class = "form-control dealnet-input"
+													})
+													@Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].SerialNumber, "", new
+													{
+														@class = "text-danger"
+													})
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											@Html.LabelFor(m => m.InstallCertificateInformation.Equipments[i].Model, new
+											{
+												@class = "dealnet-field-caption"
+											})
+											<div class="dealnet-field-holder">
+												<div class="control-group">
+													@Html.TextBoxFor(m => m.InstallCertificateInformation.Equipments[i].Model, new
+													{
+														@class = "form-control dealnet-input"
+													})
+													@Html.ValidationMessageFor(m => m.InstallCertificateInformation.Equipments[i].Model, "", new
+													{
+														@class = "text-danger"
+													})
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						}
 
-                        <hr>
+						<hr>
 
 
-                        <div class="certificate-instaler">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.InstallCertificateInformation.InstallerFirstName, new
-                                        {
-                                            @class = "dealnet-field-caption"
-                                        })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerFirstName, new
-                                                {
-                                                    id = "installerFirstName",
-                                                    @class = "form-control dealnet-input"
-                                                })
-                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new
-                                                {
-                                                    @class = "text-danger"
-                                                })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.InstallCertificateInformation.InstallerLastName, new
-                                        {
-                                            @class = "dealnet-field-caption"
-                                        })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group">
-                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerLastName, new
-                                                {
-                                                    @class = "form-control dealnet-input"
-                                                })
-                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new
-                                                {
-                                                    @class = "text-danger"
-                                                })
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.InstallCertificateInformation.InstallationDate, new
-                                        {
-                                            @class = "dealnet-field-caption"
-                                        })
-                                        <div class="dealnet-field-holder">
-                                            <div class="control-group date-group">
-                                                @Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new
-                                                {
-                                                    @class = "form-control dealnet-input date-input exlude-min-date"
-                                                })
-                                                @Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallationDate, "", new
-                                                {
-                                                    @class = "text-danger"
-                                                })
-                                                <div class="div-datepicker-value"></div>
-                                                <div class="div-datepicker"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div class="btn-container">
-                    <button type="button" class="btn btn-green"
-                            onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
-                        @Resources.Download
-                    </button>
-                    <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
-                </div>
-            </div>
-        </div>
-    </div>
+						<div class="certificate-instaler">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										@Html.LabelFor(m => m.InstallCertificateInformation.InstallerFirstName, new
+										{
+											@class = "dealnet-field-caption"
+										})
+										<div class="dealnet-field-holder">
+											<div class="control-group">
+												@Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerFirstName, new
+												{
+													id = "installerFirstName",
+													@class = "form-control dealnet-input"
+												})
+												@Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new
+												{
+													@class = "text-danger"
+												})
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										@Html.LabelFor(m => m.InstallCertificateInformation.InstallerLastName, new
+										{
+											@class = "dealnet-field-caption"
+										})
+										<div class="dealnet-field-holder">
+											<div class="control-group">
+												@Html.TextBoxFor(m => m.InstallCertificateInformation.InstallerLastName, new
+												{
+													@class = "form-control dealnet-input"
+												})
+												@Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallerFirstName, "", new
+												{
+													@class = "text-danger"
+												})
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										@Html.LabelFor(m => m.InstallCertificateInformation.InstallationDate, new
+										{
+											@class = "dealnet-field-caption"
+										})
+										<div class="dealnet-field-holder">
+											<div class="control-group date-group">
+												@Html.TextBoxFor(m => m.InstallCertificateInformation.InstallationDate, @"{0:MM'/'dd'/'yyyy}", new
+												{
+													@class = "form-control dealnet-input date-input exlude-min-date"
+												})
+												@Html.ValidationMessageFor(m => m.InstallCertificateInformation.InstallationDate, "", new
+												{
+													@class = "text-danger"
+												})
+												<div class="div-datepicker-value"></div>
+												<div class="div-datepicker"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+				<div class="btn-container">
+					<button type="button" class="btn btn-green"
+							onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
+						@Resources.Download
+					</button>
+					<a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Translations
 {
-    translations['MaximumFileSize'] = "@Html.Raw(Resources.MaximumFileSize)";
-    translations['ErrorWhileUploadingFile'] = "@Html.Raw(Resources.ErrorWhileUploadingFile)";
-    translations['ErrorWhileAddingComment'] = "@Resources.ErrorWhileAddingComment";
-    translations['ErrorWhileRemovingComment'] = "@Resources.ErrorWhileRemovingComment";
-    translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
-    translations['DidYouUploadAllDocuments'] = "@Resources.DidYouUploadAllDocuments";
-    translations['FinalCheck'] = "@Resources.FinalCheck";
-    translations['Proceed'] = "@Resources.Proceed";
-    translations['AnErrorWhileSendingReport'] = "@Resources.AnErrorWhileSendingReport";
-    translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
-    translations['WaitingSignature'] = "@Html.Raw(Resources.WaitingSignature)";
-    translations['ResendInvite'] = "@Html.Raw(Resources.ResendInvite)";
-    translations['ResendInvites'] = "@Html.Raw(Resources.ResendInvites)";
-    translations['SendInvites'] = "@Html.Raw(Resources.SendInvites)";
-    translations['CancelDigitalSignature'] = "@Html.Raw(Resources.CancelDigitalSignature)";
-    translations['UpdateEmail'] = "@Html.Raw(Resources.UpdateEmail)";
-    translations['InviteSentWhenSigns'] = "@Html.Raw(Resources.InviteSentWhenSigns)";
-    translations['InvitesCanceled'] = "@Html.Raw(Resources.InvitesCanceled)";
-    translations['Borrower'] = "@Html.Raw(Resources.Borrower)";
-    translations['Coborrower'] = "@Html.Raw(Resources.Coborrower)";
-    translations['AreYouSureCancelEsignature'] = "@Html.Raw(Resources.AreYouSureCancelEsignature)";
-    translations['ContractSigned'] = "@Html.Raw(Resources.ContractSigned)";
-    translations['DigitalInvitesWillBeSentToEmails'] = "@Html.Raw(Resources.DigitalInvitesWillBeSentToEmails)";
-    translations['InvitesSentWaitingSignatures'] = "@Html.Raw(Resources.InvitesSentWaitingSignatures)";
-    translations['Edit'] = "@Resources.Edit";
+	translations['MaximumFileSize'] = "@Html.Raw(Resources.MaximumFileSize)";
+	translations['ErrorWhileUploadingFile'] = "@Html.Raw(Resources.ErrorWhileUploadingFile)";
+	translations['ErrorWhileAddingComment'] = "@Resources.ErrorWhileAddingComment";
+	translations['ErrorWhileRemovingComment'] = "@Resources.ErrorWhileRemovingComment";
+	translations['ErrorWhileUpdatingData'] = "@Resources.ErrorWhileUpdatingData";
+	translations['DidYouUploadAllDocuments'] = "@Resources.DidYouUploadAllDocuments";
+	translations['FinalCheck'] = "@Resources.FinalCheck";
+	translations['Proceed'] = "@Resources.Proceed";
+	translations['AnErrorWhileSendingReport'] = "@Resources.AnErrorWhileSendingReport";
+	translations['ThisFieldIsRequired'] = "@Resources.ThisFieldIsRequired";
+	translations['WaitingSignature'] = "@Html.Raw(Resources.WaitingSignature)";
+	translations['ResendInvite'] = "@Html.Raw(Resources.ResendInvite)";
+	translations['ResendInvites'] = "@Html.Raw(Resources.ResendInvites)";
+	translations['SendInvites'] = "@Html.Raw(Resources.SendInvites)";
+	translations['CancelDigitalSignature'] = "@Html.Raw(Resources.CancelDigitalSignature)";
+	translations['UpdateEmail'] = "@Html.Raw(Resources.UpdateEmail)";
+	translations['InviteSentWhenSigns'] = "@Html.Raw(Resources.InviteSentWhenSigns)";
+	translations['InvitesCanceled'] = "@Html.Raw(Resources.InvitesCanceled)";
+	translations['Borrower'] = "@Html.Raw(Resources.Borrower)";
+	translations['Coborrower'] = "@Html.Raw(Resources.Coborrower)";
+	translations['AreYouSureCancelEsignature'] = "@Html.Raw(Resources.AreYouSureCancelEsignature)";
+	translations['ContractSigned'] = "@Html.Raw(Resources.ContractSigned)";
+	translations['DigitalInvitesWillBeSentToEmails'] = "@Html.Raw(Resources.DigitalInvitesWillBeSentToEmails)";
+	translations['InvitesSentWaitingSignatures'] = "@Html.Raw(Resources.InvitesSentWaitingSignatures)";
+	translations['Edit'] = "@Resources.Edit";
 }
 
 @section scripts
 {
-    <script type="text/javascript">
+	<script type="text/javascript">
         var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
         var isMobileBrowser = @(ViewBag.IsMobileRequest ? "true" : "false");
         var isSentToAudit = @(Model.AdditionalInfo.ContractState == ContractState.Closed ? "true" : "false");
@@ -3512,9 +3514,9 @@
         $(document).ready(function () {
             module.require('contract-edit').init(@(ViewBag.IsEsignatureEnabled?1:0));
         });
-    </script>
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/localization")
-    @Scripts.Render("~/bundles/contract-edit")
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
+	</script>
+	@Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/localization")
+	@Scripts.Render("~/bundles/contract-edit")
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
 }

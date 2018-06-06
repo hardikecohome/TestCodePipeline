@@ -1140,6 +1140,18 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.LastUpdateTime = DateTime.UtcNow;
                         isChanged = true;
                     }
+                    if (aspireDeal.Details?.CreditAmount != null)
+                    {
+                        if (contract.Details.CreditAmount == null || contract.Details.CreditAmount != aspireDeal.Details.CreditAmount) {
+                            contract.Details.CreditAmount = aspireDeal.Details.CreditAmount;
+                            isChanged = true;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(aspireDeal.Details?.OverrideCustomerRiskGroup))
+                    {
+                        contract.Details.OverrideCustomerRiskGroup = aspireDeal.Details.OverrideCustomerRiskGroup;
+                        isChanged = true;
+                    }
                     //update contract state in any case
                     isChanged |= UpdateContractState(contract);
                 }
