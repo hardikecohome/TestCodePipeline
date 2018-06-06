@@ -333,29 +333,39 @@
         };
 
         this.exportToExcel = function (id) {
-            this.singleId(id);
-            $('#export-form-1').submit();
-            this.singleId('');
+            exportList([id]);
         };
 
         this.exportSelectedToExcel = function () {
-            $('#export-form').submit();
+            var ids = this.filteredList()
+                .filter(function (item) {
+                    return item.isSelected();
+                }).map(function (item) {
+                    return item.Id;
+                });
+            exportList(ids);
         };
 
         this.exportAll = function () {
-            var selected = this.filteredList().filter(function (item) {
-                return item.isSelected();
-            }).map(function (item) {
+            var ids = this.list().map(function (item) {
                 return item.Id;
             });
-            this.filteredList().forEach(function (item) {
-                item.isSelected(true);
-            });
-            $('#export-form').submit();
-            this.filteredList().forEach(function (item) {
-                item.isSelected(selected.includes(item.Id));
-            });
+            exportList(ids);
         };
+
+        function exportList(list) {
+            var $div = $('#export-all-form');
+            var inputList = list.map(function (item) {
+                return $('<input/>', {
+                    type: 'hidden',
+                    value: item,
+                    name: 'ids'
+                });
+            });
+            $div.append(inputList);
+            $('#export-form').submit();
+            $div.empty();
+        }
 
         this.previewContracts = function () {
             var ids = this.selectedIds();
@@ -371,7 +381,6 @@
         };
 
         this.removeContract = function (id) {
-            debugger
             dynamicAlertModal({
                 message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
                 title: translations['Remove'],

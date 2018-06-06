@@ -753,9 +753,7 @@
 
     @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
     {
-        <div data-bind="foreach: selectedIds">
-            <input name="ids" data-bind="value: $data.Id" type="hidden" />
-        </div>
+        <div id="export-all-form">        </div>
     }
 
     @using(Html.BeginForm("Contract", "Reports", FormMethod.Post, new { id = "single-preview-form" }))

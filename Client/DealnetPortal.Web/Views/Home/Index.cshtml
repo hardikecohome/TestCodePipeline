@@ -27,14 +27,14 @@
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more">
                         @*<i class="lamp-ico"></i>
-                        <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
-                            <!-- ko if: showLearnMore -->
-                            @Resources.Hide
-                            <!-- /ko-->
-                            <!-- ko ifnot: showLearnMore -->
-                            @Resources.LearnMoreAboutThisPage
-                            <!-- /ko -->
-                        </a>*@
+                            <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                                <!-- ko if: showLearnMore -->
+                                @Resources.Hide
+                                <!-- /ko-->
+                                <!-- ko ifnot: showLearnMore -->
+                                @Resources.LearnMoreAboutThisPage
+                                <!-- /ko -->
+                            </a>*@
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -204,14 +204,14 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                         @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
-                            <!-- ko if: sortDirection() == sortDirections.asc -->
-                            @Resources.CreditExpiryAsc
-                            <!-- /ko -->
-                            <!-- ko if: sortDirection() == sortDirections.desc -->
-                            @Resources.CreditExpiryDesc
-                            <!-- /ko -->
-                            <i class="cross-ico" data-bind="click: clearSort"></i>
-                        </div>*@
+                                <!-- ko if: sortDirection() == sortDirections.asc -->
+                                @Resources.CreditExpiryAsc
+                                <!-- /ko -->
+                                <!-- ko if: sortDirection() == sortDirections.desc -->
+                                @Resources.CreditExpiryDesc
+                                <!-- /ko -->
+                                <i class="cross-ico" data-bind="click: clearSort"></i>
+                            </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -245,8 +245,8 @@
                         </div>
                         <div class="main-table__block__row__cell deal-status">
                             @*<span class="icon">
-                                <i class="info-ico info-ico--green"></i>
-                            </span>*@
+                                    <i class="info-ico info-ico--green"></i>
+                                </span>*@
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
@@ -695,13 +695,12 @@
 
     @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
     {
-        <div data-bind="foreach: selectedIds">
-            <input name="ids" data-bind="value: $data" type="hidden" />
-        </div>
+        <div id="export-all-form"></div>
     }
-    @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form-1" }))
+
+    @using(Html.BeginForm("Contract", "Reports", FormMethod.Post, new { id = "single-preview-form" }))
     {
-        <input name="ids" data-bind="value: singleId" type="hidden" />
+        <input type="hidden" name="contractId" data-bind="value: singleId" />
     }
 
     @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "preview-form" }))

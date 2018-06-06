@@ -292,14 +292,32 @@ module.exports('table', function (require) {
         };
 
         this.exportToExcel = function (id) {
-            this.singleId(id);
-            $('#export-form-1').submit();
-            this.singleId('');
+            exportList([id]);
         };
 
         this.exportSelectedToExcel = function () {
-            $('#export-form').submit();
+            var ids = this.filteredList()
+                .filter(function (item) {
+                    return item.isSelected();
+                }).map(function (item) {
+                    return item.Id;
+                });
+            exportList(ids);
         };
+
+        function exportList(list) {
+            var $div = $('#export-all-form');
+            var inputList = list.map(function (item) {
+                return $('<input/>', {
+                    type: 'hidden',
+                    value: item,
+                    name: 'ids'
+                });
+            });
+            $div.append(inputList);
+            $('#export-form').submit();
+            $div.empty();
+        }
 
         this.previewContracts = function () {
             var ids = this.selectedIds();
