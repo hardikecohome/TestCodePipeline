@@ -40,7 +40,7 @@
                     </div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
-                            <input type="text" name="search" data-bind="textInput: search">
+                            <input type="text" name="search" data-bind="textInput: search" required>
                             <label>@Resources.Search</label>
                             <span class="search-ico"></span>
                         </div>
@@ -111,7 +111,7 @@
 
                     <div class="filters-advanced__date-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" class="date-input" data-bind="datePicker: dateFrom, datePickerOptions:datePickerOptions">
+                            <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions:datePickerOptions">
                             <label>@Resources.DateFrom</label>
                             <span class="icon-calendar"></span>
                         </div>
@@ -119,7 +119,7 @@
 
                     <div class="filters-advanced__date-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" class="date-input" data-bind="datePicker:dateTo, datePickerOptions: datePickerOptions">
+                            <input type="text" class="date-input" required data-bind="datePicker:dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
                             <span class="icon-calendar"></span>
                         </div>
@@ -127,17 +127,17 @@
 
                     <div class="filters-advanced__deal-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" data-bind="value: valueFrom">
+                            <input type="text" data-bind="value: valueFrom" required>
                             <label>@Resources.DealValueFrom</label>
-                            <span class="ic-nw-right-dollar-small"></span>
+                            <span class="ic-nw-dollar-small"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__deal-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" data-bind="value: valueTo">
+                            <input type="text" data-bind="value: valueTo" required>
                             <label>@Resources.DealValueTo</label>
-                            <span class="ic-nw-right-dollar-small"></span>
+                            <span class="ic-nw-dollar-small"></span>
                         </div>
                     </div>
 
