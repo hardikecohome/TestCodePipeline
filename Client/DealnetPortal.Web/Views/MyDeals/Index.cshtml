@@ -761,7 +761,7 @@
         <input type="hidden" name="contractId" data-bind="value: singleId" />
     }
 
-    @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "multiple-preview-form" }))
+    @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "preview-form" }))
     {
         <div data-bind="foreach: selectedIds">
             <input name="ids" type="hidden" data-bind="value: $data" />
