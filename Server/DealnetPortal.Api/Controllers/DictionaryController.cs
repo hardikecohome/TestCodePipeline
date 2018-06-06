@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
-using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
@@ -31,29 +23,28 @@ namespace DealnetPortal.Api.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private IContractRepository _contractRepository { get; set; }
-        private IRateCardsRepository _rateCardsRepository { get; set; }
-        private ISettingsRepository SettingsRepository { get; set; }
-        private IAspireStorageReader AspireStorageReader { get; set; }
-        private ICustomerFormService CustomerFormService { get; set; }
+        private ISettingsRepository _settingsRepository { get; set; }
+        private IAspireStorageReader _aspireStorageReader { get; set; }
+        private ICustomerFormService _customerFormService { get; set; }
         private IContractService _contractService { get; set; }
-
+        private IRateCardsService _rateCardsService { get; set; }
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
             IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
-            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsRepository rateCardsRepository)
+            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsService rateCardsService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
-            SettingsRepository = settingsRepository;
-            AspireStorageReader = aspireStorageReader;
-            CustomerFormService = customerFormService;
+            _settingsRepository = settingsRepository;
+            _aspireStorageReader = aspireStorageReader;
+            _customerFormService = customerFormService;
             _contractService = contractService;
             _dealerRepository = dealerRepository;
             _licenseDocumentRepository = licenseDocumentRepository;            
-            _rateCardsRepository = rateCardsRepository;
+            _rateCardsService = rateCardsService;
         }             
 
         [Route("DocumentTypes")]
@@ -67,7 +58,7 @@ namespace DealnetPortal.Api.Controllers
                 if (docTypes == null)
                 {
                     var errorMsg = "Cannot retrieve Document Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -96,7 +87,7 @@ namespace DealnetPortal.Api.Controllers
                 if (docTypes == null)
                 {
                     var errorMsg = "Cannot retrieve Document Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -209,7 +200,7 @@ namespace DealnetPortal.Api.Controllers
                 if (equipmentTypes == null)
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.EquipmentTypesRetrievalFailed,
@@ -239,7 +230,7 @@ namespace DealnetPortal.Api.Controllers
                 if (licenseDocuments == null)
                 {
                     var errorMsg = "Cannot retrieve License documents";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.LicenseDocumentsRetrievalFailed,
@@ -269,7 +260,7 @@ namespace DealnetPortal.Api.Controllers
                 if (provinceTaxRate == null)
                 {
                     var errorMsg = "Cannot retrieve Province Tax Rate";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -299,7 +290,7 @@ namespace DealnetPortal.Api.Controllers
                 if (provinceTaxRates == null)
                 {
                     var errorMsg = "Cannot retrieve all Province Tax Rates";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -329,7 +320,7 @@ namespace DealnetPortal.Api.Controllers
                 if (verificationId == null)
                 {
                     var errorMsg = "Cannot retrieve Province Tax Rate";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -359,7 +350,7 @@ namespace DealnetPortal.Api.Controllers
                 if (verificationIds == null)
                 {
                     var errorMsg = "Cannot retrieve all Verification Ids";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ProvinceTaxRateRetrievalFailed,
@@ -384,7 +375,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var creditAmount =  _rateCardsRepository.GetCreditAmount(creditScore);
+                var creditAmount = _rateCardsService.GetCreditAmount(creditScore);
                 return Ok(creditAmount);
             }
             catch (Exception ex)
@@ -407,7 +398,7 @@ namespace DealnetPortal.Api.Controllers
 
                 try
                 {                
-                    dealerDto.UdfSubDealers = Mapper.Map<IList<SubDealerDTO>>(AspireStorageReader.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName));
+                    dealerDto.UdfSubDealers = Mapper.Map<IList<SubDealerDTO>>(_aspireStorageReader.GetSubDealersList(dealer.AspireLogin ?? dealer.UserName));
                 }
                 catch (Exception ex)
                 {
@@ -473,7 +464,7 @@ namespace DealnetPortal.Api.Controllers
         {
             IList<StringSettingDTO> list = null;
 	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {LoggedInUser.UserName}");
-            var settings = SettingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
+            var settings = _settingsRepository.GetUserStringSettings(LoggedInUser?.UserId);
             if (settings?.Any() ?? false)
             {
 	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {LoggedInUser.UserName}");
@@ -489,7 +480,7 @@ namespace DealnetPortal.Api.Controllers
         {
             IList<StringSettingDTO> list = null;
 	        LoggingService.LogInfo($"Get dealer skins settings for dealer: {hashDealerName}");
-            var settings = SettingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
+            var settings = _settingsRepository.GetUserStringSettingsByHashDealerName(hashDealerName);
             if (settings?.Any() ?? false)
             {
 	            LoggingService.LogInfo($"There are {settings.Count} variables for dealer: {hashDealerName}");
@@ -505,10 +496,10 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerBinSetting(int settingType)
         {
             SettingType sType = (SettingType) settingType;
-            var binSetting = SettingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
+            var binSetting = _settingsRepository.GetUserBinarySetting(sType, LoggedInUser?.UserId);
             if (binSetting != null)
             {
-                var bin = new BinarySettingDTO()
+                var bin = new BinarySettingDTO
                 {
                     Name = binSetting.Item?.Name,
                     ValueBytes = binSetting.BinaryValue
@@ -524,10 +515,10 @@ namespace DealnetPortal.Api.Controllers
         public IHttpActionResult GetDealerBinSetting(int settingType, string hashDealerName)
         {
             SettingType sType = (SettingType)settingType;
-            var binSetting = SettingsRepository.GetUserBinarySettingByHashDealerName(sType, hashDealerName);
+            var binSetting = _settingsRepository.GetUserBinarySettingByHashDealerName(sType, hashDealerName);
             if (binSetting != null)
             {
-                var bin = new BinarySettingDTO()
+                var bin = new BinarySettingDTO
                 {
                     Name = binSetting.Item?.Name,
                     ValueBytes = binSetting.BinaryValue
@@ -545,7 +536,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                return Ok(SettingsRepository.CheckUserSkinExist(LoggedInUser?.UserId));
+                return Ok(_settingsRepository.CheckUserSkinExist(LoggedInUser?.UserId));
             }
             catch (Exception ex)
             {
@@ -560,7 +551,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                return Ok(SettingsRepository.CheckUserSkinExist(dealer));
+                return Ok(_settingsRepository.CheckUserSkinExist(dealer));
             }
             catch (Exception ex)
             {
@@ -574,7 +565,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetCustomerLinkSettings")]
         public IHttpActionResult GetCustomerLinkSettings()
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
+            var linkSettings = _customerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);
@@ -587,7 +578,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetCustomerLinkSettings")]
         public IHttpActionResult GetCustomerLinkSettings(string dealer)
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkSettingsByDealerName(dealer);
+            var linkSettings = _customerFormService.GetCustomerLinkSettingsByDealerName(dealer);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);
@@ -603,7 +594,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = CustomerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
+                var alerts = _customerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -617,7 +608,7 @@ namespace DealnetPortal.Api.Controllers
         [Route("GetCustomerLinkLanguageOptions")]
         public IHttpActionResult GetCustomerLinkLanguageOptions(string hashDealerName, string lang)
         {
-            var linkSettings = CustomerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
+            var linkSettings = _customerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
             if (linkSettings != null)
             {
                 return Ok(linkSettings);
@@ -633,25 +624,58 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var reductionCards = _rateCardsRepository.GetRateReductionCard();
+                var reductionCards = _rateCardsService.GetRateReductionCards();
                 if (reductionCards == null)
                 {
                     var errorMsg = "Cannot retrieve Rate Reduction Cards";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Message = errorMsg
                     });
                     LoggingService.LogError(errorMsg);
                 }
-                var reductionCardsDtos = Mapper.Map<IList<RateReductionCardDTO>>(reductionCards);
                 
-                var result = new Tuple<IList<RateReductionCardDTO>, IList<Alert>>(reductionCardsDtos, alerts);
+                var result = new Tuple<IList<RateReductionCardDTO>, IList<Alert>>(reductionCards, alerts);
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 LoggingService.LogError("Failed to retrieve Equipment Types", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier()
+        {
+            try
+            {
+                var submitResult = _rateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier(int contractId)
+        {
+            try
+            {
+                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
                 return InternalServerError(ex);
             }
         }

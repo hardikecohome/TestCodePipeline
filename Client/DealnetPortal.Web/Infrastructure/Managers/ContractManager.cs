@@ -123,7 +123,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.DealProvince = mainAddressProvinceCode;
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
 
-            var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
+            var dealerTier = await _dictionaryServiceAgent.GetDealerTier(contractId);
             equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
 
             MapContractConditions(result.Item1, dealerTier, equipmentInfo.Conditions);
@@ -191,7 +191,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 return summaryAndConfirmation;
             }
 
-            var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
+            var dealerTier = await _dictionaryServiceAgent.GetDealerTier(contractId);
             summaryAndConfirmation.DealerTier = Mapper.Map<TierViewModel>(dealerTier);
             summaryAndConfirmation.RateCardValid = !(contractResult.Equipment?.RateCardId.HasValue ?? false) ||
                                                    contractResult.Equipment.RateCardId.Value == 0 ||
@@ -312,7 +312,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1
             };
 
-            var dealerTier = await _contractServiceAgent.GetDealerTier();
+            var dealerTier = await _dictionaryServiceAgent.GetDealerTier();
 	        model.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
 		    var reductionCards = await _dictionaryServiceAgent.GetAllRateReductionCards();
 	        model.DealerTier.RateReductionCards = Mapper.Map<List<ReductionCardViewModel>>(reductionCards.Item1);
@@ -846,7 +846,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         public async Task<bool> CheckRateCard(int contractId, int? rateCardId)
         {
             Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
-            var dealerTier = await _contractServiceAgent.GetDealerTier(contractId);
+            var dealerTier = await _dictionaryServiceAgent.GetDealerTier(contractId);
 
             if(result.Item1.Equipment == null)
             {

@@ -17,11 +17,12 @@ namespace DealnetPortal.Api.Core.Helpers
             {
                 switch (GetCurrentNeutralCulture())
                 {
+                    case "fr":
+                        return CultureType.French;
                     case "en":
                     default:
                         return CultureType.English;
-                    case "fr":
-                        return CultureType.French;
+                    
                 }
             }
         }

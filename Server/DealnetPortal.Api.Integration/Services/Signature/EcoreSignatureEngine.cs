@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb;
 using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.Transformation;
-using DealnetPortal.Api.Integration.Services.ESignature;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Unity.Interception.Utilities;
 
@@ -35,7 +28,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private readonly string _eCoreAgreementTemplate;
         private readonly string _eCoreCustomerSecurityCode;
 
-        private List<string> _signatureFields = new List<string>() { "Signature1", "Signature2", "Signature3"};
+        private List<string> _signatureFields = new List<string> { "Signature1", "Signature2", "Signature3"};
         private List<string> _signatureRoles = new List<string>();
 
         public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument()
@@ -122,7 +115,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             var textData = new List<TextData>();
             formFields.ForEach(field =>
             {
-                textData.Add(new TextData()
+                textData.Add(new TextData
                 {
                     Items = new string[] { field.Name },
                     text = field.Value
@@ -144,7 +137,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.EcoreConnectionFailed,
@@ -190,7 +183,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.EcoreConnectionFailed,
@@ -236,20 +229,20 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     for (int i = 0; i < Math.Min(signatureUsers.Count, _signatureFields.Count); i++)
                     {
                         roles.Add(
-                            new eoConfigureRolesRole()
+                            new eoConfigureRolesRole
                             {
                                 order = (i + 1).ToString(), //"1",
                                 name = _signatureRoles[i], //_eCoreSignatureRole,
                                 firstName = signatureUsers[i].FirstName ?? "Fst",
                                 lastName = signatureUsers[i].LastName ?? "name",
                                 eMail = signatureUsers[i].EmailAddress,
-                                ItemsElementName = new ItemsChoiceType[] {ItemsChoiceType.securityCode},
-                                Items = new string[] {_eCoreCustomerSecurityCode},
+                                ItemsElementName = new[] {ItemsChoiceType.securityCode},
+                                Items = new[] {_eCoreCustomerSecurityCode},
                                 required = true,
-                                signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod()
+                                signatureCaptureMethod = new eoConfigureRolesRoleSignatureCaptureMethod
                                 {
                                     Value = signatureCaptureMethodType.TYPE
-                                },
+                                }
                             });
                     }
                     ;
@@ -286,7 +279,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.EcoreConnectionFailed,
@@ -329,7 +322,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             if (agreementTemplate?.TemplateDocument != null)
             {
-                var resPr = await _signatureServiceAgent.CreateDocumentProfile(transId, _eCoreAgreementTemplate, null).ConfigureAwait(false);
+                var resPr = await _signatureServiceAgent.CreateDocumentProfile(transId, _eCoreAgreementTemplate).ConfigureAwait(false);
                 if (resPr.Item2?.Any() ?? false)
                 {
                     alerts.AddRange(resPr.Item2);
@@ -374,7 +367,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
                 for (var i = (_signatureFields.Count - signToRemove); i < _signatureFields.Count; i++)
                 {
-                    formFields.Add(new ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField()
+                    formFields.Add(new ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField
                     {
                         Item = _signatureFields[i]
                     });
@@ -401,32 +394,32 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             for (int i = 0; i < Math.Min(signatureUsers.Count, _signatureFields.Count); i++)
             {
                 formFields.Add(
-                    new ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField()
+                    new ServiceAgents.ESignature.EOriginalTypes.Transformation.FormField
                     {
                         Item = _signatureFields[i],//"Signature1",
-                        customProperty = new List<CustomProperty>()
+                        customProperty = new List<CustomProperty>
                         {
-                            new CustomProperty()
+                            new CustomProperty
                             {
                                 name = "role",
                                 Value = _signatureRoles[i]//_eCoreSignatureRole
                             },
-                            new CustomProperty()
+                            new CustomProperty
                             {
                                 name = "label",
                                 Value = _signatureFields[i]
                             },
-                            new CustomProperty()
+                            new CustomProperty
                             {
                                 name = "type",
                                 Value = "signature"
                             },
-                            new CustomProperty()
+                            new CustomProperty
                             {
                                 name = "required",
                                 Value = "true"
                             },
-                            new CustomProperty()
+                            new CustomProperty
                             {
                                 name = "initialValueType",
                                 Value = "fullName"
@@ -436,7 +429,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             //    name = "protectedField",
                             //    Value = "false"
                             //},
-                            new CustomProperty()
+                            new CustomProperty
                             {
                                 name = "displayOrder",
                                 Value = (i+1).ToString()//"1"

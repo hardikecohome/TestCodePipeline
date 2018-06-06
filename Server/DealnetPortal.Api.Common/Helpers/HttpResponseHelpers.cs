@@ -10,9 +10,7 @@ namespace DealnetPortal.Api.Common.Helpers
         public static async Task<ErrorResponseModel> GetModelStateErrorsAsync(HttpContent content)
         {
             var strContent = await content.ReadAsStringAsync();
-            var errors = new List<string>();
-            var results =
-                        JsonConvert.DeserializeObject<ErrorResponseModel>(strContent);            
+            var results =JsonConvert.DeserializeObject<ErrorResponseModel>(strContent);            
             return results;
         }
     }

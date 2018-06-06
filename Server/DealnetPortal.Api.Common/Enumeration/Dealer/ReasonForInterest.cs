@@ -9,6 +9,6 @@ namespace DealnetPortal.Api.Common.Enumeration.Dealer
         [Display(ResourceType = typeof(Resources.Resources), Name = "LookingForSecond")]
         LookingForSecondary,
         [Display(ResourceType = typeof(Resources.Resources), Name = "NoCurrentFinancing")]
-        Nocurrentfinancingsolution,
+        Nocurrentfinancingsolution
     }
 }

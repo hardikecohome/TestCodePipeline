@@ -1,4 +1,3 @@
-using System;
 using System.Data.Entity;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;

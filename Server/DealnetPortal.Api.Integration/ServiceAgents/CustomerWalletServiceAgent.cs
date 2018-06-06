@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.ApiClient;
@@ -34,7 +32,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
                 {
                     var errors = await HttpResponseHelpers.GetModelStateErrorsAsync(result.Content);
                     errors.ModelState?.ForEach(st => st.Value.ForEach(val =>
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Message = val,
@@ -44,10 +42,10 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
-                    Header = $"Register new customer on Customer Wallet portal failed",
+                    Header = "Register new customer on Customer Wallet portal failed",
                     Message = ex.Message
                 });
             }
@@ -66,10 +64,10 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
-                    Header = $"Creation of a new transaction on Customer Wallet portal failed",
+                    Header = "Creation of a new transaction on Customer Wallet portal failed",
                     Message = ex.Message
                 });
             }
@@ -86,7 +84,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
                     await Client.PostAsync<CheckUserRequest, bool>($"{_fullUri}/Account/CheckUser", new CheckUserRequest {UserLogin = userName});
                 if (result)
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = "Cannot create customer",
@@ -96,10 +94,10 @@ namespace DealnetPortal.Api.Integration.ServiceAgents
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
-                    Header = $"Creation of a new transaction on Customer Wallet portal failed",
+                    Header = "Creation of a new transaction on Customer Wallet portal failed",
                     Message = ex.Message
                 });
             }
