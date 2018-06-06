@@ -98,7 +98,7 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<ContractDTO>();
             var contracts = _contractRepository.GetContracts(contractOwnerId);
 
-            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);                        
+            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);
             if (aspireDeals?.Any() ?? false)
             {
                 var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
@@ -129,6 +129,46 @@ namespace DealnetPortal.Api.Integration.Services
             AftermapContracts(contracts, mappedContracts, contractOwnerId);
             contractDTOs.AddRange(mappedContracts);
 
+            return contractDTOs;
+        }
+
+        public IList<ContractShortInfoDTO> GetContractsShortInfo(string contractOwnerId)
+        {
+            var contractDTOs = new List<ContractShortInfoDTO>();
+            var contracts = _contractRepository.GetContracts(contractOwnerId);
+            var equipments = _contractRepository.GetEquipmentTypes();
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);
+            var aspireDeals = GetAspireDealsShortInfoForDealer(contractOwnerId);
+            if (aspireDeals?.Any() ?? false)
+            {
+                var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
+                var unlinkedDeals = aspireDeals.Where(ad => ad.TransactionId != null &&
+                                                            contracts.All(
+                                                                c =>
+                                                                    (!c.Details?.TransactionId?.Contains(
+                                                                         ad.TransactionId) ?? true))).ToList();
+                if (unlinkedDeals.Any())
+                {
+                    contractDTOs.AddRange(unlinkedDeals);
+                }
+                if (isContractsUpdated)
+                {
+                    try
+                    {
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        _loggingService.LogError("Cannot update Aspire deals status", ex);
+                    }
+                }
+            }
+            var mappedContracts = Mapper.Map<IList<ContractShortInfoDTO>>(contracts, opts =>
+            {
+                opts.Items.Add("EquipmentTypes", equipments);
+                opts.Items.Add("DocumentTypes", dealerDocumentTypes);
+            });
+            contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
         }
 
@@ -867,6 +907,33 @@ namespace DealnetPortal.Api.Integration.Services
             return null;
         }
 
+        private IList<ContractShortInfoDTO> GetAspireDealsShortInfoForDealer(string contractOwnerId)
+        {
+            var user = _contractRepository.GetDealer(contractOwnerId);
+            if (user != null)
+            {
+                try
+                {
+                    var equipments = _contractRepository.GetEquipmentTypes();
+                    var deals = Mapper.Map<IList<ContractShortInfoDTO>>(_aspireStorageReader.GetDealerDeals(user.UserName),
+                        opts =>
+                        {
+                            opts.Items.Add("EquipmentTypes", equipments);
+                        });                    
+                    return deals;
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error occured during get deals from aspire", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
+            }
+            return null;
+        }
+
         public Tuple<IList<DocumentTypeDTO>, IList<Alert>> GetContractDocumentTypes(int contractId,
             string contractOwnerId)
         {
@@ -1137,6 +1204,33 @@ namespace DealnetPortal.Api.Integration.Services
                     if (contract.Details.Status != aspireDeal.Details.Status)
                     {
                         contract.Details.Status = aspireDeal.Details.Status;
+                        contract.LastUpdateTime = DateTime.UtcNow;
+                        isChanged = true;
+                    }
+                    //update contract state in any case
+                    isChanged |= UpdateContractState(contract);
+                }
+            }
+            return isChanged;
+        }
+
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractShortInfoDTO> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal.TransactionId == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.TransactionId) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.Status)
+                    {
+                        contract.Details.Status = aspireDeal.Status;
                         contract.LastUpdateTime = DateTime.UtcNow;
                         isChanged = true;
                     }

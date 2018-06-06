@@ -54,6 +54,23 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        // GET: api/Contract/shortinfo
+        [HttpGet]
+        [Route("shortinfo")]
+        public IHttpActionResult GetContractsShortInfo()
+        {
+            try
+            {
+                var contracts = _contractService.GetContractsShortInfo(LoggedInUser.UserId);
+                return Ok(contracts);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
         [Route("GetCustomersContractsCount")]
         [HttpGet]
         public IHttpActionResult GetCustomersContractsCount()

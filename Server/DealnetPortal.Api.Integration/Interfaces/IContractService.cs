@@ -15,6 +15,8 @@ namespace DealnetPortal.Api.Integration.Interfaces
     {
         ContractDTO CreateContract(string contractOwnerId);
 
+        IList<ContractShortInfoDTO> GetContractsShortInfo(string contractOwnerId);
+
         IList<ContractDTO> GetContracts(string contractOwnerId);
 
         int GetCustomersContractsCount(string contractOwnerId);

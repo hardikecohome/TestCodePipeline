@@ -66,7 +66,18 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        
+        public async Task<IList<ContractShortInfoDTO>> GetContractsShortInfo()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<IList<ContractShortInfoDTO>>($"{_fullUri}/shortinfo", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts for an user", ex);
+                return new List<ContractShortInfoDTO>();
+            }
+        }
 
         public async Task<int> GetCustomersContractsCount()
         {
