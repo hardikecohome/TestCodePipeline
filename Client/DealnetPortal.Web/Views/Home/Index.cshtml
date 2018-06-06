@@ -26,7 +26,7 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more">
-                        <i class="lamp-ico"></i>
+                        @*<i class="lamp-ico"></i>
                         <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
                             <!-- ko if: showLearnMore -->
                             @Resources.Hide
@@ -34,7 +34,7 @@
                             <!-- ko ifnot: showLearnMore -->
                             @Resources.LearnMoreAboutThisPage
                             <!-- /ko -->
-                        </a>
+                        </a>*@
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -244,9 +244,9 @@
                             </span>
                         </div>
                         <div class="main-table__block__row__cell deal-status">
-                            <span class="icon">
+                            @*<span class="icon">
                                 <i class="info-ico info-ico--green"></i>
-                            </span>
+                            </span>*@
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
