@@ -25,7 +25,7 @@
     function filterAndSortList(list, type) {
         return list.map(mapValue(type))
             .filter(filterNull)
-            .reduce(concatIfNotInArray, [''])
+            .reduce(concatIfNotInArray, [translations[type]])
             .sort(sortAscending);
     }
 
@@ -43,8 +43,8 @@
                     acc.concat(curr) :
                     acc;
             }, [{
-                text: '',
-                icon: ''
+                text: translations['Status'],
+                icon: 'grey'
             }])
             .sort(function (a, b) {
                 return sortAscending(a.text, b.text);

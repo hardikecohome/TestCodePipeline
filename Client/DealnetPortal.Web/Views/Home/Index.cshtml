@@ -51,16 +51,30 @@
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
                         <i class="filter-ico filter-ico--red"></i>
                         <span>
                             @Resources.Filters
                         </span>
+                        <!-- /ko -->
                     </div>
                     <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
                         <i class="sort-button-red-ico"></i>
                         <span>
                             @Resources.Sort
                         </span>
+                        <!-- /ko -->
                     </div>
                 </div>
 

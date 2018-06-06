@@ -60,12 +60,30 @@
 
                     <div class="filters-head__divider"></div>
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
                         <i class="filter-ico filter-ico--red"></i>
-                        <span>@Resources.Filters</span>
+                        <span>
+                            @Resources.Filters
+                        </span>
+                        <!-- /ko -->
                     </div>
                     <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
                         <i class="sort-button-red-ico"></i>
-                        <span>@Resources.Sort</span>
+                        <span>
+                            @Resources.Sort
+                        </span>
+                        <!-- /ko -->
                     </div>
                     <!-- /ko -->
                 </div>
@@ -74,7 +92,7 @@
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
                     <div class="filters-type__tab" data-bind="css:{active:showDetailedView}, click:function(){showDetailedView(true)}">@Resources.DetailedInfo</div>
                 </div>
-                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0" style="display:none;">
+                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
 
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap">

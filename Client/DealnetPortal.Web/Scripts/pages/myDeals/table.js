@@ -131,7 +131,7 @@
         this.sortedColumn = ko.observable();
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
