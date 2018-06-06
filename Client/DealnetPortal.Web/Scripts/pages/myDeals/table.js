@@ -131,7 +131,7 @@
         this.sortedColumn = ko.observable();
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
@@ -294,7 +294,6 @@
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
             var dTo = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var created = this.createdBy();
-            var createdBool = Boolean(created);
             var sales = this.salesRep();
             var payment = this.typeOfPayment();
             var vFrom = parseFloat(this.valueFrom());
@@ -305,7 +304,7 @@
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
+                    (created == '' || created == item.IsCreatedByCustomer) &&
                     (!dTo || !item.DateVal || item.DateVal <= dTo) &&
                     (!dFrom || !item.DateVal || item.DateVal >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&

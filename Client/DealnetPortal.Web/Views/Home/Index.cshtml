@@ -26,7 +26,7 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more">
-                        <i class="lamp-ico"></i>
+                        @*<i class="lamp-ico"></i>
                         <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
                             <!-- ko if: showLearnMore -->
                             @Resources.Hide
@@ -34,7 +34,7 @@
                             <!-- ko ifnot: showLearnMore -->
                             @Resources.LearnMoreAboutThisPage
                             <!-- /ko -->
-                        </a>
+                        </a>*@
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -51,16 +51,30 @@
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
                         <i class="filter-ico filter-ico--red"></i>
                         <span>
                             @Resources.Filters
                         </span>
+                        <!-- /ko -->
                     </div>
                     <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
                         <i class="sort-button-red-ico"></i>
                         <span>
                             @Resources.Sort
                         </span>
+                        <!-- /ko -->
                     </div>
                 </div>
 
@@ -69,7 +83,7 @@
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap">
                             <label for="project-type">@Resources.DealType</label>
-                            <select data-bind="options:agreementOptions, selectric:agreementType"></select>
+                            <select required data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
@@ -135,25 +149,22 @@
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
                                 @*<option value="creditExpiryAsc">
-                                    @Resources.CreditExpiryAsc
-                                </option>
-                                <option value="creditExpiryDesc">
-                                    @Resources.CreditExpiryDesc
-                                </option>*@
+                                        @Resources.CreditExpiryAsc
+                                    </option>
+                                    <option value="creditExpiryDesc">
+                                        @Resources.CreditExpiryDesc
+                                    </option>*@
                             </select>
                         </div>
                     </div>
                     <div class="filters-advanced__filters-cloud">
-                        <!-- ko if: sortedColumn() == sortFields.transactionId -->
-                        <div class="filters-advanced__contract-number">
+                        <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.transactionId">
                             @Resources.ContractNumber -
                             <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->
                             <!-- ko if: sortDirection() == sortDirections.desc --> @Resources.Descending <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.status -->
-                        <div class="filters-advanced__deal-status">
+                        <div class="filters-advanced__deal-status" data-bind="visible: sortedColumn() == sortFields.status">
                             @Resources.DealStatus -
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             <i class="info-ico info-ico--red"></i> @Resources.To <i class="info-ico info-ico--grey"></i>
@@ -163,9 +174,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.sign -->
-                        <div class="filters-advanced__e-sign">
+                        <div class="filters-advanced__e-sign" data-bind="visible: sortedColumn() == sortFields.sign ">
                             @Resources.EsignStatus -
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i>
@@ -175,9 +184,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.applicantName -->
-                        <div class="filters-advanced__applicant-name">
+                        <div class="filters-advanced__applicant-name" data-bind="visible: sortedColumn() == sortFields.applicantName">
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             @Resources.ApplicantNameAtoZ
                             <!-- /ko -->
@@ -186,9 +193,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.date -->
-                        <div class="filters-advanced__last-activity">
+                        <div class="filters-advanced__last-activity" data-bind="visible: sortedColumn() == sortFields.date">
                             @Resources.LastActivity —
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             @Resources.Latest
@@ -198,9 +203,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        @*<!-- ko if: sortedColumn() == sortFields.creditExpiry -->
-                        <div class="filters-advanced__days-left">
+                        @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             @Resources.CreditExpiryAsc
                             <!-- /ko -->
@@ -208,8 +211,7 @@
                             @Resources.CreditExpiryDesc
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
-                        </div>
-                        <!-- /ko -->*@
+                        </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -242,9 +244,9 @@
                             </span>
                         </div>
                         <div class="main-table__block__row__cell deal-status">
-                            <span class="icon">
+                            @*<span class="icon">
                                 <i class="info-ico info-ico--green"></i>
-                            </span>
+                            </span>*@
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
@@ -265,12 +267,12 @@
                             </span>
                         </div>
                         @*<div class="main-table__block__row__cell days-left" data-bind="click:configureSortClick(sortFields.creditExpiry)">
-                            <span>@Resources.CreditApprovalExpiry</span>
-                            <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
-                                <i class="sort-arrow-top"></i>
-                                <i class="sort-arrow-bottom"></i>
-                            </span>
-                        </div>*@
+                                <span>@Resources.CreditApprovalExpiry</span>
+                                <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
+                                    <i class="sort-arrow-top"></i>
+                                    <i class="sort-arrow-bottom"></i>
+                                </span>
+                            </div>*@
                         <div class="main-table__block__row__cell program-option">
                             <span>@Resources.ProgramOption</span>
                         </div>
@@ -318,8 +320,8 @@
                             <span>@Resources.SalesRep</span>
                         </div>
                         @*<div class="main-table__block__row__cell entered-by">
-                            <span>@Resources.EnteredBy</span>
-                        </div>*@
+                                <span>@Resources.EnteredBy</span>
+                            </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span>@Resources.Notes</span>
                         </div>
@@ -346,8 +348,8 @@
                             <span class="contract-number__notification contract-number__notification--blue">@Resources.New</span>
                             <!-- /ko -->
                             @*<!-- ko if: $data.CreditExpiry && $data.CreditExpiry < 20 -->
-                            <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
-                            <!-- /ko -->*@
+                                <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
+                                <!-- /ko -->*@
                             <!-- ko ifnot: $data.Id -->
                             <span data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
@@ -374,8 +376,8 @@
                             <span data-bind="text: $data.CustomerName"></span>
                         </div>
                         @*<div class="main-table__block__row__cell days-left">
-                            <span data-bind="text: $data.CreditExpiry"></span>
-                        </div>*@
+                                <span data-bind="text: $data.CreditExpiry"></span>
+                            </div>*@
                         <div class="main-table__block__row__cell program-option">
                             <span data-bind="text: $data.ProgramOption"></span>
                         </div>
@@ -407,8 +409,8 @@
                             <span data-bind="text: $data.SalesRep"></span>
                         </div>
                         @*<div class="main-table__block__row__cell entered-by">
-                            <span data-bind="text: $data.EnteredBy"></span>
-                        </div>*@
+                                <span data-bind="text: $data.EnteredBy"></span>
+                            </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span data-bind="click:function(){$data.showNotes(!$data.showNotes());}">
                                 <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
@@ -477,13 +479,13 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Date"></div>
 
                                 @*<div class="table-row-details__left__days-left" data-bind="click:$parent.configureSortClick($parent.sortFields.creditExpiry)">
-                                    <span>@Resources.CreditApprovalExpiry</span>
-                                    <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.creditExpiry)}">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
-                                </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
+                                        <span>@Resources.CreditApprovalExpiry</span>
+                                        <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.creditExpiry)}">
+                                            <i class="sort-arrow-top"></i>
+                                            <i class="sort-arrow-bottom"></i>
+                                        </span>
+                                    </div>
+                                    <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
 
                                 <div class="table-row-details__left__loan-amount" data-bind="click:$parent.configureSortClick($parent.sortFields.loanAmount)">
                                     <span>@Resources.LoanAmount</span>
@@ -555,10 +557,10 @@
                                 <div class="table-row-details__left__value" data-bind="text: SalesRep"></div>
 
                                 @*<div class="table-row-details__left__entered-by">
-                                    <span>@Resources.EnteredBy</span>
+                                        <span>@Resources.EnteredBy</span>
 
-                                </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
+                                    </div>
+                                    <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
 
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>

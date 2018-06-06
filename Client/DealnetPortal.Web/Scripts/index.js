@@ -87,6 +87,13 @@
         //     responsive: true,
         // });
 
+        function closeOtherSelects(e) {
+            $('select').selectric('close');
+            $(e.target).selectric('open').one('selectric-open', closeOtherSelects);
+        }
+
+        $('select').one('selectric-open', closeOtherSelects);
+
         makeMobileNav("#mobile-navigation", ".mobile-navigation__active-item")();
         makeMobileNav("#mobile-navigation-help", ".mobile-help__toggle")();
 

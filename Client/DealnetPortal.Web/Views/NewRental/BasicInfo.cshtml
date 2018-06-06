@@ -3,86 +3,85 @@
 @using DealnetPortal.Web.Models
 @model DealnetPortal.Web.Models.BasicInfoViewModel
 @{
-	if (Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
-	{
-		Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
-	}
+    if(Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
+    {
+        Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
+    }
 }
 <div class="dealnet-large-header" id="basic-info">@Resources.BasicInfo</div>
 <div id="steps-line"></div>
 <div class="row" id="steps">
-	<div class="col-xs-4">
-		<a href="@Url.Action("BasicInfo")" class="step-item step-active">1</a>
-	</div>
-	<div class="col-xs-4">
-		<div id="step2" class="step-item">2</div>
-		<div id="step3" class="step-item">3</div>
-	</div>
-	<div class="col-xs-4">
-		<div id="step4" class="step-item">4</div>
-	</div>
+    <div class="col-xs-4">
+        <a href="@Url.Action("BasicInfo")" class="step-item step-active">1</a>
+    </div>
+    <div class="col-xs-4">
+        <div id="step2" class="step-item">2</div>
+        <div id="step3" class="step-item">3</div>
+    </div>
+    <div class="col-xs-4">
+        <div id="step4" class="step-item">4</div>
+    </div>
 </div>
 @{
-	var creditCheckError = TempData["CreditCheckErrorMessage"];
+    var creditCheckError = TempData["CreditCheckErrorMessage"];
 
-	if (creditCheckError != null)
-	{
-		<div class="well danger-well position-well clear-border error-descr clear-border">
-			<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-			@creditCheckError
-		</div>
-	}
+    if(creditCheckError != null)
+    {
+        <div class="well danger-well position-well clear-border error-descr clear-border">
+            <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+            @creditCheckError
+        </div>
+    }
 }
-@if (!ViewBag.IsMobileRequest)
+@if(!ViewBag.IsMobileRequest)
 {
-	<div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<div class="dealnet-middle-header">@Resources.ScanLicense</div>
-					<div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
-					<ul class="nav nav-tabs" role="tablist">
-						<li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
-						<li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
-					</ul>
-					<div class="tab-content">
-						<div role="tabpanel" class="tab-pane fade in active" id="home">
-							<div id="capture-area">
-								<video autoplay class="capture-frame" id="video"></video>
-								<canvas id="capture-canvas" class="capture-frame"></canvas>
-								<canvas id="big-capture-canvas"></canvas>
-								<div id="capture-buttons">
-									<input type="button" class="btn btn-green" id="capture-btn" value="@Resources.Capture" @*onclick="takePhoto()"*@ />
-									<div id="capture-buttons-2">
-										<input type="button"
-											   class="btn btn-green big-button"
-											   id="upload-capture"
-											   value="@Resources.Save"/>
-											   @*onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')"*@ 
-										<div id="retake" @*onclick="retakePhoto()"*@>@Resources.Retake</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div role="tabpanel" class="tab-pane fade" id="profile">
-							<div id="upload-area">
-								<div id="upload-buttons">
-									<div class="file-upload btn btn-green" id="upload-file-button">
-										<svg aria-hidden="true" class="icon icon-cloud-upload">
-                                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
-										<span>@Resources.UploadPhoto</span>
-										<input type="file" class="upload" id="upload-file" />
-                                               @*onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />*@
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="dealnet-middle-header">@Resources.ScanLicense</div>
+                    <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
+                        <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div id="capture-area">
+                                <video autoplay class="capture-frame" id="video"></video>
+                                <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                <canvas id="big-capture-canvas"></canvas>
+                                <div id="capture-buttons">
+                                    <input type="button" class="btn btn-green" id="capture-btn" value="@Resources.Capture" />
+                                    <div id="capture-buttons-2">
+                                        <input type="button"
+                                               class="btn btn-green big-button"
+                                               id="upload-capture"
+                                               value="@Resources.Save" />
+                                        <div id="retake">@Resources.Retake</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <div id="upload-area">
+                                <div id="upload-buttons">
+                                    <div class="file-upload btn btn-green" id="upload-file-button">
+                                        <svg aria-hidden="true" class="icon icon-cloud-upload">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use>
+                                        </svg>
+                                        <span>@Resources.UploadPhoto</span>
+                                        <input type="file" class="upload" id="upload-file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 <div class="form-container basic-info-form">
     <div class="form-section">
@@ -91,7 +90,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.ContractId)
             @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
-            <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
+            @*<!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->*@
             <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
                 @if(Model?.SubDealers?.Any() ?? false)
                 {
@@ -102,8 +101,11 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                                                Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                                                new { @class = "form-control", id = "subdealers" })
+                                   Model.SubDealers.Select(x => new SelectListItem {
+Value = x.Id,
+Text = x.DisplayName,
+Selected = Model.SubmittingDealerId == x.Id }),
+                                   new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -111,66 +113,66 @@
                 }
                 else
                 {
-                    @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
-                    @*@Html.Hidden("SubmittingDealerId", "")*@
+                    @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)
+                        @Html.Hidden("SubmittingDealerId", "")*@
                 }
 
-            <div class="well well-info position-well clear-border">
+                <div class="well well-info position-well clear-border">
+                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                    @Resources.BorrowerShouldBeHomeOwner
+                </div>
+                @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
+            </div>
+
+            @*<!--Add Additional Applicant-->*@
+            @Html.Partial("BasicInfo/_AdditionalApplicants")
+            @*<!--END Add Additional Applicant-->*@
+
+
+            <div id="add-additional-applicant" class="action-link blue">
+                <div class="align-middle">
+                    <svg aria-hidden="true" class="icon icon-add-app">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                    </svg>
+                    <span>@Resources.AddAdditionalApplicant</span>
+                </div>
+            </div>
+            @*<div class="well well-info position-well collapse" id="age-warning-message">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.AtLeastOne75OrLess
+                </div>
+                <div class="well danger-well position-well  clear-border over-aged-well collapse" id="age-error-message">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.AtLeastOne75OrLess
+                </div>*@
+            <!--Warning Section if isn't chosen homeowner checkbox-->
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-homeowner-errormessage">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.BorrowerShouldBeHomeOwner
             </div>
-            @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
-        </div>
-
-			<!--Add Additional Applicant-->
-			@Html.Partial("BasicInfo/_AdditionalApplicants")
-			<!--END Add Additional Applicant-->
-
-
-        <div id="add-additional-applicant" class="action-link blue">
-            <div class="align-middle">
-                <svg aria-hidden="true" class="icon icon-add-app">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-                </svg>
-                <span>@Resources.AddAdditionalApplicant</span>
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-error-message">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.AllAplicantsConsents
             </div>
-        </div>
-        @*<div class="well well-info position-well collapse" id="age-warning-message">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        @Resources.AtLeastOne75OrLess
-        </div>
-        <div class="well danger-well position-well  clear-border over-aged-well collapse" id="age-error-message">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        @Resources.AtLeastOne75OrLess
-        </div>*@
-        <!--Warning Section if isn't chosen homeowner checkbox-->
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-homeowner-errormessage">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.BorrowerShouldBeHomeOwner
-        </div>
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-error-message">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.AllAplicantsConsents
-        </div>
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-qc-dealer">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.InstallationAddressInQuebec
-        </div>
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-not-qc-dealer">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.InstallationAddressCannotInQuebec
-        </div>
-        <!--End Warning Section if isn't chosen homeowner checkbox-->
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-qc-dealer">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.InstallationAddressInQuebec
+            </div>
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-not-qc-dealer">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.InstallationAddressCannotInQuebec
+            </div>
+            @*<!--End Warning Section if isn't chosen homeowner checkbox-->*@
 
-			<div class="save-proceed-btn-hold form-group">
-				<button class="btn btn-green btn-form" id="save-and-proceed-button">
-					@Resources.SaveAndProceed
-				</button>
-			</div>
-		}
-	</div>
+            <div class="save-proceed-btn-hold form-group">
+                <button class="btn btn-green btn-form" id="save-and-proceed-button">
+                    @Resources.SaveAndProceed
+                </button>
+            </div>
+        }
+    </div>
 </div>
-@*
+@*  REDESIGN
     <div class="new-lead-notification-wp">
         <div class="new-lead-notification new-lead-notification--success">
             <span class="new-lead-notification__left-icon-block">
@@ -179,8 +181,6 @@
             <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
         </div>
     </div>
-
-
 
     <div class="nw-loan-wp">
         <div class="nw-loan">
@@ -2544,36 +2544,36 @@
 @Html.Partial("_AgreementPersonalData", Model.QuebecDealer)
 @section Translations
 {
-	translations['ProcessingImage'] = "@Resources.ProcessingImage";
-	translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
-	translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
-	translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
-	translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
-	translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
-	translations['EnterValidDate'] = "@Resources.EnterValidDate";
-	translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
-	translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
-	translations['InstallationAddressIncorrectFormat'] ='@Resources.InstallationAddressIncorrectFormat';
-	translations['UnitNumberIncorrectFormat'] = '@Resources.UnitNumberIncorrectFormat';
-	translations['CityIncorrectFormat'] = '@Resources.CityIncorrectFormat';
-	translations['ProvinceIncorrectFormat'] = '@Resources.ProvinceIncorrectFormat';
-	translations['PostalCodeIncorrectFormat'] = '@Resources.PostalCodeIncorrectFormat';
-	translations['CompanyPhoneMustBeLong'] = '@Resources.CompanyPhoneMustBeLong';
-	translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
-	translations['JobTitleIncorrectFormat'] = '@Resources.JobTitleIncorrectFormat';
-	translations['CompanyNameIncorrectFormat'] = '@Resources.CompanyNameIncorrectFormat';
-	translations['InstallationAddressInQuebec'] = '@Html.Raw(Resources.InstallationAddressInQuebec)';
-	translations['InstallationAddressCannotInQuebec'] = '@Html.Raw(Resources.InstallationAddressCannotInQuebec)';
-	translations['AdditionalApplicantAddressInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressInQuebec)";
-	translations['AdditionalApplicantAddressCannotInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressCannotInQuebec)";
+    translations['ProcessingImage'] = "@Resources.ProcessingImage";
+    translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
+    translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
+    translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
+    translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
+    translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
+    translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
+    translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
+    translations['InstallationAddressIncorrectFormat'] ='@Resources.InstallationAddressIncorrectFormat';
+    translations['UnitNumberIncorrectFormat'] = '@Resources.UnitNumberIncorrectFormat';
+    translations['CityIncorrectFormat'] = '@Resources.CityIncorrectFormat';
+    translations['ProvinceIncorrectFormat'] = '@Resources.ProvinceIncorrectFormat';
+    translations['PostalCodeIncorrectFormat'] = '@Resources.PostalCodeIncorrectFormat';
+    translations['CompanyPhoneMustBeLong'] = '@Resources.CompanyPhoneMustBeLong';
+    translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
+    translations['JobTitleIncorrectFormat'] = '@Resources.JobTitleIncorrectFormat';
+    translations['CompanyNameIncorrectFormat'] = '@Resources.CompanyNameIncorrectFormat';
+    translations['InstallationAddressInQuebec'] = '@Html.Raw(Resources.InstallationAddressInQuebec)';
+    translations['InstallationAddressCannotInQuebec'] = '@Html.Raw(Resources.InstallationAddressCannotInQuebec)';
+    translations['AdditionalApplicantAddressInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressInQuebec)";
+    translations['AdditionalApplicantAddressCannotInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressCannotInQuebec)";
 }
 @section scripts
 {
-	@Scripts.Render("~/bundles/jqueryval")
-	@Scripts.Render("~/bundles/localization")
-	@Scripts.Render("~/bundles/basic-info")
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
-	<script type="text/javascript">
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
+    @Scripts.Render("~/bundles/basic-info")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
+    <script type="text/javascript">
         $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));
 
         var isMobileRequest = @(ViewBag.IsMobileRequest ? "true" : "false");
@@ -2585,8 +2585,8 @@
         {
 <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
 }
-	</script>
-	<script type="text/javascript">
+    </script>
+    <script type="text/javascript">
     $(document).ready(function () {
         /**/
         /**/
