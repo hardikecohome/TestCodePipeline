@@ -185,10 +185,15 @@
                             <span>+</span><span>Accept lead</span>
                         </div>
                         <div class="main-table__block__row__cell info">
-                            <i class="i-letter-ico"></i>
-                            <span class="show-details">
+                            <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());console.log($data.showInfo());}"></i>
+                            <span class="show-details" data-bind="click:function(){$data.showInfo(!$data.showInfo());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
+                            <div class="customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
+                                <i class="cross-ico" data-bind="click:function(){$data.showInfo(false);}, visible: $data.showInfo"></i>
+                                <span class="customer-comment-popup__title"></span>
+                                <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
+                            </div>
                         </div>
                     </div>
                     <div class="main-table__block__row">

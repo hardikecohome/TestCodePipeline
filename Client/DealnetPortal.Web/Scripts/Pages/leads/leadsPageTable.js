@@ -179,7 +179,7 @@
                     isSelected: ko.observable(false),
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
-                    showNotes: ko.observable(false),
+                    showInfo: ko.observable(false),
                     valueNum: parseFloat(item.Value.substr(2)) || 0,
                     DateVal: item.Date ? new Date(item.Date) : ''
                 });
