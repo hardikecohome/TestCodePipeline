@@ -40,13 +40,13 @@
         <div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
 
         @*@if (Model.BasicInfo.ContractWasDeclined)
-            {*@
-        <!--Show/hide warning depend on status-deal-submitted-->
-        @*<div class="well well-info position-well">
-                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                    @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
-                </div>
-            }*@
+                {
+            <!--Show/hide warning depend on status-deal-submitted-->
+            <div class="well well-info position-well">
+                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                        @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
+                    </div>
+                }*@
 
         @if(ViewBag.IsNewlySubmitted)
         {
@@ -276,7 +276,7 @@
                                 }
                             </div>
                         }
-                        <!------------------------------------------------->
+                        @*<!------------------------------------------------->*@
 
                         <div class="@(Model.UploadDocumentsInfo.ExistingDocuments.Any(x => x.DocumentTypeId == 7) ? "uploaded" : "") documents-pills-item tab-container-7">
                             <a href="#tab7" class="documents-pills-link" aria-controls="tab7" role="tab" data-toggle="tab">
@@ -1259,17 +1259,13 @@
                                                 <div class="dealnet-disabled-input">
                                                     <span>
                                                         @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
-                                                        @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                    Resources.Year :
-                                                                                                                                                                                                                                                                                                                                    Resources.Years)
+                                                        @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
-                                                            @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                            Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                            Resources.Months)
+                                                            @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)
                                                         </span>
                                                     }
                                                 </div>
@@ -2036,17 +2032,13 @@
                                                         <div class="dealnet-disabled-input">
                                                             <span>
                                                                 @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
-                                                                @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
-                                                                    @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                    @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -2341,7 +2333,7 @@
                                                             Value=x.Id.ToString(),
                                                             Text = x.Description,
                                                             Selected = Model.EquipmentInfo.NewEquipment[i].EquipmentSubType.Id == x.Id
-                                                        })                                                        ,
+                                                        }),
                                                         new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </div>
                                         </div>
@@ -3519,7 +3511,8 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
 }
 
-@*<div class="nw-step-options-wp">
+@*< REDESIGN
+    div class="nw-step-options-wp">
         <div class="nw-step-options">
             <div class="nw-step-options__header">
                 <div class="nw-step-options__header__title">Deal #2345</div>

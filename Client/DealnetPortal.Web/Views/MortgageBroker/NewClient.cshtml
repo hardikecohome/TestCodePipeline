@@ -591,10 +591,6 @@
                                         <option value="@improvement.Type" data-id="@improvement.Id">@improvement.Description</option>
                                     }
                                 </select>
-                                @*@Html.DropDownList("ImpromventTypes", (Model.EquipmentTypes).Select(x => new SelectListItem {
-                               Value = x.Type,
-                               Text = x.Description }), Resources.PleaseSelect,
-                     new { @class = "form-control dealnet-input", id = "improvment-equipment" })*@
                             </div>
                         </div>
                     </div>
@@ -703,9 +699,9 @@
     translations['YouShouldBe75OrLess'] = "@Resources.OrderProceedClientAged75OrLess";
     translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
     translations['EnterValidDate'] = "@Resources.EnterValidDate";
-    // translations['YouShouldBeHomeOwner'] = ""; TODO: add resources in next release
+    @*// translations['YouShouldBeHomeOwner'] = ""; TODO: add resources in next release*@
     translations['EmptyCreditAgreement'] = "@Resources.PleaseCheckAgreementToContinue";
-    // translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release
+    @*// translations['EmptyContactAgreement'] = ""; TODO: add resources in next Release*@
     translations['NotSelected'] = "@Resources.NotSelected";
     translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
 }

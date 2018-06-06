@@ -4,17 +4,21 @@
 <div class="rental-successful-page">
     <div class="row">
         <div class="col-xs-12">
-            <div class="message-header text-center">@(Model.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental) @Resources.AgreementSubmittedSuccessfully</div>
+            <div class="message-header text-center">
+            @(Model.AgreementType == AgreementType.LoanApplication ? Resources.Loan : Resources.Rental) @Resources.AgreementSubmittedSuccessfully
+            </div>
             <div class="links-container">
                 <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="dealnet-info-link">
                     @Resources.SeeContractDetails
                 </a>
                 <a href="#" id="print-button" class="action-link blue disabled">
-                    <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
+                    <svg aria-hidden="true" class="icon icon-printer">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
                 </a>
 
                 <div class="well danger-well position-well clear-border error-descr collapse" id="print-error-message">
-                    <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+                    <svg aria-hidden="true" class="icon icon-error">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
                     @Resources.CannotGetAgreementForPrint
                 </div>
             </div>
@@ -31,7 +35,8 @@
                         <div class="well rental-summary-emails well-info">
                             <div class="rental-summary-inner">
                                 <p class="summary-emails-header">
-                                    <svg aria-hidden="true" class="icon icon-email"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
+                                    <svg aria-hidden="true" class="icon icon-email">
+                                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-email")"></use></svg>
                                     @Resources.PleaseEnterEmailsAndClickSend
                                 </p>
                                 <p>@Resources.InvitesForSigningWillBeSent</p>
@@ -39,10 +44,10 @@
                                 <div class="row form-group">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.Borrower</div>
-                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.HomeOwnerFullName</div></div>
+                                        <div class="control-group text-middle-group text-semibold">
+                                        <div class="text-hold">@Model.HomeOwnerFullName</div></div>
                                     </div>
                                     <div class="col-md-7">
-                                        <!--@Html.LabelFor(m => m.BorrowerEmail)-->
                                         <label for="">@Resources.Email</label>
                                         <div class="control-group">
                                             @Html.TextBoxFor(m => m.BorrowerEmail, new {@class = "dealnet-input form-control", type = "email", placeholder = Resources.Email })
@@ -57,7 +62,8 @@
                                 <div class="row form-group">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.AdditionalApplicant</div>
-                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.AdditionalApplicantsEmails[i].CustomerName</div></div>
+                                        <div class="control-group text-middle-group text-semibold">
+                                        <div class="text-hold">@Model.AdditionalApplicantsEmails[i].CustomerName</div></div>
                                     </div>
                                     <div class="col-md-7">
                                         <label for="">@Resources.Email</label>
@@ -73,7 +79,8 @@
                                 <div class="row form-group">
                                     <div class="col-md-5 applicant-col">
                                         <div class="dealnet-label">@Resources.SalesRep</div>
-                                        <div class="control-group text-middle-group text-semibold"><div class="text-hold">@Model.SalesRep</div></div>
+                                        <div class="control-group text-middle-group text-semibold">
+                                        <div class="text-hold">@Model.SalesRep</div></div>
                                     </div>
                                     <div class="col-md-7">
                                         <label for="">@Resources.Email</label>
