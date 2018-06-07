@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Storage;
+using DealnetPortal.Domain;
 
 namespace DealnetPortal.Api.Integration.Interfaces
 {
@@ -15,9 +17,9 @@ namespace DealnetPortal.Api.Integration.Interfaces
     {
         ContractDTO CreateContract(string contractOwnerId);
 
-        IList<ContractShortInfoDTO> GetContractsShortInfo(string contractOwnerId);
+        IList<TMapTo> GetContracts<TMapTo>(string contractOwnerId);
 
-        IList<ContractDTO> GetContracts(string contractOwnerId);
+        IList<TMapTo> GetContracts<TMapTo>(Expression<Func<Contract, bool>> predicate, string contractOwnerId);
 
         int GetCustomersContractsCount(string contractOwnerId);
 

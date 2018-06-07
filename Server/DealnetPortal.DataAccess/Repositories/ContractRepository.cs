@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
@@ -60,6 +61,26 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)
                 .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
+            return contracts;
+        }
+
+        public IList<Contract> GetContracts(Expression<Func<Contract, bool>> predicate, string ownerUserId)
+        {
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.RateCard)
+                .Include(c => c.Documents)
+                .Include(c => c.Signers)
+                .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)
+                .Where(predicate).ToList();
             return contracts;
         }
 

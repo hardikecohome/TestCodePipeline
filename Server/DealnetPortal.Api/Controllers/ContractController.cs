@@ -44,7 +44,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {            
-                var contracts = _contractService.GetContracts(LoggedInUser.UserId);
+                var contracts = _contractService.GetContracts<ContractDTO>(LoggedInUser.UserId);
                 return Ok(contracts);
             }
             catch (Exception ex)
@@ -61,7 +61,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var contracts = _contractService.GetContractsShortInfo(LoggedInUser.UserId);
+                var contracts = _contractService.GetContracts<ContractShortInfoDTO>(LoggedInUser.UserId);
                 return Ok(contracts);
             }
             catch (Exception ex)
@@ -71,7 +71,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCustomersContractsCount")]
+        // GET: api/Contract/count
+        [Route("count")]
         [HttpGet]
         public IHttpActionResult GetCustomersContractsCount()
         {
@@ -87,12 +88,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCompletedContracts")]
+        // GET: api/Contract/completed
+        [Route("completed")]
         [HttpGet]
         public IHttpActionResult GetCompletedContracts()
         {
-            var contracts = _contractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
+            var contracts = _contractService.GetContracts<ContractDTO>(c => c.ContractState >= ContractState.Completed, LoggedInUser.UserId);
+            return Ok(contracts);
+        }
+
+        [Route("shortinfo/completed")]
+        [HttpGet]
+        public IHttpActionResult GetCompletedContractsShortInfo()
+        {
+            var contracts = _contractService.GetContracts<ContractShortInfoDTO>(c => c.ContractState >= ContractState.Completed, LoggedInUser.UserId);
+            return Ok(contracts);
         }
 
         //Get: api/Contract/{contractId}

@@ -91,70 +91,16 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]", ex);
                 throw;
             }
-        }
+        }        
 
-        public IList<ContractDTO> GetContracts(string contractOwnerId)
+        public IList<TMapTo> GetContracts<TMapTo>(string contractOwnerId)
         {
-            //var contractDTOs = new List<ContractDTO>();
-            //var contracts = _contractRepository.GetContracts(contractOwnerId);
-            //var equipments = _contractRepository.GetEquipmentTypes();
-            //var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);
-            //var aspireDeals = SyncAspireDealsForDealer<ContractDTO>(contracts, contractOwnerId, true, equipments);
-            //var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts, opts =>
-            //{
-            //    opts.Items.Add("EquipmentTypes", equipments);
-            //    opts.Items.Add("DocumentTypes", dealerDocumentTypes);
-            //});
-            //contractDTOs.AddRange(mappedContracts);
-            //contractDTOs.AddRange(aspireDeals);
-
-            //return contractDTOs;
-
-            var contractDTOs = new List<ContractDTO>();
-            var contracts = _contractRepository.GetContracts(contractOwnerId);
-
-            var aspireDeals = GetAspireDealsForDealer<ContractDTO>(contractOwnerId);
-            if (aspireDeals?.Any() ?? false)
-            {
-                var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
-
-                var unlinkedDeals = aspireDeals.Where(ad => ad.Details?.TransactionId != null &&
-                                                            contracts.All(
-                                                                c =>
-                                                                    (!c.Details?.TransactionId?.Contains(
-                                                                        ad.Details.TransactionId) ?? true))).ToList();
-                if (unlinkedDeals.Any())
-                {
-                    contractDTOs.AddRange(unlinkedDeals);
-                }
-                if (isContractsUpdated)
-                {
-                    try
-                    {
-                        _unitOfWork.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        _loggingService.LogError("Cannot update Aspire deals status", ex);
-                    }
-                }
-            }
-
-            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, mappedContracts, contractOwnerId);
-            contractDTOs.AddRange(mappedContracts);
-
-            return contractDTOs;
-        }
-
-        public IList<ContractShortInfoDTO> GetContractsShortInfo(string contractOwnerId)
-        {
-            var contractDTOs = new List<ContractShortInfoDTO>();
+            var contractDTOs = new List<TMapTo>();
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var equipments = _contractRepository.GetEquipmentTypes();
             var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
-            var aspireDeals = SyncAspireDealsForDealer<ContractShortInfoDTO>(contracts, contractOwnerId, true, equipments);
-            var mappedContracts = Mapper.Map<IList<ContractShortInfoDTO>>(contracts, opts =>
+            var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);
+            var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
                 opts.Items.Add("EquipmentTypes", equipments);
                 opts.Items.Add("DocumentTypes", dealerDocumentTypes);
@@ -162,6 +108,21 @@ namespace DealnetPortal.Api.Integration.Services
             contractDTOs.AddRange(mappedContracts);
             contractDTOs.AddRange(aspireDeals);
 
+            return contractDTOs;
+        }
+
+        public IList<TMapTo> GetContracts<TMapTo>(Expression<Func<Contract, bool>> predicate, string contractOwnerId)
+        {
+            var contractDTOs = new List<TMapTo>();
+            var contracts = _contractRepository.GetContracts(predicate, contractOwnerId);
+            var equipments = _contractRepository.GetEquipmentTypes();
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
+            var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
+            {
+                opts.Items.Add("EquipmentTypes", equipments);
+                opts.Items.Add("DocumentTypes", dealerDocumentTypes);
+            });
+            contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
         }
 
