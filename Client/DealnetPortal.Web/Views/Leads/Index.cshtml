@@ -18,7 +18,7 @@
                     </div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
-                            <input type="text" name="search" required>
+                            <input type="text" name="search" required textInput: data-bind="textInput: search">
                             <label>@Resources.Search</label>
                             <span class="search-ico"></span>
                         </div>
@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="margin-block" style="display: none" data-bind="visible: isError() && showResultMessage()">
+    <div class="margin-block" style="display: none" data-bind="visible: !isError() && showResultMessage()">
         <div class="row">
             <div class="new-lead-notification-wp">
                 <div class="new-lead-notification new-lead-notification--success">
@@ -90,12 +90,12 @@
                         var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
                     }
                     <span class="new-lead-notification__message" id="new-lead-notification-success">@wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]</span>
-</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="margin-block" style="display: none" data-bind="visible: !isError() && showResultMessage()">
+    <div class="margin-block" style="display: none" data-bind="visible: isError() && showResultMessage()">
         <div class="row">
             <div class="new-lead-notification-wp">
                 <div class="new-lead-notification new-lead-notification--error">
@@ -109,7 +109,6 @@
     </div>
     <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
         <div class="row">
-
             <div class="main-table leads-page">
                 <div class="main-table__block main-table__block--header">
                     <div class="main-table__block__row">
@@ -248,7 +247,7 @@
     <div class="accept-lead-popup" data-bind="visible: showLeadPopup()" style="display:none;">
             <i class="cross-ico" data-bind="click: function () { toggleAcceptLeadPopup(); }"></i>
             <span class="accept-lead-popup__title">@Resources.AcceptLead</span>
-            <span class="accept-lead-popup__legend">@Resources.AreYouSure </br>@Resources.AcceptanceOfLeadFeeAppliedToYourAccount</span>
+            <span class="accept-lead-popup__legend">@Resources.AreYouSure <br/>@Resources.AcceptanceOfLeadFeeAppliedToYourAccount</span>
             <div class="accept-lead-popup__buttons">
                 <div class="new-btn-grey" data-bind="click: function () { toggleAcceptLeadPopup(); }"><span>@Resources.Cancel</span></div>
                 <div class="new-btn-solid-green" data-bind="click: function () {acceptLead(); }"><span>@Resources.AcceptLead</span></div>
@@ -261,10 +260,10 @@
             @Resources.NoLeadsFirstPart
         </p>
         <p>
-            @Html.Raw(@Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
+            @Html.Raw(Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
         </p>
         <p>
-           @Html.Raw(@Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", Resources.ContactDealerSupport))
+           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", Resources.ContactDealerSupport))
         </p>
     </div>
 </div>

@@ -128,7 +128,7 @@
                 this.showResultMessage(true);
                 var temp = this.filteredList().filter(function(item) { return item.TransactionId != selectedLeadId });
                 this.filteredList(temp);
-                this.showLeadPopup(false);
+                this.toggleAcceptLeadPopup();
             }.bind(this));
         }
 
@@ -263,9 +263,18 @@
         this.sortedList.subscribe(function (newValue) {
             this.pager.list(newValue);
         }, this);
-        this.search.subscribe(function(newValue) {
 
-        });
+        this.search.subscribe(function(val) {
+            if (val === '') return this.filterList();
+            var tempList = this.list().reduce(function (acc, item) {
+                if (item.Equipment.includes(val) || item.CustomerComment.includes(val)) {
+                    return acc.concat(item);
+                }
+                return acc;
+            }, []);
+
+            this.filteredList(tempList);
+        }, this);
     }
 
     return LeadsTable;
