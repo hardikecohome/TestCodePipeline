@@ -152,6 +152,7 @@ namespace DealnetPortal.Api.Integration.Services
             //check credit report status and update if needed
             if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
+                contract.ContractState < ContractState.Closed &&
                 contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
             {
