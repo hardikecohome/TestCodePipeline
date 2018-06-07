@@ -19,7 +19,7 @@
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
                             <input type="text" name="search" required>
-                            <label>Search</label>
+                            <label>@Resources.Search</label>
                             <span class="search-ico"></span>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                         <div class="main-table__block__row__cell customer-comment">
                             <span data-bind="text: $data.CustomerComment"></span>
                         </div>
-                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.selectedLeadId($data.TransactionId); $parent.showLeadPopup(true);}">
+                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.TransactionId);}">
                             <span>+</span><span>@Resources.AcceptLead</span>
                         </div>
                         <div class="main-table__block__row__cell info">
@@ -246,14 +246,14 @@
     </div>
 
     <div class="accept-lead-popup" data-bind="visible: showLeadPopup()" style="display:none;">
-            <i class="cross-ico" data-bind="click: function () {  showLeadPopup(false) }"></i>
+            <i class="cross-ico" data-bind="click: function () { toggleAcceptLeadPopup(); }"></i>
             <span class="accept-lead-popup__title">@Resources.AcceptLead</span>
             <span class="accept-lead-popup__legend">@Resources.AreYouSure </br>@Resources.AcceptanceOfLeadFeeAppliedToYourAccount</span>
             <div class="accept-lead-popup__buttons">
-                <div class="new-btn-grey" data-bind="click: function () { showLeadPopup(false); }"><span>@Resources.Cancel</span></div>
+                <div class="new-btn-grey" data-bind="click: function () { toggleAcceptLeadPopup(); }"><span>@Resources.Cancel</span></div>
                 <div class="new-btn-solid-green" data-bind="click: function () {acceptLead(); }"><span>@Resources.AcceptLead</span></div>
             </div>
-        </div>
+    </div>
 
     <div class="nw-placeholder" data-bind="visible: list().length < 1">
         <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>

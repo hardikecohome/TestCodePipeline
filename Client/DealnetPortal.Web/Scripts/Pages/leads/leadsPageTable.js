@@ -102,6 +102,7 @@
         this.list = ko.observableArray(list);
         this.isError = ko.observable(false);
         this.errorMessage = ko.observable('');
+        this.search = ko.observable('');
         this.showResultMessage = ko.observable(false);
         this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
@@ -160,6 +161,12 @@
             localStorage.removeItem(filters.dateTo);
             localStorage.removeItem(filters.dateFrom);
         };
+
+        this.toggleAcceptLeadPopup = function(transactionId) {
+            this.selectedLeadId(transactionId || 0);
+            this.showLeadPopup(!this.showLeadPopup());
+            $('#help-hover').css('display', this.showLeadPopup() ? 'block': 'none');
+        }
 
         this.clearSort = function () {
             this.sortedColumn('');
@@ -256,6 +263,9 @@
         this.sortedList.subscribe(function (newValue) {
             this.pager.list(newValue);
         }, this);
+        this.search.subscribe(function(newValue) {
+
+        });
     }
 
     return LeadsTable;
