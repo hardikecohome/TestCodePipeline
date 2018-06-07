@@ -45,8 +45,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> ContractEdit(int contractId)
         {
-            var contractResult = await _contractServiceAgent.GetContracts(new List<int> { contractId });
-            var contract = contractResult.Item1.FirstOrDefault();
+            var contractResult = await _contractServiceAgent.GetContract(contractId );
+            var contract = contractResult.Item1;
             if(contract != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
                 var isNewlyCreated = contract.IsNewlyCreated;
