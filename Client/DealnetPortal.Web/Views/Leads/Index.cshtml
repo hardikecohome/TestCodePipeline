@@ -1,9 +1,10 @@
 ﻿<div id="leads-body" data-bind="with: table">
-    <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
+    <div class="margin-block">
         <div class="row">
             <div class="filters my-deals-page">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.Leads</div>
+                    <!-- ko if:  list().length > 0 -->
                     <div class="filters-head__learn-more">
                         @*<i class="lamp-ico"></i>
                             <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
@@ -39,8 +40,9 @@
                         <span>@Resources.Filters</span>
                     </div>
                     <div class="filters-head__sort-btn new-sort-btn-red"><i class="sort-button-red-ico"></i><span>Sort</span></div>
+                    <!-- /ko -->
                 </div>
-                <div class="filters-advanced" data-bind="visible: showFilters() || showSorters()">
+                <div class="filters-advanced" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap">
                             <label for="postal-code">@Resources.PostalCode</label>
@@ -77,20 +79,23 @@
             </div>
         </div>
     </div>
-    <div class="margin-block" style="display: none" data-bind="visible: !isError() && showResultMessage()">
+    <div class="margin-block" style="display: none" data-bind="visible: isError() && showResultMessage()">
         <div class="row">
             <div class="new-lead-notification-wp">
                 <div class="new-lead-notification new-lead-notification--success">
                     <span class="new-lead-notification__left-icon-block">
                         <i class="new-lead-notification__notification-ico"></i>
                     </span>
-                    <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one</span>
-                </div>
+                    @{
+                        var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
+                    }
+                    <span class="new-lead-notification__message" id="new-lead-notification-success">@wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]</span>
+</div>
             </div>
         </div>
     </div>
 
-    <div class="margin-block" style="display: none" data-bind="visible: isError() && showResultMessage()">
+    <div class="margin-block" style="display: none" data-bind="visible: !isError() && showResultMessage()">
         <div class="row">
             <div class="new-lead-notification-wp">
                 <div class="new-lead-notification new-lead-notification--error">
@@ -202,7 +207,7 @@
                                         <i class="i-letter-ico"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__accept-lead"><span>+</span><span>Accept lead</span></div>
+                                <div class="table-row-details__left__accept-lead"><span>+</span><span>@Resources.AcceptLead</span></div>
                             </div>
                         </div>
                     </div>
@@ -242,11 +247,11 @@
 
     <div class="accept-lead-popup" data-bind="visible: showLeadPopup()" style="display:none;">
             <i class="cross-ico" data-bind="click: function () {  showLeadPopup(false) }"></i>
-            <span class="accept-lead-popup__title">Accept lead</span>
-            <span class="accept-lead-popup__legend">Are you sure? </br>On acceptance of lead a 1% of pre-approved loan value will be applied to your account as a lead free.</span>
+            <span class="accept-lead-popup__title">@Resources.AcceptLead</span>
+            <span class="accept-lead-popup__legend">@Resources.AreYouSure </br>@Resources.AcceptanceOfLeadFeeAppliedToYourAccount</span>
             <div class="accept-lead-popup__buttons">
-                <div class="new-btn-grey" data-bind="click: function () { showLeadPopup(false); }"><span>Cancel</span></div>
-                <div class="new-btn-solid-green" data-bind="click: function () {acceptLead(); }"><span>Accept lead</span></div>
+                <div class="new-btn-grey" data-bind="click: function () { showLeadPopup(false); }"><span>@Resources.Cancel</span></div>
+                <div class="new-btn-solid-green" data-bind="click: function () {acceptLead(); }"><span>@Resources.AcceptLead</span></div>
             </div>
         </div>
 

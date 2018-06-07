@@ -14,6 +14,7 @@
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 
     var LeadsTable = function(list) {
+        console.log(list);
         this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
@@ -114,10 +115,14 @@
             }).done(function(json) {
                 this.isError(json.isError);
                 if (json.Errors) {
-                    this.errorMessage(json.Errors.reduce(function (acc, error) { 
-                        acc += error + '.\n';
-                        return acc;
-                    }, ''));
+                    this.errorMessage(json.Errors.reduce(function(acc, error) {
+                            acc += error + '.\n';
+                            return acc;
+                        },
+                        ''));
+                } else {
+                    var $message = $('#new-lead-notification-success');
+                    $message.html($message.html().replace('{1}', selectedLeadId));
                 }
                 this.showResultMessage(true);
                 var temp = this.filteredList().filter(function(item) { return item.TransactionId != selectedLeadId });

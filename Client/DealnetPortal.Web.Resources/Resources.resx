@@ -1506,7 +1506,7 @@
     <value>Select category</value>
   </data>
   <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
-    <value>On acceptance of lead {0} fee will be applied to your account as a lead fee.</value>
+    <value>On acceptance of lead 1% fee will be applied to your account as a lead fee.</value>
   </data>
   <data name="AddressDetermined" xml:space="preserve">
     <value>Address to be determined</value>

@@ -1531,7 +1531,7 @@
     <value>TAUX STANDARD</value>
   </data>
   <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
-    <value>À l’acceptation de la piste, des frais de {0} seront facturés à votre compte à titre de frais pour les pistes.</value>
+    <value>À l’acceptation de la piste, des frais de 1% seront facturés à votre compte à titre de frais pour les pistes.</value>
   </data>
   <data name="AcceptLead" xml:space="preserve">
     <value>Accepter la piste</value>

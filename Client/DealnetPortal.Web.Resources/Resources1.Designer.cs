@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to On acceptance of lead {0} fee will be applied to your account as a lead fee..
+        ///   Looks up a localized string similar to On acceptance of lead 1% fee will be applied to your account as a lead fee..
         /// </summary>
         public static string AcceptanceOfLeadFeeAppliedToYourAccount {
             get {
