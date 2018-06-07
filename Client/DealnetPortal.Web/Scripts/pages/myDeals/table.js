@@ -205,6 +205,20 @@
             });
         }, this);
 
+        this.allSelected = ko.pureComputed({
+            read: function () {
+                return this.pager.pagedList().reduce(function (acc, item) {
+                    return (item.Id == 0 || item.IsInternal || item.isSelected()) && acc;
+                }, true);
+            },
+            write: function (value) {
+                this.pager.pagedList().forEach(function (item) {
+                    if (item.Id != 0 && !item.IsInternal) item.isSelected(value);
+                });
+            },
+            owner: this
+        });
+
         // functions
         this.toggleFilters = function () {
             this.showSorters(false);

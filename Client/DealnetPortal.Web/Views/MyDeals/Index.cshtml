@@ -282,8 +282,8 @@
                 <div class="main-table__block main-table__block--header">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
+                            <label class="customized-checkbox-icon" data-bind="click:function(){allSelected(!allSelected())}">
+                                <input id="checkBox" type="checkbox" data-bind="checked: allSelected" />
                                 <span class="customized-checkbox-icon__image"></span>
                             </label>
                         </div>
@@ -481,12 +481,12 @@
                             <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
+                            <i class="gear-ico"  data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
                             <span class="show-details" data-bind="click:function(){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
-                                <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}, visible: $data.showActions"></i>
+                                <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                 <div class="table-row-settings-popup__edit">
                                     <i class="edit-contract-ico"></i>
                                     <span>
@@ -643,7 +643,7 @@
                                 <div class="table-row-details__left__gear">
                                     <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
                                     <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
-                                        <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}, visible: $data.showActions"></i>
+                                        <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                         <div class="table-row-settings-popup__edit">
                                             <i class="edit-contract-ico"></i>
                                             <span>
@@ -683,7 +683,7 @@
                 <div class="main-table__block main-table__block--total">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__grand-total">
-                            @Resources.GrandTotal:
+                            @Resources.GrandTotal
                         </div>
                         <div class="main-table__block__row__grand-total-value">
                             <span class="main-table__block__row__grand-total-value__total-container">$ <span data-bind="text: selectedTotal"></span></span>
@@ -720,8 +720,8 @@
                         <i class="pagination-left-ico"></i>
                     </a>
                     <ul class="new-pagination__pages" data-bind="foreach: allPages">
-                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}">
-                            <a data-bind="text: $data.pageText, enable: !$data.disabled, click: $parent.moveToPage"></a>
+                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}, click: $parent.moveToPage">
+                            <a data-bind="text: $data.pageText, enable: !$data.disabled"></a>
                         </li>
                     </ul>
                     <a data-bind="click: goToNextPage, disable: pageIndex() == maxPageIndex()">
