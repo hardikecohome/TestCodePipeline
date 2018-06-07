@@ -56,6 +56,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.RateCard)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)
                 .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();

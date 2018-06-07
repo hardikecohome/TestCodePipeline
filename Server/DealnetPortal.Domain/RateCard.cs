@@ -40,7 +40,7 @@ namespace DealnetPortal.Domain
 
         public int TierId { get; set; }
         [ForeignKey("TierId")]
-        public virtual Tier Tier { get; set; }
+        public Tier Tier { get; set; }
 
         public int? CustomerRiskGroupId { get; set; }
         [ForeignKey("CustomerRiskGroupId")]
