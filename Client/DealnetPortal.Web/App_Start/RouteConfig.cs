@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
-using DealnetPortal.Web.Common.Helpers;
-using DealnetPortal.Web.Infrastructure.Extensions;
 
 namespace DealnetPortal.Web
 {

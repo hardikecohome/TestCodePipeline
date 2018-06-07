@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models

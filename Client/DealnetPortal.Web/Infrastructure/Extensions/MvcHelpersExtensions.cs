@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models;
 
 namespace DealnetPortal.Web.Infrastructure.Extensions

@@ -61,7 +61,7 @@ namespace DealnetPortal.Web.Models.Validation
             var rule = new ModelClientValidationRule
             {
                 ErrorMessage = Resources.Resources.TotalCostGreaterThanAmount,
-                ValidationType = "checkcost",
+                ValidationType = "checkcost"
             };
             yield return rule;
         }

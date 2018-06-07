@@ -1,4 +1,3 @@
-@using System
 @using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
@@ -9,7 +8,6 @@
 
 @model DealnetPortal.Web.Models.ContractViewModel
 @{
-    var contractState = Model.AdditionalInfo.ContractState;
 
     Func<string, string> formatIncome = str =>
     {
@@ -24,7 +22,6 @@
         return "$" + str;
     };
 
-    var equipmentTypes = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
     var identity = (ClaimsIdentity)User.Identity;
     var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
 }

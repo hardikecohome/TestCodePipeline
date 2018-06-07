@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Web.Models.Dealer;
 using System.Threading.Tasks;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using System.Reflection;

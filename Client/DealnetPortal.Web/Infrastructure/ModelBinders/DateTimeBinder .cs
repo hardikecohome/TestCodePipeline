@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Api.Core.Helpers;
-using DealnetPortal.Web.Common.Culture;
 
 namespace DealnetPortal.Web.Infrastructure.ModelBinders
 {

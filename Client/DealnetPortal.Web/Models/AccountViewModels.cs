@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models

@@ -66,7 +66,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 }
                 catch (Exception ex)
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Message = ex.ToString()
@@ -91,7 +91,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 var ticket = FormsAuthentication.Decrypt(authCookie.Value);
                 if (ticket != null)
                 {
-                    var claims = new List<Claim>() { new Claim(ClaimTypes.Name, ticket.Name) };                    
+                    var claims = new List<Claim> { new Claim(ClaimTypes.Name, ticket.Name) };                    
                     var currentUser = new UserPrincipal(new UserIdentity(claims) {Token = ticket.UserData});
                     return currentUser;
                 }

@@ -3,7 +3,6 @@
 @using DealnetPortal.Api.Common.Enumeration
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Core.Helpers
-@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models
 @using DealnetPortal.Web.Models.Enumeration
 @using System.Security.Claims
@@ -2897,7 +2896,7 @@
                                                         @Html.DropDownListFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned,
                                                                            new SelectList(new[] {
                                                                                                                                                                         new {Value = "true",Text = yesNaming,Selected =  Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
-                                                                                                                                                                        new {Value = "false",Text = noNaming,Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                                                                                                                        new {Value = "false",Text = noNaming,Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned}
                                                                             },
                                                                             "Value", "Text", Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
                                                                            new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })

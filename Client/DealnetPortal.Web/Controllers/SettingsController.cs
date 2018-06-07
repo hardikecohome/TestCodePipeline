@@ -7,9 +7,7 @@ using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
 
 using DealnetPortal.Utilities.Logging;
-using log4net;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models.Enumeration;

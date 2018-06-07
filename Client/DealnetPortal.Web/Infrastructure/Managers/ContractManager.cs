@@ -80,7 +80,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 return new EquipmentInformationViewModelNew();
             }
 
-            var equipmentInfo = new EquipmentInformationViewModelNew()
+            var equipmentInfo = new EquipmentInformationViewModelNew
             {
                 ContractId = contractId,
                 ContractState = result.Item1.ContractState
@@ -125,7 +125,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             equipmentInfo.CreditAmount = result.Item1.Details?.CreditAmount;
 
             var dealerTier = await _dictionaryServiceAgent.GetDealerTier(contractId);
-            equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+            equipmentInfo.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel { RateCards = new List<RateCardViewModel>() };
 
             MapContractConditions(result.Item1, dealerTier, equipmentInfo.Conditions);
 
@@ -314,7 +314,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             };
 
             var dealerTier = await _dictionaryServiceAgent.GetDealerTier();
-	        model.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel() { RateCards = new List<RateCardViewModel>() };
+	        model.DealerTier = Mapper.Map<TierViewModel>(dealerTier) ?? new TierViewModel { RateCards = new List<RateCardViewModel>() };
 		    var reductionCards = await _dictionaryServiceAgent.GetAllRateReductionCards();
 	        model.DealerTier.RateReductionCards = Mapper.Map<List<ReductionCardViewModel>>(reductionCards.Item1);
 
@@ -323,7 +323,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 {RateCardType.FixedRate, Resources.Resources.StandardRate},
                 {RateCardType.NoInterest, Resources.Resources.EqualPayments},
                 {RateCardType.Deferral, Resources.Resources.Deferral},
-                {RateCardType.Custom, Resources.Resources.Custom},
+                {RateCardType.Custom, Resources.Resources.Custom}
             };
 
             model.Plans = model.DealerTier.RateCards
@@ -379,7 +379,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var paymentSummary = GetPaymentSummary(contractsResult.Item1,
                 (decimal?)summaryViewModel.ProvinceTaxRate?.Rate, summaryViewModel.IsClarityDealer, summaryViewModel.IsOldClarityDeal);
 
-            var contractEditViewModel = new ContractEditViewModel()
+            var contractEditViewModel = new ContractEditViewModel
             {
                 AdditionalInfo = summaryViewModel.AdditionalInfo,
                 ContactAndPaymentInfo = summaryViewModel.ContactAndPaymentInfo,
@@ -431,14 +431,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     docTypes.Item1.RemoveAt(docTypes.Item1.IndexOf(otherDoc));
                     docTypes.Item1.Add(otherDoc);
                 }
-                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
+                contractEditViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem
                 {
                     Value = d.Id.ToString(),
                     Text = d.Description
                 }).ToList();
             }
 
-            contractEditViewModel.InstallCertificateInformation = new CertificateInformationViewModel()
+            contractEditViewModel.InstallCertificateInformation = new CertificateInformationViewModel
             {
                 ContractId = contractId,
                 InstallationDate = contractsResult.Item1.Equipment?.InstallationDate,
@@ -448,11 +448,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             };
             contractsResult.Item1.Equipment?.NewEquipment?.ForEach(eq =>
                 contractEditViewModel.InstallCertificateInformation.Equipments.Add(
-                    new CertificateEquipmentInfoViewModel()
+                    new CertificateEquipmentInfoViewModel
                     {
                         Id = eq.Id,
                         Model = eq.InstalledModel,
-                        SerialNumber = eq.InstalledSerialNumber,
+                        SerialNumber = eq.InstalledSerialNumber
                     }));
             contractEditViewModel.SendEmails = new SendEmailsViewModel
             {
@@ -486,7 +486,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             var dealerInfo = await _dictionaryServiceAgent.GetDealerInfo();
             if((dealerInfo?.SubDealers?.Any() ?? false) || (dealerInfo?.UdfSubDealers?.Any() ?? false))
             {
-                var mainDealer = new SubDealer()
+                var mainDealer = new SubDealer
                 {
                     Id = dealerInfo.Id,
                     DisplayName = Resources.Resources.OnMyBehalf
@@ -620,19 +620,19 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 LeadSource = _leadSource,
                 Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
                 Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo),
-                SalesRepInfo = Mapper.Map<ContractSalesRepInfoDTO>(equipmnetInfo.SalesRepInformation),
+                SalesRepInfo = Mapper.Map<ContractSalesRepInfoDTO>(equipmnetInfo.SalesRepInformation)
             };
 
             if (equipmnetInfo?.HomeOwner != null)
             {
-                List<CustomerDataDTO> customers = new List<CustomerDataDTO>()
+                List<CustomerDataDTO> customers = new List<CustomerDataDTO>
                 {
-                    new CustomerDataDTO()
+                    new CustomerDataDTO
                     {
                         Id = equipmnetInfo.HomeOwner.CustomerId ?? 0,
                         ContractId = equipmnetInfo.ContractId,
                         LeadSource = _leadSource,
-                        CustomerInfo = new CustomerInfoDTO()
+                        CustomerInfo = new CustomerInfoDTO
                         {
                             DealerInitial = equipmnetInfo.HomeOwner.DealerInitial,
                             VerificationIdName = equipmnetInfo.HomeOwner.VerificationIdName
@@ -811,7 +811,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 if(newContractRes.Item1 != null && newContractRes.Item2.All(a => a.Type != AlertType.Error))
                 {
                     newContractId = newContractRes.Item1.Id;
-                    var contractData = new ContractDataDTO()
+                    var contractData = new ContractDataDTO
                     {
                         Id = newContractRes.Item1.Id,
                         PrimaryCustomer = customer,
@@ -820,7 +820,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
                     if(contractRes.Item1.PaymentInfo != null)
                     {
-                        contractData.PaymentInfo = new PaymentInfoDTO()
+                        contractData.PaymentInfo = new PaymentInfoDTO
                         {
                             AccountNumber = contractRes.Item1.PaymentInfo.AccountNumber,
                             BlankNumber = contractRes.Item1.PaymentInfo.BlankNumber,
@@ -829,7 +829,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                             MeterNumber = contractRes.Item1.PaymentInfo.MeterNumber,
                             PaymentType = contractRes.Item1.PaymentInfo.PaymentType,
                             PrefferedWithdrawalDate = contractRes.Item1.PaymentInfo.PrefferedWithdrawalDate,
-                            TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber,
+                            TransitNumber = contractRes.Item1.PaymentInfo.TransitNumber
                         };
                     }
 
@@ -846,7 +846,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     }
                     if(updatedContractRes.Item1?.PrimaryCustomer != null && updatedContractRes.Item2.All(a => a.Type != AlertType.Error))
                     {
-                        var updatedCustomer = new CustomerDataDTO()
+                        var updatedCustomer = new CustomerDataDTO
                         {
                             Id = updatedContractRes.Item1.PrimaryCustomer.Id,
                             ContractId = newContractId,
@@ -1013,7 +1013,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(docTypes?.Item1 != null)
             {
                 contractViewModel.UploadDocumentsInfo.MandatoryDocumentTypes = docTypes.Item1.Where(x => x.IsMandatory).Select(d => d.Id).ToList();
-                contractViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem()
+                contractViewModel.UploadDocumentsInfo.DocumentTypes = docTypes.Item1.Select(d => new SelectListItem
                 {
                     Value = d.Id.ToString(),
                     Text = d.Description
@@ -1077,7 +1077,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             contract.SecondaryCustomers.ForEach(s =>
             {
                 var signer = additionSigners.FirstOrDefault(ads => ads.CustomerId == s.Id);
-                model.Signers.Add(new SignerViewModel()
+                model.Signers.Add(new SignerViewModel
                 {
                     Id = signer?.Id ?? 0,
                     CustomerId = s.Id,

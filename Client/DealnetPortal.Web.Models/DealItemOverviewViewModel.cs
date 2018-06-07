@@ -1,5 +1,3 @@
-using System;
-
 namespace DealnetPortal.Web.Models
 {
     public class DealItemOverviewViewModel

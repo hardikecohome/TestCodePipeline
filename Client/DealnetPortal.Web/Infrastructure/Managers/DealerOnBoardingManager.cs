@@ -62,7 +62,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 }
                 if (model.Owners?.Any() == false)
                 {
-                    model.Owners = new List<OwnerViewModel>() { new OwnerViewModel() { Address = new AddressInformation() } };
+                    model.Owners = new List<OwnerViewModel> { new OwnerViewModel { Address = new AddressInformation() } };
                 }
                 model.DictionariesData = new DealerOnboardingDictionariesViewModel
                 {

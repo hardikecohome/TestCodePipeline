@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
-using DealnetPortal.Api.Models.Scanning;
-using DealnetPortal.Api.Models.Signature;
-using DealnetPortal.Api.Models.Storage;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
-    using Api.Models.Contract.EquipmentInformation;
-    using DealnetPortal.Api.Models.Notify;
+    using Api.Models.Notify;
 
     /// <summary>
     /// Service agent for communicate with server-side service and controller for processing dealer's information

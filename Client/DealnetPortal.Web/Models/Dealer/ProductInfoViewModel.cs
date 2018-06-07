@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Models.Enumeration;
 
@@ -42,7 +41,7 @@ namespace DealnetPortal.Web.Models.Dealer
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredFinancingProductsRequired")]
-        public DealnetPortal.Api.Common.Enumeration.Dealer.ProgramServices? ProgramService { get; set; }
+        public Api.Common.Enumeration.Dealer.ProgramServices? ProgramService { get; set; }
 
         [CustomRequired]
         [Display(ResourceType = typeof(Resources.Resources), Name = "RelationshipTo")]
