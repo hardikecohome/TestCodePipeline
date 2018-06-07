@@ -8,6 +8,11 @@
         });
         $el.on('selectric-change', function (event, element, selectric) {
             observable(element.value);
+            if ($el.val()) {
+                $el.parents('.custom-select-wrap.custom-select-float-label').find('label').addClass('label-title');
+            } else {
+                $el.parents('.custom-select-wrap.custom-select-float-label').find('label').removeClass('label-title');
+            }
         });
         observable.subscribe(function (newValue) {
             $el.val(newValue).selectric('refresh');
@@ -18,9 +23,5 @@
                 $el.selectric('refresh');
             });
         }
-        var parent = $el.parents('.custom-select-wrap.custom-select-float-label');
-        parent.find('.selectric-scroll ul li ').on('click', function () {
-            parent.find('label').addClass('label-title');
-        });
     }
 };
