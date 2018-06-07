@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Interfaces;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
