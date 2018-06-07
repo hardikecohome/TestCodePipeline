@@ -212,10 +212,10 @@
                     }
                     <div class="form-group">
                         <div class="row">
-                            @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
+                            @Html.LabelFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
                             <div class="dealnet-field-holder col-xs-6">
                                 <div class="control-group">
-                                    @(Model.EquipmentInfo?.SalesRep)
+                                    @(Model.EquipmentInfo?.SalesRepInformation?.SalesRep)
                                 </div>
                             </div>
                         </div>
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                     }
-                    @if(Model.EquipmentInfo?.CustomerRiskGroup != null)
+                    @if(Model.EquipmentInfo?.DealerTier.CustomerRiskGroup != null)
                     {
                         if(hasStandardRentalTier || Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                         {
@@ -277,7 +277,7 @@
                                     @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.DealerTier.CustomerRiskGroup.GroupName, null, new
                                             {
                                                 @readonly = "readonly",
                                                 @class = "dealnet-disabled-input",
@@ -1410,10 +1410,10 @@
                     <div class="dealnet-credit-check-section">
                         <div class="form-group">
                             <div class="row">
-                                @Html.LabelFor(x => Model.EquipmentInfo.EstimatedInstallationDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                @Html.LabelFor(x => Model.EquipmentInfo.PreferredInstallDate, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                 <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                     <div class="control-group">
-                                        @(Model.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+                                        @(Model.EquipmentInfo.PreferredInstallDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
                                     </div>
                                 </div>
                             </div>
@@ -1814,7 +1814,7 @@
                             <h3 class="dealnet-section-title">
                                 @Resources.AdditionalContractInformation
                             </h3>
-                            @if(Model.EquipmentInfo?.HasExistingAgreements != null)
+                            @if(Model.EquipmentInfo?.Conditions?.HasExistingAgreements != null)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -1823,7 +1823,7 @@
                                             <div class="control-group">
                                                 <div class="text-left">
                                                     @{
-                                                        var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                        var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
                                                     }
                                                     @hasAgreement
                                                 </div>

@@ -256,13 +256,13 @@
                             }
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.LabelFor(m => contract.EquipmentInfo.SalesRep, new
+                                    @Html.LabelFor(m => contract.EquipmentInfo.SalesRepInformation.SalesRep, new
                                     {
                                         @class = "dealnet-field-caption col-xs-6"
                                     })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @(contract.EquipmentInfo?.SalesRep)
+                                            @(contract.EquipmentInfo?.SalesRepInformation.SalesRep)
                                         </div>
                                     </div>
                                 </div>
@@ -335,7 +335,7 @@
                                     </div>
                                 </div>
                             }
-                            @if(contract.EquipmentInfo?.CustomerRiskGroup != null)
+                            @if(contract.EquipmentInfo?.DealerTier.CustomerRiskGroup != null)
                             {
                                 if(hasStandardRentalTier || contract.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                                 {
@@ -344,7 +344,7 @@
                                             @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
                                             <div class="dealnet-field-holder col-xs-6">
                                                 <div class="control-group">
-                                                    @Html.TextBoxFor(m => contract.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
+                                                    @Html.TextBoxFor(m => contract.EquipmentInfo.DealerTier.CustomerRiskGroup.GroupName, null, new
                                                     {
                                                         @readonly = "readonly",
                                                         @class = "dealnet-disabled-input",
@@ -1862,13 +1862,13 @@
                                 <div class="dealnet-credit-check-section">
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => contract.EquipmentInfo.EstimatedInstallationDate, new
+                                            @Html.LabelFor(m => contract.EquipmentInfo.PreferredInstallDate, new
                                             {
                                                 @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
                                             })
                                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
                                                 <div class="control-group">
-                                                    @(contract.EquipmentInfo.EstimatedInstallationDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
+                                                    @(contract.EquipmentInfo.PreferredInstallDate?.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture))
                                                 </div>
                                             </div>
                                         </div>
@@ -2315,7 +2315,7 @@
                                         <h3 class="dealnet-section-title">
                                             @Resources.AdditionalContractInformation
                                         </h3>
-                                        @if(contract.EquipmentInfo?.HasExistingAgreements != null)
+                                        @if(contract.EquipmentInfo?.Conditions.HasExistingAgreements != null)
                                         {
                                             <div class="form-group">
                                                 <div class="row">
@@ -2324,7 +2324,7 @@
                                                         <div class="control-group">
                                                             <div class="text-left">
                                                                 @{
-                                                                    var hasAgreement = contract.EquipmentInfo.HasExistingAgreements.Value ?
+                                                                    var hasAgreement = contract.EquipmentInfo.Conditions.HasExistingAgreements.Value ?
                                                                         Resources.Yes : Resources.No;
                                                                 }
                                                                 @hasAgreement

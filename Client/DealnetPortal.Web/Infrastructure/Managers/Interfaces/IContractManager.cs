@@ -11,8 +11,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
     public interface IContractManager
     {
         //New Version 
-        Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsync(int contractId);
-        Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo);
+        Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId);
+        Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModel equipmnetInfo);
 
         Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId);
 
@@ -30,9 +30,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 
         void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract);
 
-        Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo);
-
-        Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo);
+        Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo);             
 
         Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo);
 

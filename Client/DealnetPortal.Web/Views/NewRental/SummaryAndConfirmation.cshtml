@@ -1,6 +1,5 @@
 ﻿@using System.Globalization
 @using System.Security.Claims
-@using DealnetPortal.Api.Common.Constants
 @using DealnetPortal.Api.Common.Helpers
 @using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Api.Models.Contract
@@ -40,7 +39,7 @@
 
     </div>
     <div class="col-xs-4">
-        @if(Model.EquipmentInfo.IsApplicantsInfoEditAvailable)
+        @if(Model.IsApplicantsInfoEditAvailable)
         {
             <a href="@Url.Action("EquipmentInformation", new {contractId = Model.BasicInfo.ContractId})" id="step2" class="step-item">2</a>
         }
@@ -206,7 +205,7 @@
                             <div class="dealnet-credit-check-section" id="address-section">
                                 <h3 class="dealnet-section-title">
                                     @Resources.InstallationAddressInformation
-                                    @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                    @if(Model.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                     {
                                         <a href="@Url.Action("BasicInfo", "NewRental", new {contractId = Model.BasicInfo.ContractId})"
                                            class="dealnet-section-edit-link pull-right editToStep1"
@@ -314,7 +313,7 @@
                                 <div class="dealnet-credit-check-section" id="prev-address-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.PreviousAddressInformation
-                                        @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                        @if(Model.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                         {
                                             <a href="#"
                                                onclick="copyFormData($('#prev-address-section'), $('#prev-address-section-modal'), false); $('#prev-address-modal').modal();"
@@ -421,7 +420,7 @@
                                 <div class="dealnet-credit-check-section" id="mailing-address-section">
                                     <h3 class="dealnet-section-title">
                                         @Resources.MailingAddress
-                                        @if(Model.EquipmentInfo.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
+                                        @if(Model.IsEditAvailable && !Model.BasicInfo.ContractWasDeclined)
                                         {
                                             <a href="#"
                                                onclick="copyFormData($('#mailing-address-section'), $('#mailing-address-section-modal'), false); $('#mailing-address-modal').modal();"
@@ -1085,7 +1084,7 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
                 @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-                @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                @Html.HiddenFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep)
                 @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
@@ -1282,7 +1281,7 @@
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
                             @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-                            @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                            @Html.HiddenFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep)
                             @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                             @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                             @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment, new { @class = "total-monthly-payment" })
@@ -1297,7 +1296,7 @@
                                 <h3 class="dealnet-section-title">
                                     @Resources.AdditionalContractInformation
                                 </h3>
-                                @if(Model.EquipmentInfo?.HasExistingAgreements != null)
+                                @if(Model.EquipmentInfo?.Conditions?.HasExistingAgreements != null)
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -1306,7 +1305,8 @@
                                                 <div class="control-group">
                                                     <div class="text-left">
                                                         @{
-                                                            var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                            var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? 
+                                                                @Resources.Yes : @Resources.No;
                                                         }
                                                         @hasAgreement
                                                     </div>

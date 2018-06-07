@@ -266,8 +266,8 @@ namespace DealnetPortal.Web.Controllers
                 LoanNumber = dealerSupportRequest.LoanNumber,
                 SupportType = dealerSupportRequest.SupportType.ToString(),
                 HelpRequested = dealerSupportRequest.HelpRequested,
-                BestWay = dealerSupportRequest.BestWay.ToString(),
-                ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
+                BestWay = dealerSupportRequest.BestWayToContact.ToString(),
+                ContactDetails = dealerSupportRequest.BestWayToContact == PreferredContactType.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
             };
             var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";

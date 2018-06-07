@@ -131,7 +131,7 @@
         this.sortedColumn = ko.observable();
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
@@ -294,7 +294,6 @@
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
             var dTo = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var created = this.createdBy();
-            var createdBool = Boolean(created);
             var sales = this.salesRep();
             var payment = this.typeOfPayment();
             var vFrom = parseFloat(this.valueFrom());
@@ -305,7 +304,7 @@
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
+                    (created == '' || created == item.IsCreatedByCustomer) &&
                     (!dTo || !item.DateVal || item.DateVal <= dTo) &&
                     (!dFrom || !item.DateVal || item.DateVal >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&
@@ -334,29 +333,39 @@
         };
 
         this.exportToExcel = function (id) {
-            this.singleId(id);
-            $('#export-form-1').submit();
-            this.singleId('');
+            exportList([id]);
         };
 
         this.exportSelectedToExcel = function () {
-            $('#export-form').submit();
+            var ids = this.filteredList()
+                .filter(function (item) {
+                    return item.isSelected();
+                }).map(function (item) {
+                    return item.Id;
+                });
+            exportList(ids);
         };
 
         this.exportAll = function () {
-            var selected = this.filteredList().filter(function (item) {
-                return item.isSelected();
-            }).map(function (item) {
+            var ids = this.list().map(function (item) {
                 return item.Id;
             });
-            this.filteredList().forEach(function (item) {
-                item.isSelected(true);
-            });
-            $('#export-form').submit();
-            this.filteredList().forEach(function (item) {
-                item.isSelected(selected.includes(item.Id));
-            });
+            exportList(ids);
         };
+
+        function exportList(list) {
+            var $div = $('#export-all-form');
+            var inputList = list.map(function (item) {
+                return $('<input/>', {
+                    type: 'hidden',
+                    value: item,
+                    name: 'ids'
+                });
+            });
+            $div.append(inputList);
+            $('#export-form').submit();
+            $div.empty();
+        }
 
         this.previewContracts = function () {
             var ids = this.selectedIds();
@@ -372,7 +381,6 @@
         };
 
         this.removeContract = function (id) {
-            debugger
             dynamicAlertModal({
                 message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
                 title: translations['Remove'],

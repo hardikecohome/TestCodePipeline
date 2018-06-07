@@ -298,7 +298,7 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModelNew equipmentInfo)
+        public async Task<ActionResult> EquipmentInformation(EquipmentInformationViewModel equipmentInfo)
         {
             ViewBag.IsAllInfoCompleted = false;
             var ratecardValid = equipmentInfo.AgreementType != AgreementType.LoanApplication ? true : await _contractManager.CheckRateCard(equipmentInfo.ContractId.Value, equipmentInfo.SelectedRateCardId);
