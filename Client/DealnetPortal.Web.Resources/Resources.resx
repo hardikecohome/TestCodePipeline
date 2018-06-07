@@ -190,7 +190,7 @@
     <value>Deal Information</value>
   </data>
   <data name="DealStatus" xml:space="preserve">
-    <value>Deal Status</value>
+    <value>Deal status</value>
   </data>
   <data name="DealType" xml:space="preserve">
     <value>Deal Type</value>
@@ -310,7 +310,7 @@
     <value>Month</value>
   </data>
   <data name="MonthlyPayment" xml:space="preserve">
-    <value>Monthly Payment</value>
+    <value>Monthly payment</value>
   </data>
   <data name="MyDeals" xml:space="preserve">
     <value>My Deals</value>
@@ -382,7 +382,7 @@
     <value>Reupload</value>
   </data>
   <data name="SalesRep" xml:space="preserve">
-    <value>Sales Rep</value>
+    <value>Sales rep</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>Save changes</value>
@@ -1527,7 +1527,7 @@
     <value>Legal</value>
   </data>
   <data name="ProjectType" xml:space="preserve">
-    <value>Project Type</value>
+    <value>Project type</value>
   </data>
   <data name="UnableToProcessApplicationAutomatically" xml:space="preserve">
     <value>Unfortunately, we’re unable to process this application automatically.</value>
@@ -2285,7 +2285,7 @@ changing contract terms or signing contract on paper.</value>
     <value>Best way to get back to you</value>
   </data>
   <data name="ContractNumber" xml:space="preserve">
-    <value>Contract Number</value>
+    <value>Contract number</value>
   </data>
   <data name="CreditDecision" xml:space="preserve">
     <value>Credit Decision</value>
