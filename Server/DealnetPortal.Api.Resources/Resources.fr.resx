@@ -1054,4 +1054,10 @@
   <data name="WholeHomeCombo" xml:space="preserve">
     <value>Combo maison entière</value>
   </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Mois</value>
+  </data>
 </root>

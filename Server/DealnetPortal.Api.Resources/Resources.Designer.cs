@@ -1024,6 +1024,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clarity Program.
+        /// </summary>
+        public static string ClarityProgram {
+            get {
+                return ResourceManager.GetString("ClarityProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client.
         /// </summary>
         public static string Client {
@@ -1942,6 +1951,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Months.
+        /// </summary>
+        public static string Months {
+            get {
+                return ResourceManager.GetString("Months", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to more than 2 years.
         /// </summary>
         public static string MoreThanTwoYears {
@@ -2217,6 +2235,15 @@ namespace DealnetPortal.Api.Resources {
         public static string Province {
             get {
                 return ResourceManager.GetString("Province", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate Reduction.
+        /// </summary>
+        public static string RateReduction {
+            get {
+                return ResourceManager.GetString("RateReduction", resourceCulture);
             }
         }
         

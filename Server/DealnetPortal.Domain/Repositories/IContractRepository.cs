@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Types;
 
@@ -23,6 +24,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="ownerUserId">user Id</param>
         /// <returns>List of contracts</returns>
         IList<Contract> GetContracts(string ownerUserId);
+
+        IList<Contract> GetContracts(Expression<Func<Contract, bool>> predicate, string ownerUserId);
 
         /// <summary>
         /// Get contract offers for a user (dealer)

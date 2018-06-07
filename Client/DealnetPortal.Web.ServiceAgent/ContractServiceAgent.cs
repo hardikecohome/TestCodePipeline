@@ -66,13 +66,24 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        
+        public async Task<IList<ContractShortInfoDTO>> GetContractsShortInfo()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<IList<ContractShortInfoDTO>>($"{_fullUri}/shortinfo", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts for an user", ex);
+                return new List<ContractShortInfoDTO>();
+            }
+        }
 
         public async Task<int> GetCustomersContractsCount()
         {
             try
             {            
-                return await Client.GetAsyncEx<int>($"{_fullUri}/GetCustomersContractsCount", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<int>($"{_fullUri}/count", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -85,7 +96,20 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/GetCompletedContracts", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/completed", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get contracts for an user", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<ContractShortInfoDTO>> GetCompletedContractsShortInfo()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<IList<ContractShortInfoDTO>>($"{_fullUri}/shortinfo/completed", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

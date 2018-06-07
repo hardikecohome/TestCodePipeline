@@ -640,6 +640,84 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId))
                 .ForMember(d => d.HasRateReduction, s => s.ResolveUsing(src => src.Equipment?.RateReductionCardId.HasValue ?? false));
 
+            cfg.CreateMap<ContractShortInfoDTO, DealItemOverviewViewModel>()                
+                .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.TransactionId == null))
+                .ForMember(d => d.CustomerName, s => s.ResolveUsing(src => $"{src.PrimaryCustomerFirstName} {src.PrimaryCustomerLastName}"))
+                .ForMember(d => d.Status,
+                    s => s.ResolveUsing(src => src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.LocalizedStatus,
+                    s => s.ResolveUsing(src => src.LocalizedStatus ?? src.ContractState.GetEnumDescription()))
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.AgreementType?.GetEnumDescription() ?? string.Empty))                
+                .ForMember(d => d.PaymentType,
+                    s => s.ResolveUsing(src => src.PaymentType?.GetEnumDescription() ?? string.Empty))
+                .ForMember(d => d.Action, s => s.MapFrom(src => src.ActionRequired))
+                .ForMember(d => d.Email, s => s.MapFrom(src => src.PrimaryCustomerEmail))                    
+                .ForMember(d => d.Phone, s => s.MapFrom(src => src.PrimaryCustomerPhone))
+                .ForMember(d => d.PostalCode, s => s.ResolveUsing(src =>
+                {
+                    if (!string.IsNullOrEmpty(src.PrimaryCustomerPostalCode))
+                    {
+                        var substring = src.PrimaryCustomerPostalCode.Substring(0, 3);
+                        return $"{substring.ToUpperInvariant()}***";
+                    }
+                    return string.Empty;
+                }))                
+                .ForMember(d => d.Date, s => s.ResolveUsing(src => src.Id != 0 ?
+                    src.LastUpdateTime.TryConvertToLocalUserDate().ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) 
+                    : src.LastUpdateTime.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))                
+                .ForMember(d => d.RemainingDescription, s => s.MapFrom(src => src.SearchDescription))                
+                .ForMember(d => d.Value, s => s.ResolveUsing(src => src.ValueOfDeal.HasValue ? FormattableString.Invariant($"$ {src.ValueOfDeal:0.00}") : string.Empty))
+                .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src => src.PreApprovalAmount.HasValue ? FormattableString.Invariant($"$ {src.PreApprovalAmount:0.00}") : string.Empty))
+                .ForMember(d => d.SignatureStatus, s => s.ResolveUsing(src => src.SignatureStatus.HasValue ? src.SignatureStatus.GetEnumDescription() : string.Empty))                
+                .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src =>
+                {
+                    var status = src.SignatureStatus;
+                    if (!status.HasValue)
+                        return string.Empty;
+
+                    if (status == SignatureStatus.Declined || status == SignatureStatus.Deleted)
+                        return "red";
+
+                    if (status == SignatureStatus.Completed || status == SignatureStatus.Signed)
+                        return "green";
+
+                    if (status == SignatureStatus.Sent)
+                    {                        
+                        if (src.SignatureStatusLastUpdateTime == null || (DateTime.UtcNow - src.SignatureStatusLastUpdateTime.Value).TotalDays >= 3)
+                        {
+                            return "yellow";
+                        }
+                    }
+
+                    return "grey";
+                }))
+                .ForMember(d => d.StatusColor, s => s.ResolveUsing(src =>
+                {
+                    return (src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
+                }))
+                .ForMember(d => d.Address, s => s.MapFrom(src => src.PrimaryCustomerAddress))
+                .ForMember(d => d.CustomerComment, s => s.MapFrom(src => src.CustomerComments))
+                .ForMember(d => d.CreditExpiry, s => s.Ignore())
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
+                .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
+                {
+                    return src.MonthlyPayment.HasValue ? FormattableString.Invariant($"$ {src.MonthlyPayment:0.00}") : string.Empty;
+
+                }))
+                .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.CreatedBy))
+                .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
+                .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
+                {
+                    if (src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                    {
+                        return FormattableString.Invariant($"$ {src.ValueOfDeal:0.00}");
+                    }
+                    return string.Empty;
+                }))                
+                .ForMember(d => d.RateCardId, s => s.Ignore())
+                .ForMember(d => d.HasRateReduction, s => s.Ignore());
+
             cfg.CreateMap<CustomerDTO, ApplicantPersonalInfo>()
                 .ForMember(x => x.BirthDate, d => d.MapFrom(src => src.DateOfBirth))
                 .ForMember(x => x.CustomerId, d => d.MapFrom(src => src.Id))
