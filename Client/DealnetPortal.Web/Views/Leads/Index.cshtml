@@ -44,13 +44,13 @@
                 </div>
                 <div class="filters-advanced" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
                     <div class="filters-advanced__type new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="postal-code">@Resources.PostalCode</label>
                             <select data-bind="options:postalCodesOptions, selectric:postalCode"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="pre-approved">@Resources.PreApprovedFor</label>
                             <select data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
                         </div>
@@ -214,7 +214,7 @@
                 </div>
                 <!-- /ko -->
                 <div class="main-table__entries-number new-input-group">
-                    <div class="custom-select-wrap">
+                    <div class="custom-select-wrap custom-select-float-label">
                         <label for="entries-number">@Resources.NumberOfEntries</label>
                         <select name="entries-number"
                                 id="entries-number"

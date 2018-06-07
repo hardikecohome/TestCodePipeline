@@ -1082,7 +1082,6 @@ fieldset[disabled] .form-control{
         }
     }
 
-
     .custom-select-wrap {
         position: relative;
         margin-top: 8px;
@@ -1092,9 +1091,35 @@ fieldset[disabled] .form-control{
             font-size: 12px;
             position: absolute;
             z-index: 1000;
-            top: -10px;
+            top: 10px;
             left: 9px;
             background: white;
+            -webkit-transition: 0.2s ease all;
+            -moz-transition: 0.2s ease all;
+            transition: 0.2s ease all;
+        }
+
+        &.custom-select-float-label {
+            label {
+                top: 10px;
+
+                &.label-title {
+                    top: -6px;
+                    font-size: 12px;
+                    line-height: 12px;
+                    // color: #5264AE;
+                    background: white;
+                }
+            }
+
+            .selectric-open + label {
+                top: -6px;
+                font-size: 12px;
+                line-height: 12px;
+                // color: #5264AE;
+                background: white;
+            }
+
         }
 
         .selectric {

@@ -81,13 +81,13 @@
                 <div class="filters-advanced homepage-mod" data-bind="visible: showFilters() || showSorters()">
 
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealType</label>
                             <select required data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealStatus</label>
                             <select data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
@@ -112,21 +112,21 @@
                     </div>
 
                     <div class="filters-advanced__created-by new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.TypeOfProject</label>
                             <select data-bind="options:equipmentOptions, selectric:equipment"></select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__sales-rep new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.SalesRep</label>
                             <select data-bind="options:salesRepOptions, selectric:salesRep"></select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
                             <select id="sort" data-bind="selectric: sorter">
                                 <option value=""></option>
@@ -628,7 +628,7 @@
                             <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
                         <div class="main-table__block__row__entries-number new-input-group">
-                            <div class="custom-select-wrap">
+                            <div class="custom-select-wrap custom-select-float-label">
                                 <label for="entries-number">@Resources.NumberOfEntries</label>
                                 <select name="entries-number"
                                         id="entries-number"

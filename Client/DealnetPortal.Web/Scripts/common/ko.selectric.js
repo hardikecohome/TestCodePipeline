@@ -18,5 +18,9 @@
                 $el.selectric('refresh');
             });
         }
+        var parent = $el.parents('.custom-select-wrap.custom-select-float-label');
+        parent.find('.selectric-scroll ul li ').on('click', function () {
+            parent.find('label').addClass('label-title');
+        });
     }
 };
