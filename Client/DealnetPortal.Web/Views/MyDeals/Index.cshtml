@@ -1,5 +1,12 @@
 ﻿@{
     ViewBag.Title = Resources.MyDeals;
+
+    Func<string, string> capitlizeFirstLetter = str =>
+    {
+        var lower = str.ToLower();
+        var mid = char.ToUpper(lower[0]);
+        return mid + lower.Substring(1);
+    };
 }
 <div id="my-deals-page" data-bind="with:table">
 
@@ -246,14 +253,14 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                         @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
-                            <!-- ko if: sortDirection() == sortDirections.asc -->
-                            @Resources.CreditExpiryAsc
-                            <!-- /ko -->
-                            <!-- ko if: sortDirection() == sortDirections.desc -->
-                            @Resources.CreditExpiryDesc
-                            <!-- /ko -->
-                            <i class="cross-ico" data-bind="click: clearSort"></i>
-                        </div>*@
+                                <!-- ko if: sortDirection() == sortDirections.asc -->
+                                @Resources.CreditExpiryAsc
+                                <!-- /ko -->
+                                <!-- ko if: sortDirection() == sortDirections.desc -->
+                                @Resources.CreditExpiryDesc
+                                <!-- /ko -->
+                                <i class="cross-ico" data-bind="click: clearSort"></i>
+                            </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -343,7 +350,7 @@
                             </span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount" data-bind="click:configureSortClick(sortFields.payment)">
-                            <span>@Resources.Payment</span>
+                            <span>@Resources.MonthlyPayment</span>
                             <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.payment)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
@@ -431,10 +438,10 @@
                         </div>
 
                         <div class="main-table__block__row__cell term">
-                            <span data-bind="text: $data.LoanTerm"></span>
+                            <span data-bind="text: $data.Term"></span>
                         </div>
                         <div class="main-table__block__row__cell amort">
-                            <span data-bind="text: $data.AmortTerm"></span>
+                            <span data-bind="text: $data.Amort"></span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount">
                             <span data-bind="text: $data.MonthyPayment"></span>
@@ -558,7 +565,7 @@
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.LoanTerm"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Loan"></div>
 
                                 <div class="table-row-details__left__amort">
                                     <span>@Resources.Amort</span>
@@ -567,7 +574,7 @@
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.AmortTerm"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
                                 <div class="table-row-details__left__payment-amount">
                                     <span>@Resources.MonthlyPayment</span>

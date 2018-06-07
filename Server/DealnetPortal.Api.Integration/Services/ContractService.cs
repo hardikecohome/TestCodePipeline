@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -37,7 +38,6 @@ namespace DealnetPortal.Api.Integration.Services
         private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly ICreditCheckService _creditCheckService;
-        //private readonly ICustomerWalletService _customerWalletService;
         private readonly IMailService _mailService;
         private readonly IAppConfiguration _configuration;
         private readonly IDocumentService _documentService;
@@ -86,44 +86,38 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Failed to create a new contract for a user [{contractOwnerId}]", ex);
                 throw;
             }
+        }        
+
+        public IList<TMapTo> GetContracts<TMapTo>(string contractOwnerId)
+        {
+            var contractDTOs = new List<TMapTo>();
+            var contracts = _contractRepository.GetContracts(contractOwnerId);
+            var equipments = _contractRepository.GetEquipmentTypes();
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
+            var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);
+            var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
+            {
+                opts.Items.Add("EquipmentTypes", equipments);
+                opts.Items.Add("DocumentTypes", dealerDocumentTypes);
+            });
+            contractDTOs.AddRange(mappedContracts);
+            contractDTOs.AddRange(aspireDeals);
+
+            return contractDTOs;
         }
 
-        public IList<ContractDTO> GetContracts(string contractOwnerId)
+        public IList<TMapTo> GetContracts<TMapTo>(Expression<Func<Contract, bool>> predicate, string contractOwnerId)
         {
-            var contractDTOs = new List<ContractDTO>();
-            var contracts = _contractRepository.GetContracts(contractOwnerId);
-
-            var aspireDeals = GetAspireDealsForDealer(contractOwnerId);                        
-            if (aspireDeals?.Any() ?? false)
+            var contractDTOs = new List<TMapTo>();
+            var contracts = _contractRepository.GetContracts(predicate, contractOwnerId);
+            var equipments = _contractRepository.GetEquipmentTypes();
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
+            var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
-                var isContractsUpdated = UpdateContractsByAspireDeals(contracts, aspireDeals);
-
-                var unlinkedDeals = aspireDeals.Where(ad => ad.Details?.TransactionId != null &&
-                                                            contracts.All(
-                                                                c =>
-                                                                    (!c.Details?.TransactionId?.Contains(
-                                                                        ad.Details.TransactionId) ?? true))).ToList();
-                if (unlinkedDeals.Any())
-                {
-                    contractDTOs.AddRange(unlinkedDeals);
-                }
-                if (isContractsUpdated)
-                {
-                    try
-                    {
-                        _unitOfWork.Save();
-                    }
-                    catch (Exception ex)
-                    {
-                        _loggingService.LogError("Cannot update Aspire deals status", ex);
-                    }
-                }
-            }
-
-            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, mappedContracts, contractOwnerId);
+                opts.Items.Add("EquipmentTypes", equipments);
+                opts.Items.Add("DocumentTypes", dealerDocumentTypes);
+            });
             contractDTOs.AddRange(mappedContracts);
-
             return contractDTOs;
         }
 
@@ -802,52 +796,81 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<ContractDTO> GetDealerLeads(string userId)
         {
-            var contractDTOs = new List<ContractDTO>();            
+            var contractDTOs = new List<ContractDTO>();
             // temporary using a flag IsCreatedByBroker
-            var contracts = _contractRepository.GetDealerLeads(userId);            
+            var contracts = _contractRepository.GetDealerLeads(userId);
             var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
             AftermapContracts(contracts, mappedContracts, userId);
             contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
         }
 
-        private IList<ContractDTO> GetAspireDealsForDealer(string contractOwnerId)
+        private IList<T> SyncAspireDealsForDealer<T>(IList<Contract> contractsForUpdate, string contractOwnerId, bool returnUnmapped = true,
+            IList<EquipmentType> equipmentTypes = null)
         {
             var user = _contractRepository.GetDealer(contractOwnerId);
             if (user != null)
             {
                 try
                 {
-                    //var deals = _aspireStorageService.GetDealerDeals(user.DisplayName);
-                    var deals = Mapper.Map<IList<ContractDTO>>(_aspireStorageReader.GetDealerDeals(user.UserName));
-                    if (deals?.Any() ?? false)
+                    var aspireDeals = _aspireStorageReader.GetDealerDeals(user.UserName);
+
+                    if (aspireDeals?.Any() ?? false)
                     {
-                        //skip deals that already in DB                        
-                        var equipments = _contractRepository.GetEquipmentTypes();
-                        if (equipments?.Any() ?? false)
+                        var isContractsUpdated = UpdateContractsByAspireDeals(contractsForUpdate, aspireDeals);
+
+                        var unlinkedDeals = aspireDeals.Where(ad => contractsForUpdate.All(
+                                                                        c =>
+                                                                            (!c.Details?.TransactionId?.Contains(
+                                                                                 ad.TransactionId.ToString()) ?? true))).ToList();
+                        if (isContractsUpdated)
                         {
-                            deals.ForEach(d =>
+                            try
                             {
-                                var eqType = d.Equipment?.NewEquipment?.FirstOrDefault()?.Type;
-                                if (!string.IsNullOrEmpty(eqType))
-                                {
-                                    var equipment = equipments.FirstOrDefault(eq => eq.Description == eqType);
-                                    if (equipment != null)
-                                    {
-                                        d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
-                                        d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
-                                            ResourceHelper.GetGlobalStringResource(equipment.Description);
-                                    }
-                                    else
-                                    {
-                                        d.Equipment.NewEquipment.FirstOrDefault().TypeDescription = eqType;
-                                    }                                                                                                                
-                                }
-                            });
+                                _unitOfWork.Save();
+                            }
+                            catch (Exception ex)
+                            {
+                                _loggingService.LogError("Cannot update Aspire deals status", ex);
+                            }
                         }
-                    }
+
+                        var equipments = equipmentTypes ?? _contractRepository.GetEquipmentTypes();
+                        var deals = Mapper.Map<IList<T>>(returnUnmapped ? unlinkedDeals : aspireDeals,
+                            opts =>
+                            {
+                                opts.Items.Add("EquipmentTypes", equipments);
+                            });
+                        return deals;                        
+                    }                    
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError($"Error occured during get deals from aspire", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
+            }
+            return null;
+        }
+
+        private IList<T> GetAspireDealsForDealer<T>(string contractOwnerId)
+        {
+            var user = _contractRepository.GetDealer(contractOwnerId);
+            if (user != null)
+            {
+                try
+                {
+                    var equipments = _contractRepository.GetEquipmentTypes();
+                    var deals = Mapper.Map<IList<T>>(_aspireStorageReader.GetDealerDeals(user.UserName),
+                        opts =>
+                        {
+                            opts.Items.Add("EquipmentTypes", equipments);
+                        });                    
                     return deals;
-                }                                
+                }
                 catch (Exception ex)
                 {
                     _loggingService.LogError($"Error occured during get deals from aspire", ex);
@@ -1113,6 +1136,33 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<Aspire.Integration.Models.AspireDb.Contract> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.TransactionId.ToString()) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.DealStatus)
+                    {
+                        contract.Details.Status = aspireDeal.DealStatus;
+                        contract.LastUpdateTime = DateTime.UtcNow;
+                        isChanged = true;
+                    }
+                    //update contract state in any case
+                    isChanged |= UpdateContractState(contract);
+                }
+            }
+            return isChanged;
+        }
+
         private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
         {
             bool isChanged = false;
@@ -1130,6 +1180,33 @@ namespace DealnetPortal.Api.Integration.Services
                     if (contract.Details.Status != aspireDeal.Details.Status)
                     {
                         contract.Details.Status = aspireDeal.Details.Status;
+                        contract.LastUpdateTime = DateTime.UtcNow;
+                        isChanged = true;
+                    }
+                    //update contract state in any case
+                    isChanged |= UpdateContractState(contract);
+                }
+            }
+            return isChanged;
+        }
+
+        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractShortInfoDTO> aspireDeals)
+        {
+            bool isChanged = false;
+            foreach (var aspireDeal in aspireDeals)
+            {
+                if (aspireDeal.TransactionId == null)
+                {
+                    continue;
+                }
+                var contract =
+                    contractsForUpdate.FirstOrDefault(
+                        c => (c.Details?.TransactionId?.Contains(aspireDeal.TransactionId) ?? false));
+                if (contract != null)
+                {
+                    if (contract.Details.Status != aspireDeal.Status)
+                    {
+                        contract.Details.Status = aspireDeal.Status;
                         contract.LastUpdateTime = DateTime.UtcNow;
                         isChanged = true;
                     }

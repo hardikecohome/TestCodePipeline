@@ -1952,7 +1952,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contract Number.
+        ///   Looks up a localized string similar to Contract number.
         /// </summary>
         public static string ContractNumber {
             get {
@@ -2574,7 +2574,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deal Status.
+        ///   Looks up a localized string similar to Deal status.
         /// </summary>
         public static string DealStatus {
             get {
@@ -4770,7 +4770,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly Payment.
+        ///   Looks up a localized string similar to Monthly payment.
         /// </summary>
         public static string MonthlyPayment {
             get {
@@ -6103,7 +6103,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project Type.
+        ///   Looks up a localized string similar to Project type.
         /// </summary>
         public static string ProjectType {
             get {
@@ -6590,7 +6590,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sales Rep.
+        ///   Looks up a localized string similar to Sales rep.
         /// </summary>
         public static string SalesRep {
             get {
