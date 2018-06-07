@@ -525,7 +525,29 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.OnCreditReview, s => s.Ignore())
                 .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
                 .ForMember(d => d.Signers, s => s.Ignore())
-                .ForMember(d => d.SalesRepInfo, s => s.Ignore());
+                .ForMember(d => d.SalesRepInfo, s => s.Ignore())
+                .AfterMap((s, d, resContext) =>
+                {
+                    var equipments = resContext.Items["EquipmentTypes"] as IList<EquipmentType>;
+                    if (equipments?.Any() ?? false)
+                    {
+                        var eqType = d.Equipment?.NewEquipment?.FirstOrDefault()?.Type;
+                        if (!string.IsNullOrEmpty(eqType) && d.Equipment?.NewEquipment?.Any() == true)
+                        {
+                            var equipment = equipments.FirstOrDefault(eq => eq.Description == eqType);
+                            if (equipment != null)
+                            {
+                                d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
+                                d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
+                                    ResourceHelper.GetGlobalStringResource(equipment.Description);
+                            }
+                            else
+                            {
+                                d.Equipment.NewEquipment.FirstOrDefault().TypeDescription = eqType;
+                            }
+                        }
+                    }
+                });
 
             mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Contract, ContractShortInfoDTO>()
                 .ForMember(d => d.Id, s => s.UseValue(0))
