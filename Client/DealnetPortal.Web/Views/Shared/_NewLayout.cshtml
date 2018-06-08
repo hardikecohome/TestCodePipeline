@@ -480,6 +480,14 @@
         </div>
     </header>
     <div class="clearfix"></div>
+    @if(User.Identity.IsAuthenticated &&
+        Request.RequestContext.RouteData.Values["controller"].ToString().ToLower() == "home" &&
+        Request.RequestContext.RouteData.Values["action"].ToString().ToLower() == "index" &&
+        System.Configuration.ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+    {
+        @Html.Action("GetMaintanenceBanner", "Home")
+    }
+    <div class="clearfix"></div>
     @{
         var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
         var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);

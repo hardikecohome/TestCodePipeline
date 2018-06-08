@@ -2869,6 +2869,9 @@ Additional program options may become available when customer’s credit details
   <data name="RateReduction" xml:space="preserve">
     <value>Rate Reduction</value>
   </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
   <data name="ContactDealerSupport" xml:space="preserve">
     <value>contact dealer support</value>
   </data>

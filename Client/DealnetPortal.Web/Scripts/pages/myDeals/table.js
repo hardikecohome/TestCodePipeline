@@ -135,6 +135,7 @@
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
+        this.filtersSaved = ko.observable(false);
 
         this.list = ko.observableArray(data);
 
@@ -205,6 +206,20 @@
             });
         }, this);
 
+        this.allSelected = ko.pureComputed({
+            read: function () {
+                return this.pager.pagedList().reduce(function (acc, item) {
+                    return (item.Id == 0 || item.IsInternal || item.isSelected()) && acc;
+                }, true);
+            },
+            write: function (value) {
+                this.pager.pagedList().forEach(function (item) {
+                    if (item.Id != 0 && !item.IsInternal) item.isSelected(value);
+                });
+            },
+            owner: this
+        });
+
         // functions
         this.toggleFilters = function () {
             this.showSorters(false);
@@ -274,6 +289,7 @@
             this.typeOfPayment() && localStorage.setItem(filters.typeOfPayment, this.typeOfPayment());
             this.valueFrom() && localStorage.setItem(filters.valueFrom, this.valueFrom());
             this.valueTo() && localStorage.set(filters.valueTo, this.valueTo());
+            this.filtersSaved(true);
         };
 
         this.editUrl = function (id) {
