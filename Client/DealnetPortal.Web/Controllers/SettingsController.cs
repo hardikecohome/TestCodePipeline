@@ -38,7 +38,7 @@ namespace DealnetPortal.Web.Controllers
             }
             if (image?.ValueBytes != null)
             {
-                _loggingService.LogInfo($"Got dealer Logo {image?.ValueBytes.Length}bytes settings for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
+                _loggingService.LogInfo($"Got dealer Logo {image.ValueBytes.Length}bytes settings for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
                 return File(image.ValueBytes, "image/png");
             }
             //fallback:

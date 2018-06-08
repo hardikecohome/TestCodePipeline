@@ -29,7 +29,7 @@
             .ready(function () {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
+                    url: '@Url.Action("GetCreditCheckRedirection", new {contractId = Model })',
                     success: function (json) {
 						window.location = json;
 

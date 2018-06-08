@@ -171,7 +171,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     //Secure = true, Uncomment after enabling https
                     Expires = DateTime.Now.Add(TimeSpan.FromHours(5))
                 };
-                HttpContext.Current?.Response?.Cookies?.Add(authCookie); // ??
+                HttpContext.Current?.Response.Cookies.Add(authCookie); // ??
             }
 
         }

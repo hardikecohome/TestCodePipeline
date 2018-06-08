@@ -1,7 +1,6 @@
 @using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
-@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 @using DealnetPortal.Api.Common.Constants
 @using System.Security.Claims
@@ -1601,7 +1600,7 @@
                                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                                     <div class="row">
                                         <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                            @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
+                                            @(Model.ProvinceTaxRate?.Description ?? Resources.Tax)
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                             $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
@@ -1820,7 +1819,7 @@
                                             <div class="control-group">
                                                 <div class="text-left">
                                                     @{
-                                                        var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                        var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? Resources.Yes : Resources.No;
                                                     }
                                                     @hasAgreement
                                                 </div>

@@ -15,7 +15,6 @@ namespace DealnetPortal.Web.Infrastructure.ModelBinders
             bindingContext.ModelState.SetModelValue(bindingContext.ModelName, value);
 
             DateTime dateTime;
-            var currentCulture = CultureHelper.GetCurrentCulture();
 
             var isDate = DateTime.TryParse(value.AttemptedValue, ENDateTimeCulture , DateTimeStyles.None, out dateTime) ||
                 DateTime.TryParse(value.AttemptedValue, FRDateTimeCulture, DateTimeStyles.None, out dateTime);

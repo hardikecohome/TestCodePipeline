@@ -10,7 +10,7 @@ namespace DealnetPortal.Web.Models.Dealer
     {
         public ProductInfoViewModel()
         {
-            Brands = new List<string> {};
+            Brands = new List<string>();
             EquipmentTypes = new List<EquipmentTypeDTO>();
         }
 

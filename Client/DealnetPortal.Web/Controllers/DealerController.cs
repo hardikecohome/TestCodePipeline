@@ -56,7 +56,6 @@ namespace DealnetPortal.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.GetModelErrors();
                 model.DictionariesData = await _dealerOnBoardingManager.GetDictionariesData();
 
                 return View(model);

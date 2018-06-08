@@ -1305,7 +1305,7 @@
                                                 <div class="control-group">
                                                     <div class="text-left">
                                                         @{
-                                                            var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                            var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? Resources.Yes : Resources.No;
                                                         }
                                                         @hasAgreement
                                                     </div>
@@ -1374,8 +1374,8 @@
                                             <div class="control-group">
                                                 @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new
                                                 {
-                                                    @rows = "2",
-                                                    @cols = "30",
+                                                    rows = "2",
+                                                    cols = "30",
                                                     id = "contract-notes",
                                                     @class = "dealnet-disabled-input dealnet-disabled-textarea"
                                                 })

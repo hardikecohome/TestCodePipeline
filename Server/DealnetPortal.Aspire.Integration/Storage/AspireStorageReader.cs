@@ -281,6 +281,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadDealStatusItem with:{ex.Message}");
                 return null;
             }
         }
@@ -303,6 +304,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadDropDownItem with:{ex.Message}");
                 return null;
             }
         }
@@ -323,6 +325,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadSubDealerItem with:{ex.Message}");
                 return null;
             }
         }
@@ -364,6 +367,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadSampleDealItem with:{ex.Message}");
                 return null;
             }
         }

@@ -168,8 +168,6 @@ namespace DealnetPortal.Web.Controllers
                 }
             });
 
-            var identity = (ClaimsIdentity)User.Identity;
-            var province = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? ContractProvince.QC : ContractProvince.ON;
             var provincesDocTypes = await _dictionaryServiceAgent.GetAllStateDocumentTypes();
 
             if(provincesDocTypes?.Item1 != null)
@@ -267,7 +265,7 @@ namespace DealnetPortal.Web.Controllers
                 BestWay = dealerSupportRequest.BestWay.ToString(),
                 ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
             };
-            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
+            await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";
         }
     }

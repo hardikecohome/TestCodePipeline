@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Web.Models.Enumeration
-<li class="@(ViewBag.LoanOnly || @Model.Conditions.IsNewContract ? "hidden" : "")">
+<li class="@(ViewBag.LoanOnly || Model.Conditions.IsNewContract ? "hidden" : "")">
     <div class="rate-card table-mode shown-card"" id="custom-rate-card">
         <div class="rate-card-header equal-height-row-1">
             <h4 class="card-title">@Resources.RatesApproved:<br> @Resources.Pre April 17, 2018</h4>
@@ -50,7 +50,7 @@
                         <div class="control-group">
                             @Html.DropDownList("CustomDeferralDropdown",
                                 EnumHelper.GetSelectList(typeof(LoanDeferralType)),
-                                new {@class = "form-control", @id = "CustomDeferralPeriod"})
+                                new {@class = "form-control", id = "CustomDeferralPeriod"})
                         </div>
                     </div>
                 </div>

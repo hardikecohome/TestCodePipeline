@@ -24,7 +24,6 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private const string InstallCertificateStorageName = "InstallCertificate";
 
         public MyDealsController(IContractServiceAgent contractServiceAgent,
             IDictionaryServiceAgent dictionaryServiceAgent,
