@@ -20,18 +20,16 @@ namespace DealnetPortal.Api.Controllers
     {
         private IContractService _contractService { get; set; }
         private ICustomerFormService _customerFormService { get; set; }
-        private IRateCardsService _rateCardsService { get; set; }
         private IDocumentService _documentService { get; set; }
         private ICreditCheckService _creditCheckService { get; set; }
         private ICustomerWalletService _customerWalletService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService,
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService,
             IDocumentService documentService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
             : base(loggingService)
         {
             _contractService = contractService;
             _customerFormService = customerFormService;
-            _rateCardsService = rateCardsService;
             _documentService = documentService;
             _creditCheckService = creditCheckService;
             _customerWalletService = customerWalletService;
@@ -43,7 +41,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {            
-                var contracts = _contractService.GetContracts(LoggedInUser.UserId);
+                var contracts = _contractService.GetContracts<ContractDTO>(LoggedInUser.UserId);
                 return Ok(contracts);
             }
             catch (Exception ex)
@@ -53,7 +51,25 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCustomersContractsCount")]
+        // GET: api/Contract/shortinfo
+        [HttpGet]
+        [Route("shortinfo")]
+        public IHttpActionResult GetContractsShortInfo()
+        {
+            try
+            {
+                var contracts = _contractService.GetContracts<ContractShortInfoDTO>(LoggedInUser.UserId);
+                return Ok(contracts);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get contracts for the User {LoggedInUser.UserId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        // GET: api/Contract/count
+        [Route("count")]
         [HttpGet]
         public IHttpActionResult GetCustomersContractsCount()
         {
@@ -69,12 +85,21 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCompletedContracts")]
+        // GET: api/Contract/completed
+        [Route("completed")]
         [HttpGet]
         public IHttpActionResult GetCompletedContracts()
         {
-            var contracts = _contractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
+            var contracts = _contractService.GetContracts<ContractDTO>(c => c.ContractState >= ContractState.Completed, LoggedInUser.UserId);
+            return Ok(contracts);
+        }
+
+        [Route("shortinfo/completed")]
+        [HttpGet]
+        public IHttpActionResult GetCompletedContractsShortInfo()
+        {
+            var contracts = _contractService.GetContracts<ContractShortInfoDTO>(c => c.ContractState >= ContractState.Completed, LoggedInUser.UserId);
+            return Ok(contracts);
         }
 
         //Get: api/Contract/{contractId}
@@ -106,7 +131,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerLeads")]
+        // GET: api/Contract/leads
+        [Route("leads")]
         [HttpGet]
         public IHttpActionResult GetDealerLeads()
         {
@@ -122,8 +148,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CreateContract")]
-        [HttpPut]
+        [HttpPost]
         public IHttpActionResult CreateContract()
         {
             var alerts = new List<Alert>();

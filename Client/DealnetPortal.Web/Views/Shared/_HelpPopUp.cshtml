@@ -88,7 +88,7 @@
                                         <label class="pull-left margin-bottom-zero">@Resources.BestWayToGetBackToYou</label>
                                     </div>
                                     <div>
-                                        @Html.EnumDropDownListFor(m => m.BestWay, null, new { @class = "form-control dealnet-input", id = "CommunicationPreffered" })
+                                        @Html.EnumDropDownListFor(m => m.BestWayToContact, null, new { @class = "form-control dealnet-input", id = "CommunicationPreffered" })
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +134,8 @@
     </div>
 </div>
 
-@*<div class="how-can-we-help-popup">
+@*  REDESIGN
+    <div class="how-can-we-help-popup">
     <i class="cross-ico"></i>
     <span class="how-can-we-help-popup__title">How can we help?</span>
     <span class="how-can-we-help-popup__legend">Please fill this form and we will answer you with best solution.</span>

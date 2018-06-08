@@ -87,6 +87,19 @@
         //     responsive: true,
         // });
 
+        // $('.custom-select-wrap.custom-select-float-label').each((id, element) => {
+        //     $(element).find('.selectric-scroll ul li').click(() => {
+        //         $(element).find('label').addClass('label-title');
+        //     });
+        // });
+
+        function closeOtherSelects(e) {
+            $('select').selectric('close');
+            $(e.target).selectric('open').one('selectric-open', closeOtherSelects);
+        }
+
+        $('select').one('selectric-open', closeOtherSelects);
+
         makeMobileNav("#mobile-navigation", ".mobile-navigation__active-item")();
         makeMobileNav("#mobile-navigation-help", ".mobile-help__toggle")();
 

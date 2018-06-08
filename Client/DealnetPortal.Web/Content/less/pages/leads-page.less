@@ -51,7 +51,7 @@
 
                     &.customer-comment {
                         padding: 0 10px;
-                        flex-basis: 35%;
+                        flex-basis: 34%;
                     }
 
                     &.accept-lead {
@@ -67,8 +67,13 @@
                         }
                     }
 
+                    &.accept-lead > span {
+                        cursor: pointer;
+                    }
+
                     &.info {
-                        flex-basis: 5%;
+                        flex-basis: 8%;
+                        justify-content: flex-end;
 
                         .show-details {
                             display: none;
@@ -186,17 +191,17 @@
                     }
 
                     .table-row-details {
-                        &.opened{
-                        margin-top: 10px;
-                        margin-bottom: 10px;
-                        display: flex;
-                        flex: 1 1 auto;
-                        justify-content: space-around;
-                        flex-direction: row;
-                        flex-wrap: wrap;
-                        flex-basis: 100%;
+                        &.opened {
+                            margin-top: 10px;
+                            margin-bottom: 10px;
+                            display: flex;
+                            flex: 1 1 auto;
+                            justify-content: space-around;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+                            flex-basis: 100%;
                         }
-                        
+
                         &__left,
                         &__right {
                             display: flex;
@@ -234,6 +239,7 @@
                                 font-size: 14px;
                                 font-weight: bold;
                                 color: #97c501;
+                                cursor: pointer;
 
                                 span:last-child {
                                     font-weight: 300;

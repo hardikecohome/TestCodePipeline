@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure.Attributes;
+using DealnetPortal.Web.Models.Enumeration;
 
 namespace DealnetPortal.Web.Models
 {
@@ -21,20 +22,11 @@ namespace DealnetPortal.Web.Models
         [RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "ContractNumberIncorrectFormat")]
         public string LoanNumber { get; set; }
 
-        public SupportTypeEnum SupportType { get; set; }
+        public SupportType SupportType { get; set; }
 
         [CustomRequired]
         public string HelpRequested { get; set; }
-        public BestWayEnum BestWay { get; set; }
-
-        //[StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "HomePhoneMustBeLong")]
-        //[RegularExpression(@"^[0-9]+$", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "HomePhoneIncorrectFormat")]
-        //[Display(ResourceType = typeof(Resources.Resources), Name = "HomePhone")]
-
-
-        //[StringLength(256, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]
-        //[Display(ResourceType = typeof(Resources.Resources), Name = "EmailAddress")]
-        //[EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
+        public PreferredContactType BestWayToContact { get; set; }
 
         [CustomRequired]
         [StringLength(10, MinimumLength = 10, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PhoneMustBeLong")]
@@ -46,25 +38,5 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "EmailAddress")]
         [EmailAddress(ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }
-    }
-
-    public enum SupportTypeEnum
-    {
-        [Display(ResourceType = typeof(Resources.Resources), Name = "CreditDecision")]
-        creditFunding = 0,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "CreditDocs")]
-        customerService = 1,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "FundingDocs")]
-        dealerSupport = 2,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Other")]
-        Other = 3
-    }
-
-    public enum BestWayEnum
-    {
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Phone")]
-        Phone = 0,
-        [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
-        Email = 1
-    }
+    }         
 }

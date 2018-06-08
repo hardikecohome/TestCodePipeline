@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to On acceptance of lead {0} fee will be applied to your account as a lead fee..
+        ///   Looks up a localized string similar to On acceptance of lead 1% fee will be applied to your account as a lead fee..
         /// </summary>
         public static string AcceptanceOfLeadFeeAppliedToYourAccount {
             get {
@@ -1870,6 +1870,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to contact dealer support.
+        /// </summary>
+        public static string ContactDealerSupport {
+            get {
+                return ResourceManager.GetString("ContactDealerSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact Information.
         /// </summary>
         public static string ContactInformation {
@@ -1943,7 +1952,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contract Number.
+        ///   Looks up a localized string similar to Contract number.
         /// </summary>
         public static string ContractNumber {
             get {
@@ -2565,7 +2574,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deal Status.
+        ///   Looks up a localized string similar to Deal status.
         /// </summary>
         public static string DealStatus {
             get {
@@ -4761,7 +4770,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly Payment.
+        ///   Looks up a localized string similar to Monthly payment.
         /// </summary>
         public static string MonthlyPayment {
             get {
@@ -5027,6 +5036,34 @@ namespace DealnetPortal.Web.Resources {
         public static string NoInterest {
             get {
                 return ResourceManager.GetString("NoInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have any leads yet. 
+        ///On this page we will present you leads from actual clients from your neighborhood interested in home improvements you offer..
+        /// </summary>
+        public static string NoLeadsFirstPart {
+            get {
+                return ResourceManager.GetString("NoLeadsFirstPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In order to use this functionality please make sure that you have configured offered projects and your service area in {0}..
+        /// </summary>
+        public static string NoLeadsSecondPart {
+            get {
+                return ResourceManager.GetString("NoLeadsSecondPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you need help please visit {0} to view manual or contact dealer support {1}.
+        /// </summary>
+        public static string NoLeadsThirdPart {
+            get {
+                return ResourceManager.GetString("NoLeadsThirdPart", resourceCulture);
             }
         }
         
@@ -6066,7 +6103,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project Type.
+        ///   Looks up a localized string similar to Project type.
         /// </summary>
         public static string ProjectType {
             get {
@@ -6553,7 +6590,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sales Rep.
+        ///   Looks up a localized string similar to Sales rep.
         /// </summary>
         public static string SalesRep {
             get {
@@ -6621,6 +6658,15 @@ namespace DealnetPortal.Web.Resources {
         public static string SaveChanges {
             get {
                 return ResourceManager.GetString("SaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved.
+        /// </summary>
+        public static string Saved {
+            get {
+                return ResourceManager.GetString("Saved", resourceCulture);
             }
         }
         

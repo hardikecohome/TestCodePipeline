@@ -24,28 +24,30 @@
             var maxButtons = 5;
 
             var startPage = 0;
-            var endPage = 0;
+            var endPage = maxPage;
             var count = this.list().length || 0;
             if (maxButtons < count) {
-                startPage = Math.max(Math.min(activePage - Math.floor(maxButtons / 2, 10), count - maxButtons + 1), 1);
+                startPage = Math.max(Math.min(activePage - Math.floor(maxButtons / 2), count - maxButtons + 1), 1);
                 var tempEnd = startPage + maxButtons - 1;
                 endPage = maxPage < tempEnd ? maxPage : tempEnd;
-            } else {
-                startPage = 1;
-                endPage = maxPage;
             }
 
-            for (var i = startPage; i <= endPage; i++) {
+            var nextPage = endPage < maxPage ? 1 : 0;
+
+            for (var i = startPage; i <= endPage + nextPage; i++) {
                 pages.push({
                     pageNumber: i - 1,
                     active: activePage == i - 1,
-                    disabled: false,
+                    disabled: activePage == i - 1,
                     pageText: i
                 });
             }
 
-            if (startPage > 1 && startPage > 2) {
+            if (startPage > 1 || startPage < activePage - 1) {
                 var first = pages.shift();
+                if (activePage < maxPage - 3) {
+                    var second = pages.shift();
+                }
                 pages.unshift({
                     pageText: '...',
                     active: false,
@@ -54,22 +56,25 @@
                 pages.unshift({
                     pageNumber: 0,
                     active: activePage == 0,
-                    disabled: false,
+                    disabled: activePage == 0,
                     pageText: '1'
                 });
             }
 
-            if (endPage < maxPage && endPage < maxPage - 1) {
+            if (endPage < maxPage) {
                 var last = pages.pop();
+                if (endPage > activePage + 3) {
+                    var end = pages.pop();
+                }
                 pages.push({
                     pageText: '...',
                     active: false,
                     disabled: true
                 });
                 pages.push({
-                    pageNumber: maxPage,
+                    pageNumber: maxPage - 1,
                     active: activePage == maxPage - 1,
-                    disabled: false,
+                    disabled: activePage == maxPage - 1,
                     pageText: maxPage
                 });
             }
@@ -77,19 +82,11 @@
             return pages;
         }, this);
 
-        this.goToFirstPage = function () {
-            this.moveToPage(0);
-        };
-
-        this.goToLastPage = function () {
-            this.moveToPage(this.maxPageIndex());
-        };
-
         this.goToNextPage = function () {
             var pageIndex = this.pageIndex();
             this.moveToPage({
                 pageNumber: pageIndex + 1,
-                disabled: pageIndex == this.maxPageIndex()
+                disabled: pageIndex == this.maxPageIndex() - 1
             });
         };
 

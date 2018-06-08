@@ -39,13 +39,13 @@
         <div class="dealnet-large-header">@Resources.Contract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
 
         @*@if (Model.BasicInfo.ContractWasDeclined)
-            {*@
-        <!--Show/hide warning depend on status-deal-submitted-->
-        @*<div class="well well-info position-well">
-                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-                    @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
-                </div>
-            }*@
+                {
+            <!--Show/hide warning depend on status-deal-submitted-->
+            <div class="well well-info position-well">
+                        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                        @Resources.YouCantEditBecauseSubmittedYouCanAddAdditional
+                    </div>
+                }*@
 
         @if(ViewBag.IsNewlySubmitted)
         {
@@ -275,7 +275,7 @@
                                 }
                             </div>
                         }
-                        <!------------------------------------------------->
+                        @*<!------------------------------------------------->*@
 
                         <div class="@(Model.UploadDocumentsInfo.ExistingDocuments.Any(x => x.DocumentTypeId == 7) ? "uploaded" : "") documents-pills-item tab-container-7">
                             <a href="#tab7" class="documents-pills-link" aria-controls="tab7" role="tab" data-toggle="tab">
@@ -577,10 +577,10 @@
                             }
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.LabelFor(m => m.EquipmentInfo.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
+                                    @Html.LabelFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep, new { @class = "dealnet-field-caption col-xs-6" })
                                     <div class="dealnet-field-holder col-xs-6">
                                         <div class="control-group">
-                                            @Html.TextBoxFor(m => m.EquipmentInfo.SalesRep, new
+                                            @Html.TextBoxFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep, new
                                             {
                                                 @readonly = "readonly",
                                                 @class = "dealnet-disabled-input",
@@ -655,7 +655,7 @@
                                 </div>
                             </div>
                         }
-                        if(Model.EquipmentInfo.CustomerRiskGroup != null)
+                        if(Model.EquipmentInfo.DealerTier.CustomerRiskGroup != null)
                         {
                             if(hasStandardRentalTier || Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                             {
@@ -664,7 +664,7 @@
                                         @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
+                                                @Html.TextBoxFor(m => m.EquipmentInfo.DealerTier.CustomerRiskGroup.GroupName, null, new
                                                 {
                                                     @readonly = "readonly",
                                                     @class = "dealnet-disabled-input",
@@ -1258,17 +1258,13 @@
                                                 <div class="dealnet-disabled-input">
                                                     <span>
                                                         @Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment
-                                                        @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                    Resources.Year :
-                                                                                                                                                                                                                                                                                                                                    Resources.Years)
+                                                        @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
                                                     </span>
                                                     @if(!string.IsNullOrEmpty(Model?.BasicInfo.HomeOwner?.EmploymentInformation?.MonthsOfEmployment))
                                                     {
                                                         <span>
                                                             @Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment
-                                                            @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                            Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                            Resources.Months)
+                                                            @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)
                                                         </span>
                                                     }
                                                 </div>
@@ -2035,17 +2031,13 @@
                                                         <div class="dealnet-disabled-input">
                                                             <span>
                                                                 @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.YearsOfEmployment
-                                                                @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                                                            Resources.Year :
-                                                                                                                                                                                                                                                                                                                                                                                            Resources.Years)
+                                                                @(Model.BasicInfo.HomeOwner.EmploymentInformation.YearsOfEmployment == "1" ? Resources.Year : Resources.Years)
                                                             </span>
                                                             @if(!string.IsNullOrEmpty(Model?.BasicInfo.AdditionalApplicants[i]?.EmploymentInformation?.MonthsOfEmployment))
                                                             {
                                                                 <span>
                                                                     @Model.BasicInfo.AdditionalApplicants[i].EmploymentInformation.MonthsOfEmployment
-                                                                    @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ?
-                                                                                                                                                                                                                                                                                                                                                                                                                    Resources.Month :
-                                                                                                                                                                                                                                                                                                                                                                                                                    Resources.Months)
+                                                                    @(Model.BasicInfo.HomeOwner.EmploymentInformation.MonthsOfEmployment == "1" ? Resources.Month : Resources.Months)
                                                                 </span>
                                                             }
                                                         </div>
@@ -2272,7 +2264,7 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
                 @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-                @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                @Html.HiddenFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep)
                 @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm)
@@ -2340,7 +2332,7 @@
                                                             Value=x.Id.ToString(),
                                                             Text = x.Description,
                                                             Selected = Model.EquipmentInfo.NewEquipment[i].EquipmentSubType.Id == x.Id
-                                                        })                                                        ,
+                                                        }),
                                                         new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
                                             </div>
                                         </div>
@@ -2546,12 +2538,12 @@
                         <div class="dealnet-credit-check-section">
                             <div class="form-group">
                                 <div class="row">
-                                    @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new
+                                    @Html.LabelFor(m => m.EquipmentInfo.PreferredInstallDate, new
                                     {
                                         @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
                                     })
                                     <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                        @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new
+                                        @Html.TextBoxFor(m => m.EquipmentInfo.PreferredInstallDate, @"{0:MM'/'dd'/'yyyy}", new
                                         {
                                             @readonly = "readonly",
                                             @class = "dealnet-disabled-input",
@@ -2852,7 +2844,7 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
                 @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-                @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                @Html.HiddenFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep)
                 @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
@@ -3063,7 +3055,7 @@
                                             </a>
                                         }
                                     </h3>
-                                    @if(Model.EquipmentInfo?.HasExistingAgreements != null)
+                                    @if(Model.EquipmentInfo?.Conditions.HasExistingAgreements != null)
                                     {
                                         <div class="form-group">
                                             <div class="row">
@@ -3072,7 +3064,8 @@
                                                     <div class="control-group">
                                                         <div class="text-left">
                                                             @{
-                                                                var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? Resources.Yes : Resources.No;
+                                                                var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? 
+                                                                    Resources.Yes : Resources.No;
                                                             }
                                                             @hasAgreement
                                                         </div>
@@ -3518,7 +3511,8 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
 }
 
-@*<div class="nw-step-options-wp">
+@*< REDESIGN
+    div class="nw-step-options-wp">
         <div class="nw-step-options">
             <div class="nw-step-options__header">
                 <div class="nw-step-options__header__title">Deal #2345</div>

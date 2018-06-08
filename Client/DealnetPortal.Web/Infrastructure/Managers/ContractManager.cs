@@ -64,23 +64,22 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             contactAndPaymentInfo.ContractId = contractResult.Item1.Id;
             contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState <= Api.Common.Enumeration.ContractState.Completed;
-            contactAndPaymentInfo.IsFirstStepAvailable = contractResult.Item1.ContractState != Api.Common.Enumeration.ContractState.Completed;
 
             MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
 
             return contactAndPaymentInfo;
         }
 
-        public async Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsync(int contractId)
+        public async Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId)
         {
             Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
 
             if(result.Item1 == null)
             {
-                return new EquipmentInformationViewModelNew();
+                return new EquipmentInformationViewModel();
             }
 
-            var equipmentInfo = new EquipmentInformationViewModelNew
+            var equipmentInfo = new EquipmentInformationViewModel
             {
                 ContractId = contractId,
                 ContractState = result.Item1.ContractState
@@ -88,7 +87,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             if(result.Item1.Equipment != null)
             {
-                equipmentInfo = Mapper.Map<EquipmentInformationViewModelNew>(result.Item1.Equipment);
+                equipmentInfo = Mapper.Map<EquipmentInformationViewModel>(result.Item1.Equipment);
                 equipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(result.Item1);
                 equipmentInfo.Conditions = Mapper.Map<ContractConditions>(result.Item1.Equipment);
 
@@ -611,7 +610,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return await _contractServiceAgent.UpdateContractData(contractData);
         }
 
-        public async Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo)
+        public async Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModel equipmnetInfo)
         {
             var alerts = new List<Alert>();
             var contractData = new ContractDataDTO
@@ -664,25 +663,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             alerts.AddRange(await _contractServiceAgent.UpdateContractData(contractData));
 
             return alerts;
-        }
-
-        public async Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo)
-        {
-            var contractData = new ContractDataDTO
-            {
-                Id = equipmnetInfo.ContractId ?? 0,
-                LeadSource = _leadSource,
-                Equipment = Mapper.Map<EquipmentInfoDTO>(equipmnetInfo),
-				Details = Mapper.Map<ContractDetailsDTO>(equipmnetInfo)
-            };
-
-            if(equipmnetInfo.FullUpdate && equipmnetInfo.ExistingEquipment == null)
-            {
-                contractData.Equipment.ExistingEquipment = new List<ExistingEquipmentDTO>();
-            }
-
-            return await _contractServiceAgent.UpdateContractData(contractData);
-        }
+        }                                                                                                        
 
         public async Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo)
         {
@@ -895,15 +876,17 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             if(summary.EquipmentInfo != null)
             {
                 summary.EquipmentInfo.CreditAmount = contract.Details?.CreditAmount;
-                summary.EquipmentInfo.IsApplicantsInfoEditAvailable = contract.ContractState <= Api.Common.Enumeration.ContractState.Completed;
-                summary.EquipmentInfo.IsEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
-                summary.EquipmentInfo.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
+                summary.IsApplicantsInfoEditAvailable = contract.ContractState <= Api.Common.Enumeration.ContractState.Completed;
+                summary.IsEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;      
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
-                summary.EquipmentInfo.IsFeePaidByCutomer = contract.Equipment.IsFeePaidByCutomer;
-                summary.EquipmentInfo.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
-                summary.EquipmentInfo.CustomerRiskGroup = summary.DealerTier?.CustomerRiskGroup != null ?
+                summary.EquipmentInfo.Conditions.IsAdminFeePaidByCustomer = contract.Equipment.IsFeePaidByCutomer;
+                summary.EquipmentInfo.Conditions.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
+                summary.EquipmentInfo.DealerTier = new TierViewModel
+                {
+                    CustomerRiskGroup = summary.DealerTier?.CustomerRiskGroup != null ?
                     new CustomerRiskGroupViewModel { GroupName = summary.DealerTier.CustomerRiskGroup.GroupName } :
-                    null;
+                    null
+                };
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
@@ -1031,7 +1014,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             }
         }
 
-        private void AddAditionalContractInfo(ContractDTO contract, EquipmentInformationViewModelNew equipmentInfo)
+        private void AddAditionalContractInfo(ContractDTO contract, EquipmentInformationViewModel equipmentInfo)
         {
             equipmentInfo.Notes = contract.Details.Notes;
             equipmentInfo.HouseSize = contract.Details.HouseSize;
@@ -1039,7 +1022,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
             if(contract.Equipment != null)
             {
-                equipmentInfo.PrefferedInstallDate = contract.Equipment.EstimatedInstallationDate;
+                equipmentInfo.PreferredInstallDate = contract.Equipment.EstimatedInstallationDate;
                 equipmentInfo.SalesRepInformation.SalesRep = contract.Equipment.SalesRep;
                 equipmentInfo.ExistingEquipment = Mapper.Map<List<ExistingEquipmentInformation>>(contract.Equipment.ExistingEquipment);
                 equipmentInfo.CommonExistingEquipmentInfo = Mapper.Map<CommonExistingEquipmentInfo>(contract.Equipment.ExistingEquipment.FirstOrDefault());
@@ -1112,7 +1095,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             conditions.IsOldClarityDeal = contract.Equipment?.IsClarityProgram == null && conditions.IsClarityDealer;
             conditions.IsAllInfoCompleted = contract.PaymentInfo != null && contract.PrimaryCustomer?.Phones != null && contract.PrimaryCustomer.Phones.Any();
             conditions.IsApplicantsInfoEditAvailable = contract.ContractState < Api.Common.Enumeration.ContractState.Completed;
-            conditions.IsFirstStepAvailable = contract.ContractState != Api.Common.Enumeration.ContractState.Completed;
             conditions.IsCustomerFoundInCreditBureau = contract.PrimaryCustomer?.CreditReport?.Beacon.HasValue ?? false;
             conditions.IsSubmittedWithoutCustomerRateCard = false;
             conditions.IsBeaconUpdated = contract.PrimaryCustomer?.CreditReport?.BeaconUpdated ?? false;

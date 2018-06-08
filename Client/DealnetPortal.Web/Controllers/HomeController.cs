@@ -120,86 +120,14 @@ namespace DealnetPortal.Web.Controllers
         {
             var contracts =
                 (completedOnly ?? false
-                    ? await _contractServiceAgent.GetCompletedContracts()
-                    : await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
-                    .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
+                    ? await _contractServiceAgent.GetCompletedContractsShortInfo()
+                    : await _contractServiceAgent.GetContractsShortInfo()).OrderByDescending(x => x.IsNewlyCreated)
+                    .ThenByDescending(x => string.IsNullOrEmpty(x.TransactionId))
                     .ThenByDescending(x => x.LastUpdateTime)
                     .ToList();
-
-            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-
-            var tier = await _dictionaryServiceAgent.GetDealerTier();
-            var isClarityDealer = ((ClaimsIdentity)User.Identity).HasClaim(ClaimContstants.ClarityDealer, "True");
-
-            contractsVms.ForEach(c =>
-            {
-                if(string.IsNullOrEmpty(c.AgreementType))
-                {
-                    return;
-                }
-                if(c.AgreementType == Models.Enumeration.AgreementType.RentalApplication.GetEnumDescription())
-                {
-                    c.ProgramOption = Resources.Resources.LeaseApplication;
-                    return;
-                }
-                if(isClarityDealer && (contracts.FirstOrDefault(d => d.Id == c.Id).Equipment?.IsClarityProgram ?? false))
-                {
-                    c.ProgramOption = Resources.Resources.ClarityProgram;
-                    return;
-                }
-                if(c.AgreementType == Models.Enumeration.AgreementType.LoanApplication.GetEnumDescription() && c.RateCardId.HasValue)
-                {
-                    var rateCard = tier.RateCards.FirstOrDefault(r => r.Id == c.RateCardId);
-                    switch(rateCard?.CardType)
-                    {
-                        case Api.Common.Enumeration.RateCardType.Custom:
-                            c.ProgramOption = Resources.Resources.Custom;
-                            break;
-                        case Api.Common.Enumeration.RateCardType.FixedRate:
-                            c.ProgramOption = c.HasRateReduction ? Resources.Resources.RateReduction : Resources.Resources.StandardRate;
-                            break;
-                        case Api.Common.Enumeration.RateCardType.NoInterest:
-                            c.ProgramOption = Resources.Resources.EqualPayments;
-                            break;
-                        case Api.Common.Enumeration.RateCardType.Deferral:
-                            c.ProgramOption = $"{Convert.ToInt32(rateCard.DeferralPeriod)} {Resources.Resources.Months} {Resources.Resources.Deferral}";
-                            break;
-                    }
-                }
-            });
-
-            var provincesDocTypes = await _dictionaryServiceAgent.GetAllStateDocumentTypes();
-
-            if(provincesDocTypes?.Item1 != null)
-            {
-                contracts.Where(c => c.ContractState == ContractState.Completed).ForEach(c =>
-                {
-                    var cProvince = c.PrimaryCustomer?.Locations
-                                       .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State
-                                   ?? c.PrimaryCustomer?.Locations.FirstOrDefault()?.State;
-                    if (!string.IsNullOrEmpty(cProvince))
-                    {
-                        var docTypes = provincesDocTypes.Item1[cProvince];
-                        var absentDocs =
-                            docTypes?.Where(
-                                    dt => dt.IsMandatory && c.Documents.All(d => dt.Id != d.DocumentTypeId) &&
-                                          (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
-                                .ToList();
-                        if (absentDocs?.Any() ?? false)
-                        {
-                            var actList = new StringBuilder();
-                            absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
-                            var cntrc = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
-                            if (cntrc != null)
-                            {
-                                cntrc.Action = actList.ToString();
-                            }
-                        }
-                    }
-                });
-            }
-
-            return Json(contractsVms, JsonRequestBehavior.AllowGet);
+            
+            var contractsShortInfoVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+            return this.Json(contractsShortInfoVms, JsonRequestBehavior.AllowGet);            
         }
 
         [HttpGet]
@@ -262,8 +190,8 @@ namespace DealnetPortal.Web.Controllers
                 LoanNumber = dealerSupportRequest.LoanNumber,
                 SupportType = dealerSupportRequest.SupportType.ToString(),
                 HelpRequested = dealerSupportRequest.HelpRequested,
-                BestWay = dealerSupportRequest.BestWay.ToString(),
-                ContactDetails = dealerSupportRequest.BestWay == BestWayEnum.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
+                BestWay = dealerSupportRequest.BestWayToContact.ToString(),
+                ContactDetails = dealerSupportRequest.BestWayToContact == PreferredContactType.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
             };
             await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";

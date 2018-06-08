@@ -1,9 +1,16 @@
 ﻿@{
     ViewBag.Title = Resources.MyDeals;
+
+    Func<string, string> capitlizeFirstLetter = str =>
+    {
+        var lower = str.ToLower();
+        var mid = char.ToUpper(lower[0]);
+        return mid + lower.Substring(1);
+    };
 }
 <div id="my-deals-page" data-bind="with:table">
 
-    @*<div class="margin-block">
+    <div class="margin-block">
             <div class="row">
                 <!-- ko if: showLearnMore -->
                 <div class="new-notification-wp">
@@ -15,7 +22,7 @@
                 </div>
                 <!-- /ko -->
             </div>
-        </div>*@
+        </div>
 
     <div class="margin-block">
         <div class="row">
@@ -23,7 +30,7 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <!-- ko if:  list().length > 0 -->
-                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
                             <i class="lamp-ico"></i>
                             <a>
                                 <!-- ko if: showLearnMore -->
@@ -33,14 +40,14 @@
                                 @Resources.LearnMoreAboutThisPage
                                 <!-- /ko -->
                             </a>
-                        </div>*@
+                        </div>
                     <div class="filters-head__export-excel" data-bind="click: exportAll">
                         <i class="excel-ico"></i>
                         <a>@Resources.ExportAllToExcel</a>
                     </div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
-                            <input type="text" name="search" data-bind="textInput: search">
+                            <input type="text" name="search" data-bind="textInput: search" required>
                             <label>@Resources.Search</label>
                             <span class="search-ico"></span>
                         </div>
@@ -54,36 +61,59 @@
                             <span>@Resources.Save</span>
                         </div>
                         <span class="save-btn-status">
-                            <i class="checked-ico"></i>(@Resources.ForNextTime)
+                            <!-- ko if: filtersSaved -->
+                            <i class="checked-ico"></i> @Resources.Saved
+                            <!-- /ko -->
+                            <!-- ko ifnot: filtersSaved-->
+                            (@Resources.ForNextTime)
+                            <!-- /ko -->
                         </span>
                     </div>
 
                     <div class="filters-head__divider"></div>
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
                         <i class="filter-ico filter-ico--red"></i>
-                        <span>@Resources.Filters</span>
+                        <span>
+                            @Resources.Filters
+                        </span>
+                        <!-- /ko -->
                     </div>
                     <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
                         <i class="sort-button-red-ico"></i>
-                        <span>@Resources.Sort</span>
+                        <span>
+                            @Resources.Sort
+                        </span>
+                        <!-- /ko -->
                     </div>
                     <!-- /ko -->
                 </div>
 
-                <div class="filters-type" data-bind="visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
+                <div class="filters-type" data-bind="visible: list().length > 0 && showFilters()" style="display:none;">
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
                     <div class="filters-type__tab" data-bind="css:{active:showDetailedView}, click:function(){showDetailedView(true)}">@Resources.DetailedInfo</div>
                 </div>
-                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0" style="display:none;">
-
+                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
+                    <!-- ko if: showFilters -->
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters" style="display:none;">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealType</label>
                             <select name="project-type" id="agreement-type" data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealStatus</label>
                             <select name="project-type" id="status" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
@@ -93,7 +123,7 @@
 
                     <div class="filters-advanced__date-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" class="date-input" data-bind="datePicker: dateFrom, datePickerOptions:datePickerOptions">
+                            <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions:datePickerOptions">
                             <label>@Resources.DateFrom</label>
                             <span class="icon-calendar"></span>
                         </div>
@@ -101,7 +131,7 @@
 
                     <div class="filters-advanced__date-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" class="date-input" data-bind="datePicker:dateTo, datePickerOptions: datePickerOptions">
+                            <input type="text" class="date-input" required data-bind="datePicker:dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
                             <span class="icon-calendar"></span>
                         </div>
@@ -109,22 +139,22 @@
 
                     <div class="filters-advanced__deal-from new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" data-bind="value: valueFrom">
+                            <input type="text" data-bind="value: valueFrom" required>
                             <label>@Resources.DealValueFrom</label>
-                            <span class="ic-nw-right-dollar-small"></span>
+                            <span class="ic-nw-dollar-small"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__deal-to new-input-group">
                         <div class="custom-text-input-group icon">
-                            <input type="text" data-bind="value: valueTo">
+                            <input type="text" data-bind="value: valueTo" required>
                             <label>@Resources.DealValueTo</label>
-                            <span class="ic-nw-right-dollar-small"></span>
+                            <span class="ic-nw-dollar-small"></span>
                         </div>
                     </div>
 
                     <div class="filters-advanced__created-by new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.CreatedBy</label>
                             <select id="created-by" data-bind="selectric: createdBy">
                                 <option value=""></option>
@@ -135,7 +165,7 @@
                     </div>
 
                     <div class="filters-advanced__sales-rep new-input-group">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.SalesRep</label>
                             <select id="sales-rep" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
@@ -143,15 +173,15 @@
 
                     <div class="filters-advanced__project new-input-group">
                         <div class="custom-text-input-group">
-                            <input type="text" data-bind="value: equipment">
+                            <input type="text" data-bind="value: equipment" required>
                             <label>@Resources.ProjectType</label>
                         </div>
                     </div>
-
+                    <!-- /ko -->
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters" style="display:none;">
-                        <div class="custom-select-wrap">
+                        <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
-                            <select id="sort"  data-bind="selectric: sorter">
+                            <select id="sort" data-bind="selectric: sorter">
                                 <option value=""></option>
                                 <option value="transactionIdAsc">
                                     @Resources.ContractNumber - @Resources.Ascending
@@ -162,7 +192,7 @@
                                 <option value="applicantNameAsc">
                                     @Resources.ApplicantNameAtoZ
                                 </option>
-                                <option value="applicantNameAscDesc">
+                                <option value="applicantNameDesc">
                                     @Resources.ApplicantNameZtoA
                                 </option>
                                 <option value="dateAsc">
@@ -172,26 +202,23 @@
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
                                 @*<option value="creditExpiryAsc">
-                                    @Resources.CreditExpiryAsc
-                                </option>
-                                <option value="creditExpiryDesc">
-                                    @Resources.CreditExpiryDesc
-                                </option>*@
+                                        @Resources.CreditExpiryAsc
+                                    </option>
+                                    <option value="creditExpiryDesc">
+                                        @Resources.CreditExpiryDesc
+                                    </option>*@
                             </select>
                         </div>
                     </div>
 
                     <div class="filters-advanced__filters-cloud" data-bind="visible: showSorters">
-                        <!-- ko if: sortedColumn() == sortFields.transactionId -->
-                        <div class="filters-advanced__contract-number">
+                        <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.transactionId">
                             @Resources.ContractNumber -
                             <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->
                             <!-- ko if: sortDirection() == sortDirections.desc --> @Resources.Descending <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.status -->
-                        <div class="filters-advanced__deal-status">
+                        <div class="filters-advanced__deal-status" data-bind="visible: sortedColumn() == sortFields.status">
                             @Resources.DealStatus -
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             <i class="info-ico info-ico--red"></i> @Resources.To <i class="info-ico info-ico--grey"></i>
@@ -201,9 +228,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.sign -->
-                        <div class="filters-advanced__e-sign">
+                        <div class="filters-advanced__e-sign" data-bind="visible: sortedColumn() == sortFields.sign">
                             @Resources.EsignStatus -
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i>
@@ -213,9 +238,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.applicantName -->
-                        <div class="filters-advanced__applicant-name">
+                        <div class="filters-advanced__applicant-name" data-bind="visible: sortedColumn() == sortFields.applicantName">
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             @Resources.ApplicantNameAtoZ
                             <!-- /ko -->
@@ -224,9 +247,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        <!-- ko if: sortedColumn() == sortFields.date -->
-                        <div class="filters-advanced__last-activity">
+                        <div class="filters-advanced__last-activity" data-bind="visible: sortedColumn() == sortFields.date">
                             @Resources.LastActivity —
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             @Resources.Latest
@@ -236,20 +257,17 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <!-- /ko -->
-                        @*<!-- ko if: sortedColumn() == sortFields.creditExpiry -->
-                        <div class="filters-advanced__days-left">
-                            <!-- ko if: sortDirection() == sortDirections.asc -->
-                            @Resources.CreditExpiryAsc
-                            <!-- /ko -->
-                            <!-- ko if: sortDirection() == sortDirections.desc -->
-                            @Resources.CreditExpiryDesc
-                            <!-- /ko -->
-                            <i class="cross-ico" data-bind="click: clearSort"></i>
-                        </div>
-                        <!-- /ko -->*@
+                        @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
+                                <!-- ko if: sortDirection() == sortDirections.asc -->
+                                @Resources.CreditExpiryAsc
+                                <!-- /ko -->
+                                <!-- ko if: sortDirection() == sortDirections.desc -->
+                                @Resources.CreditExpiryDesc
+                                <!-- /ko -->
+                                <i class="cross-ico" data-bind="click: clearSort"></i>
+                            </div>*@
                     </div>
-                    
+
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
@@ -257,7 +275,7 @@
                         <span>@Resources.Apply</span>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -269,8 +287,8 @@
                 <div class="main-table__block main-table__block--header">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" />
+                            <label class="customized-checkbox-icon" data-bind="click:function(){allSelected(!allSelected())}">
+                                <input id="checkBox" type="checkbox" data-bind="checked: allSelected" />
                                 <span class="customized-checkbox-icon__image"></span>
                             </label>
                         </div>
@@ -282,9 +300,9 @@
                             </span>
                         </div>
                         <div class="main-table__block__row__cell deal-status">
-                            <span class="icon">
+                            @*<span class="icon">
                                 <i class="info-ico info-ico--green"></i>
-                            </span>
+                            </span>*@
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
@@ -305,12 +323,12 @@
                             </span>
                         </div>
                         @*<div class="main-table__block__row__cell days-left" data-bind="click:configureSortClick(sortFields.creditExpiry)">
-                            <span>@Resources.CreditApprovalExpiry</span>
-                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
-                                <i class="sort-arrow-top"></i>
-                                <i class="sort-arrow-bottom"></i>
-                            </span>
-                        </div>*@
+                                <span>@Resources.CreditApprovalExpiry</span>
+                                <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
+                                    <i class="sort-arrow-top"></i>
+                                    <i class="sort-arrow-bottom"></i>
+                                </span>
+                            </div>*@
                         <div class="main-table__block__row__cell program-option">
                             <span>@Resources.ProgramOption</span>
                         </div>
@@ -337,7 +355,7 @@
                             </span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount" data-bind="click:configureSortClick(sortFields.payment)">
-                            <span>@Resources.Payment</span>
+                            <span>@Resources.MonthlyPayment</span>
                             <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.payment)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
@@ -360,8 +378,8 @@
                             <span>@Resources.SalesRep</span>
                         </div>
                         @*<div class="main-table__block__row__cell entered-by">
-                            <span>@Resources.EnteredBy</span>
-                        </div>*@
+                                <span>@Resources.EnteredBy</span>
+                            </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span>@Resources.Notes</span>
                         </div>
@@ -387,8 +405,8 @@
                             <span class="contract-number__notification contract-number__notification--blue">@Resources.New</span>
                             <!-- /ko -->
                             @*<!-- ko if: $data.CreditExpiry && $data.CreditExpiry < 20 -->
-                            <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
-                            <!-- /ko -->*@
+                                <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
+                                <!-- /ko -->*@
                             <!-- ko ifnot: $data.Id -->
                             <span data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
@@ -415,8 +433,8 @@
                             <span data-bind="text: $data.CustomerName"></span>
                         </div>
                         @*<div class="main-table__block__row__cell days-left">
-                            <span data-bind="text: $data.CreditExpiry"></span>
-                        </div>*@
+                                <span data-bind="text: $data.CreditExpiry"></span>
+                            </div>*@
                         <div class="main-table__block__row__cell program-option">
                             <span data-bind="text: $data.ProgramOption"></span>
                         </div>
@@ -425,10 +443,10 @@
                         </div>
 
                         <div class="main-table__block__row__cell term">
-                            <span data-bind="text: $data.LoanTerm"></span>
+                            <span data-bind="text: $data.Term"></span>
                         </div>
                         <div class="main-table__block__row__cell amort">
-                            <span data-bind="text: $data.AmortTerm"></span>
+                            <span data-bind="text: $data.Amort"></span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount">
                             <span data-bind="text: $data.MonthyPayment"></span>
@@ -450,8 +468,8 @@
                             <span data-bind="text: $data.SalesRep"></span>
                         </div>
                         @*<div class="main-table__block__row__cell entered-by">
-                            <span data-bind="text: $data.EnteredBy"></span>
-                        </div>*@
+                                <span data-bind="text: $data.EnteredBy"></span>
+                            </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span data-bind="click:function(){$data.showNotes(!$data.showNotes());}">
                                 <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
@@ -468,12 +486,12 @@
                             <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
+                            <i class="gear-ico"  data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
                             <span class="show-details" data-bind="click:function(){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
-                                <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}, visible: $data.showActions"></i>
+                                <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                 <div class="table-row-settings-popup__edit">
                                     <i class="edit-contract-ico"></i>
                                     <span>
@@ -484,17 +502,17 @@
                                      data-bind="visible: !$data.IsInternal, click:function(){$parent.exportToExcel($data.Id);}">
                                     <i class="excel-ico"></i>
                                     <span>
-                                        <a >@Resources.ExportToExcel</a>
+                                        <a>@Resources.ExportToExcel</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__help" 
+                                <div class="table-row-settings-popup__help"
                                      data-bind="visible: !$data.IsInternal, click:function(){$parent.openHelpModal($data.TransactionId)}">
                                     <i class="ask-help-ico"></i>
                                     <span>
                                         <a>@Resources.AskForHelp</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__help" 
+                                <div class="table-row-settings-popup__help"
                                      data-bind="visible: $data.IsInternal,click:function(){$parent.removeContract($data.Id)}">
                                     <i class="delete-ico"></i>
                                     <span>
@@ -519,13 +537,13 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Date"></div>
 
                                 @*<div class="table-row-details__left__days-left">
-                                    <span>@Resources.CreditApprovalExpiry</span>
-                                    <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
-                                </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
+                                        <span>@Resources.CreditApprovalExpiry</span>
+                                        <span class="filter-ico filter-ico--desc">
+                                            <i class="sort-arrow-top"></i>
+                                            <i class="sort-arrow-bottom"></i>
+                                        </span>
+                                    </div>
+                                    <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
 
                                 <div class="table-row-details__left__loan-amount">
                                     <span>@Resources.LoanAmount</span>
@@ -552,7 +570,7 @@
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.LoanTerm"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Loan"></div>
 
                                 <div class="table-row-details__left__amort">
                                     <span>@Resources.Amort</span>
@@ -561,7 +579,7 @@
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.AmortTerm"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
                                 <div class="table-row-details__left__payment-amount">
                                     <span>@Resources.MonthlyPayment</span>
@@ -605,10 +623,10 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.SalesRep"></div>
 
                                 @*<div class="table-row-details__left__entered-by">
-                                    <span>@Resources.EnteredBy</span>
+                                        <span>@Resources.EnteredBy</span>
 
-                                </div>
-                                <div class="table-row-details__left__value" data-bind="text:$data.EnteredBy"></div>*@
+                                    </div>
+                                    <div class="table-row-details__left__value" data-bind="text:$data.EnteredBy"></div>*@
 
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>
@@ -630,28 +648,28 @@
                                 <div class="table-row-details__left__gear">
                                     <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
                                     <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
-                                        <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}, visible: $data.showActions"></i>
+                                        <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                         <div class="table-row-settings-popup__edit">
                                             <i class="edit-contract-ico"></i>
                                             <span>
                                                 <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                             </span>
                                         </div>
-                                        <div class="table-row-settings-popup__export" 
+                                        <div class="table-row-settings-popup__export"
                                              data-bind="visible: !$data.IsInternal, click:function(){$parent.exportToExcel($data.Id);}">
                                             <i class="excel-ico"></i>
                                             <span>
                                                 <a>@Resources.ExportToExcel</a>
                                             </span>
                                         </div>
-                                        <div class="table-row-settings-popup__help" 
+                                        <div class="table-row-settings-popup__help"
                                              data-bind="visible: !$data.IsInternal, click:function(){$parent.openHelpModal($data.TransactionId)}">
                                             <i class="ask-help-ico"></i>
                                             <span>
                                                 <a>@Resources.AskForHelp</a>
                                             </span>
                                         </div>
-                                        <div class="table-row-settings-popup__help" 
+                                        <div class="table-row-settings-popup__help"
                                              data-bind="visible: $data.IsInternal, click:function(){$parent.removeContract($data.Id)}">
                                             <i class="delete-ico"></i>
                                             <span>
@@ -670,14 +688,14 @@
                 <div class="main-table__block main-table__block--total">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__grand-total">
-                            @Resources.GrandTotal:
+                            @Resources.GrandTotal
                         </div>
                         <div class="main-table__block__row__grand-total-value">
                             <span class="main-table__block__row__grand-total-value__total-container">$ <span data-bind="text: selectedTotal"></span></span>
                             <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
                         <div class="main-table__block__row__entries-number new-input-group">
-                            <div class="custom-select-wrap">
+                            <div class="custom-select-wrap custom-select-float-label">
                                 <label for="entries-number">@Resources.NumberOfEntries</label>
                                 <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
                             </div>
@@ -688,7 +706,7 @@
         </div>
     </div>
 
-    <div class="margin-block" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+    <div class="margin-block table-btns" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
         <div class="row">
             <div class="col-md-3">
                 <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
@@ -707,8 +725,8 @@
                         <i class="pagination-left-ico"></i>
                     </a>
                     <ul class="new-pagination__pages" data-bind="foreach: allPages">
-                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}">
-                            <a data-bind="text: $data.pageText, enable: !$data.disabled, click: $parent.moveToPage"></a>
+                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}, click: $parent.moveToPage">
+                            <a data-bind="text: $data.pageText, enable: !$data.disabled"></a>
                         </li>
                     </ul>
                     <a data-bind="click: goToNextPage, disable: pageIndex() == maxPageIndex()">
@@ -747,9 +765,7 @@
 
     @using(Html.BeginForm("GetXlsxReport", "Reports", FormMethod.Post, new { id = "export-form" }))
     {
-        <div data-bind="foreach: selectedIds">
-            <input name="ids" data-bind="value: $data.Id" type="hidden" />
-        </div>
+        <div id="export-all-form">        </div>
     }
 
     @using(Html.BeginForm("Contract", "Reports", FormMethod.Post, new { id = "single-preview-form" }))
@@ -757,7 +773,7 @@
         <input type="hidden" name="contractId" data-bind="value: singleId" />
     }
 
-    @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "multiple-preview-form" }))
+    @using(Html.BeginForm("Contracts", "Reports", FormMethod.Post, new { id = "preview-form" }))
     {
         <div data-bind="foreach: selectedIds">
             <input name="ids" type="hidden" data-bind="value: $data" />

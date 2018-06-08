@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
     var equipment = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
@@ -19,7 +19,7 @@
         {
             Text = sub.Description,
             Value = sub.Id.ToString(),
-            Selected = Model?.NewEquipment[i]?.EquipmentSubType.Id == sub.Id
+            Selected = Model?.NewEquipment[i]?.EquipmentSubType?.Id == sub.Id
         }));
     }
 

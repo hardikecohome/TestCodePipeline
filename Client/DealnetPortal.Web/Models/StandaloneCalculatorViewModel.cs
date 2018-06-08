@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Models.EquipmentInformation;
+using DealnetPortal.Web.Models.EquipmentInformation; 
 using DealnetPortal.Web.Infrastructure.Attributes;
 
 namespace DealnetPortal.Web.Models

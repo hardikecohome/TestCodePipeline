@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Integration.Interfaces;
+using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
@@ -28,7 +29,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {            
-                var contracts = ContractService.GetContracts(LoggedInUser.UserId);
+                var contracts = ContractService.GetContracts<ContractDTO>(LoggedInUser.UserId);
                 return Ok(contracts);
             }
             catch (Exception ex)
@@ -58,8 +59,8 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetCompletedContracts()
         {
-            var contracts = ContractService.GetContracts(LoggedInUser.UserId);
-            return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
+            var contracts = ContractService.GetContracts<ContractDTO>(c => c.ContractState >= ContractState.Completed, LoggedInUser.UserId);
+            return Ok(contracts);
         }
 
         //Get: api/Contract/{contractId}

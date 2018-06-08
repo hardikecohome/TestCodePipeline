@@ -131,10 +131,11 @@
         this.sortedColumn = ko.observable();
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
+        this.filtersSaved = ko.observable(false);
 
         this.list = ko.observableArray(data);
 
@@ -205,6 +206,20 @@
             });
         }, this);
 
+        this.allSelected = ko.pureComputed({
+            read: function () {
+                return this.pager.pagedList().reduce(function (acc, item) {
+                    return (item.Id == 0 || item.IsInternal || item.isSelected()) && acc;
+                }, true);
+            },
+            write: function (value) {
+                this.pager.pagedList().forEach(function (item) {
+                    if (item.Id != 0 && !item.IsInternal) item.isSelected(value);
+                });
+            },
+            owner: this
+        });
+
         // functions
         this.toggleFilters = function () {
             this.showSorters(false);
@@ -245,6 +260,7 @@
             this.typeOfPayment('');
             this.valueFrom('');
             this.valueTo('');
+            this.search('');
             this.filterList();
             localStorage.removeItem(filters.agreementType);
             localStorage.removeItem(filters.status);
@@ -274,6 +290,7 @@
             this.typeOfPayment() && localStorage.setItem(filters.typeOfPayment, this.typeOfPayment());
             this.valueFrom() && localStorage.setItem(filters.valueFrom, this.valueFrom());
             this.valueTo() && localStorage.set(filters.valueTo, this.valueTo());
+            this.filtersSaved(true);
         };
 
         this.editUrl = function (id) {
@@ -288,13 +305,19 @@
         };
 
         this.filterList = function () {
+            if (this.sorter()) {
+                var sort = this.sortDdValues[this.sorter()];
+                this.sortDirection(sort.dir);
+                this.sortedColumn(sort.field);
+                this.sorter('');
+            }
+
             var stat = this.status();
             var equip = this.equipment();
             var type = this.agreementType();
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
             var dTo = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var created = this.createdBy();
-            var createdBool = Boolean(created);
             var sales = this.salesRep();
             var payment = this.typeOfPayment();
             var vFrom = parseFloat(this.valueFrom());
@@ -305,7 +328,7 @@
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
+                    (created == '' || created == item.IsCreatedByCustomer) &&
                     (!dTo || !item.DateVal || item.DateVal <= dTo) &&
                     (!dFrom || !item.DateVal || item.DateVal >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&
@@ -334,29 +357,39 @@
         };
 
         this.exportToExcel = function (id) {
-            this.singleId(id);
-            $('#export-form-1').submit();
-            this.singleId('');
+            exportList([id]);
         };
 
         this.exportSelectedToExcel = function () {
-            $('#export-form').submit();
+            var ids = this.filteredList()
+                .filter(function (item) {
+                    return item.isSelected();
+                }).map(function (item) {
+                    return item.Id;
+                });
+            exportList(ids);
         };
 
         this.exportAll = function () {
-            var selected = this.filteredList().filter(function (item) {
-                return item.isSelected();
-            }).map(function (item) {
+            var ids = this.list().map(function (item) {
                 return item.Id;
             });
-            this.filteredList().forEach(function (item) {
-                item.isSelected(true);
-            });
-            $('#export-form').submit();
-            this.filteredList().forEach(function (item) {
-                item.isSelected(selected.includes(item.Id));
-            });
+            exportList(ids);
         };
+
+        function exportList(list) {
+            var $div = $('#export-all-form');
+            var inputList = list.map(function (item) {
+                return $('<input/>', {
+                    type: 'hidden',
+                    value: item,
+                    name: 'ids'
+                });
+            });
+            $div.append(inputList);
+            $('#export-form').submit();
+            $div.empty();
+        }
 
         this.previewContracts = function () {
             var ids = this.selectedIds();
@@ -372,7 +405,6 @@
         };
 
         this.removeContract = function (id) {
-            debugger
             dynamicAlertModal({
                 message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
                 title: translations['Remove'],

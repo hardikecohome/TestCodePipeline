@@ -63,7 +63,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return GetErrorJson();
             }
-            var updateResult = await _contractManager.UpdateContractAsync(equipmentInfo);
+            var updateResult = await _contractManager.UpdateContractAsyncNew(equipmentInfo);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
     }

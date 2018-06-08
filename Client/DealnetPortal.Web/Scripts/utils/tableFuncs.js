@@ -44,7 +44,7 @@
                     acc;
             }, [{
                 text: '',
-                icon: ''
+                icon: 'grey'
             }])
             .sort(function (a, b) {
                 return sortAscending(a.text, b.text);

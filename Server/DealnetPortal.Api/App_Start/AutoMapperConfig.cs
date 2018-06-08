@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using AutoMapper;
+using DealnetPortal.Api.App_Start.MapperProfiles;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -30,7 +32,8 @@ namespace DealnetPortal.Api.App_Start
                 cfg.AllowNullCollections = true;
                 MapDomainsToModels(cfg);
                 MapAspireDomainsToModels(cfg);
-                MapModelsToDomains(cfg);
+                MapModelsToDomains(cfg);  
+                cfg.AddProfile<ContractProfile>();
             });
         }
 
@@ -59,7 +62,17 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.IsFeePaidByCutomer, d => d.MapFrom(src => src.IsFeePaidByCutomer));
             mapperConfig.CreateMap<ExistingEquipment, ExistingEquipmentDTO>();
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
-                .ForMember(x => x.TypeDescription, d => d.Ignore());
+                .ForMember(d => d.TypeDescription, s => s.ResolveUsing((src, dest, destMember, resContext) =>
+                {                    
+                    var eqType = src.EquipmentType ?? 
+                        (resContext.Items.ContainsKey(MappingKeys.EquipmentTypes) ?
+                            (resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>)?.FirstOrDefault(et => et.Type == src.Type)
+                            : null);
+                    var descrResource = eqType?.DescriptionResource;
+                    return !string.IsNullOrEmpty(descrResource)
+                        ? ResourceHelper.GetGlobalStringResource(descrResource)
+                        : eqType?.Description;                    
+                }));
             mapperConfig.CreateMap<InstallationPackage, InstallationPackageDTO>();
             mapperConfig.CreateMap<Comment, CommentDTO>()
                 .ForMember(x => x.IsOwn, s => s.ResolveUsing(src => src.IsCustomerComment != true && (src.DealerId == src.Contract?.DealerId)))
@@ -70,7 +83,19 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.BeaconUpdated, d => d.UseValue(false))
                 .ForMember(x => x.EscalatedLimit, d => d.Ignore())
                 .ForMember(x => x.NonEscalatedLimit, d => d.Ignore())
-                .ForMember(x => x.CreditAmount, d => d.Ignore());
+                .ForMember(x => x.CreditAmount, d => d.Ignore())
+                .AfterMap((src, dest, resContext) =>
+                {
+                    if (resContext.Items.ContainsKey(MappingKeys.CreditAmount))
+                    {
+                        if (resContext.Items[MappingKeys.CreditAmount] is CreditAmountSetting creditAmount)
+                        {
+                            dest.CreditAmount = creditAmount.CreditAmount;
+                            dest.EscalatedLimit = creditAmount.EscalatedLimit;
+                            dest.NonEscalatedLimit = creditAmount.NonEscalatedLimit;
+                        }
+                    }
+                });
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
@@ -241,7 +266,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.LeadSource, d => d.Ignore());
             mapperConfig.CreateMap<LicenseType, LicenseTypeDTO>();
             mapperConfig.CreateMap<LicenseDocument, LicenseDocumentDTO>();
-            mapperConfig.CreateMap<AdditionalDocument, AdditionalDocumentDTO>();
+            mapperConfig.CreateMap<AdditionalDocument, AdditionalDocumentDTO>();            
         }
 
         private static void MapAspireDomainsToModels(IMapperConfigurationExpression mapperConfig)
@@ -320,9 +345,94 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.OnCreditReview, s => s.Ignore())
                 .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
                 .ForMember(d => d.Signers, s => s.Ignore())
-                .ForMember(d => d.SalesRepInfo, s => s.Ignore());
+                .ForMember(d => d.SalesRepInfo, s => s.Ignore())
+                .AfterMap((s, d, resContext) =>
+                {
+                    var equipments = resContext.Items.ContainsKey(MappingKeys.EquipmentTypes) ? resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType> : null;
+                    if (equipments?.Any() ?? false)
+                    {
+                        var eqType = d.Equipment?.NewEquipment?.FirstOrDefault()?.Type;
+                        if (!string.IsNullOrEmpty(eqType) && d.Equipment?.NewEquipment?.Any() == true)
+                        {
+                            var equipment = equipments.FirstOrDefault(eq => eq.Description == eqType);
+                            if (equipment != null)
+                            {
+                                d.Equipment.NewEquipment.FirstOrDefault().Type = equipment.Type;
+                                d.Equipment.NewEquipment.FirstOrDefault().TypeDescription =
+                                    ResourceHelper.GetGlobalStringResource(equipment.Description);
+                            }
+                            else
+                            {
+                                d.Equipment.NewEquipment.FirstOrDefault().TypeDescription = eqType;
+                            }
+                        }
+                    }
+                });
 
-            mapperConfig.CreateMap<Entity, CustomerDTO>()
+            mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Contract, ContractShortInfoDTO>()
+                .ForMember(d => d.Id, s => s.UseValue(0))
+                .ForMember(d => d.TransactionId, s => s.ResolveUsing(src => src.TransactionId.ToString()))
+                .ForMember(d => d.LastUpdateTime, s => s.MapFrom(src => src.LastUpdateDateTime))
+                .ForMember(d => d.Status, s => s.MapFrom(src => src.DealStatus))
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src =>
+                    src.AgreementType == "RENTAL"
+                        ? AgreementType.RentalApplication
+                        : AgreementType.LoanApplication))
+                .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src =>
+                    !string.IsNullOrEmpty(src.DealStatus)
+                        ? ResourceHelper.GetGlobalStringResource("_" + src.DealStatus
+                                                                     .Replace('-', '_')
+                                                                     .Replace(" ", string.Empty)
+                                                                     .Replace("$", string.Empty)
+                                                                     .Replace("/", string.Empty)
+                                                                     .Replace("(", string.Empty)
+                                                                     .Replace(")", string.Empty)) ?? src.DealStatus
+                        : null))
+                .ForMember(d => d.ValueOfDeal, s => s.MapFrom(src => src.AmountFinanced))
+                .ForMember(d => d.LoanTerm, s => s.MapFrom(src => src.Term))
+                .ForMember(d => d.AmortizationTerm, s => s.MapFrom(src => src.Term))
+                .ForMember(d => d.Equipment, s => s.ResolveUsing((src, dest, destMember, resContext) =>
+                    {
+                        if (resContext.Items.ContainsKey(MappingKeys.EquipmentTypes))
+                        {
+                            var eqTypes = resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>;
+                            if (eqTypes?.Any() == true)
+                            {
+
+                                var eqType = eqTypes.FirstOrDefault(e => e.Description == src.EquipmentType);
+                                return eqType != null
+                                    ? (ResourceHelper.GetGlobalStringResource(eqType.DescriptionResource) ??
+                                       eqType.Description ?? src.EquipmentDescription)
+                                    : src.EquipmentDescription;
+                            }
+                        }
+                        return src.EquipmentType;
+                    }
+                ))
+                .ForMember(d => d.PrimaryCustomerFirstName, s => s.MapFrom(src => src.CustomerFirstName))
+                .ForMember(d => d.PrimaryCustomerLastName, s => s.MapFrom(src => src.CustomerLastName))
+                .ForMember(d => d.PrimaryCustomerPhone, s => s.Ignore())
+                .ForMember(d => d.ContractState, s => s.Ignore())
+                .ForMember(d => d.ProgramOption, s => s.Ignore())
+                .ForMember(d => d.SignatureStatus, s => s.Ignore())
+                .ForMember(d => d.SignatureStatusLastUpdateTime, s => s.Ignore())
+                .ForMember(d => d.PrimaryCustomerPhone, s => s.Ignore())
+                .ForMember(d => d.PrimaryCustomerEmail, s => s.Ignore())
+                .ForMember(d => d.PrimaryCustomerPostalCode, s => s.UseValue(string.Empty))
+                .ForMember(d => d.PrimaryCustomerAddress, s => s.UseValue(string.Empty))
+                .ForMember(d => d.CustomerComments, s => s.UseValue(string.Empty))
+                .ForMember(d => d.PreApprovalAmount, s => s.Ignore())
+                .ForMember(d => d.MonthlyPayment, s => s.Ignore())
+                .ForMember(d => d.PaymentType, s => s.Ignore())
+                .ForMember(d => d.CreatedBy, s => s.Ignore())
+                .ForMember(d => d.SalesRep, s => s.UseValue(string.Empty))
+                .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
+                .ForMember(d => d.IsCreatedByCustomer, s => s.Ignore())
+                .ForMember(d => d.ActionRequired, s => s.Ignore())
+                .ForMember(d => d.SearchDescription, s => s.ResolveUsing(src =>
+                    src.EquipmentDescription ?? string.Empty));
+            
+            mapperConfig.CreateMap<Aspire.Integration.Models.AspireDb.Entity, CustomerDTO>()
                 .ForMember(d => d.Id, s => s.UseValue(0))
                 .ForMember(d => d.AccountId, s => s.MapFrom(src => src.EntityId))
                 .ForMember(d => d.Emails, s => s.ResolveUsing(src =>

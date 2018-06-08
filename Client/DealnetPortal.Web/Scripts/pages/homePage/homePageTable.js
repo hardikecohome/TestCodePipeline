@@ -125,9 +125,10 @@ module.exports('table', function (require) {
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
+        this.filtersSaved = ko.observable(false);
 
         this.list = ko.observableArray(list);
 
@@ -174,6 +175,20 @@ module.exports('table', function (require) {
                 return item.Id;
             });
         }, this);
+
+        this.allSelected = ko.pureComputed({
+            read: function () {
+                return this.pager.pagedList().reduce(function (acc, item) {
+                    return (item.Id == 0 || item.IsInternal || item.isSelected()) && acc;
+                }, true);
+            },
+            write: function (value) {
+                this.pager.pagedList().forEach(function (item) {
+                    if (item.Id != 0 && !item.IsInternal) item.isSelected(value);
+                });
+            },
+            owner: this
+        });
 
         // functions
         this.toggleFilters = function () {
@@ -231,6 +246,7 @@ module.exports('table', function (require) {
             this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
+            this.filtersSaved(true);
         };
 
         this.editUrl = function (id) {
@@ -292,14 +308,32 @@ module.exports('table', function (require) {
         };
 
         this.exportToExcel = function (id) {
-            this.singleId(id);
-            $('#export-form-1').submit();
-            this.singleId('');
+            exportList([id]);
         };
 
         this.exportSelectedToExcel = function () {
-            $('#export-form').submit();
+            var ids = this.filteredList()
+                .filter(function (item) {
+                    return item.isSelected();
+                }).map(function (item) {
+                    return item.Id;
+                });
+            exportList(ids);
         };
+
+        function exportList(list) {
+            var $div = $('#export-all-form');
+            var inputList = list.map(function (item) {
+                return $('<input/>', {
+                    type: 'hidden',
+                    value: item,
+                    name: 'ids'
+                });
+            });
+            $div.append(inputList);
+            $('#export-form').submit();
+            $div.empty();
+        }
 
         this.previewContracts = function () {
             var ids = this.selectedIds();

@@ -72,7 +72,7 @@
          * @param {boolean} onlyCustomRateCard - flag indicates that we have only one card 
          * @returns {void} 
          */
-        var init = function (id, cards, onlyCustomRateCard, bill59Equipment, rateCardReductionTable, equipments) {
+        var init = function (id, cards, onlyCustomRateCard, rateCardReductionTable, equipments) {
             var agreementType = $(settings.agreementTypeId).find(":selected").val();
             state.agreementType = Number(agreementType);
             state.isDisplayAdminFee = $(settings.passAdminFeeId).val().toLowerCase() === 'true';
@@ -98,7 +98,6 @@
                 state.isCoveredByCustomer = undefined;
             }
 
-            state.bill59Equipment = bill59Equipment;
             state.isOntario = $(settings.dealProvinceId).val().toLowerCase() == 'on';
 
             _initHandlers();

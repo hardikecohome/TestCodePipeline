@@ -14,6 +14,7 @@
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 
     var LeadsTable = function(list) {
+        console.log(list);
         this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
@@ -97,12 +98,39 @@
         this.showFilters = ko.observable(true);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
-
+        this.selectedLeadId = ko.observable(0);
         this.list = ko.observableArray(list);
-
+        this.isError = ko.observable(false);
+        this.errorMessage = ko.observable('');
+        this.search = ko.observable('');
+        this.showResultMessage = ko.observable(false);
+        this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
 
         this.pager = new Paginator(this.filteredList());
+        this.acceptLead = function() {
+            var selectedLeadId = this.selectedLeadId();
+            $.ajax({
+                type: "POST",
+                url: 'leads/acceptLead?id=' + selectedLeadId
+            }).done(function(json) {
+                this.isError(json.isError);
+                if (json.Errors) {
+                    this.errorMessage(json.Errors.reduce(function(acc, error) {
+                            acc += error + '.\n';
+                            return acc;
+                        },
+                        ''));
+                } else {
+                    var $message = $('#new-lead-notification-success');
+                    $message.html($message.html().replace('{1}', selectedLeadId));
+                }
+                this.showResultMessage(true);
+                var temp = this.filteredList().filter(function(item) { return item.TransactionId != selectedLeadId });
+                this.filteredList(temp);
+                this.toggleAcceptLeadPopup();
+            }.bind(this));
+        }
 
         this.sortedList = ko.computed(function () {
             var field = this.sortedColumn();
@@ -133,6 +161,12 @@
             localStorage.removeItem(filters.dateTo);
             localStorage.removeItem(filters.dateFrom);
         };
+
+        this.toggleAcceptLeadPopup = function(transactionId) {
+            this.selectedLeadId(transactionId || 0);
+            this.showLeadPopup(!this.showLeadPopup());
+            $('#help-hover').css('display', this.showLeadPopup() ? 'block': 'none');
+        }
 
         this.clearSort = function () {
             this.sortedColumn('');
@@ -179,7 +213,7 @@
                     isSelected: ko.observable(false),
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
-                    showNotes: ko.observable(false),
+                    showInfo: ko.observable(false),
                     valueNum: parseFloat(item.Value.substr(2)) || 0,
                     DateVal: item.Date ? new Date(item.Date) : ''
                 });
@@ -228,6 +262,18 @@
 
         this.sortedList.subscribe(function (newValue) {
             this.pager.list(newValue);
+        }, this);
+
+        this.search.subscribe(function(val) {
+            if (val === '') return this.filterList();
+            var tempList = this.list().reduce(function (acc, item) {
+                if (item.Equipment.includes(val) || item.CustomerComment.includes(val)) {
+                    return acc.concat(item);
+                }
+                return acc;
+            }, []);
+
+            this.filteredList(tempList);
         }, this);
     }
 

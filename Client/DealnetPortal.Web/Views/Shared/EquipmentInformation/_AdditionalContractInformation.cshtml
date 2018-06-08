@@ -1,6 +1,6 @@
 ﻿
 @using DealnetPortal.Web.Common.Constants
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
     var enSelectList = new[] { "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM" };
@@ -86,10 +86,10 @@
             </div>
         }
         <div class="col-md-4">
-            @Html.LabelFor(m => m.PrefferedInstallDate)
+            @Html.LabelFor(m => m.PreferredInstallDate)
         </div>
         <div class="col-md-2">
-            @Html.LabelFor(m => m.PrefferedInstallTime)
+            @Html.LabelFor(m => m.PreferredInstallTime)
         </div>
         <div class="col-md-2">
             @Html.LabelFor(m => m.HouseSize)
@@ -121,10 +121,10 @@
         }
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.PrefferedInstallDate, new { @class = "visible-sm visible-xs" })
+                @Html.LabelFor(m => m.PreferredInstallDate, new { @class = "visible-sm visible-xs" })
                 <div class="control-group date-group">
-                    @Html.TextBoxFor(m => m.PrefferedInstallDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
-                    @Html.ValidationMessageFor(m => m.PrefferedInstallDate, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.PreferredInstallDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
+                    @Html.ValidationMessageFor(m => m.PreferredInstallDate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -132,8 +132,8 @@
             <div class="form-group">
                 @Html.Label(Resources.PreferredInstallTime, new { @class = "visible-sm visible-xs" })
                 <div class="control-group date-group">
-                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new { @class = "form-control dealnet-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
-                    @Html.ValidationMessageFor(m => m.PrefferedInstallTime, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.PreferredInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PreferredInstallTime) ? Model.PreferredInstallTime : "0900"), new { @class = "form-control dealnet-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
+                    @Html.ValidationMessageFor(m => m.PreferredInstallTime, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>

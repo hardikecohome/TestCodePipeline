@@ -6,7 +6,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
     @Html.HiddenFor(m => m.EquipmentInfo.AgreementType, new { id = "agreement-type" })
-    @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+    @Html.HiddenFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep)
     @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm, new { id = "requested-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm, new { id = "loan-term" })
     @Html.HiddenFor(m => m.EquipmentInfo.AmortizationTerm, new { id = "amortization-term" })
@@ -14,7 +14,7 @@
     @Html.HiddenFor(m => m.EquipmentInfo.RentalDeferralType)
     @Html.HiddenFor(m => m.EquipmentInfo.CustomerRate, new { id = "customer-rate" })
     @Html.HiddenFor(m => m.EquipmentInfo.AdminFee, new { id = "admin-fee" })
-    @Html.HiddenFor(m => m.EquipmentInfo.IsFeePaidByCutomer, new { id = "fee-paid-by-customer" })
+    @Html.HiddenFor(m => m.EquipmentInfo.Conditions.IsAdminFeePaidByCustomer, new { id = "fee-paid-by-customer" })
     @Html.HiddenFor(m => m.EquipmentInfo.DownPayment, new { id = "down-payment" })
     @Html.HiddenFor(m => m.EquipmentInfo.CreditAmount)
 
@@ -36,7 +36,7 @@
     </div>
     <div id="new-equipment-info-section">
         <div class="row credit-check-info-hold  equipment-info cols-no-titles no-top-margin">
-            
+
             @for(var i = 0; i < Model.EquipmentInfo.NewEquipment.Count; i++)
             {
                 <div class="col-md-6 grid-column">
@@ -63,7 +63,7 @@
                             </div>
                         </div>
 
-                        @if(Model.EquipmentInfo.NewEquipment[i].EquipmentSubType!=null)
+                        @if(Model.EquipmentInfo.NewEquipment[i].EquipmentSubType != null)
                         {
                             <div class="form-group">
                                 <div class="row">
@@ -283,12 +283,12 @@
                 <div class="dealnet-credit-check-section">
                     <div class="form-group">
                         <div class="row">
-                            @Html.LabelFor(m => m.EquipmentInfo.EstimatedInstallationDate, new
+                            @Html.LabelFor(m => m.EquipmentInfo.PreferredInstallDate, new
                             {
                                 @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5"
                             })
                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                @Html.TextBoxFor(m => m.EquipmentInfo.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new
+                                @Html.TextBoxFor(m => m.EquipmentInfo.PreferredInstallDate, @"{0:MM'/'dd'/'yyyy}", new
                                 {
                                     id = "",
                                     @readonly = "readonly",
@@ -394,7 +394,7 @@
                                 {
                                     <div class="row form-group">
                                         <div class="col-xs-8 col-sm-9">
-                                            @Resources.AdminFee (@(Model.EquipmentInfo.IsFeePaidByCutomer ?? false ? Resources.CoveredByCustomer : Resources.CoveredByDealer))
+                                            @Resources.AdminFee (@(Model.EquipmentInfo.Conditions.IsAdminFeePaidByCustomer ?? false ? Resources.CoveredByCustomer : Resources.CoveredByDealer))
                                         </div>
                                         <div class="col-xs-4 col-sm-3 text-right text-semibold">
                                             $ <span id="admin-fee-display">@($"{Model.EquipmentInfo.AdminFee:0.00}")</span>
