@@ -95,10 +95,13 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                     var equipment = src.Equipment?.NewEquipment;
                     if (equipment != null)
                     {
+                        var equipmentTypes = resContext.Items.ContainsKey(MappingKeys.EquipmentTypes)
+                            ? resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>
+                            : null;
                         return equipment.Select(eq =>
                         {
                             var eqType = eq.EquipmentType ??
-                                         (resContext.Items["EquipmentTypes"] as IList<EquipmentType>)?.FirstOrDefault(
+                                         equipmentTypes?.FirstOrDefault(
                                              et => et.Type == eq.Type);
                             return (!string.IsNullOrEmpty(eqType?.DescriptionResource)
                                        ? ResourceHelper.GetGlobalStringResource(eqType.DescriptionResource)
@@ -136,7 +139,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                     var cProvince = src.PrimaryCustomer?.Locations
                                         .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State
                                     ?? src.PrimaryCustomer?.Locations.FirstOrDefault()?.State;
-                    var provincesDocTypes = resContext.Items["DocumentTypes"] as IDictionary<string, IList<DocumentType>>;
+                    var provincesDocTypes = resContext.Items.ContainsKey(MappingKeys.DocumentTypes) ? resContext.Items[MappingKeys.DocumentTypes] as IDictionary<string, IList<DocumentType>> : null;
                     if (!string.IsNullOrEmpty(cProvince) && provincesDocTypes != null)
                     {
                         var docTypes = provincesDocTypes[cProvince];

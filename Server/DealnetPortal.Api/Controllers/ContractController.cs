@@ -20,18 +20,16 @@ namespace DealnetPortal.Api.Controllers
     {
         private IContractService _contractService { get; set; }
         private ICustomerFormService _customerFormService { get; set; }
-        private IRateCardsService _rateCardsService { get; set; }
         private IDocumentService _documentService { get; set; }
         private ICreditCheckService _creditCheckService { get; set; }
         private ICustomerWalletService _customerWalletService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService,
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService,
             IDocumentService documentService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
             : base(loggingService)
         {
             _contractService = contractService;
             _customerFormService = customerFormService;
-            _rateCardsService = rateCardsService;
             _documentService = documentService;
             _creditCheckService = creditCheckService;
             _customerWalletService = customerWalletService;
@@ -133,7 +131,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerLeads")]
+        // GET: api/Contract/leads
+        [Route("leads")]
         [HttpGet]
         public IHttpActionResult GetDealerLeads()
         {
@@ -149,8 +148,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CreateContract")]
-        [HttpPut]
+        [HttpPost]
         public IHttpActionResult CreateContract()
         {
             var alerts = new List<Alert>();
