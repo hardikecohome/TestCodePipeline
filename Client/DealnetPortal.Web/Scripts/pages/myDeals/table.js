@@ -260,6 +260,7 @@
             this.typeOfPayment('');
             this.valueFrom('');
             this.valueTo('');
+            this.search('');
             this.filterList();
             localStorage.removeItem(filters.agreementType);
             localStorage.removeItem(filters.status);
