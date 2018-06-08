@@ -64,7 +64,10 @@ namespace DealnetPortal.Api.App_Start
             mapperConfig.CreateMap<NewEquipment, NewEquipmentDTO>()
                 .ForMember(d => d.TypeDescription, s => s.ResolveUsing((src, dest, destMember, resContext) =>
                 {                    
-                    var eqType = src.EquipmentType ?? (resContext.Items["EquipmentTypes"] as IList<EquipmentType>)?.FirstOrDefault(et => et.Type == src.Type);
+                    var eqType = src.EquipmentType ?? 
+                        (resContext.Items.ContainsKey(MappingKeys.EquipmentTypes) ?
+                            (resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>)?.FirstOrDefault(et => et.Type == src.Type)
+                            : null);
                     var descrResource = eqType?.DescriptionResource;
                     return !string.IsNullOrEmpty(descrResource)
                         ? ResourceHelper.GetGlobalStringResource(descrResource)
@@ -80,7 +83,19 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.BeaconUpdated, d => d.UseValue(false))
                 .ForMember(x => x.EscalatedLimit, d => d.Ignore())
                 .ForMember(x => x.NonEscalatedLimit, d => d.Ignore())
-                .ForMember(x => x.CreditAmount, d => d.Ignore());
+                .ForMember(x => x.CreditAmount, d => d.Ignore())
+                .AfterMap((src, dest, resContext) =>
+                {
+                    if (resContext.Items.ContainsKey(MappingKeys.CreditAmount))
+                    {
+                        if (resContext.Items[MappingKeys.CreditAmount] is CreditAmountSetting creditAmount)
+                        {
+                            dest.CreditAmount = creditAmount.CreditAmount;
+                            dest.EscalatedLimit = creditAmount.EscalatedLimit;
+                            dest.NonEscalatedLimit = creditAmount.NonEscalatedLimit;
+                        }
+                    }
+                });
             mapperConfig.CreateMap<Customer, CustomerDTO>()
                 .ForMember(x => x.IsHomeOwner, d => d.Ignore())
                 .ForMember(x => x.IsInitialCustomer, d => d.Ignore());
@@ -333,7 +348,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.SalesRepInfo, s => s.Ignore())
                 .AfterMap((s, d, resContext) =>
                 {
-                    var equipments = resContext.Items["EquipmentTypes"] as IList<EquipmentType>;
+                    var equipments = resContext.Items.ContainsKey(MappingKeys.EquipmentTypes) ? resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType> : null;
                     if (equipments?.Any() ?? false)
                     {
                         var eqType = d.Equipment?.NewEquipment?.FirstOrDefault()?.Type;
@@ -378,20 +393,20 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.AmortizationTerm, s => s.MapFrom(src => src.Term))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing((src, dest, destMember, resContext) =>
                     {
-                        var eqTypes = resContext.Items["EquipmentTypes"] as IList<EquipmentType>;
-                        if (eqTypes?.Any() == true)
+                        if (resContext.Items.ContainsKey(MappingKeys.EquipmentTypes))
                         {
+                            var eqTypes = resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>;
+                            if (eqTypes?.Any() == true)
+                            {
 
-                            var eqType = eqTypes.FirstOrDefault(e => e.Description == src.EquipmentType);
-                            return eqType != null
-                                ? (ResourceHelper.GetGlobalStringResource(eqType.DescriptionResource) ??
-                                   eqType.Description ?? src.EquipmentDescription)
-                                : src.EquipmentDescription;
+                                var eqType = eqTypes.FirstOrDefault(e => e.Description == src.EquipmentType);
+                                return eqType != null
+                                    ? (ResourceHelper.GetGlobalStringResource(eqType.DescriptionResource) ??
+                                       eqType.Description ?? src.EquipmentDescription)
+                                    : src.EquipmentDescription;
+                            }
                         }
-                        else
-                        {
-                            return src.EquipmentType;
-                        }
+                        return src.EquipmentType;
                     }
                 ))
                 .ForMember(d => d.PrimaryCustomerFirstName, s => s.MapFrom(src => src.CustomerFirstName))

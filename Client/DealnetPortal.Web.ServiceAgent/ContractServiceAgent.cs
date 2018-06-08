@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> CreateContract()
         {
-            return await Client.PutAsyncEx<string, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}/CreateContract", "", AuthenticationHeader, CurrentCulture);
+            return await Client.PostAsyncEx<string, Tuple<ContractDTO, IList<Alert>>>($"{_fullUri}", "", AuthenticationHeader, CurrentCulture);
         }
 
         public async Task<Tuple<ContractDTO, IList<Alert>>> GetContract(int contractId)
@@ -122,7 +122,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/GetDealerLeads", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<IList<ContractDTO>>($"{_fullUri}/leads", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {

@@ -97,8 +97,8 @@ namespace DealnetPortal.Api.Integration.Services
             var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);
             var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
-                opts.Items.Add("EquipmentTypes", equipments);
-                opts.Items.Add("DocumentTypes", dealerDocumentTypes);
+                opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
+                opts.Items.Add(MappingKeys.DocumentTypes, dealerDocumentTypes);
             });
             contractDTOs.AddRange(mappedContracts);
             contractDTOs.AddRange(aspireDeals);
@@ -114,8 +114,8 @@ namespace DealnetPortal.Api.Integration.Services
             var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
             var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
-                opts.Items.Add("EquipmentTypes", equipments);
-                opts.Items.Add("DocumentTypes", dealerDocumentTypes);
+                opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
+                opts.Items.Add(MappingKeys.DocumentTypes, dealerDocumentTypes);
             });
             contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
@@ -129,8 +129,11 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetContracts(IEnumerable<int> ids, string ownerUserId)
         {
             var contracts = _contractRepository.GetContracts(ids, ownerUserId);
-            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, contractDTOs, ownerUserId);
+            var equipments = _contractRepository.GetEquipmentTypes();
+            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts, opts =>
+            {
+                opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
+            });
             return contractDTOs;
         }
 
@@ -155,43 +158,23 @@ namespace DealnetPortal.Api.Integration.Services
                         creditReport.CreditAmount : contract.Details.CreditAmount;
                     _unitOfWork.Save();
                 }
-
-            }
-            
-
+            }          
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
                 (contract.Signers?.Any() == false || string.IsNullOrEmpty(contract.Details.SignatureStatusQualifier)))
             {
                 _documentService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
             }
-
-            var contractDTO = Mapper.Map<ContractDTO>(contract);
-            if (contractDTO != null)
+            //mappings
+            var contractDTO = Mapper.Map<ContractDTO>(contract, ctx =>
+                {
+                    ctx.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
+                    ctx.Items.Add(MappingKeys.CreditAmount, _rateCardsRepository.GetCreditAmountSetting(contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0));
+                });
+            if (contractDTO?.PrimaryCustomer?.CreditReport != null)
             {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, _contractRepository.GetEquipmentTypes());
-                if (contractDTO.PrimaryCustomer?.CreditReport != null)
-                {
-                    // here is just aftermapping for get credit amount and escalation limits for customers who has credit report
-                    contractDTO.PrimaryCustomer.CreditReport =
-                        _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
-                    contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
-                }
-                else
-                {
-	                var lowestCreditScoreValue = 0;
-	                var creditAmountSettings = _rateCardsRepository.GetCreditAmountSetting(lowestCreditScoreValue);
-	                if (contractDTO.PrimaryCustomer != null)
-	                {
-		                contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO
-		                {
-                            CreditAmount = creditAmountSettings.CreditAmount,
-			                EscalatedLimit = creditAmountSettings.EscalatedLimit,
-			                NonEscalatedLimit = creditAmountSettings.NonEscalatedLimit
-		                };
-	                }
-                }
-            }
+                contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
+            }            
             return contractDTO;
         }
 
@@ -853,7 +836,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
             }
-            return null;
+            return new List<T>();
         }
 
         private IList<T> GetAspireDealsForDealer<T>(string contractOwnerId)
@@ -1161,61 +1144,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
             return isChanged;
-        }
-
-        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractDTO> aspireDeals)
-        {
-            bool isChanged = false;
-            foreach (var aspireDeal in aspireDeals)
-            {
-                if (aspireDeal.Details?.TransactionId == null)
-                {
-                    continue;
-                }
-                var contract =
-                    contractsForUpdate.FirstOrDefault(
-                        c => (c.Details?.TransactionId?.Contains(aspireDeal.Details.TransactionId) ?? false));
-                if (contract != null)
-                {
-                    if (contract.Details.Status != aspireDeal.Details.Status)
-                    {
-                        contract.Details.Status = aspireDeal.Details.Status;
-                        contract.LastUpdateTime = DateTime.UtcNow;
-                        isChanged = true;
-                    }
-                    //update contract state in any case
-                    isChanged |= UpdateContractState(contract);
-                }
-            }
-            return isChanged;
-        }
-
-        private bool UpdateContractsByAspireDeals(IList<Contract> contractsForUpdate, IList<ContractShortInfoDTO> aspireDeals)
-        {
-            bool isChanged = false;
-            foreach (var aspireDeal in aspireDeals)
-            {
-                if (aspireDeal.TransactionId == null)
-                {
-                    continue;
-                }
-                var contract =
-                    contractsForUpdate.FirstOrDefault(
-                        c => (c.Details?.TransactionId?.Contains(aspireDeal.TransactionId) ?? false));
-                if (contract != null)
-                {
-                    if (contract.Details.Status != aspireDeal.Status)
-                    {
-                        contract.Details.Status = aspireDeal.Status;
-                        contract.LastUpdateTime = DateTime.UtcNow;
-                        isChanged = true;
-                    }
-                    //update contract state in any case
-                    isChanged |= UpdateContractState(contract);
-                }
-            }
-            return isChanged;
-        }
+        }        
 
         /// <summary>
         /// Logic for update internal contract state by Aspire state
