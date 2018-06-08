@@ -116,9 +116,9 @@ namespace DealnetPortal.Api.Controllers
             return NotFound();
         }
 
-        [Route("GetContracts")]
-        [HttpPost]
-        public IHttpActionResult GetContracts(IEnumerable<int> ids)
+        [Route("pack")]
+        [HttpGet]
+        public IHttpActionResult GetContracts([FromUri] IEnumerable<int> ids)
         {
             try
             {
@@ -148,6 +148,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        // POST: api/Contract
         [HttpPost]
         public IHttpActionResult CreateContract()
         {
@@ -178,7 +179,7 @@ namespace DealnetPortal.Api.Controllers
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }
 
-        [Route("UpdateContractData")]
+        // PUT: api/Contract
         [HttpPut]
         public IHttpActionResult UpdateContractData(ContractDataDTO contractData)
         {
@@ -208,26 +209,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("InitiateCreditCheck")]
+        [Route("{contractId}/signature/initiate")]
         [HttpPut]
-        public IHttpActionResult InitiateCreditCheck(int contractId)
-        {
-            try
-            {
-                //TODO: remove after CW review
-                //var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
-                var alerts = new List<Alert>();
-                return Ok(alerts);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("InitiateDigitalSignature")]
-        [HttpPut]
-        public async Task<IHttpActionResult> InitiateDigitalSignature(SignatureUsersDTO users)
+        public async Task<IHttpActionResult> InitiateDigitalSignature(int contractId, SignatureUsersDTO users)
         {
             try
             {
@@ -240,9 +224,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("UpdateContractSigners")]
+        [Route("{contractId}/signature/signers")]
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateContractSigners(SignatureUsersDTO users)
+        public async Task<IHttpActionResult> UpdateContractSigners(int contractId, SignatureUsersDTO users)
         {
             try
             {
@@ -255,8 +239,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CancelDigitalSignature")]
-        [HttpPost]
+        [Route("{contractId}/signature/cancel")]
+        [HttpPut]
         public async Task<IHttpActionResult> CancelDigitalSignature(int contractId)
         {
             try
@@ -270,9 +254,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }        
 
-        [Route("AddDocument")]
-        [HttpPut]
-        public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)
+        [Route("{contractId}/documents")]
+        [HttpPost]
+        public IHttpActionResult AddDocumentToContract(int contractId, ContractDocumentDTO document)
         {
             try
             {
@@ -285,9 +269,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("RemoveDocument")]
-        [HttpPost]
-        public IHttpActionResult RemoveContractDocument(int documentId)
+        [Route("{contractId}/documents/{documentId}")]
+        [HttpDelete]
+        public IHttpActionResult RemoveContractDocument(int contractId, int documentId)
         {
             try
             {
@@ -300,8 +284,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("SubmitAllDocumentsUploaded")]
-        [HttpPost]
+        [Route("{contractId}/documents/submit")]
+        [HttpPut]
         public async Task<IHttpActionResult> SubmitAllDocumentsUploaded(int contractId)
         {
             try
@@ -345,7 +329,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetContractAgreement")]
+        [Route("{contractId}/documents/agreement")]
         [HttpGet]
         public async Task<IHttpActionResult> GetContractAgreement(int contractId)
         {
@@ -360,7 +344,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetSignedAgreement")]
+        [Route("{contractId}/documents/agreement/signed")]
         [HttpGet]
         public async Task<IHttpActionResult> GetSignedAgreement(int contractId)
         {
@@ -375,7 +359,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CheckContractAgreementAvailable")]
+        [Route("{contractId}/documents/agreement/check")]
         [HttpGet]
         public async Task<IHttpActionResult> CheckContractAgreementAvailable(int contractId)
         {
@@ -390,7 +374,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetInstallationCertificate")]
+        [Route("{contractId}/documents/InstallationCertificate")]
         [HttpGet]
         public async Task<IHttpActionResult> GetInstallationCertificate(int contractId)
         {
@@ -406,7 +390,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("CheckInstallationCertificateAvailable")]
+        [Route("{contractId}/documents/InstallationCertificate/check")]
         [HttpGet]
         public async Task<IHttpActionResult> CheckInstallationCertificateAvailable(int contractId)
         {
@@ -422,7 +406,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("{summaryType}/ContractsSummary")]
+        [Route("Summary/{summaryType}")]
         [HttpGet]
         public IHttpActionResult GetContractsSummary(string summaryType)
         {
@@ -433,13 +417,14 @@ namespace DealnetPortal.Api.Controllers
             return Ok(result);
         }        
 
-        [Route("CreateXlsxReport")]
-        [HttpPost]
-        public IHttpActionResult CreateXlsxReport(Tuple<IEnumerable<int>, int?> reportData)
+        [Route("pack/report")]
+        [Route("pack/report/timezoneOffset={timezoneOffset}")]
+        [HttpGet]
+        public IHttpActionResult GetXlsxReport([FromUri] IEnumerable<int> ids, int? timezoneOffset = null)
         {
             try
             {
-                var report = _contractService.GetContractsFileReport(reportData.Item1, LoggedInUser.UserId, reportData.Item2);
+                var report = _contractService.GetContractsFileReport(ids, LoggedInUser.UserId, timezoneOffset);
                 return Ok(report);
             }
             catch (Exception ex)

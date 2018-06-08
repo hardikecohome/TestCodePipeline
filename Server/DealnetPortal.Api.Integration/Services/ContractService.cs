@@ -782,8 +782,11 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<ContractDTO>();
             // temporary using a flag IsCreatedByBroker
             var contracts = _contractRepository.GetDealerLeads(userId);
-            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, mappedContracts, userId);
+            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts,
+                opts =>
+                {
+                    opts.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
+                });
             contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
         }
@@ -822,7 +825,7 @@ namespace DealnetPortal.Api.Integration.Services
                         var deals = Mapper.Map<IList<T>>(returnUnmapped ? unlinkedDeals : aspireDeals,
                             opts =>
                             {
-                                opts.Items.Add("EquipmentTypes", equipments);
+                                opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
                             });
                         return deals;                        
                     }                    

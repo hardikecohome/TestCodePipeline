@@ -123,5 +123,8 @@ namespace DealnetPortal.Api.Core.ApiClient
 
         Task DeleteAsyncEx(string requestUri, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
             CancellationToken cancellationToken = new CancellationToken());
+
+        Task<T> DeleteAsyncEx<T>(string requestUri, AuthenticationHeaderValue authenticationHeader = null, string culture = null,
+            CancellationToken cancellationToken = new CancellationToken());
     }
 }

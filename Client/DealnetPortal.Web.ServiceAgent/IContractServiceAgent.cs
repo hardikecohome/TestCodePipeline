@@ -155,7 +155,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<Tuple<int?, IList<Alert>>> AddDocumentToContract(ContractDocumentDTO document);
 
-        Task<IList<Alert>> RemoveContractDocument(int documentId);
+        Task<IList<Alert>> RemoveContractDocument(int contractId, int documentId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId);
 
