@@ -135,6 +135,7 @@
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.showDetailedView = ko.observable(false);
+        this.filtersSaved = ko.observable(false);
 
         this.list = ko.observableArray(data);
 
@@ -288,6 +289,7 @@
             this.typeOfPayment() && localStorage.setItem(filters.typeOfPayment, this.typeOfPayment());
             this.valueFrom() && localStorage.setItem(filters.valueFrom, this.valueFrom());
             this.valueTo() && localStorage.set(filters.valueTo, this.valueTo());
+            this.filtersSaved(true);
         };
 
         this.editUrl = function (id) {

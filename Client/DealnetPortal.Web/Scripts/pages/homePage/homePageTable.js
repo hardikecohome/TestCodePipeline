@@ -128,6 +128,7 @@ module.exports('table', function (require) {
         this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
+        this.filtersSaved = ko.observable(false);
 
         this.list = ko.observableArray(list);
 
@@ -245,6 +246,7 @@ module.exports('table', function (require) {
             this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
+            this.filtersSaved(true);
         };
 
         this.editUrl = function (id) {

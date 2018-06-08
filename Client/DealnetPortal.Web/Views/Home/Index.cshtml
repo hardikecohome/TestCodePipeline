@@ -41,7 +41,12 @@
                             <span>@Resources.Save</span>
                         </div>
                         <span class="save-btn-status">
-                            <i class="checked-ico"></i>(@Resources.ForNextTime)
+                            <!-- ko if: filtersSaved -->
+                            <i class="checked-ico"></i> @Resources.Saved
+                            <!-- /ko -->
+                            <!-- ko ifnot: filtersSaved-->
+                            (@Resources.ForNextTime)
+                            <!-- /ko -->
                         </span>
                     </div>
                     <div class="filters-head__divider"></div>
