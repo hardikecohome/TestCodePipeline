@@ -4,7 +4,8 @@
         var observable = valueAccessor();
         var options = allBindingsAccessor().options || allBindingsAccessor().foreach;
         $el.selectric({
-            responsive: true
+            responsive: true,
+            nativeOnMobile: false
         });
         $el.on('selectric-change', function (event, element, selectric) {
             observable(element.value);
