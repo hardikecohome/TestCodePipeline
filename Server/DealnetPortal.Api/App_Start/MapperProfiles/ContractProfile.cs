@@ -188,6 +188,10 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 {
                     if (d.AgreementType.HasValue)
                     {
+                        if(d.AgreementType == AgreementType.RentalApplicationHwt)
+                        {
+                            d.ProgramOption = Resources.Resources.LeaseApplicationHwt;
+                        }
                         if (d.AgreementType == AgreementType.RentalApplication)
                         {
                             d.ProgramOption = Resources.Resources.LeaseApplication;
