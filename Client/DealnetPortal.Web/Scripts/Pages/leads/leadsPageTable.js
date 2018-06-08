@@ -98,6 +98,7 @@
         this.showFilters = ko.observable(true);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
+        this.filtersSaved = ko.observable(false);
         this.selectedLeadId = ko.observable(0);
         this.list = ko.observableArray(list);
         this.isError = ko.observable(false);
@@ -106,6 +107,7 @@
         this.showResultMessage = ko.observable(false);
         this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
+
 
         this.pager = new Paginator(this.filteredList());
         this.acceptLead = function() {
@@ -178,11 +180,17 @@
             this.postalCode() && localStorage.setItem(filters.postalCode, this.postalCode());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
+            this.filtersSaved(true);
         };
 
         this.toggleFilters = function () {
             this.showSorters(false);
             this.showFilters(!this.showFilters());
+        };
+
+        this.toggleSorters = function () {
+            this.showFilters(false);
+            this.showSorters(!this.showSorters());
         };
 
         this.configureSortClick = function (field) {

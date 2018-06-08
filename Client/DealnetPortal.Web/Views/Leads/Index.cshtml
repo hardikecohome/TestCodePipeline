@@ -31,15 +31,41 @@
                             <span>@Resources.Save</span>
                         </div>
                         <span class="save-btn-status">
-                            <i class="checked-ico"></i>(@Resources.ForNextTime)
+                            <!-- ko if: filtersSaved -->
+                            <i class="checked-ico"></i> @Resources.Saved
+                            <!-- /ko -->
+                            <!-- ko ifnot: filtersSaved-->
+                            (@Resources.ForNextTime)
+                            <!-- /ko -->
                         </span>
                     </div>
                     <div class="filters-head__divider"></div>
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
                         <i class="filter-ico filter-ico--red"></i>
-                        <span>@Resources.Filters</span>
+                        <span>
+                            @Resources.Filters
+                        </span>
+                        <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red"><i class="sort-button-red-ico"></i><span>Sort</span></div>
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
+                        <i class="sort-button-red-ico"></i>
+                        <span>
+                            @Resources.Sort
+                        </span>
+                        <!-- /ko -->
+                    </div>
                     <!-- /ko -->
                 </div>
                 <div class="filters-advanced" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
@@ -71,7 +97,82 @@
                             <span class="icon-calendar"></span>
                         </div>
                     </div>
-                    <div class="filters-advanced__clear-btn new-btn-grey"><span>Clear</span></div>
+                    <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters">
+                        <div class="custom-select-wrap custom-select-float-label">
+                            <label>@Resources.SortBy</label>
+                            <select id="sort" data-bind="selectric: sorter">
+                                <option value=""></option>
+                                <option value="transactionIdAsc">
+                                    @Resources.ContractNumber - @Resources.Ascending
+                                </option>
+                                <option value="transactionIdDesc">
+                                    @Resources.ContractNumber - @Resources.Descending
+                                </option>
+                                <option value="applicantNameAsc">
+                                    @Resources.ApplicantNameAtoZ
+                                </option>
+                                <option value="applicantNameAscDesc">
+                                    @Resources.ApplicantNameZtoA
+                                </option>
+                                <option value="dateAsc">
+                                    @Resources.LastActivity - @Resources.Latest
+                                </option>
+                                <option value="dateDesc">
+                                    @Resources.LastActivity - @Resources.Oldest
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filters-advanced__filters-cloud">
+                        <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.transactionId">
+                            @Resources.ContractNumber -
+                            <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc --> @Resources.Descending <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__deal-status" data-bind="visible: sortedColumn() == sortFields.status">
+                            @Resources.DealStatus -
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            <i class="info-ico info-ico--red"></i> @Resources.To <i class="info-ico info-ico--grey"></i>
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            <i class="info-ico info-ico--grey"></i> @Resources.To <i class="info-ico info-ico--red"></i>
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__e-sign" data-bind="visible: sortedColumn() == sortFields.sign ">
+                            @Resources.EsignStatus -
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i>
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            <i class="sign-ico sign-ico--grey"></i> to <i class="sign-ico sign-ico--red"></i>
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__applicant-name" data-bind="visible: sortedColumn() == sortFields.applicantName">
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.ApplicantNameAtoZ
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.ApplicantNameZtoA
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__last-activity" data-bind="visible: sortedColumn() == sortFields.date">
+                            @Resources.LastActivity —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Latest
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Oldest
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                    </div>
+                    <div class="filters-advanced__clear-btn new-btn-grey">
+                        <span>@Resources.Clear</span>
+                    </div>
                     <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
                         <span>@Resources.Apply</span>
                     </div>
@@ -178,7 +279,7 @@
                         </div>
                         <div class="main-table__block__row__cell info">
                             <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());}"></i>
-                            <span class="show-details" data-bind="click:function(){$data.showInfo(!$data.showInfo());}">
+                            <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
@@ -189,24 +290,24 @@
                         </div>
                     </div>
                     <div class="main-table__block__row">
-                        <div class="table-row-details opened">
+                        <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
                             <div class="table-row-details__left">
-
-
                                 <div class="table-row-details__left__customer-comment">
-                                    <span>Customer comment</span>
+                                    <span>@Resources.CustomerComment</span>
                                     <span class="filter-ico filter-ico--default">
                                         <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value">Here some comment from customer. Here some comment from customer. Some comment.</div>
+                                <div class="table-row-details__left__value"><span data-bind="text: $data.CustomerComment"></span></div>
 
                                 <div class="table-row-details__left__info">
                                     <span>
                                         <i class="i-letter-ico"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__accept-lead"><span>+</span><span>@Resources.AcceptLead</span></div>
+                                <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.TransactionId);}">
+                                    <span>+</span><span>@Resources.AcceptLead</span>
+                                </div>
                             </div>
                         </div>
                     </div>
