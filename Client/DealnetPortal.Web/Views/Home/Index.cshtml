@@ -21,16 +21,16 @@
             <div class="filters">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    <div class="filters-head__learn-more">
-                        @*<i class="lamp-ico"></i>
-                            <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                        <i class="lamp-ico"></i>
+                            <a>
                                 <!-- ko if: showLearnMore -->
                                 @Resources.Hide
                                 <!-- /ko-->
                                 <!-- ko ifnot: showLearnMore -->
                                 @Resources.LearnMoreAboutThisPage
                                 <!-- /ko -->
-                            </a>*@
+                            </a>
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -51,7 +51,7 @@
                     </div>
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide
@@ -64,7 +64,7 @@
                         </span>
                         <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
                         <!-- ko if: showSorters -->
                         <span>
                             @Resources.Hide
@@ -80,8 +80,8 @@
                 </div>
 
                 <div class="filters-advanced homepage-mod" data-bind="visible: showFilters() || showSorters()">
-
-                    <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
+                    <!-- ko if: showFilters -->
+                    <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealType</label>
                             <select required data-bind="options:agreementOptions, selectric:agreementType"></select>
@@ -125,7 +125,7 @@
                             <select data-bind="options:salesRepOptions, selectric:salesRep"></select>
                         </div>
                     </div>
-
+                    <!-- /ko -->
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
@@ -140,7 +140,7 @@
                                 <option value="applicantNameAsc">
                                     @Resources.ApplicantNameAtoZ
                                 </option>
-                                <option value="applicantNameAscDesc">
+                                <option value="applicantNameDesc">
                                     @Resources.ApplicantNameZtoA
                                 </option>
                                 <option value="dateAsc">
@@ -642,7 +642,7 @@
         </div>
     </div>
 
-    <div class="margin-block" data-bind="visible: selectedIds().length > 0" style="display:none;">
+    <div class="margin-block table-btns" data-bind="visible: selectedIds().length > 0" style="display:none;">
         <div class="row">
             <div class="col-md-3">
                 <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>

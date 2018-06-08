@@ -10,7 +10,7 @@
 }
 <div id="my-deals-page" data-bind="with:table">
 
-    @*<div class="margin-block">
+    <div class="margin-block">
             <div class="row">
                 <!-- ko if: showLearnMore -->
                 <div class="new-notification-wp">
@@ -22,7 +22,7 @@
                 </div>
                 <!-- /ko -->
             </div>
-        </div>*@
+        </div>
 
     <div class="margin-block">
         <div class="row">
@@ -30,7 +30,7 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <!-- ko if:  list().length > 0 -->
-                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
                             <i class="lamp-ico"></i>
                             <a>
                                 <!-- ko if: showLearnMore -->
@@ -40,7 +40,7 @@
                                 @Resources.LearnMoreAboutThisPage
                                 <!-- /ko -->
                             </a>
-                        </div>*@
+                        </div>
                     <div class="filters-head__export-excel" data-bind="click: exportAll">
                         <i class="excel-ico"></i>
                         <a>@Resources.ExportAllToExcel</a>
@@ -100,12 +100,12 @@
                     <!-- /ko -->
                 </div>
 
-                <div class="filters-type" data-bind="visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
+                <div class="filters-type" data-bind="visible: list().length > 0 && showFilters()" style="display:none;">
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
                     <div class="filters-type__tab" data-bind="css:{active:showDetailedView}, click:function(){showDetailedView(true)}">@Resources.DetailedInfo</div>
                 </div>
                 <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
-
+                    <!-- ko if: showFilters -->
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealType</label>
@@ -173,11 +173,11 @@
 
                     <div class="filters-advanced__project new-input-group">
                         <div class="custom-text-input-group">
-                            <input type="text" data-bind="value: equipment">
+                            <input type="text" data-bind="value: equipment" required>
                             <label>@Resources.ProjectType</label>
                         </div>
                     </div>
-
+                    <!-- /ko -->
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
@@ -192,7 +192,7 @@
                                 <option value="applicantNameAsc">
                                     @Resources.ApplicantNameAtoZ
                                 </option>
-                                <option value="applicantNameAscDesc">
+                                <option value="applicantNameDesc">
                                     @Resources.ApplicantNameZtoA
                                 </option>
                                 <option value="dateAsc">
@@ -706,7 +706,7 @@
         </div>
     </div>
 
-    <div class="margin-block" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+    <div class="margin-block table-btns" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
         <div class="row">
             <div class="col-md-3">
                 <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
