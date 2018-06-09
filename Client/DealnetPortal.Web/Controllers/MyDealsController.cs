@@ -89,7 +89,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> RemoveComment(int commentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveComment(commentId);
+            var updateResult = await _contractServiceAgent.RemoveComment(commentId, commentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 

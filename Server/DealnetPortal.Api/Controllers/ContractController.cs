@@ -19,20 +19,16 @@ namespace DealnetPortal.Api.Controllers
     public class ContractController : BaseApiController
     {
         private IContractService _contractService { get; set; }
-        private ICustomerFormService _customerFormService { get; set; }
         private IDocumentService _documentService { get; set; }
         private ICreditCheckService _creditCheckService { get; set; }
-        private ICustomerWalletService _customerWalletService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService,
-            IDocumentService documentService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
+        public ContractController(ILoggingService loggingService, IContractService contractService,
+            IDocumentService documentService, ICreditCheckService creditCheckService)
             : base(loggingService)
         {
             _contractService = contractService;
-            _customerFormService = customerFormService;
             _documentService = documentService;
             _creditCheckService = creditCheckService;
-            _customerWalletService = customerWalletService;
         }
 
         // GET: api/Contract
@@ -433,21 +429,10 @@ namespace DealnetPortal.Api.Controllers
             }
         }        
 
-        [Route("GetCustomer")]
-        [HttpGet]
-        public IHttpActionResult GetCustomer(int customerId)
-        {
-            var customer = _contractService.GetCustomer(customerId);
-            if (customer != null)
-            {
-                return Ok(customer);
-            }
-            return NotFound();
-        }
-
-        [Route("UpdateCustomerData")]
+        
+        [Route("{contractId}/customers")]
         [HttpPut]
-        public IHttpActionResult UpdateCustomerData([FromBody]CustomerDataDTO[] customers)
+        public IHttpActionResult UpdateCustomerData(int contractId, [FromBody]CustomerDataDTO[] customers)
         {
             try
             {
@@ -460,9 +445,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("UpdateInstallationData")]
+        [Route("{contractId}/InstallationData")]
         [HttpPut]
-        public IHttpActionResult UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData)
+        public IHttpActionResult UpdateInstallationData(int contractId, InstallationCertificateDataDTO installationCertificateData)
         {
             try
             {
@@ -475,8 +460,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("SubmitContract")]
-        [HttpPost]
+        [Route("{contractId}/Submit")]
+        [HttpPut]
         public IHttpActionResult SubmitContract(int contractId)
         {
             try
@@ -490,9 +475,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("AddComment")]
+        [Route("{contractId}/comments")]
         [HttpPost]
-        public IHttpActionResult AddComment(CommentDTO comment)
+        public IHttpActionResult AddComment(int contractId, CommentDTO comment)
         {
             try
             {
@@ -505,9 +490,9 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("RemoveComment")]
-        [HttpPost]
-        public IHttpActionResult RemoveComment(int commentId)
+        [Route("{contractId}/comments/{commentId}")]
+        [HttpDelete]
+        public IHttpActionResult RemoveComment(int contractId, int commentId)
         {
             try
             {
@@ -518,28 +503,10 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
+        }        
 
-        
-
-        [Route("SubmitCustomerServiceRequest")]
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> SubmitCustomerServiceRequest(CustomerServiceRequestDTO customerServiceRequest)
-        {
-            try
-            {
-                var submitResult = await _customerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("RemoveContract")]
-        [HttpPost]
+        [Route("{contractId}")]
+        [HttpDelete]
         public IHttpActionResult RemoveContract(int contractId)
         {
             try
@@ -553,8 +520,8 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("AssignContract")]
-        [HttpPost]
+        [Route("{contractId}/Assign")]
+        [HttpPut]
         public async Task<IHttpActionResult> AssignContract(int contractId)
         {
             try
@@ -567,23 +534,6 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
-
-        [Route("CheckCustomerExisting")]
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> CheckCustomerExistingAsync([FromUri]string email)
-        {
-            try
-            {
-                var result = await _customerWalletService.CheckCustomerExisting(email);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        }        
     }
 }

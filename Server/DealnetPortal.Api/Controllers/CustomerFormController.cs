@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
@@ -47,5 +48,24 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+
+        //POST: api/CustomerForm/ServiceRequest
+        [Route("ServiceRequest")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SubmitCustomerServiceRequest(CustomerServiceRequestDTO customerServiceRequest)
+        {
+            try
+            {
+                var submitResult = await _customerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
     }
 }

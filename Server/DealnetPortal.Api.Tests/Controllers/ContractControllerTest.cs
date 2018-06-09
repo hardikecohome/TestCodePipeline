@@ -50,8 +50,8 @@ namespace DealnetPortal.Api.Tests.Controllers
             _signatureServiceMock = new Mock<IDocumentService>();
             _customerWalletServiceMock = new Mock<ICustomerWalletService>();
 
-            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object,
-                _signatureServiceMock.Object, _creditCheckServiceMock.Object, _customerWalletServiceMock.Object);
+            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object,
+                _signatureServiceMock.Object, _creditCheckServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }

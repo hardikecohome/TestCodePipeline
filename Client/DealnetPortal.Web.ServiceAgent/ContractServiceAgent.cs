@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
@@ -189,30 +190,14 @@ namespace DealnetPortal.Web.ServiceAgent
 			try
 			{
 				return
-					await Client.PutAsyncEx<CustomerDataDTO[], IList<Alert>>($"{_fullUri}/UpdateCustomerData", customers, AuthenticationHeader, CurrentCulture);
+					await Client.PutAsyncEx<CustomerDataDTO[], IList<Alert>>($"{_fullUri}/{customers?.FirstOrDefault()?.ContractId}/customers", customers, AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
 				_loggingService.LogError("Can't update customers data", ex);
 				throw;
 			}            
-		}
-
-		//public async Task<IList<Alert>> InitiateCreditCheck(int contractId)
-		//{
-		//    try
-		//    {
-		//        return
-		//            await
-		//                Client.PutAsyncEx<string, IList<Alert>>(
-		//                    $"{_fullUri}/InitiateCreditCheck?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        _loggingService.LogError($"Can't initiate credit check for contract {contractId}", ex);
-		//        throw;
-		//    }
-		//}
+		}		
 
 		public async Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers)
 		{
@@ -264,8 +249,8 @@ namespace DealnetPortal.Web.ServiceAgent
 			{
 				return
 					await
-						Client.PostAsyncEx<string, Tuple<CreditCheckDTO, IList<Alert>>>(
-							$"{_fullUri}/SubmitContract?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+						Client.PutAsyncEx<string, Tuple<CreditCheckDTO, IList<Alert>>>(
+							$"{_fullUri}/{contractId}/Submit", "", AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
@@ -345,7 +330,7 @@ namespace DealnetPortal.Web.ServiceAgent
 				return
 					await
 						Client.PutAsyncEx<InstallationCertificateDataDTO, IList<Alert>>(
-							$"{_fullUri}/UpdateInstallationData", installationCertificateData, AuthenticationHeader, CurrentCulture);
+							$"{_fullUri}/{installationCertificateData.ContractId}/InstallationData", installationCertificateData, AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
@@ -495,7 +480,7 @@ namespace DealnetPortal.Web.ServiceAgent
 				return
 					await
 						Client.PostAsyncEx<CommentDTO, Tuple<int?, IList<Alert>>>(
-							$"{_fullUri}/AddComment", comment, AuthenticationHeader, CurrentCulture);
+							$"{_fullUri}/{comment.ContractId}/comments", comment, AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
@@ -504,14 +489,14 @@ namespace DealnetPortal.Web.ServiceAgent
 			}
 		}
 
-		public async Task<IList<Alert>> RemoveComment(int commentId)
+		public async Task<IList<Alert>> RemoveComment(int contractId, int commentId)
 		{
 			try
 			{
 				return
 					await
 						Client.PostAsyncEx<string, IList<Alert>>(
-							$"{_fullUri}/RemoveComment?commentId={commentId}", "", AuthenticationHeader, CurrentCulture);
+							$"{_fullUri}/{contractId}/comments/{commentId}", "", AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
@@ -541,8 +526,8 @@ namespace DealnetPortal.Web.ServiceAgent
 			{
 				return
 					await
-						Client.PostAsyncEx<string, IList<Alert>>(
-							$"{_fullUri}/RemoveContract?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+						Client.DeleteAsyncEx<IList<Alert>>(
+							$"{_fullUri}/{contractId}", AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
@@ -557,8 +542,8 @@ namespace DealnetPortal.Web.ServiceAgent
 			{
 				return
 					await
-						Client.PostAsyncEx<string, IList<Alert>>(
-							$"{_fullUri}/AssignContract?contractId={contractId}", "", AuthenticationHeader, CurrentCulture);
+						Client.PutAsyncEx<string, IList<Alert>>(
+							$"{_fullUri}/{contractId}/Assign", "", AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
