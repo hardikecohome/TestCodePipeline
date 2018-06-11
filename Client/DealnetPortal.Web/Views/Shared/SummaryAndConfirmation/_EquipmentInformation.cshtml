@@ -175,7 +175,9 @@
                                     </div>
                                 </div>
                             </div>
-                            if(Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59)
+                            if(Model.EquipmentInfo.DealProvince == ContractProvince.ON.ToString() && 
+                                Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59 && 
+                                Model.EquipmentInfo.NewEquipment[i].EstimatedRetailCost.HasValue)
                             {
                                 <div class="form-group">
                                     <div class="row">

@@ -1305,7 +1305,8 @@
                                                 <div class="control-group">
                                                     <div class="text-left">
                                                         @{
-                                                            var hasAgreement = Model.EquipmentInfo.HasExistingAgreements.Value ? Resources.Yes : Resources.No;
+                                                            var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? 
+                                                                Resources.Yes : Resources.No;
                                                         }
                                                         @hasAgreement
                                                     </div>

@@ -881,6 +881,8 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 summary.EquipmentInfo.Notes = contract.Details?.Notes;
                 summary.EquipmentInfo.Conditions.IsAdminFeePaidByCustomer = contract.Equipment.IsFeePaidByCutomer;
                 summary.EquipmentInfo.Conditions.HasExistingAgreements = contract.Equipment.HasExistingAgreements;
+                summary.EquipmentInfo.DealProvince = (contract.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)
+                ?? contract.PrimaryCustomer.Locations.FirstOrDefault())?.State.ToProvinceCode();
                 summary.EquipmentInfo.DealerTier = new TierViewModel
                 {
                     CustomerRiskGroup = summary.DealerTier?.CustomerRiskGroup != null ?
