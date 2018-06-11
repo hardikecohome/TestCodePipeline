@@ -140,6 +140,7 @@
         this.list = ko.observableArray(data);
 
         this.filteredList = ko.observableArray(data);
+        this.noRecordsFound = ko.pureComputed(function () {return this.sortedList().length === 0 }, this);
 
         this.pager = new Paginator(this.filteredList());
 

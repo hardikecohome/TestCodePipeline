@@ -107,6 +107,7 @@
         this.showResultMessage = ko.observable(false);
         this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
+        this.noRecordsFound = ko.pureComputed(function () {return this.filteredList().length === 0 }, this);
 
 
         this.pager = new Paginator(this.filteredList());
@@ -227,6 +228,7 @@
                 });
             });
             this.list(tempList);
+
         };
 
         this.filterClasses = function (field) {
