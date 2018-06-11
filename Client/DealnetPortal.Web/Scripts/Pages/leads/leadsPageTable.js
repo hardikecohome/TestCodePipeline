@@ -276,12 +276,16 @@
 
         this.search.subscribe(function(val) {
             if (val === '') return this.filterList();
+            val = val.toLowerCase();
+            function stringIncludes(str, value) {
+                return str.toLowerCase().includes(value);
+            }
             var tempList = this.list().reduce(function (acc, item) {
-                if (item.Equipment.includes(val) 
-                    || item.CustomerComment.includes(val)
-                    || item.PostalCode.includes(val)
-                    || item.PreApprovalAmount.includes(val)
-                    || item.PostalCode.includes(val)) {
+                if (stringIncludes(item.Equipment, val) 
+                    || stringIncludes(item.CustomerComment, val)
+                    || stringIncludes(item.PostalCode, val)
+                    || stringIncludes(item.PreApprovalAmount,val)
+                    || stringIncludes(item.PostalCode,val)) {
                     return acc.concat(item);
                 }
                 return acc;
