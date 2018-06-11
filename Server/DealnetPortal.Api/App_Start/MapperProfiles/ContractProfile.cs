@@ -189,36 +189,41 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 }))
                 .AfterMap((c, d) =>
                 {
-                    if (d.AgreementType.HasValue)
+                    if(d.AgreementType.HasValue)
                     {
                         if(d.AgreementType == AgreementType.RentalApplicationHwt)
                         {
                             d.ProgramOption = Resources.Resources.LeaseApplicationHwt;
                         }
-                        if (d.AgreementType == AgreementType.RentalApplication)
+                        if(d.AgreementType == AgreementType.RentalApplication)
                         {
                             d.ProgramOption = Resources.Resources.LeaseApplication;
                         }
-                        else if (c.Equipment?.IsClarityProgram == true)
+                        else if(c.Equipment?.IsClarityProgram == true)
                         {
                             d.ProgramOption = Resources.Resources.ClarityProgram;
                         }
-                        else if (d.AgreementType == AgreementType.LoanApplication && c.Equipment?.RateCard != null)
+                        else if(d.AgreementType == AgreementType.LoanApplication && c.Equipment != null)
                         {
-                            switch (c.Equipment.RateCard.CardType)
+                            if(c.Equipment.IsCustomRateCard)
                             {
-                                case RateCardType.Custom:
-                                    d.ProgramOption = Resources.Resources.Custom;
-                                    break;
-                                case RateCardType.FixedRate:
-                                    d.ProgramOption = c.Equipment?.RateReductionCardId != null ? Resources.Resources.RateReduction : Resources.Resources.StandardRate;
-                                    break;
-                                case RateCardType.NoInterest:
-                                    d.ProgramOption = Resources.Resources.EqualPayments;
-                                    break;
-                                case RateCardType.Deferral:
-                                    d.ProgramOption = $"{Convert.ToInt32(c.Equipment.RateCard.DeferralPeriod)} {Resources.Resources.Months} {Resources.Resources.Deferral}";
-                                    break;
+
+                                d.ProgramOption = Resources.Resources.Custom;
+                            }
+                            else if(c.Equipment.RateCard != null)
+                            {
+                                switch(c.Equipment.RateCard.CardType)
+                                {
+                                    case RateCardType.FixedRate:
+                                        d.ProgramOption = c.Equipment?.RateReductionCardId != null ? Resources.Resources.RateReduction : Resources.Resources.StandardRate;
+                                        break;
+                                    case RateCardType.NoInterest:
+                                        d.ProgramOption = Resources.Resources.EqualPayments;
+                                        break;
+                                    case RateCardType.Deferral:
+                                        d.ProgramOption = $"{Convert.ToInt32(c.Equipment.RateCard.DeferralPeriod)} {Resources.Resources.Months} {Resources.Resources.Deferral}";
+                                        break;
+                                }
                             }
                         }
                     }
