@@ -4,7 +4,6 @@ using DealnetPortal.Web.ServiceAgent;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers

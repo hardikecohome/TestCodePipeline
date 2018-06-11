@@ -127,7 +127,7 @@
             {
                 @Html.DropDownList("option1-deferralDropdown",
                     EnumHelper.GetSelectList(typeof(LoanDeferralType)),
-                    new {@class = "form-control", @id = "option1-deferralDropdown"})
+                    new {@class = "form-control", id = "option1-deferralDropdown"})
             }
         </div>
     </div>
@@ -138,7 +138,7 @@
                 @Resources.CustomerRateReduction    
             </div>
             <div class="col-xs-6">
-                @Html.DropDownList("option1-reduction", Enumerable.Empty<SelectListItem>(), @Html.Raw(@Resources.NoReduction).ToHtmlString(), new { @class = "form-control", id = "option1-reduction" })
+                @Html.DropDownList("option1-reduction", Enumerable.Empty<SelectListItem>(), Html.Raw(Resources.NoReduction).ToHtmlString(), new { @class = "form-control", id = "option1-reduction" })
             </div>
         </div>
     }

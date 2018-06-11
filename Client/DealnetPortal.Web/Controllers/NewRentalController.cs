@@ -45,8 +45,8 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> ContractEdit(int contractId)
         {
-            var contractResult = await _contractServiceAgent.GetContracts(new List<int> { contractId });
-            var contract = contractResult.Item1.FirstOrDefault();
+            var contractResult = await _contractServiceAgent.GetContract(contractId );
+            var contract = contractResult.Item1;
             if(contract != null && contractResult.Item2.All(c => c.Type != AlertType.Error))
             {
                 var isNewlyCreated = contract.IsNewlyCreated;
@@ -94,9 +94,9 @@ namespace DealnetPortal.Web.Controllers
 
             if(viewModel?.ContractState >= ContractState.Closed)
             {
-                var alerts = new List<Alert>()
-                        {
-                            new Alert()
+                var alerts = new List<Alert>
+                {
+                            new Alert
                             {
                                 Type = AlertType.Error,
                                 Message = "Cannot edit applicants information for contracts sent to audit",
@@ -160,7 +160,7 @@ namespace DealnetPortal.Web.Controllers
             var canAddApplicants = contractResult?.Item1 != null &&
                                    (contractResult.Item1.SecondaryCustomers == null ||
                                     contractResult.Item1.SecondaryCustomers.Count < PortalConstants.MaxAdditionalApplicants);
-            var viewModel = new CreditRejectedViewModel()
+            var viewModel = new CreditRejectedViewModel
             {
                 ContractId = contractId,
                 CanAddAdditionalApplicants = canAddApplicants
@@ -280,9 +280,9 @@ namespace DealnetPortal.Web.Controllers
 
                 if(model.ContractState >= ContractState.Closed)
             {
-                var alerts = new List<Alert>()
-                        {
-                            new Alert()
+                var alerts = new List<Alert>
+                {
+                            new Alert
                             {
                                 Type = AlertType.Error,
                                 Message = $"Contract is not editable",
@@ -327,9 +327,9 @@ namespace DealnetPortal.Web.Controllers
             var contract = await _contractServiceAgent.GetContract(contractId);
             if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed)
             {
-                var alerts = new List<Alert>()
-                        {
-                            new Alert()
+                var alerts = new List<Alert>
+                {
+                            new Alert
                             {
                                 Type = AlertType.Error,
                                 Message = $"Contract is not editable",
@@ -371,9 +371,9 @@ namespace DealnetPortal.Web.Controllers
 
             if(contract.Item1 == null || contract.Item1.ContractState >= ContractState.Closed || contract.Item1.Equipment == null)
             {
-                var alerts = new List<Alert>()
-                        {
-                            new Alert()
+                var alerts = new List<Alert>
+                {
+                            new Alert
                             {
                                 Type = AlertType.Error,
                                 Message = $"Contract is not editable",
@@ -438,14 +438,14 @@ namespace DealnetPortal.Web.Controllers
                         {
                             emls = new List<EmailDTO>();
                         }
-                        emls.Add(new EmailDTO()
+                        emls.Add(new EmailDTO
                         {
                             CustomerId = borrowerSigner.CustomerId.Value,
                             EmailType = EmailType.Notification,
                             EmailAddress = borrowerSigner.Email
                         });
                     }
-                    var customer = new CustomerDataDTO()
+                    var customer = new CustomerDataDTO
                     {
                         Id = borrowerSigner.CustomerId.Value,
                         ContractId = eSignatureViewModel.ContractId,
@@ -459,7 +459,7 @@ namespace DealnetPortal.Web.Controllers
 
             signatureUsers.ContractId = eSignatureViewModel.ContractId;
             signatureUsers.Users = new List<SignatureUser>();
-            signatureUsers.Users.Add(new SignatureUser()
+            signatureUsers.Users.Add(new SignatureUser
             {
                 Id = borrowerSigner.Id,
                 CustomerId = borrowerSigner.CustomerId,
@@ -469,7 +469,7 @@ namespace DealnetPortal.Web.Controllers
 
             eSignatureViewModel.Signers.Where(x => x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
               {
-                  signatureUsers.Users.Add(new SignatureUser()
+                  signatureUsers.Users.Add(new SignatureUser
                   {
                       EmailAddress = us.Email,
                       Role = SignatureRole.AdditionalApplicant,
@@ -480,7 +480,7 @@ namespace DealnetPortal.Web.Controllers
             var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
             if(!string.IsNullOrEmpty(borrowerSigner.Email))
             {
-                signatureUsers.Users.Add(new SignatureUser()
+                signatureUsers.Users.Add(new SignatureUser
                 {
                     EmailAddress = eSignatureSigner.Email,
                     Role = SignatureRole.Dealer,
@@ -541,14 +541,14 @@ namespace DealnetPortal.Web.Controllers
                         {
                             emls = new List<EmailDTO>();
                         }
-                        emls.Add(new EmailDTO()
+                        emls.Add(new EmailDTO
                         {
                             CustomerId = borrowerSigner.CustomerId.Value,
                             EmailType = EmailType.Notification,
                             EmailAddress = borrowerSigner.Email
                         });
                     }
-                    var customer = new CustomerDataDTO()
+                    var customer = new CustomerDataDTO
                     {
                         Id = borrowerSigner.CustomerId.Value,
                         ContractId = eSignatureViewModel.ContractId,
@@ -563,7 +563,7 @@ namespace DealnetPortal.Web.Controllers
             signatureUsers.Users = new List<SignatureUser>();
             if(borrowerSigner != null)
             {
-                signatureUsers.Users.Add(new SignatureUser()
+                signatureUsers.Users.Add(new SignatureUser
                 {
                     EmailAddress = borrowerSigner.Email,
                     Role = SignatureRole.HomeOwner,
@@ -573,7 +573,7 @@ namespace DealnetPortal.Web.Controllers
             }
             eSignatureViewModel.Signers.Where(x => x.Role == SignatureRole.AdditionalApplicant).ForEach(us =>
             {
-                signatureUsers.Users.Add(new SignatureUser()
+                signatureUsers.Users.Add(new SignatureUser
                 {
                     EmailAddress = us.Email,
                     Role = SignatureRole.AdditionalApplicant,
@@ -584,7 +584,7 @@ namespace DealnetPortal.Web.Controllers
             var eSignatureSigner = eSignatureViewModel.Signers.SingleOrDefault(x => x.Role == SignatureRole.Dealer);
             if(eSignatureSigner != null && !string.IsNullOrEmpty(eSignatureSigner.Email))
             {
-                signatureUsers.Users.Add(new SignatureUser()
+                signatureUsers.Users.Add(new SignatureUser
                 {
                     EmailAddress = eSignatureSigner.Email,
                     Role = SignatureRole.Dealer,
@@ -621,7 +621,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 sendEmails.AdditionalApplicantsEmails =
                     contract.Item1.SecondaryCustomers.Select(c =>
-                        new CustomerEmail()
+                        new CustomerEmail
                         {
                             CustomerId = c.Id,
                             CustomerName = $"{c.FirstName} {c.LastName}",
@@ -706,7 +706,7 @@ namespace DealnetPortal.Web.Controllers
             imgBase64 = imgBase64.Replace("data:image/png;base64,", "");
             imgBase64 = imgBase64.Replace(' ', '+');
             var bytes = Convert.FromBase64String(imgBase64);
-            var scanningRequest = new ScanningRequest()
+            var scanningRequest = new ScanningRequest
             {
                 ImageForReadRaw = bytes
             };
@@ -725,7 +725,7 @@ namespace DealnetPortal.Web.Controllers
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
+            ScanningRequest scanningRequest = new ScanningRequest { ImageForReadRaw = data };
             var result = await _scanProcessingServiceAgent.ScanDriverLicense(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }
@@ -740,7 +740,7 @@ namespace DealnetPortal.Web.Controllers
             imgBase64 = imgBase64.Replace("data:image/png;base64,", "");
             imgBase64 = imgBase64.Replace(' ', '+');
             var bytes = Convert.FromBase64String(imgBase64);
-            var scanningRequest = new ScanningRequest()
+            var scanningRequest = new ScanningRequest
             {
                 ImageForReadRaw = bytes
             };
@@ -758,7 +758,7 @@ namespace DealnetPortal.Web.Controllers
             var file = Request.Files[0];
             byte[] data = new byte[file.ContentLength];
             file.InputStream.Read(data, 0, file.ContentLength);
-            ScanningRequest scanningRequest = new ScanningRequest() { ImageForReadRaw = data };
+            ScanningRequest scanningRequest = new ScanningRequest { ImageForReadRaw = data };
             var result = await _scanProcessingServiceAgent.ScanVoidCheque(scanningRequest);
             return result.Item2.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : Json(result.Item1);
         }

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Web.Models.Validation;
-
-namespace DealnetPortal.Web.Models
+﻿namespace DealnetPortal.Web.Models
 {
     public class SubmittedCustomerFormViewModel
     {

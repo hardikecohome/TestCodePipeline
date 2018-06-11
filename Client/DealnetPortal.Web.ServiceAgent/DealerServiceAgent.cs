@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models.DealerOnboarding;
-using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 
 namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Profile;
-    using DealnetPortal.Api.Models.Notify;
+    using Api.Models.Notify;
     using Microsoft.Owin.Security;
 
     public class DealerServiceAgent : ApiBase, IDealerServiceAgent

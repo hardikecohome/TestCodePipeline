@@ -260,6 +260,7 @@
             this.typeOfPayment('');
             this.valueFrom('');
             this.valueTo('');
+            this.search('');
             this.filterList();
             localStorage.removeItem(filters.agreementType);
             localStorage.removeItem(filters.status);
@@ -304,6 +305,13 @@
         };
 
         this.filterList = function () {
+            if (this.sorter()) {
+                var sort = this.sortDdValues[this.sorter()];
+                this.sortDirection(sort.dir);
+                this.sortedColumn(sort.field);
+                this.sorter('');
+            }
+
             var stat = this.status();
             var equip = this.equipment();
             var type = this.agreementType();

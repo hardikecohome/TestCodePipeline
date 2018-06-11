@@ -208,7 +208,6 @@ namespace DealnetPortal.Api.Integration.Services
         private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, EquipmentTypeDTO improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
-            var equipmentType = _contractRepository.GetEquipmentTypes();
 
             if (contract != null)
             {

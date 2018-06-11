@@ -1,5 +1,4 @@
 ﻿using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.Models.EquipmentInformation;
 

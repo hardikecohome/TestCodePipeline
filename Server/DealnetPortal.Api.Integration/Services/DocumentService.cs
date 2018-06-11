@@ -388,7 +388,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var fields = new List<FormField>();
                     FillHomeOwnerFields(fields, templateFields?.Item1, contract);
                     FillApplicantsFields(fields, contract);
-                    FillEquipmentFields(fields, templateFields?.Item1, contract, ownerUserId);
+                    FillEquipmentFields(fields, templateFields?.Item1, contract);
                     FillDealerFields(fields, contract);
                     FillInstallCertificateFields(fields, contract);
 
@@ -943,7 +943,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             FillHomeOwnerFields(fields, templateFields, contract);
             FillApplicantsFields(fields, contract);
-            FillEquipmentFields(fields, templateFields, contract, ownerUserId);
+            FillEquipmentFields(fields, templateFields, contract);
             FillExistingEquipmentFields(fields, contract);
             FillPaymentFields(fields, contract);
             FillDealerFields(fields, contract);
@@ -1683,7 +1683,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private void FillEquipmentFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract, string ownerUserId)
+        private void FillEquipmentFields(List<FormField> formFields, IList<FormField> templateFields, Contract contract)
         {
             if (contract.Equipment?.NewEquipment?.Where(ne => ne.IsDeleted != true).Any() ?? false)
             {

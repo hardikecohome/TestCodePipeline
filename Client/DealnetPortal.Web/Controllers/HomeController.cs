@@ -1,6 +1,5 @@
 ﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Notify;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -15,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Web.Common.Constants;
-using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
@@ -184,7 +182,7 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<string> DealerSupportRequestEmail(HelpPopUpViewModal dealerSupportRequest)
         {
-            SupportRequestDTO dealerSupport = new SupportRequestDTO()
+            SupportRequestDTO dealerSupport = new SupportRequestDTO
             {
                 Id = dealerSupportRequest.Id,
                 DealerName = dealerSupportRequest.DealerName,
@@ -195,7 +193,7 @@ namespace DealnetPortal.Web.Controllers
                 BestWay = dealerSupportRequest.BestWayToContact.ToString(),
                 ContactDetails = dealerSupportRequest.BestWayToContact == PreferredContactType.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
             };
-            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
+            await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using DealnetPortal.Api.Areas.HelpPage.ModelDescriptions;

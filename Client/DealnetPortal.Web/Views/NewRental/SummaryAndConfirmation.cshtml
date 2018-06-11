@@ -1121,7 +1121,7 @@
                                                                                                               new SelectList(
                                                                                                                   new[] {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             new { Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            new { Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            new { Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned}
                                                                                                           },
                                                                                                                   "Value", "Text",
                                                                                                                   Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
@@ -1306,7 +1306,7 @@
                                                     <div class="text-left">
                                                         @{
                                                             var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? 
-                                                                @Resources.Yes : @Resources.No;
+                                                                Resources.Yes : Resources.No;
                                                         }
                                                         @hasAgreement
                                                     </div>
@@ -1375,8 +1375,8 @@
                                             <div class="control-group">
                                                 @Html.TextAreaFor(m => m.EquipmentInfo.Notes, new
                                                 {
-                                                    @rows = "2",
-                                                    @cols = "30",
+                                                    rows = "2",
+                                                    cols = "30",
                                                     id = "contract-notes",
                                                     @class = "dealnet-disabled-input dealnet-disabled-textarea"
                                                 })
@@ -1976,7 +1976,7 @@
                                                                                                                         new[]
                                                                                                                         {
                                                                                                                                                                                                                                                                                                                     new {Value = "true", Text = yesNaming, Selected = Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
-                                                                                                                                                                                                                                                                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                                                                                                                                                                                                                                        new {Value = "false", Text = noNaming, Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned}
                                                                                                                      },
                                                                                                                         "Value", "Text", Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
                                                                                                                     new { @class = "form-control", id = "customer-owned" })

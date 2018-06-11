@@ -1,15 +1,12 @@
-@using System
 @using System.Globalization
 @using System.Linq
 @using DealnetPortal.Api.Common.Helpers
-@using DealnetPortal.Api.Models.Contract
 @using DealnetPortal.Web.Models.Enumeration
 @using DealnetPortal.Api.Common.Constants
 @using System.Security.Claims
 
 @model DealnetPortal.Web.Models.ContractViewModel
 @{
-    var contractState = Model.AdditionalInfo.ContractState;
 
     Func<string, string> formatIncome = str =>
     {
@@ -24,7 +21,6 @@
         return "$" + str;
     };
 
-    var equipmentTypes = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
     var identity = (ClaimsIdentity)User.Identity;
     var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
 }
@@ -1386,7 +1382,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                if(equipment.EquipmentType.UnderBill59 && equipment.EstimatedRetailCost.HasValue)
+                                if(Model.EquipmentInfo.DealProvince == ContractProvince.ON.ToString() && 
+                                    equipment.EquipmentType.UnderBill59 && 
+                                    equipment.EstimatedRetailCost.HasValue)
                                 {
                                     <div class="form-group">
                                         <div class="row">
@@ -1604,7 +1602,7 @@
                                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                                     <div class="row">
                                         <div class="dealnet-field-caption col-xs-12 col-sm-7 col-md-12">
-                                            @(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)
+                                            @(Model.ProvinceTaxRate?.Description ?? Resources.Tax)
                                         </div>
                                         <div class="dealnet-field-holder col-xs-12 col-sm-5 col-md-12">
                                             $@(Math.Round((Model.EquipmentInfo?.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100, 2))
@@ -1823,7 +1821,7 @@
                                             <div class="control-group">
                                                 <div class="text-left">
                                                     @{
-                                                        var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? @Resources.Yes : @Resources.No;
+                                                        var hasAgreement = Model.EquipmentInfo.Conditions.HasExistingAgreements.Value ? Resources.Yes : Resources.No;
                                                     }
                                                     @hasAgreement
                                                 </div>

@@ -452,7 +452,7 @@
                                 <label for="" class="dealnet-field-caption col-xs-6">@Resources.DealerName</label>
                                 <div class="dealnet-field-holder col-xs-6">
                                     <div class="control-group">
-                                        @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName ?? @Resources.OnMyBehalf)
+                                        @(Model.BasicInfo.SubDealers.FirstOrDefault(x => x.Id == Model.BasicInfo.SubmittingDealerId)?.DisplayName ?? Resources.OnMyBehalf)
                                     </div>
                                 </div>
                             </div>
@@ -2430,7 +2430,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    if(Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59 &&
+                                    if(Model.EquipmentInfo.DealProvince == ContractProvince.ON.ToString() &&
+                                        Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59 &&
                                         Model.EquipmentInfo.NewEquipment[i].EstimatedRetailCost.HasValue)
                                     {
                                         <div class="form-group">
@@ -2888,7 +2889,7 @@
                                                         @Html.DropDownListFor(m => m.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned,
                                                                            new SelectList(new[] {
                                                                                                                                                                         new {Value = "true",Text = yesNaming,Selected =  Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
-                                                                                                                                                                        new {Value = "false",Text = noNaming,Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                                                                                                                        new {Value = "false",Text = noNaming,Selected = !Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned}
                                                                             },
                                                                             "Value", "Text", Model.EquipmentInfo.CommonExistingEquipmentInfo.CustomerOwned),
                                                                            new { @readonly = "readonly", @class = "dealnet-disabled-input", id = "" })
@@ -3129,8 +3130,8 @@
                                                     @Html.TextAreaFor(m => m.Notes, new
                                                     {
                                                         @class = "dealnet-disabled-input dealnet-disabled-textarea",
-                                                        @cols = "30",
-                                                        @rows = "2",
+                                                        cols = "30",
+                                                        rows = "2",
                                                         id = "contract-notes"
                                                     })
                                                 </div>
@@ -3448,7 +3449,7 @@
                 </div>
                 <div class="btn-container">
                     <button type="button" class="btn btn-green"
-                            onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {@contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
+                            onclick="printCertificate('@Url.Action("CheckInstallationCertificate", "MyDeals", new {contractId = Model.BasicInfo.ContractId})', $('#install-certificate-info-section-modal')); $('#download-certificate-modal').modal('hide');">
                         @Resources.Download
                     </button>
                     <a class="action-link green" data-dismiss="modal">@Resources.Cancel</a>

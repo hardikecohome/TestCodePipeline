@@ -253,7 +253,7 @@
                                         <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-my-account-one-person"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-account-one-person")"></use></svg></span>
                                         @Html.ActionLink(Resources.MyProfile, "Index", "Profile", null, new { @class = "dealnet-sidebar-link" })
                                     </li>
-                                    if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false)
+                                    if((User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True"))
                                     {
                                         <li class="dealnet-sidebar-item">
                                             <span class="sidebar-icon"><svg aria-hidden="true" class="icon icon-info"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info")"></use></svg></span>

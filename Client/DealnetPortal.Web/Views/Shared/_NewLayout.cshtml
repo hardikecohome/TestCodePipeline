@@ -1,8 +1,6 @@
 ﻿@using System.Configuration
 @using System.Security.Claims;
 @using DealnetPortal.Api.Core.Helpers
-@using DealnetPortal.Web.Models.Enumeration
-@using DealnetPortal.Web.Infrastructure.Managers
 
 <!DOCTYPE html>
 
@@ -57,8 +55,8 @@
     }
 
     @*@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])*@
-    @*<!-- Global site tag (gtag.js) - Google Analytics -->*@
-    <script async src="@("https://www.googletagmanager.com/gtag/js?id=" + System.Configuration.ConfigurationManager.AppSettings["GoogleAnalyticsScript"])"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="@("https://www.googletagmanager.com/gtag/js?id=" + ConfigurationManager.AppSettings["GoogleAnalyticsScript"])"></script>
     <script>
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
@@ -489,7 +487,7 @@
     }
     <div class="clearfix"></div>
     @{
-        var bannerLink = System.Configuration.ConfigurationManager.AppSettings["HomeBannerLink"];
+        var bannerLink = ConfigurationManager.AppSettings["HomeBannerLink"];
         var bannerExists = !string.IsNullOrEmpty((string)ViewBag.Banner);
 
         if(bannerExists)

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
@@ -23,7 +21,7 @@ namespace DealnetPortal.Web.Common.Helpers
             if (results?.ModelState != null && results.ModelState.Any())
             {
                 results.ModelState.ForEach(st => st.Value.ForEach(val =>
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Message = val,

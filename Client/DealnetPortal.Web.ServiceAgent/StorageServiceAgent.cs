@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Api.Models.Storage;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 
@@ -36,7 +30,7 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
-                MediaTypeFormatter[] formatters = new MediaTypeFormatter[] {bsonFormatter,};
+                MediaTypeFormatter[] formatters = {bsonFormatter};
 
                 var result =
                     await
@@ -47,7 +41,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Can't add new agreement template",

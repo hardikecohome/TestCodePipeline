@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Helpers;
@@ -10,14 +8,13 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using DealnetPortal.Web.App_Start;
 using DealnetPortal.Web.Common.Culture;
-using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Attributes;
 using DealnetPortal.Web.Infrastructure.ModelBinders;
 
 namespace DealnetPortal.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {

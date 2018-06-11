@@ -41,7 +41,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = $"Can't get contract with id {contractId}",
@@ -141,13 +141,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
-                    Header = $"Can't get contracts",
+                    Header = "Can\'t get contracts",
                     Message = ex.Message
                 });
-                _loggingService.LogError($"Can't get contracts", ex);
+                _loggingService.LogError("Can\'t get contracts", ex);
             }
             return new Tuple<IList<ContractDTO>, IList<Alert>>(null, alerts);
         }
@@ -221,7 +221,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                this._loggingService.LogError($"Can't initiate digital signature for contract {signatureUsers.ContractId}", ex);
+                _loggingService.LogError($"Can't initiate digital signature for contract {signatureUsers.ContractId}", ex);
                 throw;
             }
         }
@@ -423,7 +423,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                _loggingService.LogError($"Can't get xlsx report", ex);
+                _loggingService.LogError("Can\'t get xlsx report", ex);
                 throw;
             }
         }
@@ -433,11 +433,9 @@ namespace DealnetPortal.Web.ServiceAgent
             try
             {
                 MediaTypeFormatter bsonFormatter = new BsonMediaTypeFormatter();
-                MediaTypeFormatter[] formatters = new MediaTypeFormatter[] { bsonFormatter, };
 
                 return await Client.PutAsyncEx<ContractDocumentDTO, Tuple<int?, IList<Alert>>>($"{_fullUri}/AddDocument", document, 
                     AuthenticationHeader, CurrentCulture, bsonFormatter);
-                //return await result.Content.ReadAsAsync<Tuple<int?, IList<Alert>>>(formatters);
             }
             catch (Exception ex)
             {
@@ -472,13 +470,13 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
-                    Header = $"Can't submit All Documents UploadedRequest",
+                    Header = "Can\'t submit All Documents UploadedRequest",
                     Message = ex.Message
                 });
-                _loggingService.LogError($"Can't submit All Documents UploadedRequest", ex);
+                _loggingService.LogError("Can\'t submit All Documents UploadedRequest", ex);
             }
             return new List<Alert>(alerts);
         }

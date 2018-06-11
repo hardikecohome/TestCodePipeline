@@ -38,7 +38,7 @@
             @*@Html.Label(Resources.RoleOfSalesRep, new { @class = "visible-sm visible-xs" })*@
             <div class="form-group">
                 <label class="align-middle custom-checkbox">
-                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?
+                    @Html.CheckBox("initiated-contract-checkbox", Model.SalesRepInformation.IniatedContract ?
                                             (object)new { id = "initiated-contract-checkbox", @checked = "true", value = true } :
                                             new { id = "initiated-contract-checkbox", value = false })
                     <span class="checkbox-icon">
@@ -82,7 +82,7 @@
         @if(!Model.Conditions.IsClarityDealer)
         {
             <div class="col-md-4" id="agreement-title">
-                @Html.Label(@Resources.CustomerHaveAgreementsWithEcoHome)
+                @Html.Label(Resources.CustomerHaveAgreementsWithEcoHome)
             </div>
         }
         <div class="col-md-4">

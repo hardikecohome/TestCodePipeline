@@ -1,5 +1,4 @@
-﻿@using DealnetPortal.Api.Models.Contract
-@using DealnetPortal.Web.Models.Enumeration
+﻿@using DealnetPortal.Web.Models.Enumeration
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
 @using(Html.BeginForm(null, null, FormMethod.Post, new { id = "new-equipment-info-form", @class = "clearfix" }))
@@ -176,7 +175,9 @@
                                     </div>
                                 </div>
                             </div>
-                            if(Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59)
+                            if(Model.EquipmentInfo.DealProvince == ContractProvince.ON.ToString() && 
+                                Model.EquipmentInfo.NewEquipment[i].EquipmentType.UnderBill59 && 
+                                Model.EquipmentInfo.NewEquipment[i].EstimatedRetailCost.HasValue)
                             {
                                 <div class="form-group">
                                     <div class="row">
@@ -357,7 +358,7 @@
                                 <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="equipment-cash-price">-</span></div>
                             </div>
                             <div class="row form-group hidden">
-                                <div class="col-xs-8 col-sm-9"><span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)</span></div>
+                                <div class="col-xs-8 col-sm-9"><span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</span></div>
                                 <div class="col-xs-4 col-sm-3 text-right text-semibold">$ <span id="hst">-</span></div>
                             </div>
                             <div class="row form-group hidden">
@@ -455,7 +456,7 @@
                 <div class="col-md-2 col-lg-2 col-xs-12 summary-payment-info-item">
                     <div class="row">
                         <div class="dealnet-field-caption col-xs-12 col-sm-8 col-md-12 equal-height-label">
-                            <span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? @Resources.Tax)</span>
+                            <span id="tax-label">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</span>
                         </div>
                         <div class="dealnet-field-holder col-xs-12 col-sm-4 col-md-12">
                             $<span id="salex-tax">@($"{((Model.EquipmentInfo.TotalMonthlyPayment ?? 0) * (Model.ProvinceTaxRate?.Rate ?? 0) / 100):0.00}")</span>

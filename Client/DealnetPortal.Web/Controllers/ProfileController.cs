@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Models.MyProfile;
 
 using System.Linq;

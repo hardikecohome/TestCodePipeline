@@ -849,7 +849,7 @@ table
                         flex-basis: 100%;
                         justify-content: center;
 
-                        div {
+                        div:not(.table-row-settings-popup) {
                             align-items: center;
                             display: flex;
                             flex-basis: 35%;
@@ -889,6 +889,17 @@ table
                         &__phone {
                             font-size: 11px;
                             font-weight: bold;
+                        }
+
+                        &__gear {
+                            .table-row-settings-popup {
+                            display: none;
+                            &.opened{
+                                display: flex;
+                                position: absolute;
+                                margin-left: 100px;
+                            }
+                        }
                         }
                     }
                 }

@@ -62,7 +62,7 @@ namespace DealnetPortal.Web.Controllers
             var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri)
             {
                 Path = Url.Action("ContractEdit", "NewRental"),
-                Query = null,
+                Query = null
             };
             var submitResult = await _customerFormManager.SubmitCustomerForm(customerForm, urlBuilder);
 

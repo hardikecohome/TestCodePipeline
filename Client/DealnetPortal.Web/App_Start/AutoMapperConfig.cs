@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using AutoMapper;
-using AutoMapper.Mappers;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Types;
@@ -115,7 +114,7 @@ namespace DealnetPortal.Web.App_Start
                     {
                         if(src.HomePhone.Trim().Any())
                         {
-                            phones.Add(new PhoneDTO()
+                            phones.Add(new PhoneDTO
                             {
                                 CustomerId = src.CustomerId,
                                 PhoneNum = src.HomePhone,
@@ -127,7 +126,7 @@ namespace DealnetPortal.Web.App_Start
                     {
                         if(src.BusinessPhone.Trim().Any())
                         {
-                            phones.Add(new PhoneDTO()
+                            phones.Add(new PhoneDTO
                             {
                                 CustomerId = src.CustomerId,
                                 PhoneNum = src.BusinessPhone,
@@ -139,7 +138,7 @@ namespace DealnetPortal.Web.App_Start
                     {
                         if(src.CellPhone.Trim().Any())
                         {
-                            phones.Add(new PhoneDTO()
+                            phones.Add(new PhoneDTO
                             {
                                 CustomerId = src.CustomerId,
                                 PhoneNum = src.CellPhone,
@@ -153,7 +152,7 @@ namespace DealnetPortal.Web.App_Start
                 {
                     var emails = new List<EmailDTO>
                     {
-                        new EmailDTO()
+                        new EmailDTO
                         {
                             CustomerId = src.CustomerId,
                             EmailType = EmailType.Main,
@@ -163,7 +162,7 @@ namespace DealnetPortal.Web.App_Start
                     if(!string.IsNullOrEmpty(src.NotificationEmailAddress))
                     {
                         emails.Add(
-                            new EmailDTO()
+                            new EmailDTO
                             {
                                 CustomerId = src.CustomerId,
                                 EmailType = EmailType.Notification,
@@ -173,7 +172,7 @@ namespace DealnetPortal.Web.App_Start
                     return emails;
                 }))
                 .ForMember(x => x.CustomerInfo, d => d.ResolveUsing(src =>
-                new CustomerInfoDTO()
+                new CustomerInfoDTO
                 {
                     Id = src.CustomerId,
                     AllowCommunicate = src.AllowCommunicate
@@ -225,7 +224,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<ProfileViewModel, DealerProfileDTO>()
                 .ForMember(x => x.Id, d => d.MapFrom(src => src.ProfileId))
                 .ForMember(x => x.EquipmentList, d => d.ResolveUsing(src =>
-                src.DealerEquipments?.Select(s => new DealerEquipmentDTO()
+                src.DealerEquipments?.Select(s => new DealerEquipmentDTO
                 {
                     Equipment = s
                 }).ToList()))
@@ -864,7 +863,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.CustomerRiskGroup, d => d.ResolveUsing(src =>
                 {
                     var cGroup = src.RateCards.FirstOrDefault(x => x.CustomerRiskGroup != null)?.CustomerRiskGroup;
-                    return cGroup != null ? new CustomerRiskGroupViewModel()
+                    return cGroup != null ? new CustomerRiskGroupViewModel
                     {
                         GroupId = cGroup.Id,
                         GroupName = cGroup.GroupName,

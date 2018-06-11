@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DealnetPortal.Web.Models.Validation
@@ -48,7 +46,7 @@ namespace DealnetPortal.Web.Models.Validation
             var rule = new ModelClientValidationRule
             {
                 ErrorMessage = FormatErrorMessage(metadata.GetDisplayName()),
-                ValidationType = "checkcustomersage",
+                ValidationType = "checkcustomersage"
             };
             rule.ValidationParameters.Add("other", _addApplicantsProperty);
             yield return rule;

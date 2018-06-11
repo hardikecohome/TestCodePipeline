@@ -39,7 +39,7 @@ namespace DealnetPortal.Web.Models
 
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "ConfirmPassword")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PasswordAndConfirmationNotMatch")]
+        [Compare("Password", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PasswordAndConfirmationNotMatch")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -80,7 +80,7 @@ namespace DealnetPortal.Web.Models
 
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "ConfirmNewPassword")]
-        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PasswordAndConfirmNotMatch")]
+        [Compare("NewPassword", ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "PasswordAndConfirmNotMatch")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -99,11 +99,9 @@ namespace DealnetPortal.Web.Models
         [Display(ResourceType = typeof(Resources.Resources), Name = "Email")]
         public string Email { get; set; }
 
-        //[CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "UserName")]
         public string UserName { get; set; }
 
-        //[CustomRequired]
         [StringLength(100, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "MustBeAtLeastLong", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "Password")]
@@ -111,7 +109,7 @@ namespace DealnetPortal.Web.Models
 
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof (Resources.Resources), Name = "ConfirmPassword")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PasswordAndConfirmNotMatch")]
+        [Compare("Password", ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "PasswordAndConfirmNotMatch")]
         public string ConfirmPassword { get; set; }
 
         public string ApplicationId { get; set; }
