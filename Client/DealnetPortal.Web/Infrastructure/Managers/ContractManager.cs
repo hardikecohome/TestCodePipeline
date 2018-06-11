@@ -887,6 +887,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                     new CustomerRiskGroupViewModel { GroupName = summary.DealerTier.CustomerRiskGroup.GroupName } :
                     null
                 };
+                summary.EquipmentInfo.SalesRepInformation = Mapper.Map<SalesRepInformation>(contract);
             }
             summary.Notes = contract.Details?.Notes;
             summary.AdditionalInfo = new AdditionalInfoViewModel();
