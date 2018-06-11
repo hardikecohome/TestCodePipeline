@@ -275,7 +275,11 @@
         this.search.subscribe(function(val) {
             if (val === '') return this.filterList();
             var tempList = this.list().reduce(function (acc, item) {
-                if (item.Equipment.includes(val) || item.CustomerComment.includes(val)) {
+                if (item.Equipment.includes(val) 
+                    || item.CustomerComment.includes(val)
+                    || item.PostalCode.includes(val)
+                    || item.PreApprovalAmount.includes(val)
+                    || item.PostalCode.includes(val)) {
                     return acc.concat(item);
                 }
                 return acc;
