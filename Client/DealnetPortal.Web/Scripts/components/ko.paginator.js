@@ -8,12 +8,15 @@
         this.pageIndex = ko.observable(0);
 
         this.pagedList = ko.computed(function () {
-            var start = this.pageIndex() * this.pageSize();
-            return this.list().slice(start, start + this.pageSize());
+            var size = Number(this.pageSize());
+            var start = this.pageIndex() * size;
+            return this.list().slice(start, start + size);
         }, this);
 
         this.maxPageIndex = ko.computed(function () {
-            var cil = Math.ceil(this.list().length / this.pageSize());
+            var size = Number(this.pageSize());
+            var cil = Math.ceil(this.list().length / size);
+            if (this.pageIndex() > cil) this.pageIndex(cil);
             return cil > 0 ? cil - 1 : cil;
         }, this);
 
