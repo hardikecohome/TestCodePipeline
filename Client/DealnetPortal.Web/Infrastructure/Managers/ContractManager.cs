@@ -110,7 +110,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             {
                 equipmentInfo.Conditions.IsNewContract = true;
             }
-            equipmentInfo.RequestedTerm = 120;
+            equipmentInfo.RequestedTerm = PortalConstants.RentalTerm;
             var mainAddressProvinceCode = (result.Item1.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.MainAddress)
                 ?? result.Item1.PrimaryCustomer.Locations.FirstOrDefault())?.State.ToProvinceCode();
             var rate = (await _dictionaryServiceAgent.GetProvinceTaxRate(mainAddressProvinceCode)).Item1;

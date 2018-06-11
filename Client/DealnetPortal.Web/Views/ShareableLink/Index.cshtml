@@ -4,127 +4,129 @@
     ViewBag.Title = Resources.ShareableLink;
 }
 
-<div class="dealnet-large-header main-heading">@Resources.ShareableLink</div>
+<div class="centred-container">
+    <div class="dealnet-large-header main-heading">@Resources.ShareableLink</div>
 
 
-<div class="shareable-link-page">
-    @using(Html.BeginForm("Index", "ShareableLink", FormMethod.Post, new { id = "mainForm" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(x => x.HashDealerName)
-        <div class="get-link-section">
-            <div class="form-group">
-                <div class="labels-hold">
-                    <label for="enLink" class="dealnet-field-caption">@Resources.FormInEnglish</label>
-                    <label class="checkbox-toggle">
-                        <input class="toggle-language-link" @if(Model?.EnglishLinkEnabled ?? false) { <text> checked</text> } data-val="true" data-val-required="@Resources.TheFieldIsRequired.Replace("{0}", "EnglishLinkEnabled")" id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
-                        <div class="slider"></div>
-                        <input name="EnglishLinkEnabled" type="hidden" value="false" />
-                    </label>
-                </div>
-                <div class="controls-hold">
-                    <div class="control-group">
-                        <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", hashDealerName = Model?.HashDealerName }, Request.Url.Scheme)">
+    <div class="shareable-link-page">
+        @using(Html.BeginForm("Index", "ShareableLink", FormMethod.Post, new { id = "mainForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.HashDealerName)
+            <div class="get-link-section">
+                <div class="form-group">
+                    <div class="labels-hold">
+                        <label for="enLink" class="dealnet-field-caption">@Resources.FormInEnglish</label>
+                        <label class="checkbox-toggle">
+                            <input class="toggle-language-link" @if(Model?.EnglishLinkEnabled ?? false) { <text> checked</text> } data-val="true" data-val-required="@Resources.TheFieldIsRequired.Replace("{0}", "EnglishLinkEnabled")" id="EnglishLinkEnabled" name="EnglishLinkEnabled" type="checkbox" value="true" />
+                            <div class="slider"></div>
+                            <input name="EnglishLinkEnabled" type="hidden" value="false" />
+                        </label>
                     </div>
-                    <button type="button" class="btn btn-green btn-small" id="copyEn">@Resources.Copy</button>
+                    <div class="controls-hold">
+                        <div class="control-group">
+                            <input type="url" id="enLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "en", hashDealerName = Model?.HashDealerName }, Request.Url.Scheme)">
+                        </div>
+                        <button type="button" class="btn btn-green btn-small" id="copyEn">@Resources.Copy</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="labels-hold">
+                        <label for="frLink" class="dealnet-field-caption">@Resources.FormInFrench</label>
+                        <label class="checkbox-toggle">
+                            <input class="toggle-language-link" @if(Model?.FrenchLinkEnabled ?? false) { <text> checked</text> } data-val="true" data-val-required="@Resources.TheFieldIsRequired.Replace("{0}", "FrenchLinkEnabled")" id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
+                            <div class="slider"></div>
+                            <input name="FrenchLinkEnabled" type="hidden" value="false" />
+                        </label>
+                    </div>
+                    <div class="controls-hold">
+                        <div class="control-group">
+                            <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", hashDealerName = Model?.HashDealerName }, Request.Url.Scheme)">
+                        </div>
+                        <button type="button" class="btn btn-green btn-small" id="copyFr">@Resources.Copy</button>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="labels-hold">
-                    <label for="frLink" class="dealnet-field-caption">@Resources.FormInFrench</label>
-                    <label class="checkbox-toggle">
-                        <input class="toggle-language-link" @if(Model?.FrenchLinkEnabled ?? false) { <text> checked</text> } data-val="true" data-val-required="@Resources.TheFieldIsRequired.Replace("{0}", "FrenchLinkEnabled")" id="FrenchLinkEnabled" name="FrenchLinkEnabled" type="checkbox" value="true" />
-                        <div class="slider"></div>
-                        <input name="FrenchLinkEnabled" type="hidden" value="false" />
-                    </label>
-                </div>
-                <div class="controls-hold">
-                    <div class="control-group">
-                        <input type="url" id="frLink" class="form-control dealnet-input" readonly="readonly" value="@Url.Action("Index", "CustomerForm", new { culture = "fr", hashDealerName = Model?.HashDealerName }, Request.Url.Scheme)">
-                    </div>
-                    <button type="button" class="btn btn-green btn-small" id="copyFr">@Resources.Copy</button>
-                </div>
-            </div>
-        </div>
-        <div class="equipment-section">
-            <div class="sub-heading">@Resources.EquipmentService</div>
+            <div class="equipment-section">
+                <div class="sub-heading">@Resources.EquipmentService</div>
 
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active" id="englishBtn">
-                    <a href="#equipment-en" aria-controls="equipment-en" role="tab" data-toggle="tab">
-                        @Resources.English
-                    </a>
-                </li>
-                <li role="presentation" id="frenchBtn">
-                    <a href="#equipment-fr" aria-controls="equipment-fr" role="tab" data-toggle="tab">
-                        @Resources.French
-                    </a>
-                </li>
-            </ul>
-            <div class="form-group define-equipment-input">
-                <label for="enEquipmentTags" class="dealnet-field-caption">@Resources.DefineYourEquipmentService</label>
-                <div class="controls-hold">
-                    <div class="control-group">
-                        <input id="enEquipmentTags" class="form-control dealnet-input" value="" placeholder="@Resources.TypeYourEquipmentService">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active" id="englishBtn">
+                        <a href="#equipment-en" aria-controls="equipment-en" role="tab" data-toggle="tab">
+                            @Resources.English
+                        </a>
+                    </li>
+                    <li role="presentation" id="frenchBtn">
+                        <a href="#equipment-fr" aria-controls="equipment-fr" role="tab" data-toggle="tab">
+                            @Resources.French
+                        </a>
+                    </li>
+                </ul>
+                <div class="form-group define-equipment-input">
+                    <label for="enEquipmentTags" class="dealnet-field-caption">@Resources.DefineYourEquipmentService</label>
+                    <div class="controls-hold">
+                        <div class="control-group">
+                            <input id="enEquipmentTags" class="form-control dealnet-input" value="" placeholder="@Resources.TypeYourEquipmentService">
+                        </div>
+                        <button type="button" class="btn btn-green btn-small hidden-xs" id="addEquipment">@Resources.Add</button>
                     </div>
-                    <button type="button" class="btn btn-green btn-small hidden-xs" id="addEquipment">@Resources.Add</button>
                 </div>
-            </div>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="equipment-en">
-                    <ul class="equipment-linked-tags tags-list" id="englishTagsList">
-                        @if(Model?.EnglishServices != null)
-                        {
-                            foreach(var service in Model.EnglishServices)
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="equipment-en">
+                        <ul class="equipment-linked-tags tags-list" id="englishTagsList">
+                            @if(Model?.EnglishServices != null)
                             {
-                                <li><input class="hidden" name="EnglishServices" value="@service">@service <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                                foreach(var service in Model.EnglishServices)
+                                {
+                                    <li><input class="hidden" name="EnglishServices" value="@service">@service <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                                }
                             }
-                        }
-                    </ul>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="equipment-fr">
-                    <ul class="equipment-linked-tags tags-list" id="frenchTagsList">
-                        @if(Model?.FrenchServices != null)
-                        {
-                            foreach(var service in Model.FrenchServices)
+                        </ul>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="equipment-fr">
+                        <ul class="equipment-linked-tags tags-list" id="frenchTagsList">
+                            @if(Model?.FrenchServices != null)
                             {
-                                <li><input class="hidden" name="FrenchServices" value="@service">@service <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                                foreach(var service in Model.FrenchServices)
+                                {
+                                    <li><input class="hidden" name="FrenchServices" value="@service">@service <span class="icon-remove" onclick="$(this).parent().remove()"><svg aria-hidden="true" class="icon icon-remove-cross"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove-cross")"></use></svg></span></li>
+                                }
                             }
-                        }
-                    </ul>
+                        </ul>
+                    </div>
+                </div>
+                <div class="controls-hold">
+                    <button type="button" class="btn btn-green btn-small hidden-sm hidden-md hidden-lg" id="addEquipmentXS">@Resources.Add</button>
                 </div>
             </div>
-            <div class="controls-hold">
-                <button type="button" class="btn btn-green btn-small hidden-sm hidden-md hidden-lg" id="addEquipmentXS">@Resources.Add</button>
-            </div>
-        </div>
-    }
+        }
 
-    <div class="save-proceed-btn-hold">
-        <div class="form-group">
-            <button class="btn btn-green col-xs-12 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-0" id="saveBtn">
-                @Resources.Save
-            </button>
-            <div class="col-xs-12 col-md-9 hidden note" id="success-message-enabled">
-                <div class="icon-hold">
-                    <svg aria-hidden="true" class="icon icon-success">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                    </svg>
+        <div class="save-proceed-btn-hold">
+            <div class="form-group">
+                <button class="btn btn-green col-xs-12 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-0" id="saveBtn">
+                    @Resources.Save
+                </button>
+                <div class="col-xs-12 col-md-9 hidden note" id="success-message-enabled">
+                    <div class="icon-hold">
+                        <svg aria-hidden="true" class="icon icon-success">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                        </svg>
+                    </div>
+                    <span>
+                        @Resources.FormUpdatedCustomersCanUse
+                    </span>
                 </div>
-                <span>
-                    @Resources.FormUpdatedCustomersCanUse
-                </span>
-            </div>
 
-            <div class="col-xs-12 col-md-9 hidden note" id="success-message-disabled">
-                <div class="icon-hold">
-                    <svg aria-hidden="true" class="icon icon-success">
-                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
-                    </svg>
+                <div class="col-xs-12 col-md-9 hidden note" id="success-message-disabled">
+                    <div class="icon-hold">
+                        <svg aria-hidden="true" class="icon icon-success">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                        </svg>
+                    </div>
+                    <span>
+                        @Resources.FormUpdatedButCustomersNotAbleToUse
+                    </span>
                 </div>
-                <span>
-                    @Resources.FormUpdatedButCustomersNotAbleToUse
-                </span>
             </div>
         </div>
     </div>

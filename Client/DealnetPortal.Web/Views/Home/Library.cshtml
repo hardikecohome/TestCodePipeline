@@ -14,16 +14,18 @@
     }
 }
 
-<div class="dealnet-large-header">@Resources.Library</div>
+<div class="centred-container">
 
-<div>
-    <ul>
-        @foreach(var doc in Model)
-        {
-            <li>
-                <a href="@Url.Content(doc.Key)" target="_blank">@doc.Value</a>
-            </li>
-        }
-    </ul>
+    <div class="dealnet-large-header">@Resources.Library</div>
+
+    <div>
+        <ul>
+            @foreach(var doc in Model)
+            {
+                <li>
+                    <a href="@Url.Content(doc.Key)" target="_blank">@doc.Value</a>
+                </li>
+            }
+        </ul>
+    </div>
 </div>
-

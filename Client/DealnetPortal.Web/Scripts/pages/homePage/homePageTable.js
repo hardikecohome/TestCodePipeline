@@ -133,7 +133,7 @@ module.exports('table', function (require) {
         this.list = ko.observableArray(list);
 
         this.filteredList = ko.observableArray(this.list());
-
+        this.noRecordsFound = ko.pureComputed(function () {return this.filteredList().length === 0 }, this);
         this.pager = new Paginator(this.filteredList());
 
         this.sortedList = ko.computed(function () {

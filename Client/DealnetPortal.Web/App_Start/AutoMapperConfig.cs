@@ -23,6 +23,7 @@ using ContractState = DealnetPortal.Web.Models.Enumeration.ContractState;
 namespace DealnetPortal.Web.App_Start
 {
     using Api.Models.Contract.EquipmentInformation;
+    using DealnetPortal.Web.Common.Constants;
     using Models.EquipmentInformation;
 
     public class AutoMapperConfig
@@ -639,50 +640,50 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId))
                 .ForMember(d => d.HasRateReduction, s => s.ResolveUsing(src => src.Equipment?.RateReductionCardId.HasValue ?? false));
 
-            cfg.CreateMap<ContractShortInfoDTO, DealItemOverviewViewModel>()                
+            cfg.CreateMap<ContractShortInfoDTO, DealItemOverviewViewModel>()
                 .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.TransactionId == null))
                 .ForMember(d => d.CustomerName, s => s.ResolveUsing(src => $"{src.PrimaryCustomerFirstName} {src.PrimaryCustomerLastName}"))
                 .ForMember(d => d.Status,
                     s => s.ResolveUsing(src => src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.LocalizedStatus,
                     s => s.ResolveUsing(src => src.LocalizedStatus ?? src.ContractState.GetEnumDescription()))
-                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.AgreementType?.GetEnumDescription() ?? string.Empty))                
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.AgreementType?.GetEnumDescription() ?? string.Empty))
                 .ForMember(d => d.PaymentType,
                     s => s.ResolveUsing(src => src.PaymentType?.GetEnumDescription() ?? string.Empty))
                 .ForMember(d => d.Action, s => s.MapFrom(src => src.ActionRequired))
-                .ForMember(d => d.Email, s => s.MapFrom(src => src.PrimaryCustomerEmail))                    
+                .ForMember(d => d.Email, s => s.MapFrom(src => src.PrimaryCustomerEmail))
                 .ForMember(d => d.Phone, s => s.MapFrom(src => src.PrimaryCustomerPhone))
                 .ForMember(d => d.PostalCode, s => s.ResolveUsing(src =>
                 {
-                    if (!string.IsNullOrEmpty(src.PrimaryCustomerPostalCode))
+                    if(!string.IsNullOrEmpty(src.PrimaryCustomerPostalCode))
                     {
                         var substring = src.PrimaryCustomerPostalCode.Substring(0, 3);
                         return $"{substring.ToUpperInvariant()}***";
                     }
                     return string.Empty;
-                }))                
+                }))
                 .ForMember(d => d.Date, s => s.ResolveUsing(src => src.Id != 0 ?
-                    src.LastUpdateTime.TryConvertToLocalUserDate().ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) 
-                    : src.LastUpdateTime.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))                
-                .ForMember(d => d.RemainingDescription, s => s.MapFrom(src => src.SearchDescription))                
+                    src.LastUpdateTime.TryConvertToLocalUserDate().ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                    : src.LastUpdateTime.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)))
+                .ForMember(d => d.RemainingDescription, s => s.MapFrom(src => src.SearchDescription))
                 .ForMember(d => d.Value, s => s.ResolveUsing(src => src.ValueOfDeal.HasValue ? FormattableString.Invariant($"$ {src.ValueOfDeal:0.00}") : string.Empty))
                 .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src => src.PreApprovalAmount.HasValue ? FormattableString.Invariant($"$ {src.PreApprovalAmount:0.00}") : string.Empty))
-                .ForMember(d => d.SignatureStatus, s => s.ResolveUsing(src => src.SignatureStatus.HasValue ? src.SignatureStatus.GetEnumDescription() : string.Empty))                
+                .ForMember(d => d.SignatureStatus, s => s.ResolveUsing(src => src.SignatureStatus.HasValue ? src.SignatureStatus.GetEnumDescription() : string.Empty))
                 .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src =>
                 {
                     var status = src.SignatureStatus;
-                    if (!status.HasValue)
+                    if(!status.HasValue)
                         return string.Empty;
 
-                    if (status == SignatureStatus.Declined || status == SignatureStatus.Deleted)
+                    if(status == SignatureStatus.Declined || status == SignatureStatus.Deleted)
                         return "red";
 
-                    if (status == SignatureStatus.Completed || status == SignatureStatus.Signed)
+                    if(status == SignatureStatus.Completed || status == SignatureStatus.Signed)
                         return "green";
 
-                    if (status == SignatureStatus.Sent)
-                    {                        
-                        if (src.SignatureStatusLastUpdateTime == null || (DateTime.UtcNow - src.SignatureStatusLastUpdateTime.Value).TotalDays >= 3)
+                    if(status == SignatureStatus.Sent)
+                    {
+                        if(src.SignatureStatusLastUpdateTime == null || (DateTime.UtcNow - src.SignatureStatusLastUpdateTime.Value).TotalDays >= 3)
                         {
                             return "yellow";
                         }
@@ -697,7 +698,9 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Address, s => s.MapFrom(src => src.PrimaryCustomerAddress))
                 .ForMember(d => d.CustomerComment, s => s.MapFrom(src => src.CustomerComments))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
-                .ForMember(d => d.Term, s => s.MapFrom(src => src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType==Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
+                PortalConstants.RentalTerm.ToString() :
+                src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
                 .ForMember(d => d.Amort, s => s.MapFrom(src => src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
@@ -708,12 +711,12 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
                 .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
                 {
-                    if (src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                    if(src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
                     {
                         return FormattableString.Invariant($"$ {src.ValueOfDeal:0.00}");
                     }
                     return string.Empty;
-                }))                
+                }))
                 .ForMember(d => d.RateCardId, s => s.Ignore())
                 .ForMember(d => d.HasRateReduction, s => s.Ignore());
 
@@ -816,7 +819,7 @@ namespace DealnetPortal.Web.App_Start
             cfg.CreateMap<EquipmentInfoDTO, ContractConditions>()
                 .ForMember(x => x.FullUpdate, d => d.Ignore())
                 .ForMember(x => x.IsNewContract, d => d.Ignore())
-                .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())   
+                .ForMember(x => x.IsAllInfoCompleted, d => d.Ignore())
                 .ForMember(x => x.IsAdminFeePaidByCustomer, d => d.MapFrom(o => o.IsFeePaidByCutomer))
                 .ForMember(x => x.IsCustomerFoundInCreditBureau, d => d.Ignore())
                 .ForMember(x => x.IsSubmittedWithoutCustomerRateCard, d => d.Ignore());
