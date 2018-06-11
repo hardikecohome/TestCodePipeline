@@ -15,7 +15,7 @@
         Model.InstallationPackages = null;
     }
 }
-
+<div class="centred-container">
 <div class="dealnet-large-header">@Resources.NewEquipment</div>
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
@@ -79,7 +79,7 @@
 </div>
 
 @RenderBody()
-
+</div>
 @section Translations
 {
     translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";

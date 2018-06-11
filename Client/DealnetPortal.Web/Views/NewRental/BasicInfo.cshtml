@@ -7,6 +7,7 @@
         Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
     }
 }
+<div class="centred-container">
 <div class="dealnet-large-header" id="basic-info">@Resources.BasicInfo</div>
 <div id="steps-line"></div>
 <div class="row" id="steps">
@@ -100,11 +101,11 @@
                                 <label for="">@Resources.ChooseSubDealer</label>
                                 <div class="control-group">
                                     @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                   Model.SubDealers.Select(x => new SelectListItem {
-Value = x.Id,
-Text = x.DisplayName,
-Selected = Model.SubmittingDealerId == x.Id }),
-                                   new { @class = "form-control", id = "subdealers" })
+                                        Model.SubDealers.Select(x => new SelectListItem {
+                                            Value = x.Id,
+                                            Text = x.DisplayName,
+                                            Selected = Model.SubmittingDealerId == x.Id }),
+                                        new { @class = "form-control", id = "subdealers" })
                                 </div>
                             </div>
                         </div>
@@ -165,6 +166,7 @@ Selected = Model.SubmittingDealerId == x.Id }),
             </div>
         }
     </div>
+</div>
 </div>
 @*  REDESIGN
     <div class="new-lead-notification-wp">
