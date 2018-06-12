@@ -903,6 +903,7 @@
     <Content Include="Content\files\resources\en\Ecohome Lease User Guide.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Loan Rate Card May 29 2018 to June 20 2018.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Program Quick Tips.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
