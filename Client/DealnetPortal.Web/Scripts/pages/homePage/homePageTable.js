@@ -15,18 +15,6 @@ module.exports('table', function (require) {
 
     var prepareStatusList = require('tableFuncs').prepareStatusList;
 
-    function prepareEquipmentList(list) {
-        return list.map(mapValue('Equipment'))
-            .filter(filterNull)
-            .reduce(function (acc, item) {
-                return acc.concat(item.indexOf(',') > -1 ? item.split(',').map(function (i) {
-                    return i.trim();
-                }) : item);
-            }, [])
-            .reduce(concatIfNotInArray, [''])
-            .sort(sortAscending);
-    }
-
     var HomePageTable = function (list) {
         // properties
         this.datePickerOptions = Object.freeze({
@@ -105,19 +93,18 @@ module.exports('table', function (require) {
             agreementType: 'agreementTypeFilter',
             status: 'statusFilter',
             salesRep: 'salesRepFilter',
-            equipment: 'equipmentFilter',
+            createdBy: 'createdByFilter',
             dateTo: 'dateToFilter',
             dateFrom: 'dateFromFilter'
         });
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
-        this.equipmentOptions = ko.observableArray(prepareEquipmentList(list));
 
         this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
         this.status = ko.observable(localStorage.getItem(filters.status) || '');
         this.salesRep = ko.observable(localStorage.getItem(filters.salesRepFilter) || '');
-        this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
+        this.createdBy = ko.observable(localStorage.getItem(filters.createdBy) || '');
         this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
         this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
         this.singleId = ko.observable('');
@@ -133,7 +120,9 @@ module.exports('table', function (require) {
         this.list = ko.observableArray(list);
 
         this.filteredList = ko.observableArray(this.list());
-        this.noRecordsFound = ko.pureComputed(function () {return this.filteredList().length === 0 }, this);
+        this.noRecordsFound = ko.pureComputed(function () {
+            return this.filteredList().length === 0
+        }, this);
         this.pager = new Paginator(this.filteredList());
 
         this.sortedList = ko.computed(function () {
@@ -222,14 +211,14 @@ module.exports('table', function (require) {
             this.agreementType('');
             this.status('');
             this.salesRep('');
-            this.equipment('');
+            this.createdBy('');
             this.dateFrom('');
             this.dateTo('');
             this.filterList();
             localStorage.removeItem(filters.agreementType);
             localStorage.removeItem(filters.status);
             localStorage.removeItem(filters.salesRep);
-            localStorage.removeItem(filters.equipment);
+            localStorage.removeItem(filters.createdBy);
             localStorage.removeItem(filters.dateTo);
             localStorage.removeItem(filters.dateFrom);
         };
@@ -243,7 +232,7 @@ module.exports('table', function (require) {
             this.agreementType() && localStorage.setItem(filters.agreementType, this.agreementType());
             this.status() && localStorage.setItem(filters.status, this.status());
             this.salesRep() && localStorage.setItem(filters.salesRep, this.salesRep());
-            this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
+            this.createdBy() && localStorage.setItem(filters.createdBy, this.createdBy());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
             this.filtersSaved(true);
@@ -273,9 +262,10 @@ module.exports('table', function (require) {
             }
 
             var stat = this.status();
-            var equip = this.equipment();
             var type = this.agreementType();
             var sales = this.salesRep();
+            var created = this.createdBy();
+            var createdBool = created == 'true';
             var to = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
 
@@ -283,7 +273,7 @@ module.exports('table', function (require) {
                 if ((!stat || stat === item.LocalizedStatus) &&
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
-                    (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
+                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
                     (!to || !item.DateVal || item.DateVal <= to) &&
                     (!dFrom || !item.DateVal || item.DateVal >= dFrom))
                     return acc.concat(item);
@@ -364,7 +354,6 @@ module.exports('table', function (require) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
-            this.equipmentOptions(prepareEquipmentList(newValue));
             this.filterList();
         }, this);
 

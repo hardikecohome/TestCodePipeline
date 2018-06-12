@@ -1,4 +1,4 @@
-﻿module.exports('leads-table', function(require) {
+﻿module.exports('leads-table', function (require) {
 
     var Paginator = require('paginator');
 
@@ -13,7 +13,7 @@
 
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 
-    var LeadsTable = function(list) {
+    var LeadsTable = function (list) {
         console.log(list);
         this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
@@ -95,7 +95,7 @@
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.filtersSaved = ko.observable(false);
@@ -107,19 +107,21 @@
         this.showResultMessage = ko.observable(false);
         this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
-        this.noRecordsFound = ko.pureComputed(function () {return this.filteredList().length === 0 }, this);
+        this.noRecordsFound = ko.pureComputed(function () {
+            return this.filteredList().length === 0
+        }, this);
 
 
         this.pager = new Paginator(this.filteredList());
-        this.acceptLead = function() {
+        this.acceptLead = function () {
             var selectedLeadId = this.selectedLeadId();
             $.ajax({
                 type: "POST",
                 url: 'leads/acceptLead?id=' + selectedLeadId
-            }).done(function(json) {
+            }).done(function (json) {
                 this.isError(json.isError);
                 if (json.Errors) {
-                    this.errorMessage(json.Errors.reduce(function(acc, error) {
+                    this.errorMessage(json.Errors.reduce(function (acc, error) {
                             acc += error + '.\n';
                             return acc;
                         },
@@ -129,7 +131,9 @@
                     $message.html($message.html().replace('{1}', selectedLeadId));
                 }
                 this.showResultMessage(true);
-                var temp = this.filteredList().filter(function(item) { return item.TransactionId != selectedLeadId });
+                var temp = this.filteredList().filter(function (item) {
+                    return item.TransactionId != selectedLeadId
+                });
                 this.filteredList(temp);
                 this.toggleAcceptLeadPopup();
             }.bind(this));
@@ -158,6 +162,7 @@
             this.postalCode('');
             this.dateFrom('');
             this.dateTo('');
+            this.search('');
             this.filterList();
             localStorage.removeItem(filters.preApprovedFor);
             localStorage.removeItem(filters.postalCode);
@@ -165,10 +170,10 @@
             localStorage.removeItem(filters.dateFrom);
         };
 
-        this.toggleAcceptLeadPopup = function(transactionId) {
+        this.toggleAcceptLeadPopup = function (transactionId) {
             this.selectedLeadId(transactionId || 0);
             this.showLeadPopup(!this.showLeadPopup());
-            $('#help-hover').css('display', this.showLeadPopup() ? 'block': 'none');
+            $('#help-hover').css('display', this.showLeadPopup() ? 'block' : 'none');
         }
 
         this.clearSort = function () {
@@ -274,18 +279,19 @@
             this.pager.list(newValue);
         }, this);
 
-        this.search.subscribe(function(val) {
+        this.search.subscribe(function (val) {
             if (val === '') return this.filterList();
             val = val.toLowerCase();
+
             function stringIncludes(str, value) {
                 return str.toLowerCase().includes(value);
             }
             var tempList = this.list().reduce(function (acc, item) {
-                if (stringIncludes(item.Equipment, val) 
-                    || stringIncludes(item.CustomerComment, val)
-                    || stringIncludes(item.PostalCode, val)
-                    || stringIncludes(item.PreApprovalAmount,val)
-                    || stringIncludes(item.PostalCode,val)) {
+                if (stringIncludes(item.Equipment, val) ||
+                    stringIncludes(item.CustomerComment, val) ||
+                    stringIncludes(item.PostalCode, val) ||
+                    stringIncludes(item.PreApprovalAmount, val) ||
+                    stringIncludes(item.PostalCode, val)) {
                     return acc.concat(item);
                 }
                 return acc;

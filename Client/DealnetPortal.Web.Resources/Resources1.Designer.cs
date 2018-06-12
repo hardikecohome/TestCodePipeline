@@ -79,7 +79,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accept Lead.
+        ///   Looks up a localized string similar to Accept lead.
         /// </summary>
         public static string AcceptLead {
             get {
@@ -687,6 +687,15 @@ namespace DealnetPortal.Web.Resources {
         public static string Answers {
             get {
                 return ResourceManager.GetString("Answers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App created by.
+        /// </summary>
+        public static string AppCreatedBy {
+            get {
+                return ResourceManager.GetString("AppCreatedBy", resourceCulture);
             }
         }
         
@@ -2285,7 +2294,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Customer Comment.
+        ///   Looks up a localized string similar to Customer comment.
         /// </summary>
         public static string CustomerComment {
             get {
@@ -2430,7 +2439,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date From.
+        ///   Looks up a localized string similar to Date from.
         /// </summary>
         public static string DateFrom {
             get {
@@ -2439,7 +2448,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date To.
+        ///   Looks up a localized string similar to Date to.
         /// </summary>
         public static string DateTo {
             get {
@@ -2556,7 +2565,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deal Info.
+        ///   Looks up a localized string similar to Deal info.
         /// </summary>
         public static string DealInfo {
             get {
@@ -2592,7 +2601,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deal Type.
+        ///   Looks up a localized string similar to Deal type.
         /// </summary>
         public static string DealType {
             get {
@@ -2601,7 +2610,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deal Value From.
+        ///   Looks up a localized string similar to Deal value from.
         /// </summary>
         public static string DealValueFrom {
             get {
@@ -2619,7 +2628,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deal Value To.
+        ///   Looks up a localized string similar to Deal value to.
         /// </summary>
         public static string DealValueTo {
             get {
@@ -2736,7 +2745,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detailed Info.
+        ///   Looks up a localized string similar to Detailed info.
         /// </summary>
         public static string DetailedInfo {
             get {
@@ -3294,7 +3303,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export All to Excel.
+        ///   Looks up a localized string similar to Export all to Excel.
         /// </summary>
         public static string ExportAllToExcel {
             get {
@@ -3600,7 +3609,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Grand Total:.
+        ///   Looks up a localized string similar to Grand total:.
         /// </summary>
         public static string GrandTotal {
             get {
@@ -4824,7 +4833,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My Deals.
+        ///   Looks up a localized string similar to My deals.
         /// </summary>
         public static string MyDeals {
             get {
@@ -5806,7 +5815,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Postal Code.
+        ///   Looks up a localized string similar to Postal code.
         /// </summary>
         public static string PostalCode {
             get {

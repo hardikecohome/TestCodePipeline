@@ -701,7 +701,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType==Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
                 PortalConstants.RentalTerm.ToString() :
                 src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
-                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
                     return src.MonthlyPayment.HasValue ? FormattableString.Invariant($"$ {src.MonthlyPayment:0.00}") : string.Empty;
