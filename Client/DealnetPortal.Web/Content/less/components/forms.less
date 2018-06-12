@@ -1166,13 +1166,16 @@ fieldset[disabled] .form-control{
                 background-color: white;
                 color: black;
                 font-size: 13px;
-            }
 
-            li.highlighted,
-            li:hover {
-                background-color: #ccdcec0a;
+                &.highlighted,
+                &:hover {
+                  background-color: #ccdcec0a;
+                }    
+                &.not-selected{
+                  color: #999999;
+                }
             }
-        }
+          }
     }
 }
 

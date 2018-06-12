@@ -5,7 +5,10 @@
         var options = allBindingsAccessor().options || allBindingsAccessor().foreach;
         $el.selectric({
             responsive: true,
-            nativeOnMobile: false
+            nativeOnMobile: false,
+            onRefresh: function (element, selectric) {
+                appendNotSelected(selectric);
+            }
         });
 
         var $label = $el.parents('.custom-select-wrap.custom-select-float-label').find('label');
@@ -33,6 +36,8 @@
             $label.addClass('label-title');
         }
 
+        appendNotSelected($el.data('selectric'));
+
         observable.subscribe(function (newValue) {
             $el.val(newValue).selectric('refresh');
             newValue ?
@@ -48,3 +53,11 @@
         }
     }
 };
+
+function appendNotSelected(sel) {
+    var emptyLi = sel.elements.items.find('li:empty');
+    if (emptyLi.length) {
+        emptyLi.text(translations.NotSelected);
+        emptyLi.addClass('not-selected');
+    }
+}
