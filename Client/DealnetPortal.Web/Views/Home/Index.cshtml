@@ -23,14 +23,14 @@
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
                         <i class="lamp-ico"></i>
-                            <a>
-                                <!-- ko if: showLearnMore -->
-                                @Resources.Hide
-                                <!-- /ko-->
-                                <!-- ko ifnot: showLearnMore -->
-                                @Resources.LearnMoreAboutThisPage
-                                <!-- /ko -->
-                            </a>
+                        <a>
+                            <!-- ko if: showLearnMore -->
+                            @Resources.Hide
+                            <!-- /ko-->
+                            <!-- ko ifnot: showLearnMore -->
+                            @Resources.LearnMoreAboutThisPage
+                            <!-- /ko -->
+                        </a>
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -89,7 +89,12 @@
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.DealStatus</label>
+                            <label for="project-type">
+                                <span class="icon">
+                                    <i class="info-ico info-ico--grey"></i>
+                                </span>
+                                @Resources.DealStatus
+                            </label>
                             <select data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
@@ -114,8 +119,12 @@
 
                     <div class="filters-advanced__created-by new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.TypeOfProject</label>
-                            <select data-bind="options:equipmentOptions, selectric:equipment"></select>
+                            <label for="project-type">@Resources.AppCreatedBy</label>
+                            <select id="created-by" data-bind="selectric: createdBy">
+                                <option value=""></option>
+                                <option value="true">@Resources.Customer</option>
+                                <option value="false">@Resources.Dealer</option>
+                            </select>
                         </div>
                     </div>
 
@@ -246,8 +255,8 @@
                         </div>
                         <div class="main-table__block__row__cell deal-status">
                             <span class="icon">
-                                    @*<i class="info-ico info-ico--green"></i>*@
-                                </span>
+                                @*<i class="info-ico info-ico--green"></i>*@
+                            </span>
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
@@ -334,8 +343,8 @@
                         </div>
                     </div>
                 </div>
-            <div class="main-table__block main-table__block--body no-records" data-bind="visible:noRecordsFound()" style="display:none">@Resources.NoMatchingRecordsFound</div>
-            <!-- ko foreach: pager.pagedList -->
+                <div class="main-table__block main-table__block--body no-records" data-bind="visible:noRecordsFound()" style="display:none">@Resources.NoMatchingRecordsFound</div>
+                <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
                     <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated,'expired-deal':$data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
@@ -749,6 +758,7 @@
 
 @section Translations
 {
+    translations['NotSelected'] = "@Resources.NotSelected";
     translations['Time'] = "@Resources.Time";
     translations['Search'] = "@Resources.Search";
     translations['Edit'] = "@Resources.Edit";

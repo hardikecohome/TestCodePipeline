@@ -127,7 +127,7 @@ namespace DealnetPortal.Web.Controllers
                     .ToList();
             
             var contractsShortInfoVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-            return this.Json(contractsShortInfoVms, JsonRequestBehavior.AllowGet);            
+            return Json(contractsShortInfoVms, JsonRequestBehavior.AllowGet);            
         }
 
         [HttpGet]

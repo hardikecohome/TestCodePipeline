@@ -5,7 +5,7 @@
 
     var mapValue = require('tableFuncs').mapValue;
 
-    var concateIfNotInArray = require('tableFuncs').concateIfNotInArray;
+    var concatIfNotInArray = require('tableFuncs').concatIfNotInArray;
 
     var sortAscending = require('tableFuncs').sortAscending;
 
@@ -19,6 +19,19 @@
 
     var showLoader = require('loader').showLoader;
     var hideLoader = require('loader').hideLoader;
+
+    function prepareEquipmentList(list) {
+        return list.map(mapValue('Equipment'))
+            .filter(filterNull)
+            .reduce(function (acc, item) {
+                return acc.concat(item.indexOf(',') > -1 ? item.split(',').map(function (i) {
+                    return i.trim();
+                }) : item);
+            }, [])
+            .reduce(concatIfNotInArray, [''])
+            .sort(sortAscending);
+    }
+
 
     function stringIncludes(str, value) {
         return str.toLowerCase().includes(value);
@@ -114,6 +127,8 @@
         this.statusOptions = ko.observableArray(prepareStatusList(data));
         this.salesRepOptions = ko.observableArray(filterAndSortList(data, 'SalesRep'));
         this.paymentTypeOptions = ko.observableArray(filterAndSortList(data, 'PaymentType'));
+        this.equipmentOptions = ko.observableArray(prepareEquipmentList(data));
+        this.paymentOptions = ko.observableArray();
 
         this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
         this.status = ko.observable(localStorage.getItem(filters.status) || '');
@@ -140,7 +155,9 @@
         this.list = ko.observableArray(data);
 
         this.filteredList = ko.observableArray(data);
-        this.noRecordsFound = ko.pureComputed(function () {return this.sortedList().length === 0 }, this);
+        this.noRecordsFound = ko.pureComputed(function () {
+            return this.sortedList().length === 0
+        }, this);
 
         this.pager = new Paginator(this.filteredList());
 
@@ -319,6 +336,7 @@
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
             var dTo = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var created = this.createdBy();
+            var createdBool = created == 'true';
             var sales = this.salesRep();
             var payment = this.typeOfPayment();
             var vFrom = parseFloat(this.valueFrom());
@@ -329,7 +347,7 @@
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
                     (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
-                    (created == '' || created == item.IsCreatedByCustomer) &&
+                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
                     (!dTo || !item.DateVal || item.DateVal <= dTo) &&
                     (!dFrom || !item.DateVal || item.DateVal >= dFrom) &&
                     (!payment || payment === item.PaymentType) &&
@@ -443,6 +461,7 @@
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
             this.paymentTypeOptions(filterAndSortList(newValue, 'PaymentType'));
+            this.equipmentOptions(prepareEquipmentList(newValue));
             this.filterList();
         }, this);
 

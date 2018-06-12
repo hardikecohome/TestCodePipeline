@@ -172,10 +172,10 @@
     <value>Date</value>
   </data>
   <data name="DateFrom" xml:space="preserve">
-    <value>Date From</value>
+    <value>Date from</value>
   </data>
   <data name="DateTo" xml:space="preserve">
-    <value>Date To</value>
+    <value>Date to</value>
   </data>
   <data name="DealerName" xml:space="preserve">
     <value>Dealer Name</value>
@@ -184,7 +184,7 @@
     <value>Deal Flow Overview</value>
   </data>
   <data name="DealInfo" xml:space="preserve">
-    <value>Deal Info</value>
+    <value>Deal info</value>
   </data>
   <data name="DealInformation" xml:space="preserve">
     <value>Deal Information</value>
@@ -193,10 +193,10 @@
     <value>Deal status</value>
   </data>
   <data name="DealType" xml:space="preserve">
-    <value>Deal Type</value>
+    <value>Deal type</value>
   </data>
   <data name="DetailedInfo" xml:space="preserve">
-    <value>Detailed Info</value>
+    <value>Detailed info</value>
   </data>
   <data name="DocumentNameEmpty" xml:space="preserve">
     <value>Name of a document can't be empty</value>
@@ -244,7 +244,7 @@
     <value>Existing Equipment Information</value>
   </data>
   <data name="ExportAllToExcel" xml:space="preserve">
-    <value>Export All to Excel</value>
+    <value>Export all to Excel</value>
   </data>
   <data name="ExportToExcel" xml:space="preserve">
     <value>Export to Excel</value>
@@ -268,7 +268,7 @@
     <value>Go to Step</value>
   </data>
   <data name="GrandTotal" xml:space="preserve">
-    <value>Grand Total:</value>
+    <value>Grand total:</value>
   </data>
   <data name="GreatWork" xml:space="preserve">
     <value>Great work!</value>
@@ -313,7 +313,7 @@
     <value>Monthly payment</value>
   </data>
   <data name="MyDeals" xml:space="preserve">
-    <value>My Deals</value>
+    <value>My deals</value>
   </data>
   <data name="MyWorkItems" xml:space="preserve">
     <value>My Work Items</value>
@@ -619,7 +619,7 @@
     <value>Province is in incorrect format</value>
   </data>
   <data name="PostalCode" xml:space="preserve">
-    <value>Postal Code</value>
+    <value>Postal code</value>
   </data>
   <data name="PostalCodeIncorrectFormat" xml:space="preserve">
     <value>Postal Code is in incorrect format</value>
@@ -1186,10 +1186,10 @@
     <value>You can't edit information about borrower and additional applicant(s) because this deal was already submitted. You can add additional applicant(s)</value>
   </data>
   <data name="DealValueFrom" xml:space="preserve">
-    <value>Deal Value From</value>
+    <value>Deal value from</value>
   </data>
   <data name="DealValueTo" xml:space="preserve">
-    <value>Deal Value To</value>
+    <value>Deal value to</value>
   </data>
   <data name="BorrowerContactInfo" xml:space="preserve">
     <value>Borrower Contact Information</value>
@@ -1386,10 +1386,10 @@
     <value>New Customer</value>
   </data>
   <data name="AcceptLead" xml:space="preserve">
-    <value>Accept Lead</value>
+    <value>Accept lead</value>
   </data>
   <data name="CustomerComment" xml:space="preserve">
-    <value>Customer Comment</value>
+    <value>Customer comment</value>
   </data>
   <data name="Leads" xml:space="preserve">
     <value>Leads</value>
@@ -2886,5 +2886,8 @@ On this page we will present you leads from actual clients from your neighborhoo
   <data name="NoLeadsThirdPart" xml:space="preserve">
     <value>If you need help please visit {0} to view manual or contact dealer support {1}</value>
     <comment>Resources, contact dealer support</comment>
+  </data>
+  <data name="AppCreatedBy" xml:space="preserve">
+    <value>App created by</value>
   </data>
 </root>

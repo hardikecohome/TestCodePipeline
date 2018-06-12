@@ -988,7 +988,6 @@ fieldset[disabled] .form-control{
         position: relative;
 
         &.icon {
-
             input {
                 padding-right: 30px;
             }
@@ -1013,7 +1012,7 @@ fieldset[disabled] .form-control{
 
         input {
             font-size: 13px;
-            color: #5d5d5d;
+            color: black;
             padding: 10px 9px 10px 9px;
             display: block;
             border: none;
@@ -1111,12 +1110,16 @@ fieldset[disabled] .form-control{
           
           label{
             top:10px;
+            &:not(.label-title){
+              cursor: pointer;
+            }
           &.label-title {
             top: -6px;
             font-size: 12px;
             line-height: 12px;
             // color: #5264AE;
             background: white;
+            z-index: 1000;
           }
         }
         }

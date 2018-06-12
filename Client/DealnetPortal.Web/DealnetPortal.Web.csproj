@@ -515,9 +515,11 @@
     <Content Include="Content\files\HTML\fr\qc\AgreementPersonalDataQCFR.html" />
     <Content Include="Content\files\HTML\fr\qc\PrivacyPolicyTextQCFR.html" />
     <Content Include="Content\files\resources\en\MortgageBroker\Video Link.htm" />
+    <Content Include="Content\fonts\aboutus.svg" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
+    <Content Include="Content\fonts\redesign-icons.svg" />
     <Content Include="Content\images\bubble-help-red.svg" />
     <Content Include="Content\images\bubble-help-w.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
@@ -990,6 +992,9 @@
     <Content Include="Content\less\components\page-title.less" />
     <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
     <Content Include="Content\files\resources\en\EcoHome Lease Rate Cards FINAL May 2018.pdf" />
+    <Content Include="Content\fonts\redesign-icons.eot" />
+    <Content Include="Content\fonts\redesign-icons.ttf" />
+    <Content Include="Content\fonts\redesign-icons.woff" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />
