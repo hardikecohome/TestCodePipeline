@@ -232,7 +232,7 @@ table
             }
 
             &__cell {
-                justify-content: center;
+                justify-content: flex-start;
                 flex-grow: 0;
                 flex-basis: 9%;
                 min-height: 64px;
@@ -241,6 +241,7 @@ table
                 display: flex;
                 font-size: 13px;
                 color: #5f5f5f;
+                padding: 0 5px; 
 
                 span, i {
                     align-self: center;
@@ -377,10 +378,6 @@ table
                                 margin-left: 1%;
                             }
                         }
-                    }
-
-                    &.deal-status {
-                        justify-content: flex-start;
                     }
 
                     &.days-left {
