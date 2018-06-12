@@ -71,7 +71,10 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                         src.PrimaryCustomer?.Locations?.FirstOrDefault(
                             l => l.AddressType == AddressType.MainAddress)
                         ?? src.PrimaryCustomer?.Locations?.FirstOrDefault();
-                    return location != null ? $"{location.Street} {location.Unit} {location.City} {location.State} {location.PostalCode}" : string.Empty;
+                    if(location == null)
+                        return string.Empty;
+                    var unit = !string.IsNullOrEmpty(location.Unit) ? $" {location.Unit}," : " ";
+                    return $"{location.Street}, {unit} {location.City}, {location.State}, {location.PostalCode}";
                 }
                 ))
                 .ForMember(d => d.CustomerComments, s => s.ResolveUsing(src =>

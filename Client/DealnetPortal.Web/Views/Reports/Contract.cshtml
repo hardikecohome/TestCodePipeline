@@ -25,7 +25,7 @@
     var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
 }
 
-<div class="form-container">
+<div class="form-container centred-container">
     <div class="form-section">
         <div class="dealnet-large-header">@Resources.ReportForContract #@(Model.AdditionalInfo.TransactionId ?? Model.BasicInfo.ContractId.ToString())</div>
         <br />

@@ -15,6 +15,9 @@
                 $el.parents('.custom-select-wrap.custom-select-float-label').find('label').removeClass('label-title');
             }
         });
+        if ($el.val()) {
+            $el.parents('.custom-select-wrap.custom-select-float-label').find('label').addClass('label-title');
+        }
         observable.subscribe(function (newValue) {
             $el.val(newValue).selectric('refresh');
         });

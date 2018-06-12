@@ -301,7 +301,16 @@ table
                 &.address {
                     flex-basis: 13%;
                 }
-                // &.project-desc,
+                
+                &.email,
+                &.applicant-name {
+                    /* For Firefox */
+                    white-space: pre-wrap;
+                    word-break: break-all;
+
+                    /* For Chrome and IE */
+                    word-wrap: break-word;
+                }
                 &.sales-rep,
                 &.entered-by {
                     flex-basis: 7%;
@@ -906,6 +915,10 @@ table
             }
         }
     }
+}
+.no-records {
+    margin: 0 auto;
+    padding: 10px;
 }
 
 
