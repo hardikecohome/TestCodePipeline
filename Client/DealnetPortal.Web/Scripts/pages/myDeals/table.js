@@ -32,7 +32,6 @@
             .sort(sortAscending);
     }
 
-
     function stringIncludes(str, value) {
         return str.toLowerCase().includes(value);
     }
@@ -128,7 +127,6 @@
         this.salesRepOptions = ko.observableArray(filterAndSortList(data, 'SalesRep'));
         this.paymentTypeOptions = ko.observableArray(filterAndSortList(data, 'PaymentType'));
         this.equipmentOptions = ko.observableArray(prepareEquipmentList(data));
-        this.paymentOptions = ko.observableArray();
 
         this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
         this.status = ko.observable(localStorage.getItem(filters.status) || '');

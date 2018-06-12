@@ -176,6 +176,13 @@
                         </div>
                     </div>
 
+                    <div class="filters-advanced__payment-type new-input-group">
+                        <div class="custom-select-wrap custom-select-float-label">
+                            <label>@Resources.TypeOfPayment</label>
+                            <select id="sales-rep" data-bind="options: paymentTypeOptions, selectric: typeOfPayment"></select>
+                        </div>
+                    </div>
+
                     <div class="filters-advanced__project new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.TypeOfProject</label>
@@ -207,11 +214,11 @@
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
                                 @*<option value="creditExpiryAsc">
-                                        @Resources.CreditExpiryAsc
-                                    </option>
-                                    <option value="creditExpiryDesc">
-                                        @Resources.CreditExpiryDesc
-                                    </option>*@
+                        @Resources.CreditExpiryAsc
+                    </option>
+                    <option value="creditExpiryDesc">
+                        @Resources.CreditExpiryDesc
+                    </option>*@
                             </select>
                         </div>
                     </div>
@@ -263,14 +270,14 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                         @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
-                                <!-- ko if: sortDirection() == sortDirections.asc -->
-                                @Resources.CreditExpiryAsc
-                                <!-- /ko -->
-                                <!-- ko if: sortDirection() == sortDirections.desc -->
-                                @Resources.CreditExpiryDesc
-                                <!-- /ko -->
-                                <i class="cross-ico" data-bind="click: clearSort"></i>
-                            </div>*@
+                <!-- ko if: sortDirection() == sortDirections.asc -->
+                @Resources.CreditExpiryAsc
+                <!-- /ko -->
+                <!-- ko if: sortDirection() == sortDirections.desc -->
+                @Resources.CreditExpiryDesc
+                <!-- /ko -->
+                <i class="cross-ico" data-bind="click: clearSort"></i>
+            </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">

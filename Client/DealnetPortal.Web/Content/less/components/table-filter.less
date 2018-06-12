@@ -337,7 +337,8 @@
         &__type,
         &__created-by,
         &__sales-rep,
-        &__project {
+        &__project,
+        &__payment-type {
             flex-basis: 13%;
         }
 
@@ -347,8 +348,7 @@
         }
 
         &__date-from,
-        &__date-to,
-        &__project {
+        &__date-to {
             .custom-text-input-group {
                 width: 100%;
             }
@@ -356,7 +356,8 @@
 
         &__deal-from,
         &__deal-to,
-        &__project {
+        &__project,
+        &__payment-type {
             display: none;
         }
 
@@ -370,7 +371,8 @@
 
         &.detailed-mod {
             .filters-advanced__status,
-            .filters-advanced__created-by {
+            .filters-advanced__created-by,
+            .filters-advanced__sales-rep {
                 display: none;
             }
 
@@ -382,7 +384,8 @@
 
             .filters-advanced__deal-from,
             .filters-advanced__deal-to,
-            .filters-advanced__project {
+            .filters-advanced__project,
+            .filters-advanced__payment-type {
                 display: block;
                 .custom-text-input-group {
                 width: 100%;
@@ -394,7 +397,7 @@
                 order: 1;
             }
 
-            .filters-advanced__sales-rep {
+            .filters-advanced__payment-type {
                 margin-right: 24px;
                 order: 2;
             }
@@ -524,7 +527,8 @@
 
             &.detailed-mod {
                 .filters-advanced__status,
-                .filters-advanced__created-by {
+                .filters-advanced__created-by,
+                .filters-advanced__sales-rep {
                     display: none;
                 }
 
@@ -533,7 +537,7 @@
                     flex-basis: 27%;
                 }
 
-                .filters-advanced__sales-rep {
+                .filters-advanced__payment-type {
                     margin-top: 0;
                     flex-basis: 26%;
                     order: 2;
@@ -576,7 +580,8 @@
 
             &__deal-from,
             &__date-from,
-            &__project {
+            &__project,
+            &__payment-type {
                 flex-basis: 17%;
                 margin-left: auto;
                 display: flex;
@@ -761,7 +766,8 @@
 
             &.detailed-mod {
                 .filters-advanced__status,
-                .filters-advanced__created-by {
+                .filters-advanced__created-by,
+                .filters-advanced__sales-rep {
                     display: none;
                 }
 
@@ -771,7 +777,7 @@
                     order: 1;
                 }
 
-                .filters-advanced__sales-rep {
+                .filters-advanced__payment-type {
                     margin-right: 0;
                     order: 2;
                 }
@@ -841,14 +847,15 @@
                 margin-left: auto;
             }
             
-            &__project {
+            &__project,
+            &__payment-type {
                 flex-basis: 100%;
                 margin-top: 16px;
                 display: flex;
 
-                .custom-text-input-group {
-                    flex-basis: 100%;
-                }
+                // .custom-text-input-group {
+                //     flex-basis: 100%;
+                // }
             }
 
             &__deal-from,
@@ -867,7 +874,8 @@
 
             &__deal-from,
             &__deal-to,
-            &__project {
+            &__project,
+            &__payment-type {
                 display: none;
             }
             &__apply-btn {
