@@ -1,5 +1,5 @@
 ﻿module.exports('leads-table', function (require) {
-
+    var loader = require('loader');
     var Paginator = require('paginator');
 
     var sortAscending = require('tableFuncs').sortAscending;
@@ -7,7 +7,6 @@
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 
     var LeadsTable = function (list) {
-        console.log(list);
         this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
@@ -93,6 +92,7 @@
         this.showLearnMore = ko.observable(false);
         this.filtersSaved = ko.observable(false);
         this.selectedLeadId = ko.observable(0);
+        this.selectedTransactionId = ko.observable(0);
         this.list = ko.observableArray(list);
         this.isError = ko.observable(false);
         this.errorMessage = ko.observable('');
@@ -109,11 +109,13 @@
         this.acceptLead = function () {
             var selectedLeadId = this.selectedLeadId();
             var transactionId = this.selectedTransactionId();
+            loader.showLoader();
             $.ajax({
                 type: "POST",
                 url: 'leads/acceptLead?id=' + selectedLeadId
             }).done(function (json) {
                 this.isError(json.isError);
+                loader.hideLoader();
                 if (json.Errors) {
                     this.errorMessage(json.Errors.reduce(function (acc, error) {
                             acc += error + '.\n';

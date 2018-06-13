@@ -1,7 +1,7 @@
 ﻿module.exports('leads-page-index', function (require) {
 
     var Table = require('leads-table');
-
+    var loader = require('loader');
     var LeadsViewModel = function (data) {
         this.table = ko.observable(new Table(data));
 
