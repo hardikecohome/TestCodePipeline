@@ -10,7 +10,7 @@
 }
 <div id="my-deals-page" data-bind="with:table">
 
-    <div class="margin-block">
+    @*<div class="margin-block">
         <div class="row">
             <!-- ko if: showLearnMore -->
             <div class="new-notification-wp">
@@ -22,7 +22,7 @@
             </div>
             <!-- /ko -->
         </div>
-    </div>
+    </div>*@
 
     <div class="margin-block">
         <div class="row">
@@ -30,7 +30,7 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <!-- ko if:  list().length > 0 -->
-                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
                         <i class="lamp-ico"></i>
                         <a>
                             <!-- ko if: showLearnMore -->
@@ -40,7 +40,7 @@
                             @Resources.LearnMoreAboutThisPage
                             <!-- /ko -->
                         </a>
-                    </div>
+                    </div>*@
                     <div class="filters-head__export-excel" data-bind="click: exportAll">
                         <i class="excel-ico"></i>
                         <a>@Resources.ExportAllToExcel</a>
@@ -462,7 +462,7 @@
                             <span data-bind="text: $data.Amort"></span>
                         </div>
                         <div class="main-table__block__row__cell payment-amount">
-                            <span data-bind="text: $data.MonthyPayment"></span>
+                            <span data-bind="text: $data.MonthlyPayment"></span>
                         </div>
 
                         <div class="main-table__block__row__cell project-desc">
