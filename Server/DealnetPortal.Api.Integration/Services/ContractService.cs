@@ -158,14 +158,18 @@ namespace DealnetPortal.Api.Integration.Services
                         creditReport.CreditAmount : contract.Details.CreditAmount;
                     _unitOfWork.Save();
                 }
+                // for mapping
+                if (contract.PrimaryCustomer.CreditReport == null)
+                {
+                    contract.PrimaryCustomer.CreditReport = new CustomerCreditReport();
+                }
             }          
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
                 (contract.Signers?.Any() == false || string.IsNullOrEmpty(contract.Details.SignatureStatusQualifier)))
             {
                 _documentService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
-            }
-            //mappings
+            }            
             var contractDTO = Mapper.Map<ContractDTO>(contract, ctx =>
                 {
                     ctx.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());

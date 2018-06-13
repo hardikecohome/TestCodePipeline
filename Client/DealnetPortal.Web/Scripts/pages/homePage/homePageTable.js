@@ -83,12 +83,12 @@ module.exports('table', function (require) {
             },
         });
         var filters = Object.freeze({
-            agreementType: 'agreementTypeFilter',
-            status: 'statusFilter',
-            salesRep: 'salesRepFilter',
-            createdBy: 'createdByFilter',
-            dateTo: 'dateToFilter',
-            dateFrom: 'dateFromFilter'
+            agreementType: DealerName + '-home-agreementTypeFilter',
+            status: DealerName + '-home-statusFilter',
+            salesRep: DealerName + '-home-salesRepFilter',
+            createdBy: DealerName + '-home-createdByFilter',
+            dateTo: DealerName + '-home-dateToFilter',
+            dateFrom: DealerName + '-home-dateFromFilter'
         });
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));

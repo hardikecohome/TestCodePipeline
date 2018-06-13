@@ -72,10 +72,10 @@
         });
 
         var filters = Object.freeze({
-            preApprovedFor: 'agreementTypeFilter',
-            postalCode: 'postalCodeFilter',
-            dateTo: 'dateToFilter',
-            dateFrom: 'dateFromFilter'
+            preApprovedFor: DealerName + '-leads-agreementTypeFilter',
+            postalCode: DealerName + '-leads-postalCodeFilter',
+            dateTo: DealerName + '-leads-dateToFilter',
+            dateFrom: DealerName + '-leads-dateFromFilter'
         });
         this.postalCodesOptions = ko.observableArray(filterAndSortList(list, 'PostalCode'));
         this.preApprovedForOptions = ko.observableArray(filterAndSortList(list, 'PreApprovalAmount'));
