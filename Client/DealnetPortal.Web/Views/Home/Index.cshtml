@@ -5,33 +5,34 @@
 <div id="home-body" data-bind="with: table">
 
     @*<div class="margin-block">
-        <div class="row">
-            <div class="new-notification-wp" data-bind="visible: showLearnMore" style="display:none;">
-                <div class="new-notification-blank">
-                    <span class="new-notification-blank__text">
-                        @Resources.LearnMoreHomePage
-                    </span>
+            <div class="row">
+                <div class="new-notification-wp" data-bind="visible: showLearnMore" style="display:none;">
+                    <div class="new-notification-blank">
+                        <span class="new-notification-blank__text">
+                            @Resources.LearnMoreHomePage
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>*@
+        </div>*@
 
-    <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
+    <div class="margin-block">
         <div class="row">
             <div class="filters">
+                <!-- ko if: list().length > 0-->
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
-                        <i class="lamp-ico"></i>
-                        <a>
-                            <!-- ko if: showLearnMore -->
-                            @Resources.Hide
-                            <!-- /ko-->
-                            <!-- ko ifnot: showLearnMore -->
-                            @Resources.LearnMoreAboutThisPage
-                            <!-- /ko -->
-                        </a>
-                    </div>*@
+                    <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
+                        @*<i class="lamp-ico"></i>
+                            <a>
+                                <!-- ko if: showLearnMore -->
+                                @Resources.Hide
+                                <!-- /ko-->
+                                <!-- ko ifnot: showLearnMore -->
+                                @Resources.LearnMoreAboutThisPage
+                                <!-- /ko -->
+                            </a>*@
+                    </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
@@ -78,7 +79,7 @@
                         <!-- /ko -->
                     </div>
                 </div>
-
+                <!-- /ko -->
                 <div class="filters-advanced homepage-mod" data-bind="visible: showFilters() || showSorters()">
                     <!-- ko if: showFilters -->
                     <div class="filters-advanced__type new-input-group">

@@ -30,75 +30,75 @@
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <!-- ko if:  list().length > 0 -->
-                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
-                        <i class="lamp-ico"></i>
-                        <a>
-                            <!-- ko if: showLearnMore -->
-                            @Resources.Hide
-                            <!-- /ko-->
-                            <!-- ko ifnot: showLearnMore -->
-                            @Resources.LearnMoreAboutThisPage
-                            <!-- /ko -->
-                        </a>
-                    </div>*@
-                    <div class="filters-head__export-excel" data-bind="click: exportAll">
-                        <i class="excel-ico"></i>
-                        <a>@Resources.ExportAllToExcel</a>
+                    <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
+                        @* <i class="lamp-ico"></i>
+        <a>
+            <!-- ko if: showLearnMore -->
+            @Resources.Hide
+            <!-- /ko-->
+            <!-- ko ifnot: showLearnMore -->
+            @Resources.LearnMoreAboutThisPage
+            <!-- /ko -->
+        </a>*@
                     </div>
-                    <div class="filters-head__search new-input-group">
-                        <div class="custom-text-input-group">
-                            <input type="text" name="search" data-bind="textInput: search" required>
-                            <label>@Resources.Search</label>
-                            <span class="search-ico"></span>
+                        <div class="filters-head__export-excel" data-bind="click: exportAll">
+                            <i class="excel-ico"></i>
+                            <a>@Resources.ExportAllToExcel</a>
                         </div>
-                    </div>
-
-                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters, visible: showFilters() || showSorters()">
-                        <span>@Resources.Clear</span>
-                    </div>
-                    <div class="filters-head__save-btn" data-bind="click: saveFilters, visible: showFilters() || showSorters()" style="display:none;">
-                        <div class="new-btn-green">
-                            <span>@Resources.Save</span>
+                        <div class="filters-head__search new-input-group">
+                            <div class="custom-text-input-group">
+                                <input type="text" name="search" data-bind="textInput: search" required>
+                                <label>@Resources.Search</label>
+                                <span class="search-ico"></span>
+                            </div>
                         </div>
-                        <span class="save-btn-status">
-                            <!-- ko if: filtersSaved -->
-                            <i class="checked-ico"></i> @Resources.Saved
-                            <!-- /ko -->
-                            <!-- ko ifnot: filtersSaved-->
-                            (@Resources.ForNextTime)
-                            <!-- /ko -->
-                        </span>
-                    </div>
 
-                    <div class="filters-head__divider"></div>
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
-                        <!-- ko if: showFilters -->
-                        <span>
-                            @Resources.Hide
-                        </span>
-                        <!-- /ko -->
-                        <!-- ko ifnot: showFilters -->
-                        <i class="filter-ico filter-ico--red"></i>
-                        <span>
-                            @Resources.Filters
-                        </span>
+                        <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters, visible: showFilters() || showSorters()">
+                            <span>@Resources.Clear</span>
+                        </div>
+                        <div class="filters-head__save-btn" data-bind="click: saveFilters, visible: showFilters() || showSorters()" style="display:none;">
+                            <div class="new-btn-green">
+                                <span>@Resources.Save</span>
+                            </div>
+                            <span class="save-btn-status">
+                                <!-- ko if: filtersSaved -->
+                                <i class="checked-ico"></i> @Resources.Saved
+                                <!-- /ko -->
+                                <!-- ko ifnot: filtersSaved-->
+                                (@Resources.ForNextTime)
+                                <!-- /ko -->
+                            </span>
+                        </div>
+
+                        <div class="filters-head__divider"></div>
+                        <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                            <!-- ko if: showFilters -->
+                            <span>
+                                @Resources.Hide
+                            </span>
+                            <!-- /ko -->
+                            <!-- ko ifnot: showFilters -->
+                            <i class="filter-ico filter-ico--red"></i>
+                            <span>
+                                @Resources.Filters
+                            </span>
+                            <!-- /ko -->
+                        </div>
+                        <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                            <!-- ko if: showSorters -->
+                            <span>
+                                @Resources.Hide
+                            </span>
+                            <!-- /ko -->
+                            <!-- ko ifnot: showSorters -->
+                            <i class="sort-button-red-ico"></i>
+                            <span>
+                                @Resources.Sort
+                            </span>
+                            <!-- /ko -->
+                        </div>
                         <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
-                        <!-- ko if: showSorters -->
-                        <span>
-                            @Resources.Hide
-                        </span>
-                        <!-- /ko -->
-                        <!-- ko ifnot: showSorters -->
-                        <i class="sort-button-red-ico"></i>
-                        <span>
-                            @Resources.Sort
-                        </span>
-                        <!-- /ko -->
-                    </div>
-                    <!-- /ko -->
-                </div>
 
                 <div class="filters-type" data-bind="visible: list().length > 0 && showFilters()" style="display:none;">
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
