@@ -75,13 +75,7 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName);
 
         Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
-
-        Task<CustomerLinkDTO> GetShareableLinkSettings();
-
-        Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
-
-        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture);
-
+        
         Task<Tuple<IList<RateReductionCardDTO>, IList<Alert>>> GetAllRateReductionCards();
 
         /// <summary>

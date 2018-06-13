@@ -25,23 +25,18 @@ namespace DealnetPortal.Api.Controllers
         private IContractRepository _contractRepository { get; set; }
         private ISettingsRepository _settingsRepository { get; set; }
         private IAspireStorageReader _aspireStorageReader { get; set; }
-        private ICustomerFormService _customerFormService { get; set; }
-        private IContractService _contractService { get; set; }
         private IRateCardsService _rateCardsService { get; set; }
         private readonly IDealerRepository _dealerRepository;
         private readonly ILicenseDocumentRepository _licenseDocumentRepository;
 
         public DictionaryController(IUnitOfWork unitOfWork, IContractRepository contractRepository, ISettingsRepository settingsRepository, ILoggingService loggingService, 
-            IAspireStorageReader aspireStorageReader, ICustomerFormService customerFormService, IContractService contractService, IDealerRepository dealerRepository, 
-            ILicenseDocumentRepository licenseDocumentRepository, IRateCardsService rateCardsService)
+            IAspireStorageReader aspireStorageReader, IDealerRepository dealerRepository, ILicenseDocumentRepository licenseDocumentRepository, IRateCardsService rateCardsService)
             : base(loggingService)
         {
             _unitOfWork = unitOfWork;
             _contractRepository = contractRepository;
             _settingsRepository = settingsRepository;
             _aspireStorageReader = aspireStorageReader;
-            _customerFormService = customerFormService;
-            _contractService = contractService;
             _dealerRepository = dealerRepository;
             _licenseDocumentRepository = licenseDocumentRepository;            
             _rateCardsService = rateCardsService;
@@ -105,7 +100,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("DealerDocumentTypes/{state}")]
+        [Route("dealer/DocumentTypes/{state}")]
         [Authorize]
         [HttpGet]
         public IHttpActionResult GetDealerDocumentTypes(string state)
@@ -135,7 +130,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("DealerDocumentTypes")]
+        [Route("dealer/DocumentTypes")]
         [Authorize]
         [HttpGet]
         public IHttpActionResult GetDealerDocumentTypes()
@@ -166,20 +161,36 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [Authorize]
-        [Route("DealerEquipmentTypes")]
+        [Route("Dealer/EquipmentTypes")]
         [HttpGet]
         public IHttpActionResult GetDealerEquipmentTypes()
         {
             try
             {
-                var result = _contractService.GetDealerEquipmentTypes(LoggedInUser?.UserId);
-                if (result == null)
+                var alerts = new List<Alert>();
+                var dealerProfile = _dealerRepository.GetDealerProfile(LoggedInUser?.UserId);
+                IList<EquipmentTypeDTO> equipmentTypes;
+                if (dealerProfile != null && dealerProfile.Equipments.Any())
+                {
+                    equipmentTypes = Mapper.Map<IList<EquipmentTypeDTO>>(dealerProfile.Equipments.Select(x => x.Equipment).ToList());
+                }
+                else
+                {
+                    equipmentTypes = Mapper.Map<IList<EquipmentTypeDTO>>(_contractRepository.GetEquipmentTypes());
+                }
+
+                if (!equipmentTypes.Any())
                 {
                     var errorMsg = "Cannot retrieve Equipment Types";
-                    
+                    alerts.Add(new Alert
+                    {
+                        Type = AlertType.Error,
+                        Header = ErrorConstants.EquipmentTypesRetrievalFailed,
+                        Message = errorMsg
+                    });
                     LoggingService.LogError(errorMsg);
                 }
-                return Ok(result);
+                return Ok(new Tuple<IList<EquipmentTypeDTO>, IList<Alert>>(equipmentTypes, alerts));
             }
             catch (Exception ex)
             {
@@ -188,6 +199,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("EquipmentTypes")]
         [Route("AllEquipmentTypes")]
         [HttpGet]
         public IHttpActionResult GetAllEquipmentTypes()
@@ -218,7 +230,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("AllLicenseDocuments")]
+        [Route("LicenseDocuments")]
         [HttpGet]
         public IHttpActionResult GetAllLicenseDocuments()
         {
@@ -248,7 +260,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("{province}/ProvinceTaxRate")]
+        [Route("ProvinceTaxRates/{province}")]
         [HttpGet]
         public IHttpActionResult GetProvinceTaxRate(string province)
         {
@@ -278,6 +290,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("ProvinceTaxRates")]
         [Route("AllProvinceTaxRates")]
         [HttpGet]
         public IHttpActionResult GetAllProvinceTaxRates()
@@ -308,7 +321,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("{id}/VerificationId")]
+        [Route("VerificationIds/{id}")]
         [HttpGet]
         public IHttpActionResult GetVerificationId(int id)
         {
@@ -338,7 +351,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("AllVerificationIds")]
+        [Route("VerificationIds")]
         [HttpGet]
         public IHttpActionResult GetAllVerificationIds()
         {
@@ -369,8 +382,9 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [Route("CreditAmount")]
+        [Route("CreditAmount/{creditScore}")]
         [HttpGet]
-        // GET api/dict/CreditAmount?creditScore={creditScore}
+        // GET api/dict/CreditAmount/{creditScore}
         public IHttpActionResult GetCreditAmount(int creditScore)
         {
             try
@@ -387,7 +401,7 @@ namespace DealnetPortal.Api.Controllers
 
 
         [Authorize]
-        [Route("GetDealerInfo")]
+        [Route("Dealer/Info")]
         [HttpGet]
         public IHttpActionResult GetDealerInfo()
         {
@@ -416,16 +430,16 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerCulture
-        [Route("GetDealerCulture")]
+        // GET api/dict/Dealer/Culture
+        [Route("Dealer/Culture")]
         public string GetDealerCulture()
         {
             return _contractRepository.GetDealer(LoggedInUser?.UserId).Culture ?? _dealerRepository.GetDealerProfile(LoggedInUser?.UserId)?.Culture;
         }
 
         [HttpGet]
-        // GET api/dict/GetDealerCulture?dealer=dealer
-        [Route("GetDealerCulture")]
+        // GET api/dict/Dealer/Culture/{dealer}
+        [Route("Dealer/{dealer}/Culture")]
         public string GetDealerCulture(string dealer)
         {
             var dealerId = _dealerRepository.GetUserIdByName(dealer);
@@ -435,8 +449,8 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        // GET api/dict/PutDealerCulture
-        [Route("PutDealerCulture")]
+        // GET api/dict/Dealer/Culture
+        [Route("Dealer/Culture/{culture}")]
         public IHttpActionResult PutDealerCulture(string culture)
         {
             try
@@ -458,8 +472,8 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerSettings
-        [Route("GetDealerSettings")]
+        // GET api/dict/Dealer/Settings
+        [Route("Dealer/Settings")]
         public IHttpActionResult GetDealerSettings()
         {
             IList<StringSettingDTO> list = null;
@@ -474,8 +488,8 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [HttpGet]
-        // GET api/dict/GetDealerSettings?dealer={dealer}
-        [Route("GetDealerSettings")]
+        // GET api/dict/Dealer/{hashDealerName}/Settings
+        [Route("Dealer/{hashDealerName}/Settings")]
         public IHttpActionResult GetDealerSettings(string hashDealerName)
         {
             IList<StringSettingDTO> list = null;
@@ -491,8 +505,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/dict/GetDealerBinSetting?settingType={settingType}
-        [Route("GetDealerBinSetting")]
+        [Route("Dealer/BinSettings/{settingType}")]
         public IHttpActionResult GetDealerBinSetting(int settingType)
         {
             SettingType sType = (SettingType) settingType;
@@ -510,8 +523,7 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [HttpGet]
-        // GET api/dict/GetDealerBinSetting?settingType={settingType}&dealer={dealer}
-        [Route("GetDealerBinSetting")]
+        [Route("Dealer/{hashDealerName}/BinSettings/{settingType}")]
         public IHttpActionResult GetDealerBinSetting(int settingType, string hashDealerName)
         {
             SettingType sType = (SettingType)settingType;
@@ -530,8 +542,7 @@ namespace DealnetPortal.Api.Controllers
 
         [Authorize]
         [HttpGet]
-        // GET api/Account/CheckDealerSkinExist
-        [Route("CheckDealerSkinExist")]
+        [Route("Dealer/Skin/check")]
         public IHttpActionResult CheckDealerSkinExist()
         {
             try
@@ -545,8 +556,7 @@ namespace DealnetPortal.Api.Controllers
         }
 
         [HttpGet]
-        // GET api/Account/CheckDealerSkinExist?dealer={dealer}
-        [Route("CheckDealerSkinExist")]
+        [Route("Dealer/{dealer}/Skin/check")]
         public IHttpActionResult CheckDealerSkinExist(string dealer)
         {
             try
@@ -557,67 +567,10 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }
-
-        [Authorize]
-        [HttpGet]
-        // GET api/dict/GetCustomerLinkSettings
-        [Route("GetCustomerLinkSettings")]
-        public IHttpActionResult GetCustomerLinkSettings()
-        {
-            var linkSettings = _customerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
-            if (linkSettings != null)
-            {
-                return Ok(linkSettings);
-            }
-            return NotFound();
-        }
-
-        [HttpGet]
-        // GET api/dict/GetCustomerLinkSettings?dealer={dealer}
-        [Route("GetCustomerLinkSettings")]
-        public IHttpActionResult GetCustomerLinkSettings(string dealer)
-        {
-            var linkSettings = _customerFormService.GetCustomerLinkSettingsByDealerName(dealer);
-            if (linkSettings != null)
-            {
-                return Ok(linkSettings);
-            }
-            return NotFound();
-        }
-
-        [Authorize]
-        [HttpPut]
-        // GET api/dict/UpdateCustomerLinkSettings
-        [Route("UpdateCustomerLinkSettings")]
-        public IHttpActionResult UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings)
-        {
-            try
-            {
-                var alerts = _customerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
-                return Ok(alerts);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
         }        
 
-        [HttpGet]
-        // GET api/dict/GetCustomerLinkLanguageOptions?dealer={dealer}&lang={lang}
-        [Route("GetCustomerLinkLanguageOptions")]
-        public IHttpActionResult GetCustomerLinkLanguageOptions(string hashDealerName, string lang)
-        {
-            var linkSettings = _customerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
-            if (linkSettings != null)
-            {
-                return Ok(linkSettings);
-            }
-            return NotFound();
-        }
-
         [Authorize]
-        [Route("AllRateReductionCards")]
+        [Route("RateReductionCards")]
         [HttpGet]
         public IHttpActionResult GetAllRateReductionCards()
         {
@@ -646,7 +599,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerTier")]
+        [Route("Dealer/Tier")]
         [HttpGet]
         [AllowAnonymous]
         public IHttpActionResult GetDealerTier()
@@ -663,7 +616,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerTier")]
+        [Route("Dealer/Tier/contract/{contractId}")]
         [HttpGet]
         [AllowAnonymous]
         public IHttpActionResult GetDealerTier(int contractId)

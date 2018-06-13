@@ -20,7 +20,7 @@ namespace DealnetPortal.Api.Controllers
             _loggingService = loggingService;
         }
 
-        [Route("PostLicenseScanProcessing")]
+        [Route("DriverLicense")]
         [HttpPost]
         public async Task<IHttpActionResult> PostLicenseScanProcessing(ScanningRequest scanningRequest)
         {
@@ -64,7 +64,7 @@ namespace DealnetPortal.Api.Controllers
             return Ok(result);
         }
 
-        [Route("PostChequeScanProcessing")]
+        [Route("Cheque")]
         [HttpPost]
         public async Task<IHttpActionResult> PostChequeScanProcessing(ScanningRequest scanningRequest)
         {

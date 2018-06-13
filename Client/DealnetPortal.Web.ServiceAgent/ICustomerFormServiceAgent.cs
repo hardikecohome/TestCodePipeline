@@ -12,5 +12,11 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm);
 
         Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName);
+
+        Task<CustomerLinkDTO> GetShareableLinkSettings();
+
+        Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
+
+        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture);
     }
 }
