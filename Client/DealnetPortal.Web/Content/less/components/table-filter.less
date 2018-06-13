@@ -526,6 +526,10 @@
                 .filters-advanced__created-by {
                     margin-top: 24px;
                 }
+                .filters-advanced__project,
+                .filters-advanced__payment-type{
+                    display: none;
+                }
             }
 
             &.homepage-mod {
@@ -573,7 +577,6 @@
                 }
 
                 .filters-advanced__apply-btn {
-                    flex-basis: 17%;
                     order: 5;
                     margin-left: auto;
                 }
@@ -636,6 +639,10 @@
             }
         }
     }
+    
+    .table-btns .btn {
+        margin-bottom: 15px;
+    }
 }
 @media @mobile {
     .filters {
@@ -674,8 +681,7 @@
 
 
                 &__divider,
-                &__clear-btn,
-                &__save-btn {
+                &__clear-btn {
                     display: none;
                 }
 
@@ -685,6 +691,11 @@
 
                 &__sort-btn {
                     order: 6;
+                }
+
+                &__save-btn {
+                    margin-top: 16px;
+                    order: 7;
                 }
             }
 

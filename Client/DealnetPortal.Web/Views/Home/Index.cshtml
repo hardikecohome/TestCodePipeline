@@ -349,9 +349,9 @@
                 <div class="main-table__block main-table__block--body">
                     <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated,'expired-deal':$data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon" data-bind="if: !$data.IsInternal && $data.Id != 0">
-                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
-                                <span class="customized-checkbox-icon__image"></span>
+                            <label class="customized-checkbox-icon" >
+                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected, visible: !$data.IsInternal && $data.Id != 0" />
+                                <span class="customized-checkbox-icon__image" data-bind="visible: !$data.IsInternal && $data.Id != 0"></span>
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
@@ -590,7 +590,7 @@
 
                                 <div class="table-row-details__left__gear">
                                     <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
-                                    <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                                    <div class="table-row-settings-popup mobile" data-bind="css:{opened:$data.showActions}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                         <div class="table-row-settings-popup__edit">
                                             <i class="edit-contract-ico"></i>

@@ -990,6 +990,9 @@ fieldset[disabled] .form-control{
         &.icon {
             input {
                 padding-right: 30px;
+                @media @tablet-only{
+                  padding-right: 18px;
+                }
             }
         }
 
@@ -1002,6 +1005,10 @@ fieldset[disabled] .form-control{
             &:before {
                 font-size: 20px;
                 color: #c2c8d0;
+            }
+
+            @media @tablet-only {
+              right:3px;
             }
         }
 
