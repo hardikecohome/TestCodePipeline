@@ -43,16 +43,16 @@
             maxDate: new Date()
         };
         var filters = Object.freeze({
-            agreementType: 'myDeals-agreementTypeFilter',
-            status: 'myDeals-statusFilter',
-            dateTo: 'myDeals-dateToFilter',
-            dateFrom: 'myDeals-dateFromFilter',
-            createdBy: 'myDeals-createdByFilter',
-            salesRep: 'myDeals-salesRepFilter',
-            equipment: 'myDeals-equipmentFilter',
-            typeOfPayment: 'myDeals-typeOfPaymentFilter',
-            valueFrom: 'myDeals-valueFromFilter',
-            valueTo: 'myDeals-valueToFilter'
+            agreementType: DealerName + '-myDeals-agreementTypeFilter',
+            status: DealerName + '-myDeals-statusFilter',
+            dateTo: DealerName + '-myDeals-dateToFilter',
+            dateFrom: DealerName + '-myDeals-dateFromFilter',
+            createdBy: DealerName + '-myDeals-createdByFilter',
+            salesRep: DealerName + '-myDeals-salesRepFilter',
+            equipment: DealerName + '-myDeals-equipmentFilter',
+            typeOfPayment: DealerName + '-myDeals-typeOfPaymentFilter',
+            valueFrom: DealerName + '-myDeals-valueFromFilter',
+            valueTo: DealerName + '-myDeals-valueToFilter'
         });
         this.sortDirections = Object.freeze({
             default: 'default',
