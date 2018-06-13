@@ -108,6 +108,7 @@
         this.pager = new Paginator(this.filteredList());
         this.acceptLead = function () {
             var selectedLeadId = this.selectedLeadId();
+            var transactionId = this.selectedTransactionId();
             $.ajax({
                 type: "POST",
                 url: 'leads/acceptLead?id=' + selectedLeadId
@@ -121,11 +122,11 @@
                         ''));
                 } else {
                     var $message = $('#new-lead-notification-success');
-                    $message.html($message.html().replace('{1}', selectedLeadId));
+                    $message.html($message.html().replace('{1}', transactionId));
                 }
                 this.showResultMessage(true);
                 var temp = this.filteredList().filter(function (item) {
-                    return item.TransactionId != selectedLeadId
+                    return item.Id != selectedLeadId
                 });
                 this.filteredList(temp);
                 this.toggleAcceptLeadPopup();
@@ -163,8 +164,9 @@
             localStorage.removeItem(filters.dateFrom);
         };
 
-        this.toggleAcceptLeadPopup = function (transactionId) {
-            this.selectedLeadId(transactionId || 0);
+        this.toggleAcceptLeadPopup = function (id, transactionId) {
+            this.selectedLeadId(id || 0);
+            this.selectedTransactionId(transactionId || 0);
             this.showLeadPopup(!this.showLeadPopup());
             $('#help-hover').css('display', this.showLeadPopup() ? 'block' : 'none');
         }
