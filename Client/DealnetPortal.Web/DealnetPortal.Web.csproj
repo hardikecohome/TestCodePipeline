@@ -583,10 +583,16 @@
     <Content Include="Content\images\redesign_icons\gear.svg" />
     <Content Include="Content\images\redesign_icons\get-my-loc.svg" />
     <Content Include="Content\images\redesign_icons\i-letter.svg" />
+    <Content Include="Content\images\redesign_icons\info-grass-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-grass.svg" />
+    <Content Include="Content\images\redesign_icons\info-green-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-green.svg" />
+    <Content Include="Content\images\redesign_icons\info-grey-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-grey.svg" />
+    <Content Include="Content\images\redesign_icons\info-light-grey-lg.svg" />
+    <Content Include="Content\images\redesign_icons\info-red-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-red.svg" />
+    <Content Include="Content\images\redesign_icons\info-yellow-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-yellow.svg" />
     <Content Include="Content\images\redesign_icons\lamp.svg" />
     <Content Include="Content\images\redesign_icons\leads-plaseholder.svg" />

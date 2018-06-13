@@ -4,7 +4,7 @@
 
 <div id="home-body" data-bind="with: table">
 
-    <div class="margin-block">
+    @*<div class="margin-block">
         <div class="row">
             <div class="new-notification-wp" data-bind="visible: showLearnMore" style="display:none;">
                 <div class="new-notification-blank">
@@ -14,14 +14,14 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 
     <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
         <div class="row">
             <div class="filters">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                    @*<div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
                         <i class="lamp-ico"></i>
                         <a>
                             <!-- ko if: showLearnMore -->
@@ -31,7 +31,7 @@
                             @Resources.LearnMoreAboutThisPage
                             <!-- /ko -->
                         </a>
-                    </div>
+                    </div>*@
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
@@ -530,13 +530,13 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
                                 <div class="table-row-details__left__payment-amount" data-bind="click:$parent.configureSortClick($parent.sortFields.payment)">
-                                    <span>@Resources.Payment</span>
+                                    <span>@Resources.MonthlyPayment</span>
                                     <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.Payment"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.MonthlyPayment"></div>
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectDescription</span>
