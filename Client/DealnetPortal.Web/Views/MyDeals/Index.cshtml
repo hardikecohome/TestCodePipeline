@@ -11,18 +11,18 @@
 <div id="my-deals-page" data-bind="with:table">
 
     @*<div class="margin-block">
-        <div class="row">
-            <!-- ko if: showLearnMore -->
-            <div class="new-notification-wp">
-                <div class="new-notification-blank">
-                    <span class="new-notification-blank__text">
-                        @Resources.LearnMoreHomePage
-                    </span>
+            <div class="row">
+                <!-- ko if: showLearnMore -->
+                <div class="new-notification-wp">
+                    <div class="new-notification-blank">
+                        <span class="new-notification-blank__text">
+                            @Resources.LearnMoreHomePage
+                        </span>
+                    </div>
                 </div>
+                <!-- /ko -->
             </div>
-            <!-- /ko -->
-        </div>
-    </div>*@
+        </div>*@
 
     <div class="margin-block">
         <div class="row">
@@ -32,73 +32,74 @@
                     <!-- ko if:  list().length > 0 -->
                     <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
                         @* <i class="lamp-ico"></i>
-        <a>
-            <!-- ko if: showLearnMore -->
-            @Resources.Hide
-            <!-- /ko-->
-            <!-- ko ifnot: showLearnMore -->
-            @Resources.LearnMoreAboutThisPage
-            <!-- /ko -->
-        </a>*@
+                            <a>
+                                <!-- ko if: showLearnMore -->
+                                @Resources.Hide
+                                <!-- /ko-->
+                                <!-- ko ifnot: showLearnMore -->
+                                @Resources.LearnMoreAboutThisPage
+                                <!-- /ko -->
+                            </a>*@
                     </div>
-                        <div class="filters-head__export-excel" data-bind="click: exportAll">
-                            <i class="excel-ico"></i>
-                            <a>@Resources.ExportAllToExcel</a>
+                    <div class="filters-head__export-excel" data-bind="click: exportAll">
+                        <i class="excel-ico"></i>
+                        <a>@Resources.ExportAllToExcel</a>
+                    </div>
+                    <div class="filters-head__search new-input-group">
+                        <div class="custom-text-input-group">
+                            <input type="text" name="search" data-bind="textInput: search" required>
+                            <label>@Resources.Search</label>
+                            <span class="search-ico"></span>
                         </div>
-                        <div class="filters-head__search new-input-group">
-                            <div class="custom-text-input-group">
-                                <input type="text" name="search" data-bind="textInput: search" required>
-                                <label>@Resources.Search</label>
-                                <span class="search-ico"></span>
-                            </div>
+                    </div>
+                    <!-- ko if: showFilters -->
+                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
+                        <span>@Resources.Clear</span>
+                    </div>
+                    <div class="filters-head__save-btn" data-bind="click: saveFilters">
+                        <div class="new-btn-green">
+                            <span>@Resources.Save</span>
                         </div>
+                        <span class="save-btn-status">
+                            <!-- ko if: filtersSaved -->
+                            <i class="checked-ico"></i> @Resources.Saved
+                            <!-- /ko -->
+                            <!-- ko ifnot: filtersSaved-->
+                            (@Resources.ForNextTime)
+                            <!-- /ko -->
+                        </span>
+                    </div>
 
-                        <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters, visible: showFilters() || showSorters()">
-                            <span>@Resources.Clear</span>
-                        </div>
-                        <div class="filters-head__save-btn" data-bind="click: saveFilters, visible: showFilters() || showSorters()" style="display:none;">
-                            <div class="new-btn-green">
-                                <span>@Resources.Save</span>
-                            </div>
-                            <span class="save-btn-status">
-                                <!-- ko if: filtersSaved -->
-                                <i class="checked-ico"></i> @Resources.Saved
-                                <!-- /ko -->
-                                <!-- ko ifnot: filtersSaved-->
-                                (@Resources.ForNextTime)
-                                <!-- /ko -->
-                            </span>
-                        </div>
-
-                        <div class="filters-head__divider"></div>
-                        <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
-                            <!-- ko if: showFilters -->
-                            <span>
-                                @Resources.Hide
-                            </span>
-                            <!-- /ko -->
-                            <!-- ko ifnot: showFilters -->
-                            <i class="filter-ico filter-ico--red"></i>
-                            <span>
-                                @Resources.Filters
-                            </span>
-                            <!-- /ko -->
-                        </div>
-                        <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
-                            <!-- ko if: showSorters -->
-                            <span>
-                                @Resources.Hide
-                            </span>
-                            <!-- /ko -->
-                            <!-- ko ifnot: showSorters -->
-                            <i class="sort-button-red-ico"></i>
-                            <span>
-                                @Resources.Sort
-                            </span>
-                            <!-- /ko -->
-                        </div>
+                    <div class="filters-head__divider"></div>
+                    <!-- /ko -->
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
+                        <i class="filter-ico filter-ico--red"></i>
+                        <span>
+                            @Resources.Filters
+                        </span>
                         <!-- /ko -->
                     </div>
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
+                        <i class="sort-button-red-ico"></i>
+                        <span>
+                            @Resources.Sort
+                        </span>
+                        <!-- /ko -->
+                    </div>
+                    <!-- /ko -->
+                </div>
 
                 <div class="filters-type" data-bind="visible: list().length > 0 && showFilters()" style="display:none;">
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
@@ -214,11 +215,11 @@
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
                                 @*<option value="creditExpiryAsc">
-                        @Resources.CreditExpiryAsc
-                    </option>
-                    <option value="creditExpiryDesc">
-                        @Resources.CreditExpiryDesc
-                    </option>*@
+                                        @Resources.CreditExpiryAsc
+                                    </option>
+                                    <option value="creditExpiryDesc">
+                                        @Resources.CreditExpiryDesc
+                                    </option>*@
                             </select>
                         </div>
                     </div>
@@ -270,14 +271,14 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                         @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
-                <!-- ko if: sortDirection() == sortDirections.asc -->
-                @Resources.CreditExpiryAsc
-                <!-- /ko -->
-                <!-- ko if: sortDirection() == sortDirections.desc -->
-                @Resources.CreditExpiryDesc
-                <!-- /ko -->
-                <i class="cross-ico" data-bind="click: clearSort"></i>
-            </div>*@
+                                <!-- ko if: sortDirection() == sortDirections.asc -->
+                                @Resources.CreditExpiryAsc
+                                <!-- /ko -->
+                                <!-- ko if: sortDirection() == sortDirections.desc -->
+                                @Resources.CreditExpiryDesc
+                                <!-- /ko -->
+                                <i class="cross-ico" data-bind="click: clearSort"></i>
+                            </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -299,7 +300,7 @@
                 <div class="main-table__block main-table__block--header">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon" data-bind="click:function(){allSelected(!allSelected())}">
+                            <label class="customized-checkbox-icon" data-bind="visible: !$data.IsInternal && $data.Id != 0">
                                 <input id="checkBox" type="checkbox" data-bind="checked: allSelected" />
                                 <span class="customized-checkbox-icon__image"></span>
                             </label>
@@ -408,9 +409,9 @@
                 <div class="main-table__block main-table__block--body">
                     <div class="main-table__block__row" data-bind="css:{ 'new-deal': $data.IsNewlyCreated,'expired-deal':$data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon" data-bind="if:!$data.IsInternal && $data.Id!=0">
-                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
-                                <span class="customized-checkbox-icon__image"></span>
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected, visible: !$data.IsInternal && $data.Id != 0" />
+                                <span class="customized-checkbox-icon__image" data-bind="visible: !$data.IsInternal && $data.Id != 0"></span>
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
@@ -660,7 +661,7 @@
 
                                 <div class="table-row-details__left__gear">
                                     <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
-                                    <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                                    <div class="table-row-settings-popup mobile" data-bind="css:{opened:$data.showActions}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                         <div class="table-row-settings-popup__edit">
                                             <i class="edit-contract-ico"></i>

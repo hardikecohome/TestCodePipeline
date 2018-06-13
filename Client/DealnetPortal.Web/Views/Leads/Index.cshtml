@@ -25,10 +25,11 @@
                             <span class="search-ico"></span>
                         </div>
                     </div>
-                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters, visible: showFilters() || showSorters()">
+                    <!-- ko if: showFilters -->
+                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
-                    <div class="filters-head__save-btn" data-bind="click: saveFilters, visible: showFilters() || showSorters()">
+                    <div class="filters-head__save-btn" data-bind="click: saveFilters">
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
@@ -42,6 +43,7 @@
                         </span>
                     </div>
                     <div class="filters-head__divider"></div>
+                    <!-- /ko -->
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
@@ -55,7 +57,7 @@
                         </span>
                         <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
                         <!-- ko if: showSorters -->
                         <span>
                             @Resources.Hide
