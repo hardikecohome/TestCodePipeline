@@ -72,13 +72,13 @@
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="postal-code">@Resources.PostalCode</label>
-                            <select data-bind="options:postalCodesOptions, selectric:postalCode"></select>
+                            <select id="postal-code" data-bind="options:postalCodesOptions, selectric:postalCode"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="pre-approved">@Resources.PreApprovedFor</label>
-                            <select data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
+                            <select id="pre-approved" data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
                         </div>
                     </div>
 
@@ -371,7 +371,6 @@
 
 @section Translations
 {
-    translations['NotSelected'] = "@Resources.NotSelected";
     translations['Search'] = "@Resources.Search";
     translations['Show'] = "@Resources.Show";
     translations['Entries'] = "@Resources.Entries";

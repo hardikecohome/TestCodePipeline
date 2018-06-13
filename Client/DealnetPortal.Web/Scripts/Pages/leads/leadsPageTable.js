@@ -2,14 +2,7 @@
 
     var Paginator = require('paginator');
 
-    var filterNull = require('tableFuncs').filterNull;
-
-    var mapValue = require('tableFuncs').mapValue;
-
-    var concatIfNotInArray = require('tableFuncs').concatIfNotInArray;
     var sortAscending = require('tableFuncs').sortAscending;
-
-    var sortDescending = require('tableFuncs').sortDescending;
 
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 

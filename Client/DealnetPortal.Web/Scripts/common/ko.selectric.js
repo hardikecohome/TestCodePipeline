@@ -46,7 +46,7 @@
         });
 
         if (ko.isObservable(options)) {
-            var subscription = options.subscribe(function () {
+            var subscription = options.subscribe(function (newValue) {
                 $el.val(observable());
                 $el.selectric('refresh');
             });
@@ -55,7 +55,7 @@
 };
 
 function appendNotSelected(sel) {
-    var emptyLi = sel.elements.items.find('li:empty');
+    var emptyLi = sel.elements.items.find('li:empty:not(.selectric-group-label)');
     if (emptyLi.length) {
         emptyLi.text(translations.NotSelected);
         emptyLi.addClass('not-selected');

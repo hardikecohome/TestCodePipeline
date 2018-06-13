@@ -83,19 +83,19 @@
                     <!-- ko if: showFilters -->
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.DealType</label>
-                            <select required data-bind="options:agreementOptions, selectric:agreementType"></select>
+                            <label for="agreement-type">@Resources.DealType</label>
+                            <select id="agreement-type" required data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">
+                            <label for="status">
                                 <span class="icon">
                                     <i class="info-ico info-ico--grey"></i>
                                 </span>
                                 @Resources.DealStatus
                             </label>
-                            <select data-bind="foreach:statusOptions, selectric:status">
+                            <select id="status" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
@@ -119,7 +119,7 @@
 
                     <div class="filters-advanced__created-by new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.AppCreatedBy</label>
+                            <label for="created-by">@Resources.AppCreatedBy</label>
                             <select id="created-by" data-bind="selectric: createdBy">
                                 <option value=""></option>
                                 <option value="true">@Resources.Customer</option>
@@ -130,8 +130,8 @@
 
                     <div class="filters-advanced__sales-rep new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.SalesRep</label>
-                            <select data-bind="options:salesRepOptions, selectric:salesRep"></select>
+                            <label for="sales-rep">@Resources.SalesRep</label>
+                            <select id="sales-rep" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
                     </div>
                     <!-- /ko -->
@@ -758,7 +758,6 @@
 
 @section Translations
 {
-    translations['NotSelected'] = "@Resources.NotSelected";
     translations['Time'] = "@Resources.Time";
     translations['Search'] = "@Resources.Search";
     translations['Edit'] = "@Resources.Edit";
