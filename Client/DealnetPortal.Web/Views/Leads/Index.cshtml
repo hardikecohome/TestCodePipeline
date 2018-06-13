@@ -16,6 +16,8 @@
                                 <!-- /ko -->
                             </a>*@
                     </div>
+                    <div class="filters-head" style="width: 100px;">
+                    </div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
                             <input type="text" name="search" required textInput: data-bind="textInput: search">
@@ -23,10 +25,10 @@
                             <span class="search-ico"></span>
                         </div>
                     </div>
-                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
+                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters, visible: showFilters() || showSorters()">
                         <span>@Resources.Clear</span>
                     </div>
-                    <div class="filters-head__save-btn" data-bind="click: saveFilters">
+                    <div class="filters-head__save-btn" data-bind="click: saveFilters, visible: showFilters() || showSorters()">
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
@@ -40,7 +42,7 @@
                         </span>
                     </div>
                     <div class="filters-head__divider"></div>
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide
