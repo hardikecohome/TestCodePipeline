@@ -1418,8 +1418,8 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
                     }
-                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                    
-                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;                    
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId > 0 ? ne.EquipmentSubTypeId : null;                    
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId > 0 ? ne.EquipmentTypeId : null;                    
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
                 }
             });
