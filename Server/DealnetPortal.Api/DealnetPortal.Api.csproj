@@ -271,7 +271,6 @@
     <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\DealerController.cs" />
     <Compile Include="Controllers\MortgageBrokerController.cs" />
-    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
