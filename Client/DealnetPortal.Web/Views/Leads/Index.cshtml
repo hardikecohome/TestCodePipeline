@@ -277,7 +277,7 @@
                         <div class="main-table__block__row__cell customer-comment">
                             <span data-bind="text: $data.CustomerComment"></span>
                         </div>
-                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id);}">
+                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
                             <span>+</span><span>@Resources.AcceptLead</span>
                         </div>
                         <div class="main-table__block__row__cell info" data-bind="event: { mouseover: function() {$data.showInfo(true) }, mouseout: function() {$data.showInfo(false) } }">
