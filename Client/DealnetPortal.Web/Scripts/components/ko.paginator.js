@@ -83,7 +83,7 @@
             var pageIndex = this.pageIndex();
             this.moveToPage({
                 pageNumber: pageIndex + 1,
-                disabled: pageIndex == this.maxPageIndex() - 1
+                disabled: pageIndex == this.maxPageIndex()
             });
         };
 
