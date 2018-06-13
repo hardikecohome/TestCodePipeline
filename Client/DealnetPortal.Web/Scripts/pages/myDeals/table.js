@@ -470,13 +470,13 @@
         $('body').on('click', (function (e) {
             var $el = $(e.target);
             var shown;
-            if (!$el.is('.table-row-settings-popup') && !$el.parents('.table-row-settings-popup').length && !$el.is('.gear-ico')) {
+            if (!$el.is('.table-row-settings-popup') && !$el.is('.gear-ico')) {
                 shown = this.list().find(function (item) {
                     return item.showActions();
                 });
                 shown && shown.showActions(false);
             }
-            if (!$el.is('.customer-comment-popup') && !$el.parents('.customer-comment-popup').length && !$el.is('.notes-ico')) {
+            if (!$el.is('.customer-comment-popup') && !$el.is('.notes-ico')) {
                 shown = this.list().find(function (item) {
                     return item.showNotes();
                 });

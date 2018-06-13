@@ -9,12 +9,10 @@
 {
     bool hasSelectedSub = Model != null && Model.NewEquipment != null && Model.NewEquipment[i].EquipmentSubType != null;
 
-    var subTypes = new List<SelectListItem>
-    {
-        new SelectListItem{ Text="",Value="",Selected=!hasSelectedSub }
-    };
+    var subTypes = new List<SelectListItem>();
     if (Model.NewEquipment[i]?.EquipmentType.SubTypes != null && Model.NewEquipment[i]?.EquipmentType.SubTypes.Count != 0)
     {
+        subTypes.Add(new SelectListItem { Text = "", Value = "", Selected = !hasSelectedSub });
         subTypes.AddRange(Model.NewEquipment[i]?.EquipmentType.SubTypes?.Select(sub => new SelectListItem
         {
             Text = sub.Description,
