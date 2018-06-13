@@ -7,6 +7,11 @@
         margin-left: auto;
         margin-right: auto;
 
+        .popup-info {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
         .main-table__entries-number {
             width: 20%;
             margin-left: auto;
@@ -17,6 +22,11 @@
         .main-table__block {
             display: flex;
             flex-direction: column;
+
+            &__divider {
+                border-top: 1px solid #e3eaf2;
+                height: 1px;
+            }
 
             &__row {
                 display: flex;
@@ -92,7 +102,7 @@
                 .main-table__block__row {
                     &__cell {
                         min-height: 38px;
-                        justify-content: center;
+                        //justify-content: center;
                         border: none;
                         font-size: 11px;
                         font-weight: bold;
@@ -104,6 +114,7 @@
                             @media @mobile {
                                 display: none;
                             }
+
                             display: flex;
                             flex-direction: column;
                             align-items: flex-start;

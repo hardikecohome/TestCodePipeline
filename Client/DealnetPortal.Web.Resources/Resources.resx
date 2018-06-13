@@ -1396,7 +1396,7 @@
     <comment>It's noun in plural</comment>
   </data>
   <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
-    <value>Selected lead was accepted by you. You can find it in {0} page (application #  {1}).</value>
+    <value>Selected lead was accepted. You can find it in {0} page application # {1}.</value>
     <comment>Context: Selected lead was accepted by you. You can find it in My Deals page (appliction #1234).</comment>
   </data>
   <data name="RequestedEquipmentService" xml:space="preserve">
@@ -1506,7 +1506,7 @@
     <value>Select category</value>
   </data>
   <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
-    <value>On acceptance of lead 1% fee will be applied to your account as a lead fee.</value>
+    <value>On acceptance of lead a 1% of pre-approved loan value will be applied to your account as a lead fee.</value>
   </data>
   <data name="AddressDetermined" xml:space="preserve">
     <value>Address to be determined</value>

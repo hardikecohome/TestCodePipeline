@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to On acceptance of lead 1% fee will be applied to your account as a lead fee..
+        ///   Looks up a localized string similar to On acceptance of lead a 1% of pre-approved loan value will be applied to your account as a lead fee..
         /// </summary>
         public static string AcceptanceOfLeadFeeAppliedToYourAccount {
             get {
@@ -4257,7 +4257,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected lead was accepted by you. You can find it in {0} page (application #  {1})..
+        ///   Looks up a localized string similar to Selected lead was accepted. You can find it in {0} page application # {1}..
         /// </summary>
         public static string LeadWasAcceptedYouCanFind {
             get {

@@ -241,11 +241,12 @@ table
                 display: flex;
                 font-size: 13px;
                 color: #5f5f5f;
-                padding: 0 5px; 
+                padding: 0 5px;
 
-                &.icon-cell{
+                &.icon-cell {
                     justify-content: center;
                 }
+
                 span, i {
                     align-self: center;
                 }
@@ -288,7 +289,7 @@ table
                 }
 
                 &.last-activity {
-                    flex-basis: 7%; 
+                    flex-basis: 7%;
                 }
 
                 &.loan-amount {
@@ -305,16 +306,16 @@ table
                 &.address {
                     flex-basis: 13%;
                 }
-                
+
                 &.email,
                 &.applicant-name {
                     /* For Firefox */
                     white-space: pre-wrap;
                     word-break: break-all;
-
                     /* For Chrome and IE */
                     word-wrap: break-word;
                 }
+
                 &.sales-rep,
                 &.entered-by {
                     flex-basis: 7%;
@@ -454,7 +455,6 @@ table
                             text-align: right;
                         }
                     }
-
                     /*&.sales-rep,
                     &.entered-by {
                         span {
@@ -470,26 +470,28 @@ table
                             text-align: left;
                         }
                     }*/
-
                     &.icon-cell-gear {
                         .table-row-settings-popup {
                             display: none;
-                            &.opened{
+
+                            &.opened {
                                 display: flex;
                                 position: absolute;
                                 margin-left: -67px;
-                                margin-right: 67px;                                
+                                margin-right: 67px;
                             }
                         }
                     }
+
                     &.icon-cell-notes {
-                        .customer-comment-popup{
+                        .customer-comment-popup {
                             display: none;
-                            &.opened{
+
+                            &.opened {
                                 display: flex;
                                 position: absolute;
                                 margin-left: -67px;
-                                margin-right: 67px;                                
+                                margin-right: 67px;
                             }
                         }
                     }
@@ -575,6 +577,7 @@ table
                 &__cell {
                     /*ctrl-k ctrl-c ctrl-k ctrl-u*/
                     word-break: normal;
+
                     &.deal-status {
                         flex-basis: 19%;
                     }
@@ -624,13 +627,14 @@ table
                     }
                 }
 
-               .table-row-details {
-                   &.opened{
+                .table-row-details {
+                    &.opened {
                         margin-top: 10px;
                         margin-bottom: 10px;
                         display: flex;
                         justify-content: space-around;
-                   }
+                    }
+
                     &__left,
                     &__right {
                         display: flex;
@@ -717,6 +721,7 @@ table
                 .main-table__block__row {
                     &__cell {
                         word-break: normal;
+
                         &.e-sign {
                             flex-basis: 19%;
                         }
@@ -747,6 +752,7 @@ table
                             flex-direction: column;
                         }
                     }
+
                 }
             }
 
@@ -841,7 +847,7 @@ table
                         flex-direction: row;
                         flex-wrap: wrap;
                     }
-                    
+
                     &__left,
                     &__right {
                         display: flex;
@@ -894,13 +900,14 @@ table
 
                         &__gear {
                             .table-row-settings-popup {
-                            display: none;
-                            &.opened{
-                                display: flex;
-                                position: absolute;
-                                margin-left: 100px;
+                                display: none;
+
+                                &.opened {
+                                    display: flex;
+                                    position: absolute;
+                                    margin-left: 100px;
+                                }
                             }
-                        }
                         }
                     }
                 }

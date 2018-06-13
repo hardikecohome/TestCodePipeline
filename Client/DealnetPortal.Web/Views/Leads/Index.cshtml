@@ -1,7 +1,7 @@
-﻿<div id="leads-body" data-bind="with: table">
+﻿<div id="leads-body" calss="leads-page" data-bind="with: table">
     <div class="margin-block">
         <div class="row">
-            <div class="filters my-deals-page leads-filters">
+            <div class="filters leads-filters">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.Leads</div>
                     <!-- ko if:  list().length > 0 -->
@@ -287,7 +287,7 @@
                             </span>
                             <div class="customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
                                 <span class="customer-comment-popup__title"></span>
-                                <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
+                                <span class="popup-info">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
                             </div>
                         </div>
                     </div>
@@ -315,7 +315,7 @@
                     </div>
                 </div>
                 <!-- /ko -->
-                <div class="main-table__block__row">
+                <div class="main-table__block main-table__block__divider">
                     <div class="main-table__entries-number new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="entries-number">@Resources.NumberOfEntries</label>

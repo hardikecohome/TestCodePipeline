@@ -2635,7 +2635,7 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unfortunately this lead is no longer available.
+        ///   Looks up a localized string similar to Unfortunately this lead is no longer available, please try another one.
         /// </summary>
         public static string UnfortunatelyThisLeadIsNoLongerAvailable {
             get {
