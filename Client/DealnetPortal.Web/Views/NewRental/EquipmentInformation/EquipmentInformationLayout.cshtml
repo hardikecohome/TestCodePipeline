@@ -3,9 +3,8 @@
 
 @{
     Layout = "~/Views/Shared/_NewLayout.cshtml";
-}
+    ViewBag.Title = Resources.NewApplication;
 
-@{
     if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
