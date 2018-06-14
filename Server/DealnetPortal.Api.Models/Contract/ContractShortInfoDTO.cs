@@ -44,6 +44,7 @@ namespace DealnetPortal.Api.Models.Contract
 
         public bool IsNewlyCreated { get; set; }
         public bool IsCreatedByCustomer { get; set; }
+        public bool IsLead { get; set; }
 
         public string ActionRequired { get; set; }
         /// <summary>

@@ -428,6 +428,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.SalesRep, s => s.UseValue(string.Empty))
                 .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
                 .ForMember(d => d.IsCreatedByCustomer, s => s.Ignore())
+                .ForMember(d => d.IsLead, s => s.Ignore())
                 .ForMember(d => d.ActionRequired, s => s.Ignore())
                 .ForMember(d => d.SearchDescription, s => s.ResolveUsing(src =>
                     src.EquipmentDescription ?? string.Empty));

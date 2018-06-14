@@ -133,6 +133,15 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 .ForMember(d => d.IsNewlyCreated, s => s.ResolveUsing(src => src.IsNewlyCreated ?? false))
                 .ForMember(d => d.IsCreatedByCustomer, s => s.ResolveUsing(src => src.IsCreatedByCustomer ?? false))
                 .ForMember(d => d.CreatedBy, s => s.ResolveUsing(src => src.Dealer?.UserName ?? src.CreateOperator))
+                .ForMember(d => d.IsLead, s => s.ResolveUsing((src, dest, destMember, resContext) =>
+                {
+                    if (src.IsCreatedByBroker == true)
+                    {
+                        return true;
+                    }
+                    var customerCreators = resContext.Items.ContainsKey(MappingKeys.CustomerCreators) ? resContext.Items[MappingKeys.CustomerCreators] as IList<string> : null;
+                    return customerCreators?.Any(cc => src.CreateOperator == cc) == true;
+                }))
                 .ForMember(d => d.ActionRequired, s => s.ResolveUsing((src, dest, destMember, resContext) =>
                 {
                     if (src.ContractState != ContractState.Completed)

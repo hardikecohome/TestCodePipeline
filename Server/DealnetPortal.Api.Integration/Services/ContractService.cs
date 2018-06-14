@@ -93,12 +93,14 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<TMapTo>();
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var equipments = _contractRepository.GetEquipmentTypes();
-            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
-            var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);
+            var customerCreators = _dealerRepository.GetUserNamesByRole(UserRole.CustomerCreator.ToString());
+            var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);            
             var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
                 opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
                 opts.Items.Add(MappingKeys.DocumentTypes, dealerDocumentTypes);
+                opts.Items.Add(MappingKeys.CustomerCreators, customerCreators);
             });
             contractDTOs.AddRange(mappedContracts);
             contractDTOs.AddRange(aspireDeals);
@@ -111,11 +113,13 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<TMapTo>();
             var contracts = _contractRepository.GetContracts(predicate, contractOwnerId);
             var equipments = _contractRepository.GetEquipmentTypes();
-            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);
+            var customerCreators = _dealerRepository.GetUserNamesByRole(UserRole.CustomerCreator.ToString());
             var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
                 opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
                 opts.Items.Add(MappingKeys.DocumentTypes, dealerDocumentTypes);
+                opts.Items.Add(MappingKeys.CustomerCreators, customerCreators);
             });
             contractDTOs.AddRange(mappedContracts);
             return contractDTOs;

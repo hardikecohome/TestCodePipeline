@@ -708,7 +708,7 @@ namespace DealnetPortal.Web.App_Start
 
                 }))
                 .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.CreatedBy))
-                .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
+                .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsLead))
                 .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
                 {
                     if(src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
