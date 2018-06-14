@@ -23,7 +23,6 @@
 	};
 
 
-	var equipmentTypes = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
 	var identity = (ClaimsIdentity)User.Identity;
 	var isEmcoDealer = identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
 	var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)) || isEmcoDealer;
