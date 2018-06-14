@@ -308,10 +308,7 @@ table
                 }
 
                 &.email,
-                &.applicant-name {
-                    /* For Firefox */
-                    white-space: pre-wrap;
-                    word-break: break-all;
+                &.applicant-name { 
                     /* For Chrome and IE */
                     word-wrap: break-word;
                 }
@@ -356,6 +353,10 @@ table
                     display: flex;
                     word-break: normal;
                     padding: 0 5px;
+                    
+                    &:lang(fr), &:lang(fr-CA) {
+                        word-break: break-word;                    
+                    }
 
                     &.contract-number,
                     &.deal-status,
@@ -920,4 +921,10 @@ table
     padding: 10px;
 }
 
-
+.ff .main-table__block__row__cell {
+    &.email, &.applicant-name{
+        /* For Firefox */
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+}
