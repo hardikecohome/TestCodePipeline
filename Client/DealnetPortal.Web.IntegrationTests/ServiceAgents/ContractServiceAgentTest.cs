@@ -175,11 +175,11 @@ namespace DealnetPortal.Web.IntegrationTests.ServiceAgents
             var updatedComment2Id = addResult.Item1;
 
             //Removing comments with replies
-            var removeAlerts = await contractServiceAgent.RemoveComment(updatedComment1Id.Value);
+            var removeAlerts = await contractServiceAgent.RemoveComment(contractResult.Item1.Id, updatedComment1Id.Value);
             Assert.IsNotNull(removeAlerts);
             Assert.IsTrue(removeAlerts.Any(x => x.Header == ErrorConstants.CommentUpdateFailed));
             //Removing comments without replies 
-            removeAlerts = await contractServiceAgent.RemoveComment(updatedComment2Id.Value);
+            removeAlerts = await contractServiceAgent.RemoveComment(contractResult.Item1.Id, updatedComment2Id.Value);
             Assert.IsNotNull(removeAlerts);
             Assert.IsTrue(removeAlerts.All(a => a.Type != AlertType.Error));
         }

@@ -312,5 +312,32 @@ namespace DealnetPortal.Api.Core.ApiClient
             var response = await Client.SendAsync(request, cancellationToken);                
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task<T> DeleteAsyncEx<T>(string requestUri, AuthenticationHeaderValue authenticationHeader = null,
+            string culture = null,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri(requestUri)
+            };
+            if (authenticationHeader != null)
+            {
+                request.Headers.Authorization = authenticationHeader;
+            }
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var filteredCulture = CultureHelper.FilterCulture(culture);
+                request.Headers.AcceptLanguage.Clear();
+                request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(filteredCulture));
+            }
+            var response = await Client.SendAsync(request, cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            if (response?.Content == null)
+                return default(T);
+            return await response.Content.ReadAsAsync<T>(cancellationToken);
+        }
     }
 }

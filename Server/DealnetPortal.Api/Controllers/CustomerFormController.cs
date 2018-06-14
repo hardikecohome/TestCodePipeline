@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
@@ -47,5 +48,81 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        // GET api/CustomerForm/Settings
+        [Route("Settings")]
+        public IHttpActionResult GetCustomerLinkSettings()
+        {
+            var linkSettings = _customerFormService.GetCustomerLinkSettings(LoggedInUser?.UserId);
+            if (linkSettings != null)
+            {
+                return Ok(linkSettings);
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        // GET api/CustomerForm/Settings/{dealer}
+        [Route("Settings/{dealer}")]
+        public IHttpActionResult GetCustomerLinkSettings(string dealer)
+        {
+            var linkSettings = _customerFormService.GetCustomerLinkSettingsByDealerName(dealer);
+            if (linkSettings != null)
+            {
+                return Ok(linkSettings);
+            }
+            return NotFound();
+        }
+
+        [Authorize]
+        [HttpPut]
+        // GET api/CustomerForm/Settings
+        [Route("Settings")]
+        public IHttpActionResult UpdateCustomerLinkSettings(CustomerLinkDTO customerLinkSettings)
+        {
+            try
+            {
+                var alerts = _customerFormService.UpdateCustomerLinkSettings(customerLinkSettings, LoggedInUser?.UserId);
+                return Ok(alerts);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [HttpGet]
+        // GET api/CustomerForm/LinkOptions/{hashDealerName}/{lang}
+        [Route("LinkOptions/{hashDealerName}/{lang}")]
+        public IHttpActionResult GetCustomerLinkLanguageOptions(string hashDealerName, string lang)
+        {
+            var linkSettings = _customerFormService.GetCustomerLinkLanguageOptions(hashDealerName, lang);
+            if (linkSettings != null)
+            {
+                return Ok(linkSettings);
+            }
+            return NotFound();
+        }
+
+
+        //POST: api/CustomerForm/ServiceRequest
+        [Route("ServiceRequest")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> SubmitCustomerServiceRequest(CustomerServiceRequestDTO customerServiceRequest)
+        {
+            try
+            {
+                var submitResult = await _customerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
     }
 }
