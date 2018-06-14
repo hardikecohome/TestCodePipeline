@@ -41,7 +41,7 @@
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
-                        <span class="save-btn-status">
+                        <span class="save-btn-status" data-bind="css:{saved:filtersSaved}">
                             <!-- ko if: filtersSaved -->
                             <i class="checked-ico"></i> @Resources.Saved
                             <!-- /ko -->
