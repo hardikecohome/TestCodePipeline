@@ -29,8 +29,7 @@
             <div class="filters my-deals-page">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    <!-- ko if:  list().length > 0 -->
-                    <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
+                    <div class="filters-head__learn-more"data-bind="visible: list().length > 0 @*click:function(){showLearnMore(!showLearnMore());}*@">
                         @* <i class="lamp-ico"></i>
                             <a>
                                 <!-- ko if: showLearnMore -->
@@ -41,22 +40,22 @@
                                 <!-- /ko -->
                             </a>*@
                     </div>
-                    <div class="filters-head__export-excel" data-bind="click: exportAll">
+                    <div class="filters-head__export-excel" data-bind="visible: list().length > 0, click: exportAll">
                         <i class="excel-ico"></i>
                         <a>@Resources.ExportAllToExcel</a>
                     </div>
-                    <div class="filters-head__search new-input-group">
+                    <div class="filters-head__search new-input-group" data-bind="visible: list().length > 0">
                         <div class="custom-text-input-group">
                             <input type="text" name="search" data-bind="textInput: search" required>
                             <label>@Resources.Search</label>
                             <span class="search-ico"></span>
                         </div>
                     </div>
-                    <!-- ko if: showFilters -->
-                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
+
+                    <div class="filters-head__clear-btn new-btn-grey" data-bind="visible: showFilters, click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
-                    <div class="filters-head__save-btn" data-bind="click: saveFilters">
+                    <div class="filters-head__save-btn" data-bind="visible: showFilters, click: saveFilters">
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
@@ -70,8 +69,8 @@
                         </span>
                     </div>
 
-                    <div class="filters-head__divider"></div>
-                    <!-- /ko -->
+                    <div class="filters-head__divider" data-bind="visible: showFilters"></div>
+
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
@@ -85,7 +84,7 @@
                         </span>
                         <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: list().length > 0 && !showFilters(), css:{'move-right':showSorters()}">
                         <!-- ko if: showSorters -->
                         <span>
                             @Resources.Hide
@@ -105,15 +104,17 @@
                     <div class="filters-type__tab" data-bind="css:{active:!showDetailedView()}, click:function(){showDetailedView(false)}">@Resources.DealInfo</div>
                     <div class="filters-type__tab" data-bind="css:{active:showDetailedView}, click:function(){showDetailedView(true)}">@Resources.DetailedInfo</div>
                 </div>
-                <div class="filters-advanced" data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
-                    <!-- ko if: showFilters -->
+                <div class="filters-advanced" 
+                     data-bind="css:{ 'detailed-mod':showDetailedView, 'deal-mod': !showDetailedView() }, visible: list().length > 0 && showFilters() || showSorters()"
+                     style="display:none;">
+
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.DealType</label>
                             <select name="project-type" id="agreement-type" data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
-                    <div class="filters-advanced__status new-input-group">
+                    <div class="filters-advanced__status new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">
                                 <span class="icon">
@@ -127,7 +128,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-from new-input-group">
+                    <div class="filters-advanced__date-from new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-text-input-group icon">
                             <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions:datePickerOptions">
                             <label>@Resources.DateFrom</label>
@@ -135,7 +136,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-to new-input-group">
+                    <div class="filters-advanced__date-to new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-text-input-group icon">
                             <input type="text" class="date-input" required data-bind="datePicker:dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
@@ -143,7 +144,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__deal-from new-input-group">
+                    <div class="filters-advanced__deal-from new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-text-input-group icon">
                             <input type="text" data-bind="value: valueFrom" required>
                             <label>@Resources.DealValueFrom</label>
@@ -151,7 +152,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__deal-to new-input-group">
+                    <div class="filters-advanced__deal-to new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-text-input-group icon">
                             <input type="text" data-bind="value: valueTo" required>
                             <label>@Resources.DealValueTo</label>
@@ -159,7 +160,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__created-by new-input-group">
+                    <div class="filters-advanced__created-by new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.AppCreatedBy</label>
                             <select id="created-by" data-bind="selectric: createdBy">
@@ -170,27 +171,27 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__sales-rep new-input-group">
+                    <div class="filters-advanced__sales-rep new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SalesRep</label>
                             <select id="sales-rep" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
                     </div>
 
-                    <div class="filters-advanced__payment-type new-input-group">
+                    <div class="filters-advanced__payment-type new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.TypeOfPayment</label>
                             <select id="sales-rep" data-bind="options: paymentTypeOptions, selectric: typeOfPayment"></select>
                         </div>
                     </div>
 
-                    <div class="filters-advanced__project new-input-group">
+                    <div class="filters-advanced__project new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="project-type">@Resources.TypeOfProject</label>
                             <select id="project-type" data-bind="options: equipmentOptions, selectric: equipment"></select>
                         </div>
                     </div>
-                    <!-- /ko -->
+
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
