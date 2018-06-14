@@ -51,7 +51,7 @@
                     </div>
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: list().length > 0 && !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide

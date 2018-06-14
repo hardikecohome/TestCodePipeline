@@ -367,7 +367,7 @@ module.exports('table', function (require) {
             this.pager.list(newValue);
         }, this);
 
-        $('body').on('click', (function (e) {
+        $('body').on('click touch', (function (e) {
             var $el = $(e.target);
             var shown;
             if (!$el.is('.table-row-settings-popup') && !$el.is('.gear-ico')) {
