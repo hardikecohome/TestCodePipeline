@@ -106,7 +106,8 @@
         var closeNotification = document.querySelector('.new-notification-wp .new-notification .close-white-ico');
         if (closeNotification) {
             closeNotification.addEventListener('click', function () {
-                this.parentElement.parentElement.remove();
+                var note = document.querySelector('.new-notification-wp');
+                note.parentElement.removeChild(note);
             });
         }
     }

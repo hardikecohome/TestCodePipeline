@@ -925,3 +925,18 @@
         margin-bottom: 15px;
     }
 }
+
+.ie {
+    .filters .filters-head__save-btn .save-btn-status {
+        right: 195px;
+        &.saved {
+            right: 210px;
+        }
+        @media @mobile {
+            right: 25%;
+            &.saved {
+                right: 27%;
+            }
+        }
+    }
+}

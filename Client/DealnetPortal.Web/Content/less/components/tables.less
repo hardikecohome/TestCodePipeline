@@ -928,3 +928,32 @@ table
         word-break: break-all;
     }
 }
+
+.ie {
+    .main-table__block--body .main-table__block__row__cell {
+        &.icon-cell-gear{
+            .opened{
+                &.table-row-settings-popup,
+                &.customer-comment-popup {
+                    margin-left: -150px;
+                }
+            }
+            
+        }
+    }
+    .info {
+        .customer-comment-popup {
+            margin-left: -290px;
+            .popup-info{
+                width: 232px;
+            }
+        }
+    }
+    .accept-lead-popup__buttons {
+        justify-content: flex-end;
+        margin-bottom: 32px;
+    }
+    .nw-placeholder {
+        padding-top: 150px;
+    }
+}
