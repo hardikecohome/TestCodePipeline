@@ -362,7 +362,7 @@
                                 <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
                                 <!-- /ko -->*@
                             <!-- ko ifnot: $data.Id -->
-                            <span data-bind="text: $data.TransactionId"></span>
+                            <a data-bind="text: $data.TransactionId"></a>
                             <!-- /ko -->
                             <!-- ko if: $data.Id -->
                             <a data-bind="attr: { href:$parent.editUrl($data.Id) }, text: $data.TransactionId "></a>
@@ -444,7 +444,7 @@
                             </span>
                             <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
-                                <div class="table-row-settings-popup__edit">
+                                <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                     <i class="edit-contract-ico"></i>
                                     <span>
                                         <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
@@ -592,7 +592,7 @@
                                     <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
                                     <div class="table-row-settings-popup mobile" data-bind="css:{opened:$data.showActions}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
-                                        <div class="table-row-settings-popup__edit">
+                                        <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                             <i class="edit-contract-ico"></i>
                                             <span>
                                                 <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
