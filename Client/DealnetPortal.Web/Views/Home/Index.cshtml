@@ -19,8 +19,7 @@
     <div class="margin-block">
         <div class="row">
             <div class="filters">
-                <!-- ko if: list().length > 0-->
-                <div class="filters-head">
+                <div class="filters-head" data-bind="visible: list().length > 0">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
                         @*<i class="lamp-ico"></i>
@@ -52,7 +51,7 @@
                     </div>
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: list().length > 0 && !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide
@@ -79,16 +78,16 @@
                         <!-- /ko -->
                     </div>
                 </div>
-                <!-- /ko -->
-                <div class="filters-advanced homepage-mod" data-bind="visible: showFilters() || showSorters()">
-                    <!-- ko if: showFilters -->
-                    <div class="filters-advanced__type new-input-group">
+
+                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
+
+                    <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="agreement-type">@Resources.DealType</label>
                             <select id="agreement-type" required data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
-                    <div class="filters-advanced__status new-input-group">
+                    <div class="filters-advanced__status new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="status">
                                 <span class="icon">
@@ -102,7 +101,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-from new-input-group">
+                    <div class="filters-advanced__date-from new-input-group" data-bind="visible: showFilters">
                         <div class="custom-text-input-group icon date-group">
                             <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateFrom</label>
@@ -110,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-to new-input-group">
+                    <div class="filters-advanced__date-to new-input-group" data-bind="visible: showFilters">
                         <div class="custom-text-input-group icon date-group">
                             <input type="text" class="date-input" required data-bind="datePicker: dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
@@ -118,7 +117,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__created-by new-input-group">
+                    <div class="filters-advanced__created-by new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="created-by">@Resources.AppCreatedBy</label>
                             <select id="created-by" data-bind="selectric: createdBy">
@@ -129,13 +128,13 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__sales-rep new-input-group">
+                    <div class="filters-advanced__sales-rep new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="sales-rep">@Resources.SalesRep</label>
                             <select id="sales-rep" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
                     </div>
-                    <!-- /ko -->
+
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
@@ -168,7 +167,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="filters-advanced__filters-cloud">
+                    <div class="filters-advanced__filters-cloud" data-bind="visible: showSorters">
                         <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.transactionId">
                             @Resources.ContractNumber -
                             <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->

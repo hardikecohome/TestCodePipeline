@@ -128,16 +128,16 @@
         this.paymentTypeOptions = ko.observableArray(filterAndSortList(data, 'PaymentType'));
         this.equipmentOptions = ko.observableArray(prepareEquipmentList(data));
 
-        this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
-        this.status = ko.observable(localStorage.getItem(filters.status) || '');
-        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
-        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
-        this.createdBy = ko.observable(localStorage.getItem(filters.createdBy) || '');
-        this.salesRep = ko.observable(localStorage.getItem(filters.salesRep) || '');
-        this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
-        this.typeOfPayment = ko.observable(localStorage.getItem(filters.typeOfPayment) || '');
-        this.valueFrom = ko.observable(localStorage.getItem(filters.valueFrom) || '');
-        this.valueTo = ko.observable(localStorage.getItem(filters.valueTo) || '');
+        this.agreementType = ko.observable('');
+        this.status = ko.observable('');
+        this.dateFrom = ko.observable('');
+        this.dateTo = ko.observable('');
+        this.createdBy = ko.observable('');
+        this.salesRep = ko.observable('');
+        this.equipment = ko.observable('');
+        this.typeOfPayment = ko.observable('');
+        this.valueFrom = ko.observable('');
+        this.valueTo = ko.observable('');
         this.search = ko.observable('');
         this.singleId = ko.observable('');
         this.sorter = ko.observable('');
@@ -237,6 +237,19 @@
         });
 
         // functions
+        function clearSavedFilters() {
+            localStorage.removeItem(filters.agreementType);
+            localStorage.removeItem(filters.status);
+            localStorage.removeItem(filters.dateFrom);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.createdBy);
+            localStorage.removeItem(filters.salesRep);
+            localStorage.removeItem(filters.equipment);
+            localStorage.removeItem(filters.typeOfPayment);
+            localStorage.removeItem(filters.valueFrom);
+            localStorage.removeItem(filters.valueTo);
+        }
+
         this.toggleFilters = function () {
             this.showSorters(false);
             this.showFilters(!this.showFilters());
@@ -278,16 +291,7 @@
             this.valueTo('');
             this.search('');
             this.filterList();
-            localStorage.removeItem(filters.agreementType);
-            localStorage.removeItem(filters.status);
-            localStorage.removeItem(filters.dateFrom);
-            localStorage.removeItem(filters.dateTo);
-            localStorage.removeItem(filters.createdBy);
-            localStorage.removeItem(filters.salesRep);
-            localStorage.removeItem(filters.equipment);
-            localStorage.removeItem(filters.typeOfPayment);
-            localStorage.removeItem(filters.valueFrom);
-            localStorage.removeItem(filters.valueTo);
+            clearSavedFilters();
         };
 
         this.clearSort = function () {
@@ -296,6 +300,7 @@
         };
 
         this.saveFilters = function () {
+            clearSavedFilters();
             this.agreementType() && localStorage.setItem(filters.agreementType, this.agreementType());
             this.status() && localStorage.setItem(filters.status, this.status());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
@@ -471,6 +476,18 @@
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
             this.paymentTypeOptions(filterAndSortList(newValue, 'PaymentType'));
             this.equipmentOptions(prepareEquipmentList(newValue));
+
+            this.agreementType(localStorage.getItem(filters.agreementType) || '');
+            this.status(localStorage.getItem(filters.status) || '');
+            this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
+            this.dateTo(localStorage.getItem(filters.dateTo) || '');
+            this.createdBy(localStorage.getItem(filters.createdBy) || '');
+            this.salesRep(localStorage.getItem(filters.salesRep) || '');
+            this.equipment(localStorage.getItem(filters.equipment) || '');
+            this.typeOfPayment(localStorage.getItem(filters.typeOfPayment) || '');
+            this.valueFrom(localStorage.getItem(filters.valueFrom) || '');
+            this.valueTo(localStorage.getItem(filters.valueTo) || '');
+
             this.filterList();
         }, this);
 
@@ -478,7 +495,7 @@
             this.pager.list(newValue);
         }, this);
 
-        $('body').on('click', (function (e) {
+        $('body').on('click touch', (function (e) {
             var $el = $(e.target);
             var shown;
             if (!$el.is('.table-row-settings-popup') && !$el.is('.gear-ico')) {
