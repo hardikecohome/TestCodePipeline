@@ -527,17 +527,17 @@ namespace DealnetPortal.Api.Integration.Services
             string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
             switch (SupportDetails.SupportType)
             {
-                case SupportTypeEnum.creditDecision:
+                case SupportType.creditDecision:
 
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
                     break;
-                case SupportTypeEnum.dealerProfileUpdate:
-                case SupportTypeEnum.portalInquiries:
-                case SupportTypeEnum.programInquiries:
+                case SupportType.dealerProfileUpdate:
+                case SupportType.portalInquiries:
+                case SupportType.programInquiries:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDocsDealNetEmail"] : ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
                     break;
-                case SupportTypeEnum.pendingDeals:
-                case SupportTypeEnum.fundedDeals:
+                case SupportType.pendingDeals:
+                case SupportType.fundedDeals:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecFundingDocsDealNetEmail"] : ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
                     break;
                 default:

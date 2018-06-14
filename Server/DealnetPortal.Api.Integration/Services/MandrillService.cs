@@ -340,18 +340,25 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email)
         {
-            string BestWay = "";
-            BestWay = $"<strong> { SupportDetails.BestWay.GetEnumDescription() } : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
+            string BestWay = string.Empty;
+            if (SupportDetails.BestWay == "Phone")
+            {
+                BestWay = $"<strong>Phone : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
+            }
+            else if (SupportDetails.BestWay == "Email")
+            {
+                BestWay = $"<strong>Email: </strong> { SupportDetails.ContactDetails ?? string.Empty}";
+            }
             var supportTypeDescription = SupportDetails.SupportType.GetEnumDescription();
-            
+
             MandrillRequest request = new MandrillRequest();
             List<Variable> myVariables = new List<Variable>();
-            myVariables.Add(new Variable() { name = "RequestType", content = supportTypeDescription ?? "Not provided" });
-            myVariables.Add(new Variable() { name = "DealerName", content = SupportDetails.DealerName });
-            myVariables.Add(new Variable() { name = "YourName", content = SupportDetails.YourName });
-            myVariables.Add(new Variable() { name = "LoanNumber", content = SupportDetails.LoanNumber ?? "Not provided" });
-            myVariables.Add(new Variable() { name = "HelpRequested", content = SupportDetails.HelpRequested ?? "Not provided"});
-            myVariables.Add(new Variable() { name = "BestWay", content = BestWay ?? "Not Provided"});
+            myVariables.Add(new Variable { name = "RequestType", content = supportTypeDescription ?? "Not provided" });
+            myVariables.Add(new Variable { name = "DealerName", content = SupportDetails.DealerName });
+            myVariables.Add(new Variable { name = "YourName", content = SupportDetails.YourName });
+            myVariables.Add(new Variable { name = "LoanNumber", content = SupportDetails.LoanNumber ?? "Not provided" });
+            myVariables.Add(new Variable { name = "HelpRequested", content = SupportDetails.HelpRequested ?? "Not provided" });
+            myVariables.Add(new Variable { name = "BestWay", content = string.IsNullOrEmpty(BestWay) ? BestWay : "Not Provided" });
             request.key = _apiKey;
             request.template_name = ConfigurationManager.AppSettings["SupportRequestTemplate"];
             request.template_content = new List<templatecontent>

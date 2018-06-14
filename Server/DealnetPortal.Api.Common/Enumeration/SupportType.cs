@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 namespace DealnetPortal.Api.Common.Enumeration
 {
-    public enum SupportTypeEnum
+    public enum SupportType
     {
         [Display(ResourceType = typeof(Resources.Resources), Name = "DealerProfileUpdate")]
         dealerProfileUpdate = 0,
