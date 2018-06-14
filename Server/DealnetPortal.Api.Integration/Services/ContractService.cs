@@ -157,26 +157,32 @@ namespace DealnetPortal.Api.Integration.Services
                         (contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount) ? 
                         creditReport.CreditAmount : contract.Details.CreditAmount;
                     _unitOfWork.Save();
-                }
-                // for mapping
-                if (contract.PrimaryCustomer.CreditReport == null)
-                {
-                    contract.PrimaryCustomer.CreditReport = new CustomerCreditReport();
-                }
+                }               
             }          
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
                 (contract.Signers?.Any() == false || string.IsNullOrEmpty(contract.Details.SignatureStatusQualifier)))
             {
                 _documentService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
-            }            
+            }
+            var creditAmount =
+                _rateCardsRepository.GetCreditAmountSetting(contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0);
             var contractDTO = Mapper.Map<ContractDTO>(contract, ctx =>
                 {
                     ctx.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
-                    ctx.Items.Add(MappingKeys.CreditAmount, _rateCardsRepository.GetCreditAmountSetting(contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0));
+                    ctx.Items.Add(MappingKeys.CreditAmount, creditAmount);
                 });
-            if (contractDTO?.PrimaryCustomer?.CreditReport != null)
+            if (contractDTO?.PrimaryCustomer != null)
             {
+                if (contractDTO.PrimaryCustomer.CreditReport == null)
+                {
+                    contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO()
+                    {
+                        CreditAmount = creditAmount.CreditAmount,
+                        EscalatedLimit = creditAmount.EscalatedLimit,
+                        NonEscalatedLimit = creditAmount.NonEscalatedLimit
+                    };
+                }
                 contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
             }            
             return contractDTO;
