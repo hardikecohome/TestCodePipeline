@@ -20,9 +20,12 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -616,6 +619,7 @@
     <Content Include="Content\images\redesign_icons\sort-arrow-top-green.svg" />
     <Content Include="Content\images\redesign_icons\sort-arrow-top-grey.svg" />
     <Content Include="Content\images\redesign_icons\sort-button-red.svg" />
+    <Content Include="Content\images\redesign_icons\success-message-s.svg" />
     <Content Include="Content\images\redesign_icons\upload-cloud.svg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
