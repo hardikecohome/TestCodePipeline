@@ -421,6 +421,17 @@
             sendEmailModel(id);
         };
 
+        this.openSignaturePopup = function (deal) {
+            var id = deal.Id;
+            $.ajax({
+                method: 'GET',
+                url: contractSignatureStatusUrl + '?contractId=' + id,
+            }).done(function (data) {
+                $('#signature-body').html(data);
+                $('#contract-signature-modal').modal();
+            });
+        };
+
         this.removeContract = function (id) {
             dynamicAlertModal({
                 message: translations['AreYouSureYouWantToRemoveThisApplication'] + '?',
