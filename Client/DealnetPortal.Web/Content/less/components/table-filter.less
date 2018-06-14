@@ -926,7 +926,7 @@
     }
 }
 
-.ie, .ios-device {
+.ie {
     .filters .filters-head__save-btn .save-btn-status {
         right: 195px;
         &.saved {
@@ -938,5 +938,46 @@
                 right: 27%;
             }
         }
+    }
+    .leads-page {
+        .filters .filters-head__save-btn .save-btn-status {
+            right: 515px;
+            &.saved {
+                right: 530px;
+            }
+            @media @tablet-down {
+                right: 25%;
+                &.saved {
+                    right: 27%;
+                }
+            }
+        }
+    }
+}
+
+.ios-device {
+	.filters .filters-head__save-btn .save-btn-status {
+        right: 195px;
+        &.saved {
+            right: 210px;
+        }
+    }
+
+	.my-deals .filters .filters-head__save-btn .save-btn-status {
+        @media @tablet-down{
+            right: 50px;
+            &.saved {
+                right: 65px;
+            }
+		}
+    }
+
+	.leads-page .filters .filters-head__save-btn .save-btn-status {
+        @media @tablet-down{
+            right: 165px;
+            &.saved {
+                right: 180px;
+            }
+		}
     }
 }
