@@ -5049,7 +5049,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You don&apos;t have any leads yet. 
+        ///   Looks up a localized string similar to You don&apos;t have any leads yet. &lt;br/&gt;
         ///On this page we will present you leads from actual clients from your neighborhood interested in home improvements you offer..
         /// </summary>
         public static string NoLeadsFirstPart {
@@ -5068,7 +5068,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you need help please visit {0} to view manual or contact dealer support {1}.
+        ///   Looks up a localized string similar to If you need help please visit {0} to view manual or {1}.
         /// </summary>
         public static string NoLeadsThirdPart {
             get {

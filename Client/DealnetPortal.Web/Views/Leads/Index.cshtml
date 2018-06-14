@@ -366,15 +366,15 @@
     </div>
 
     <div class="nw-placeholder" data-bind="visible: list().length < 1">
-        <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
+        <i class="nw-placeholder__icon leads-placeholder-ico"></i>
         <p>
-            @Resources.NoLeadsFirstPart
+            @Html.Raw(Resources.NoLeadsFirstPart)
         </p>
         <p>
             @Html.Raw(Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
         </p>
         <p>
-           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", Resources.ContactDealerSupport))
+           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", "<a onclick='sendEmailModel()'>" + Resources.ContactDealerSupport) + "</a>")
         </p>
     </div>
 </div>
