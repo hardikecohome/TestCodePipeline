@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
+using System.Security.Claims;
+using DealnetPortal.Web.Common.Constants;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -30,7 +32,20 @@ namespace DealnetPortal.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Contract(int id)
         {
-            return View(await _contractManager.GetContractAsync(id));
+            var contract = await _contractManager.GetContractAsync(id);
+            var identity = (ClaimsIdentity)User.Identity;
+            var isEmcoDealer = identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
+            ViewBag.LeaseProgramDisplayMessage = "";
+            if (contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation35)
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithEscalatedPayments : Resources.Resources.Escalation_35;
+            }
+            else if ((contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation0))
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithoutEscalatedPayments : Resources.Resources.Escalation_0;
+            }
+
+            return View(contract);
         }
 
         [HttpPost]

@@ -19,6 +19,7 @@ using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
 using DealnetPortal.Api.Common.Helpers;
+using AutoMapper;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -182,18 +183,8 @@ namespace DealnetPortal.Web.Controllers
         [HttpPost]
         public async Task<string> DealerSupportRequestEmail(HelpPopUpViewModal dealerSupportRequest)
         {
-            SupportRequestDTO dealerSupport = new SupportRequestDTO
-            {
-                Id = dealerSupportRequest.Id,
-                DealerName = dealerSupportRequest.DealerName,
-                YourName = dealerSupportRequest.IsPreferedContactPerson ? dealerSupportRequest.PreferedContactPerson : dealerSupportRequest.YourName,
-                LoanNumber = dealerSupportRequest.LoanNumber,
-                SupportType = dealerSupportRequest.SupportType.ToString(),
-                HelpRequested = dealerSupportRequest.HelpRequested,
-                BestWay = dealerSupportRequest.BestWayToContact.ToString(),
-                ContactDetails = dealerSupportRequest.BestWayToContact == PreferredContactType.Phone ? dealerSupportRequest.Phone : dealerSupportRequest.Email
-            };
-            await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
+            var dealerSupport = Mapper.Map<SupportRequestDTO>(dealerSupportRequest);
+            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
             return "ok";
         }
     }

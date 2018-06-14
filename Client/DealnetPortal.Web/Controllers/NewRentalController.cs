@@ -271,7 +271,7 @@ namespace DealnetPortal.Web.Controllers
             }
             ViewBag.AdminFee = 0;
             var identity = (ClaimsIdentity)User.Identity;
-            ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
+            ViewBag.IsStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)) || identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
             ViewBag.IsQuebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
 	        ViewBag.AgreementTypeAccessRights = identity.FindFirst(ClaimNames.AgreementType)?.Value.ToLower() ?? string.Empty;
             var hidePreApprovalAmountsForLeaseDealers = false;

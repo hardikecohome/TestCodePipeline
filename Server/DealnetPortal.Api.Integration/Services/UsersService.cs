@@ -58,7 +58,8 @@ namespace DealnetPortal.Api.Integration.Services
                 claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
                 claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
                 claims.Add(new Claim(ClaimNames.MortgageBroker, (aspireUserInfo.Role != null && mbConfigRoles.Contains(aspireUserInfo.Role)).ToString()));
-                claims.Add(new Claim(ClaimNames.LeaseTier, user.LeaseTier));                
+                claims.Add(new Claim(ClaimNames.LeaseTier, user.LeaseTier));
+                claims.Add(new Claim(ClaimNames.IsEmcoDealer, (!string.IsNullOrEmpty(user.LeaseTier) && user.LeaseTier.ToLower() == _сonfiguration.GetSetting(WebConfigKeys.EMCO_LEASE_TIER_NAME).ToString().ToLower()).ToString()));
             }
             if (!string.IsNullOrEmpty(user.DealerType))
             {

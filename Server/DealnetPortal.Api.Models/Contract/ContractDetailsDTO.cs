@@ -32,5 +32,7 @@ namespace DealnetPortal.Api.Models.Contract
         public decimal? CreditAmount { get; set; }
 
         public string Notes { get; set; }
+
+        public string OverrideCustomerRiskGroup { get; set; }
     }
 }

@@ -16,10 +16,9 @@
  
                 ISNULL(CTYPE.data_value,'') AS [Contract_Type_Code],
                 ISNULL(ENTTY.entt_id,'') AS [Customer ID],           
-                
-                               
-                                                             ISNULL(ContractTerm.Term,0)     as [Term]
-                                            
+                ISNULL(ContractTerm.Term,0)     as [Term]
+				,cast(Credit_limit.[Value] as decimal(10,2)) as OverrideCreditAmountLimit
+                , Credit_RiskGroup.[Value] as OverrideCustomerRiskGroup                      
                   FROM Contract  (NOLOCK)
                                               LEFT JOIN ContractTerm (NOLOCK)
                                                              ON ContractTerm.ContractOid = Contract.ContractOid
@@ -81,7 +80,11 @@
                                                              ON AllPurposeOfFinance.oid = AllContractPurposeOfFinance.PurposeOfFinanceTypeOid
                     LEFT JOIN dbo.DocGenConContractTaxRatesAndAmounts (NOLOCK) DGTaxRates
                       ON DGTaxRates.ContractOid = Contract.ContractOid
- 
+
+					  LEFT JOIN dbo.[DocGenConCreditUDF-OverrideCreditAmountLimit] (NOLOCK) credit_limit ON  credit_limit.ContractOid = Contract.ContractOid
+
+   LEFT JOIN dbo.[DocGenConCreditUDF-OverrideCustomerRiskGroup] (NOLOCK) Credit_RiskGroup ON  Credit_RiskGroup.ContractOid = Contract.ContractOid
+
                                LEFT JOIN ChildEntity (NOLOCK) CHILD1
                 ON CHILD1.ref_oid = Contract.ContractOid 
                 INNER JOIN ROLE (NOLOCK) RL ON CHILD1.role_oid = RL.oid  AND CHILD1.role_type = RL.role_type  

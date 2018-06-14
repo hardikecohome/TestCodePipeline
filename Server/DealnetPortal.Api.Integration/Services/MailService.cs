@@ -527,19 +527,20 @@ namespace DealnetPortal.Api.Integration.Services
             string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
             switch (SupportDetails.SupportType)
             {
-                case "creditFunding":
-                    mailTo = dealerProvince=="QC" ?  ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
-                    SupportDetails.SupportType = "Credit Decision";
+                case SupportTypeEnum.creditDecision:
+
+                    mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
                     break;
-                case "customerService":
+                case SupportTypeEnum.dealerProfileUpdate:
+                case SupportTypeEnum.portalInquiries:
+                case SupportTypeEnum.programInquiries:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDocsDealNetEmail"] : ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
-                    SupportDetails.SupportType = "Credit Docs";
                     break;
-                case "dealerSupport":
+                case SupportTypeEnum.pendingDeals:
+                case SupportTypeEnum.fundedDeals:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecFundingDocsDealNetEmail"] : ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
-                    SupportDetails.SupportType = "Funding Docs";
                     break;
-                case "Other":
+                default:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecOtherDealNetEmail"] : ConfigurationManager.AppSettings["OtherDealNetEmail"];
                     break;
             }
