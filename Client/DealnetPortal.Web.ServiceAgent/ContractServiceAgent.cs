@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
@@ -501,21 +500,6 @@ namespace DealnetPortal.Web.ServiceAgent
 			catch (Exception ex)
 			{
 				_loggingService.LogError("Can't remove comment to contract", ex);
-				throw;
-			}
-		}
-
-		public async Task<IList<Alert>> CheckCustomerExisting(string email)
-		{
-			try
-			{
-				return
-					await
-						Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/CheckCustomerExisting?email={WebUtility.UrlEncode(email)}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				_loggingService.LogError("Can't remove contract", ex);
 				throw;
 			}
 		}

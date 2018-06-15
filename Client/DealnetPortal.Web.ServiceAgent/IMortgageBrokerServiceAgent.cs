@@ -10,5 +10,7 @@ namespace DealnetPortal.Web.ServiceAgent
     {
         Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm);
         Task<IList<ContractDTO>> GetCreatedContracts();
+
+        Task<IList<Alert>> CheckCustomerExisting(string email);
     }
 }
