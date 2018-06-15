@@ -53,19 +53,23 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return basicInfo;
         }
 
-        public async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId)
+        public async Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId, ContractDTO contract = null)
         {
             var contactAndPaymentInfo = new ContactAndPaymentInfoViewModel();
-            var contractResult = await _contractServiceAgent.GetContract(contractId);
-            if(contractResult.Item1 == null)
+            if (contract == null)
             {
-                return contactAndPaymentInfo;
+                var contractResult = await _contractServiceAgent.GetContract(contractId);
+                if (contractResult?.Item1 == null)
+                {
+                    return contactAndPaymentInfo;
+                }
+                contract = contractResult.Item1;
             }
 
-            contactAndPaymentInfo.ContractId = contractResult.Item1.Id;
-            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contractResult.Item1.ContractState <= Api.Common.Enumeration.ContractState.Completed;
+            contactAndPaymentInfo.ContractId = contract.Id;
+            contactAndPaymentInfo.IsApplicantsInfoEditAvailable = contract.ContractState <= Api.Common.Enumeration.ContractState.Completed;
 
-            MapContactAndPaymentInfo(contactAndPaymentInfo, contractResult.Item1);
+            MapContactAndPaymentInfo(contactAndPaymentInfo, contract);
 
             return contactAndPaymentInfo;
         }

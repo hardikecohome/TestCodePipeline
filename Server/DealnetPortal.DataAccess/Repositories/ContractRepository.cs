@@ -1370,8 +1370,6 @@ namespace DealnetPortal.DataAccess.Repositories
             dbEquipment.RateReduction = equipmentInfo.RateReduction;
             dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
 		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
-
-            return;
         }
 
         private bool AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)

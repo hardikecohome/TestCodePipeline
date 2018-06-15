@@ -339,7 +339,7 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
-            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
+            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId, contract.Item1));
         }
 
         [HttpPost]

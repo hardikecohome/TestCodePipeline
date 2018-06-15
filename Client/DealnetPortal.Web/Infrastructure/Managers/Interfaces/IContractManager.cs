@@ -16,7 +16,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 
         Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId);
 
-        Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId);
+        Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId, ContractDTO contract = null);
 
         Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId, ContractDTO contract = null);
 
