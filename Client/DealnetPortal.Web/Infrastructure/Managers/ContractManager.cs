@@ -847,28 +847,29 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return new Tuple<int?, IList<Alert>>(newContractId, alerts);
         }
 
-        public async Task<bool> CheckRateCard(int contractId, int? rateCardId)
+        public async Task<bool> CheckRateCard(int contractId, int? rateCardId, ContractDTO contract = null)
         {
-            Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.GetContract(contractId);
-            var dealerTier = await _dictionaryServiceAgent.GetDealerTier(contractId);
-
-            if(result.Item1.Equipment == null)
+            var contractResult = contract ?? (await _contractServiceAgent.GetContract(contractId))?.Item1;
+            
+            if(contractResult?.Equipment == null)
             {
                 return true;
             }
-            if(rateCardId.HasValue)
+            var dealerTier = await _dictionaryServiceAgent.GetDealerTier(contractId);
+
+            if (rateCardId.HasValue)
             {
                 if(rateCardId.Value == 0)
                 {
                     return true;
                 }
-                return result.Item1.Equipment != null &&
-                       (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ||
+                return contractResult.Equipment != null &&
+                       (!contractResult.Equipment.RateCardId.HasValue || contractResult.Equipment.RateCardId.Value == 0 ||
                         dealerTier.RateCards.Any(x => x.Id == rateCardId.Value));
             }
-            return result.Item1.Equipment != null &&
-                   (!result.Item1.Equipment.RateCardId.HasValue || result.Item1.Equipment.RateCardId.Value == 0 ||
-                    dealerTier.RateCards.Any(x => x.Id == result.Item1.Equipment.RateCardId.Value));
+            return contractResult.Equipment != null &&
+                   (!contractResult.Equipment.RateCardId.HasValue || contractResult.Equipment.RateCardId.Value == 0 ||
+                    dealerTier.RateCards.Any(x => x.Id == contractResult.Equipment.RateCardId.Value));
         }
 
         private async Task MapSummary(SummaryAndConfirmationViewModel summary, ContractDTO contract, int contractId)

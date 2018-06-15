@@ -43,7 +43,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 
 	    Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync();
 
-        Task<bool> CheckRateCard(int contractId, int? rateCardId);
+        Task<bool> CheckRateCard(int contractId, int? rateCardId, ContractDTO contract = null);
         Task<ESignatureViewModel> GetContractSignatureStatus(int contractId);
     }
 }
