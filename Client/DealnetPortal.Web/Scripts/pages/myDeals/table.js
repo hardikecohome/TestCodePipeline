@@ -497,19 +497,13 @@
 
         $('body').on('click touch', (function (e) {
             var $el = $(e.target);
-            var shown;
-            if (!$el.is('.table-row-settings-popup') && !$el.is('.gear-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showActions();
-                });
-                shown && shown.showActions(false);
-            }
-            if (!$el.is('.customer-comment-popup') && !$el.is('.notes-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showNotes();
-                });
-                shown && shown.showNotes(false);
-            }
+            var noteId = $el.data('notes');
+            var actionId = $el.data('action');
+
+            this.list().forEach(function (item) {
+                item.Id != noteId && item.showNotes(false);
+                item.Id != actionId && item.showActions(false);
+            });
         }).bind(this));
     };
 

@@ -91,6 +91,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                     }
                     return string.Empty;
                 }))
+                .ForMember(x=>x.ContractNotes, d=>d.ResolveUsing(src=>src.Details?.Notes))
                 .ForMember(d => d.CustomerComments, s => s.Ignore())
                 .ForMember(d => d.LastUpdateTime, s => s.ResolveUsing(src => src.LastUpdateTime ?? src.CreationTime))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing((src, dest, destMember, resContext) =>
