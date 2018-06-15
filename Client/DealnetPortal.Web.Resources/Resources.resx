@@ -244,10 +244,10 @@
     <value>Existing Equipment Information</value>
   </data>
   <data name="ExportAllToExcel" xml:space="preserve">
-    <value>Export all to Excel</value>
+    <value>Export all to excel</value>
   </data>
   <data name="ExportToExcel" xml:space="preserve">
-    <value>Export to Excel</value>
+    <value>Export to excel</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>

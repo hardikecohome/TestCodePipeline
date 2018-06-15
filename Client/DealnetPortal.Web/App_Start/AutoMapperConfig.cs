@@ -627,7 +627,7 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
                 .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
                 {
-                    if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                    if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && (src.Equipment?.ValueOfDeal.HasValue ?? false))
                     {
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }

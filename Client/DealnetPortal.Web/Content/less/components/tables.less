@@ -443,7 +443,7 @@ table
 
                         .contract-number__link {
                             color: #5f5f5f;
-                            text-align: left;
+                            align-self: flex-start;
                         }
                     }
 
@@ -512,12 +512,10 @@ table
             .main-table__block__row {
                 display: flex;
 
-
                 &__grand-total,
                 &__grand-total-value,
                 &__entries-number {
                 }
-
                 &__grand-total {
                     align-self: flex-end;
                     font-weight: bold;
@@ -542,19 +540,36 @@ table
                     }
                 }
 
-                &__entries-number {
-                    position: relative;
+                        &__entries-number {
+            width: 15%;
+            margin-left: auto;
+            position: relative;
+        }
+
+                &__btns{
+                    display: flex;
+                    justify-content: flex-end;
                     margin-left: auto;
-                    top: 13px;
-                    max-width: 200px;
-                    flex-basis: 56%;
+                    margin-right: 24px; 
+                    flex: auto;
+                
+                    &__export,
+                    &__preview {
+                        position: relative;
+                        margin-left: 24px;
+                        flex-basis: 25%;
+                        .btn {
+                            margin-top: 8px; 
+                            width: 100%;
+                        }
+                    }
                 }
             }
         }
     }
 
     @media @tablet-only {
-        &__entries-number {
+                &__entries-number {
             width: 20%;
             margin-left: auto;
             position: relative;
@@ -572,10 +587,19 @@ table
                     &__grand-total-value {
                         flex-basis: 14%;
                     }
+                    &__btns{
+                        position: fixed;
+                        bottom: 0px;
+                        justify-content: center;
+                        box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+                        width: 100%;
 
-                    &__entries-number {
-                        flex-basis: 19%;
+                    &__export,
+                    &__preview {
+                        margin-bottom: 17px;
+                        margin-top: 13px;
                     }
+                }
                 }
             }
 
@@ -715,12 +739,16 @@ table
     }
 
     @media @mobile {
-        &__entries-number {
+        &__btns{
+        &__entries-number,
+                    &__export,
+                    &__preview  {
             width: 20%;
             margin-left: auto;
             position: relative;
             top: -64px;
         }
+    }
 
         &__block {
             &--header {
@@ -778,6 +806,20 @@ table
                         flex-basis: 100%;
                         max-width: 100%;
                     }
+                    &__btns {
+                        position: fixed;
+                        bottom: 0px;
+                        justify-content: space-evenly;
+                        box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+                        width: 100%;
+
+                    &__export,
+                    &__preview {
+                        margin-bottom: 75px;
+                        margin-top: 13px;
+                        flex-basis: 40%
+                    }
+                }
                 }
             }
 

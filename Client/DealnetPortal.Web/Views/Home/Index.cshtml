@@ -637,27 +637,23 @@
                             <span class="main-table__block__row__grand-total-value__total-container">$ <span data-bind="text: selectedTotal"></span></span>
                             <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
-                        <div class="main-table__block__row__entries-number new-input-group">
-                            <div class="custom-select-wrap custom-select-float-label">
-                                <label for="entries-number">@Resources.NumberOfEntries</label>
-                                <select name="entries-number"
-                                        id="entries-number"
-                                        data-bind="options: pager.pageSizes, selectric:pager.pageSize"></select>
+                        <div class="main-table__block__row__btns">
+                            <div class="main-table__block__row__btns__export"  data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+                                <button class="btn btn-green" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
                             </div>
+                            <div class="main-table__block__row__btns__preview" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+                                <div class="btn btn-green" data-bind="click: previewContracts">@Resources.Preview</div>
+                            </div>
+
                         </div>
+                            <div class="main-table__block__row__entries-number new-input-group">
+                                <div class="custom-select-wrap custom-select-float-label">
+                                    <label for="entries-number">@Resources.NumberOfEntries</label>
+                                    <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
+                                </div>
+                            </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="margin-block table-btns" data-bind="visible: selectedIds().length > 0" style="display:none;">
-        <div class="row">
-            <div class="col-md-3">
-                <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-green col-xs-12" data-bind="click: previewContracts">@Resources.Preview</button>
             </div>
         </div>
     </div>

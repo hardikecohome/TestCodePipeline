@@ -3303,7 +3303,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export all to Excel.
+        ///   Looks up a localized string similar to Export all to excel.
         /// </summary>
         public static string ExportAllToExcel {
             get {
@@ -3312,7 +3312,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to Excel.
+        ///   Looks up a localized string similar to Export to excel.
         /// </summary>
         public static string ExportToExcel {
             get {
