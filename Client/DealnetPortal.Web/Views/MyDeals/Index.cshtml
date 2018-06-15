@@ -423,7 +423,7 @@
                                 <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
                                 <!-- /ko -->*@
                             <!-- ko ifnot: $data.Id -->
-                            <a data-bind="text: $data.TransactionId"></a>
+                            <span class="contract-number__link" data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
                             <!-- ko if: $data.Id -->
                             <a data-bind="attr: { href: $parent.editUrl($data.Id) }, text: $data.TransactionId "></a>
