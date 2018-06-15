@@ -143,7 +143,7 @@ module.exports('table', function (require) {
         }, this);
 
         this.selectedTotal = ko.computed(function () {
-            return this.pager.pagedList().reduce(function (sum, curr) {
+            return this.filteredList().reduce(function (sum, curr) {
                 return curr.isSelected() ?
                     sum + curr.valueNum || 0 :
                     sum;
