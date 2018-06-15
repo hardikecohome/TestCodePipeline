@@ -487,13 +487,19 @@
                             </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span data-bind="click:function(){$data.showNotes(!$data.showNotes());}">
-                                <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                                <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
                             </span>
-                            <!-- ko if: $data.CustomerComment -->
-                            <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}">
+                            <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
+                            <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
+                                <!-- ko if: $data.CustomerComment -->
                                 <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
                                 <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                                <!-- /ko -->
+                                <!-- ko if: $data.ContractNotes -->
+                                <span class="customer-comment-popup__title">@Resources.ContractNotes:</span>
+                                <span class="customer-comment-popup__legend" data-bind="text:$data.ContractNotes"></span>
+                                <!-- /ko -->
                             </div>
                             <!-- /ko -->
                         </div>
@@ -501,11 +507,11 @@
                             <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
+                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}, attr:{'data-action':$data.Id}"></i>
                             <span class="show-details" data-bind="click:function(){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
-                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}, attr:{'data-action':$data.Id}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                 <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                     <i class="edit-contract-ico"></i>
@@ -648,7 +654,20 @@
                                 </div>
                                 <div class="table-row-details__left__value">
                                     <div class="table-row-details__left__value">
-                                        <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                                        <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
+                                        <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
+                                        <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
+                                            <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
+                                            <!-- ko if: $data.CustomerComment -->
+                                            <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
+                                            <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                                            <!-- /ko -->
+                                            <!-- ko if: $data.ContractNotes -->
+                                            <span class="customer-comment-popup__title">@Resources.ContractNotes:</span>
+                                            <span class="customer-comment-popup__legend" data-bind="text:$data.ContractNotes"></span>
+                                            <!-- /ko -->
+                                        </div>
+                                        <!-- /ko -->
                                     </div>
                                 </div>
 
@@ -661,8 +680,8 @@
                                 </div>
 
                                 <div class="table-row-details__left__gear">
-                                    <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
-                                    <div class="table-row-settings-popup mobile" data-bind="css:{opened:$data.showActions}">
+                                    <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}, attr:{'data-action':$data.Id}"></i>
+                                    <div class="table-row-settings-popup mobile" data-bind="css:{opened:$data.showActions}, attr:{'data-action':$data.Id}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                         <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                             <i class="edit-contract-ico"></i>

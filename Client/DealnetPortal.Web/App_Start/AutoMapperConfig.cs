@@ -697,8 +697,9 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.Address, s => s.MapFrom(src => src.PrimaryCustomerAddress))
                 .ForMember(d => d.CustomerComment, s => s.MapFrom(src => src.CustomerComments))
+                .ForMember(d => d.ContractNotes, s => s.MapFrom(src => src.ContractNotes))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
-                .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType==Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
                 PortalConstants.RentalTerm.ToString() :
                 src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
                 .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))

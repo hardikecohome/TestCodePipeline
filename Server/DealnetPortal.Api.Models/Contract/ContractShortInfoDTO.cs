@@ -30,6 +30,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string PrimaryCustomerAddress { get; set; }
         public string PrimaryCustomerPostalCode { get; set; }
         public string CustomerComments { get; set; }
+        public string ContractNotes { get; set; }
 
         public string Equipment { get; set; }
         public decimal? ValueOfDeal { get; set; }
