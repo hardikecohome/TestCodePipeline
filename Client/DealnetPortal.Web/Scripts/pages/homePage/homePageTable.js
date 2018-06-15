@@ -355,7 +355,7 @@ module.exports('table', function (require) {
 
             this.agreementType(localStorage.getItem(filters.agreementType) || '');
             this.status(localStorage.getItem(filters.status) || '');
-            this.salesRep(localStorage.getItem(filters.salesRepFilter) || '');
+            this.salesRep(localStorage.getItem(filters.salesRep) || '');
             this.createdBy(localStorage.getItem(filters.createdBy) || '');
             this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
             this.dateTo(localStorage.getItem(filters.dateTo) || '');

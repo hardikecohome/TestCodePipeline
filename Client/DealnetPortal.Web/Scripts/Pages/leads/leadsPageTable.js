@@ -79,10 +79,10 @@
         this.postalCodesOptions = ko.observableArray(filterAndSortList(list, 'PostalCode'));
         this.preApprovedForOptions = ko.observableArray(filterAndSortList(list, 'PreApprovalAmount'));
 
-        this.preApprovedFor = ko.observable(localStorage.getItem(filters.preApprovedFor) || '');
-        this.postalCode = ko.observable(localStorage.getItem(filters.postalCode) || '');
-        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
-        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
+        this.preApprovedFor = ko.observable('');
+        this.postalCode = ko.observable('');
+        this.dateFrom = ko.observable('');
+        this.dateTo = ko.observable('');
         this.sorter = ko.observable('');
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(this.sortDirections.default);
@@ -106,6 +106,14 @@
 
 
         this.pager = new Paginator(this.filteredList());
+
+        function clearSavedFilters() {
+            localStorage.removeItem(filters.preApprovedFor);
+            localStorage.removeItem(filters.postalCode);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.dateFrom);
+        }
+
         this.acceptLead = function () {
             var selectedLeadId = this.selectedLeadId();
             var transactionId = this.selectedTransactionId();
@@ -160,10 +168,7 @@
             this.dateTo('');
             this.search('');
             this.filterList();
-            localStorage.removeItem(filters.preApprovedFor);
-            localStorage.removeItem(filters.postalCode);
-            localStorage.removeItem(filters.dateTo);
-            localStorage.removeItem(filters.dateFrom);
+            clearSavedFilters();
         };
 
         this.toggleAcceptLeadPopup = function (id, transactionId) {
@@ -179,6 +184,7 @@
         };
 
         this.saveFilters = function () {
+            clearSavedFilters();
             this.preApprovedFor() && localStorage.setItem(filters.preApprovedFor, this.preApprovedFor());
             this.postalCode() && localStorage.setItem(filters.postalCode, this.postalCode());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
@@ -269,6 +275,11 @@
         this.list.subscribe(function (newValue) {
             this.postalCodesOptions(filterAndSortList(newValue, 'PostalCode'));
             this.preApprovedForOptions(filterAndSortList(newValue, 'PreApprovalAmount'));
+            this.preApprovedFor(localStorage.getItem(filters.preApprovedFor) || '');
+            this.postalCode(localStorage.getItem(filters.postalCode) || '');
+            this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
+            this.dateTo(localStorage.getItem(filters.dateTo) || '');
+
             this.filterList();
         }, this);
 

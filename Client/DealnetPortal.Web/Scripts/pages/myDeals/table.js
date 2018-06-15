@@ -310,7 +310,7 @@
             this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
             this.typeOfPayment() && localStorage.setItem(filters.typeOfPayment, this.typeOfPayment());
             this.valueFrom() && localStorage.setItem(filters.valueFrom, this.valueFrom());
-            this.valueTo() && localStorage.set(filters.valueTo, this.valueTo());
+            this.valueTo() && localStorage.setItem(filters.valueTo, this.valueTo());
             this.filtersSaved(true);
         };
 
