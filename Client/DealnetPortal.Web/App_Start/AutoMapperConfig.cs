@@ -635,7 +635,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.StatusColor, s => s.ResolveUsing(src =>
                 {
-                    return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
+                    return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Trim().Remove('$').Replace(' ', '-');
                 }))
                 .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId))
                 .ForMember(d => d.HasRateReduction, s => s.ResolveUsing(src => src.Equipment?.RateReductionCardId.HasValue ?? false));
@@ -693,7 +693,7 @@ namespace DealnetPortal.Web.App_Start
                 }))
                 .ForMember(d => d.StatusColor, s => s.ResolveUsing(src =>
                 {
-                    return (src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
+                    return (src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Trim().Replace("$",string.Empty).Replace(' ', '-');
                 }))
                 .ForMember(d => d.Address, s => s.MapFrom(src => src.PrimaryCustomerAddress))
                 .ForMember(d => d.CustomerComment, s => s.MapFrom(src => src.CustomerComments))
