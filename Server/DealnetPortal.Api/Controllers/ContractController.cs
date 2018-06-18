@@ -413,10 +413,10 @@ namespace DealnetPortal.Api.Controllers
             return Ok(result);
         }        
 
-        [Route("pack/report")]
-        [Route("pack/report/timezoneOffset={timezoneOffset}")]
-        [HttpGet]
-        public IHttpActionResult GetXlsxReport([FromUri] IEnumerable<int> ids, int? timezoneOffset = null)
+        [Route("report")]
+        [Route("report/timezoneOffset={timezoneOffset}")]
+        [HttpPost]
+        public IHttpActionResult GetXlsxReport([FromBody] IEnumerable<int> ids, int? timezoneOffset = null)
         {
             try
             {
@@ -427,9 +427,8 @@ namespace DealnetPortal.Api.Controllers
             {
                 return InternalServerError(ex);
             }
-        }        
+        }
 
-        
         [Route("{contractId}/customers")]
         [HttpPut]
         public IHttpActionResult UpdateCustomerData(int contractId, [FromBody]CustomerDataDTO[] customers)
