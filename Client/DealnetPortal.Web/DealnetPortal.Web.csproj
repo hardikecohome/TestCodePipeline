@@ -993,7 +993,6 @@
     <Content Include="Content\less\components\placeholders.less" />
     <Content Include="Content\less\components\ui-datepicker-redesign.less" />
     <Content Include="Content\less\components\page-title.less" />
-    <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
     <Content Include="Content\files\resources\en\EcoHome Lease Rate Cards FINAL May 2018.pdf" />
     <Content Include="Content\fonts\redesign-icons.eot" />
     <Content Include="Content\fonts\redesign-icons.ttf" />
