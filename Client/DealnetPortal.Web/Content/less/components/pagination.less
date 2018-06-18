@@ -117,8 +117,13 @@ div.dataTables_wrapper div.dataTables_paginate{
     display: flex;
     justify-content: center;
     margin-bottom: 125px;
+
+    @media @tablet-only {
+      margin-bottom: 80px;
+    }
+
     @media @mobile {
-      margin-bottom: 0;
+      margin-bottom: 20px;
     }
 
     .new-pagination {
@@ -158,6 +163,9 @@ div.dataTables_wrapper div.dataTables_paginate{
                 &.active {
                     opacity: 1;
                     border-bottom: 2px solid #a4e402;
+                }
+                &.disabled {
+                  cursor: default;
                 }
                 @media @mobile { 
                   &.disabled {

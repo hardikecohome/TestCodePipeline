@@ -1,20 +1,12 @@
-﻿module.exports('leads-table', function(require) {
-
+﻿module.exports('leads-table', function (require) {
+    var loader = require('loader');
     var Paginator = require('paginator');
 
-    var filterNull = require('tableFuncs').filterNull;
-
-    var mapValue = require('tableFuncs').mapValue;
-
-    var concatIfNotInArray = require('tableFuncs').concatIfNotInArray;
     var sortAscending = require('tableFuncs').sortAscending;
-
-    var sortDescending = require('tableFuncs').sortDescending;
 
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 
-    var LeadsTable = function(list) {
-        console.log(list);
+    var LeadsTable = function (list) {
         this.datePickerOptions = {
             yearRange: '1900:' + new Date().getFullYear(),
             minDate: new Date("1900-01-01"),
@@ -79,27 +71,28 @@
         });
 
         var filters = Object.freeze({
-            preApprovedFor: 'agreementTypeFilter',
-            postalCode: 'postalCodeFilter',
-            dateTo: 'dateToFilter',
-            dateFrom: 'dateFromFilter'
+            preApprovedFor: DealerName + '-leads-agreementTypeFilter',
+            postalCode: DealerName + '-leads-postalCodeFilter',
+            dateTo: DealerName + '-leads-dateToFilter',
+            dateFrom: DealerName + '-leads-dateFromFilter'
         });
         this.postalCodesOptions = ko.observableArray(filterAndSortList(list, 'PostalCode'));
         this.preApprovedForOptions = ko.observableArray(filterAndSortList(list, 'PreApprovalAmount'));
 
-        this.preApprovedFor = ko.observable(localStorage.getItem(filters.preApprovedFor) || '');
-        this.postalCode = ko.observable(localStorage.getItem(filters.postalCode) || '');
-        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
-        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
+        this.preApprovedFor = ko.observable('');
+        this.postalCode = ko.observable('');
+        this.dateFrom = ko.observable('');
+        this.dateTo = ko.observable('');
         this.sorter = ko.observable('');
         this.sortedColumn = ko.observable('');
         this.sortDirection = ko.observable(this.sortDirections.default);
 
-        this.showFilters = ko.observable(true);
+        this.showFilters = ko.observable(false);
         this.showSorters = ko.observable(false);
         this.showLearnMore = ko.observable(false);
         this.filtersSaved = ko.observable(false);
         this.selectedLeadId = ko.observable(0);
+        this.selectedTransactionId = ko.observable(0);
         this.list = ko.observableArray(list);
         this.isError = ko.observable(false);
         this.errorMessage = ko.observable('');
@@ -107,29 +100,44 @@
         this.showResultMessage = ko.observable(false);
         this.showLeadPopup = ko.observable(false);
         this.filteredList = ko.observableArray(this.list());
-        this.noRecordsFound = ko.pureComputed(function () {return this.filteredList().length === 0 }, this);
+        this.noRecordsFound = ko.pureComputed(function () {
+            return this.filteredList().length === 0
+        }, this);
 
 
         this.pager = new Paginator(this.filteredList());
-        this.acceptLead = function() {
+
+        function clearSavedFilters() {
+            localStorage.removeItem(filters.preApprovedFor);
+            localStorage.removeItem(filters.postalCode);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.dateFrom);
+        }
+
+        this.acceptLead = function () {
             var selectedLeadId = this.selectedLeadId();
+            var transactionId = this.selectedTransactionId();
+            loader.showLoader();
             $.ajax({
                 type: "POST",
                 url: 'leads/acceptLead?id=' + selectedLeadId
-            }).done(function(json) {
+            }).done(function (json) {
                 this.isError(json.isError);
+                loader.hideLoader();
                 if (json.Errors) {
-                    this.errorMessage(json.Errors.reduce(function(acc, error) {
+                    this.errorMessage(json.Errors.reduce(function (acc, error) {
                             acc += error + '.\n';
                             return acc;
                         },
                         ''));
                 } else {
                     var $message = $('#new-lead-notification-success');
-                    $message.html($message.html().replace('{1}', selectedLeadId));
+                    $message.html($message.html().replace('{1}', transactionId));
                 }
                 this.showResultMessage(true);
-                var temp = this.filteredList().filter(function(item) { return item.TransactionId != selectedLeadId });
+                var temp = this.filteredList().filter(function (item) {
+                    return item.Id != selectedLeadId
+                });
                 this.filteredList(temp);
                 this.toggleAcceptLeadPopup();
             }.bind(this));
@@ -158,17 +166,16 @@
             this.postalCode('');
             this.dateFrom('');
             this.dateTo('');
+            this.search('');
             this.filterList();
-            localStorage.removeItem(filters.preApprovedFor);
-            localStorage.removeItem(filters.postalCode);
-            localStorage.removeItem(filters.dateTo);
-            localStorage.removeItem(filters.dateFrom);
+            clearSavedFilters();
         };
 
-        this.toggleAcceptLeadPopup = function(transactionId) {
-            this.selectedLeadId(transactionId || 0);
+        this.toggleAcceptLeadPopup = function (id, transactionId) {
+            this.selectedLeadId(id || 0);
+            this.selectedTransactionId(transactionId || 0);
             this.showLeadPopup(!this.showLeadPopup());
-            $('#help-hover').css('display', this.showLeadPopup() ? 'block': 'none');
+            $('#help-hover').css('display', this.showLeadPopup() ? 'block' : 'none');
         }
 
         this.clearSort = function () {
@@ -177,6 +184,7 @@
         };
 
         this.saveFilters = function () {
+            clearSavedFilters();
             this.preApprovedFor() && localStorage.setItem(filters.preApprovedFor, this.preApprovedFor());
             this.postalCode() && localStorage.setItem(filters.postalCode, this.postalCode());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
@@ -267,6 +275,11 @@
         this.list.subscribe(function (newValue) {
             this.postalCodesOptions(filterAndSortList(newValue, 'PostalCode'));
             this.preApprovedForOptions(filterAndSortList(newValue, 'PreApprovalAmount'));
+            this.preApprovedFor(localStorage.getItem(filters.preApprovedFor) || '');
+            this.postalCode(localStorage.getItem(filters.postalCode) || '');
+            this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
+            this.dateTo(localStorage.getItem(filters.dateTo) || '');
+
             this.filterList();
         }, this);
 
@@ -274,18 +287,19 @@
             this.pager.list(newValue);
         }, this);
 
-        this.search.subscribe(function(val) {
+        this.search.subscribe(function (val) {
             if (val === '') return this.filterList();
             val = val.toLowerCase();
+
             function stringIncludes(str, value) {
                 return str.toLowerCase().includes(value);
             }
             var tempList = this.list().reduce(function (acc, item) {
-                if (stringIncludes(item.Equipment, val) 
-                    || stringIncludes(item.CustomerComment, val)
-                    || stringIncludes(item.PostalCode, val)
-                    || stringIncludes(item.PreApprovalAmount,val)
-                    || stringIncludes(item.PostalCode,val)) {
+                if (stringIncludes(item.Equipment, val) ||
+                    stringIncludes(item.CustomerComment, val) ||
+                    stringIncludes(item.PostalCode, val) ||
+                    stringIncludes(item.PreApprovalAmount, val) ||
+                    stringIncludes(item.PostalCode, val)) {
                     return acc.concat(item);
                 }
                 return acc;

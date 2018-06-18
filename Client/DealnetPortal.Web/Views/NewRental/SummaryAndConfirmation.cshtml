@@ -7,6 +7,8 @@
 @model DealnetPortal.Web.Models.SummaryAndConfirmationViewModel
 
 @{
+    ViewBag.Title = Resources.NewApplication;
+
     var yesNaming = Resources.Yes;
     var noNaming = Resources.No;
     var provinces = ViewBag.ProvinceTaxRates as IList<ProvinceTaxRateDTO>;

@@ -47,6 +47,11 @@ namespace DealnetPortal.Web.Controllers
         // GET: /Account/Login
         public ActionResult Login(string returnUrl)
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (string.IsNullOrEmpty(returnUrl) && Request.UrlReferrer != null)
                 returnUrl = Server.UrlEncode(Request.UrlReferrer.PathAndQuery);
 

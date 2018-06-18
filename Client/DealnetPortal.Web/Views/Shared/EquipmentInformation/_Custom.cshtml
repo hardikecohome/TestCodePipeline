@@ -1,6 +1,6 @@
 ﻿@using DealnetPortal.Web.Models.Enumeration
 <li class="@(ViewBag.LoanOnly || Model.Conditions.IsNewContract ? "hidden" : "")">
-    <div class="rate-card table-mode shown-card"" id="custom-rate-card">
+    <div class="rate-card table-mode shown-card" id="custom-rate-card">
         <div class="rate-card-header equal-height-row-1">
             <h4 class="card-title">@Resources.RatesApproved:<br> @Resources.Pre April 17, 2018</h4>
         </div>
@@ -85,40 +85,41 @@
             </div>
         </div>
         <hr>
-        <div class="row rate-card-details">
-            <div class="col-md-7 col-cards-md-12">m-group hidden">
-                    <div class="col-xs-8 text-stronger">@Resources.AdminFee
-                        <div id="CustomAdminFeeHolder"></div></div>
-                    <div class="col-xs-4 text-right text-stronger custom-mt-15" id="CustomAFee">-</div>
+        <div class="rate-card-details">
+            <div class="col-md-7 col-cards-md-12 m-group hidden">
+                <div class="col-xs-8 text-stronger">
+                    @Resources.AdminFee
+                    <div id="CustomAdminFeeHolder"></div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-xs-6 text-stronger">@Resources.MonthlyPayment</div>
-                    <div class="col-xs-6 text-right text-stronger" id="CustomMPayment">-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-6">@Resources.CostOfBorrowing</div>
-                    <div class="col-xs-6 text-right text-stronger" id="CustomCBorrowing">-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-6">@Resources.YourCost</div>
-                    <div class="col-xs-6 text-right text-stronger" id="CustomYCost">-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-6 text-stronger">@Resources.TotalAmountFinanced</div>
-                    <div class="col-xs-6 text-right text-stronger custom-mt-15" id="CustomTAFinanced">-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
-                    <div class="col-xs-6 text-right text-stronger custom-mt-15" id="CustomTMPayments">-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-6">@Resources.BalanceOwingEndOfPaymentsRes</div>
-                    <div class="col-xs-6 text-right text-stronger" id="CustomRBalance">-</div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-xs-6">@Resources.TotalObligation</div>
-                    <div class="col-xs-6 text-right text-stronger" id="CustomTObligation">-</div>
-                </div>
+                <div class="col-xs-4 text-right text-stronger custom-mt-15" id="CustomAFee">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6 text-stronger">@Resources.MonthlyPayment</div>
+                <div class="col-xs-6 text-right text-stronger" id="CustomMPayment">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6">@Resources.CostOfBorrowing</div>
+                <div class="col-xs-6 text-right text-stronger" id="CustomCBorrowing">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6">@Resources.YourCost</div>
+                <div class="col-xs-6 text-right text-stronger" id="CustomYCost">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6 text-stronger">@Resources.TotalAmountFinanced</div>
+                <div class="col-xs-6 text-right text-stronger custom-mt-15" id="CustomTAFinanced">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6">@Resources.TotalAllMonthlyPayments</div>
+                <div class="col-xs-6 text-right text-stronger custom-mt-15" id="CustomTMPayments">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6">@Resources.BalanceOwingEndOfPaymentsRes</div>
+                <div class="col-xs-6 text-right text-stronger" id="CustomRBalance">-</div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6">@Resources.TotalObligation</div>
+                <div class="col-xs-6 text-right text-stronger" id="CustomTObligation">-</div>
             </div>
         </div>
         <div id="hidden-option" class="hidden">Custom</div>

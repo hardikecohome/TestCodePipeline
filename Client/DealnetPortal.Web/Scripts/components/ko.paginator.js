@@ -16,7 +16,6 @@
         this.maxPageIndex = ko.computed(function () {
             var size = Number(this.pageSize());
             var cil = Math.ceil(this.list().length / size);
-            if (this.pageIndex() > cil) this.pageIndex(cil);
             return cil > 0 ? cil - 1 : cil;
         }, this);
 
@@ -24,33 +23,29 @@
             var pages = [];
             var activePage = this.pageIndex();
             var maxPage = this.maxPageIndex();
-            var maxButtons = 5;
+            var maxButtons = 7;
 
-            var startPage = 0;
-            var endPage = maxPage;
-            var count = this.list().length || 0;
-            if (maxButtons < count) {
-                startPage = Math.max(Math.min(activePage - Math.floor(maxButtons / 2), count - maxButtons + 1), 1);
-                var tempEnd = startPage + maxButtons - 1;
-                endPage = maxPage < tempEnd ? maxPage : tempEnd;
+            var startPageIndex = 0;
+            var endPageIndex = maxPage;
+            if (maxButtons < maxPage) {
+                startPageIndex = Math.max(Math.min(activePage - Math.floor(maxButtons / 2, 10), maxPage - maxButtons + 1), 0);
+                var tempEnd = startPageIndex + maxButtons - 1;
+                endPageIndex = maxPage < tempEnd ? maxPage : tempEnd;
             }
 
-            var nextPage = endPage < maxPage ? 1 : 0;
-
-            for (var i = startPage; i <= endPage + nextPage; i++) {
+            for (var i = startPageIndex; i <= endPageIndex; i++) {
                 pages.push({
-                    pageNumber: i - 1,
-                    active: activePage == i - 1,
-                    disabled: activePage == i - 1,
-                    pageText: i
+                    pageNumber: i,
+                    active: activePage == i,
+                    disabled: activePage == i,
+                    pageText: i + 1
                 });
             }
 
-            if (startPage > 1 || startPage < activePage - 1) {
+            if (pages.length >= maxButtons && activePage > 2) {
                 var first = pages.shift();
-                if (activePage < maxPage - 3) {
-                    var second = pages.shift();
-                }
+                var second = pages.shift();
+
                 pages.unshift({
                     pageText: '...',
                     active: false,
@@ -64,21 +59,20 @@
                 });
             }
 
-            if (endPage < maxPage) {
+            if (pages.length >= maxButtons && activePage < maxPage - 2) {
                 var last = pages.pop();
-                if (endPage > activePage + 3) {
-                    var end = pages.pop();
-                }
+                var end = pages.pop();
+
                 pages.push({
                     pageText: '...',
                     active: false,
                     disabled: true
                 });
                 pages.push({
-                    pageNumber: maxPage - 1,
-                    active: activePage == maxPage - 1,
-                    disabled: activePage == maxPage - 1,
-                    pageText: maxPage
+                    pageNumber: maxPage,
+                    active: activePage == maxPage,
+                    disabled: activePage == maxPage,
+                    pageText: maxPage + 1
                 });
             }
 
@@ -89,7 +83,7 @@
             var pageIndex = this.pageIndex();
             this.moveToPage({
                 pageNumber: pageIndex + 1,
-                disabled: pageIndex == this.maxPageIndex() - 1
+                disabled: pageIndex == this.maxPageIndex()
             });
         };
 
@@ -105,6 +99,14 @@
             if (!page.disabled)
                 this.pageIndex(page.pageNumber);
         }).bind(this);
+
+        this.pageSize.subscribe(function () {
+            this.pageIndex(0);
+        }, this);
+
+        this.list.subscribe(function () {
+            this.pageIndex(0);
+        }, this);
     };
 
     return Paginator;

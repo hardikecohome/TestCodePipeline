@@ -15,15 +15,15 @@ namespace DealnetPortal.Web.Controllers
     [Authorize]
     public class ShareableLinkController : UpdateController
     {
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        public ShareableLinkController(IDictionaryServiceAgent dictionaryServiceAgent)
+        private readonly ICustomerFormServiceAgent _customerFormServiceAgent;
+        public ShareableLinkController(ICustomerFormServiceAgent customerFormServiceAgent)
         {
-            _dictionaryServiceAgent = dictionaryServiceAgent;
+            _customerFormServiceAgent = customerFormServiceAgent;
         }
 
         public async Task<ActionResult> Index()
         {
-            var customerLinkDto = await _dictionaryServiceAgent.GetShareableLinkSettings();
+            var customerLinkDto = await _customerFormServiceAgent.GetShareableLinkSettings();
             var customerLink = AutoMapper.Mapper.Map<ShareableLinkViewModel>(customerLinkDto);
             customerLink.HashDealerName = SecurityUtils.Hash(User.Identity.Name);
             return View(customerLink);
@@ -47,7 +47,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 customerLinkDto.Services = new Dictionary<LanguageCode, List<string>>();
             }
-            var alerts = await _dictionaryServiceAgent.UpdateShareableLinkSettings(customerLinkDto);
+            var alerts = await _customerFormServiceAgent.UpdateShareableLinkSettings(customerLinkDto);
             return alerts.Any(x => x.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
     }

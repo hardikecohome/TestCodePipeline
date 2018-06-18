@@ -2,30 +2,11 @@ module.exports('table', function (require) {
 
     var Paginator = require('paginator');
 
-    var filterNull = require('tableFuncs').filterNull;
-
-    var mapValue = require('tableFuncs').mapValue;
-
-    var concatIfNotInArray = require('tableFuncs').concatIfNotInArray;
     var sortAscending = require('tableFuncs').sortAscending;
-
-    var sortDescending = require('tableFuncs').sortDescending;
 
     var filterAndSortList = require('tableFuncs').filterAndSortList;
 
     var prepareStatusList = require('tableFuncs').prepareStatusList;
-
-    function prepareEquipmentList(list) {
-        return list.map(mapValue('Equipment'))
-            .filter(filterNull)
-            .reduce(function (acc, item) {
-                return acc.concat(item.indexOf(',') > -1 ? item.split(',').map(function (i) {
-                    return i.trim();
-                }) : item);
-            }, [])
-            .reduce(concatIfNotInArray, [''])
-            .sort(sortAscending);
-    }
 
     var HomePageTable = function (list) {
         // properties
@@ -102,24 +83,23 @@ module.exports('table', function (require) {
             },
         });
         var filters = Object.freeze({
-            agreementType: 'agreementTypeFilter',
-            status: 'statusFilter',
-            salesRep: 'salesRepFilter',
-            equipment: 'equipmentFilter',
-            dateTo: 'dateToFilter',
-            dateFrom: 'dateFromFilter'
+            agreementType: DealerName + '-home-agreementTypeFilter',
+            status: DealerName + '-home-statusFilter',
+            salesRep: DealerName + '-home-salesRepFilter',
+            createdBy: DealerName + '-home-createdByFilter',
+            dateTo: DealerName + '-home-dateToFilter',
+            dateFrom: DealerName + '-home-dateFromFilter'
         });
         this.agreementOptions = ko.observableArray(filterAndSortList(list, 'AgreementType'));
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
-        this.equipmentOptions = ko.observableArray(prepareEquipmentList(list));
 
-        this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
-        this.status = ko.observable(localStorage.getItem(filters.status) || '');
-        this.salesRep = ko.observable(localStorage.getItem(filters.salesRepFilter) || '');
-        this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
-        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
-        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
+        this.agreementType = ko.observable('');
+        this.status = ko.observable('');
+        this.salesRep = ko.observable('');
+        this.createdBy = ko.observable('');
+        this.dateFrom = ko.observable('');
+        this.dateTo = ko.observable('');
         this.singleId = ko.observable('');
         this.sorter = ko.observable('');
         this.sortedColumn = ko.observable('');
@@ -133,7 +113,9 @@ module.exports('table', function (require) {
         this.list = ko.observableArray(list);
 
         this.filteredList = ko.observableArray(this.list());
-        this.noRecordsFound = ko.pureComputed(function () {return this.filteredList().length === 0 }, this);
+        this.noRecordsFound = ko.pureComputed(function () {
+            return this.filteredList().length === 0
+        }, this);
         this.pager = new Paginator(this.filteredList());
 
         this.sortedList = ko.computed(function () {
@@ -161,7 +143,7 @@ module.exports('table', function (require) {
         }, this);
 
         this.selectedTotal = ko.computed(function () {
-            return this.pager.pagedList().reduce(function (sum, curr) {
+            return this.filteredList().reduce(function (sum, curr) {
                 return curr.isSelected() ?
                     sum + curr.valueNum || 0 :
                     sum;
@@ -191,6 +173,15 @@ module.exports('table', function (require) {
         });
 
         // functions
+        function clearSavedFilters() {
+            localStorage.removeItem(filters.agreementType);
+            localStorage.removeItem(filters.status);
+            localStorage.removeItem(filters.salesRep);
+            localStorage.removeItem(filters.createdBy);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.dateFrom);
+        }
+
         this.toggleFilters = function () {
             this.showSorters(false);
             this.showFilters(!this.showFilters());
@@ -222,16 +213,11 @@ module.exports('table', function (require) {
             this.agreementType('');
             this.status('');
             this.salesRep('');
-            this.equipment('');
+            this.createdBy('');
             this.dateFrom('');
             this.dateTo('');
             this.filterList();
-            localStorage.removeItem(filters.agreementType);
-            localStorage.removeItem(filters.status);
-            localStorage.removeItem(filters.salesRep);
-            localStorage.removeItem(filters.equipment);
-            localStorage.removeItem(filters.dateTo);
-            localStorage.removeItem(filters.dateFrom);
+            clearSavedFilters();
         };
 
         this.clearSort = function () {
@@ -240,10 +226,11 @@ module.exports('table', function (require) {
         };
 
         this.saveFilters = function () {
+            clearSavedFilters();
             this.agreementType() && localStorage.setItem(filters.agreementType, this.agreementType());
             this.status() && localStorage.setItem(filters.status, this.status());
             this.salesRep() && localStorage.setItem(filters.salesRep, this.salesRep());
-            this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
+            this.createdBy() && localStorage.setItem(filters.createdBy, this.createdBy());
             this.dateTo() && localStorage.setItem(filters.dateTo, this.dateTo());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
             this.filtersSaved(true);
@@ -273,9 +260,10 @@ module.exports('table', function (require) {
             }
 
             var stat = this.status();
-            var equip = this.equipment();
             var type = this.agreementType();
             var sales = this.salesRep();
+            var created = this.createdBy();
+            var createdBool = created == 'true';
             var to = Date.parseExact(this.dateTo(), 'M/d/yyyy');
             var dFrom = Date.parseExact(this.dateFrom(), 'M/d/yyyy');
 
@@ -283,7 +271,7 @@ module.exports('table', function (require) {
                 if ((!stat || stat === item.LocalizedStatus) &&
                     (!type || type === item.AgreementType) &&
                     (!sales || sales === item.SalesRep) &&
-                    (!equip || item.Equipment.match(new RegExp(equip, 'i'))) &&
+                    (created == '' || createdBool == item.IsCreatedByCustomer) &&
                     (!to || !item.DateVal || item.DateVal <= to) &&
                     (!dFrom || !item.DateVal || item.DateVal >= dFrom))
                     return acc.concat(item);
@@ -364,7 +352,14 @@ module.exports('table', function (require) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
-            this.equipmentOptions(prepareEquipmentList(newValue));
+
+            this.agreementType(localStorage.getItem(filters.agreementType) || '');
+            this.status(localStorage.getItem(filters.status) || '');
+            this.salesRep(localStorage.getItem(filters.salesRep) || '');
+            this.createdBy(localStorage.getItem(filters.createdBy) || '');
+            this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
+            this.dateTo(localStorage.getItem(filters.dateTo) || '');
+
             this.filterList();
         }, this);
 
@@ -372,21 +367,15 @@ module.exports('table', function (require) {
             this.pager.list(newValue);
         }, this);
 
-        $('body').on('click', (function (e) {
+        $('body').on('click touch', (function (e) {
             var $el = $(e.target);
-            var shown;
-            if (!$el.is('.table-row-settings-popup') && !$el.parents('.table-row-settings-popup').length && !$el.is('.gear-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showActions();
-                });
-                shown && shown.showActions(false);
-            }
-            if (!$el.is('.customer-comment-popup') && !$el.parents('.customer-comment-popup').length && !$el.is('.notes-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showNotes();
-                });
-                shown && shown.showNotes(false);
-            }
+            var noteId = $el.data('notes');
+            var actionId = $el.data('action');
+
+            this.list().forEach(function (item) {
+                item.Id != noteId && item.showNotes(false);
+                item.Id != actionId && item.showActions(false);
+            });
         }).bind(this));
     };
     return HomePageTable;

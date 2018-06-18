@@ -123,19 +123,16 @@ namespace DealnetPortal.Web.Controllers
                 return View(basicInfo);
             }
 
-            Tuple<ContractDTO, IList<Alert>> result = !basicInfo.ContractId.HasValue ?
-                await _contractServiceAgent.CreateContract() :
-                await _contractServiceAgent.GetContract(basicInfo.ContractId.Value);
-
-            if(result?.Item1 == null)
-            {
-                TempData[PortalConstants.CurrentAlerts] = result?.Item2;
-                return RedirectToAction("Error", "Info");
-            }
             if (!basicInfo.ContractId.HasValue)
             {
+                Tuple<ContractDTO, IList<Alert>> result = await _contractServiceAgent.CreateContract();
+                if (result?.Item1 == null)
+                {
+                    TempData[PortalConstants.CurrentAlerts] = result?.Item2;
+                    return RedirectToAction("Error", "Info");
+                }
                 basicInfo.ContractId = result.Item1.Id;
-            }
+            }                       
 
             var updateResult = await _contractManager.UpdateContractAsync(basicInfo);
 
@@ -146,7 +143,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("Error", "Info");
             }
 
-            return RedirectToAction("CreditCheck", new { contractId = result.Item1.Id });
+            return RedirectToAction("CreditCheck", new { contractId = basicInfo.ContractId });
         }
 
         public ActionResult CreditCheck(int contractId)
@@ -339,7 +336,7 @@ namespace DealnetPortal.Web.Controllers
                 TempData[PortalConstants.CurrentAlerts] = alerts;
                 return RedirectToAction("Error", "Info");
             }
-            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId));
+            return View(await _contractManager.GetContactAndPaymentInfoAsync(contractId, contract.Item1));
         }
 
         [HttpPost]
@@ -386,7 +383,7 @@ namespace DealnetPortal.Web.Controllers
             ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList();
             ViewBag.ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1;
 
-            return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId));
+            return View(await _contractManager.GetSummaryAndConfirmationAsync(contractId, contract.Item1));
         }
 
         public async Task<ActionResult> SubmitDeal(int contractId)
@@ -396,7 +393,7 @@ namespace DealnetPortal.Web.Controllers
             {
                 return RedirectToAction("Error", "Info");
             }
-            var rateCardValid = await _contractManager.CheckRateCard(contractId, null);
+            var rateCardValid = await _contractManager.CheckRateCard(contractId, null, contract.Item1);
             if(rateCardValid)
             {
                 var result = await _contractServiceAgent.SubmitContract(contractId);

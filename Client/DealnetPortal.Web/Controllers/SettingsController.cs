@@ -17,14 +17,14 @@ namespace DealnetPortal.Web.Controllers
     public class SettingsController : Controller
     {
         private readonly ISettingsManager _settingsManager;
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly ICustomerFormServiceAgent _customerFormServiceAgent;
         private readonly ILoggingService _loggingService;
 
-        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent)
+        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService, ICustomerFormServiceAgent customerFormServiceAgent)
         {
             _settingsManager = settingsManager;
             _loggingService = loggingService;
-            _dictionaryServiceAgent = dictionaryServiceAgent;
+            _customerFormServiceAgent = customerFormServiceAgent;
         }
 
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
@@ -45,7 +45,7 @@ namespace DealnetPortal.Web.Controllers
             bool IsQuebecDealer = false;
             if (hashDealerName != null)
             {
-                var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, CultureHelper.CurrentCultureType == CultureType.French ? "fr" : "en");
+                var languageOptions = await _customerFormServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, CultureHelper.CurrentCultureType == CultureType.French ? "fr" : "en");
                 IsQuebecDealer = languageOptions.QuebecDealer;
             }
             Stream stream;

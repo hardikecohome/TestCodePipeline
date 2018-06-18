@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
@@ -26,8 +25,6 @@ using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    using Models.Contract.EquipmentInformation;
-
     public partial class ContractService : IContractService
     {
         private readonly IContractRepository _contractRepository;
@@ -93,12 +90,14 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<TMapTo>();
             var contracts = _contractRepository.GetContracts(contractOwnerId);
             var equipments = _contractRepository.GetEquipmentTypes();
-            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
-            var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);
+            var customerCreators = _dealerRepository.GetUserNamesByRole(UserRole.CustomerCreator.ToString());
+            var aspireDeals = SyncAspireDealsForDealer<TMapTo>(contracts, contractOwnerId, true, equipments);            
             var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
                 opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
                 opts.Items.Add(MappingKeys.DocumentTypes, dealerDocumentTypes);
+                opts.Items.Add(MappingKeys.CustomerCreators, customerCreators);
             });
             contractDTOs.AddRange(mappedContracts);
             contractDTOs.AddRange(aspireDeals);
@@ -111,11 +110,13 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<TMapTo>();
             var contracts = _contractRepository.GetContracts(predicate, contractOwnerId);
             var equipments = _contractRepository.GetEquipmentTypes();
-            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);            
+            var dealerDocumentTypes = _contractRepository.GetDealerDocumentTypes(contractOwnerId);
+            var customerCreators = _dealerRepository.GetUserNamesByRole(UserRole.CustomerCreator.ToString());
             var mappedContracts = Mapper.Map<IList<TMapTo>>(contracts, opts =>
             {
                 opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
                 opts.Items.Add(MappingKeys.DocumentTypes, dealerDocumentTypes);
+                opts.Items.Add(MappingKeys.CustomerCreators, customerCreators);
             });
             contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
@@ -157,7 +158,7 @@ namespace DealnetPortal.Api.Integration.Services
                         (contract.Details.CreditAmount == null || contract.Details.CreditAmount < creditReport.CreditAmount) ? 
                         creditReport.CreditAmount : contract.Details.CreditAmount;
                     _unitOfWork.Save();
-                }
+                }               
             }          
             //check contract signature status (for old contracts)
             if (contract != null && !string.IsNullOrEmpty(contract.Details?.SignatureTransactionId) &&
@@ -165,14 +166,24 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 _documentService.SyncSignatureStatus(contractId, contractOwnerId).GetAwaiter().GetResult();
             }
-            //mappings
+            var creditAmount =
+                _rateCardsRepository.GetCreditAmountSetting(contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0);
             var contractDTO = Mapper.Map<ContractDTO>(contract, ctx =>
                 {
                     ctx.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
-                    ctx.Items.Add(MappingKeys.CreditAmount, _rateCardsRepository.GetCreditAmountSetting(contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0));
+                    ctx.Items.Add(MappingKeys.CreditAmount, creditAmount);
                 });
-            if (contractDTO?.PrimaryCustomer?.CreditReport != null)
+            if (contractDTO?.PrimaryCustomer != null)
             {
+                if (contractDTO.PrimaryCustomer.CreditReport == null)
+                {
+                    contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO()
+                    {
+                        CreditAmount = creditAmount.CreditAmount,
+                        EscalatedLimit = creditAmount.EscalatedLimit,
+                        NonEscalatedLimit = creditAmount.NonEscalatedLimit
+                    };
+                }
                 contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
             }            
             return contractDTO;
@@ -287,14 +298,12 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var stream = new MemoryStream();
             var contracts =
-                Mapper.Map<IList<ContractDTO>>(_contractRepository.GetContractsEquipmentInfo(ids, contractOwnerId));                
-            var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();
-
-            var equipmentTypes = _contractRepository.GetEquipmentTypes();
-            foreach (var contract in contracts)
-            {
-                AftermapNewEquipment(contract.Equipment?.NewEquipment, equipmentTypes);
-            }
+                Mapper.Map<IList<ContractDTO>>(_contractRepository.GetContractsEquipmentInfo(ids, contractOwnerId),
+                    opts =>
+                    {
+                        opts.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
+                    });                
+            var provincialTaxRates = _contractRepository.GetAllProvinceTaxRates().ToList();            
 
             XlsxExporter.Export(contracts, stream, provincialTaxRates);
             var report = new AgreementDocument
@@ -454,15 +463,13 @@ namespace DealnetPortal.Api.Integration.Services
                             double totalSum = 0;
                             contractsG?.ForEach(c =>
                             {
-                                //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
-                                //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
                                 totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
                             summary.Add(new FlowingSummaryItemDTO
                             {
                                 ItemLabel = i.ToString(),
-                                ItemCount = contractsG?.Count() ?? 0, //grDaysM.Count(g => g.Key == i),
-                                ItemData = totalSum // rand.Next(1, 100)
+                                ItemCount = contractsG?.Count() ?? 0,
+                                ItemData = totalSum
                             });
                         }
                         break;
@@ -485,8 +492,6 @@ namespace DealnetPortal.Api.Integration.Services
                             double totalSum = 0;
                             contractsW?.ForEach(c =>
                             {
-                                //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
-                                //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
                                 totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
@@ -494,7 +499,7 @@ namespace DealnetPortal.Api.Integration.Services
                             {
                                 ItemLabel = weekDays[i],
                                 ItemCount = contractsW?.Count() ?? 0,
-                                ItemData = totalSum //rand.Next(1, 100)
+                                ItemData = totalSum
                             });
                         }
                         break;
@@ -511,8 +516,6 @@ namespace DealnetPortal.Api.Integration.Services
                             double totalSum = 0;
                             contractsM?.ForEach(c =>
                             {
-                                //var totalMp = _contractRepository.GetContractPaymentsSummary(c.Id);
-                                //totalSum += totalMp?.TotalAllMonthlyPayment ?? 0;
                                 totalSum += (double)(c.Equipment?.ValueOfDeal ?? 0);
                             });
 
@@ -782,8 +785,11 @@ namespace DealnetPortal.Api.Integration.Services
             var contractDTOs = new List<ContractDTO>();
             // temporary using a flag IsCreatedByBroker
             var contracts = _contractRepository.GetDealerLeads(userId);
-            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, mappedContracts, userId);
+            var mappedContracts = Mapper.Map<IList<ContractDTO>>(contracts,
+                opts =>
+                {
+                    opts.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
+                });
             contractDTOs.AddRange(mappedContracts);
             return contractDTOs;
         }
@@ -822,7 +828,7 @@ namespace DealnetPortal.Api.Integration.Services
                         var deals = Mapper.Map<IList<T>>(returnUnmapped ? unlinkedDeals : aspireDeals,
                             opts =>
                             {
-                                opts.Items.Add("EquipmentTypes", equipments);
+                                opts.Items.Add(MappingKeys.EquipmentTypes, equipments);
                             });
                         return deals;                        
                     }                    
@@ -837,33 +843,6 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
             }
             return new List<T>();
-        }
-
-        private IList<T> GetAspireDealsForDealer<T>(string contractOwnerId)
-        {
-            var user = _contractRepository.GetDealer(contractOwnerId);
-            if (user != null)
-            {
-                try
-                {
-                    var equipments = _contractRepository.GetEquipmentTypes();
-                    var deals = Mapper.Map<IList<T>>(_aspireStorageReader.GetDealerDeals(user.UserName),
-                        opts =>
-                        {
-                            opts.Items.Add("EquipmentTypes", equipments);
-                        });                    
-                    return deals;
-                }
-                catch (Exception ex)
-                {
-                    _loggingService.LogError($"Error occured during get deals from aspire", ex);
-                }
-            }
-            else
-            {
-                _loggingService.LogError($"Cannot get a dealer {contractOwnerId}");
-            }
-            return null;
         }
 
         public Tuple<IList<DocumentTypeDTO>, IList<Alert>> GetContractDocumentTypes(int contractId,
@@ -1227,40 +1206,6 @@ namespace DealnetPortal.Api.Integration.Services
                         contract.Documents?.Any(d => d.DocumentTypeId == (int)DocumentTemplateType.SignedContract) == true);
 
             return isValid;
-        }
-
-        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
-        {
-            var equipmentTypes = _contractRepository.GetEquipmentTypes();
-            foreach (var contractDTO in contractDTOs)
-            {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
-                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
-                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
-            }
-        }
-
-        private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
-        {
-            equipment?.ForEach(eq => eq.TypeDescription = ResourceHelper.GetGlobalStringResource(equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.DescriptionResource));
-        }
-
-        private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
-        {
-            var srcComments = src.ToArray();
-            foreach (var destComment in dest)
-            {
-                var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
-                if (scrComment == null)
-                {
-                    continue;
-                }
-                destComment.IsOwn = scrComment.DealerId == contractOwnerId;
-                if (destComment.Replies.Any())
-                {
-                    AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
-                }
-            }
-        }
+        }                
     }
 }

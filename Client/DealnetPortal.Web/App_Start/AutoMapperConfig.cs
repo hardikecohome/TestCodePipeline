@@ -627,16 +627,14 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
                 .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
                 {
-                    if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                    if(src.Equipment?.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && (src.Equipment?.ValueOfDeal.HasValue ?? false))
                     {
                         return FormattableString.Invariant($"$ {src.Equipment.ValueOfDeal:0.00}");
                     }
                     return string.Empty;
                 }))
                 .ForMember(d => d.StatusColor, s => s.ResolveUsing(src =>
-                {
-                    return (src.Details?.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
-                }))
+                (src.Details.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Trim().Replace("$",string.Empty).Replace(' ', '-')))
                 .ForMember(d => d.RateCardId, s => s.MapFrom(src => src.Equipment.RateCardId))
                 .ForMember(d => d.HasRateReduction, s => s.ResolveUsing(src => src.Equipment?.RateReductionCardId.HasValue ?? false));
 
@@ -692,26 +690,25 @@ namespace DealnetPortal.Web.App_Start
                     return "grey";
                 }))
                 .ForMember(d => d.StatusColor, s => s.ResolveUsing(src =>
-                {
-                    return (src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Replace(' ', '-');
-                }))
+                    (src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription())?.ToLower().Trim().Replace("$",string.Empty).Replace(' ', '-')))
                 .ForMember(d => d.Address, s => s.MapFrom(src => src.PrimaryCustomerAddress))
                 .ForMember(d => d.CustomerComment, s => s.MapFrom(src => src.CustomerComments))
+                .ForMember(d => d.ContractNotes, s => s.MapFrom(src => src.ContractNotes))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
-                .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType==Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
                 PortalConstants.RentalTerm.ToString() :
                 src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
-                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
                     return src.MonthlyPayment.HasValue ? FormattableString.Invariant($"$ {src.MonthlyPayment:0.00}") : string.Empty;
 
                 }))
                 .ForMember(d => d.EnteredBy, s => s.MapFrom(src => src.CreatedBy))
-                .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsCreatedByCustomer))
+                .ForMember(d => d.Lead, s => s.MapFrom(src => src.IsLead))
                 .ForMember(d => d.LoanAmount, s => s.ResolveUsing(src =>
                 {
-                    if(src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication)
+                    if(src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.ValueOfDeal.HasValue)
                     {
                         return FormattableString.Invariant($"$ {src.ValueOfDeal:0.00}");
                     }

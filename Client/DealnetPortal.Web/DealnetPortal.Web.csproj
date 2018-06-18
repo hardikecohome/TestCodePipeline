@@ -515,9 +515,11 @@
     <Content Include="Content\files\HTML\fr\qc\AgreementPersonalDataQCFR.html" />
     <Content Include="Content\files\HTML\fr\qc\PrivacyPolicyTextQCFR.html" />
     <Content Include="Content\files\resources\en\MortgageBroker\Video Link.htm" />
+    <Content Include="Content\fonts\aboutus.svg" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
+    <Content Include="Content\fonts\redesign-icons.svg" />
     <Content Include="Content\images\bubble-help-red.svg" />
     <Content Include="Content\images\bubble-help-w.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
@@ -581,10 +583,16 @@
     <Content Include="Content\images\redesign_icons\gear.svg" />
     <Content Include="Content\images\redesign_icons\get-my-loc.svg" />
     <Content Include="Content\images\redesign_icons\i-letter.svg" />
+    <Content Include="Content\images\redesign_icons\info-grass-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-grass.svg" />
+    <Content Include="Content\images\redesign_icons\info-green-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-green.svg" />
+    <Content Include="Content\images\redesign_icons\info-grey-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-grey.svg" />
+    <Content Include="Content\images\redesign_icons\info-light-grey-lg.svg" />
+    <Content Include="Content\images\redesign_icons\info-red-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-red.svg" />
+    <Content Include="Content\images\redesign_icons\info-yellow-lg.svg" />
     <Content Include="Content\images\redesign_icons\info-yellow.svg" />
     <Content Include="Content\images\redesign_icons\lamp.svg" />
     <Content Include="Content\images\redesign_icons\leads-plaseholder.svg" />
@@ -608,6 +616,7 @@
     <Content Include="Content\images\redesign_icons\sort-arrow-top-green.svg" />
     <Content Include="Content\images\redesign_icons\sort-arrow-top-grey.svg" />
     <Content Include="Content\images\redesign_icons\sort-button-red.svg" />
+    <Content Include="Content\images\redesign_icons\success-message-s.svg" />
     <Content Include="Content\images\redesign_icons\upload-cloud.svg" />
     <Content Include="Content\images\Spinner_1.gif" />
     <Content Include="Content\images\Spinner_2.gif" />
@@ -990,6 +999,10 @@
     <Content Include="Content\less\components\page-title.less" />
     <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
     <Content Include="Content\files\resources\en\EcoHome Lease Rate Cards FINAL May 2018.pdf" />
+    <Content Include="Content\fonts\redesign-icons.eot" />
+    <Content Include="Content\fonts\redesign-icons.ttf" />
+    <Content Include="Content\fonts\redesign-icons.woff" />
+    <Content Include="Content\less\flex-framework\main-table.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />

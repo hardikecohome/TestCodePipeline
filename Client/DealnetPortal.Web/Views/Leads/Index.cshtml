@@ -1,7 +1,11 @@
-﻿<div id="leads-body" data-bind="with: table">
+﻿@{ 
+    ViewBag.Title = Resources.Leads;
+}
+
+<div id="leads-body" class="leads-page" data-bind="with: table">
     <div class="margin-block">
         <div class="row">
-            <div class="filters my-deals-page leads-filters">
+            <div class="filters leads-filters">
                 <div class="filters-head">
                     <div class="filters-head__title">@Resources.Leads</div>
                     <!-- ko if:  list().length > 0 -->
@@ -16,6 +20,8 @@
                                 <!-- /ko -->
                             </a>*@
                     </div>
+                    <div class="filters-head" style="width: 100px;">
+                    </div>
                     <div class="filters-head__search new-input-group">
                         <div class="custom-text-input-group">
                             <input type="text" name="search" required textInput: data-bind="textInput: search">
@@ -23,6 +29,7 @@
                             <span class="search-ico"></span>
                         </div>
                     </div>
+                    <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
@@ -30,7 +37,7 @@
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
-                        <span class="save-btn-status">
+                        <span class="save-btn-status" data-bind="css:{saved:filtersSaved}">
                             <!-- ko if: filtersSaved -->
                             <i class="checked-ico"></i> @Resources.Saved
                             <!-- /ko -->
@@ -40,7 +47,8 @@
                         </span>
                     </div>
                     <div class="filters-head__divider"></div>
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters">
+                    <!-- /ko -->
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide
@@ -53,7 +61,7 @@
                         </span>
                         <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters">
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
                         <!-- ko if: showSorters -->
                         <span>
                             @Resources.Hide
@@ -72,13 +80,13 @@
                     <div class="filters-advanced__type new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="postal-code">@Resources.PostalCode</label>
-                            <select data-bind="options:postalCodesOptions, selectric:postalCode"></select>
+                            <select id="postal-code" data-bind="options:postalCodesOptions, selectric:postalCode"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="pre-approved">@Resources.PreApprovedFor</label>
-                            <select data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
+                            <select id="pre-approved" data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
                         </div>
                     </div>
 
@@ -170,7 +178,7 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                     </div>
-                    <div class="filters-advanced__clear-btn new-btn-grey">
+                    <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
                     <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
@@ -275,15 +283,16 @@
                         <div class="main-table__block__row__cell customer-comment">
                             <span data-bind="text: $data.CustomerComment"></span>
                         </div>
-                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.TransactionId);}">
+                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
                             <span>+</span><span>@Resources.AcceptLead</span>
                         </div>
-                        <div class="main-table__block__row__cell info" data-bind="event: { mouseover: function() {$data.showInfo(true) }, mouseout: function() {$data.showInfo(false) } }">
-                            <i class="i-letter-ico"></i>
+                        <div class="main-table__block__row__cell info">
+                            <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());}"></i>
                             <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
+                                <i class="cross-ico" data-bind="click:function(){$data.showInfo(false);}, visible: $data.showInfo"></i>
                                 <span class="customer-comment-popup__title"></span>
                                 <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
                             </div>
@@ -305,7 +314,7 @@
                                         <i class="i-letter-ico"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.TransactionId);}">
+                                <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id);}">
                                     <span>+</span><span>@Resources.AcceptLead</span>
                                 </div>
                             </div>
@@ -313,12 +322,14 @@
                     </div>
                 </div>
                 <!-- /ko -->
-                <div class="main-table__entries-number new-input-group">
-                    <div class="custom-select-wrap custom-select-float-label">
-                        <label for="entries-number">@Resources.NumberOfEntries</label>
-                        <select name="entries-number"
-                                id="entries-number"
-                                data-bind="options: pager.pageSizes, selectric:pager.pageSize"></select>
+                <div class="main-table__block main-table__block__divider">
+                    <div class="main-table__entries-number new-input-group">
+                        <div class="custom-select-wrap custom-select-float-label">
+                            <label for="entries-number">@Resources.NumberOfEntries</label>
+                            <select name="entries-number"
+                                    id="entries-number"
+                                    data-bind="options: pager.pageSizes, selectric:pager.pageSize"></select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,22 +367,21 @@
     </div>
 
     <div class="nw-placeholder" data-bind="visible: list().length < 1">
-        <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
+        <i class="nw-placeholder__icon leads-placeholder-ico"></i>
         <p>
-            @Resources.NoLeadsFirstPart
+            @Html.Raw(Resources.NoLeadsFirstPart)
         </p>
         <p>
             @Html.Raw(Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
         </p>
         <p>
-           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", Resources.ContactDealerSupport))
+           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", "<a onclick='sendEmailModel()'>" + Resources.ContactDealerSupport) + "</a>")
         </p>
     </div>
 </div>
 
 @section Translations
 {
-    translations['NotSelected'] = "@Resources.NotSelected";
     translations['Search'] = "@Resources.Search";
     translations['Show'] = "@Resources.Show";
     translations['Entries'] = "@Resources.Entries";

@@ -988,9 +988,11 @@ fieldset[disabled] .form-control{
         position: relative;
 
         &.icon {
-
             input {
                 padding-right: 30px;
+                @media @tablet-only{
+                  padding-right: 18px;
+                }
             }
         }
 
@@ -1004,6 +1006,10 @@ fieldset[disabled] .form-control{
                 font-size: 20px;
                 color: #c2c8d0;
             }
+
+            @media @tablet-only {
+              right:3px;
+            }
         }
 
         [class^="ic-nw-right-"], [class*=" ic-nw-right-"] {
@@ -1013,7 +1019,7 @@ fieldset[disabled] .form-control{
 
         input {
             font-size: 13px;
-            color: #5d5d5d;
+            color: black;
             padding: 10px 9px 10px 9px;
             display: block;
             border: none;
@@ -1111,12 +1117,16 @@ fieldset[disabled] .form-control{
           
           label{
             top:10px;
+            &:not(.label-title){
+              cursor: pointer;
+            }
           &.label-title {
             top: -6px;
             font-size: 12px;
             line-height: 12px;
             // color: #5264AE;
             background: white;
+            z-index: 1000;
           }
         }
         }
@@ -1163,13 +1173,16 @@ fieldset[disabled] .form-control{
                 background-color: white;
                 color: black;
                 font-size: 13px;
-            }
 
-            li.highlighted,
-            li:hover {
-                background-color: #ccdcec0a;
+                &.highlighted,
+                &:hover {
+                  background-color: #ccdcec0a;
+                }    
+                &.not-selected{
+                  color: #999999;
+                }
             }
-        }
+          }
     }
 }
 
@@ -1344,4 +1357,17 @@ input:checked + .nw-switch-checkbox__slider:before {
 
 .nw-switch-checkbox__slider.nw-switch-checkbox__round:before {
     border-radius: 50%;
+}
+
+.ios-device {
+  .custom-text-input-group {
+    padding-top: 8px;
+    input {
+      border-radius: 0;
+      padding-bottom: 7px;
+    }
+    [class^="icon-"], [class*=" icon-"]{
+      top: 17px;
+    }
+  }
 }

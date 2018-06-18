@@ -31,6 +31,7 @@
         translations['EnterValidDate'] = "@Resources.EnterValidDate";
         translations['Cancel'] = "@Resources.Cancel";
         translations['new'] = '@Resources.New';
+        translations['NotSelected'] = "@Html.Raw(Resources.NotSelected)";
         @RenderSection("Translations", false)
     </script>
     @Scripts.Render("~/bundles/jquery")
@@ -74,7 +75,7 @@
     string phoneToCall = phone.Replace("-", "");
 }
 <body class="@(User.Identity.IsAuthenticated ? "authorized" : "no-authorized")">
-<div class="help-hover" id="help-hover"></div><div class="body-dark-overlay"></div>
+    <div class="help-hover" id="help-hover"></div><div class="body-dark-overlay"></div>
     <header>
         <div class="header__background">
             <div class="container">

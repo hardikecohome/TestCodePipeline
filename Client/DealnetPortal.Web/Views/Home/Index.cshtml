@@ -4,25 +4,25 @@
 
 <div id="home-body" data-bind="with: table">
 
-    <div class="margin-block">
-        <div class="row">
-            <div class="new-notification-wp" data-bind="visible: showLearnMore" style="display:none;">
-                <div class="new-notification-blank">
-                    <span class="new-notification-blank__text">
-                        @Resources.LearnMoreHomePage
-                    </span>
+    @*<div class="margin-block">
+            <div class="row">
+                <div class="new-notification-wp" data-bind="visible: showLearnMore" style="display:none;">
+                    <div class="new-notification-blank">
+                        <span class="new-notification-blank__text">
+                            @Resources.LearnMoreHomePage
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>*@
 
-    <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
+    <div class="margin-block">
         <div class="row">
             <div class="filters">
-                <div class="filters-head">
+                <div class="filters-head" data-bind="visible: list().length > 0">
                     <div class="filters-head__title">@Resources.MyDeals</div>
-                    <div class="filters-head__learn-more" data-bind="click:function(){showLearnMore(!showLearnMore());}">
-                        <i class="lamp-ico"></i>
+                    <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
+                        @*<i class="lamp-ico"></i>
                             <a>
                                 <!-- ko if: showLearnMore -->
                                 @Resources.Hide
@@ -30,7 +30,7 @@
                                 <!-- ko ifnot: showLearnMore -->
                                 @Resources.LearnMoreAboutThisPage
                                 <!-- /ko -->
-                            </a>
+                            </a>*@
                     </div>
                     <!-- ko if: showFilters -->
                     <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -40,7 +40,7 @@
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
-                        <span class="save-btn-status">
+                        <span class="save-btn-status" data-bind="css:{saved:filtersSaved}">
                             <!-- ko if: filtersSaved -->
                             <i class="checked-ico"></i> @Resources.Saved
                             <!-- /ko -->
@@ -51,7 +51,7 @@
                     </div>
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: list().length > 0 && !showSorters()">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide
@@ -79,24 +79,29 @@
                     </div>
                 </div>
 
-                <div class="filters-advanced homepage-mod" data-bind="visible: showFilters() || showSorters()">
-                    <!-- ko if: showFilters -->
-                    <div class="filters-advanced__type new-input-group">
+                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
+
+                    <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.DealType</label>
-                            <select required data-bind="options:agreementOptions, selectric:agreementType"></select>
+                            <label for="agreement-type">@Resources.DealType</label>
+                            <select id="agreement-type" required data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
-                    <div class="filters-advanced__status new-input-group">
+                    <div class="filters-advanced__status new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.DealStatus</label>
-                            <select data-bind="foreach:statusOptions, selectric:status">
+                            <label for="status">
+                                <span class="icon">
+                                    <i class="info-ico info-ico--grey"></i>
+                                </span>
+                                @Resources.DealStatus
+                            </label>
+                            <select id="status" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-from new-input-group">
+                    <div class="filters-advanced__date-from new-input-group" data-bind="visible: showFilters">
                         <div class="custom-text-input-group icon date-group">
                             <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateFrom</label>
@@ -104,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-to new-input-group">
+                    <div class="filters-advanced__date-to new-input-group" data-bind="visible: showFilters">
                         <div class="custom-text-input-group icon date-group">
                             <input type="text" class="date-input" required data-bind="datePicker: dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
@@ -112,20 +117,24 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__created-by new-input-group">
+                    <div class="filters-advanced__created-by new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.TypeOfProject</label>
-                            <select data-bind="options:equipmentOptions, selectric:equipment"></select>
+                            <label for="created-by">@Resources.AppCreatedBy</label>
+                            <select id="created-by" data-bind="selectric: createdBy">
+                                <option value=""></option>
+                                <option value="true">@Resources.Customer</option>
+                                <option value="false">@Resources.DealerSalesAgent</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="filters-advanced__sales-rep new-input-group">
+                    <div class="filters-advanced__sales-rep new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.SalesRep</label>
-                            <select data-bind="options:salesRepOptions, selectric:salesRep"></select>
+                            <label for="sales-rep">@Resources.SalesRep</label>
+                            <select id="sales-rep" data-bind="options: salesRepOptions, selectric: salesRep"></select>
                         </div>
                     </div>
-                    <!-- /ko -->
+
                     <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.SortBy</label>
@@ -158,7 +167,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="filters-advanced__filters-cloud">
+                    <div class="filters-advanced__filters-cloud" data-bind="visible: showSorters">
                         <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.transactionId">
                             @Resources.ContractNumber -
                             <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->
@@ -246,8 +255,8 @@
                         </div>
                         <div class="main-table__block__row__cell deal-status">
                             <span class="icon">
-                                    @*<i class="info-ico info-ico--green"></i>*@
-                                </span>
+                                <i class="info-ico info-ico--grey"></i>
+                            </span>
                             <span>@Resources.DealStatus</span>
                         </div>
                         <div class="main-table__block__row__cell e-sign">
@@ -334,14 +343,14 @@
                         </div>
                     </div>
                 </div>
-            <div class="main-table__block main-table__block--body no-records" data-bind="visible:noRecordsFound()" style="display:none">@Resources.NoMatchingRecordsFound</div>
-            <!-- ko foreach: pager.pagedList -->
+                <div class="main-table__block main-table__block--body no-records" data-bind="visible:noRecordsFound()" style="display:none">@Resources.NoMatchingRecordsFound</div>
+                <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
                     <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated,'expired-deal':$data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon" data-bind="if: !$data.IsInternal && $data.Id != 0">
-                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected" />
-                                <span class="customized-checkbox-icon__image"></span>
+                            <label class="customized-checkbox-icon" >
+                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected, visible: !$data.IsInternal && $data.Id != 0" />
+                                <span class="customized-checkbox-icon__image" data-bind="visible: !$data.IsInternal && $data.Id != 0"></span>
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
@@ -352,7 +361,7 @@
                                 <span class="contract-number__notification contract-number__notification--red" data-bind="text: $parent.getExpiryText($data)"></span>
                                 <!-- /ko -->*@
                             <!-- ko ifnot: $data.Id -->
-                            <span data-bind="text: $data.TransactionId"></span>
+                            <span class="contract-number__link" data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
                             <!-- ko if: $data.Id -->
                             <a data-bind="attr: { href:$parent.editUrl($data.Id) }, text: $data.TransactionId "></a>
@@ -414,13 +423,19 @@
                             </div>*@
                         <div class="main-table__block__row__cell icon-cell icon-cell-notes">
                             <span data-bind="click:function(){$data.showNotes(!$data.showNotes());}">
-                                <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                                <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
                             </span>
-                            <!-- ko if: $data.CustomerComment -->
-                            <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}">
+                            <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
+                            <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
+                                <!-- ko if: $data.CustomerComment -->
                                 <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
                                 <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                                <!-- /ko -->
+                                <!-- ko if: $data.ContractNotes -->
+                                <span class="customer-comment-popup__title">@Resources.ContractNotes:</span>
+                                <span class="customer-comment-popup__legend" data-bind="text:$data.ContractNotes"></span>
+                                <!-- /ko -->
                             </div>
                             <!-- /ko -->
                         </div>
@@ -428,19 +443,19 @@
                             <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
+                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());},attr:{'data-action':$data.Id}"></i>
                             <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
-                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions},attr:{'data-action':$data.Id}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
-                                <div class="table-row-settings-popup__edit">
+                                <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                     <i class="edit-contract-ico"></i>
                                     <span>
                                         <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal, click:function(){$parent.exportToExcel($data.Id);}">
+                                <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal && $data.Id > 0, click:function(){$parent.exportToExcel($data.Id);}">
                                     <i class="excel-ico"></i>
                                     <span>
                                         <a>@Resources.ExportToExcel</a>
@@ -465,10 +480,10 @@
                         <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
                             <div class="table-row-details__left">
 
-                                <div class="table-row-details__left__email">
+                                <div class="table-row-details__left__email mbl-hide">
                                     <span>@Resources.Email</span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.Email"></div>
+                                <div class="table-row-details__left__value mbl-hide" data-bind="text: $data.Email"></div>
 
                                 <div class="table-row-details__left__last-activity" data-bind="click:$parent.configureSortClick($parent.sortFields.date)">
                                     <span>@Resources.LastActivity</span>
@@ -521,13 +536,13 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
                                 <div class="table-row-details__left__payment-amount" data-bind="click:$parent.configureSortClick($parent.sortFields.payment)">
-                                    <span>@Resources.Payment</span>
+                                    <span>@Resources.MonthlyPayment</span>
                                     <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.Payment"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.MonthlyPayment"></div>
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectDescription</span>
@@ -541,6 +556,10 @@
 
                             </div>
                             <div class="table-row-details__right">
+                                <div class="table-row-details__right__email">
+                                    <span>@Resources.Email</span>
+                                </div>
+                                <div class="table-row-details__right__value" data-bind="text: $data.Email"></div>
 
                                 <div class="table-row-details__left__address">
                                     <span>@Resources.Address</span>
@@ -558,16 +577,29 @@
                                 <div class="table-row-details__left__value" data-bind="text: SalesRep"></div>
 
                                 @*<div class="table-row-details__left__entered-by">
-                                        <span>@Resources.EnteredBy</span>
+            <span>@Resources.EnteredBy</span>
 
-                                    </div>
-                                    <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
+        </div>
+        <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
 
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>
                                 </div>
                                 <div class="table-row-details__left__value">
-                                    <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment ? 'grey' : 'green')}"></i>
+                                    <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
+                                    <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
+                                    <div class="customer-comment-popup mobile" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
+                                        <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
+                                        <!-- ko if: $data.CustomerComment -->
+                                        <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
+                                        <span class="customer-comment-popup__legend" data-bind="text:$data.CustomerComment"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if: $data.ContractNotes -->
+                                        <span class="customer-comment-popup__title">@Resources.ContractNotes:</span>
+                                        <span class="customer-comment-popup__legend" data-bind="text:$data.ContractNotes"></span>
+                                        <!-- /ko -->
+                                    </div>
+                                    <!-- /ko -->
                                 </div>
 
                                 <div class="table-row-details__left__lead">
@@ -579,17 +611,17 @@
                                 </div>
 
                                 <div class="table-row-details__left__gear">
-                                    <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());}"></i>
-                                    <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions}">
+                                    <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());},attr:{'data-action':$data.Id}"></i>
+                                    <div class="table-row-settings-popup mobile" data-bind="css:{opened:$data.showActions},attr:{'data-action':$data.Id}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
-                                        <div class="table-row-settings-popup__edit">
+                                        <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                             <i class="edit-contract-ico"></i>
                                             <span>
                                                 <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                             </span>
                                         </div>
                                         <div class="table-row-settings-popup__export"
-                                             data-bind="visible: !$data.IsInternal,click:function(){$parent.exportToExcel($data.Id);}">
+                                             data-bind="visible: !$data.IsInternal && $data.Id > 0, click: function(){ $parent.exportToExcel($data.Id); }">
                                             <i class="excel-ico"></i>
                                             <span>
                                                 <a>@Resources.ExportToExcel</a>
@@ -628,27 +660,23 @@
                             <span class="main-table__block__row__grand-total-value__total-container">$ <span data-bind="text: selectedTotal"></span></span>
                             <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
-                        <div class="main-table__block__row__entries-number new-input-group">
-                            <div class="custom-select-wrap custom-select-float-label">
-                                <label for="entries-number">@Resources.NumberOfEntries</label>
-                                <select name="entries-number"
-                                        id="entries-number"
-                                        data-bind="options: pager.pageSizes, selectric:pager.pageSize"></select>
+                        <div class="main-table__block__row__btns">
+                            <div class="main-table__block__row__btns__export"  data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+                                <button class="btn btn-green" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
                             </div>
+                            <div class="main-table__block__row__btns__preview" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+                                <div class="btn btn-green" data-bind="click: previewContracts">@Resources.Preview</div>
+                            </div>
+
                         </div>
+                            <div class="main-table__block__row__entries-number new-input-group">
+                                <div class="custom-select-wrap custom-select-float-label">
+                                    <label for="entries-number">@Resources.NumberOfEntries</label>
+                                    <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
+                                </div>
+                            </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="margin-block table-btns" data-bind="visible: selectedIds().length > 0" style="display:none;">
-        <div class="row">
-            <div class="col-md-3">
-                <button class="btn btn-green col-xs-12" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-green col-xs-12" data-bind="click: previewContracts">@Resources.Preview</button>
             </div>
         </div>
     </div>

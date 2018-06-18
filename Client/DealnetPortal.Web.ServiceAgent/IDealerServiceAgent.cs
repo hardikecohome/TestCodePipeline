@@ -15,7 +15,6 @@ namespace DealnetPortal.Web.ServiceAgent
     public interface IDealerServiceAgent
     {
         Task<DealerProfileDTO> GetDealerProfile();
-        Task<string> UpdateDealerParent();
         Task<IList<Alert>> UpdateDealerProfile(DealerProfileDTO dealerProfile);
         Task<DealerInfoDTO> GetDealerOnboardingForm(string accessKey);
         Task<DealerInfoDTO> GetDealerOnboardingForm(int id);
