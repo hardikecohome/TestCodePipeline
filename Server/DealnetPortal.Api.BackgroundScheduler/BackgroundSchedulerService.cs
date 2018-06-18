@@ -12,6 +12,13 @@ namespace DealnetPortal.Api.BackgroundScheduler
         private readonly IMailService _mailService;
         private readonly ILoggingService _loggingService;
 
+        public BackgroundSchedulerService(ILoggingService loggingService, IContractRepository contractRepository, IMailService mailService)
+        {
+            _loggingService = loggingService;
+            _contractRepository = contractRepository;
+            _mailService = mailService;
+        }
+
         public BackgroundSchedulerService()
         {
             _loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
