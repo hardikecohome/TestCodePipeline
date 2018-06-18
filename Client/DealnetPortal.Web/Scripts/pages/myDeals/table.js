@@ -393,9 +393,13 @@
         };
 
         this.exportAll = function () {
-            var ids = this.list().map(function (item) {
-                return item.Id;
-            });
+            var ids = this.list()
+                .filter(function (item) {
+                    return !item.IsInternal && item.Id > 0;
+                })
+                .map(function (item) {
+                    return item.Id;
+                });
             exportList(ids);
         };
 
