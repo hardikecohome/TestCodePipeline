@@ -24,6 +24,19 @@ namespace DealnetPortal.DataAccess.Repositories
             return _dbContext.Users.FirstOrDefault(u => u.UserName == userName)?.Id;
         }
 
+        public string GetRoleId(string roleName)
+        {
+            return _dbContext.Roles.FirstOrDefault(u => u.Name == roleName)?.Id;
+        }
+
+        public IList<string> GetUserNamesByRole(string roleName)
+        {
+            var usersList = _dbContext.Roles.FirstOrDefault(r => r.Name == roleName)?.Users
+                .Join(_dbContext.Users, iu => iu.UserId, au => au.Id, (iu, au) => au)
+                .Select(u => u.UserName).ToList();
+            return usersList;
+        }
+
         public string GetUserIdByOnboardingLink(string link)
         {
             return !string.IsNullOrEmpty(link) ? _dbContext.Users.FirstOrDefault(u => u.OnboardingLink == link)?.Id : null;

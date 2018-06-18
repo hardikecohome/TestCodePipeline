@@ -28,7 +28,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<DealerProfileDTO>($"{_fullUri}/GetDealerProfile", AuthenticationHeader, CurrentCulture);
+                return await Client.GetAsyncEx<DealerProfileDTO>($"{_fullUri}/Profile", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -43,8 +43,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PostAsyncEx<DealerProfileDTO, IList<Alert>>(
-                            $"{_fullUri}/UpdateDealerProfile", dealerProfile, AuthenticationHeader, CurrentCulture);
+                        Client.PutAsyncEx<DealerProfileDTO, IList<Alert>>(
+                            $"{_fullUri}/Profile", dealerProfile, AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingInfo?accessKey={accessKey}", null, CurrentCulture);
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/Onboarding/key/{accessKey}", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/GetDealerOnboardingInfo?dealerInfoId={id}", null, CurrentCulture);
+                return await Client.GetAsyncEx<DealerInfoDTO>($"{_fullUri}/Onboarding/{id}", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -84,8 +84,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PostAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
-                            $"{_fullUri}/UpdateDealerOnboardingInfo", dealerInfo, null, null);
+                        Client.PutAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/Onboarding", dealerInfo, null, null);
             }
             catch (Exception ex)
             {
@@ -100,8 +100,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PostAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
-                            $"{_fullUri}/SubmitDealerOnboardingInfo", dealerInfo, null, null);
+                        Client.PutAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/Onboarding/Submit", dealerInfo, null, null);
             }
             catch (Exception ex)
             {
@@ -117,8 +117,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PutAsyncEx<RequiredDocumentDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
-                            $"{_fullUri}/AddDocumentToDealerOnboarding", document, null, CurrentCulture);
+                        Client.PostAsyncEx<RequiredDocumentDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/Onboarding/{document.DealerInfoId}/documents", document, null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -133,8 +133,8 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.PutAsyncEx<RequiredDocumentDTO, IList<Alert>>(
-                            $"{_fullUri}/DeleteDocumentFromOnboardingForm", document, null, CurrentCulture);
+                        Client.DeleteAsyncEx<IList<Alert>>(
+                            $"{_fullUri}/Onboarding/{document.DealerInfoId}/documents/{document.Id}", null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -150,7 +150,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.PostAsyncEx<DraftLinkDTO, IList<Alert>>(
-                            $"{_fullUri}/SendDealerOnboardingDraftLink", link, null, CurrentCulture);
+                            $"{_fullUri}/Onboarding/SendLink", link, null, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -165,25 +165,13 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await Client.GetAsync<bool>(
-                            $"{_fullUri}/CheckOnboardingLink?dealerLink={dealerLink}");                
+                            $"{_fullUri}/Onboarding/CheckLink/{dealerLink}");                
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't check onboarding link", ex);
                 throw;
             }            
-        }
-        public async Task<string> UpdateDealerParent()
-        {
-            try
-            {
-                return await Client.GetAsyncEx<string>($"{_fullUri}/GetDealerParent", AuthenticationHeader, CurrentCulture);
-            }
-            catch (Exception ex)
-            {
-                _loggingService.LogError("Can't get parent for an user", ex);
-                return null;               
-            }
         }
 
         public async Task<IList<Alert>> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)

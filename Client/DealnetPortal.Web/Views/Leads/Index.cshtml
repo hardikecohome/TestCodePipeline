@@ -2,7 +2,7 @@
     ViewBag.Title = Resources.Leads;
 }
 
-<div id="leads-body" calss="leads-page" data-bind="with: table">
+<div id="leads-body" class="leads-page" data-bind="with: table">
     <div class="margin-block">
         <div class="row">
             <div class="filters leads-filters">
@@ -37,7 +37,7 @@
                         <div class="new-btn-green">
                             <span>@Resources.Save</span>
                         </div>
-                        <span class="save-btn-status">
+                        <span class="save-btn-status" data-bind="css:{saved:filtersSaved}">
                             <!-- ko if: filtersSaved -->
                             <i class="checked-ico"></i> @Resources.Saved
                             <!-- /ko -->
@@ -178,7 +178,7 @@
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
                     </div>
-                    <div class="filters-advanced__clear-btn new-btn-grey">
+                    <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
                         <span>@Resources.Clear</span>
                     </div>
                     <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
@@ -286,14 +286,15 @@
                         <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
                             <span>+</span><span>@Resources.AcceptLead</span>
                         </div>
-                        <div class="main-table__block__row__cell info" data-bind="event: { mouseover: function() {$data.showInfo(true) }, mouseout: function() {$data.showInfo(false) } }">
-                            <i class="i-letter-ico"></i>
+                        <div class="main-table__block__row__cell info">
+                            <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());}"></i>
                             <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
                             <div class="customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
+                                <i class="cross-ico" data-bind="click:function(){$data.showInfo(false);}, visible: $data.showInfo"></i>
                                 <span class="customer-comment-popup__title"></span>
-                                <span class="popup-info">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
+                                <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
                             </div>
                         </div>
                     </div>
@@ -366,15 +367,15 @@
     </div>
 
     <div class="nw-placeholder" data-bind="visible: list().length < 1">
-        <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
+        <i class="nw-placeholder__icon leads-placeholder-ico"></i>
         <p>
-            @Resources.NoLeadsFirstPart
+            @Html.Raw(Resources.NoLeadsFirstPart)
         </p>
         <p>
             @Html.Raw(Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
         </p>
         <p>
-           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", Resources.ContactDealerSupport))
+           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", "<a onclick='sendEmailModel()'>" + Resources.ContactDealerSupport) + "</a>")
         </p>
     </div>
 </div>

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Core.ApiClient;
@@ -23,22 +22,34 @@ using Unity.Lifetime;
 using Unity.Injection;
 using System.Web.Hosting;
 using System.Configuration;
+using Hangfire;
+using Hangfire.Client;
+using Hangfire.Common;
+using Hangfire.SqlServer;
+using Hangfire.States;
+using GlobalConfiguration = System.Web.Http.GlobalConfiguration;
 
 namespace DealnetPortal.Api
 {
     public static class UnityConfig
     {
+        private static IUnityContainer _unityContainer { get; set; }
+
         public static void RegisterComponents()
         {
-			var container = new UnityContainer();
-
+			_unityContainer = new UnityContainer();
             // register all your components with the container here
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-            RegisterTypes(container);
+            RegisterTypes(_unityContainer);
 
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(_unityContainer);
+        }
+
+        public static IUnityContainer GetConfiguredContainer()
+        {
+            return _unityContainer;
         }
 
         public static void RegisterTypes(IUnityContainer container)
@@ -47,7 +58,7 @@ namespace DealnetPortal.Api
 
             container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
-
+            
             #region Repositories
             container.RegisterType<IContractRepository, ContractRepository>();
             container.RegisterType<IFileRepository, FileRepository>();

@@ -40,6 +40,7 @@
                     display: flex;
                     font-size: 13px;
                     color: #5f5f5f;
+                    margin-left: 5px;
 
                     span, i {
                         text-align: left;
@@ -132,17 +133,15 @@
                 .main-table__block__row {
 
                     &__cell {
-                        &:not(:first-child):not(:last-child) {
+                        &:not(:last-child) {
                             background-image: linear-gradient(#bcc6d9 14%, rgba(255,255,255,0) 0%);
                             background-position: right;
                             background-size: 1px 9px;
                             background-repeat: repeat-y;
                         }
-
-                        &:nth-child(2) {
+                        /*&:nth-child(2) {
                             justify-content: center;
-                        }
-
+                        }*/
                         &.checkbox-cell {
                             margin-bottom: 5px;
                         }
@@ -273,6 +272,28 @@
         }
     }
 }
+
 .leads-filters {
     max-width: 1280px;
+    .filters-advanced{
+        @media @tablet-only{
+            margin-right: 24px;
+            &__type, 
+            &__status,
+            &__date-from,
+            &__date-to  {
+                flex-basis: 20%;
+                margin-right: 10px;
+                .custom-select-wrap { 
+                    flex-basis: 90%;
+                }
+            }
+            &__date-from {
+                margin-left: unset;
+            }
+            &__apply-btn {
+                margin-top: 8px;
+            }
+        }
+    }
 }

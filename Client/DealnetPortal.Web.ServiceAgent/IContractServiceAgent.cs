@@ -151,11 +151,11 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 
-        Task<IList<Alert>> RemoveComment(int commentId);
+        Task<IList<Alert>> RemoveComment(int contractId, int commentId);
 
         Task<Tuple<int?, IList<Alert>>> AddDocumentToContract(ContractDocumentDTO document);
 
-        Task<IList<Alert>> RemoveContractDocument(int documentId);
+        Task<IList<Alert>> RemoveContractDocument(int contractId, int documentId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId);
 
@@ -166,8 +166,7 @@ namespace DealnetPortal.Web.ServiceAgent
         
 
         Task<IList<Alert>> AssignContract(int contractId);
-        Task<IList<Alert>> CheckCustomerExisting(string email);
-
+        
         Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId);
     }
 }

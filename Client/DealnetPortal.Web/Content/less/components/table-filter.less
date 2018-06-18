@@ -194,7 +194,7 @@
 
     .filters-head {
         display: flex;
-        margin: 0 16px;
+        margin-left: 16px;
 
         &__title {
             margin: 0 8px;
@@ -252,7 +252,7 @@
         &__clear-btn,
         &__save-btn,
         &__filter-btn {
-            margin: 0 20px;
+            margin: 0 15px;
         }
 
         &__export-excel,
@@ -923,5 +923,72 @@
     
     .table-btns .btn {
         margin-bottom: 15px;
+    }
+}
+
+.leads-page {
+    .filters { 
+        .filters-head {
+            margin:0 16px;
+        }
+        .filters-advanced{
+            margin: 20px 32px;
+        }
+    }
+}
+
+.ie {
+    .filters .filters-head__save-btn .save-btn-status {
+        right: 195px;
+        &.saved {
+            right: 210px;
+        }
+        @media @mobile {
+            right: 25%;
+            &.saved {
+                right: 27%;
+            }
+        }
+    }
+    .leads-page {
+        .filters .filters-head__save-btn .save-btn-status {
+            right: 515px;
+            &.saved {
+                right: 530px;
+            }
+            @media @tablet-down {
+                right: 25%;
+                &.saved {
+                    right: 27%;
+                }
+            }
+        }
+    }
+}
+
+.ios-device {
+	.filters .filters-head__save-btn .save-btn-status {
+        right: 195px;
+        &.saved {
+            right: 210px;
+        }
+    }
+
+	.my-deals .filters .filters-head__save-btn .save-btn-status {
+        @media @tablet-down{
+            right: 50px;
+            &.saved {
+                right: 65px;
+            }
+		}
+    }
+
+	.leads-page .filters .filters-head__save-btn .save-btn-status {
+        @media @tablet-down{
+            right: 165px;
+            &.saved {
+                right: 180px;
+            }
+		}
     }
 }

@@ -72,7 +72,20 @@ namespace DealnetPortal.Api.App_Start
                     return !string.IsNullOrEmpty(descrResource)
                         ? ResourceHelper.GetGlobalStringResource(descrResource)
                         : eqType?.Description;                    
-                }));
+                }))
+                .AfterMap((src, dest, resContext) =>
+                {
+                    if (dest.EquipmentType == null)
+                    {
+                        var eqType = resContext.Items.ContainsKey(MappingKeys.EquipmentTypes) ?
+                                         (resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>)?.FirstOrDefault(et => et.Type == src.Type)
+                                         : null;
+                        if (eqType != null)
+                        {
+                            dest.EquipmentType = resContext.Mapper.Map<EquipmentTypeDTO>(eqType);
+                        }
+                    }
+                });
             mapperConfig.CreateMap<InstallationPackage, InstallationPackageDTO>();
             mapperConfig.CreateMap<Comment, CommentDTO>()
                 .ForMember(x => x.IsOwn, s => s.ResolveUsing(src => src.IsCustomerComment != true && (src.DealerId == src.Contract?.DealerId)))
@@ -430,6 +443,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.SalesRep, s => s.UseValue(string.Empty))
                 .ForMember(d => d.IsNewlyCreated, s => s.Ignore())
                 .ForMember(d => d.IsCreatedByCustomer, s => s.Ignore())
+                .ForMember(d => d.IsLead, s => s.Ignore())
                 .ForMember(d => d.ActionRequired, s => s.Ignore())
                 .ForMember(d => d.SearchDescription, s => s.ResolveUsing(src =>
                     src.EquipmentDescription ?? string.Empty));

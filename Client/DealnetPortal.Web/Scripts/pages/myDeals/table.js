@@ -128,16 +128,16 @@
         this.paymentTypeOptions = ko.observableArray(filterAndSortList(data, 'PaymentType'));
         this.equipmentOptions = ko.observableArray(prepareEquipmentList(data));
 
-        this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
-        this.status = ko.observable(localStorage.getItem(filters.status) || '');
-        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
-        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
-        this.createdBy = ko.observable(localStorage.getItem(filters.createdBy) || '');
-        this.salesRep = ko.observable(localStorage.getItem(filters.salesRep) || '');
-        this.equipment = ko.observable(localStorage.getItem(filters.equipment) || '');
-        this.typeOfPayment = ko.observable(localStorage.getItem(filters.typeOfPayment) || '');
-        this.valueFrom = ko.observable(localStorage.getItem(filters.valueFrom) || '');
-        this.valueTo = ko.observable(localStorage.getItem(filters.valueTo) || '');
+        this.agreementType = ko.observable('');
+        this.status = ko.observable('');
+        this.dateFrom = ko.observable('');
+        this.dateTo = ko.observable('');
+        this.createdBy = ko.observable('');
+        this.salesRep = ko.observable('');
+        this.equipment = ko.observable('');
+        this.typeOfPayment = ko.observable('');
+        this.valueFrom = ko.observable('');
+        this.valueTo = ko.observable('');
         this.search = ko.observable('');
         this.singleId = ko.observable('');
         this.sorter = ko.observable('');
@@ -207,7 +207,7 @@
         }, this);
 
         this.selectedTotal = ko.computed(function () {
-            return this.pager.pagedList().reduce(function (sum, curr) {
+            return this.filteredList().reduce(function (sum, curr) {
                 return curr.isSelected() ?
                     sum + (curr.valueNum || 0) :
                     sum;
@@ -230,13 +230,27 @@
             },
             write: function (value) {
                 this.pager.pagedList().forEach(function (item) {
-                    if (item.Id != 0 && !item.IsInternal) item.isSelected(value);
+                    if (!value) item.isSelected(value);
+                    if (value && item.Id > 0 && !item.IsInternal) item.isSelected(value);
                 });
             },
             owner: this
         });
 
         // functions
+        function clearSavedFilters() {
+            localStorage.removeItem(filters.agreementType);
+            localStorage.removeItem(filters.status);
+            localStorage.removeItem(filters.dateFrom);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.createdBy);
+            localStorage.removeItem(filters.salesRep);
+            localStorage.removeItem(filters.equipment);
+            localStorage.removeItem(filters.typeOfPayment);
+            localStorage.removeItem(filters.valueFrom);
+            localStorage.removeItem(filters.valueTo);
+        }
+
         this.toggleFilters = function () {
             this.showSorters(false);
             this.showFilters(!this.showFilters());
@@ -278,16 +292,7 @@
             this.valueTo('');
             this.search('');
             this.filterList();
-            localStorage.removeItem(filters.agreementType);
-            localStorage.removeItem(filters.status);
-            localStorage.removeItem(filters.dateFrom);
-            localStorage.removeItem(filters.dateTo);
-            localStorage.removeItem(filters.createdBy);
-            localStorage.removeItem(filters.salesRep);
-            localStorage.removeItem(filters.equipment);
-            localStorage.removeItem(filters.typeOfPayment);
-            localStorage.removeItem(filters.valueFrom);
-            localStorage.removeItem(filters.valueTo);
+            clearSavedFilters();
         };
 
         this.clearSort = function () {
@@ -296,6 +301,7 @@
         };
 
         this.saveFilters = function () {
+            clearSavedFilters();
             this.agreementType() && localStorage.setItem(filters.agreementType, this.agreementType());
             this.status() && localStorage.setItem(filters.status, this.status());
             this.dateFrom() && localStorage.setItem(filters.dateFrom, this.dateFrom());
@@ -305,7 +311,7 @@
             this.equipment() && localStorage.setItem(filters.equipment, this.equipment());
             this.typeOfPayment() && localStorage.setItem(filters.typeOfPayment, this.typeOfPayment());
             this.valueFrom() && localStorage.setItem(filters.valueFrom, this.valueFrom());
-            this.valueTo() && localStorage.set(filters.valueTo, this.valueTo());
+            this.valueTo() && localStorage.setItem(filters.valueTo, this.valueTo());
             this.filtersSaved(true);
         };
 
@@ -388,9 +394,15 @@
         };
 
         this.exportAll = function () {
-            var ids = this.list().map(function (item) {
-                return item.Id;
-            });
+            var ids = this.filteredList()
+                .filter(function (item) {
+                    return item.Id > 0 && !item.IsInternal;
+                });
+            debugger;
+            ids = ids
+                .map(function (item) {
+                    return item.Id;
+                });
             exportList(ids);
         };
 
@@ -471,6 +483,18 @@
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
             this.paymentTypeOptions(filterAndSortList(newValue, 'PaymentType'));
             this.equipmentOptions(prepareEquipmentList(newValue));
+
+            this.agreementType(localStorage.getItem(filters.agreementType) || '');
+            this.status(localStorage.getItem(filters.status) || '');
+            this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
+            this.dateTo(localStorage.getItem(filters.dateTo) || '');
+            this.createdBy(localStorage.getItem(filters.createdBy) || '');
+            this.salesRep(localStorage.getItem(filters.salesRep) || '');
+            this.equipment(localStorage.getItem(filters.equipment) || '');
+            this.typeOfPayment(localStorage.getItem(filters.typeOfPayment) || '');
+            this.valueFrom(localStorage.getItem(filters.valueFrom) || '');
+            this.valueTo(localStorage.getItem(filters.valueTo) || '');
+
             this.filterList();
         }, this);
 
@@ -478,21 +502,15 @@
             this.pager.list(newValue);
         }, this);
 
-        $('body').on('click', (function (e) {
+        $('body').on('click touch', (function (e) {
             var $el = $(e.target);
-            var shown;
-            if (!$el.is('.table-row-settings-popup') && !$el.is('.gear-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showActions();
-                });
-                shown && shown.showActions(false);
-            }
-            if (!$el.is('.customer-comment-popup') && !$el.is('.notes-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showNotes();
-                });
-                shown && shown.showNotes(false);
-            }
+            var noteId = $el.data('notes');
+            var actionId = $el.data('action');
+
+            this.list().forEach(function (item) {
+                item.Id != noteId && item.showNotes(false);
+                item.Id != actionId && item.showActions(false);
+            });
         }).bind(this));
     };
 

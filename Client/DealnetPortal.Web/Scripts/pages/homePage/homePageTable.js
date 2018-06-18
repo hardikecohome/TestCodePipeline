@@ -94,12 +94,12 @@ module.exports('table', function (require) {
         this.statusOptions = ko.observableArray(prepareStatusList(list));
         this.salesRepOptions = ko.observableArray(filterAndSortList(list, 'SalesRep'));
 
-        this.agreementType = ko.observable(localStorage.getItem(filters.agreementType) || '');
-        this.status = ko.observable(localStorage.getItem(filters.status) || '');
-        this.salesRep = ko.observable(localStorage.getItem(filters.salesRepFilter) || '');
-        this.createdBy = ko.observable(localStorage.getItem(filters.createdBy) || '');
-        this.dateFrom = ko.observable(localStorage.getItem(filters.dateFrom) || '');
-        this.dateTo = ko.observable(localStorage.getItem(filters.dateTo) || '');
+        this.agreementType = ko.observable('');
+        this.status = ko.observable('');
+        this.salesRep = ko.observable('');
+        this.createdBy = ko.observable('');
+        this.dateFrom = ko.observable('');
+        this.dateTo = ko.observable('');
         this.singleId = ko.observable('');
         this.sorter = ko.observable('');
         this.sortedColumn = ko.observable('');
@@ -143,7 +143,7 @@ module.exports('table', function (require) {
         }, this);
 
         this.selectedTotal = ko.computed(function () {
-            return this.pager.pagedList().reduce(function (sum, curr) {
+            return this.filteredList().reduce(function (sum, curr) {
                 return curr.isSelected() ?
                     sum + curr.valueNum || 0 :
                     sum;
@@ -173,6 +173,15 @@ module.exports('table', function (require) {
         });
 
         // functions
+        function clearSavedFilters() {
+            localStorage.removeItem(filters.agreementType);
+            localStorage.removeItem(filters.status);
+            localStorage.removeItem(filters.salesRep);
+            localStorage.removeItem(filters.createdBy);
+            localStorage.removeItem(filters.dateTo);
+            localStorage.removeItem(filters.dateFrom);
+        }
+
         this.toggleFilters = function () {
             this.showSorters(false);
             this.showFilters(!this.showFilters());
@@ -208,12 +217,7 @@ module.exports('table', function (require) {
             this.dateFrom('');
             this.dateTo('');
             this.filterList();
-            localStorage.removeItem(filters.agreementType);
-            localStorage.removeItem(filters.status);
-            localStorage.removeItem(filters.salesRep);
-            localStorage.removeItem(filters.createdBy);
-            localStorage.removeItem(filters.dateTo);
-            localStorage.removeItem(filters.dateFrom);
+            clearSavedFilters();
         };
 
         this.clearSort = function () {
@@ -222,6 +226,7 @@ module.exports('table', function (require) {
         };
 
         this.saveFilters = function () {
+            clearSavedFilters();
             this.agreementType() && localStorage.setItem(filters.agreementType, this.agreementType());
             this.status() && localStorage.setItem(filters.status, this.status());
             this.salesRep() && localStorage.setItem(filters.salesRep, this.salesRep());
@@ -347,6 +352,14 @@ module.exports('table', function (require) {
             this.agreementOptions(filterAndSortList(newValue, 'AgreementType'));
             this.statusOptions(prepareStatusList(newValue));
             this.salesRepOptions(filterAndSortList(newValue, 'SalesRep'));
+
+            this.agreementType(localStorage.getItem(filters.agreementType) || '');
+            this.status(localStorage.getItem(filters.status) || '');
+            this.salesRep(localStorage.getItem(filters.salesRep) || '');
+            this.createdBy(localStorage.getItem(filters.createdBy) || '');
+            this.dateFrom(localStorage.getItem(filters.dateFrom) || '');
+            this.dateTo(localStorage.getItem(filters.dateTo) || '');
+
             this.filterList();
         }, this);
 
@@ -354,21 +367,15 @@ module.exports('table', function (require) {
             this.pager.list(newValue);
         }, this);
 
-        $('body').on('click', (function (e) {
+        $('body').on('click touch', (function (e) {
             var $el = $(e.target);
-            var shown;
-            if (!$el.is('.table-row-settings-popup') && !$el.is('.gear-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showActions();
-                });
-                shown && shown.showActions(false);
-            }
-            if (!$el.is('.customer-comment-popup') && !$el.is('.notes-ico')) {
-                shown = this.list().find(function (item) {
-                    return item.showNotes();
-                });
-                shown && shown.showNotes(false);
-            }
+            var noteId = $el.data('notes');
+            var actionId = $el.data('action');
+
+            this.list().forEach(function (item) {
+                item.Id != noteId && item.showNotes(false);
+                item.Id != actionId && item.showActions(false);
+            });
         }).bind(this));
     };
     return HomePageTable;

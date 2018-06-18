@@ -11,5 +11,6 @@ namespace DealnetPortal.Api.Common.Constants
         public static readonly string EquipmentTypes = "EquipmentTypes";
         public static readonly string CreditAmount = "CreditAmount";
         public static readonly string DocumentTypes = "DocumentTypes";
+        public static readonly string CustomerCreators = "CustomerCreators";
     }
 }

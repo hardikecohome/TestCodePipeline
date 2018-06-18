@@ -6,7 +6,7 @@
 
     function mapValue(type) {
         return function (item) {
-            return item[type].trim() || null;
+            return item[type] || null;
         };
     }
 
@@ -33,7 +33,7 @@
         return list.map(function (item) {
                 return item.LocalizedStatus ? {
                     icon: item.StatusColor,
-                    text: item.LocalizedStatus.trim()
+                    text: item.LocalizedStatus
                 } : null;
             }).filter(filterNull)
             .reduce(function (acc, curr) {

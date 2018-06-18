@@ -13,8 +13,9 @@
     box-shadow: 0 0 5px 0 rgba(110, 110, 110, 0.21);
     position: absolute;
     background-color: white;
-    z-index: 999;
+    z-index: 1001;
     font-size: 12px;
+    font-family: 'Mukta', sans-serif;
     border-radius: 24px;
     padding: 24px 24px;
 
@@ -387,6 +388,7 @@
     max-width: 280px;
     min-width: 280px;
     width: 280px;
+    text-align: left;
 
     &__title {
         opacity: .8;
@@ -404,9 +406,9 @@
 
 .table-row-settings-popup {
     padding: 14px 10px;
-    max-width: 160px;
-    min-width: 160px;
-    width: 160px;
+    max-width: 190px;
+    min-width: 190px;
+    width: 190px;
     border-radius: 14px;
 
     .cross-ico {
@@ -421,18 +423,19 @@
         align-items: center;
         font-size: 14px;
         font-weight: 300;
-        text-decoration: underline;
 
         i, a {
             line-height: 37px;
             color: #97c501;
             cursor: pointer;
             margin: 3px 5px 0;
-            text-decoration: underline;
 
             &:hover {
                 color: #97c501;
             }
+        }
+        a {
+           text-decoration: underline; 
         }
     }
 
@@ -748,6 +751,18 @@
                 margin-top: 24px;
                 flex-basis: 100%;
             }
+        }
+    }
+}
+
+.ios-device {
+    .table-row-settings-popup__export a {
+        display: inline-block;
+        line-height: 15px;
+        margin: 3px 7px 0;
+        @media @tablet-only {
+            margin-left: 7px;
+            margin-right: 7px; 
         }
     }
 }
