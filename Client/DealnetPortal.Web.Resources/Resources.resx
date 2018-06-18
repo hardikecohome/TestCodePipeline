@@ -2890,4 +2890,19 @@ On this page we will present you leads from actual clients from your neighborhoo
   <data name="AppCreatedBy" xml:space="preserve">
     <value>App created by</value>
   </data>
+  <data name="AtoZ" xml:space="preserve">
+    <value>A to Z</value>
+  </data>
+  <data name="HighToLow" xml:space="preserve">
+    <value>High to low</value>
+  </data>
+  <data name="LowToHigh" xml:space="preserve">
+    <value>Low to high</value>
+  </data>
+  <data name="Newest" xml:space="preserve">
+    <value>newest</value>
+  </data>
+  <data name="ZtoA" xml:space="preserve">
+    <value>Z to A</value>
+  </data>
 </root>

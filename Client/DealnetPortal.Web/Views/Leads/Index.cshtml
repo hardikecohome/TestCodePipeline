@@ -76,21 +76,21 @@
                     </div>
                     <!-- /ko -->
                 </div>
-                <div class="filters-advanced" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
-                    <div class="filters-advanced__type new-input-group">
+                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
+                    <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="postal-code">@Resources.PostalCode</label>
                             <select id="postal-code" data-bind="options:postalCodesOptions, selectric:postalCode"></select>
                         </div>
                     </div>
-                    <div class="filters-advanced__status new-input-group">
+                    <div class="filters-advanced__status new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="pre-approved">@Resources.PreApprovedFor</label>
                             <select id="pre-approved" data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-from new-input-group">
+                    <div class="filters-advanced__date-from new-input-group" data-bind="visible: showFilters">
                         <div class="custom-text-input-group icon date-group">
                             <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateFrom</label>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
 
-                    <div class="filters-advanced__date-to new-input-group">
+                    <div class="filters-advanced__date-to new-input-group" data-bind="visible: showFilters">
                         <div class="custom-text-input-group icon date-group">
                             <input type="text" class="date-input" required data-bind="datePicker: dateTo, datePickerOptions: datePickerOptions">
                             <label>@Resources.DateTo</label>
@@ -110,23 +110,29 @@
                             <label>@Resources.SortBy</label>
                             <select id="sort" data-bind="selectric: sorter">
                                 <option value=""></option>
-                                <option value="transactionIdAsc">
-                                    @Resources.ContractNumber - @Resources.Ascending
-                                </option>
-                                <option value="transactionIdDesc">
-                                    @Resources.ContractNumber - @Resources.Descending
-                                </option>
-                                <option value="applicantNameAsc">
-                                    @Resources.ApplicantNameAtoZ
-                                </option>
-                                <option value="applicantNameAscDesc">
-                                    @Resources.ApplicantNameZtoA
-                                </option>
                                 <option value="dateAsc">
-                                    @Resources.LastActivity - @Resources.Latest
+                                    @Resources.Date - @Resources.Newest
                                 </option>
                                 <option value="dateDesc">
-                                    @Resources.LastActivity - @Resources.Oldest
+                                    @Resources.Date - @Resources.Latest
+                                </option>
+                                <option value="postalCodeAsc">
+                                    @Resources.PostalCode - @Resources.AtoZ
+                                </option>
+                                <option value="postalCodeDesc">
+                                    @Resources.PostalCode - @Resources.ZtoA
+                                </option>
+                                <option value="preApprovedForAsc">
+                                    @Resources.PreApprovedFor - @Resources.LowToHigh
+                                </option>
+                                <option value="preApprovedForDesc">
+                                    @Resources.PreApprovedFor - @Resources.HighToLow
+                                </option>
+                                <option value="projectTypeAsc">
+                                    @Resources.ProjectType - @Resources.AtoZ
+                                </option>
+                                <option value="projectTypeDesc">
+                                    @Resources.ProjectType - @Resources.ZtoA
                                 </option>
                             </select>
                         </div>

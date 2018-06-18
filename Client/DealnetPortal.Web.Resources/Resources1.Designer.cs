@@ -907,6 +907,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A to Z.
+        /// </summary>
+        public static string AtoZ {
+            get {
+                return ResourceManager.GetString("AtoZ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average transaction size.
         /// </summary>
         public static string AverageTransactionSize {
@@ -3663,6 +3672,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High to low.
+        /// </summary>
+        public static string HighToLow {
+            get {
+                return ResourceManager.GetString("HighToLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -4500,6 +4518,15 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Low to high.
+        /// </summary>
+        public static string LowToHigh {
+            get {
+                return ResourceManager.GetString("LowToHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mailing Address.
         /// </summary>
         public static string MailingAddress {
@@ -4973,6 +5000,15 @@ namespace DealnetPortal.Web.Resources {
         public static string NewEquipmentInformation {
             get {
                 return ResourceManager.GetString("NewEquipmentInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to newest.
+        /// </summary>
+        public static string Newest {
+            get {
+                return ResourceManager.GetString("Newest", resourceCulture);
             }
         }
         
@@ -8315,6 +8351,15 @@ namespace DealnetPortal.Web.Resources {
         public static string YouSureYouWantToAcceptLeadThenYouPay {
             get {
                 return ResourceManager.GetString("YouSureYouWantToAcceptLeadThenYouPay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Z to A.
+        /// </summary>
+        public static string ZtoA {
+            get {
+                return ResourceManager.GetString("ZtoA", resourceCulture);
             }
         }
     }
