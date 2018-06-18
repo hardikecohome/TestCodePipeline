@@ -404,12 +404,11 @@ namespace DealnetPortal.Web.ServiceAgent
 		{
 			try
 			{
-			    var idsUri = ids?.JoinStrings("&ids=");
                 var uri = timeZoneOffset.HasValue
-			        ? $"{_fullUri}/pack/report/timezoneOffset={timeZoneOffset}?ids={idsUri}"
-			        : $"{_fullUri}/pack/report?ids={idsUri}";
+			        ? $"{_fullUri}/report/timezoneOffset={timeZoneOffset}"
+			        : $"{_fullUri}/report";
 
-                var report = await Client.GetAsyncEx<AgreementDocument> (uri, AuthenticationHeader, CurrentCulture);
+                var report = await Client.PostAsyncEx< IEnumerable<int>, AgreementDocument> (uri, ids, AuthenticationHeader, CurrentCulture);
 				return report;
 			}
 			catch (Exception ex)

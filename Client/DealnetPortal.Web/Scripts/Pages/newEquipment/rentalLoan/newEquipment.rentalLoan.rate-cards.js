@@ -147,14 +147,15 @@ module.exports('rate-cards', function (require) {
             if (option.name !== 'Custom' && state[option.name]) {
                 state[option.name].CustomerReductionCost = data.tafBuyDownRate;
             }
-
-            if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
-                $('#max-amt-cap-out-error').show();
-                $('#submit').addClass('disabled');
-                $('#submit').parent().popover();
-            } else {
-                $('#max-amt-cap-out-error').hide();
-            }
+			if (state[option.name].Id) {
+				if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
+					$('#max-amt-cap-out-error').show();
+					$('#submit').addClass('disabled');
+					$('#submit').parent().popover();
+				} else {
+					$('#max-amt-cap-out-error').hide();
+				}
+			}
             rateCardsRenderEngine.renderOption(option.name, selectedRateCard, data);
         });
     };

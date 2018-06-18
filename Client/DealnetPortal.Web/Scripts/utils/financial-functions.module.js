@@ -29,10 +29,19 @@
         };
 
         var tafBuyDownRate = function(data) {
-            var taf = totalAmountFinanced(data);
-            var adjustedDealerCost = +(taf * (data.InterestRateReduction / 100)).toFixed(2);
+			var taf = totalPrice(data) - data.downPayment;
+			var rate = data.CustomerReduction / 100 / 12;
+			var pmtWithRate = pmt(rate, data.AmortizationTerm, -1, 0, 0);
+			var pmtWithoutRate = pmt(0, data.AmortizationTerm, -1, 0, 0);
+			var pmtValue = -(pmtWithRate - pmtWithoutRate);
+			var fvValue = -(fv(rate, data.LoanTerm, pmtWithRate, -1, 0)) + (fv(0, data.LoanTerm, pmtWithoutRate, -1, 0));
+			var adjustedDealerCost = parseFloat( rate > 0 ?
+				((pv(rate,
+					data.LoanTerm,
+					pmtValue,
+					fvValue) + 0.0025) * taf).toFixed(2) : 0);
 
-            return adjustedDealerCost;
+			return adjustedDealerCost;
         }
 
         var yourCost = function (data) {
@@ -66,11 +75,11 @@
             var loanTerm = data.LoanTerm;
             var customerRate = data.CustomerRate;
             var mPayment = monthlyPayment(data);
-
+			var tAmountFinance = totalAmountFinanced(data);
             var rbalance = 0;
             if (loanTerm !== amortizationTerm) {
-                rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0) *
-                    (1 + customerRate / 100 / 12);
+				//rbalance = -pv(customerRate / 100 / 12, amortizationTerm - loanTerm, mPayment, 0);
+				rbalance = fv(customerRate / 100 / 12, loanTerm, mPayment, - tAmountFinance, 0);
             }
 
             return rbalance;
