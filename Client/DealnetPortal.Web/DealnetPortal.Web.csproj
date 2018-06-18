@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -993,7 +993,6 @@
     <Content Include="Content\less\components\placeholders.less" />
     <Content Include="Content\less\components\ui-datepicker-redesign.less" />
     <Content Include="Content\less\components\page-title.less" />
-    <Content Include="Content\files\resources\en\EcoHome Lease Rate Cards FINAL May 2018.pdf" />
     <Content Include="Content\fonts\redesign-icons.eot" />
     <Content Include="Content\fonts\redesign-icons.ttf" />
     <Content Include="Content\fonts\redesign-icons.woff" />
