@@ -146,8 +146,9 @@ module.exports('rate-cards', function (require) {
 
             if (option.name !== 'Custom' && state[option.name]) {
                 state[option.name].CustomerReductionCost = data.tafBuyDownRate;
-            }
-			if (state[option.name].Id) {
+			}
+			var rateCardId = idToValue(state)(option.name).Id;
+			if (rateCardId) {
 				if (isCapOutMaxAmt == 'True' && totalAmountFinance > maxCreditAmount) {
 					$('#max-amt-cap-out-error').show();
 					$('#submit').addClass('disabled');
