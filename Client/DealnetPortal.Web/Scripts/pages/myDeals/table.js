@@ -230,7 +230,8 @@
             },
             write: function (value) {
                 this.pager.pagedList().forEach(function (item) {
-                    if (item.Id != 0 && !item.IsInternal) item.isSelected(value);
+                    if (!value) item.isSelected(value);
+                    if (value && item.Id > 0 && !item.IsInternal) item.isSelected(value);
                 });
             },
             owner: this
@@ -393,10 +394,12 @@
         };
 
         this.exportAll = function () {
-            var ids = this.list()
+            var ids = this.filteredList()
                 .filter(function (item) {
-                    return !item.IsInternal && item.Id > 0;
-                })
+                    return item.Id > 0 && !item.IsInternal;
+                });
+            debugger;
+            ids = ids
                 .map(function (item) {
                     return item.Id;
                 });
