@@ -480,10 +480,10 @@
                         <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
                             <div class="table-row-details__left">
 
-                                <div class="table-row-details__left__email">
+                                <div class="table-row-details__left__email mbl-hide">
                                     <span>@Resources.Email</span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.Email"></div>
+                                <div class="table-row-details__left__value mbl-hide" data-bind="text: $data.Email"></div>
 
                                 <div class="table-row-details__left__last-activity" data-bind="click:$parent.configureSortClick($parent.sortFields.date)">
                                     <span>@Resources.LastActivity</span>
@@ -556,6 +556,10 @@
 
                             </div>
                             <div class="table-row-details__right">
+                                <div class="table-row-details__right__email">
+                                    <span>@Resources.Email</span>
+                                </div>
+                                <div class="table-row-details__right__value" data-bind="text: $data.Email"></div>
 
                                 <div class="table-row-details__left__address">
                                     <span>@Resources.Address</span>
@@ -573,10 +577,10 @@
                                 <div class="table-row-details__left__value" data-bind="text: SalesRep"></div>
 
                                 @*<div class="table-row-details__left__entered-by">
-                                        <span>@Resources.EnteredBy</span>
+            <span>@Resources.EnteredBy</span>
 
-                                    </div>
-                                    <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
+        </div>
+        <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
 
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>
@@ -584,7 +588,7 @@
                                 <div class="table-row-details__left__value">
                                     <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
                                     <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
-                                    <div class="customer-comment-popup" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
+                                    <div class="customer-comment-popup mobile" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
                                         <!-- ko if: $data.CustomerComment -->
                                         <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>
