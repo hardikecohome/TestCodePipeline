@@ -7742,7 +7742,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type of Payment.
+        ///   Looks up a localized string similar to Type of payment.
         /// </summary>
         public static string TypeOfPayment {
             get {

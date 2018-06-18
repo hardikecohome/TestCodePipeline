@@ -574,6 +574,7 @@
     <Content Include="Content\images\redesign_icons\close-white.svg" />
     <Content Include="Content\images\redesign_icons\cross.svg" />
     <Content Include="Content\images\redesign_icons\delete.svg" />
+    <Content Include="Content\images\redesign_icons\dollar.svg" />
     <Content Include="Content\images\redesign_icons\dw-license.svg" />
     <Content Include="Content\images\redesign_icons\edit-contract.svg" />
     <Content Include="Content\images\redesign_icons\edit-pen.svg" />

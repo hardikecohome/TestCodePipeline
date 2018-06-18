@@ -380,6 +380,28 @@
                             }
                         }
                     }
+
+                    &.icon-cell-notes {
+                        .customer-comment-popup {
+                            display: none;
+
+                            &.opened {
+                                display: flex;
+                                position: absolute;
+                                margin-left: -67px;
+                                margin-right: 67px;
+                                text-align: left;
+                                align-self: flex-start; 
+                            }
+                            
+                            &__title,
+                            &__legend {
+                                text-align: left;
+                                align-self: flex-start;
+                                
+                            }
+                        }
+                    }
                 }
             }
         }

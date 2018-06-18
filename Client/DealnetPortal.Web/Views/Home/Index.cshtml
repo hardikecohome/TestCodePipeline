@@ -588,7 +588,7 @@
                                 <div class="table-row-details__left__value">
                                     <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
                                     <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
-                                    <div class="customer-comment-popup mobile" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
+                                    <div class="customer-comment-popup mobile" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}, click:function(){} $data.showNotes(!$data.showNotes())}">
                                         <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
                                         <!-- ko if: $data.CustomerComment -->
                                         <span class="customer-comment-popup__title">@Resources.CustomerComment:</span>

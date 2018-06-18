@@ -1184,7 +1184,7 @@ table
                         flex-basis: 100%;
                         justify-content: center;
 
-                        div:not(.table-row-settings-popup) {
+                        div:not([class*="table-row-settings"]):not([class*="customer-comment-popup"]):not([class^="table-row-settings"]):not([class^="customer-comment-popup"]) {
                             align-items: center;
                             display: flex;
                             flex-basis: 35%;
@@ -1227,6 +1227,17 @@ table
                         &__gear {
                             .table-row-settings-popup {
                                 display: none;
+                                &__edit,
+                                &__export,
+                                &__help {
+                                    align-items: center;
+                                    min-height: 20px;
+                                    
+                                    span, i{ 
+                                        text-align: left;
+                                        align-self: center;
+                                    }
+                                }
 
                             &.opened {
                                 display: flex;
@@ -1236,6 +1247,19 @@ table
                             }
                             }
                         }
+
+                        &__value {
+                            .customer-comment-popup {
+                                display:none;
+
+                                &.opened{
+                                display: flex;
+                                position: absolute;
+                                margin-left: -100px;
+                                margin-right: 0;
+                                }
+                            }
+                        } 
                     }
                 }
             }

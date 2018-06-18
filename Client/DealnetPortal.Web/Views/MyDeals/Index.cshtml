@@ -652,9 +652,8 @@
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>
                                 </div>
-                                <div class="table-row-details__left__value">
                                     <div class="table-row-details__left__value">
-                                        <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}"></i>
+                                        <i data-bind="attr:{class:'notes-ico notes-ico--' + (!$data.CustomerComment && !$data.ContractNotes ? 'grey' : 'green'), 'data-notes':$data.Id}, click: function(){$data.showNotes(!$data.showNotes())}"></i>
                                         <!-- ko if: $data.CustomerComment || $data.ContractNotes -->
                                         <div class="customer-comment-popup mobile" data-bind="css:{opened:$data.showNotes}, attr:{'data-notes':$data.Id}">
                                             <i class="cross-ico" data-bind="click:function(){$data.showNotes(false);}, visible: $data.showNotes"></i>
@@ -669,7 +668,6 @@
                                         </div>
                                         <!-- /ko -->
                                     </div>
-                                </div>
 
                                 <div class="table-row-details__left__lead">
                                     <span>@Resources.Lead</span>
