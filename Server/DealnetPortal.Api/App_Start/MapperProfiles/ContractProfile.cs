@@ -25,7 +25,6 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
         private void ConfigureMappers()
         {
             var configuration = new AppConfiguration(WebConfigSections.AdditionalSections);
-            var creditReviewStates = configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
             var riskBasedStatus = configuration.GetSetting(WebConfigKeys.RISK_BASED_STATUS_KEY)?.Split(',').Select(s => s.Trim()).ToArray();
             var hidePreapprovalAmountForLeaseDealers = false;
             bool.TryParse(configuration.GetSetting(WebConfigKeys.HIDE_PREAPPROVAL_AMOUNT_FOR_LEASEDEALERS_KEY),

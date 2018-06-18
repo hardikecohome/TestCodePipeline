@@ -136,7 +136,7 @@
         public static string AccountNumber = "AccountNumber";
         public static string Bn = "BN";
         public static string Tn = "TN";
-        public static string An = "AN";
+        public static string An = "BankAccNumber";
 
         //Dealer and SalesRep fields
         public static string SalesRep = "SalesRep";

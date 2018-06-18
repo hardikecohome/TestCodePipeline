@@ -98,6 +98,8 @@
 
         public static readonly string CLARITY_TIER_NAME = "ClarityTierName";
 
+        public static readonly string EMCO_LEASE_TIER_NAME = "EmcoLeaseTierName";
+
         public static readonly string QUEBEC_POSTAL_CODES = "QuebecPostalCodes";
 
         //

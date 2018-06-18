@@ -11,10 +11,24 @@
     }
 
     var optionTemplates = {
-        reductionDropdown: function (totalAmountFinanced) {
-            return function () {
-                var text;
-                var value = (totalAmountFinanced * (this.InterestRateReduction / 100)).toFixed(2);
+		reductionDropdown: function (totalAmountFinanced, loanTerm, amortizationTerm) {
+            return function() {
+				var text;
+				loanTerm = parseInt(loanTerm);
+				amortizationTerm = parseInt(amortizationTerm);
+				totalAmountFinanced = parseFloat(totalAmountFinanced);
+                var valuetemp = (totalAmountFinanced * (this.InterestRateReduction / 100)).toFixed(2);
+				var rate = this.CustomerReduction / 100 / 12;
+				var pmtWithRate = pmt(rate, amortizationTerm, -1, 0, 0);
+				var pmtWithoutRate = pmt(0, amortizationTerm, -1, 0, 0);
+				var pmtValue = -(pmtWithRate - pmtWithoutRate);
+				var fvValue = -(fv(rate, loanTerm, pmtWithRate, -1, 0)) + (fv(0, loanTerm, pmtWithoutRate, -1, 0));
+				var value = rate > 0 ?
+					((pv(rate,
+						loanTerm,
+						pmtValue,
+						fvValue) + 0.0025) * totalAmountFinanced).toFixed(2) : "0";
+				//value = value;
                 if (this.Id === 0) {
                     text = translations.noReduction;
                 } else {
@@ -214,21 +228,19 @@
         }
 
         var loanAmortDropdpownValues = $('#' + selectorName + '-amortDropdown option:selected').text();
-        var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
-
+		var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+		var totalEquipmentAmtLessDownPayment = state.eSum - state.downPayment;
         //remove spaces in text
-        loanAmortDropdpownValues = loanAmortDropdpownValues.replace(/\s+/g, '');
-
-        var reductionValues = state.rateCardReduction.filter(function (reduction) {
+		loanAmortDropdpownValues = loanAmortDropdpownValues.replace(/\s+/g, '');
+		
+        var reductionValues = state.rateCardReduction.filter(function(reduction) {
             return reduction.LoanAmortizationTerm === loanAmortDropdpownValues && reduction.CustomerReduction <= dataObject.customerRate;
         });
 
-        reductionValues.unshift({
-            Id: 0,
-            InterestRateReduction: 0,
-            CustomerReduction: 0
-        });
-        _buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(dataObject.totalAmountFinanced));
+		reductionValues.unshift({ Id: 0, InterestRateReduction: 0, CustomerReduction: 0 });
+		var loanTerm = loanAmortDropdpownValues.split('/')[0].trim();
+		var amortizationTerm = loanAmortDropdpownValues.split('/')[1].trim();
+		_buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(totalEquipmentAmtLessDownPayment, loanTerm, amortizationTerm));
     }
 
     function _buildDropdownValues(selector, dropdown, items, template) {

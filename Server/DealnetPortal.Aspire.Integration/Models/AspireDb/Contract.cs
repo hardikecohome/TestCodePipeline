@@ -21,5 +21,7 @@ namespace DealnetPortal.Aspire.Integration.Models.AspireDb
         public string LastUpdateTime { get; set; }
         public DateTime LastUpdateDateTime { get; set; }
         
+        public string OverrideCustomerRiskGroup { get; set; }
+        public decimal? OverrideCreditAmountLimit { get; set; }
     }
 }

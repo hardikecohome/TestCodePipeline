@@ -14,6 +14,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+using System.Security.Claims;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -66,7 +67,17 @@ namespace DealnetPortal.Web.Controllers
             {
                 await _contractServiceAgent.NotifyContractEdit(id);
             }
-
+            var identity = (ClaimsIdentity)User.Identity;
+            var isEmcoDealer = identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
+            ViewBag.LeaseProgramDisplayMessage = "";
+            if (contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation35)
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithEscalatedPayments : Resources.Resources.Escalation_35;
+            }
+            else if ((contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation0))
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithoutEscalatedPayments : Resources.Resources.Escalation_0;
+            }
             return View(contract);
         }
 

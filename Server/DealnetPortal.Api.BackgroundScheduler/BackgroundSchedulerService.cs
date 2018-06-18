@@ -1,6 +1,5 @@
 ﻿using DealnetPortal.Utilities.Logging;
 using System;
-using System.Web.Http;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Domain.Repositories;
 
@@ -12,11 +11,11 @@ namespace DealnetPortal.Api.BackgroundScheduler
         private readonly IMailService _mailService;
         private readonly ILoggingService _loggingService;
 
-        public BackgroundSchedulerService()
+        public BackgroundSchedulerService(ILoggingService loggingService, IContractRepository contractRepository, IMailService mailService )
         {
-            _loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
-            _contractRepository = (IContractRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IContractRepository));
-            _mailService = (IMailService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IMailService));
+            _loggingService = loggingService;
+            _contractRepository = contractRepository;
+            _mailService = mailService;
         }
 
         public void CheckExpiredLeads(DateTime currentDateTime, int minutesPeriod)
