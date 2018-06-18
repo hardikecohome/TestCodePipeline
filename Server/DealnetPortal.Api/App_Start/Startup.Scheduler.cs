@@ -22,16 +22,9 @@ namespace DealnetPortal.Api
         {
             try
             {
-
                 var config = (IAppConfiguration)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAppConfiguration)) ?? new AppConfiguration(WebConfigSections.AdditionalSections);
-                GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
-                //var container = new UnityContainer();
-                //container.RegisterType<IBackgroundSchedulerService, BackgroundSchedulerService>();
+                GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection", new SqlServerStorageOptions{QueuePollInterval = TimeSpan.FromMinutes(30)});
                 GlobalConfiguration.Configuration.UseUnityActivator(UnityConfig.GetConfiguredContainer());
-                //JobActivator.Current = new UnityJobActivator(container);
-                //CleanAllJobs();
-                //ResetRecurringJobs(new List<string>());
-
 
                 var monitor = JobStorage.Current.GetMonitoringApi();
                 monitor.DeactivateAllJobs();
@@ -40,23 +33,13 @@ namespace DealnetPortal.Api
                 RecurringJob.AddOrUpdate<IBackgroundSchedulerService>(service =>
                 service.CheckExpiredLeads(DateTime.UtcNow, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))), Cron.MinuteInterval(int.Parse(config.GetSetting(WebConfigKeys.LEAD_CHECKPERIODMINUTES_CONFIG_KEY))));
 
-                app.UseHangfireDashboard();
-                app.UseHangfireServer();
+                //app.UseHangfireDashboard(); //for test purposes
+                var serverOptions = new BackgroundJobServerOptions { WorkerCount = 1 };
+                app.UseHangfireServer(serverOptions);
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-        }
-
-        private static void CleanAllJobs()
-        {
-            using (var connection = JobStorage.Current.GetConnection())
-            {
-                foreach (var recurringJob in connection.GetRecurringJobs())
-                {
-                    RecurringJob.RemoveIfExists(recurringJob.Id);
-                }
             }
         }
 
@@ -94,21 +77,5 @@ namespace DealnetPortal.Api
                 return false;
             }
         }
-
-        public void ResetRecurringJobs(List<string> newJobIds)
-        {
-            using (var connection = JobStorage.Current.GetConnection())
-            {
-                var setKey = "recurring-jobs";
-                var savedJobIds = connection.GetAllItemsFromSet(setKey);
-                var missingJobsIds = savedJobIds.Except(newJobIds).ToList();
-
-                foreach (var jobId in missingJobsIds)
-                {
-                    RecurringJob.RemoveIfExists(jobId);
-                }
-            }
-        }
-        
     }
 }
