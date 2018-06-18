@@ -368,13 +368,13 @@
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
-                        <div class="main-table__block__row__cell payment-amount" data-bind="click:configureSortClick(sortFields.payment)">
+                        @*<div class="main-table__block__row__cell payment-amount" data-bind="click:configureSortClick(sortFields.payment)">
                             <span>@Resources.MonthlyPayment</span>
                             <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.payment)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
-                        </div>
+                        </div>*@
 
                         <div class="main-table__block__row__cell project-desc">
                             <span>@Resources.ProjectType</span>
@@ -463,9 +463,9 @@
                         <div class="main-table__block__row__cell amort">
                             <span data-bind="text: $data.Amort"></span>
                         </div>
-                        <div class="main-table__block__row__cell payment-amount">
+                        @*<div class="main-table__block__row__cell payment-amount">
                             <span data-bind="text: $data.MonthlyPayment"></span>
-                        </div>
+                        </div>*@
 
                         <div class="main-table__block__row__cell project-desc">
                             <span data-bind="text: $data.Equipment"></span>
@@ -602,14 +602,14 @@
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
-                                <div class="table-row-details__left__payment-amount">
+                                @*<div class="table-row-details__left__payment-amount">
                                     <span>@Resources.MonthlyPayment</span>
                                     <span class="filter-ico filter-ico--desc">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__value" dat-bind="text: $data.MonthlyPayment"></div>
+                                <div class="table-row-details__left__value" dat-bind="text: $data.MonthlyPayment"></div>*@
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectType</span>
