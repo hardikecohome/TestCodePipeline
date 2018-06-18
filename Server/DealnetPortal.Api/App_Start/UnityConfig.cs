@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Core.ApiClient;
@@ -22,45 +23,22 @@ using Unity.Lifetime;
 using Unity.Injection;
 using System.Web.Hosting;
 using System.Configuration;
-using Hangfire;
-using Hangfire.Client;
-using Hangfire.Common;
-using Hangfire.SqlServer;
-using Hangfire.States;
-using GlobalConfiguration = System.Web.Http.GlobalConfiguration;
 
 namespace DealnetPortal.Api
 {
     public static class UnityConfig
     {
-        private static IUnityContainer container { get; set; }
-
         public static void RegisterComponents()
         {
-			container = new UnityContainer();
+			var container = new UnityContainer();
+
             // register all your components with the container here
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-            RegisterHangfire(container);
             RegisterTypes(container);
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
-        }
-
-        public static IUnityContainer GetConfiguredContainer()
-        {
-            return container;
-        }
-
-        public static void RegisterHangfire(IUnityContainer container)
-        {
-            container.RegisterType<JobStorage>(new InjectionFactory(c => JobStorage.Current));
-            container.RegisterType<IJobFilterProvider, JobFilterAttributeFilterProvider>(new InjectionConstructor());
-            container.RegisterType<IBackgroundJobFactory, BackgroundJobFactory>();
-            container.RegisterType<IRecurringJobManager, RecurringJobManager>();
-            container.RegisterType<IBackgroundJobClient, BackgroundJobClient>();
-            container.RegisterType<IBackgroundJobStateChanger, BackgroundJobStateChanger>();
         }
 
         public static void RegisterTypes(IUnityContainer container)
@@ -69,7 +47,7 @@ namespace DealnetPortal.Api
 
             container.RegisterType<IDatabaseFactory, DatabaseFactory>(new PerResolveLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>(new PerResolveLifetimeManager());
-            
+
             #region Repositories
             container.RegisterType<IContractRepository, ContractRepository>();
             container.RegisterType<IFileRepository, FileRepository>();
