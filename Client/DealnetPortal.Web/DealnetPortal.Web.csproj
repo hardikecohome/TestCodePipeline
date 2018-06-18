@@ -20,12 +20,9 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44341</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>
-    </IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>
-    </IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>
-    </IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -1005,6 +1002,7 @@
     <Content Include="Content\fonts\redesign-icons.eot" />
     <Content Include="Content\fonts\redesign-icons.ttf" />
     <Content Include="Content\fonts\redesign-icons.woff" />
+    <Content Include="Content\less\flex-framework\main-table.less" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />
