@@ -433,7 +433,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public void SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
         {
-            string equipment = contract.Equipment.NewEquipment?.First().EquipmentType?.Description?.ToLower() ?? string.Empty;
+            string equipment = contract.Equipment.NewEquipment?.First().Description.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
@@ -447,7 +447,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<u>{string.Format(Resources.Resources.FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h, expireperiod)}.</u>");
             body.AppendLine($"<p>{Resources.Resources.TransactionId}: {contract.Details?.TransactionId ?? contract.Id.ToString()}</p>");
             body.AppendLine($"<p><b>{Resources.Resources.Client}: {contract.PrimaryCustomer.FirstName} {contract.PrimaryCustomer.LastName}</b></p>");
-            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contract.Details?.CreditAmount?.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
             body.AppendLine($"<p><b>{Resources.Resources.HomeImprovementType}: {equipment}</b></p>");
             if (!string.IsNullOrEmpty(contract.Details?.Notes))
             {
