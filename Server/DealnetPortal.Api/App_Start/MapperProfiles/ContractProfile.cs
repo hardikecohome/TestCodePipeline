@@ -80,7 +80,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 ))
                 .ForMember(d => d.CustomerComments, s => s.ResolveUsing(src =>
                 {
-                    if (src.Comments?.Any(x => x.IsCustomerComment == true) == true)
+                    if(src.Comments?.Any(x => x.IsCustomerComment == true) == true)
                     {
                         var comments = src.Comments
                             .Where(x => x.IsCustomerComment == true)
@@ -91,13 +91,12 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                     }
                     return string.Empty;
                 }))
-                .ForMember(x=>x.ContractNotes, d=>d.ResolveUsing(src=>src.Details?.Notes))
-                .ForMember(d => d.CustomerComments, s => s.Ignore())
+                .ForMember(x => x.ContractNotes, d => d.ResolveUsing(src => src.Details?.Notes))
                 .ForMember(d => d.LastUpdateTime, s => s.ResolveUsing(src => src.LastUpdateTime ?? src.CreationTime))
                 .ForMember(d => d.Equipment, s => s.ResolveUsing((src, dest, destMember, resContext) =>
                 {
                     var equipment = src.Equipment?.NewEquipment;
-                    if (equipment != null)
+                    if(equipment != null)
                     {
                         var equipmentTypes = resContext.Items.ContainsKey(MappingKeys.EquipmentTypes)
                             ? resContext.Items[MappingKeys.EquipmentTypes] as IList<EquipmentType>
@@ -117,7 +116,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 }))
                 .ForMember(d => d.ValueOfDeal, s => s.ResolveUsing(src =>
                 {
-                    if (src.Equipment != null && src.Equipment.ValueOfDeal != null &&
+                    if(src.Equipment != null && src.Equipment.ValueOfDeal != null &&
                         (src.Equipment.LoanTerm != null || src.Equipment.AmortizationTerm != null ||
                          src.Equipment.RequestedTerm != null))
                     {
@@ -136,7 +135,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 .ForMember(d => d.CreatedBy, s => s.ResolveUsing(src => src.Dealer?.UserName ?? src.CreateOperator))
                 .ForMember(d => d.IsLead, s => s.ResolveUsing((src, dest, destMember, resContext) =>
                 {
-                    if (src.IsCreatedByBroker == true)
+                    if(src.IsCreatedByBroker == true)
                     {
                         return true;
                     }
@@ -145,7 +144,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 }))
                 .ForMember(d => d.ActionRequired, s => s.ResolveUsing((src, dest, destMember, resContext) =>
                 {
-                    if (src.ContractState != ContractState.Completed)
+                    if(src.ContractState != ContractState.Completed)
                     {
                         return string.Empty;
                     }
@@ -153,7 +152,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                                         .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State
                                     ?? src.PrimaryCustomer?.Locations.FirstOrDefault()?.State;
                     var provincesDocTypes = resContext.Items.ContainsKey(MappingKeys.DocumentTypes) ? resContext.Items[MappingKeys.DocumentTypes] as IDictionary<string, IList<DocumentType>> : null;
-                    if (!string.IsNullOrEmpty(cProvince) && provincesDocTypes != null)
+                    if(!string.IsNullOrEmpty(cProvince) && provincesDocTypes != null)
                     {
                         var docTypes = provincesDocTypes[cProvince];
                         var absentDocs =
@@ -161,7 +160,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                                     dt => dt.IsMandatory && src.Documents.All(d => dt.Id != d.DocumentTypeId) &&
                                           (dt.Id != (int)DocumentTemplateType.SignedContract || src.Details?.SignatureStatus != SignatureStatus.Completed))
                                 .ToList();
-                        if (absentDocs?.Any() ?? false)
+                        if(absentDocs?.Any() ?? false)
                         {
                             var actList = new StringBuilder();
                             absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
@@ -241,12 +240,12 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                         }
                     }
 
-                    if ((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true)
+                    if((c.Dealer?.Tier?.IsCustomerRisk == true || c.IsCreatedByBroker == true || c.IsCreatedByCustomer == true)
                         && (!hidePreapprovalAmountForLeaseDealers || c.Dealer?.DealerType != leaseType) && c.Details.CreditAmount > 0 && riskBasedStatus?.Any() == true)
                     {
-                        if (riskBasedStatus.Contains(c.Details.Status))
+                        if(riskBasedStatus.Contains(c.Details.Status))
                         {
-                            if (CultureInfo.CurrentCulture.Name == "fr")
+                            if(CultureInfo.CurrentCulture.Name == "fr")
                             {
                                 d.LocalizedStatus += $" {(double)(c.Details.CreditAmount ?? 0m)}";
                             }

@@ -567,6 +567,15 @@ table
                                 position: absolute;
                                 margin-left: -67px;
                                 margin-right: 67px;
+                                text-align: left;
+                                align-self: flex-start; 
+                            }
+                            
+                            &__title,
+                            &__legend {
+                                text-align: left;
+                                align-self: flex-start;
+                                
                             }
                         }
                     }
@@ -654,11 +663,6 @@ table
         &__block {
             &--total {
                 .main-table__block__row {
-
-                    &__grand-total {
-                        flex-basis: 64%;
-                    }
-
                     &__grand-total-value {
                         flex-basis: 14%;
                     }
@@ -840,7 +844,7 @@ table
                 .main-table__block__row {
 
                     &__grand-total {
-                        flex-basis: 67%;
+                        flex-basis: 64%;
                     }
 
                     &__grand-total-value {
