@@ -33,23 +33,34 @@ namespace DealnetPortal.Api
 {
     public static class UnityConfig
     {
-        private static IUnityContainer _unityContainer { get; set; }
+        private static IUnityContainer container { get; set; }
 
         public static void RegisterComponents()
         {
-			_unityContainer = new UnityContainer();
+			container = new UnityContainer();
             // register all your components with the container here
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-            RegisterTypes(_unityContainer);
+            RegisterHangfire(container);
+            RegisterTypes(container);
 
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(_unityContainer);
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
 
         public static IUnityContainer GetConfiguredContainer()
         {
-            return _unityContainer;
+            return container;
+        }
+
+        public static void RegisterHangfire(IUnityContainer container)
+        {
+            container.RegisterType<JobStorage>(new InjectionFactory(c => JobStorage.Current));
+            container.RegisterType<IJobFilterProvider, JobFilterAttributeFilterProvider>(new InjectionConstructor());
+            container.RegisterType<IBackgroundJobFactory, BackgroundJobFactory>();
+            container.RegisterType<IRecurringJobManager, RecurringJobManager>();
+            container.RegisterType<IBackgroundJobClient, BackgroundJobClient>();
+            container.RegisterType<IBackgroundJobStateChanger, BackgroundJobStateChanger>();
         }
 
         public static void RegisterTypes(IUnityContainer container)
