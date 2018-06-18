@@ -394,12 +394,10 @@
         };
 
         this.exportAll = function () {
-            var ids = this.filteredList()
+            var ids = this.list()
                 .filter(function (item) {
                     return item.Id > 0 && !item.IsInternal;
-                });
-            debugger;
-            ids = ids
+                })
                 .map(function (item) {
                     return item.Id;
                 });
