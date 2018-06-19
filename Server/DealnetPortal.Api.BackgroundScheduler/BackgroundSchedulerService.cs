@@ -12,11 +12,11 @@ namespace DealnetPortal.Api.BackgroundScheduler
         private readonly IMailService _mailService;
         private readonly ILoggingService _loggingService;
 
-        public BackgroundSchedulerService()
+        public BackgroundSchedulerService(IContractRepository contractRepository, IMailService mailService, ILoggingService loggingService)
         {
-            _loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
-            _contractRepository = (IContractRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IContractRepository));
-            _mailService = (IMailService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IMailService));
+            _loggingService = loggingService;
+            _contractRepository = contractRepository;
+            _mailService = mailService;
         }
 
         public void CheckExpiredLeads(DateTime currentDateTime, int minutesPeriod)

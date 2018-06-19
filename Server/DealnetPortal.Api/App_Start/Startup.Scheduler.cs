@@ -19,10 +19,10 @@ namespace DealnetPortal.Api
                 var config = (IAppConfiguration)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAppConfiguration))
                     ?? new AppConfiguration(WebConfigSections.AdditionalSections);
                 GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
-                _backgroundSchedulerService = new BackgroundSchedulerService();
+                GlobalConfiguration.Configuration.UseActivator(new ContainerJobActivator());
                 CleanAllJobs();
-                RecurringJob.AddOrUpdate(() =>
-                _backgroundSchedulerService.CheckExpiredLeads(DateTime.UtcNow, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))),
+                RecurringJob.AddOrUpdate<IBackgroundSchedulerService>(b =>
+                        b.CheckExpiredLeads(DateTime.UtcNow, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))),
                     Cron.MinuteInterval(int.Parse(config.GetSetting(WebConfigKeys.LEAD_CHECKPERIODMINUTES_CONFIG_KEY))));
 
                 app.UseHangfireDashboard();
@@ -45,4 +45,17 @@ namespace DealnetPortal.Api
             }
         }
     }
+
+    public class ContainerJobActivator : JobActivator
+    {
+        public ContainerJobActivator()
+        {
+        }
+
+        public override object ActivateJob(Type type)
+        {
+            return System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(type);
+        }
+    }
+
 }
