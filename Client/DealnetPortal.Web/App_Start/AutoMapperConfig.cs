@@ -625,8 +625,8 @@ namespace DealnetPortal.Web.App_Start
                     return location != null ? $"{location.Street} {location.Unit} {location.City} {location.State} {location.PostalCode}" : string.Empty;
                 }))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
-                .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm.ToString() : string.Empty))
-                .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm.ToString() : string.Empty))
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm : null))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm : null))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
                     return src.Equipment != null ? FormattableString.Invariant($"$ {src.Equipment.TotalMonthlyPayment:0.00}") : string.Empty;
@@ -705,9 +705,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.ContractNotes, s => s.MapFrom(src => src.ContractNotes))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
                 .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
-                PortalConstants.RentalTerm.ToString() :
-                src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
-                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
+                PortalConstants.RentalTerm : src.LoanTerm.HasValue ? src.LoanTerm : null))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm : null))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
                     return src.MonthlyPayment.HasValue ? FormattableString.Invariant($"$ {src.MonthlyPayment:0.00}") : string.Empty;

@@ -48,8 +48,8 @@ namespace DealnetPortal.Web.Models
         public string ProgramOption { get; set; }
         public bool HasRateReduction { get; set; }
         public string LoanAmount { get; set; }
-        public string Term { get; set; }
-        public string Amort { get; set; }
+        public int? Term { get; set; }
+        public int? Amort { get; set; }
         public string MonthlyPayment { get; set; }
         public string EnteredBy { get; set; }
         public bool Lead { get; set; }
