@@ -378,12 +378,11 @@ namespace DealnetPortal.DataAccess.Repositories
 
                 var dealer = GetDealer(newContractOwnerId);
 
-                if (dealer != null && (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true))
+                if (dealer != null && (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true) && contract.IsAssigned != true)
                 {
                     contract.DealerId = dealer.Id;
                     contract.IsNewlyCreated = true;
-                    contract.IsCreatedByBroker = false;
-                    //contract.IsCreatedByCustomer = false;
+                    contract.IsAssigned = true;
                     contract.LastUpdateTime = DateTime.UtcNow;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;
@@ -1059,7 +1058,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Where(c => c.CreationTime <= expiredDate && 
-                (c.IsCreatedByBroker==true || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
+                ((c.IsCreatedByBroker==true && c.IsAssigned != true) || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
                 c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.InstallationAddress) &&
                 c.Equipment.NewEquipment.Any()).ToList();
         }

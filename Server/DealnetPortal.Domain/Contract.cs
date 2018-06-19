@@ -92,6 +92,10 @@ namespace DealnetPortal.Domain
         /// </summary>
         public bool? IsCreatedByBroker { get; set; }
         /// <summary>
+        /// true, if it's a contract was assigned by dealer
+        /// </summary>
+        public bool? IsAssigned { get; set; }
+        /// <summary>
         /// true, if it's a new contract created by customer and isn't edited by dealer
         /// </summary>
         public bool? IsNewlyCreated { get; set; }

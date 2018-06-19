@@ -631,6 +631,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.CreateOperator, d => d.Ignore())
                 .ForMember(x => x.LastUpdateOperator, d => d.Ignore())
                 .ForMember(x => x.IsCreatedByBroker, d => d.Ignore())
+                .ForMember(x => x.IsAssigned, d => d.Ignore())
                 .ForMember(x => x.Signers, d => d.Ignore())
                 .ForMember(x => x.DateOfSubmit, d => d.Ignore());
             
