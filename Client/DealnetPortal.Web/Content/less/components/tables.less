@@ -616,7 +616,7 @@ table
         }
     }
 
-    @media only screen and (min-width: 1025px) and (max-width: 1600px) {
+    @media only screen and (min-width: 1025px) and (max-width: 1599px) {
         &__entries-number {
             width: 20%;
             margin-left: auto;
@@ -778,6 +778,10 @@ table
 
                         &__value {
                         }
+
+                        &__email + .table-row-details__right__value {
+                            word-break: break-all;
+                        }
                     }
 
                     &__left {
@@ -787,12 +791,6 @@ table
                             & + .table-row-details__left__value {
                                 display: none;
                             }
-                        }
-                    }
-
-                    &__right {
-                        &__email + &__value {
-                            word-break: break-all;
                         }
                     }
                 }
@@ -960,6 +958,10 @@ table
                             }
                         }
 
+                        &__email + .table-row-details__left__value {
+                            word-break: break-all;
+                        }
+
                         &__term,
                         &__amort,
                         &__payment-amount,
@@ -975,7 +977,6 @@ table
                             font-size: 11px;
                             font-weight: bold;
                         }
-
 
                         &__value {
                             .customer-comment-popup {
@@ -1236,6 +1237,10 @@ table
                             }
                         }
 
+                        &__email + .table-row-details__right__value {
+                            word-break: break-all;
+                        }
+
                         &__value {
                             .customer-comment-popup {
                                 display:none;
@@ -1248,6 +1253,16 @@ table
                                 }
                             }
                         } 
+                    }
+
+                    &__left {
+                        &__email{
+                            display: none !important;
+
+                            & + .table-row-details__left__value {
+                                display: none !important;
+                            }
+                        }
                     }
                 }
             }
