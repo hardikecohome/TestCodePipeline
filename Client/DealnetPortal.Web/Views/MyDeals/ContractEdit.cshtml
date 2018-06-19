@@ -655,7 +655,7 @@
                                 </div>
                             </div>
                         }
-                        if(Model.EquipmentInfo.CustomerRiskGroup != null)
+                        if(Model.EquipmentInfo.DealerTier.CustomerRiskGroup != null)
                         {
                             if(hasStandardRentalTier || Model.EquipmentInfo.AgreementType == AgreementType.LoanApplication)
                             {
@@ -664,7 +664,7 @@
                                         @Html.Label(Resources.Program, new { @class = "dealnet-field-caption col-xs-6" })
                                         <div class="dealnet-field-holder col-xs-6">
                                             <div class="control-group">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.CustomerRiskGroup.GroupName, null, new
+                                                @Html.TextBoxFor(m => m.EquipmentInfo.DealerTier.CustomerRiskGroup.GroupName, null, new
                                                 {
                                                     @readonly = "readonly",
                                                     @class = "dealnet-disabled-input",
@@ -2845,7 +2845,7 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.EquipmentInfo.ContractId)
                 @Html.HiddenFor(m => m.EquipmentInfo.AgreementType)
-                @Html.HiddenFor(m => m.EquipmentInfo.SalesRep)
+                @Html.HiddenFor(m => m.EquipmentInfo.SalesRepInformation.SalesRep)
                 @Html.HiddenFor(m => m.EquipmentInfo.RequestedTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.LoanTerm)
                 @Html.HiddenFor(m => m.EquipmentInfo.TotalMonthlyPayment)
