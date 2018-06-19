@@ -9,6 +9,9 @@ namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface IMailService
     {
+        /// <summary>
+        /// not longer used - Deal-4328 - Remove Mailgun Dependancies
+        /// </summary>
         //Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true);
         //Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail);
 
@@ -22,14 +25,15 @@ namespace DealnetPortal.Api.Integration.Interfaces
 
         /// <summary>
         /// Send e-mail notification to a customer for a contract created with a customer loan form
+        /// not longer used - Deal-4328 - Remove Mailgun Dependancies
         /// </summary>
         /// <param name="customerEmail"></param>
         /// <param name="preapprovedAmount"></param>
         /// <param name="dealer"></param>
         /// <param name="dealerColor"></param>
         /// <param name="dealerLogo"></param>
-        Task SendCustomerLoanFormContractCreationNotification(string customerEmail, CustomerContractInfoDTO contractData,
-            string dealerColor, byte[] dealerLogo);
+        //Task SendCustomerLoanFormContractCreationNotification(string customerEmail, CustomerContractInfoDTO contractData,
+        //    string dealerColor, byte[] dealerLogo);
 
         Task SendInviteLinkToCustomer(Contract customerFormData, string customerPassword);
         Task SendHomeImprovementMailToCustomer(IList<Contract> customerFormData);

@@ -153,7 +153,6 @@
     <Compile Include="Services\CustomerFormService.cs" />
     <Compile Include="Services\CustomerWalletService.cs" />
     <Compile Include="Services\DealerService.cs" />
-    <Compile Include="Services\EmailMailgunService.cs" />
     <Compile Include="Interfaces\IAspireService.cs" />
     <Compile Include="Interfaces\IContractService.cs" />
     <Compile Include="Interfaces\ICreditCheckService.cs" />
