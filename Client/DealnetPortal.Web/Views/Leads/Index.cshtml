@@ -74,7 +74,7 @@
                     </div>
                     <!-- /ko -->
                 </div>
-                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
+                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()" style="display: none">
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label for="postal-code">@Resources.PostalCode</label>
@@ -309,7 +309,7 @@
                                         <i class="i-letter-ico"></i>
                                     </span>
                                 </div>
-                                <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id);}">
+                                <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
                                     <span>+</span><span>@Resources.AcceptLead</span>
                                 </div>
                             </div>
@@ -360,7 +360,7 @@
             </div>
     </div>
 
-    <div class="nw-placeholder" data-bind="visible: list().length < 1">
+    <div class="nw-placeholder nw-centred-placeholder" data-bind="visible: list().length <= 0">
         <i class="nw-placeholder__icon leads-placeholder-ico"></i>
         <p>
             @Html.Raw(Resources.NoLeadsFirstPart)
