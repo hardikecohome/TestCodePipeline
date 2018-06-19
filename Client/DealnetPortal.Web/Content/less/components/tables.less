@@ -206,12 +206,6 @@ table
             }
 
             &.new-deal {
-                .main-table__block__row__cell.checkbox-cell {
-                    .customized-checkbox-icon {
-                        display: none;
-                    }
-                }
-
                 .main-table__block__row__cell.contract-number {
                     .contract-number__notification {
                         display: flex !important;
@@ -652,7 +646,7 @@ table
         }
     }
 
-    @media only screen and (min-width: 1024px) and (max-width: 1650px) {
+    @media only screen and (min-width: 1025px) and (max-width: 1600px) {
         &__entries-number {
             width: 20%;
             margin-left: auto;
@@ -672,7 +666,7 @@ table
                         bottom: 15px;
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
-                        width: 100%;
+                        width: 100%;                        
 
                         &__export,
                         &__preview {
@@ -825,6 +819,12 @@ table
                             }
                         }
                     }
+
+                    &__right {
+                        &__email + &__value {
+                            word-break: break-all;
+                        }
+                    }
                 }
             }
         }
@@ -857,11 +857,12 @@ table
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         width: 100%;
+                        left: 0px;
 
                         &__export,
                         &__preview {
                             margin-bottom: 17px;
-                            margin-top: 13px;
+                            margin-top: 0px;
                             flex-basis: 18%
                         }
                     }
@@ -903,6 +904,10 @@ table
 
                     &.checkbox-cell {
                         flex-basis: 4%;
+                    }
+
+                    &.last-activity {
+                        flex-basis: 10%;
                     }
 
                     &.term,
@@ -1003,6 +1008,16 @@ table
 
 
                         &__value {
+                            .customer-comment-popup {
+                                display:none;
+
+                                &.opened{
+                                display: flex;
+                                position: absolute;
+                                margin-left: -150px;
+                                margin-right: 0;
+                                }
+                            }
                         }
                     }
 
@@ -1085,17 +1100,20 @@ table
                     }
 
                     &__btns {
+                        background: #FFFFFF03;
                         position: fixed;
                         bottom: 0px;
-                        justify-content: flex-start;
+                        justify-content: space-around;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         width: 100%;
+                        left: 0;
 
                         &__export,
                         &__preview {
-                            margin-bottom: 75px;
-                            margin-top: 13px;
-                            flex-basis: 35%;
+                            margin-bottom: 30px;
+                            margin-top: 0px;
+                            flex-basis: 45%;
+                            margin-left:0;
                         }
                     }
                 }
@@ -1455,6 +1473,7 @@ table
                         }
 
                         .table-row-details {
+                            &.opened {
                             margin-top: 10px;
                             margin-bottom: 10px;
                             display: flex;
@@ -1463,7 +1482,8 @@ table
                             flex-direction: row;
                             flex-wrap: wrap;
                             flex-basis: 100%;
-
+                            }
+                            
                             &__left,
                             &__right {
                                 display: flex;
@@ -1572,15 +1592,18 @@ table
     }
 
     .ios-device {
-        .main-table__block--body .main-table__block__row__cell {
-            &.icon-cell-gear,
-            &.icon-cell-notes {
-                .opened {
-                    &.table-row-settings-popup,
-                    &.customer-comment-popup {
-                        margin-left: -150px;
+        .main-table__block{
+            &--body .main-table__block__row__cell {
+                &.icon-cell-gear,
+                &.icon-cell-notes {
+                    .opened {
+                        &.table-row-settings-popup,
+                        &.customer-comment-popup {
+                            margin-left: -150px;
+                        }
                     }
                 }
             }
         }
     }
+

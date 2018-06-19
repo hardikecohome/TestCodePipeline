@@ -288,7 +288,7 @@ module.exports('table', function (require) {
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
                     showNotes: ko.observable(false),
-                    valueNum: parseFloat(item.Value.substr(2)) || 0,
+                    valueNum: parseFloat(item.LoanAmount.substr(2)) || 0,
                     DateVal: item.Date ? new Date(item.Date) : ''
                 });
             });
@@ -367,7 +367,15 @@ module.exports('table', function (require) {
             this.pager.list(newValue);
         }, this);
 
-        $('body').on('click touch', (function (e) {
+        this.selectedIds.subscribe(function (newValue) {
+            if (newValue.length) {
+                $('.floatingHelpBtn').addClass('lift');
+            } else {
+                $('.floatingHelpBtn').removeClass('lift');
+            }
+        }, this);
+
+        $('body').on(($('body.iso-device').length ? 'touchstart' : 'click'), (function (e) {
             var $el = $(e.target);
             var noteId = $el.data('notes');
             var actionId = $el.data('action');
