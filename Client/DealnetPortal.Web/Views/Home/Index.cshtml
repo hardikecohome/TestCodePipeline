@@ -2,7 +2,7 @@
     ViewBag.Title = Resources.HomePage;
 }
 
-<div id="home-body" data-bind="with: table">
+<div id="home-body" class="home-page" data-bind="with: table">
 
     @*<div class="margin-block">
             <div class="row">
@@ -19,7 +19,7 @@
     <div class="margin-block">
         <div class="row">
             <div class="filters">
-                <div class="filters-head" data-bind="visible: list().length > 0">
+                <div class="filters-head" data-bind="visible: list().length > 0" style="display:none;">
                     <div class="filters-head__title">@Resources.MyDeals</div>
                     <div class="filters-head__learn-more" @*data-bind="click:function(){showLearnMore(!showLearnMore());}"*@>
                         @*<i class="lamp-ico"></i>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
-                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: list().length > 0 && !showSorters()">
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: list().length > 0 && !showSorters()"  style="display:none;">
                         <!-- ko if: showFilters -->
                         <span>
                             @Resources.Hide
@@ -64,7 +64,7 @@
                         </span>
                         <!-- /ko -->
                     </div>
-                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}" style="display:none;">
                         <!-- ko if: showSorters -->
                         <span>
                             @Resources.Hide
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()">
+                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()" style="display:none;">
 
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
                         <div class="custom-select-wrap custom-select-float-label">

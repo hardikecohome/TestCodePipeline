@@ -601,15 +601,18 @@ table
 
                     &__export,
                     &__preview {
-                        position: relative;
-                        margin-left: 24px;
                         flex-basis: 25%;
+                        position: relative;
                         top: 13px;
 
                         .btn {
                             margin-top: 8px;
                             width: 100%;
                         }
+                    }
+
+                    &__preview {
+                        margin-left: 24px;
                     }
                 }
             }
@@ -636,12 +639,13 @@ table
                         bottom: 15px;
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
-                        width: 100%;                        
+                        background: rgba(255,255,255,0.6);
+                        width: 100%;
+                        left: 0;
 
                         &__export,
                         &__preview {
                             margin-bottom: 17px;
-                            margin-top: 13px;
                             flex-basis: 18%
                         }
                     }
@@ -824,6 +828,7 @@ table
                         bottom: 15px;
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
+                        background: rgba(255,255,255,0.6);
                         width: 100%;
                         left: 0px;
 
@@ -1076,6 +1081,7 @@ table
                         bottom: 0px;
                         justify-content: space-around;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
+                        background: rgba(255,255,255,0.6);
                         width: 100%;
                         left: 0;
 
@@ -1594,3 +1600,12 @@ table
         }
     }
 
+@media @mobile {
+    body:not(.ios-device){
+        .my-deals, .home-page {
+            &.lift {
+                margin-bottom: 60px;
+            }
+        }
+    }
+}
