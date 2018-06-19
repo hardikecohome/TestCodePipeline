@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44339</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -279,6 +279,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Hangfire\HangfireExtensions.cs" />
+    <Compile Include="Helpers\Hangfire\UnityJobActivator.cs" />
     <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Infrastucture\EnforceHttpsHandler.cs" />
     <Compile Include="Infrastucture\LocalizedControllerSelector.cs" />
