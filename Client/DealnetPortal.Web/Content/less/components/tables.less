@@ -206,12 +206,6 @@ table
             }
 
             &.new-deal {
-                .main-table__block__row__cell.checkbox-cell {
-                    .customized-checkbox-icon {
-                        display: none;
-                    }
-                }
-
                 .main-table__block__row__cell.contract-number {
                     .contract-number__notification {
                         display: flex !important;
@@ -857,11 +851,12 @@ table
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         width: 100%;
+                        margin-left: -16px;
 
                         &__export,
                         &__preview {
                             margin-bottom: 17px;
-                            margin-top: 13px;
+                            margin-top: 0px;
                             flex-basis: 18%
                         }
                     }
@@ -1003,6 +998,16 @@ table
 
 
                         &__value {
+                            .customer-comment-popup {
+                                display:none;
+
+                                &.opened{
+                                display: flex;
+                                position: absolute;
+                                margin-left: -100px;
+                                margin-right: 0;
+                                }
+                            }
                         }
                     }
 
@@ -1087,15 +1092,17 @@ table
                     &__btns {
                         position: fixed;
                         bottom: 0px;
-                        justify-content: flex-start;
+                        justify-content: space-around;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         width: 100%;
+                        margin-left: -16px;
 
                         &__export,
                         &__preview {
-                            margin-bottom: 75px;
-                            margin-top: 13px;
-                            flex-basis: 35%;
+                            margin-bottom: 30px;
+                            margin-top: 0px;
+                            flex-basis: 45%;
+                            margin-left:0;
                         }
                     }
                 }
@@ -1584,3 +1591,4 @@ table
             }
         }
     }
+
