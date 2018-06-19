@@ -282,17 +282,17 @@
                             <span>+</span><span>@Resources.AcceptLead</span>
                         </div>
                         <div class="main-table__block__row__cell info">
-                            <i class="i-letter-ico" data-bind="click:function(){$data.showInfo(!$data.showInfo());}"></i>
-                            <span class="show-details" data-bind="click:function(e){ $data.isMobileOpen(!$data.isMobileOpen()); }">
+                            <i class="i-letter-ico" data-bind="click:function(){$parent.hideInfoPopups(false); $data.showInfo(!$data.showInfo()); console.log( $data.showInfo());}"></i>
+                            <span class="show-details" data-bind="click:function(e){ $data.isMobileOpen(!$data.isMobileOpen()); $parent.hideInfoPopups(true); }">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
-                            <div class="customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
+                            <div class="leads-info-popup customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
                                 <i class="cross-ico" data-bind="click:function(){$data.showInfo(false);}, visible: $data.showInfo"></i>
-                                <span class="customer-comment-popup__title"></span>
+                                <span class="customer-comment-popup__title">   </span>
                                 <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
                             </div>
                         </div>
-                    </div>
+                    </div>   
                     <div class="main-table__block__row">
                         <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
                             <div class="table-row-details__left">
@@ -306,8 +306,13 @@
 
                                 <div class="table-row-details__left__info">
                                     <span>
-                                        <i class="i-letter-ico"></i>
+                                        <i class="i-letter-ico" data-bind="click:function(){$data.showMobileInfo(!$data.showMobileInfo());}"></i>
                                     </span>
+                                    <div class="leads-info-popup customer-comment-popup" data-bind="visible: $data.showMobileInfo() && $data.isMobileOpen()" style="display: none">
+                                        <i class="cross-ico" data-bind="click:function(){$data.showMobileInfo(false);}, visible: $data.showMobileInfo && $data.isMobileOpen"></i>
+                                        <span class="customer-comment-popup__title">   </span>
+                                        <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
+                                    </div>
                                 </div>
                                 <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
                                     <span>+</span><span>@Resources.AcceptLead</span>
@@ -360,7 +365,7 @@
             </div>
     </div>
 
-    <div class="nw-placeholder nw-centred-placeholder" data-bind="visible: list().length > 0">
+    <div class="nw-placeholder nw-centred-placeholder" data-bind="visible: list().length < 0">
         <i class="nw-placeholder__icon leads-placeholder-ico"></i>
         <p>
             @Html.Raw(Resources.NoLeadsFirstPart)
