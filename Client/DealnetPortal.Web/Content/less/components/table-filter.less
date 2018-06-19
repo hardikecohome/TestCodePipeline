@@ -715,6 +715,20 @@
             }
         }
 
+        &.leads-filters {
+            .filters-head {
+                &__search {
+                    display: flex;
+                    order: 3;
+                    flex-basis: 100%;
+                    margin: 16px auto 0 auto;
+
+                    .custom-text-input-group {
+                        width: 100%;
+                    }
+                }
+            }
+        }
 
         .filters-head {
             flex-wrap: wrap;
@@ -738,7 +752,7 @@
             &__export-excel,
             &__search,
             &__divider,
-            &__clear-btn{
+            &__clear-btn {
                 display: none;
             }
 
@@ -750,25 +764,27 @@
             }
 
             &__filter-btn {
-                order: 3;    
+                order: 3;
             }
 
             &__sort-btn {
                 order: 4;
                 display: flex;
-                &.move-right{
-                    margin-left:160px;
+
+                &.move-right {
+                    margin-left: 160px;
                 }
             }
 
-            &__save-btn{
-                order:5;
+            &__save-btn {
+                order: 5;
                 box-sizing: content-box;
                 margin: 16px 0 0 16px;
                 width: 137px;
-                .new-btn-green{
+
+                .new-btn-green {
                     width: 100%;
-                    height: 42px;   
+                    height: 42px;
                 }
             }
         }
@@ -876,13 +892,12 @@
             &__date-from {
                 margin-left: auto;
             }
-            
+
             &__project,
             &__payment-type {
                 flex-basis: 100%;
                 margin-top: 16px;
                 display: flex;
-
                 // .custom-text-input-group {
                 //     flex-basis: 100%;
                 // }
@@ -908,6 +923,7 @@
             &__payment-type {
                 display: none;
             }
+
             &__apply-btn {
                 // margin-left: auto;
             }
@@ -936,11 +952,12 @@
 }
 
 .leads-page {
-    .filters { 
+    .filters {
         .filters-head {
-            margin:0 16px;
+            margin: 0 16px;
         }
-        .filters-advanced{
+
+        .filters-advanced {
             margin: 20px 28px;
         }
     }
