@@ -9,8 +9,8 @@ namespace DealnetPortal.Api.Integration.Interfaces
 {
     public interface IMailService
     {
-        Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true);
-        Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail);
+        //Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true);
+        //Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail);
 
         /// <summary>
         /// Send e-mail notification to a dealer for a contract created with a customer loan form
@@ -35,7 +35,7 @@ namespace DealnetPortal.Api.Integration.Interfaces
         Task SendHomeImprovementMailToCustomer(IList<Contract> customerFormData);
         Task SendCustomerDealerAcceptLead(Contract contract, DealerDTO dealer);
         Task SendNotifyMailNoDealerAcceptLead(Contract contract);
-        void SendNotifyMailNoDealerAcceptedLead12H(Contract contract);
+        Task SendNotifyMailNoDealerAcceptedLead12H(Contract contract);
         Task SendApprovedMailToCustomer(Contract customerFormData);
         Task SendDeclinedConfirmation(string emailid, string firstName, string lastName);
         Task SendProblemsWithSubmittingOnboarding(string errorMsg, int dealerInfoId, string accessKey);

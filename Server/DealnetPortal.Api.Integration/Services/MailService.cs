@@ -48,45 +48,46 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
         #region DP
-        public async Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
-        {
-            var alerts = new List<Alert>();
-            var id = contract.Details?.TransactionId ?? contract.Id.ToString();
-            var subject = string.Format(success ? Resources.Resources.ContractWasSuccessfullySubmitted : Resources.Resources.ContractWasDeclined, id);
-            var body = new StringBuilder();
-            body.AppendLine(subject);
-            body.AppendLine($"{Resources.Resources.TypeOfApplication} {contract.Equipment.AgreementType.GetEnumDescription()}");
-            body.AppendLine($"{Resources.Resources.HomeOwnersName} {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
-            await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
+        //Remove this method as No one is using it
+        //public async Task<IList<Alert>> SendContractSubmitNotification(ContractDTO contract, string dealerEmail, bool success = true)
+        //{
+        //    var alerts = new List<Alert>();
+        //    var id = contract.Details?.TransactionId ?? contract.Id.ToString();
+        //    var subject = string.Format(success ? Resources.Resources.ContractWasSuccessfullySubmitted : Resources.Resources.ContractWasDeclined, id);
+        //    var body = new StringBuilder();
+        //    body.AppendLine(subject);
+        //    body.AppendLine($"{Resources.Resources.TypeOfApplication} {contract.Equipment.AgreementType.GetEnumDescription()}");
+        //    body.AppendLine($"{Resources.Resources.HomeOwnersName} {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+        //    await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
 
-            if (alerts.All(a => a.Type != AlertType.Error))
-            {
-                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
-            }
+        //    if (alerts.All(a => a.Type != AlertType.Error))
+        //    {
+        //        _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
+        //    }
 
-            return alerts;
-        }
+        //    return alerts;
+        //}
+        //Remove this method as No one is using it
+        //public async Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail)
+        //{
+        //    var alerts = new List<Alert>();
 
-        public async Task<IList<Alert>> SendContractChangeNotification(ContractDTO contract, string dealerEmail)
-        {
-            var alerts = new List<Alert>();
+        //    var id = contract.Details?.TransactionId ?? contract.Id.ToString();
+        //    var subject = string.Format(Resources.Resources.ContractWasSuccessfullyChanged, id);
+        //    var body = new StringBuilder();
+        //    body.AppendLine(subject);
+        //    body.AppendLine($"{Resources.Resources.TypeOfApplication} {contract.Equipment.AgreementType.GetEnumDescription()}");
+        //    body.AppendLine(
+        //        $"{Resources.Resources.HomeOwnersName} {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
+        //    await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
 
-            var id = contract.Details?.TransactionId ?? contract.Id.ToString();
-            var subject = string.Format(Resources.Resources.ContractWasSuccessfullyChanged, id);
-            var body = new StringBuilder();
-            body.AppendLine(subject);
-            body.AppendLine($"{Resources.Resources.TypeOfApplication} {contract.Equipment.AgreementType.GetEnumDescription()}");
-            body.AppendLine(
-                $"{Resources.Resources.HomeOwnersName} {contract.PrimaryCustomer?.FirstName} {contract.PrimaryCustomer?.LastName}");
-            await SendNotification(body.ToString(), subject, contract, dealerEmail, alerts);
+        //    if (alerts.All(a => a.Type != AlertType.Error))
+        //    {
+        //        _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
+        //    }
 
-            if (alerts.All(a => a.Type != AlertType.Error))
-            {
-                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
-            }
-
-            return alerts;
-        }
+        //    return alerts;
+        //}
 
         public async Task SendDealerLoanFormContractCreationNotification(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData, string dealerProvince)
         {
@@ -424,7 +425,7 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = string.Format(Resources.Resources.NoDealersMatchingCustomerLead, equipment, location?.PostalCode ?? string.Empty);
             try
             {
-                await _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+                await _mandrillService.SendNotifyMailNoDealerAcceptLead(mailTo, subject, body.ToString());
             }
             catch (Exception ex)
             {
@@ -432,7 +433,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        public void SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
+        public async Task SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
         {
             string equipment = contract.Equipment.NewEquipment?.First().Description.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
@@ -489,7 +490,7 @@ namespace DealnetPortal.Api.Integration.Services
             var subject = string.Format(Resources.Resources.CustomerLeadHasNotBeenAcceptedByAnyDealerFor, expireperiod, equipment, location?.PostalCode ?? string.Empty);
             try
             {
-                _emailService.SendAsync(new List<string> { mailTo }, string.Empty, subject, body.ToString());
+                await _mandrillService.SendNotifyMailNoDealerAcceptLead(mailTo, subject, body.ToString());
             }
             catch (Exception ex)
             {
@@ -593,92 +594,93 @@ namespace DealnetPortal.Api.Integration.Services
         #endregion
 
         #region Private
-        private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
-        {
-            if (contract != null)
-            {
-                var recipients = GetContractRecipients(contract, dealerEmail);
+        //Remove this method as No one is using it
+        //private async Task SendNotification(string body, string subject, ContractDTO contract, string dealerEmail, List<Alert> alerts)
+        //{
+        //    if (contract != null)
+        //    {
+        //        var recipients = GetContractRecipients(contract, dealerEmail);
 
-                if (recipients.Any())
-                {
-                    try
-                    {
-                        foreach (var recipient in recipients)
-                        {
-                            await _emailService.SendAsync(new List<string>() { recipient }, string.Empty, subject, body);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg = "Can't send notification email";
-                        _loggingService.LogError("Can't send notification email", ex);
-                        alerts.Add(new Alert()
-                        {
-                            Header = errorMsg,
-                            Message = ex.ToString(),
-                            Type = AlertType.Error
-                        });
-                    }
-                }
-                else
-                {
-                    var errorMsg = $"Can't get recipients list for contract [{contract.Id}]";
-                    _loggingService.LogError(errorMsg);
-                    alerts.Add(new Alert()
-                    {
-                        Header = "Can't get recipients list",
-                        Message = errorMsg,
-                        Type = AlertType.Error
-                    });
-                }
-            }
-            else
-            {
-                alerts.Add(new Alert()
-                {
-                    Header = "Can't get contract",
-                    Message = $"Can't get contract with id {contract.Id}",
-                    Type = AlertType.Error
-                });
-                _loggingService.LogError($"Can't get contract with id {contract.Id}");
-            }
+        //        if (recipients.Any())
+        //        {
+        //            try
+        //            {
+        //                foreach (var recipient in recipients)
+        //                {
+        //                    await _emailService.SendAsync(new List<string>() { recipient }, string.Empty, subject, body);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                var errorMsg = "Can't send notification email";
+        //                _loggingService.LogError("Can't send notification email", ex);
+        //                alerts.Add(new Alert()
+        //                {
+        //                    Header = errorMsg,
+        //                    Message = ex.ToString(),
+        //                    Type = AlertType.Error
+        //                });
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var errorMsg = $"Can't get recipients list for contract [{contract.Id}]";
+        //            _loggingService.LogError(errorMsg);
+        //            alerts.Add(new Alert()
+        //            {
+        //                Header = "Can't get recipients list",
+        //                Message = errorMsg,
+        //                Type = AlertType.Error
+        //            });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        alerts.Add(new Alert()
+        //        {
+        //            Header = "Can't get contract",
+        //            Message = $"Can't get contract with id {contract.Id}",
+        //            Type = AlertType.Error
+        //        });
+        //        _loggingService.LogError($"Can't get contract with id {contract.Id}");
+        //    }
 
-            if (alerts.All(a => a.Type != AlertType.Error))
-            {
-                _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
-            }
-        }
+        //    if (alerts.All(a => a.Type != AlertType.Error))
+        //    {
+        //        _loggingService.LogInfo($"Email notifications for contract [{contract.Id}] was sent");
+        //    }
+        //}
         
-        private IList<string> GetContractRecipients(ContractDTO contract, string dealerEmail)
-        {
-            var recipients = new List<string>();
+        //private IList<string> GetContractRecipients(ContractDTO contract, string dealerEmail)
+        //{
+        //    var recipients = new List<string>();
 
-            if (contract.PrimaryCustomer?.Emails?.Any() ?? false)
-            {
-                recipients.Add(contract.PrimaryCustomer.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
-                    contract.PrimaryCustomer.Emails.First().EmailAddress);
-            }
+        //    if (contract.PrimaryCustomer?.Emails?.Any() ?? false)
+        //    {
+        //        recipients.Add(contract.PrimaryCustomer.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+        //            contract.PrimaryCustomer.Emails.First().EmailAddress);
+        //    }
 
-            if (contract?.SecondaryCustomers?.Any() ?? false)
-            {
-                contract.SecondaryCustomers.ForEach(c =>
-                {
-                    if (c.Emails?.Any() ?? false)
-                    {
-                        recipients.Add(c.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
-                            c.Emails.First().EmailAddress);
-                    }
-                });
-            }
+        //    if (contract?.SecondaryCustomers?.Any() ?? false)
+        //    {
+        //        contract.SecondaryCustomers.ForEach(c =>
+        //        {
+        //            if (c.Emails?.Any() ?? false)
+        //            {
+        //                recipients.Add(c.Emails.FirstOrDefault(e => e.EmailType == EmailType.Main)?.EmailAddress ??
+        //                    c.Emails.First().EmailAddress);
+        //            }
+        //        });
+        //    }
 
-            //TODO: dealer and ODI/Ecohome team
-            if (!string.IsNullOrEmpty(dealerEmail))
-            {
-                recipients.Add(dealerEmail);
-            }
+        //    //TODO: dealer and ODI/Ecohome team
+        //    if (!string.IsNullOrEmpty(dealerEmail))
+        //    {
+        //        recipients.Add(dealerEmail);
+        //    }
 
-            return recipients;
-        }
+        //    return recipients;
+        //}
         #endregion
     }
 }
