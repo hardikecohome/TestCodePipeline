@@ -23,19 +23,15 @@ namespace DealnetPortal.Api
                 var config = (IAppConfiguration)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAppConfiguration))
                     ?? new AppConfiguration(WebConfigSections.AdditionalSections);
                 GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
-                //GlobalConfiguration.Configuration.UseActivator(new ContainerJobActivator());
                 GlobalConfiguration.Configuration.UseActivator(new UnityJobActivator(System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver));
 
-                var monitor = JobStorage.Current.GetMonitoringApi();
-                monitor.DeactivateAllJobs();
-                DisposeServers();
+                ClearPreviousJobs();
 
                 RecurringJob.AddOrUpdate<IBackgroundSchedulerService>(service =>
                     service.CheckExpiredLeads(DateTime.UtcNow, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))),
-                
                     Cron.MinuteInterval(int.Parse(config.GetSetting(WebConfigKeys.LEAD_CHECKPERIODMINUTES_CONFIG_KEY))));
 
-                app.UseHangfireDashboard();
+                //app.UseHangfireDashboard();//for test purposes
                 app.UseHangfireServer();
 
             }
@@ -43,6 +39,13 @@ namespace DealnetPortal.Api
             {
                 throw ex;
             }
+        }
+
+        private static void ClearPreviousJobs()
+        {
+            var monitor = JobStorage.Current.GetMonitoringApi();
+            monitor.DeactivateAllJobs();
+            DisposeServers();
         }
 
         internal static bool DisposeServers()
@@ -79,101 +82,7 @@ namespace DealnetPortal.Api
                 return false;
             }
         }
-
-
-        //private static void CleanAllJobs()
-        //{
-        //    using (var connection = JobStorage.Current.GetConnection())
-        //    {
-        //        foreach (var recurringJob in connection.GetRecurringJobs())
-        //        {
-        //            RecurringJob.RemoveIfExists(recurringJob.Id);
-        //        }
-        //    }
-        //}
     }
 
-    public static class HangfireExtensions
-    {
-        public static void DeactivateAllJobs(this IMonitoringApi monitor)
-        {
-            var toDelete = new List<string>();
-
-            foreach (QueueWithTopEnqueuedJobsDto queue in monitor.Queues())
-            {
-                for (var i = 0; i < Math.Ceiling(queue.Length / 1000d); i++)
-                {
-                    monitor.EnqueuedJobs(queue.Name, 1000 * i, 1000)
-                        .ForEach(x => toDelete.Add(x.Key));
-
-                }
-            }
-            monitor.ScheduledJobs(0, (int)monitor.ScheduledCount())
-                      .ForEach(x => toDelete.Add(x.Key));
-            foreach (var jobId in toDelete)
-            {
-                BackgroundJob.Delete(jobId);
-            }
-        }
-    }
-
-    public class ContainerJobActivator : JobActivator
-    {
-        public ContainerJobActivator()
-        {
-        }
-
-        public override object ActivateJob(Type type)
-        {
-            return System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(type);
-        }
-    }
-
-    public class UnityJobActivator : JobActivator
-    {
-        private readonly IDependencyResolver _dependencyResolver;
-
-        /// <summary>
-        /// Initialize a new instance of the <see cref="T:UnityJobActivator"/> class
-        /// </summary>
-        /// <param name="container">The unity container to be used</param>
-
-        public UnityJobActivator(IDependencyResolver dependencyResolver)
-        {
-            _dependencyResolver = dependencyResolver ?? throw new ArgumentNullException(nameof(dependencyResolver));
-        }
-
-
-        /// <inheritdoc />
-        public override object ActivateJob(Type jobType)
-        {
-            return _dependencyResolver.GetService(jobType);
-        }
-
-        public override JobActivatorScope BeginScope(JobActivatorContext context)
-        {
-            return new UnityScope(_dependencyResolver.BeginScope());
-        }
-
-        class UnityScope : JobActivatorScope
-        {
-            private readonly IDependencyScope _dependencyScope;
-
-            public UnityScope(IDependencyScope dependencyScope)
-            {
-                _dependencyScope = dependencyScope;
-            }
-
-            public override object Resolve(Type type)
-            {
-                return _dependencyScope.GetService(type);
-            }
-
-            public override void DisposeScope()
-            {
-                _dependencyScope.Dispose();
-            }
-        }
-    }
-
+    
 }

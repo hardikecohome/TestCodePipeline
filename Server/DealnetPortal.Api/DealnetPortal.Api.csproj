@@ -279,6 +279,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Hangfire\HangfireExtensions.cs" />
+    <Compile Include="Helpers\Hangfire\UnityJobActivator.cs" />
     <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Infrastucture\EnforceHttpsHandler.cs" />
     <Compile Include="Infrastucture\LocalizedControllerSelector.cs" />
