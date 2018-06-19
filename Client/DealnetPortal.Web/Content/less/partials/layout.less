@@ -463,27 +463,31 @@ a:hover, a:focus {
 	/*background-color: #555555;*/
 	z-index: 1000;
 	color: #ffffff;
-	text-align: center;
+  text-align: center;
+  
+  @media @mobile {
+    &.lift {
+      bottom: 88px;
+    }
+  }
 }
 .allrows .row{
 	margin-bottom: 5px;	
 }
 .helpbutton {
 	font: bold 14px @usual-font-family;
-	width: 125px;
-}
-.helpbutton svg{
+  width: 125px;
+  svg{
 	opacity: 0.5;
 	}
+}
 .LabelMiddle{
-	margin-top: 5px;
-	}
-@media(max-width: 1023px){
-	.LabelMiddle {
-		margin-top: 0px;
-		margin-bottom: 0px!important;
-	}
-	}
+  margin-top: 5px;
+  @media(max-width: 1023px){
+    margin-top: 0px;
+		margin-bottom: 0px!important;	
+  }
+}
 .Email-modal-body label {
 	font-size: 11px;
 }

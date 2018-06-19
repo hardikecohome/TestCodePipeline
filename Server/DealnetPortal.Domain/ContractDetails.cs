@@ -36,5 +36,7 @@ namespace DealnetPortal.Domain
         public decimal? CreditAmount { get; set; }
 
         public string Notes { get; set; }
+
+        public string OverrideCustomerRiskGroup { get; set; }
     }
 }

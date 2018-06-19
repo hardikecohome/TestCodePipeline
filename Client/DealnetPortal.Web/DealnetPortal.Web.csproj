@@ -19,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -574,6 +574,7 @@
     <Content Include="Content\images\redesign_icons\close-white.svg" />
     <Content Include="Content\images\redesign_icons\cross.svg" />
     <Content Include="Content\images\redesign_icons\delete.svg" />
+    <Content Include="Content\images\redesign_icons\dollar.svg" />
     <Content Include="Content\images\redesign_icons\dw-license.svg" />
     <Content Include="Content\images\redesign_icons\edit-contract.svg" />
     <Content Include="Content\images\redesign_icons\edit-pen.svg" />
@@ -942,9 +943,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\less\bootstrap\bootstrap.new.less" />
-    <Content Include="Content\files\resources\en\EcoHome Rate Card.pdf" />
-    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Full Reference Guide.pdf" />
-    <Content Include="Content\files\resources\en\Rates Approved Pre Oct 3rd, 2017 - Quick Reference Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card October 2017 to April 2018.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
@@ -983,26 +982,28 @@
     <Content Include="Content\less\tablet\application-tablet.less" />
     <Content Include="Content\files\resources\en\MortgageBroker\Consumer FAQs for Mortgage-Real Estate Channel.pdf" />
     <Content Include="Content\files\resources\en\Bill 59 Readiness Assessment.pdf" />
-    <Content Include="Content\files\resources\en\Consumer Ecohome Ontario HVAC Rental Agreement.pdf" />
     <Content Include="Content\files\resources\en\Consumer Ontario Bill 59 Cover Page.pdf" />
-    <Content Include="Content\files\resources\en\Cosumer Ontario Loan Agreement.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Loan Agreement Ontario.pdf" />
     <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-info-deck Dealer.pdf" />
     <Content Include="Content\files\resources\en\Supplemental Information Sheet.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail d entrepreneur pour la signature electronique fevrier 2018.pdf" />
     <Content Include="Content\files\resources\en\qc\Credit Application.pdf" />
     <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
-    <Content Include="Content\files\resources\en\User Guide.pdf" />
     <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
     <Content Include="Content\less\components\progress-bar.less" />
     <Content Include="Content\less\components\placeholders.less" />
     <Content Include="Content\less\components\ui-datepicker-redesign.less" />
     <Content Include="Content\less\components\page-title.less" />
-    <Content Include="Content\files\resources\en\EcoHome Financial_Rate Sheet_April 17 to June 30 2018_Final3.pdf" />
-    <Content Include="Content\files\resources\en\EcoHome Lease Rate Cards FINAL May 2018.pdf" />
     <Content Include="Content\fonts\redesign-icons.eot" />
     <Content Include="Content\fonts\redesign-icons.ttf" />
     <Content Include="Content\fonts\redesign-icons.woff" />
-    <Content Include="Content\less\flex-framework\main-table.less" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to May 28 2018.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease Rate Card May 2018.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 Quick Reference.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card May 29 2018 to June 20 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />

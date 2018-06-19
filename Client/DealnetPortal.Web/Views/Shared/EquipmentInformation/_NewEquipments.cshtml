@@ -51,9 +51,10 @@
             <div class="col-md-2 hidden sub-type-col">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubType)
-                  @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubType.Id,subTypes,
-                    new { @class="form-control sub-type-select", required="true " })
-                  @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubType.Id, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubType.Id,
+							subTypes ?? Enumerable.Empty<SelectListItem>(),
+							new Dictionary<string, object> { { "class", "form-control sub-type-select" }, { "required", "true " }, { Model.AgreementType == DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication || (Model.NewEquipment[i].EquipmentType.SubTypes?.Any() ?? false) ? "disabled" : "data-notdisabled", "disabled" } })
+                    @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubType.Id, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 description-col">

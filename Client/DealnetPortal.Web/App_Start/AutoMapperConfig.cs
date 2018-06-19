@@ -24,6 +24,7 @@ namespace DealnetPortal.Web.App_Start
 {
     using Api.Models.Contract.EquipmentInformation;
     using DealnetPortal.Web.Common.Constants;
+    using DealnetPortal.Api.Models.Notify;
     using Models.EquipmentInformation;
 
     public class AutoMapperConfig
@@ -331,7 +332,15 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(x => x.LeadSource, d => d.Ignore());
             cfg.CreateMap<TierViewModel, TierDTO>();
             cfg.CreateMap<RateCardViewModel, RateCardDTO>();
-
+            cfg.CreateMap<HelpPopUpViewModal, SupportRequestDTO>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.YourName, d => d.MapFrom(src => src.IsPreferedContactPerson ? src.PreferedContactPerson : src.YourName))
+                .ForMember(x => x.LoanNumber, d => d.MapFrom(src => src.LoanNumber))
+                .ForMember(x => x.SupportType, d => d.MapFrom(src => src.SupportType.ConvertTo<Api.Common.Enumeration.SupportType>()))
+                .ForMember(x => x.HelpRequested, d => d.MapFrom(src => src.HelpRequested))
+                .ForMember(x => x.BestWay, d => d.MapFrom(src => src.BestWayToContact.ToString()))
+                .ForMember(x => x.ContactDetails, d => d.ResolveUsing(src =>
+                    src.BestWayToContact == PreferredContactType.Phone ? src.Phone : src.Email));
             cfg.CreateMap<EmploymentInformationViewModel, EmploymentInfoDTO>()
                 .ForMember(x => x.EmploymentStatus, d => d.MapFrom(src => src.EmploymentStatus.ConvertTo<Api.Common.Enumeration.Employment.EmploymentStatus>()))
                 .ForMember(x => x.IncomeType, d => d.MapFrom(src => src.IncomeType.ConvertTo<Api.Common.Enumeration.Employment.IncomeType>()))
@@ -616,8 +625,8 @@ namespace DealnetPortal.Web.App_Start
                     return location != null ? $"{location.Street} {location.Unit} {location.City} {location.State} {location.PostalCode}" : string.Empty;
                 }))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
-                .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm.ToString() : string.Empty))
-                .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm.ToString() : string.Empty))
+                .ForMember(d => d.Term, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.LoanTerm : null))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.Equipment != null ? src.Equipment.AmortizationTerm : null))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
                     return src.Equipment != null ? FormattableString.Invariant($"$ {src.Equipment.TotalMonthlyPayment:0.00}") : string.Empty;
@@ -696,9 +705,8 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.ContractNotes, s => s.MapFrom(src => src.ContractNotes))
                 .ForMember(d => d.CreditExpiry, s => s.Ignore())
                 .ForMember(d => d.Term, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplication || src.AgreementType == Api.Common.Enumeration.AgreementType.RentalApplicationHwt ?
-                PortalConstants.RentalTerm.ToString() :
-                src.LoanTerm.HasValue ? src.LoanTerm.ToString() : string.Empty))
-                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm.ToString() : string.Empty))
+                PortalConstants.RentalTerm : src.LoanTerm.HasValue ? src.LoanTerm : null))
+                .ForMember(d => d.Amort, s => s.MapFrom(src => src.AgreementType == Api.Common.Enumeration.AgreementType.LoanApplication && src.AmortizationTerm.HasValue ? src.AmortizationTerm : null))
                 .ForMember(d => d.MonthlyPayment, s => s.ResolveUsing(src =>
                 {
                     return src.MonthlyPayment.HasValue ? FormattableString.Invariant($"$ {src.MonthlyPayment:0.00}") : string.Empty;

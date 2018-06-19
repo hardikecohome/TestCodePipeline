@@ -169,6 +169,7 @@
             this.search('');
             this.filterList();
             clearSavedFilters();
+            this.clearSort();
         };
 
         this.toggleAcceptLeadPopup = function (id, transactionId) {

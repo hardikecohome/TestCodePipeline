@@ -145,6 +145,7 @@ namespace DealnetPortal.Api.Integration.Services
             //check credit report status and update if needed
             if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
+                contract.ContractState < ContractState.Closed &&
                 contract.PrimaryCustomer != null &&                 
                 contract.PrimaryCustomer.CreditReport == null)
             {
@@ -1116,6 +1117,18 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         contract.Details.Status = aspireDeal.DealStatus;
                         contract.LastUpdateTime = DateTime.UtcNow;
+                        isChanged = true;
+                    }
+                    if (aspireDeal?.OverrideCreditAmountLimit != null)
+                    {
+                        if (contract.Details.CreditAmount == null || contract.Details.CreditAmount != aspireDeal.OverrideCreditAmountLimit) {
+                            contract.Details.CreditAmount = aspireDeal.OverrideCreditAmountLimit;
+                            isChanged = true;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(aspireDeal.OverrideCustomerRiskGroup))
+                    {
+                        contract.Details.OverrideCustomerRiskGroup = aspireDeal.OverrideCustomerRiskGroup;
                         isChanged = true;
                     }
                     //update contract state in any case
