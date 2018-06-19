@@ -232,6 +232,7 @@
                     isMobileOpen: ko.observable(false),
                     showActions: ko.observable(false),
                     showInfo: ko.observable(false),
+                    showMobileInfo: ko.observable(false),
                     valueNum: parseFloat(item.Value.substr(2)) || 0,
                     DateVal: item.Date ? new Date(item.Date) : ''
                 });
@@ -247,6 +248,12 @@
             return 'filter-ico filter-ico--' + this.sortDirections.default;
         };
 
+        this.hideInfoPopups = function(isMobile) {
+            this.filteredList(this.list().map(function(item) {
+                isMobile ? item.showMobileInfo(false) : item.showInfo(false);
+                return item;
+            }));
+        }
         this.filterList = function () {
             if (this.sorter()) {
                 var sort = this.sortDdValues[this.sorter()];

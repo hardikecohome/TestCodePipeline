@@ -526,9 +526,9 @@
 
         this.selectedIds.subscribe(function (newValue) {
             if (newValue.length) {
-                $('.floatingHelpBtn').addClass('lift');
+                $('.floatingHelpBtn, .my-deals').addClass('lift');
             } else {
-                $('.floatingHelpBtn').removeClass('lift');
+                $('.floatingHelpBtn, .my-deals').removeClass('lift');
             }
         }, this);
 

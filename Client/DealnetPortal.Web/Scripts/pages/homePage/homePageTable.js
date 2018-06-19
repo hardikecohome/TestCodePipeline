@@ -393,9 +393,9 @@ module.exports('table', function (require) {
 
         this.selectedIds.subscribe(function (newValue) {
             if (newValue.length) {
-                $('.floatingHelpBtn').addClass('lift');
+                $('.floatingHelpBtn, .home-page').addClass('lift');
             } else {
-                $('.floatingHelpBtn').removeClass('lift');
+                $('.floatingHelpBtn, .home-page').removeClass('lift');
             }
         }, this);
 

@@ -441,6 +441,18 @@
 
 @media @tablet-only {
     .filters {
+        &.leads-filters {
+            .filters-advanced {
+                &.homepage-mod {
+                    .filters-advanced__type,
+                    .filters-advanced__status,
+                    .filters-advanced__date-from,
+                    .filters-advanced__date-to {
+                        flex-basis: 23%;
+                    }
+                }
+            }
+        }
 
         &.my-deals-page {
 
@@ -501,8 +513,9 @@
 
         .filters-head {
             &__title {
-                font-size:36px;
+                font-size: 36px;
             }
+
             &__learn-more {
                 a {
                     display: none;
@@ -535,8 +548,9 @@
                 .filters-advanced__created-by {
                     margin-top: 24px;
                 }
+
                 .filters-advanced__project,
-                .filters-advanced__payment-type{
+                .filters-advanced__payment-type {
                     display: none;
                 }
             }
