@@ -164,6 +164,24 @@
                                     <option value="creditExpiryDesc">
                                         @Resources.CreditExpiryDesc
                                     </option>*@
+                                <option value="loanAmountAsc">
+                                    @Resources.LoanAmount - @Resources.Ascending
+                                </option>
+                                <option value="loanAmountDesc">
+                                    @Resources.LoanAmount - @Resources.Descending
+                                </option>
+                                <option value="termAsc">
+                                    @Resources.Term - @Resources.Ascending
+                                </option>
+                                <option value="termDesc">
+                                    @Resources.Term - @Resources.Descending
+                                </option>
+                                <option value="amortAsc">
+                                    @Resources.Amort - @Resources.Ascending
+                                </option>
+                                <option value="amortDesc">
+                                    @Resources.Amort - @Resources.Descending
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -213,15 +231,45 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
+                        <div class="filters-advanced__loan-amount" data-bind="visible: sortedColumn() == sortFields.loanAmount">
+                            @Resources.LoanAmount —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Ascending
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Descending
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__term" data-bind="visible: sortedColumn() == sortFields.term">
+                            @Resources.Term —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Ascending
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Descending
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__amort" data-bind="visible: sortedColumn() == sortFields.amort">
+                            @Resources.Amort —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Ascending
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Descending
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
                         @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
-                                <!-- ko if: sortDirection() == sortDirections.asc -->
-                                @Resources.CreditExpiryAsc
-                                <!-- /ko -->
-                                <!-- ko if: sortDirection() == sortDirections.desc -->
-                                @Resources.CreditExpiryDesc
-                                <!-- /ko -->
-                                <i class="cross-ico" data-bind="click: clearSort"></i>
-                            </div>*@
+            <!-- ko if: sortDirection() == sortDirections.asc -->
+            @Resources.CreditExpiryAsc
+            <!-- /ko -->
+            <!-- ko if: sortDirection() == sortDirections.desc -->
+            @Resources.CreditExpiryDesc
+            <!-- /ko -->
+            <i class="cross-ico" data-bind="click: clearSort"></i>
+        </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -308,12 +356,12 @@
                             </span>
                         </div>
                         @*<div class="main-table__block__row__cell payment-amount" data-bind="click:configureSortClick(sortFields.payment)">
-                            <span>@Resources.MonthlyPayment</span>
-                            <span data-bind="attr:{class:filterClasses(sortFields.payment)}">
-                                <i class="sort-arrow-top"></i>
-                                <i class="sort-arrow-bottom"></i>
-                            </span>
-                        </div>*@
+                                <span>@Resources.MonthlyPayment</span>
+                                <span data-bind="attr:{class:filterClasses(sortFields.payment)}">
+                                    <i class="sort-arrow-top"></i>
+                                    <i class="sort-arrow-bottom"></i>
+                                </span>
+                            </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span>@Resources.ProjectType</span>
                         </div>
@@ -348,7 +396,7 @@
                 <div class="main-table__block main-table__block--body">
                     <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated,'expired-deal':$data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon" >
+                            <label class="customized-checkbox-icon">
                                 <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected, visible: !$data.IsInternal && $data.Id > 0" />
                                 <span class="customized-checkbox-icon__image" data-bind="visible: !$data.IsInternal && $data.Id > 0"></span>
                             </label>
@@ -401,8 +449,8 @@
                             <span data-bind="text: $data.Amort"></span>
                         </div>
                         @*<div class="main-table__block__row__cell payment-amount">
-                            <span data-bind="text: $data.MonthlyPayment"></span>
-                        </div>*@
+                                <span data-bind="text: $data.MonthlyPayment"></span>
+                            </div>*@
                         <div class="main-table__block__row__cell project-desc">
                             <span data-bind="text: $data.Equipment"></span>
                         </div>
@@ -536,13 +584,13 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
                                 @*<div class="table-row-details__left__payment-amount" data-bind="click:$parent.configureSortClick($parent.sortFields.payment)">
-                                    <span>@Resources.MonthlyPayment</span>
-                                    <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
-                                </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.MonthlyPayment"></div>*@
+                                        <span>@Resources.MonthlyPayment</span>
+                                        <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
+                                            <i class="sort-arrow-top"></i>
+                                            <i class="sort-arrow-bottom"></i>
+                                        </span>
+                                    </div>
+                                    <div class="table-row-details__left__value" data-bind="text: $data.MonthlyPayment"></div>*@
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectDescription</span>
@@ -577,10 +625,10 @@
                                 <div class="table-row-details__left__value" data-bind="text: SalesRep"></div>
 
                                 @*<div class="table-row-details__left__entered-by">
-            <span>@Resources.EnteredBy</span>
+                                        <span>@Resources.EnteredBy</span>
 
-        </div>
-        <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
+                                    </div>
+                                    <div class="table-row-details__left__value" data-bind="text: $data.EnteredBy"></div>*@
 
                                 <div class="table-row-details__left__notes">
                                     <span>@Resources.Notes</span>
@@ -661,7 +709,7 @@
                             <span>$ <span data-bind="text: grandTotal"></span></span>
                         </div>
                         <div class="main-table__block__row__btns">
-                            <div class="main-table__block__row__btns__export"  data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
+                            <div class="main-table__block__row__btns__export" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
                                 <button class="btn btn-green" data-bind="click: exportSelectedToExcel">@Resources.ExportToExcel</button>
                             </div>
                             <div class="main-table__block__row__btns__preview" data-bind="visible: list().length > 0 && selectedIds().length > 0" style="display:none;">
@@ -669,12 +717,12 @@
                             </div>
 
                         </div>
-                            <div class="main-table__block__row__entries-number new-input-group">
-                                <div class="custom-select-wrap custom-select-float-label">
-                                    <label for="entries-number">@Resources.NumberOfEntries</label>
-                                    <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
-                                </div>
+                        <div class="main-table__block__row__entries-number new-input-group">
+                            <div class="custom-select-wrap custom-select-float-label">
+                                <label for="entries-number">@Resources.NumberOfEntries</label>
+                                <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

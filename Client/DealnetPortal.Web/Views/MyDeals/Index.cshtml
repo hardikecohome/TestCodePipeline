@@ -110,19 +110,19 @@
 
                     <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.DealType</label>
-                            <select name="project-type" id="agreement-type" data-bind="options:agreementOptions, selectric:agreementType"></select>
+                            <label for="agreement-type">@Resources.DealType</label>
+                            <select id="agreement-type" data-bind="options:agreementOptions, selectric:agreementType"></select>
                         </div>
                     </div>
                     <div class="filters-advanced__status new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">
+                            <label for="status">
                                 <span class="icon">
                                     <i class="info-ico info-ico--grey"></i>
                                 </span>
                                 @Resources.DealStatus
                             </label>
-                            <select name="project-type" id="status" data-bind="foreach:statusOptions, selectric:status">
+                            <select id="status" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
                             </select>
                         </div>
@@ -162,7 +162,7 @@
 
                     <div class="filters-advanced__created-by new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
-                            <label for="project-type">@Resources.AppCreatedBy</label>
+                            <label for="created-by">@Resources.AppCreatedBy</label>
                             <select id="created-by" data-bind="selectric: createdBy">
                                 <option value=""></option>
                                 <option value="true">@Resources.Customer</option>
@@ -216,11 +216,29 @@
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
                                 @*<option value="creditExpiryAsc">
-                                        @Resources.CreditExpiryAsc
-                                    </option>
-                                    <option value="creditExpiryDesc">
-                                        @Resources.CreditExpiryDesc
-                                    </option>*@
+            @Resources.CreditExpiryAsc
+        </option>
+        <option value="creditExpiryDesc">
+            @Resources.CreditExpiryDesc
+        </option>*@
+                                <option value="loanAmountAsc">
+                                    @Resources.LoanAmount - @Resources.Ascending
+                                </option>
+                                <option value="loanAmountDesc">
+                                    @Resources.LoanAmount - @Resources.Descending
+                                </option>
+                                <option value="termAsc">
+                                    @Resources.Term - @Resources.Ascending
+                                </option>
+                                <option value="termDesc">
+                                    @Resources.Term - @Resources.Descending
+                                </option>
+                                <option value="amortAsc">
+                                    @Resources.Amort - @Resources.Ascending
+                                </option>
+                                <option value="amortDesc">
+                                    @Resources.Amort - @Resources.Descending
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -271,15 +289,45 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
+                        <div class="filters-advanced__loan-amount" data-bind="visible: sortedColumn() == sortFields.loanAmount">
+                            @Resources.LoanAmount —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Ascending
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Descending
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__term" data-bind="visible: sortedColumn() == sortFields.term">
+                            @Resources.Term —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Ascending
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Descending
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__amort" data-bind="visible: sortedColumn() == sortFields.amort">
+                            @Resources.Amort —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Ascending
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Descending
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
                         @*<div class="filters-advanced__days-left" data-bind="visible: sortedColumn() == sortFields.creditExpiry">
-                                <!-- ko if: sortDirection() == sortDirections.asc -->
-                                @Resources.CreditExpiryAsc
-                                <!-- /ko -->
-                                <!-- ko if: sortDirection() == sortDirections.desc -->
-                                @Resources.CreditExpiryDesc
-                                <!-- /ko -->
-                                <i class="cross-ico" data-bind="click: clearSort"></i>
-                            </div>*@
+            <!-- ko if: sortDirection() == sortDirections.asc -->
+            @Resources.CreditExpiryAsc
+            <!-- /ko -->
+            <!-- ko if: sortDirection() == sortDirections.desc -->
+            @Resources.CreditExpiryDesc
+            <!-- /ko -->
+            <i class="cross-ico" data-bind="click: clearSort"></i>
+        </div>*@
                     </div>
 
                     <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
@@ -613,10 +661,6 @@
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectType</span>
-                                    <span class="filter-ico filter-ico--desc">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Equipment"></div>
 

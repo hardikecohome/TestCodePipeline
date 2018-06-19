@@ -120,6 +120,30 @@
                 field: this.sortFields.sign,
                 dir: this.sortDirections.desc
             },
+            loanAmountAsc: {
+                field: this.sortFields.loanAmount,
+                dir: this.sortDirections.asc
+            },
+            loanAmountDesc: {
+                field: this.sortFields.loanAmount,
+                dir: this.sortDirections.desc
+            },
+            termAsc: {
+                field: this.sortFields.term,
+                dir: this.sortDirections.asc
+            },
+            termDesc: {
+                field: this.sortFields.term,
+                dir: this.sortDirections.desc
+            },
+            amortAsc: {
+                field: this.sortFields.amort,
+                dir: this.sortDirections.asc
+            },
+            amortDesc: {
+                field: this.sortFields.amort,
+                dir: this.sortDirections.desc
+            },
         });
 
         this.agreementOptions = ko.observableArray(filterAndSortList(data, 'AgreementType'));
