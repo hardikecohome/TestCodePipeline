@@ -646,7 +646,7 @@ table
         }
     }
 
-    @media only screen and (min-width: 1024px) and (max-width: 1650px) {
+    @media only screen and (min-width: 1024px) and (max-width: 1600px) {
         &__entries-number {
             width: 20%;
             margin-left: auto;
@@ -666,7 +666,7 @@ table
                         bottom: 15px;
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
-                        width: 100%;
+                        width: 100%;                        
 
                         &__export,
                         &__preview {
@@ -851,7 +851,7 @@ table
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         width: 100%;
-                        margin-left: -16px;
+                        left: 0px;
 
                         &__export,
                         &__preview {
@@ -1090,12 +1090,13 @@ table
                     }
 
                     &__btns {
+                        background: #FFFFFF03;
                         position: fixed;
                         bottom: 0px;
                         justify-content: space-around;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         width: 100%;
-                        margin-left: -16px;
+                        left: 0;
 
                         &__export,
                         &__preview {
@@ -1579,13 +1580,15 @@ table
     }
 
     .ios-device {
-        .main-table__block--body .main-table__block__row__cell {
-            &.icon-cell-gear,
-            &.icon-cell-notes {
-                .opened {
-                    &.table-row-settings-popup,
-                    &.customer-comment-popup {
-                        margin-left: -150px;
+        .main-table__block{
+            &--body .main-table__block__row__cell {
+                &.icon-cell-gear,
+                &.icon-cell-notes {
+                    .opened {
+                        &.table-row-settings-popup,
+                        &.customer-comment-popup {
+                            margin-left: -150px;
+                        }
                     }
                 }
             }
