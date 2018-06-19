@@ -17,7 +17,6 @@ using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
-using DealnetPortal.Utilities.Messaging;
 using Unity;
 using Unity.WebApi;
 using Unity.Lifetime;
@@ -68,7 +67,6 @@ namespace DealnetPortal.Api
             container.RegisterType<ICustomerFormService, CustomerFormService>();
             container.RegisterType<IDocumentService, DocumentService>();
             container.RegisterType<IMailService, MailService>();
-            container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IRateCardsService, RateCardsService>();
             container.RegisterType<IPersonalizedMessageService, PersonalizedMessageService>();
             container.RegisterType<IMailChimpService, MailChimpService>();
@@ -118,7 +116,6 @@ namespace DealnetPortal.Api
             container.RegisterType<IPdfEngine, PdfSharpEngine>();
             container.RegisterType<IDocumentService, DocumentService>();
             container.RegisterType<IMailService, MailService>();
-            container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IDealerService, DealerService>();
             container.RegisterType<IBackgroundSchedulerService, BackgroundSchedulerService>();
             container.RegisterType<IAppConfiguration, AppConfiguration>(new ContainerControlledLifetimeManager(), new InjectionConstructor(WebConfigSections.AdditionalSections as object));

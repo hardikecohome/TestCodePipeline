@@ -82,8 +82,6 @@
     <Compile Include="DataAccess\QueriesFileStorage.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\LoggingService.cs" />
-    <Compile Include="Messaging\EmailService.cs" />
-    <Compile Include="Messaging\IEmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
