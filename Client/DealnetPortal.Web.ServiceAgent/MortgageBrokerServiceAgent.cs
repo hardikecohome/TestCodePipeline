@@ -56,7 +56,7 @@ namespace DealnetPortal.Web.ServiceAgent
             {
                 return
                     await
-                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/customers/{WebUtility.UrlEncode(email)}/check", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/customers/check?email={WebUtility.UrlEncode(email)}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

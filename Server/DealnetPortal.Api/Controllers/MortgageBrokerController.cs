@@ -70,11 +70,11 @@ namespace DealnetPortal.Api.Controllers
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }
 
-        // GET: api/MortgageBroker/customers/{email}/check
-        [Route("customers/{email}/check")]
+        // GET: api/MortgageBroker/customers/check?email={email}
+        [Route("customers/check")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> CheckCustomerExistingAsync(string email)
+        public async Task<IHttpActionResult> CheckCustomerExistingAsync([FromUri] string email)
         {
             try
             {
