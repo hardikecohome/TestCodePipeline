@@ -27,7 +27,7 @@ namespace DealnetPortal.Api
                 monitor.DeactivateAllJobs();
                 DisposeServers();
 
-                RecurringJob.AddOrUpdate<BackgroundSchedulerService>(service =>
+                RecurringJob.AddOrUpdate<IBackgroundSchedulerService>(service =>
                 service.CheckExpiredLeads(DateTime.UtcNow, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))),
                     Cron.MinuteInterval(int.Parse(config.GetSetting(WebConfigKeys.LEAD_CHECKPERIODMINUTES_CONFIG_KEY))));
 
@@ -112,4 +112,17 @@ namespace DealnetPortal.Api
             }
         }
     }
+
+    public class ContainerJobActivator : JobActivator
+    {
+        public ContainerJobActivator()
+        {
+        }
+
+        public override object ActivateJob(Type type)
+        {
+            return System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(type);
+        }
+    }
+
 }

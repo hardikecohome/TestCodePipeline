@@ -19,13 +19,7 @@ namespace DealnetPortal.Api.BackgroundScheduler
             _mailService = mailService;
         }
 
-        public BackgroundSchedulerService()
-        {
-            _loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
-            _contractRepository = (IContractRepository)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IContractRepository));
-            _mailService = (IMailService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IMailService));
-        }
-
+        
         public void CheckExpiredLeads(DateTime currentDateTime, int minutesPeriod)
         {
             _loggingService.LogInfo($"Checking expired leads started at {DateTime.Now}.");
