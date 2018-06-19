@@ -375,7 +375,7 @@ module.exports('table', function (require) {
             }
         }, this);
 
-        $('body').on('click touch', (function (e) {
+        $('body').on(($('body.iso-device').length ? 'touchstart' : 'click'), (function (e) {
             var $el = $(e.target);
             var noteId = $el.data('notes');
             var actionId = $el.data('action');
