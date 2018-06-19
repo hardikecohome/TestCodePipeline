@@ -372,7 +372,7 @@
                     showActions: ko.observable(false),
                     showNotes: ko.observable(false),
                     isExpired: false,
-                    valueNum: parseFloat(item.Value.substr(2)) || 0,
+                    valueNum: parseFloat(item.LoanAmount.substr(2)) || 0,
                     DateVal: item.Date ? new Date(item.Date) : ''
                 });
             });
@@ -394,12 +394,10 @@
         };
 
         this.exportAll = function () {
-            var ids = this.filteredList()
+            var ids = this.list()
                 .filter(function (item) {
                     return item.Id > 0 && !item.IsInternal;
-                });
-            debugger;
-            ids = ids
+                })
                 .map(function (item) {
                     return item.Id;
                 });
@@ -500,6 +498,14 @@
 
         this.sortedList.subscribe(function (newValue) {
             this.pager.list(newValue);
+        }, this);
+
+        this.selectedIds.subscribe(function (newValue) {
+            if (newValue.length) {
+                $('.floatingHelpBtn').addClass('lift');
+            } else {
+                $('.floatingHelpBtn').removeClass('lift');
+            }
         }, this);
 
         $('body').on('click touch', (function (e) {

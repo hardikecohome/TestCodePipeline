@@ -421,7 +421,7 @@
     <value>Type of Equipment</value>
   </data>
   <data name="TypeOfPayment" xml:space="preserve">
-    <value>Type of Payment</value>
+    <value>Type of payment</value>
   </data>
   <data name="Upload" xml:space="preserve">
     <value>Upload</value>
