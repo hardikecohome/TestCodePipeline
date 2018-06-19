@@ -433,7 +433,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public void SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
         {
-            string equipment = contract.Equipment.NewEquipment?.First().EquipmentType.Description.ToLower() ?? string.Empty;
+            string equipment = contract.Equipment.NewEquipment?.First().EquipmentType?.Description.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];

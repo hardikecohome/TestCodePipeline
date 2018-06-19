@@ -22,6 +22,7 @@ namespace DealnetPortal.Api
                 var config = (IAppConfiguration)System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAppConfiguration))
                     ?? new AppConfiguration(WebConfigSections.AdditionalSections);
                 GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+                GlobalConfiguration.Configuration.UseActivator(new ContainerJobActivator());
 
                 var monitor = JobStorage.Current.GetMonitoringApi();
                 monitor.DeactivateAllJobs();
