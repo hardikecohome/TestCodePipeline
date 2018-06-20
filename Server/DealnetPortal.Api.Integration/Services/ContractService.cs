@@ -141,7 +141,6 @@ namespace DealnetPortal.Api.Integration.Services
         public ContractDTO GetContract(int contractId, string contractOwnerId)
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
-            var beaconUpdated = false;
             //check credit report status and update if needed
             if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
@@ -150,7 +149,6 @@ namespace DealnetPortal.Api.Integration.Services
                 contract.PrimaryCustomer.CreditReport == null)
             {
                 var creditReport = _creditCheckService.CheckCustomerCreditReport(contractId, contractOwnerId);
-                beaconUpdated = creditReport?.BeaconUpdated ?? false;
                 var beacon = creditReport?.Beacon;
                 if (beacon.HasValue)
                 {
@@ -174,18 +172,14 @@ namespace DealnetPortal.Api.Integration.Services
                     ctx.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
                     ctx.Items.Add(MappingKeys.CreditAmount, creditAmount);
                 });
-            if (contractDTO?.PrimaryCustomer != null)
+            if (contractDTO?.PrimaryCustomer != null && contractDTO.PrimaryCustomer.CreditReport == null)
             {
-                if (contractDTO.PrimaryCustomer.CreditReport == null)
+                contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO()
                 {
-                    contractDTO.PrimaryCustomer.CreditReport = new CustomerCreditReportDTO()
-                    {
-                        CreditAmount = creditAmount.CreditAmount,
-                        EscalatedLimit = creditAmount.EscalatedLimit,
-                        NonEscalatedLimit = creditAmount.NonEscalatedLimit
-                    };
-                }
-                contractDTO.PrimaryCustomer.CreditReport.BeaconUpdated = beaconUpdated;
+                    CreditAmount = creditAmount.CreditAmount,
+                    EscalatedLimit = creditAmount.EscalatedLimit,
+                    NonEscalatedLimit = creditAmount.NonEscalatedLimit,
+                };
             }            
             return contractDTO;
         }
