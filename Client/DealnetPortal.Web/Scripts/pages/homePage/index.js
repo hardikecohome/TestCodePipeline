@@ -6,6 +6,7 @@
 
     var HomeViewModel = function (data) {
         this.table = ko.observable(new Table(data));
+        this.loaded = ko.observable(false);
 
         this.updateTableList = function (list) {
             this.table().setList(list);
@@ -23,6 +24,7 @@
         }).done(function (data) {
             vm.updateTableList(data);
         }).always(function () {
+            vm.loaded(true);
             hideLoader();
         });
     };
