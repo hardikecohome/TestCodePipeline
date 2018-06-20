@@ -49,8 +49,10 @@
                             <!-- /ko -->
                         </span>
                     </div>
+
                     <div class="filters-head__divider"></div>
                     <!-- /ko -->
+
                     <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: list().length > 0 && !showSorters()"  style="display:none;">
                         <!-- ko if: showFilters -->
                         <span>
@@ -159,11 +161,11 @@
                                     @Resources.LastActivity - @Resources.Oldest
                                 </option>
                                 @*<option value="creditExpiryAsc">
-                                        @Resources.CreditExpiryAsc
-                                    </option>
-                                    <option value="creditExpiryDesc">
-                                        @Resources.CreditExpiryDesc
-                                    </option>*@
+            @Resources.CreditExpiryAsc
+        </option>
+        <option value="creditExpiryDesc">
+            @Resources.CreditExpiryDesc
+        </option>*@
                                 <option value="loanAmountAsc">
                                     @Resources.LoanAmount - @Resources.Ascending
                                 </option>
@@ -185,7 +187,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="filters-advanced__filters-cloud" data-bind="visible: showSorters">
+
+                    <div class="filters-advanced__filters-cloud" data-bind="visible: showSorters" style="display:none;">
                         <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.transactionId">
                             @Resources.ContractNumber -
                             <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.Ascending <!-- /ko -->
@@ -202,7 +205,7 @@
                             <!-- /ko -->
                             <i class="cross-ico" data-bind="click: clearSort"></i>
                         </div>
-                        <div class="filters-advanced__e-sign" data-bind="visible: sortedColumn() == sortFields.sign ">
+                        <div class="filters-advanced__e-sign" data-bind="visible: sortedColumn() == sortFields.sign">
                             @Resources.EsignStatus -
                             <!-- ko if: sortDirection() == sortDirections.asc -->
                             <i class="sign-ico sign-ico--red"></i> to <i class="sign-ico sign-ico--grey"></i>
@@ -282,21 +285,23 @@
             </div>
         </div>
     </div>
+
     <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
+
         <div class="row">
 
             <div class="main-table">
                 <div class="main-table__block main-table__block--header">
                     <div class="main-table__block__row">
                         <div class="main-table__block__row__cell checkbox-cell">
-                            <label class="customized-checkbox-icon" data-bind="click:function(){allSelected(!allSelected())}">
+                            <label class="customized-checkbox-icon" >
                                 <input id="checkBox" type="checkbox" data-bind="checked: allSelected" />
                                 <span class="customized-checkbox-icon__image"></span>
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number" data-bind="click:configureSortClick(sortFields.transactionId)">
                             <span>@Resources.ContractNumber</span>
-                            <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.transactionId)}">
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.transactionId)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
@@ -319,14 +324,14 @@
                         </div>
                         <div class="main-table__block__row__cell applicant-name" data-bind="click:configureSortClick(sortFields.applicantName)">
                             <span>@Resources.ApplicantName</span>
-                            <span class="filter-ico filter-ico--desc" data-bind="attr:{class:filterClasses(sortFields.applicantName)}">
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.applicantName)}">
                                 <i class="sort-arrow-top"></i>
                                 <i class="sort-arrow-bottom"></i>
                             </span>
                         </div>
                         @*<div class="main-table__block__row__cell days-left" data-bind="click:configureSortClick(sortFields.creditExpiry)">
                                 <span>@Resources.CreditApprovalExpiry</span>
-                                <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
+                                <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.creditExpiry)}">
                                     <i class="sort-arrow-top"></i>
                                     <i class="sort-arrow-bottom"></i>
                                 </span>
@@ -362,6 +367,7 @@
                                     <i class="sort-arrow-bottom"></i>
                                 </span>
                             </div>*@
+
                         <div class="main-table__block__row__cell project-desc">
                             <span>@Resources.ProjectType</span>
                         </div>
@@ -394,11 +400,11 @@
                 <div class="main-table__block main-table__block--body no-records" data-bind="visible:noRecordsFound()" style="display:none">@Resources.NoMatchingRecordsFound</div>
                 <!-- ko foreach: pager.pagedList -->
                 <div class="main-table__block main-table__block--body">
-                    <div class="main-table__block__row" data-bind="css:{'new-deal':$data.IsNewlyCreated,'expired-deal':$data.isExpired }">
+                    <div class="main-table__block__row" data-bind="css:{ 'new-deal': $data.IsNewlyCreated, 'expired-deal': $data.isExpired }">
                         <div class="main-table__block__row__cell checkbox-cell">
                             <label class="customized-checkbox-icon">
-                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected, visible: !$data.IsInternal && $data.Id > 0" />
-                                <span class="customized-checkbox-icon__image" data-bind="visible: !$data.IsInternal && $data.Id > 0"></span>
+                                <input id="checkBox" type="checkbox" data-bind="checked: $data.isSelected, visible: !$data.IsInternal && $data.Id != 0" />
+                                <span class="customized-checkbox-icon__image" data-bind="visible: !$data.IsInternal && $data.Id != 0"></span>
                             </label>
                         </div>
                         <div class="main-table__block__row__cell contract-number">
@@ -412,7 +418,7 @@
                             <span class="contract-number__link" data-bind="text: $data.TransactionId"></span>
                             <!-- /ko -->
                             <!-- ko if: $data.Id -->
-                            <a data-bind="attr: { href:$parent.editUrl($data.Id) }, text: $data.TransactionId "></a>
+                            <a data-bind="attr: { href: $parent.editUrl($data.Id) }, text: $data.TransactionId"></a>
                             <!-- /ko -->
                         </div>
                         <div class="main-table__block__row__cell deal-status">
@@ -442,6 +448,7 @@
                         <div class="main-table__block__row__cell loan-amount">
                             <span data-bind="text: $data.LoanAmount"></span>
                         </div>
+
                         <div class="main-table__block__row__cell term">
                             <span data-bind="text: $data.Term"></span>
                         </div>
@@ -451,6 +458,7 @@
                         @*<div class="main-table__block__row__cell payment-amount">
                                 <span data-bind="text: $data.MonthlyPayment"></span>
                             </div>*@
+
                         <div class="main-table__block__row__cell project-desc">
                             <span data-bind="text: $data.Equipment"></span>
                         </div>
@@ -491,11 +499,11 @@
                             <i data-bind="css:{'check-mark-ico':$data.Lead}"></i>
                         </div>
                         <div class="main-table__block__row__cell icon-cell icon-cell-gear">
-                            <i class="gear-ico" data-bind="click:function(){$data.showActions(!$data.showActions());},attr:{'data-action':$data.Id}"></i>
-                            <span class="show-details" data-bind="click:function(e){$data.isMobileOpen(!$data.isMobileOpen());}">
+                            <i class="gear-ico" data-bind="click: function(){$data.showActions(!$data.showActions());}, attr:{'data-action':$data.Id}"></i>
+                            <span class="show-details" data-bind="click: function(){ $data.isMobileOpen(!$data.isMobileOpen()); }">
                                 <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
                             </span>
-                            <div class="table-row-settings-popup" data-bind="css:{opened:$data.showActions},attr:{'data-action':$data.Id}">
+                            <div class="table-row-settings-popup" data-bind="css:{opened: $data.showActions}, attr:{'data-action':$data.Id}">
                                 <i class="cross-ico" data-bind="click:function(){$data.showActions(false);}"></i>
                                 <div class="table-row-settings-popup__edit" data-bind="visible: $data.Id">
                                     <i class="edit-contract-ico"></i>
@@ -503,19 +511,19 @@
                                         <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal && $data.Id > 0, click:function(){$parent.exportToExcel($data.Id);}">
+                                <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal && $data.Id > 0, click: function(){ $parent.exportToExcel($data.Id); }">
                                     <i class="excel-ico"></i>
                                     <span>
                                         <a>@Resources.ExportToExcel</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__help" data-bind="visible: !$data.IsInternal,click:function(){$parent.openHelpModal($data.TransactionId)}">
+                                <div class="table-row-settings-popup__help" data-bind="visible: !$data.IsInternal, click:function(){$parent.openHelpModal($data.TransactionId)}">
                                     <i class="ask-help-ico"></i>
                                     <span>
                                         <a>@Resources.AskForHelp</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__help" data-bind="visible: $data.IsInternal,click:function(){$parent.removeContract($data.Id)}">
+                                <div class="table-row-settings-popup__help" data-bind="visible: $data.IsInternal, click: function(){ $parent.removeContract($data.Id) }">
                                     <i class="delete-ico"></i>
                                     <span>
                                         <a>@Resources.Remove</a>
@@ -543,13 +551,13 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Date"></div>
 
                                 @*<div class="table-row-details__left__days-left" data-bind="click:$parent.configureSortClick($parent.sortFields.creditExpiry)">
-                                        <span>@Resources.CreditApprovalExpiry</span>
-                                        <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.creditExpiry)}">
-                                            <i class="sort-arrow-top"></i>
-                                            <i class="sort-arrow-bottom"></i>
-                                        </span>
-                                    </div>
-                                    <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
+            <span>@Resources.CreditApprovalExpiry</span>
+            <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.creditExpiry)}">
+                <i class="sort-arrow-top"></i>
+                <i class="sort-arrow-bottom"></i>
+            </span>
+        </div>
+        <div class="table-row-details__left__value" data-bind="text: $data.CreditExpiry"></div>*@
 
                                 <div class="table-row-details__left__loan-amount" data-bind="click:$parent.configureSortClick($parent.sortFields.loanAmount)">
                                     <span>@Resources.LoanAmount</span>
@@ -584,23 +592,23 @@
                                 <div class="table-row-details__left__value" data-bind="text: $data.Amort"></div>
 
                                 @*<div class="table-row-details__left__payment-amount" data-bind="click:$parent.configureSortClick($parent.sortFields.payment)">
-                                        <span>@Resources.MonthlyPayment</span>
-                                        <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
-                                            <i class="sort-arrow-top"></i>
-                                            <i class="sort-arrow-bottom"></i>
-                                        </span>
-                                    </div>
-                                    <div class="table-row-details__left__value" data-bind="text: $data.MonthlyPayment"></div>*@
+            <span>@Resources.MonthlyPayment</span>
+            <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.payment)}">
+                <i class="sort-arrow-top"></i>
+                <i class="sort-arrow-bottom"></i>
+            </span>
+        </div>
+        <div class="table-row-details__left__value" data-bind="text: $data.MonthlyPayment"></div>*@
 
                                 <div class="table-row-details__left__project-desc">
                                     <span>@Resources.ProjectType</span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Equipment"></div>
 
-                                <div class="table-row-details__left__funded-amount">
-                                    <span>@Resources.LoanAmount</span>
+                                <div class="table-row-details__left__address">
+                                    <span>@Resources.Address</span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.LoanAmount"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.Address"></div>
 
                             </div>
                             <div class="table-row-details__right">
@@ -609,10 +617,6 @@
                                 </div>
                                 <div class="table-row-details__right__value" data-bind="text: $data.Email"></div>
 
-                                <div class="table-row-details__left__address">
-                                    <span>@Resources.Address</span>
-                                </div>
-                                <div class="table-row-details__left__value" data-bind="text: $data.Address"></div>
 
                                 <div class="table-row-details__left__phone">
                                     <span>@Resources.Phone</span>
@@ -622,7 +626,7 @@
                                 <div class="table-row-details__left__sales-rep">
                                     <span>@Resources.SalesRep</span>
                                 </div>
-                                <div class="table-row-details__left__value" data-bind="text: SalesRep"></div>
+                                <div class="table-row-details__left__value" data-bind="text: $data.SalesRep"></div>
 
                                 @*<div class="table-row-details__left__entered-by">
                                         <span>@Resources.EnteredBy</span>
@@ -676,21 +680,20 @@
                                             </span>
                                         </div>
                                         <div class="table-row-settings-popup__help"
-                                             data-bind="visible: !$data.IsInternal,click:function(){$parent.openHelpModal($data.TransactionId)}">
+                                             data-bind="visible: !$data.IsInternal, click:function(){$parent.openHelpModal($data.TransactionId)}">
                                             <i class="ask-help-ico"></i>
                                             <span>
                                                 <a>@Resources.AskForHelp</a>
                                             </span>
                                         </div>
                                         <div class="table-row-settings-popup__help"
-                                             data-bind="visible: $data.IsInternal,click:function(){$parent.removeContract($data.Id)}">
+                                             data-bind="visible: $data.IsInternal, click:function(){$parent.removeContract($data.Id)}">
                                             <i class="delete-ico"></i>
                                             <span>
                                                 <a>@Resources.Remove</a>
                                             </span>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="table-row-details__left__value"></div>
 

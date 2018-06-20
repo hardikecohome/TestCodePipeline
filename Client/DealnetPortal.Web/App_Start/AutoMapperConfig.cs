@@ -649,7 +649,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<ContractShortInfoDTO, DealItemOverviewViewModel>()
                 .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.TransactionId == null))
-                .ForMember(d => d.CustomerName, s => s.ResolveUsing(src => $"{src.PrimaryCustomerFirstName.Trim()} {src.PrimaryCustomerLastName.Trim()}"))
+                .ForMember(d => d.CustomerName, s => s.ResolveUsing(src => $"{src.PrimaryCustomerFirstName?.Trim()} {src.PrimaryCustomerLastName?.Trim()}"))
                 .ForMember(d => d.Status,
                     s => s.ResolveUsing(src => src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.LocalizedStatus,

@@ -15,10 +15,16 @@
     }
 
     function sortAscending(a, b) {
+        if (typeof a == 'string' && typeof b == 'string') {
+            return a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
+        }
         return a == b ? 0 : a > b ? 1 : -1;
     }
 
     function sortDescending(a, b) {
+        if (typeof a == 'string' && typeof b == 'string') {
+            return b.toLocaleLowerCase().localeCompare(a.toLocaleLowerCase());
+        }
         return a == b ? 0 : a < b ? 1 : -1;
     }
 
