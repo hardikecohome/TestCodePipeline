@@ -44,7 +44,9 @@
     //datepickers
 
     //license-scan
-    cameraModule.init();
+    if (document.querySelector('video'))
+        cameraModule.init();
+
     $('#owner-scan-button').on('click', function (e) {
         function success(data) {
             $('#first-name').val(data.FirstName).keyup();
