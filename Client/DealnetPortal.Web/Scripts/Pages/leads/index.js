@@ -6,6 +6,7 @@
 
     var LeadsViewModel = function (data) {
         this.table = ko.observable(new Table(data));
+        this.loaded = ko.observable(false);
 
         this.updateTableList = function (list) {
             this.table().setList(list);
@@ -21,8 +22,9 @@
             cache: false,
             mode: 'GET'
         }).done(function (data) {
-            vm.updateTableList(data);
+            vm.updateTableList(Array.isArray(data) ? data : []);
         }).always(function () {
+            vm.loaded(true);
             hideLoader();
         });
     };

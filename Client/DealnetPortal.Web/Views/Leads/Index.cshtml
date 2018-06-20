@@ -365,7 +365,7 @@
             </div>
     </div>
 
-    <div class="nw-placeholder nw-centred-placeholder" data-bind="visible: list().length < 1">
+    <div class="nw-placeholder nw-centred-placeholder" data-bind="visible: $parent.loaded() && list().length  < 1" style="display:none">
         <i class="nw-placeholder__icon leads-placeholder-ico"></i>
         <p>
             @Html.Raw(Resources.NoLeadsFirstPart)
