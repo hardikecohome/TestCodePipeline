@@ -22,7 +22,7 @@
             cache: false,
             mode: 'GET'
         }).done(function (data) {
-            vm.updateTableList(data);
+            vm.updateTableList(Array.isArray(data) ? data : []);
         }).always(function () {
             vm.loaded(true);
             hideLoader();

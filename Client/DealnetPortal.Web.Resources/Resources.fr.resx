@@ -874,9 +874,6 @@
   <data name="CreateAnotherApplicationForThis" xml:space="preserve">
     <value>Créer une autre demande pour cet emprunteur</value>
   </data>
-  <data name="Declined" xml:space="preserve">
-    <value>Refusé</value>
-  </data>
   <data name="Information" xml:space="preserve">
     <value>Information</value>
   </data>
@@ -1530,9 +1527,6 @@
   <data name="StandardRate" xml:space="preserve">
     <value>TAUX STANDARD</value>
   </data>
-  <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
-    <value />
-  </data>
   <data name="AcceptLead" xml:space="preserve">
     <value>Accepter la piste</value>
   </data>
@@ -1827,9 +1821,6 @@
   <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
     <value>Veuillez configurer votre profil afin d’afficher les pistes</value>
   </data>
-  <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
-    <value>La piste choisie a été acceptée par vous. Vous la trouverez à la page {0} (nº de demande {1}).</value>
-  </data>
   <data name="Legal" xml:space="preserve">
     <value>Renseignements juridiques</value>
   </data>
@@ -1985,9 +1976,6 @@
   </data>
   <data name="PreApprovedLoanValueFee" xml:space="preserve">
     <value>1 % de la valeur du prêt préautorisé</value>
-  </data>
-  <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
-    <value>1 % de la valeur du prêt préautorisé sera facturé à votre compte à titre de frais pour les pistes</value>
   </data>
   <data name="PreferredContactMethod" xml:space="preserve">
     <value>Mode de communication privilégié</value>
@@ -2872,5 +2860,196 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
   </data>
   <data name="WithoutEscalatedPayments" xml:space="preserve">
     <value>Sans paiements échelonnés</value>
+  </data>
+  <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
+    <value>Lors de l'acceptation de la piste  1% de la valeur du prêt pré-approuvé sera appliqué à votre compte en tant que frais de piste</value>
+  </data>
+  <data name="Amort" xml:space="preserve">
+    <value>Amortissement</value>
+  </data>
+  <data name="AppCreatedBy" xml:space="preserve">
+    <value>Application créée par</value>
+  </data>
+  <data name="ApplicantName" xml:space="preserve">
+    <value>Nom du demandeur</value>
+  </data>
+  <data name="ApplicantNameAtoZ" xml:space="preserve">
+    <value>Nom du demandeur de A à Z</value>
+  </data>
+  <data name="ApplicantNameZtoA" xml:space="preserve">
+    <value>Nom du demandeur de Z à A</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascendant</value>
+  </data>
+  <data name="AskForHelp" xml:space="preserve">
+    <value>Demander de l'aide</value>
+  </data>
+  <data name="AtoZ" xml:space="preserve">
+    <value>A à Z</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>effacer</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="ContactDealerSupport" xml:space="preserve">
+    <value>contacter le support du marchand</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Créé</value>
+  </data>
+  <data name="CreateNewLease" xml:space="preserve">
+    <value>Créer un nouveau bail</value>
+  </data>
+  <data name="CreateNewLoan" xml:space="preserve">
+    <value>Créer un nouveau prêt</value>
+  </data>
+  <data name="CreditApprovalExpiry" xml:space="preserve">
+    <value>Expiration de l'approbation de crédit</value>
+  </data>
+  <data name="CreditExpiryAsc" xml:space="preserve">
+    <value>L'approbation de crédit expire de 1 à ...</value>
+  </data>
+  <data name="CreditExpiryDesc" xml:space="preserve">
+    <value>L'approbation de crédit expire de ... à 1</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Jours</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>refusé</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Supprimé</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Livré</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>descendant</value>
+  </data>
+  <data name="EnteredBy" xml:space="preserve">
+    <value>Entré par</value>
+  </data>
+  <data name="Esign" xml:space="preserve">
+    <value>Signature électronique</value>
+  </data>
+  <data name="EsignStatus" xml:space="preserve">
+    <value>Statut de la signature électronique</value>
+  </data>
+  <data name="ExpiresInXdays" xml:space="preserve">
+    <value>Expire dans {0} jours</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filtres</value>
+  </data>
+  <data name="ForNextTime" xml:space="preserve">
+    <value>Pour la prochaine fois</value>
+  </data>
+  <data name="FundedAmount" xml:space="preserve">
+    <value>Montant financé</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Cacher</value>
+  </data>
+  <data name="HighToLow" xml:space="preserve">
+    <value>plus élevé à moins élevé</value>
+  </data>
+  <data name="LastActivity" xml:space="preserve">
+    <value>Dernière Activité</value>
+  </data>
+  <data name="Latest" xml:space="preserve">
+    <value>dernier</value>
+  </data>
+  <data name="Lead" xml:space="preserve">
+    <value>prospect</value>
+  </data>
+  <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
+    <value>La piste sélectionnée a été acceptée. Vous pouvez la trouver dans l'application de la page {0} # {1}.</value>
+  </data>
+  <data name="LearnMoreAboutThisPage" xml:space="preserve">
+    <value>En savoir plus sur cette page</value>
+  </data>
+  <data name="LearnMoreHomePage" xml:space="preserve">
+    <value>Sur cette page, vous pouvez voir les contrats les plus récents ceux qui ont été créés et conduit également, les contrats remplis du lien client et vos brouillons. Ici, nous publierons des informations importantes, par ex. notification sur la maintenance planifiée et une offre spéciale pour vous.</value>
+  </data>
+  <data name="LoanAmount" xml:space="preserve">
+    <value>Montant du prêt</value>
+  </data>
+  <data name="LowToHigh" xml:space="preserve">
+    <value>moins élevé à  plus élevé</value>
+  </data>
+  <data name="Newest" xml:space="preserve">
+    <value>plus récent</value>
+  </data>
+  <data name="NoLeadsFirstPart" xml:space="preserve">
+    <value>Vous n'avez pas encore de pistes.
+Sur cette page, nous vous présenterons les pistes de clients réels de votre quartier intéressés par les améliorations de la maison que vous offrez. </value>
+  </data>
+  <data name="NoLeadsSecondPart" xml:space="preserve">
+    <value>Pour utiliser cette fonctionnalité, assurez-vous que vous avez configuré les projets proposés et votre zone de service dans Mon profil.</value>
+  </data>
+  <data name="NoLeadsThirdPart" xml:space="preserve">
+    <value>Si vous avez besoin d'aide s'il vous plaît visitez Ressources pour voir le manuel ou contacter le support du marchand</value>
+  </data>
+  <data name="NotInitiated" xml:space="preserve">
+    <value>Non initié</value>
+  </data>
+  <data name="NumberOfEntries" xml:space="preserve">
+    <value>Nombre d'entrées</value>
+  </data>
+  <data name="Oldest" xml:space="preserve">
+    <value>plus vieux</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Paiement</value>
+  </data>
+  <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
+    <value>1% de la valeur du prêt préapprouvée sera appliqué à votre compte en tant que frais de piste</value>
+  </data>
+  <data name="ProgramOption" xml:space="preserve">
+    <value>Option de programme</value>
+  </data>
+  <data name="ProjectDescription" xml:space="preserve">
+    <value>Description du projet</value>
+  </data>
+  <data name="RateReduction" xml:space="preserve">
+    <value>Réduction de taux</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Enregistré</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Envoyé</value>
+  </data>
+  <data name="Signed" xml:space="preserve">
+    <value>Signé</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Trier</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Trier par</value>
+  </data>
+  <data name="Term" xml:space="preserve">
+    <value>Terme</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>à</value>
+  </data>
+  <data name="TypeOfProject" xml:space="preserve">
+    <value>Type de projet</value>
+  </data>
+  <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
+    <value>Malheureusement, cette piste n'est plus disponible, veuillez en essayer une autre</value>
+  </data>
+  <data name="YouDontHaveDealsClickBelowToCreate" xml:space="preserve">
+    <value>Vous n'avez pas encore d'offres, cliquez ci-dessous pour créer une nouvelle offre.
+            Plus tard, vous verrez les contrats les plus récents sur cette page. </value>
+  </data>
+  <data name="ZtoA" xml:space="preserve">
+    <value>Z à A</value>
   </data>
 </root>
