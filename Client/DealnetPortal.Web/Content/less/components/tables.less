@@ -639,7 +639,7 @@ table
 
                     &__btns {
                         position: fixed;
-                        bottom: 15px;
+                        bottom: 0px;
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         background: rgba(255,255,255,0.6);
@@ -828,7 +828,7 @@ table
 
                     &__btns {
                         position: fixed;
-                        bottom: 15px;
+                        bottom: 0px;
                         justify-content: center;
                         box-shadow: 6px -5px 10px 0 rgba(110, 110, 110, 0.18);
                         background: rgba(255,255,255,0.6);
@@ -837,8 +837,7 @@ table
 
                         &__export,
                         &__preview {
-                            margin-bottom: 17px;
-                            margin-top: 0px;
+                            margin-bottom: 30px;
                             flex-basis: 18%
                         }
                     }
@@ -1543,7 +1542,7 @@ table
     }
 
     .ff .main-table__block__row__cell {
-        &.email, &.applicant-name {
+        &.email {
             /* For Firefox */
             white-space: pre-wrap;
             word-break: break-all;
@@ -1604,11 +1603,9 @@ table
     }
 
 @media @mobile {
-    body:not(.ios-device){
-        .my-deals, .home-page {
-            &.lift {
-                margin-bottom: 60px;
-            }
+    .my-deals, .home-page {
+        &.lift {
+            margin-bottom: 60px;
         }
     }
 }
