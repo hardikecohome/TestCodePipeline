@@ -83,12 +83,33 @@
             });
         }, 500);
 
-        $('select.custom-select').selectric({
-            responsive: true,
-        });
+        // $('select.custom-select').selectric({
+        //     responsive: true,
+        // });
+
+        // $('.custom-select-wrap.custom-select-float-label').each((id, element) => {
+        //     $(element).find('.selectric-scroll ul li').click(() => {
+        //         $(element).find('label').addClass('label-title');
+        //     });
+        // });
+
+        function closeOtherSelects(e) {
+            $('select').selectric('close');
+            $(e.target).selectric('open').one('selectric-open', closeOtherSelects);
+        }
+
+        $('select').one('selectric-open', closeOtherSelects);
 
         makeMobileNav("#mobile-navigation", ".mobile-navigation__active-item")();
         makeMobileNav("#mobile-navigation-help", ".mobile-help__toggle")();
+
+        var closeNotification = document.querySelector('.new-notification-wp .new-notification .close-white-ico');
+        if (closeNotification) {
+            closeNotification.addEventListener('click', function () {
+                var note = document.querySelector('.new-notification-wp');
+                note.parentElement.removeChild(note);
+            });
+        }
     }
 
     function makeMobileNav(id, button) {

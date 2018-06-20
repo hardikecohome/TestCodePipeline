@@ -154,7 +154,7 @@
                             <div class="dealnet-credit-check-section" id="additional-prev-address-section-@(i+1)">
                                 <h3 class="dealnet-section-title">
                                     @Resources.PreviousAddressInformation
-                                    @if(Model.EquipmentInfo.IsEditAvailable &&
+                                    @if(Model.IsEditAvailable &&
                                         !(Model.BasicInfo.ContractWasDeclined &&
                                         (Model.BasicInfo.AdditionalApplicants[i]?.IsInitialCustomer ?? false)))
                                     {
@@ -265,7 +265,7 @@
                             <div class="dealnet-credit-check-section" id="additional-mailing-address-section-@(i + 1)">
                                 <h3 class="dealnet-section-title">
                                     @Resources.AdditionalApplicantAddressInfo
-                                    @if(Model.EquipmentInfo.IsEditAvailable &&
+                                    @if(Model.IsEditAvailable &&
                                         !(Model.BasicInfo.ContractWasDeclined &&
                                         (Model.BasicInfo.AdditionalApplicants[i]?.IsInitialCustomer ?? false)))
                                     {

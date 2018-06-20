@@ -32,9 +32,13 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <returns>List of contracts</returns>
         Task<IList<ContractDTO>> GetContracts();
 
+        Task<IList<ContractShortInfoDTO>> GetContractsShortInfo();
+
         Task<int> GetCustomersContractsCount();
 
         Task<IList<ContractDTO>> GetCompletedContracts();
+
+        Task<IList<ContractShortInfoDTO>> GetCompletedContractsShortInfo();
 
         Task<IList<ContractDTO>> GetLeads();
 
@@ -147,11 +151,11 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 
-        Task<IList<Alert>> RemoveComment(int commentId);
+        Task<IList<Alert>> RemoveComment(int contractId, int commentId);
 
         Task<Tuple<int?, IList<Alert>>> AddDocumentToContract(ContractDocumentDTO document);
 
-        Task<IList<Alert>> RemoveContractDocument(int documentId);
+        Task<IList<Alert>> RemoveContractDocument(int contractId, int documentId);
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId);
 
@@ -159,15 +163,10 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> RemoveContract(int contractId);
 
-        /// <summary>
-        /// Get Rates Card by Dealer
-        /// </summary>
-        Task<TierDTO> GetDealerTier();
-        Task<TierDTO> GetDealerTier(int contractId);
+        
 
         Task<IList<Alert>> AssignContract(int contractId);
-        Task<IList<Alert>> CheckCustomerExisting(string email);
-
+        
         Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId);
     }
 }

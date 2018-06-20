@@ -1,6 +1,5 @@
 ﻿using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Models.Notify;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
@@ -15,11 +14,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Web.Common.Constants;
-using DealnetPortal.Web.Common.Helpers;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
+using DealnetPortal.Api.Common.Helpers;
 using AutoMapper;
 
 namespace DealnetPortal.Web.Controllers
@@ -34,11 +33,11 @@ namespace DealnetPortal.Web.Controllers
         private readonly IDealerServiceAgent _dealerServiceAgent;
         private readonly IContentManager _contentManager;
         public HomeController(
-            IContractServiceAgent contractServiceAgent, 
-            IDictionaryServiceAgent dictionaryServiceAgent, 
-            CultureSetterManager cultureManager, 
-            ISettingsManager settingsManager, 
-            IDealerServiceAgent dealerServiceAgent, 
+            IContractServiceAgent contractServiceAgent,
+            IDictionaryServiceAgent dictionaryServiceAgent,
+            CultureSetterManager cultureManager,
+            ISettingsManager settingsManager,
+            IDealerServiceAgent dealerServiceAgent,
             IContentManager contentManager)
         {
             _contractServiceAgent = contractServiceAgent;
@@ -52,7 +51,7 @@ namespace DealnetPortal.Web.Controllers
         public ActionResult Index()
         {
             TempData["LangSwitcherAvailable"] = true;
-            if (User.IsInRole(RoleContstants.MortgageBroker))
+            if(User.IsInRole(RoleContstants.MortgageBroker))
             {
                 //just change only for MB release 1.0.6
                 TempData["LangSwitcherAvailable"] = false;
@@ -65,12 +64,12 @@ namespace DealnetPortal.Web.Controllers
 
             return View();
         }
-        
+
         [AllowAnonymous]
         public async Task<ActionResult> ChangeCulture(string culture, string redirectUrl = "")
         {
             await _cultureManager.ChangeCulture(culture);
-            if (string.IsNullOrEmpty(redirectUrl))
+            if(string.IsNullOrEmpty(redirectUrl))
             {
                 return RedirectToAction("Index");
             }
@@ -86,7 +85,7 @@ namespace DealnetPortal.Web.Controllers
         public async Task<JsonResult> CustomersDealsCount()
         {
             var contractsCount = await _contractServiceAgent.GetCustomersContractsCount();
-           
+
             return Json(new { dealsCount = contractsCount }, JsonRequestBehavior.AllowGet);
         }
 
@@ -113,8 +112,8 @@ namespace DealnetPortal.Web.Controllers
             var labels = summary.Select(s => s.ItemLabel).ToList();
             var data = summary.Select(s => FormattableString.Invariant($"{s.ItemData:0.00}")).ToList();
             List<object> datasets = new List<object>();
-            datasets.Add(new {data});
-            return Json(new {labels, datasets}, JsonRequestBehavior.AllowGet);
+            datasets.Add(new { data });
+            return Json(new { labels, datasets }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -122,45 +121,14 @@ namespace DealnetPortal.Web.Controllers
         {
             var contracts =
                 (completedOnly ?? false
-                    ? await _contractServiceAgent.GetCompletedContracts()
-                    : await _contractServiceAgent.GetContracts()).OrderByDescending(x => x.IsNewlyCreated ?? false)
-                    .ThenByDescending(x => string.IsNullOrEmpty(x.Details.TransactionId))
+                    ? await _contractServiceAgent.GetCompletedContractsShortInfo()
+                    : await _contractServiceAgent.GetContractsShortInfo()).OrderByDescending(x => x.IsNewlyCreated)
+                    .ThenByDescending(x => string.IsNullOrEmpty(x.TransactionId))
                     .ThenByDescending(x => x.LastUpdateTime)
                     .ToList();
-
-            var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-            var provincesDocTypes = await _dictionaryServiceAgent.GetAllStateDocumentTypes();
-
-            if (provincesDocTypes?.Item1 != null)
-            {
-                contracts.Where(c => c.ContractState == ContractState.Completed).ForEach(c =>
-                {
-                    var cProvince = c.PrimaryCustomer?.Locations
-                                       .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State
-                                   ?? c.PrimaryCustomer?.Locations.FirstOrDefault()?.State;
-                    if (!string.IsNullOrEmpty(cProvince))
-                    {
-                        var docTypes = provincesDocTypes.Item1[cProvince];
-                        var absentDocs =
-                            docTypes?.Where(
-                                    dt => dt.IsMandatory && c.Documents.All(d => dt.Id != d.DocumentTypeId) &&
-                                          (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
-                                .ToList();
-                        if (absentDocs?.Any() ?? false)
-                        {
-                            var actList = new StringBuilder();
-                            absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
-                            var cntrc = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
-                            if (cntrc != null)
-                            {
-                                cntrc.Action = actList.ToString();
-                            }
-                        }
-                    }
-                });
-            }
-
-            return this.Json(contractsVms, JsonRequestBehavior.AllowGet);
+            
+            var contractsShortInfoVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
+            return Json(contractsShortInfoVms, JsonRequestBehavior.AllowGet);            
         }
 
         [HttpGet]
@@ -173,26 +141,26 @@ namespace DealnetPortal.Web.Controllers
                 c =>
                 {
                     var cVms = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
-                    if (cVms != null)
+                    if(cVms != null)
                     {
                         var substring = c.PrimaryCustomer.Locations.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress)?.PostalCode.Substring(0, 3);
                         cVms.PostalCode = $"{substring?.ToUpperInvariant()}***";
-                    }                    
+                    }
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
-        }      
+        }
 
         [HttpGet]
         public ActionResult GetMaintanenceBanner()
         {
-            var identity = (ClaimsIdentity) User.Identity;
+            var identity = (ClaimsIdentity)User.Identity;
             var quebecPrefix = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? "qc" : string.Empty;
 
             var pathToView = $@"Maintenance/{CultureInfo.CurrentCulture.Name}/{quebecPrefix}/Banner";
 
             var viewResult = ViewEngines.Engines.FindView(ControllerContext, pathToView, null);
 
-            if (viewResult.View != null)
+            if(viewResult.View != null)
             {
                 return View(pathToView);
             }
@@ -203,13 +171,13 @@ namespace DealnetPortal.Web.Controllers
         public PartialViewResult DealerSupportRequestEmail(string contractId)
         {
             var viewModel = new HelpPopUpViewModal();
-            if (contractId != "")
+            if(contractId != "")
             {
                 viewModel.LoanNumber = contractId;
             }
             viewModel.DealerName = User.Identity.Name;
             viewModel.YourName = User.Identity.Name;
-            
+
             return PartialView("_HelpPopUp", viewModel);
         }
         [HttpPost]

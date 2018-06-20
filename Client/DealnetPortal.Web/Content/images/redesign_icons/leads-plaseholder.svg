@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="66" height="71" viewBox="0 0 66 71">
+    <defs>
+        <circle id="a" cx="29" cy="29" r="29"/>
+        <circle id="b" cx="29" cy="29" r="29"/>
+        <rect id="d" width="8" height="4" y="10" rx="2"/>
+        <path id="e" d="M10.7 21h52.479a2 2 0 0 1 1.887 2.662L56 49.5l-38.4.1L10.7 21z"/>
+        <path id="f" d="M27.393 2.305l23.892-.05v32h-8.447z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(6 12)">
+            <use fill="#FFF" xlink:href="#a"/>
+            <circle cx="29" cy="29" r="29.5" stroke="#CCDBEC"/>
+        </g>
+        <g transform="translate(6 12)">
+            <mask id="c" fill="#fff">
+                <use xlink:href="#b"/>
+            </mask>
+            <use fill="#FFF" xlink:href="#b"/>
+            <circle cx="17.5" cy="56.5" r="5.5" fill="#CCDBEC" mask="url(#c)"/>
+            <circle cx="44.5" cy="56.5" r="5.5" fill="#CCDBEC" mask="url(#c)"/>
+        </g>
+        <path stroke="#CCDBEC" stroke-linecap="round" d="M3 12h4.428a2 2 0 0 1 1.944 1.527L18 49h36.5a5.5 5.5 0 1 1 0 11H19"/>
+        <use fill="#F6FAFF" xlink:href="#d"/>
+        <rect width="7" height="3" x=".5" y="10.5" stroke="#CCDBEC" rx="1.5"/>
+        <use fill="#F6FAFF" xlink:href="#e"/>
+        <path stroke="#CCDBEC" d="M11.335 21.5l6.658 27.599 37.652-.098 8.95-25.504a1.5 1.5 0 0 0-1.416-1.997H11.335z"/>
+        <g transform="rotate(-64 39.339 18.255)">
+            <use fill="#F6FAFF" xlink:href="#f"/>
+            <path stroke="#CCDBEC" d="M28.19 2.803l14.962 30.952h7.633V2.756l-22.596.047z"/>
+        </g>
+        <path stroke="#CCDBEC" d="M30.6 1.4L38 10l20 5"/>
+        <rect width="4" height="6" x="17.5" y="26.5" stroke="#CCDBEC" rx="1"/>
+        <path stroke="#CCDBEC" d="M19.326 37.5a.5.5 0 0 0-.481.637l1.429 5a.5.5 0 0 0 .48.363H21a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5h-1.674z"/>
+        <rect width="4" height="6" x="26.5" y="26.5" stroke="#CCDBEC" rx="1"/>
+        <rect width="4" height="6" x="26.5" y="37.5" stroke="#CCDBEC" rx="1"/>
+        <rect width="4" height="6" x="35.5" y="26.5" stroke="#CCDBEC" rx="1"/>
+        <rect width="4" height="6" x="35.5" y="37.5" stroke="#CCDBEC" rx="1"/>
+        <rect width="4" height="6" x="44.5" y="26.5" stroke="#CCDBEC" rx="1"/>
+        <rect width="4" height="6" x="44.5" y="37.5" stroke="#CCDBEC" rx="1"/>
+        <rect width="4" height="6" x="53.5" y="26.5" stroke="#CCDBEC" rx="1"/>
+        <path stroke="#CCDBEC" d="M54 37.5a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h.246a.5.5 0 0 0 .48-.363l1.429-5a.5.5 0 0 0-.48-.637H54zM38 10l-6 12"/>
+    </g>
+</svg>

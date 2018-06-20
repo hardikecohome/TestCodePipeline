@@ -1,0 +1,29 @@
+﻿@iterations: 100;
+
+.progress-loop (@i) when (@i > 0) {
+    .nw-progress-bar--@{i} {
+        .nw-progress-bar__progress {
+            width: ~"@{i}%";
+        }
+    }
+
+    .progress-loop(@i - 1);
+}
+
+.progress-loop(@iterations);
+
+.nw-progress-bar {
+    margin-top: 16px;
+    width: 30%;
+    height: 4px;
+    background-color: #eaeaea;
+
+    &__progress {
+        width: 0%;
+        background-color: #89c800;
+        height: 4px;
+        display: inline-block;
+        position: relative;
+        top: -10px;
+    }
+}

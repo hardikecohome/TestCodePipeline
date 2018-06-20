@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace DealnetPortal.Web.Models.Dealer
+﻿namespace DealnetPortal.Web.Models.Dealer
 {
     public class DocumentResponseViewModel
     {

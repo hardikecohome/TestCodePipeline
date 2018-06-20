@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using DealnetPortal.Api.Common.Enumeration;
+﻿using System.Collections.Generic;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 
 namespace DealnetPortal.Api.Models.Profile
 {

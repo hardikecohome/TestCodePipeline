@@ -25,7 +25,6 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private const string InstallCertificateStorageName = "InstallCertificate";
 
         public MyDealsController(IContractServiceAgent contractServiceAgent,
             IDictionaryServiceAgent dictionaryServiceAgent,
@@ -100,7 +99,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> RemoveComment(int commentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveComment(commentId);
+            var updateResult = await _contractServiceAgent.RemoveComment(commentId, commentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
@@ -159,7 +158,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> RemoveDocument(int documentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId);
+            var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId, documentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 

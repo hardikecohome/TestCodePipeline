@@ -27,9 +27,7 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
 
         public bool IsAllInfoCompleted { get; set; }
 
-        public bool IsApplicantsInfoEditAvailable { get; set; }
-
-        public bool IsFirstStepAvailable { get; set; }        
+        public bool IsApplicantsInfoEditAvailable { get; set; }       
 
         public bool IsNewContract { get; set; }
         public bool FullUpdate { get; set; }

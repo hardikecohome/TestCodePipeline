@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
+﻿using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.SsWeb
@@ -481,7 +476,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         securityCode,
 
         /// <remarks/>
-        securityCodeSentBySMS,
+        securityCodeSentBySMS
     }
 
     /// <remarks/>
@@ -495,7 +490,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         MANUAL,
 
         /// <remarks/>
-        ACKNOWLEDGED,
+        ACKNOWLEDGED
     }
 
     /// <remarks/>
@@ -571,7 +566,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
 
         /// <remarks/>
         [System.Xml.Serialization.XmlEnumAttribute("")]
-        Item,
+        Item
     }
 
     /// <remarks/>
@@ -596,7 +591,7 @@ namespace DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes.
         exam,
 
         /// <remarks/>
-        ofac,
+        ofac
     }
 
     /// <remarks/>

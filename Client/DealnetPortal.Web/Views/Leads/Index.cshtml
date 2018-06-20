@@ -1,93 +1,386 @@
-﻿<div class="expand-filter-template leads-filter">
-	<div class="reset-form-inline">
-	    <div class="row">
-	        <div class="col-sm-6 col-md-3">
-	            <div class="form-group">
-	                <label for="">@Resources.PostalCode</label>
-	                <div class="control-group">
-	                    <select id="postal-code" class="form-control select-filter filter-input"></select>
-	                </div>
-	            </div>
-	        </div>
-	        <div class="col-sm-6 col-md-3">
-	            <div class="form-group">
-	                <label for="">@Resources.PreApprovedFor</label>
-	                <div class="control-group">
-	                    <select id="pre-approved-for" class="form-control select-filter filter-input"></select>
-	                </div>
-	            </div>
-	        </div>
-	        <div class="col-md-2 col-sm-6">
-	            <div class="form-group">
-	                <label for="">@Resources.DateFrom</label>
-	                <div class="control-group date-group">
-	                    <input type="text" class="form-control date-input filter-input" id="date-from">
-	                </div>
-	            </div>
-	        </div>
-	        <div class="col-md-2 col-sm-6">
-	            <div class="form-group">
-	                <label for="">@Resources.DateTo</label>
-	                <div class="control-group date-group">
-	                    <input type="text" class="form-control date-input filter-input" id="date-to">
-	                </div>
-	            </div>
-	        </div>
-		    <div class="col-md-2 col-sm-6">
-			    <div class="form-group">
-                    <label>&nbsp;</label>
-                    <div class="control-group">
-                        <a class="action-link grey not-positioned-link" id="clear-filters">
-                            <svg aria-hidden="true" class="icon icon-remove"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-remove")"></use></svg><span>@Resources.ClearFilters</span>
-                        </a>
-                    </div>
-			    </div>
-		    </div>
-	        <div class="col-md-2 col-sm-6 text-right col-md-offset-10 col-sm-offset-6">
-	            <div class="form-group">
-	                <button class="btn btn-green col-xs-12 filter-button">@Resources.Filter</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-</div>
-
-@{
-    var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
+﻿@{ 
+    ViewBag.Title = Resources.Leads;
 }
-<div class="well position-well clear-border collapse" id="msg-lead-accepted">
-  <svg aria-hidden="true" class="icon icon-success"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use></svg>
-  <span id="lead-msg"></span>
-</div>
 
-<div class="well position-well danger-well error-descr clear-border collapse" id="leads-error-message">
-  <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-  <span id="error-msg-text"></span>
-</div>
+<div id="leads-body" class="leads-page" data-bind="with: table">
+    <div class="margin-block">
+        <div class="row">
+            <div class="filters leads-filters">
+                <div class="filters-head">
+                    <div class="filters-head__title">@Resources.Leads</div>
+                    <!-- ko if:  list().length > 0 -->
+                    <div class="filters-head__learn-more">
+                        @*<i class="lamp-ico"></i>
+                            <a data-bind="click:function(){showLearnMore(!showLearnMore());}">
+                                <!-- ko if: showLearnMore -->
+                                @Resources.Hide
+                                <!-- /ko-->
+                                <!-- ko ifnot: showLearnMore -->
+                                @Resources.LearnMoreAboutThisPage
+                                <!-- /ko -->
+                            </a>*@
+                    </div>
+                    <div class="filters-head__search new-input-group" data-bind="visible: list().length > 0">
+                        <div class="custom-text-input-group">
+                            <input type="text" name="search" required data-bind="textInput: search">
+                            <label>@Resources.Search</label>
+                            <span class="search-ico"></span>
+                        </div>
+                    </div>
+                    <!-- ko if: showFilters -->
+                    <div class="filters-head__clear-btn new-btn-grey" data-bind="click: clearFilters">
+                        <span>@Resources.Clear</span>
+                    </div>
+                    <div class="filters-head__save-btn" data-bind="click: saveFilters">
+                        <div class="new-btn-green">
+                            <span>@Resources.Save</span>
+                        </div>
+                        <span class="save-btn-status" data-bind="css:{saved:filtersSaved}">
+                            <!-- ko if: filtersSaved -->
+                            <i class="checked-ico"></i> @Resources.Saved
+                            <!-- /ko -->
+                            <!-- ko ifnot: filtersSaved-->
+                            (@Resources.ForNextTime)
+                            <!-- /ko -->
+                        </span>
+                    </div>
+                    <div class="filters-head__divider"></div>
+                    <!-- /ko -->
+                    <div class="filters-head__filter-btn new-btn-red-filter" data-bind="click: toggleFilters, visible: !showSorters()">
+                        <!-- ko if: showFilters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showFilters -->
+                        <i class="filter-ico filter-ico--red"></i>
+                        <span>
+                            @Resources.Filters
+                        </span>
+                        <!-- /ko -->
+                    </div>
+                    <div class="filters-head__sort-btn new-sort-btn-red" data-bind="click: toggleSorters, visible: !showFilters(), css:{'move-right':showSorters()}">
+                        <!-- ko if: showSorters -->
+                        <span>
+                            @Resources.Hide
+                        </span>
+                        <!-- /ko -->
+                        <!-- ko ifnot: showSorters -->
+                        <i class="sort-button-red-ico"></i>
+                        <span>
+                            @Resources.Sort
+                        </span>
+                        <!-- /ko -->
+                    </div>
+                    <!-- /ko -->
+                </div>
+                <div class="filters-advanced homepage-mod" data-bind="visible: list().length > 0 && showFilters() || showSorters()" style="display: none">
+                    <div class="filters-advanced__type new-input-group" data-bind="visible: showFilters">
+                        <div class="custom-select-wrap custom-select-float-label">
+                            <label for="postal-code">@Resources.PostalCode</label>
+                            <select id="postal-code" data-bind="options:postalCodesOptions, selectric:postalCode"></select>
+                        </div>
+                    </div>
+                    <div class="filters-advanced__status new-input-group" data-bind="visible: showFilters">
+                        <div class="custom-select-wrap custom-select-float-label">
+                            <label for="pre-approved">@Resources.PreApprovedFor</label>
+                            <select id="pre-approved" data-bind="options:preApprovedForOptions, selectric:preApprovedFor"></select>
+                        </div>
+                    </div>
 
-<div class="hidden" id="success-message-template">
-    @if (wasAcceptedResource.Length >= 2)
-    {
-        @: @wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]
-    }
-</div>
+                    <div class="filters-advanced__date-from new-input-group" data-bind="visible: showFilters">
+                        <div class="custom-text-input-group icon date-group">
+                            <input type="text" class="date-input" required data-bind="datePicker: dateFrom, datePickerOptions: datePickerOptions">
+                            <label>@Resources.DateFrom</label>
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </div>
 
-<table id="work-items-table" class="display responsive my-deals-table my-leads-table " width="100%">
-    <thead>
-    <tr>
-        <th class="all date-cell">@Resources.Date</th>
-        <th class="min-mobile code-cell">@Resources.PostalCode</th>
-        <th class="min-mobile-l preapproved-cell">@Resources.PreApprovedFor</th>
-        <th class="min-tablet equipment-cell">@Resources.ProjectType</th>
-        <th class="min-tablet customer-cell">@Resources.CustomerComment</th>
-        <th class="all controls-cell accept-cell">@Resources.AcceptLead</th>
-    </tr>
-    </thead>
-</table>
+                    <div class="filters-advanced__date-to new-input-group" data-bind="visible: showFilters">
+                        <div class="custom-text-input-group icon date-group">
+                            <input type="text" class="date-input" required data-bind="datePicker: dateTo, datePickerOptions: datePickerOptions">
+                            <label>@Resources.DateTo</label>
+                            <span class="icon-calendar"></span>
+                        </div>
+                    </div>
+                    <div class="filters-advanced__sort-by new-input-group" data-bind="visible: showSorters">
+                        <div class="custom-select-wrap custom-select-float-label">
+                            <label>@Resources.SortBy</label>
+                            <select id="sort" data-bind="selectric: sorter">
+                                <option value=""></option>
+                                <option value="dateAsc">
+                                    @Resources.Date - @Resources.Newest
+                                </option>
+                                <option value="dateDesc">
+                                    @Resources.Date - @Resources.Latest
+                                </option>
+                                <option value="postalCodeAsc">
+                                    @Resources.PostalCode - @Resources.AtoZ
+                                </option>
+                                <option value="postalCodeDesc">
+                                    @Resources.PostalCode - @Resources.ZtoA
+                                </option>
+                                <option value="preApprovedForAsc">
+                                    @Resources.PreApprovedFor - @Resources.LowToHigh
+                                </option>
+                                <option value="preApprovedForDesc">
+                                    @Resources.PreApprovedFor - @Resources.HighToLow
+                                </option>
+                                <option value="projectTypeAsc">
+                                    @Resources.ProjectType - @Resources.AtoZ
+                                </option>
+                                <option value="projectTypeDesc">
+                                    @Resources.ProjectType - @Resources.ZtoA
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filters-advanced__filters-cloud">
+                        <div class="filters-advanced__contract-number" data-bind="visible: sortedColumn() == sortFields.postalCode">
+                            @Resources.PostalCode -
+                            <!-- ko if: sortDirection() == sortDirections.asc --> @Resources.AtoZ <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc --> @Resources.ZtoA <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__deal-status" data-bind="visible: sortedColumn() == sortFields.preApprovedFor">
+                            @Resources.PreApprovedFor -
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                             @Resources.LowToHigh
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.HighToLow
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__e-sign" data-bind="visible: sortedColumn() == sortFields.projectType ">
+                            @Resources.ProjectType -
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.AtoZ
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.ZtoA
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                        <div class="filters-advanced__last-activity" data-bind="visible: sortedColumn() == sortFields.date">
+                            @Resources.Date —
+                            <!-- ko if: sortDirection() == sortDirections.asc -->
+                            @Resources.Newest
+                            <!-- /ko -->
+                            <!-- ko if: sortDirection() == sortDirections.desc -->
+                            @Resources.Oldest
+                            <!-- /ko -->
+                            <i class="cross-ico" data-bind="click: clearSort"></i>
+                        </div>
+                    </div>
+                    <div class="filters-advanced__clear-btn new-btn-grey" data-bind="click: clearFilters">
+                        <span>@Resources.Clear</span>
+                    </div>
+                    <div class="filters-advanced__apply-btn new-btn-solid-red" data-bind="click: filterList">
+                        <span>@Resources.Apply</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="margin-block" style="display: none" data-bind="visible: !isError() && showResultMessage()">
+        <div class="row">
+            <div class="new-lead-notification-wp">
+                <div class="new-lead-notification new-lead-notification--success">
+                    <span class="new-lead-notification__left-icon-block">
+                        <i class="new-lead-notification__notification-ico"></i>
+                    </span>
+                    @{
+                        var wasAcceptedResource = Resources.LeadWasAcceptedYouCanFind.Split(new[] { "{0}" }, StringSplitOptions.None);
+                    }
+                    <span class="new-lead-notification__message" id="new-lead-notification-success">@wasAcceptedResource[0]@Html.ActionLink(Resources.MyDeals, "Index", "MyDeals", null, new { @class = "dealnet-sidebar-link" })@wasAcceptedResource[1]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="margin-block" style="display: none" data-bind="visible: isError() && showResultMessage()">
+        <div class="row">
+            <div class="new-lead-notification-wp">
+                <div class="new-lead-notification new-lead-notification--error">
+                    <span class="new-lead-notification__left-icon-block">
+                        <i class="new-lead-notification__notification-ico"></i>
+                    </span>
+                    <span class="new-lead-notification__message" data-bind="text: errorMessage()"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="margin-block" data-bind="visible: list().length > 0" style="display:none;">
+        <div class="row">
+            <div class="main-table leads-page">
+                <div class="main-table__block main-table__block--header">
+                    <div class="main-table__block__row">
+                        <div class="main-table__block__row__cell date" data-bind="click:configureSortClick(sortFields.date)">
+                            <span>@Resources.Date</span>
+                            <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.date)}">
+                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
+                        <div class="main-table__block__row__cell pos-code" data-bind="click:configureSortClick(sortFields.postalCode)">
+                            <span>@Resources.PostalCode</span>
+                            <span class="filter-ico filter-ico--asc" data-bind="attr:{class:filterClasses(sortFields.postalCode)}">
+                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
+
+                        <div class="main-table__block__row__cell pre-approved-for" data-bind="click:configureSortClick(sortFields.preApprovedFor)">
+                            <span>@Resources.PreApprovedFor</span>
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.preApprovedFor)}">
+                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
+
+                        <div class="main-table__block__row__cell project-type" data-bind="click:configureSortClick(sortFields.projectType)">
+                            <span>@Resources.ProjectType</span>
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.projectType)}">
+                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
+
+                        <div class="main-table__block__row__cell customer-comment" data-bind="click:configureSortClick(sortFields.customerComment)">
+                            <span>@Resources.CustomerComment</span>
+                            <span class="filter-ico filter-ico--default" data-bind="attr:{class:filterClasses(sortFields.customerComment)}">
+                                <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                            </span>
+                        </div>
+
+                        <div class="main-table__block__row__cell accept-lead">
+
+                        </div>
+
+                        <div class="main-table__block__row__cell info">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="main-table__block main-table__block--body no-records" data-bind="visible:noRecordsFound()" style="display:none">@Resources.NoMatchingRecordsFound</div>
+                <!-- ko foreach: pager.pagedList -->
+                <div class="main-table__block main-table__block--body">
+                    <div class="main-table__block__row">
+                        <div class="main-table__block__row__cell date">
+                            <span data-bind="text: $data.Date"></span>
+                        </div>
+                        <div class="main-table__block__row__cell pos-code">
+                            <span data-bind="text: $data.PostalCode"></span>
+                        </div>
+                        <div class="main-table__block__row__cell pre-approved-for">
+                            <span data-bind="text: $data.PreApprovalAmount"></span>
+                        </div>
+                        <div class="main-table__block__row__cell project-type">
+                            <span data-bind="text: $data.Equipment"></span>
+                        </div>
+                        <div class="main-table__block__row__cell customer-comment">
+                            <span data-bind="text: $data.CustomerComment"></span>
+                        </div>
+                        <div class="main-table__block__row__cell accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
+                            <span>+</span><span>@Resources.AcceptLead</span>
+                        </div>
+                        <div class="main-table__block__row__cell info">
+                            <i class="i-letter-ico" data-bind="click:function(){$parent.hideInfoPopups(false); $data.showInfo(!$data.showInfo()); console.log( $data.showInfo());}"></i>
+                            <span class="show-details" data-bind="click:function(e){ $data.isMobileOpen(!$data.isMobileOpen()); $parent.hideInfoPopups(true); }">
+                                <i class="sort-arrow-bottom sort-arrow-bottom--green"></i>
+                            </span>
+                            <div class="leads-info-popup customer-comment-popup" data-bind="visible:$data.showInfo" style="display: none">
+                                <i class="cross-ico" data-bind="click:function(){$data.showInfo(false);}, visible: $data.showInfo"></i>
+                                <span class="customer-comment-popup__title">   </span>
+                                <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="main-table__block__row">
+                        <div class="table-row-details" data-bind="css:{opened:$data.isMobileOpen()}">
+                            <div class="table-row-details__left">
+                                <div class="table-row-details__left__customer-comment">
+                                    <span>@Resources.CustomerComment</span>
+                                    <span class="filter-ico filter-ico--default">
+                                        <i class="sort-arrow-top"></i><i class="sort-arrow-bottom"></i>
+                                    </span>
+                                </div>
+                                <div class="table-row-details__left__value"><span data-bind="text: $data.CustomerComment"></span></div>
+
+                                <div class="table-row-details__left__info">
+                                    <span>
+                                        <i class="i-letter-ico" data-bind="click:function(){$data.showMobileInfo(!$data.showMobileInfo());}"></i>
+                                    </span>
+                                    <div class="leads-info-popup customer-comment-popup" data-bind="visible: $data.showMobileInfo() && $data.isMobileOpen()" style="display: none">
+                                        <i class="cross-ico" data-bind="click:function(){$data.showMobileInfo(false);}, visible: $data.showMobileInfo && $data.isMobileOpen"></i>
+                                        <span class="customer-comment-popup__title">   </span>
+                                        <span class="customer-comment-popup__legend">@Resources.PreApprovedLoanValueFeeWillBeApplied</span>
+                                    </div>
+                                </div>
+                                <div class="table-row-details__left__accept-lead" data-bind="click:function(){$parent.toggleAcceptLeadPopup($data.Id, $data.TransactionId);}">
+                                    <span>+</span><span>@Resources.AcceptLead</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /ko -->
+                <div class="main-table__block main-table__block__divider"></div>
+                <div class="main-table__entries-number new-input-group">
+                    <div class="custom-select-wrap custom-select-float-label">
+                        <label for="entries-number">@Resources.NumberOfEntries</label>
+                        <select name="entries-number"
+                                id="entries-number"
+                                data-bind="options: pager.pageSizes, selectric:pager.pageSize"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="margin-block" data-bind="with: pager, visible: list().length > 0" style="display:none;">
+        <div class="row">
+            <div class="new-pagination-wp">
+                <div class="new-pagination">
+                    <a data-bind="click: goToPreviousPage, disable: pageIndex() == 1">
+                        <i class="pagination-left-ico"></i>
+                    </a>
+                    <ul class="new-pagination__pages" data-bind="foreach: allPages">
+                        <li data-bind="css: { active: $data.active, disabled: $data.disabled}, click: $parent.moveToPage">
+                            <a data-bind="text: $data.pageText, enable: !$data.disabled"></a>
+                        </li>
+                    </ul>
+                    <a data-bind="click: goToNextPage, disable: pageIndex() == maxPageIndex()">
+                        <i class="pagination-right-ico"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accept-lead-popup" data-bind="visible: showLeadPopup()" style="display:none;">
+            <i class="cross-ico" data-bind="click: function () { toggleAcceptLeadPopup(); }"></i>
+            <span class="accept-lead-popup__title">@Resources.AcceptLead</span>
+            <span class="accept-lead-popup__legend">@Resources.AreYouSure <br/>@Resources.AcceptanceOfLeadFeeAppliedToYourAccount</span>
+            <div class="accept-lead-popup__buttons">
+                <div class="new-btn-grey" data-bind="click: function () { toggleAcceptLeadPopup(); }"><span>@Resources.Cancel</span></div>
+                <div class="new-btn-solid-green" data-bind="click: function () {acceptLead(); }"><span>@Resources.AcceptLead</span></div>
+            </div>
+    </div>
+
+    <div class="nw-placeholder nw-centred-placeholder" data-bind="visible: $parent.loaded() && list().length  < 1" style="display:none">
+        <i class="nw-placeholder__icon leads-placeholder-ico"></i>
+        <p>
+            @Html.Raw(Resources.NoLeadsFirstPart)
+        </p>
+        <p>
+            @Html.Raw(Resources.NoLeadsSecondPart.Replace("{0}", @Html.ActionLink(Resources.MyProfile, "Index", "Profile").ToHtmlString()))
+        </p>
+        <p>
+           @Html.Raw(Resources.NoLeadsThirdPart.Replace("{0}", @Html.ActionLink(Resources.Library, "Library", "Home").ToHtmlString()).Replace("{1}", "<a onclick='sendEmailModel()'>" + Resources.ContactDealerSupport) + "</a>")
+        </p>
+    </div>
+</div>
 
 @section Translations
 {
-    translations['NotSelected'] = "@Resources.NotSelected";
     translations['Search'] = "@Resources.Search";
     translations['Show'] = "@Resources.Show";
     translations['Entries'] = "@Resources.Entries";
@@ -114,6 +407,11 @@
 
     </script>
 
-    @Scripts.Render("~/bundles/data-tables-scripts")
+    @Scripts.Render("~/bundles/knockout")
     @Scripts.Render("~/bundles/leads")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            module.require('leads-page-index').init();
+        });
+    </script>
 }

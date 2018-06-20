@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44339</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -232,6 +232,7 @@
     <Compile Include="App_Start\DatabaseConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MapperProfiles\ContractProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.Scheduler.cs" />
@@ -270,7 +271,6 @@
     <Compile Include="Controllers\CustomerFormController.cs" />
     <Compile Include="Controllers\DealerController.cs" />
     <Compile Include="Controllers\MortgageBrokerController.cs" />
-    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -279,6 +279,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Hangfire\HangfireExtensions.cs" />
+    <Compile Include="Helpers\Hangfire\UnityJobActivator.cs" />
     <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Infrastucture\EnforceHttpsHandler.cs" />
     <Compile Include="Infrastucture\LocalizedControllerSelector.cs" />

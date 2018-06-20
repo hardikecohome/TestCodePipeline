@@ -1,4 +1,4 @@
-﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @for(var i = 0; i < Model.ExistingEquipment.Count; i++)
 {
@@ -20,7 +20,7 @@
                                      new[]
                                      {
                                                     new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.CommonExistingEquipmentInfo.CustomerOwned},
-                                                    new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.CustomerOwned},
+                                                    new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.CustomerOwned}
                                      },
                                      "Value", "Text", Model?.ExistingEquipment != null ? Model.CommonExistingEquipmentInfo.CustomerOwned : true), new { @class = "form-control customer-owned" })
                         </div>

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Unity.Interception.Utilities;
 
 namespace DealnetPortal.DataAccess.Repositories
@@ -21,12 +16,25 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public string GetParentDealerId(string dealerId)
         {
-            return base.GetUserById(dealerId).ParentDealerId;
+            return GetUserById(dealerId).ParentDealerId;
         }
 
         public string GetUserIdByName(string userName)
         {
             return _dbContext.Users.FirstOrDefault(u => u.UserName == userName)?.Id;
+        }
+
+        public string GetRoleId(string roleName)
+        {
+            return _dbContext.Roles.FirstOrDefault(u => u.Name == roleName)?.Id;
+        }
+
+        public IList<string> GetUserNamesByRole(string roleName)
+        {
+            var usersList = _dbContext.Roles.FirstOrDefault(r => r.Name == roleName)?.Users
+                .Join(_dbContext.Users, iu => iu.UserId, au => au.Id, (iu, au) => au)
+                .Select(u => u.UserName).ToList();
+            return usersList;
         }
 
         public string GetUserIdByOnboardingLink(string link)

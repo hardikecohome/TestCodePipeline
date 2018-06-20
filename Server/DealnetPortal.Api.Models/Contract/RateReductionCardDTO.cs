@@ -1,7 +1,4 @@
-﻿using System;
-using DealnetPortal.Api.Common.Enumeration;
-
-namespace DealnetPortal.Api.Models.Contract
+﻿namespace DealnetPortal.Api.Models.Contract
 {
     public class RateReductionCardDTO
     {

@@ -109,7 +109,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (HttpRequestException ex)
             {
                 _loggingService.LogError("Cannot send request to CustomerWallet", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Cannot send request to CustomerWallet",
@@ -128,7 +128,7 @@ namespace DealnetPortal.Api.Integration.Services
                 if (_contractRepository.IsMortgageBrokerCustomerExist(login))
                 {
                     _loggingService.LogInfo($"Customer {login} already registered on Mortgage Broker Service.");
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = "Cannot create customer",
@@ -148,7 +148,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (HttpRequestException ex)
             {
                 _loggingService.LogError("Cannot send request to CustomerWallet", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Cannot send request to CustomerWallet",

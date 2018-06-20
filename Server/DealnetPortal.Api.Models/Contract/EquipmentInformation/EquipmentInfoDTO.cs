@@ -4,7 +4,6 @@ using DealnetPortal.Api.Common.Enumeration;
 namespace DealnetPortal.Api.Models.Contract.EquipmentInformation
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public class EquipmentInfoDTO
     {

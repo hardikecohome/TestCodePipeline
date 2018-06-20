@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using DealnetPortal.Api.Models.Contract.EquipmentInformation;
 using DealnetPortal.Domain.Repositories;
 using Unity.Interception.Utilities;
 
@@ -51,8 +45,10 @@ namespace DealnetPortal.Api.Integration.Services
         public IList<ContractDTO> GetCreatedContracts(string userId)
         {
             var contracts = _contractRepository.GetContractsCreatedByUser(userId);
-            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts);
-            AftermapContracts(contracts, contractDTOs, userId);
+            var contractDTOs = Mapper.Map<IList<ContractDTO>>(contracts, ctx =>
+            {
+                ctx.Items.Add(MappingKeys.EquipmentTypes, _contractRepository.GetEquipmentTypes());
+            });
             return contractDTOs;
         }
 
@@ -90,7 +86,7 @@ namespace DealnetPortal.Api.Integration.Services
                     _loggingService.LogError($"Failed to create a new contract for customer [{contractOwnerId}]");
 
                     var errorMsg = "Cannot create contract";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractCreateFailed,
@@ -185,7 +181,7 @@ namespace DealnetPortal.Api.Integration.Services
                     cr =>
                     {
                         _loggingService.LogWarning($"Internal Contract {cr.Item1.Id} is removing from DB");
-                        creditCheckAlerts.Add(new Alert()
+                        creditCheckAlerts.Add(new Alert
                         {
                             Type = AlertType.Warning,
                             Header = "Internal contract removed",
@@ -212,7 +208,6 @@ namespace DealnetPortal.Api.Integration.Services
         private async Task<Tuple<Contract, bool>> InitializeCreating(string contractOwnerId, NewCustomerDTO newCustomer, EquipmentTypeDTO improvmentType = null)
         {
             var contract = _contractRepository.CreateContract(contractOwnerId);
-            var equipmentType = _contractRepository.GetEquipmentTypes();
 
             if (contract != null)
             {
@@ -225,7 +220,7 @@ namespace DealnetPortal.Api.Integration.Services
                     PrimaryCustomer = customer,
                     HomeOwners = new List<Customer> { customer },
                     DealerId = contractOwnerId,
-                    Id = contract.Id,
+                    Id = contract.Id
                 };
 
                 if (improvmentType!=null)
@@ -261,7 +256,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (!string.IsNullOrEmpty(newCustomer.CustomerComment))
             {
-                var comment = new Comment()
+                var comment = new Comment
                 {
                     ContractId = contractData.Id,
                     IsCustomerComment = true,
@@ -292,7 +287,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     var errorMsg = "Cannot remove contract";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = ErrorConstants.ContractRemoveFailed,
@@ -304,7 +299,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError("Failed to remove contract", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.DocumentUpdateFailed,
@@ -314,41 +309,6 @@ namespace DealnetPortal.Api.Integration.Services
 
             return alerts;
         }
-
-        private void AftermapContracts(IList<Contract> contracts, IList<ContractDTO> contractDTOs, string ownerUserId)
-        {
-            var equipmentTypes = _contractRepository.GetEquipmentTypes();
-            foreach (var contractDTO in contractDTOs)
-            {
-                AftermapNewEquipment(contractDTO.Equipment?.NewEquipment, equipmentTypes);
-                var contract = contracts.FirstOrDefault(x => x.Id == contractDTO.Id);
-                if (contract != null) { AftermapComments(contract.Comments, contractDTO.Comments, ownerUserId); }
-            }
-        }
-
-        private void AftermapNewEquipment(IList<NewEquipmentDTO> equipment, IList<EquipmentType> equipmentTypes)
-        {
-            equipment?.ForEach(eq => eq.TypeDescription = ResourceHelper.GetGlobalStringResource(equipmentTypes.FirstOrDefault(eqt => eqt.Type == eq.Type)?.DescriptionResource));
-        }
-
-        private void AftermapComments(IEnumerable<Comment> src, IEnumerable<CommentDTO> dest, string contractOwnerId)
-        {
-            var srcComments = src.ToArray();
-            foreach (var destComment in dest)
-            {
-                var scrComment = srcComments.FirstOrDefault(x => x.Id == destComment.Id);
-                if (scrComment == null)
-                {
-                    continue;
-                }
-                destComment.IsOwn = scrComment.DealerId == contractOwnerId;
-                if (destComment.Replies.Any())
-                {
-                    AftermapComments(scrComment.Replies, destComment.Replies, contractOwnerId);
-                }
-            }
-        }
     }
 
-    
 }

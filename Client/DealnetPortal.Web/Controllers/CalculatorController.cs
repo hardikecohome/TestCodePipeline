@@ -1,9 +1,6 @@
 ﻿using System.Security.Claims;
-using DealnetPortal.Web.Infrastructure;
-
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 

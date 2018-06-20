@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Domain
+﻿namespace DealnetPortal.Domain
 {
     public class LoggedInUser
     {/// <summary>

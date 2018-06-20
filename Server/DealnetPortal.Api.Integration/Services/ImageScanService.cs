@@ -36,12 +36,12 @@ namespace DealnetPortal.Api.Integration.Services
                     repair.Image.Open(ms, 0);
 
                     Barcode[] barcodes = null;
-                    BarcodeReader reader = new BarcodeReader()
+                    BarcodeReader reader = new BarcodeReader
                     {
                         Horizontal = true,
                         Vertical = true,
                         Diagonal = true,
-                        DrvLicID = true,
+                        DrvLicID = true
                     };
 
                     try
@@ -53,7 +53,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     catch (Exception ex)
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Warning,
                             Header = "Driver Scan Issue",
@@ -68,7 +68,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 catch (Exception ex)
                 {
-                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = ex.ToString() });
+                    alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize license", Message = ex.ToString() });
                     return new Tuple<DriverLicenseData, IList<Alert>>(driverLicense, alerts);
                 }
                 
@@ -81,17 +81,17 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     catch (Exception ex)
                     {
-                        alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't parse recognized license", Message = ex.ToString() });
+                        alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't parse recognized license", Message = ex.ToString() });
                     }
                 }
                 else
                 {
-                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize license", Message = "Image wasn't recognized" });
+                    alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize license", Message = "Image wasn't recognized" });
                 }
             }
             else
             {
-                alerts.Add(new Alert() {Type = AlertType.Error, Header = "Can't recognize license", Message = "Data for recognize is empty"});
+                alerts.Add(new Alert {Type = AlertType.Error, Header = "Can't recognize license", Message = "Data for recognize is empty"});
             }
             return new Tuple<DriverLicenseData, IList<Alert>>(driverLicense, alerts);
         }
@@ -140,17 +140,17 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                         catch (Exception ex)
                         {
-                            alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't obtain recognized data", Message = ex.ToString() });
+                            alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't obtain recognized data", Message = ex.ToString() });
                         }
                     }
                     else
                     {
-                        alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Image wasn't recognized" });
+                        alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Image wasn't recognized" });
                     }
                 }
                 catch (Exception ex)
                 {
-                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
+                    alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
                 }
                 finally
                 {
@@ -162,7 +162,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
-                alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Data for recognize is empty" });
+                alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Data for recognize is empty" });
             }
             return new Tuple<VoidChequeData, IList<Alert>>(chequeData, alerts);
         }
@@ -203,17 +203,17 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     catch (Exception ex)
                     {
-                        alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't obtain recognized data", Message = ex.ToString() });
+                        alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't obtain recognized data", Message = ex.ToString() });
                     }
                 }
                 else
                 {
-                    alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Image wasn't recognized" });
+                    alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize cheque", Message = "Image wasn't recognized" });
                 }               
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert() { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
+                alerts.Add(new Alert { Type = AlertType.Error, Header = "Can't recognize cheque", Message = ex.ToString() });
             }
             finally
             {
