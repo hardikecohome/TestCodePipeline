@@ -16,12 +16,12 @@ module.exports('table', function (require) {
             maxDate: new Date(),
         });
         this.sortFields = Object.freeze({
-            transactionId: 'TransactionId',
+            transactionId: 'transNum',
             date: 'DateVal',
             applicantName: 'CustomerName',
             creditExpiry: 'CreditExpiry',
             loanAmount: 'valueNum',
-            term: 'LoanTerm',
+            term: 'Term',
             amort: 'Amort',
             payment: 'MonthlPayment',
             status: 'LocalizedStatus',
@@ -313,7 +313,8 @@ module.exports('table', function (require) {
                     showActions: ko.observable(false),
                     showNotes: ko.observable(false),
                     valueNum: parseFloat(item.LoanAmount.substr(2)) || 0,
-                    DateVal: item.Date ? new Date(item.Date) : ''
+                    DateVal: item.Date ? new Date(item.Date) : '',
+                    transNum: Number(item.TransactionId) || 0
                 });
             });
             this.list(tempList);

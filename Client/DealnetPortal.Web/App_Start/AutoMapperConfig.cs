@@ -393,7 +393,7 @@ namespace DealnetPortal.Web.App_Start
                     var customer = src.PrimaryCustomer;
                     if(customer != null)
                     {
-                        return $"{customer.FirstName} {customer.LastName}";
+                        return $"{customer.FirstName.Trim()} {customer.LastName.Trim()}";
                     }
                     return string.Empty;
                 }))
@@ -474,7 +474,7 @@ namespace DealnetPortal.Web.App_Start
                     var customer = src.PrimaryCustomer;
                     if(customer != null)
                     {
-                        return $"{customer.FirstName} {customer.LastName}";
+                        return $"{customer.FirstName.Trim()} {customer.LastName.Trim()}";
                     }
                     return string.Empty;
                 }))
@@ -534,8 +534,8 @@ namespace DealnetPortal.Web.App_Start
                     src.PrimaryCustomer?.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
                     src.SecondaryCustomers?.ForEach(x =>
                     {
-                        stb.AppendLine(x.FirstName);
-                        stb.AppendLine(x.LastName);
+                        stb.AppendLine(x.FirstName.Trim());
+                        stb.AppendLine(x.LastName.Trim());
                         x.Phones?.ForEach(p => stb.AppendLine(p.PhoneNum));
                         x.Emails?.ForEach(e => stb.AppendLine(e.EmailAddress));
                     });
@@ -649,7 +649,7 @@ namespace DealnetPortal.Web.App_Start
 
             cfg.CreateMap<ContractShortInfoDTO, DealItemOverviewViewModel>()
                 .ForMember(d => d.IsInternal, s => s.ResolveUsing(src => src.TransactionId == null))
-                .ForMember(d => d.CustomerName, s => s.ResolveUsing(src => $"{src.PrimaryCustomerFirstName} {src.PrimaryCustomerLastName}"))
+                .ForMember(d => d.CustomerName, s => s.ResolveUsing(src => $"{src.PrimaryCustomerFirstName.Trim()} {src.PrimaryCustomerLastName.Trim()}"))
                 .ForMember(d => d.Status,
                     s => s.ResolveUsing(src => src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.LocalizedStatus,

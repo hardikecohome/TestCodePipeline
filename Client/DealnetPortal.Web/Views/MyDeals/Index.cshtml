@@ -596,9 +596,9 @@
                             <div class="table-row-details__left">
 
 
-                                <div class="table-row-details__left__last-activity">
+                                <div class="table-row-details__left__last-activity" data-bind="click:$parent.configureSortClick($parent.sortFields.loanAmount)">
                                     <span>@Resources.LastActivity</span>
-                                    <span class="filter-ico filter-ico--asc">
+                                    <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.loanAmount)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
@@ -616,34 +616,26 @@
 
                                 <div class="table-row-details__left__loan-amount">
                                     <span>@Resources.LoanAmount</span>
-                                    <span class="filter-ico filter-ico--default">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.LoanAmount"></div>
 
                                 <div class="table-row-details__left__program-option">
                                     <span>@Resources.ProgramOption</span>
-                                    <span class="filter-ico filter-ico--default">
-                                        <i class="sort-arrow-top"></i>
-                                        <i class="sort-arrow-bottom"></i>
-                                    </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Program"></div>
 
-                                <div class="table-row-details__left__term">
+                                <div class="table-row-details__left__term" data-bind="click:$parent.configureSortClick($parent.sortFields.term)">
                                     <span>@Resources.Term</span>
-                                    <span class="filter-ico filter-ico--asc">
+                                    <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.term)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
                                 </div>
                                 <div class="table-row-details__left__value" data-bind="text: $data.Loan"></div>
 
-                                <div class="table-row-details__left__amort">
+                                <div class="table-row-details__left__amort" data-bind="click:$parent.configureSortClick($parent.sortFields.amort)">
                                     <span>@Resources.Amort</span>
-                                    <span class="filter-ico filter-ico--desc">
+                                    <span data-bind="attr:{class:$parent.filterClasses($parent.sortFields.amort)}">
                                         <i class="sort-arrow-top"></i>
                                         <i class="sort-arrow-bottom"></i>
                                     </span>
