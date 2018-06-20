@@ -322,57 +322,22 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                var contract = _contractRepository.GetContract(installationCertificateData.ContractId, contractOwnerId);
-
-                if (contract != null)
+                var equipmentInfo = Mapper.Map<EquipmentInfo>(installationCertificateData);
+                var updated = _contractRepository.UpdateInstallationData(equipmentInfo, contractOwnerId);
+                if (updated)
                 {
-                    if (contract.Equipment != null)
-                    {
-                        if (!string.IsNullOrEmpty(installationCertificateData.InstallerFirstName))
-                        {
-                            contract.Equipment.InstallerFirstName = installationCertificateData.InstallerFirstName;
-                        }
-                        if (!string.IsNullOrEmpty(installationCertificateData.InstallerLastName))
-                        {
-                            contract.Equipment.InstallerLastName = installationCertificateData.InstallerLastName;
-                        }
-                        if (installationCertificateData.InstallationDate.HasValue)
-                        {
-                            contract.Equipment.InstallationDate = installationCertificateData.InstallationDate;
-                        }
-                        if (installationCertificateData.InstalledEquipments?.Any() ?? false)
-                        {
-                            installationCertificateData.InstalledEquipments.ForEach(ie =>
-                            {
-                                var eq = contract.Equipment.NewEquipment.FirstOrDefault(e => e.Id == ie.Id);
-                                if (eq != null)
-                                {
-                                    if (!string.IsNullOrEmpty(ie.Model))
-                                    {
-                                        eq.InstalledModel = ie.Model;
-                                    }
-                                    if (!string.IsNullOrEmpty(ie.SerialNumber))
-                                    {
-                                        eq.InstalledSerialNumber = ie.SerialNumber;
-                                    }
-                                }
-                            });
-                        }
-                    }
                     _unitOfWork.Save();
-                }
-                else
-                {
-                    alerts.Add(new Alert
-                    {
-                        Type = AlertType.Error,
-                        Header = ErrorConstants.CreditCheckFailed,
-                        Message = "Cannot find a contract [{contractId}] for initiate credit check"
-                    });
-                }
+                }                
             }
             catch (Exception ex)
             {
+                alerts.Add(new Alert
+                {
+                    Type = AlertType.Error,
+                    Code = ErrorCodes.FailedToUpdateContract,
+                    Header = ErrorConstants.ContractUpdateFailed,
+                    Message = "Cannot update installation data for contract [{contractId}]"
+                });
                 _loggingService.LogError(
                     $"Cannot update installation data for contract {installationCertificateData.ContractId}", ex);
             }

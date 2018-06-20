@@ -113,6 +113,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <returns>Is customer updated</returns>
         bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
+        bool UpdateInstallationData(EquipmentInfo equipmentInfo, string contractOwnerId);
+
         bool UpdateCustomerEmails(int customerId, IList<Email> emails);        
 
         /// <summary>

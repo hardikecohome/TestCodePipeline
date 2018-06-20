@@ -596,7 +596,8 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.ExistingCustomer, d => d.Ignore())
                 .ForMember(x => x.EmploymentInfo, d => d.Ignore())
                 .ForMember(x => x.CreditReport, d => d.Ignore())
-                .ForMember(x => x.RelationshipToMainBorrower, d => d.Ignore());
+                .ForMember(x => x.RelationshipToMainBorrower, d => d.Ignore())
+                .ForMember(x => x.IsDeleted, d => d.Ignore());
 
             mapperConfig.CreateMap<EmploymentInfoDTO, EmploymentInfo>()
                 .ForMember(x => x.Id, d => d.Ignore())
@@ -716,6 +717,19 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(x => x.DealerInfo, d => d.Ignore())
                 .ForMember(x => x.License, d => d.Ignore())
                 .ForMember(x => x.LicenseTypeId, d => d.MapFrom(src=>src.License.Id));
+
+            mapperConfig.CreateMap<InstalledEquipmentDTO, NewEquipment>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.Id))
+                .ForMember(x => x.InstalledModel, d => d.MapFrom(src => src.Model))
+                .ForMember(x => x.InstalledSerialNumber, d => d.MapFrom(src => src.SerialNumber))
+                .ForAllOtherMembers(opt => opt.Ignore());
+            mapperConfig.CreateMap<InstallationCertificateDataDTO, EquipmentInfo>()
+                .ForMember(x => x.Id, d => d.MapFrom(src => src.ContractId))
+                .ForMember(x => x.InstallationDate, d => d.MapFrom(src => src.InstallationDate))
+                .ForMember(x => x.InstallerFirstName, d => d.MapFrom(src => src.InstallerFirstName))
+                .ForMember(x => x.InstallerLastName, d => d.MapFrom(src => src.InstallerLastName))
+                .ForMember(x => x.NewEquipment, d => d.MapFrom(src => src.InstalledEquipments))
+                .ForAllOtherMembers(opt => opt.Ignore());
         }
     }
 }

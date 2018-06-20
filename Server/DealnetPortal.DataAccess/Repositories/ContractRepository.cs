@@ -583,6 +583,55 @@ namespace DealnetPortal.DataAccess.Repositories
             return null;
         }
 
+        public bool UpdateInstallationData(EquipmentInfo equipmentInfo, string contractOwnerId)
+        {
+            var updated = false;
+
+            if (equipmentInfo != null)
+            {
+                var dbEquipmentInfo = _dbContext.EquipmentInfo
+                    .Include(e => e.NewEquipment)
+                    .FirstOrDefault(e => e.Id == equipmentInfo.Id);
+                if (dbEquipmentInfo != null)
+                {
+                    if (!string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
+                    {
+                        dbEquipmentInfo.InstallerFirstName = equipmentInfo.InstallerFirstName;
+                    }
+                    if (!string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
+                    {
+                        dbEquipmentInfo.InstallerLastName = equipmentInfo.InstallerLastName;
+                    }
+                    if (equipmentInfo.InstallationDate.HasValue)
+                    {
+                        dbEquipmentInfo.InstallationDate = equipmentInfo.InstallationDate;
+                    }
+                    updated = _dbContext.Entry(dbEquipmentInfo).State != EntityState.Unchanged;
+                    if (equipmentInfo.NewEquipment?.Any() ?? false)
+                    {
+                        equipmentInfo.NewEquipment.ForEach(ie =>
+                        {
+                            var eq = dbEquipmentInfo.NewEquipment.FirstOrDefault(e => e.Id == ie.Id);
+                            if (eq != null)
+                            {
+                                if (!string.IsNullOrEmpty(ie.InstalledModel))
+                                {
+                                    eq.InstalledModel = ie.InstalledModel;
+                                }
+                                if (!string.IsNullOrEmpty(ie.InstalledSerialNumber))
+                                {
+                                    eq.InstalledSerialNumber = ie.InstalledSerialNumber;
+                                }
+                                updated |= _dbContext.Entry(eq).State != EntityState.Unchanged;
+                            }
+                        });
+                    }
+                }
+            }
+
+            return updated;
+        }
+
         public Customer UpdateCustomer(Customer customer)
         {
             if (customer != null)
