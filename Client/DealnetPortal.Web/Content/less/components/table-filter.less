@@ -979,9 +979,9 @@
 
 .ie {
     .filters .filters-head__save-btn .save-btn-status {
-        right: 195px;
+        right: 165px;
         &.saved {
-            right: 210px;
+            right: 180px;
         }
         @media @mobile {
             right: 25%;
@@ -989,6 +989,27 @@
                 right: 27%;
             }
         }
+    }
+
+    .my-deals {
+        .filters .filters-head__save-btn .save-btn-status {
+        right: 165px;
+        &.saved {
+            right: 180px;
+        }
+        @media @tablet-only {
+            right: 35px;
+            &.saved {
+                right: 50px;
+            }
+        }
+        @media @mobile {
+            right: 25%;
+            &.saved {
+                right: 27%;
+            }
+        }
+    }
     }
     .leads-page {
         .filters .filters-head__save-btn .save-btn-status {
@@ -1002,48 +1023,7 @@
                     right: 27%;
                 }
             }
-        }
-    }
-}
 
-.ios-device {
-	.filters .filters-head__save-btn .save-btn-status {
-        @media @tablet-down {
-            right: 165px;
-            &.saved {
-                right: 180px;
-            }
-        }
-        @media @mobile{
-            right: 65px;
-            &.saved {
-                right: 80px;
-            }
-        }
-    }
-
-	.my-deals .filters .filters-head__save-btn .save-btn-status {
-        @media @tablet-down {
-            right: 35px;
-            &.saved {
-                right: 50px;
-            }
-        }
-        @media @mobile{
-            right: 65px;
-            &.saved {
-                right: 75px;
-            }
-		}
-    }
-
-	.leads-page .filters .filters-head__save-btn .save-btn-status {
-        
-        @media @mobile {           
-            right: 70px;
-            &.saved {
-                right: 85px;
-            } 
         }
     }
 }
