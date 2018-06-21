@@ -1482,9 +1482,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
                     }
-                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                    
-                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;                    
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                                        
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
+                    // we have to not control this field change due to support old contracts
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;
                 }
             });
             return updated;
