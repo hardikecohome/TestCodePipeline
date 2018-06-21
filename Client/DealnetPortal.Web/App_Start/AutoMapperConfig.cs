@@ -602,13 +602,13 @@ namespace DealnetPortal.Web.App_Start
                     if(!status.HasValue)
                         return string.Empty;
 
-                    if(status == SignatureStatus.Declined || status == SignatureStatus.Deleted)
+                    if(status == Api.Common.Enumeration.SignatureStatus.Declined || status == Api.Common.Enumeration.SignatureStatus.Deleted)
                         return "red";
 
-                    if(status == SignatureStatus.Completed || status == SignatureStatus.Signed)
+                    if(status == Api.Common.Enumeration.SignatureStatus.Completed || status == Api.Common.Enumeration.SignatureStatus.Signed)
                         return "green";
 
-                    if(status == SignatureStatus.Sent)
+                    if(status == Api.Common.Enumeration.SignatureStatus.Sent)
                     {
                         var borrower = src.Signers.FirstOrDefault(x => x.SignerType == SignatureRole.HomeOwner);
                         if(borrower?.StatusLastUpdateTime == null || (DateTime.Now - borrower.StatusLastUpdateTime.Value).TotalDays >= 3)
@@ -675,20 +675,20 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.RemainingDescription, s => s.MapFrom(src => src.SearchDescription))
                 .ForMember(d => d.Value, s => s.ResolveUsing(src => src.ValueOfDeal.HasValue ? FormattableString.Invariant($"$ {src.ValueOfDeal:0.00}") : string.Empty))
                 .ForMember(d => d.PreApprovalAmount, s => s.ResolveUsing(src => src.PreApprovalAmount.HasValue ? FormattableString.Invariant($"$ {src.PreApprovalAmount:0.00}") : string.Empty))
-                .ForMember(d => d.SignatureStatus, s => s.ResolveUsing(src => src.SignatureStatus.HasValue ? src.SignatureStatus.GetEnumDescription() : string.Empty))
+                .ForMember(d => d.SignatureStatus, s => s.MapFrom(src => src.LocalizedSignatureStatus))
                 .ForMember(d => d.SignatureStatusColor, s => s.ResolveUsing(src =>
                 {
                     var status = src.SignatureStatus;
                     if(!status.HasValue)
                         return string.Empty;
 
-                    if(status == SignatureStatus.Declined || status == SignatureStatus.Deleted)
+                    if(status == Api.Common.Enumeration.SignatureStatus.Declined || status == Api.Common.Enumeration.SignatureStatus.Deleted)
                         return "red";
 
-                    if(status == SignatureStatus.Completed || status == SignatureStatus.Signed)
+                    if(status == Api.Common.Enumeration.SignatureStatus.Completed || status == Api.Common.Enumeration.SignatureStatus.Signed)
                         return "green";
 
-                    if(status == SignatureStatus.Sent)
+                    if(status == Api.Common.Enumeration.SignatureStatus.Sent)
                     {
                         if(src.SignatureStatusLastUpdateTime == null || (DateTime.UtcNow - src.SignatureStatusLastUpdateTime.Value).TotalDays >= 3)
                         {
