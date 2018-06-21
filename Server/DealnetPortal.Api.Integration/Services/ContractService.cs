@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
@@ -1033,7 +1034,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var errorMsg = Resources.Resources.UnfortunatelyThisLeadIsNoLongerAvailable;
+                    var errorMsg =Resources.Resources.UnfortunatelyThisLeadIsNoLongerAvailable;
                     alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
