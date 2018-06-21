@@ -246,6 +246,7 @@ table
 
                 &.icon-cell {
                     justify-content: center;
+                flex-basis: 4%;
                 }
 
                 span, i {
@@ -279,7 +280,6 @@ table
                     word-break: normal;
                 }
 
-                &.e-sign,
                 &.amort {
                     flex-basis: 6%;
                 }
@@ -288,6 +288,7 @@ table
                     flex-basis: 5%;
                 }
 
+                &.e-sign,
                 &.days-left {
                     //padding: 6px;
                     flex-basis: 8%;
@@ -339,11 +340,6 @@ table
                     border: none;
                 }
             }
-
-            &__cell.icon-cell {
-                justify-content: center;
-                flex-basis: 4%;
-            }
         }
 
         &--header {
@@ -363,10 +359,6 @@ table
                     display: flex;
                     word-break: normal;
                     padding: 0 5px;
-
-                    &:lang(fr), &:lang(fr-CA) {
-                        word-break: break-word;
-                    }
 
                     &.term,
                     &.project-desc {
@@ -397,10 +389,14 @@ table
                         span {
                             text-align: left;
 
-                            &.filter-ico {
-                                //margin-left: 5px;
-                            }
+                            // &.filter-ico {
+                            //     margin-left: 5px;
+                            // }
                         }
+                    }
+
+                    &.icon-cell-lead {
+                        text-transform: capitalize;
                     }
 
                     &.deal-status {
@@ -412,13 +408,13 @@ table
                         font-size: 11px;
                     }
 
-                    &.program-option,
-                    &.funded-amount,
-                    &.project-desc {
-                        span {
-                            //margin-left: 10px;
-                        }
-                    }
+                    // &.program-option,
+                    // &.funded-amount,
+                    // &.project-desc {
+                    //     span {
+                    //         margin-left: 10px;
+                    //     }
+                    // }
                 }
             }
         }
@@ -661,9 +657,12 @@ table
 
             &__row {
                 &__cell {
-                    /*ctrl-k ctrl-c ctrl-k ctrl-u*/
+                    &.checkbox-cell {
+                        flex-basis: 4%;
+                    }
+
                     &.deal-status {
-                        flex-basis: 19%;
+                        flex-basis: 15%;
                     }
 
                     &.days-left {
@@ -690,13 +689,33 @@ table
                     }
 
                     &.icon-cell-gear {
-                        flex-basis: 8%;
+                        flex-basis: 5%;
                         display: flex;
                         justify-content: space-around;
 
                         .show-details {
                             margin-bottom: 5px;
                             display: inline-block;
+                        }
+                    }
+
+                    &:lang(fr),
+                    &:lang(fr-CA){
+                        &.icon-cell-notes,
+                        &.loan-amount  {
+                            flex-basis: 8%;
+                        }
+                        &.icon-cell-lead{
+                            flex-basis: 6%;
+                        }
+                        &.e-sign, 
+                        &.entered-by,
+                        &.contract-number {
+                            flex-basis: 9%;
+                        }
+                        &.sales-rep,
+                        &.last-activity {
+                            flex-basis: 10%;
                         }
                     }
                 }
