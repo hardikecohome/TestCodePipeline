@@ -3546,20 +3546,20 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Funded Deals.
-        /// </summary>
-        public static string FundedDeals {
-            get {
-                return ResourceManager.GetString("FundedDeals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Funded amount.
         /// </summary>
         public static string FundedAmount {
             get {
                 return ResourceManager.GetString("FundedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funded Deals.
+        /// </summary>
+        public static string FundedDeals {
+            get {
+                return ResourceManager.GetString("FundedDeals", resourceCulture);
             }
         }
         
@@ -5887,7 +5887,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Postal Code.
+        ///   Looks up a localized string similar to Postal code.
         /// </summary>
         public static string PostalCode {
             get {
@@ -8291,7 +8291,7 @@ namespace DealnetPortal.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You don&apos;t have any deals yet.  Click below to create a new deal.
+        ///   Looks up a localized string similar to You don&apos;t have any deals yet. &lt;br/&gt; Click below to create a new deal.
         ///            Later you will see the most recent contracts on this page..
         /// </summary>
         public static string YouDontHaveDealsClickBelowToCreate {

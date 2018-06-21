@@ -755,7 +755,7 @@
     <div class="nw-placeholder" data-bind="visible: $parent.loaded() && list().length < 1" style="display:none" >
         <i class="nw-placeholder__icon my-deals-placeholder-ico"></i>
         <p>
-            @Resources.YouDontHaveDealsClickBelowToCreate
+            @Html.Raw(Resources.YouDontHaveDealsClickBelowToCreate)
         </p>
         <div class="nw-placeholder__links">
             <div class="icon-link-green">
