@@ -1078,4 +1078,28 @@
   <data name="RateReduction" xml:space="preserve">
     <value>Réduction de taux</value>
   </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Créé</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Refusé</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Supprimé</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Livré</value>
+  </data>
+  <data name="NotInitiated" xml:space="preserve">
+    <value>Non initié</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Envoyé</value>
+  </data>
+  <data name="Signed" xml:space="preserve">
+    <value>Signé</value>
+  </data>
 </root>

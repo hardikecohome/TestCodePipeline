@@ -2919,7 +2919,7 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>Jours</value>
   </data>
   <data name="Declined" xml:space="preserve">
-    <value>refusé</value>
+    <value>Refusé</value>
   </data>
   <data name="Deleted" xml:space="preserve">
     <value>Supprimé</value>

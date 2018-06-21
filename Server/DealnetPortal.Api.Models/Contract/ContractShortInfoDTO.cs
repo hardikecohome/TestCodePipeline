@@ -21,6 +21,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string LocalizedStatus { get; set; }        
         public DateTime LastUpdateTime { get; set; }
         public SignatureStatus? SignatureStatus { get; set; }
+        public string LocalizedSignatureStatus { get; set; }
         public DateTime? SignatureStatusLastUpdateTime { get; set; }
 
         public string PrimaryCustomerFirstName { get; set; }
