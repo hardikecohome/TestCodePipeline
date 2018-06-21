@@ -1027,3 +1027,46 @@
         }
     }
 }
+
+.ios-device {
+    .filters .filters-head__save-btn .save-btn-status {
+        right: 165px;
+        &.saved {
+            right: 180px;
+        }
+        @media @mobile{
+            right: 65px;
+            &.saved {
+                right: 80px;
+            }
+        }
+    }
+
+	.my-deals .filters .filters-head__save-btn .save-btn-status {
+        @media @tablet-down {
+            right: 35px;
+            &.saved {
+                right: 50px;
+            }
+        }
+        @media @mobile{
+            right: 65px;
+            &.saved {
+                right: 75px;
+            }
+		}
+    }
+
+	.leads-page .filters .filters-head__save-btn .save-btn-status {
+        right: 175px;
+        &.saved {
+            right: 190px;
+        }
+        @media @mobile {           
+            right: 70px;
+            &.saved {
+                right: 85px;
+            } 
+        }
+    }
+}

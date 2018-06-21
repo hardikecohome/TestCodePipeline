@@ -983,7 +983,7 @@
     <value>Personnaliser</value>
   </data>
   <data name="EqualPayments" xml:space="preserve">
-    <value>0% Egal Payments</value>
+    <value>0% Egal Paiements</value>
   </data>
   <data name="StandardRate" xml:space="preserve">
     <value>Taux Standard</value>
@@ -1074,5 +1074,8 @@
   </data>
   <data name="Months" xml:space="preserve">
     <value>Mois</value>
+  </data>
+  <data name="RateReduction" xml:space="preserve">
+    <value>Réduction de taux</value>
   </data>
 </root>

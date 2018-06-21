@@ -653,10 +653,10 @@ namespace DealnetPortal.Web.App_Start
                 .ForMember(d => d.Status,
                     s => s.ResolveUsing(src => src.Status ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
                 .ForMember(d => d.LocalizedStatus,
-                    s => s.ResolveUsing(src => src.LocalizedStatus ?? src.ContractState.GetEnumDescription()))
-                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.AgreementType?.GetEnumDescription() ?? string.Empty))
+                    s => s.ResolveUsing(src => src.LocalizedStatus ?? (src.ContractState.ConvertTo<ContractState>()).GetEnumDescription()))
+                .ForMember(d => d.AgreementType, s => s.ResolveUsing(src => src.AgreementType?.ConvertTo<AgreementType>().GetEnumDescription() ?? string.Empty))
                 .ForMember(d => d.PaymentType,
-                    s => s.ResolveUsing(src => src.PaymentType?.GetEnumDescription() ?? string.Empty))
+                    s => s.ResolveUsing(src => src.PaymentType?.ConvertTo<Web.Models.Enumeration.PaymentType>().GetEnumDescription() ?? string.Empty))
                 .ForMember(d => d.Action, s => s.MapFrom(src => src.ActionRequired))
                 .ForMember(d => d.Email, s => s.MapFrom(src => src.PrimaryCustomerEmail))
                 .ForMember(d => d.Phone, s => s.MapFrom(src => src.PrimaryCustomerPhone))

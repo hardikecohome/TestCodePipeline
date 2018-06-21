@@ -248,12 +248,11 @@
             return 'filter-ico filter-ico--' + this.sortDirections.default;
         };
 
-        this.hideInfoPopups = function(isMobile) {
-            this.filteredList(this.list().map(function(item) {
+        this.hideInfoPopups = function (isMobile) {
+            this.filteredList().forEach(function (item) {
                 isMobile ? item.showMobileInfo(false) : item.showInfo(false);
-                return item;
-            }));
-        }
+            });
+        };
         this.filterList = function () {
             if (this.sorter()) {
                 var sort = this.sortDdValues[this.sorter()];
@@ -315,7 +314,19 @@
 
             this.filteredList(tempList);
         }, this);
-    }
+
+        $('body').on(($('body.iso-device').length ? 'touchstart' : 'click'), (function (e) {
+            var $el = $(e.target);
+            var id = $el.data('info');
+
+            this.list().forEach(function (item) {
+                if (item.Id != id) {
+                    item.showInfo(false);
+                    item.showMobileInfo(false);
+                }
+            });
+        }).bind(this));
+    };
 
     return LeadsTable;
-})
+});
