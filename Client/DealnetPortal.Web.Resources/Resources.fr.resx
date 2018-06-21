@@ -244,10 +244,10 @@
     <value>Information sur l’équipement existant</value>
   </data>
   <data name="ExportAllToExcel" xml:space="preserve">
-    <value>Exporter tout sur Excel</value>
+    <value>Exporter tout sur excel</value>
   </data>
   <data name="ExportToExcel" xml:space="preserve">
-    <value>Exporter sur Excel</value>
+    <value>Exporter sur excel</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filtrer</value>
@@ -2985,14 +2985,14 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>plus récent</value>
   </data>
   <data name="NoLeadsFirstPart" xml:space="preserve">
-    <value>Vous n'avez pas encore de pistes.
+    <value>Vous n'avez pas encore de pistes. &lt;br/&gt;
 Sur cette page, nous vous présenterons les pistes de clients réels de votre quartier intéressés par les améliorations de la maison que vous offrez. </value>
   </data>
   <data name="NoLeadsSecondPart" xml:space="preserve">
-    <value>Pour utiliser cette fonctionnalité, assurez-vous que vous avez configuré les projets proposés et votre zone de service dans Mon profil.</value>
+    <value>Pour utiliser cette fonctionnalité, assurez-vous que vous avez configuré les projets proposés et votre zone de service dans {0}.</value>
   </data>
   <data name="NoLeadsThirdPart" xml:space="preserve">
-    <value>Si vous avez besoin d'aide s'il vous plaît visitez Ressources pour voir le manuel ou contacter le support du marchand</value>
+    <value>Si vous avez besoin d'aide s'il vous plaît visitez {0} pour voir le {1}.</value>
   </data>
   <data name="NotInitiated" xml:space="preserve">
     <value>Non initié</value>
