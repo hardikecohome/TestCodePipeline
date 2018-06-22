@@ -16,23 +16,7 @@
         });
         initDob(birth.parents('.dob-group'));
 
-        function dispatchDl() {
-            var obj = {
-                firstName: $('#first-name').val(),
-                lastName: $('#last-name').val(),
-                birthDate: $('#birth-date').val(),
-                street: $('#street').val(),
-                locality: $('#locality').val(),
-                province: $('#province').val(),
-                postalCode: $('#postal_code').val()
-            };
-
-            dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
-        }
-
         var name = $('#first-name');
-
-        $('#camera-modal').on('hidden.bs.modal', dispatchDl);
 
         name.on('change', function (e) {
             dispatch(createAction(clientActions.SET_NAME, e.target.value));
