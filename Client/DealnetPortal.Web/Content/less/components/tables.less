@@ -243,7 +243,18 @@ table
 
                 &.icon-cell {
                     justify-content: center;
-                flex-basis: 4%;
+                    flex-basis: 4%;
+
+                    &:lang(fr),
+                    &:lang(fr-CA){
+                        flex-basis: 6%;
+                    }
+                    &.icon-cell-gear {
+                        &:lang(fr),
+                        &:lang(fr-CA){
+                            flex-basis: 3%;
+                        }
+                    }
                 }
 
                 span, i {
@@ -255,6 +266,11 @@ table
                     flex-basis: 14%;
                     justify-content: flex-start;
                     word-break: normal;
+
+                    &:lang(fr),
+                    &:lang(fr-CA){
+                        flex-basis: 11%;
+                    }
 
                     span {
                         flex-basis: 80%;
@@ -279,6 +295,11 @@ table
 
                 &.amort {
                     flex-basis: 6%;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 8%;
+                    }
                 }
 
                 &.term {
@@ -288,7 +309,7 @@ table
                 &.e-sign,
                 &.days-left {
                     //padding: 6px;
-                    flex-basis: 8%;
+                    flex-basis: 6%;
                 }
 
                 &.last-activity {
@@ -297,6 +318,11 @@ table
 
                 &.loan-amount {
                     flex-basis: 9%;
+
+                    &:lang(fr),
+                    &:lang(fr-CA){
+                        flex-basis: 7%;
+                    }
                 }
 
                 &.payment-amount,
@@ -305,11 +331,29 @@ table
                 }
 
                 &.email,
-                &.phone,
                 &.address {
                     flex-basis: 13%;
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 9%;
+                    }
                 }
-                // &.project-desc,
+                
+                &.phone {
+                    flex-basis: 10%;
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 6%;
+                    }
+                }
+                
+                &.program-option {
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 7%;
+                    }
+                }
+
                 &.sales-rep {
                     flex-basis: 6%;
                 }
@@ -474,7 +518,6 @@ table
                     }
 
                     &.e-sign {
-                        flex-basis: 6%;
                         font-size: 9px;
                         color: #5f5f5f;
                         flex-direction: column;
@@ -684,6 +727,10 @@ table
 
                     &.program-option {
                         flex-basis: 11%;
+                        &:lang(fr),
+                        &:lang(fr-CA){
+                            flex-basis: 8%;
+                        }
                     }
 
                     &.term,
@@ -879,6 +926,10 @@ table
 
                     &.deal-status {
                         flex-basis: 19%;
+                        &:lang(fr),
+                        &:lang(fr-CA) {
+                            flex-basis: 19%;
+                        }
                     }
 
                     &.days-left {
@@ -891,10 +942,18 @@ table
 
                     &.loan-amount {
                         flex-basis: 12%;
+                        &:lang(fr),
+                        &:lang(fr-CA) {
+                            flex-basis: 12%;
+                        }
                     }
 
                     &.program-option {
                         flex-basis: 11%;
+                        &:lang(fr),
+                        &:lang(fr-CA) {
+                            flex-basis: 11%;
+                        }
                     }
 
                     &.contract-number {
@@ -1143,12 +1202,17 @@ table
                     &.deal-status {
                         justify-content: center;
 
+                        &:lang(fr),
+                        &:lang(fr-CA){
+                            flex-basis: 25%;
+                        }
+
                         span {
                             flex-basis: auto;
                         }
 
                         span.icon {
-                            flex-basis: auto;
+                            display: none;
                         }
                     }
 
@@ -1374,7 +1438,7 @@ table
                     }
 
                     &.accept-lead {
-                        flex-basis: 8%;
+                        flex-basis: 13%;
                         font-size: 14px;
                         font-weight: bold;
                         color: #97c501;

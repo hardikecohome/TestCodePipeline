@@ -910,16 +910,18 @@
         .filters-head {
             flex-wrap: wrap;
             justify-content: center;
+            margin-right: 16px;
 
             &__title {
                 order: 1;
-                flex-basis: 25%;
+                flex-basis: 50%;
                 font-size: 22px;
+                margin-right: auto;
             }
 
             &__learn-more {
                 order: 2;
-                flex-basis: 60%;
+                flex-basis: 40%;
 
                 a {
                     display: none;
@@ -1231,5 +1233,47 @@
                     right: 230px;
                 }
             }
+    }
+}
+
+@media @desktop-down {
+    .filters {
+        &:lang(fr),
+        &:lang(fr-CA){
+            .filters-advanced {
+                &__type,
+                &__status,
+                &__created-by,
+                &__payment-type,
+                &__deal-to,
+                &__deal-from {
+                    label {
+                        line-height: 12px;
+                        max-width: 70%;
+
+                        &.label-title {
+                            top: -14px;
+                        }
+                    }
+                    .new-input-group .custom-text-input-group input:focus ~ label, 
+                    .new-input-group .custom-text-input-group input:valid ~ label {
+                        top: -20px;
+                    }
+                }
+
+                &__status {
+                        text-align: right;
+                    label {
+                        display: inline-flex;
+                        .icon {
+                             top:0;
+                            // height: 12px;
+                            // width: 12px;
+                            // margin-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

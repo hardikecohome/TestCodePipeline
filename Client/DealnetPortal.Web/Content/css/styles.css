@@ -830,6 +830,11 @@ body {
   font-size: 13px;
 }
 
+:lang(fr) .custom-select-wrap .selectric-items li,
+:lang(fr-CA) .custom-select-wrap .selectric-items li {
+  text-align: left;
+}
+
 .custom-select-wrap .selectric-items li.highlighted,
 .custom-select-wrap .selectric-items li:hover {
   background-color: #ccdcec0a;
