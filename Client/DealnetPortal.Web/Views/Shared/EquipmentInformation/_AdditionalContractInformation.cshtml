@@ -1,4 +1,5 @@
 ﻿
+@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Web.Common.Constants
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
@@ -9,7 +10,7 @@
     var options = new List<SelectListItem>();
     for(int i = 0; i < frSelectList.Length; i++)
     {
-        options.Add(new SelectListItem { Value = frSelectList[i].Replace(":", ""), Text = culture == "en" ? enSelectList[i] : frSelectList[i] });
+        options.Add(new SelectListItem { Value = frSelectList[i].Replace(":", ""), Text = CultureHelper.CurrentCultureType == CultureType.English ? enSelectList[i] : frSelectList[i] });
     }
 
 }
