@@ -1884,7 +1884,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF
                 {
                     Name = AspireUdfFields.DealerTierName,
-                    Value = contract.Dealer?.Tier?.Name ?? BlankValue
+                    Value = contract.IsCreatedByBroker != true ? contract.Dealer?.Tier?.Name ?? BlankValue : BlankValue
                 });
                 udfList.Add(new UDF
                 {
@@ -2071,7 +2071,7 @@ namespace DealnetPortal.Api.Integration.Services
                 udfList.Add(new UDF
                 {
                     Name = AspireUdfFields.PstRate,
-                    Value = contract.Details?.AgreementType == AgreementType.LoanApplication && !IsClarityProgram(contract) ?
+                    Value = contract.Details?.AgreementType == null || contract.Details?.AgreementType == AgreementType.LoanApplication && !IsClarityProgram(contract) ?
                         "0.0"
                         : ((taxRate?.Rate ?? 0.0) / 100).ToString(CultureInfo.InvariantCulture) ?? "0.0"
                 });

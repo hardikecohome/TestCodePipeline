@@ -100,7 +100,18 @@ namespace DealnetPortal.Api.Integration.Services
                 var creditCheckAlerts = new List<Alert>();
 
                 foreach (var contractResult in contractsResultList.Where(x => x.Item1 != null).ToList())
-                {
+                {                    
+                    var checkResult = _creditCheckService.ContractCreditCheck(contractResult.Item1.Id, contractOwnerId);
+                    if (checkResult != null)
+                    {
+                        creditCheckAlerts.AddRange(checkResult.Item2);
+                    }
+
+                    if (creditCheckAlerts.Any(x => x.Type == AlertType.Error))
+                    {
+                        aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
+                    }
+
                     try
                     {
                         //try to submit deal in Aspire
@@ -113,18 +124,7 @@ namespace DealnetPortal.Api.Integration.Services
                     catch (Exception ex)
                     {
                         _loggingService.LogError($"Cannot submit deal {contractResult.Item1.Id} in Aspire", ex);
-                    }                    
-
-                    var checkResult = _creditCheckService.ContractCreditCheck(contractResult.Item1.Id, contractOwnerId);
-                    if (checkResult != null)
-                    {
-                        creditCheckAlerts.AddRange(checkResult.Item2);
                     }
-
-                    if (creditCheckAlerts.Any(x => x.Type == AlertType.Error))
-                    {
-                        aspireFailedResults.Add(Tuple.Create(contractResult.Item1.Id, false));
-                    }                    
                 }
 
                 //if all aspire opertaion is failed
