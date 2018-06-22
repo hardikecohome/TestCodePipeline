@@ -262,7 +262,11 @@
         &__clear-btn,
         &__save-btn,
         &__filter-btn {
-            align-self: center;
+            align-self: center;            
+        }
+
+        &__clear-btn {
+            text-transform: capitalize;
         }
 
         &__save-btn {
@@ -290,6 +294,25 @@
 
         &__sort-btn {
             display: none;
+        }
+
+        &:lang(fr),
+        &:lang(fr-CA) {
+            &__title{
+                order:1;
+                flex-basis: 25%;
+            }
+
+            &__learn-more {
+                order:2;
+                flex-basis: 60%;
+            }
+            &__filter-btn {
+                order:3;                
+            }
+            &__sort-btn {
+                order: 4;
+            }
         }
     }
 
@@ -439,6 +462,102 @@
     }
 }
 
+@media only screen and (min-width: 1025px) and (max-width: 1599px) {
+    .filters {
+        &.my-deals-page {
+            &:lang(fr),
+            &:lang(fr-CA){
+                .filters-head {
+                    flex-wrap: wrap;
+
+                    &__title {
+                        order: 1;
+                        flex-basis: 80%;
+                    }
+
+                    &__learn-more {
+                        margin-left: 0;
+                        order: 2;
+                    }
+
+                    &__export-excel {
+                        order: 3;
+                        display: flex;
+                        flex-basis: 23%;
+                        margin:16px 0;
+                        justify-content: flex-start;
+                    }
+                
+                    &__search {
+                        flex-basis: 26%;
+                        order: 4;
+                        margin:16px auto 18px 0;
+                    }
+
+                    &__divider {
+                        order: 7;
+                    }
+                    &__filter-btn {
+                        order: 8;
+                    }
+
+                    &__clear-btn {
+                        margin-left: auto;
+                        order: 5;
+                        margin-top: 0;
+                    }
+                    &__sort-btn,
+                    &__save-btn {
+                        order: 6;
+                        margin-top: 0;
+                    }
+                }
+            }
+        }
+        &.leads-filters {
+            &:lang(fr),
+            &:lang(fr-CA){
+                .filters-head {
+                    flex-wrap: wrap;
+
+                    &__title {
+                        order: 1;
+                        flex-basis: 80%;
+                    }
+                
+                    &__learn-more{
+                        order: 2;
+                        margin-left: 0;
+                    }
+
+                    &__search {
+                        order: 3;
+                        flex-basis: 25%;
+                        margin: 0;
+                        margin-right: auto;
+                    }
+
+                    &__clear-btn {
+                        order: 4;
+                        margin-top:0;
+                    }
+                    &__sort-btn,
+                    &__save-btn {
+                        order:5;
+                    }
+                    &__divider {
+                        order: 6;
+                    }
+                    &__filter-btn {
+                        order: 7;
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media @tablet-only {
     .filters {
         &.leads-filters {
@@ -462,6 +581,11 @@
                 &__title {
                     order: 1;
                     flex-basis: 18%;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 80%;
+                    }
                 }
 
                 &__learn-more {
@@ -474,32 +598,64 @@
                     flex-basis: 22%;
                     display: flex;
                     justify-content: flex-end;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 23%;
+                        margin:16px 0;
+                        justify-content: flex-start;
+                    }
                 }
 
                 &__search {
                     flex-basis: 26%;
                     order: 4;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        margin:16px 0 28px;
+                    }
                 }
 
                 &__filter-btn {
                     order: 5;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        order: 7;
+                    }
                 }
 
                 &__clear-btn {
                     margin-left: auto;
                     margin-top: 16px;
                     order: 6;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        order: 5;
+                        margin-top: 0;
+                    }
                 }
 
                 &__sort-btn,
                 &__save-btn {
                     margin-top: 16px;
                     order: 7;
+
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        order: 6;
+                        margin-top: 0;
+                    }
                 }
 
                 &__divider,
                 &__sort-btn {
-                    display: none;
+                    &:lang(en),
+                    &:lang(en-CA){
+                        display: none;
+                    }
                 }
             }
 
@@ -674,6 +830,13 @@
             .filters-head {
                 flex-wrap: wrap;
                 justify-content: center;
+
+                &__title {
+                    &:lang(fr),
+                    &:lang(fr-CA) {
+                        flex-basis: 50%;
+                    }
+                }
 
                 &__learn-more {
                     order: 2;
@@ -1003,12 +1166,6 @@
                 right: 50px;
             }
         }
-        @media @mobile {
-            right: 25%;
-            &.saved {
-                right: 27%;
-            }
-        }
     }
     }
     .leads-page {
@@ -1049,7 +1206,7 @@
                 right: 50px;
             }
         }
-        @media @mobile{
+        @media @mobile {
             right: 65px;
             &.saved {
                 right: 75px;
@@ -1068,5 +1225,11 @@
                 right: 85px;
             } 
         }
+            @media only screen and (max-width: 767px) and (orientation: landscape){
+                right: 215px;
+                &.saved{
+                    right: 230px;
+                }
+            }
     }
 }

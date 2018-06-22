@@ -430,6 +430,7 @@ namespace DealnetPortal.Api.App_Start
                 .ForMember(d => d.ContractState, s => s.Ignore())
                 .ForMember(d => d.ProgramOption, s => s.Ignore())
                 .ForMember(d => d.SignatureStatus, s => s.Ignore())
+                .ForMember(d => d.LocalizedSignatureStatus, s => s.Ignore())
                 .ForMember(d => d.SignatureStatusLastUpdateTime, s => s.Ignore())
                 .ForMember(d => d.PrimaryCustomerPhone, s => s.Ignore())
                 .ForMember(d => d.PrimaryCustomerEmail, s => s.Ignore())

@@ -66,7 +66,7 @@
             $(".monthly-cost").each(function () {
                 var input = $(this);
                 input.prop("disabled", true).parents('.monthly-cost-col').hide();
-                input[0].form && input.rules("remove", "required");
+                //input[0].form && input.rules("remove", "required");
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
@@ -74,14 +74,14 @@
             $(".equipment-cost").each(function () {
                 var input = $(this);
                 input.prop("disabled", true).parents('.equipment-cost-col').hide();
-                input[0].form && input.rules("remove", "required");
+                //input[0].form && input.rules("remove", "required");
                 input.removeClass('input-validation-error');
                 input.next('.text-danger').empty();
             });
             $(".monthly-cost").each(function () {
                 var input = $(this);
                 input.prop("disabled", false).parents('.monthly-cost-col').show();
-                input[0].form && input.rules("add", "required");
+                //input[0].form && input.rules("add", "required");
             });
         }
     }

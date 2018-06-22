@@ -10,8 +10,8 @@
         rentalProgramTypeId: '#rental-program-type',
         rentalTotalMonthlyPaymentId: '#rentalTMPayment',
         totalMonthlyPaymentRowId: '#total-monthly-payment-row',
-		escalationLimitErrorMsgId: '#escalation-limit-error-msg',
-		maxMonthlylimit:'#max-monthly-limit-display',
+        escalationLimitErrorMsgId: '#escalation-limit-error-msg',
+        maxMonthlylimit: '#max-monthly-limit-display',
         rentalProgramType: {
             'Escalation0': '0',
             'Escalation35': '1'
@@ -93,8 +93,8 @@
         if (state.isStandardRentalTier === true) {
             var eSum = monthlySum(state.equipments);
             var rentalProgramType = value;
-			var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
-			$(settings.maxMonthlylimit).text(formatNumber(limit));
+            var limit = rentalProgramType === settings.rentalProgramType.Escalation0 ? state.nonEscalatedRentalLimit : state.escalatedRentalLimit;
+            $(settings.maxMonthlylimit).text(formatNumber(limit));
             _toggleMonthlyPaymentEscalationErrors(!isNaN(eSum) && eSum > limit);
         }
     }
@@ -156,7 +156,6 @@
 
     function configureMonthlyCostCaps(input) {
         var $input = $(input);
-        $input.removeAttr('data-val-number');
 
         if ($input[0].form) {
             $input.rules('add', 'rentalCaps');

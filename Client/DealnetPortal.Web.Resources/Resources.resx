@@ -2830,7 +2830,7 @@ Additional program options may become available when customer’s credit details
     <value>to</value>
   </data>
   <data name="YouDontHaveDealsClickBelowToCreate" xml:space="preserve">
-    <value>You don't have any deals yet.  Click below to create a new deal.
+    <value>You don't have any deals yet. &lt;br/&gt; Click below to create a new deal.
             Later you will see the most recent contracts on this page.</value>
   </data>
   <data name="BorrowerShouldBeHomeOwner" xml:space="preserve">

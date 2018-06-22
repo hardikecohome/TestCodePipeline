@@ -244,10 +244,10 @@
     <value>Information sur l’équipement existant</value>
   </data>
   <data name="ExportAllToExcel" xml:space="preserve">
-    <value>Exporter tout sur Excel</value>
+    <value>Exporter tout sur excel</value>
   </data>
   <data name="ExportToExcel" xml:space="preserve">
-    <value>Exporter sur Excel</value>
+    <value>Exporter sur excel</value>
   </data>
   <data name="Filter" xml:space="preserve">
     <value>Filtrer</value>
@@ -2919,7 +2919,7 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>Jours</value>
   </data>
   <data name="Declined" xml:space="preserve">
-    <value>refusé</value>
+    <value>Refusé</value>
   </data>
   <data name="Deleted" xml:space="preserve">
     <value>Supprimé</value>
@@ -2985,14 +2985,14 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>plus récent</value>
   </data>
   <data name="NoLeadsFirstPart" xml:space="preserve">
-    <value>Vous n'avez pas encore de pistes.
+    <value>Vous n'avez pas encore de pistes. &lt;br/&gt;
 Sur cette page, nous vous présenterons les pistes de clients réels de votre quartier intéressés par les améliorations de la maison que vous offrez. </value>
   </data>
   <data name="NoLeadsSecondPart" xml:space="preserve">
-    <value>Pour utiliser cette fonctionnalité, assurez-vous que vous avez configuré les projets proposés et votre zone de service dans Mon profil.</value>
+    <value>Pour utiliser cette fonctionnalité, assurez-vous que vous avez configuré les projets proposés et votre zone de service dans {0}.</value>
   </data>
   <data name="NoLeadsThirdPart" xml:space="preserve">
-    <value>Si vous avez besoin d'aide s'il vous plaît visitez Ressources pour voir le manuel ou contacter le support du marchand</value>
+    <value>Si vous avez besoin d'aide s'il vous plaît visitez {0} pour voir le {1}.</value>
   </data>
   <data name="NotInitiated" xml:space="preserve">
     <value>Non initié</value>
@@ -3046,8 +3046,7 @@ Sur cette page, nous vous présenterons les pistes de clients réels de votre qu
     <value>Malheureusement, cette piste n'est plus disponible, veuillez en essayer une autre</value>
   </data>
   <data name="YouDontHaveDealsClickBelowToCreate" xml:space="preserve">
-    <value>Vous n'avez pas encore d'offres, cliquez ci-dessous pour créer une nouvelle offre.
-            Plus tard, vous verrez les contrats les plus récents sur cette page. </value>
+    <value>Vous n'avez pas encore d'offres, cliquez ci-dessous pour créer une nouvelle offre. &lt;br/&gt; Plus tard, vous verrez les contrats les plus récents sur cette page. </value>
   </data>
   <data name="ZtoA" xml:space="preserve">
     <value>Z à A</value>

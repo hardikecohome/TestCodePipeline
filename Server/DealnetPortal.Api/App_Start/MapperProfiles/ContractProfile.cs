@@ -44,6 +44,7 @@ namespace DealnetPortal.Api.App_Start.MapperProfiles
                 ))
                 .ForMember(x => x.Status, s => s.MapFrom(src => src.Details.Status))
                 .ForMember(x => x.SignatureStatus, s => s.MapFrom(src => src.Details.SignatureStatus))
+                .ForMember(x => x.LocalizedSignatureStatus , s => s.ResolveUsing(src => src.Details?.SignatureStatus != null ? src.Details.SignatureStatus.GetEnumDescription() : string.Empty))
                 .ForMember(x => x.SignatureStatusLastUpdateTime, s => s.MapFrom(src =>
                     src.Details.SignatureLastUpdateTime))
                 .ForMember(d => d.LocalizedStatus, s => s.ResolveUsing(src => !string.IsNullOrEmpty(src.Details.Status) ?
