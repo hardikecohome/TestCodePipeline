@@ -586,7 +586,7 @@
     <value>ID de transaction</value>
   </data>
   <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
-    <value>Malheureusement, cette avance n'est plus disponible, veuillez en essayer une autre</value>
+    <value>Malheureusement, cette piste n'est plus disponible, veuillez en essayer une autre</value>
   </data>
   <data name="UnhappyCurrentFinancing" xml:space="preserve">
     <value>Insatisfait de la solution actuelle</value>
