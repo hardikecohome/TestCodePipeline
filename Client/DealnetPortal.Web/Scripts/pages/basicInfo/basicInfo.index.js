@@ -103,7 +103,7 @@
             return true;
         });
         $('#additional1-scan-button').click(function () {
-            var success = function (data) {
+            function success(data) {
                 $('#additional-first-name-1').val(data.FirstName).change();
                 $('#additional-last-name-1').val(data.LastName).change();
                 var bDate = new Date(data.DateOfBirthStr);
@@ -119,12 +119,14 @@
                 $('#additional-administrative_area_level_1-1').val(data.State).change();
                 $('#additional-postal_code-1').val(data.PostalCode).change();
                 $('#camera-modal').modal('hide');
-            };
-            var submitUpload = function (e) {
+            }
+
+            function submitUpload(e) {
                 dlScanner.submitUpload(e.target.files, success);
                 e.target.value = '';
-            };
-            var capture = function (e) {
+            }
+
+            function capture(e) {
                 var data = cameraModule.takePhoto();
                 $('#upload-capture').one('click', function () {
                     dlScanner.uploadCaptured(data, success);
@@ -132,9 +134,9 @@
                 $('#retake').one(function () {
                     $('#upload-capture').off();
                 });
-            };
+            }
 
-            $('#additional1-scan-file').one('change', submitUpload);
+            $('#additional-upload-1').one('change', submitUpload);
             $('#upload-file').one('change', submitUpload);
             $('#capture-btn').on('click', capture);
             $('#camera-modal').one('hidden.bs.modal', function () {
@@ -144,6 +146,7 @@
                 $('#upload-capture').off();
                 $('#retake').off();
             });
+            return true;
         });
     }
 
