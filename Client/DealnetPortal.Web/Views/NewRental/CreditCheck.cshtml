@@ -30,21 +30,20 @@
 </div>
 @section scripts
 {
-<script type="text/javascript">
-        $(document)
-            .ready(function () {
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("GetCreditCheckRedirection", new {contractId = Model })',
-                    success: function (json) {
-						window.location = json;
-
-                    },
-                    error: function (xhr, status, p3) {
-                        window.location = '@Url.Action("Error", "Info")';
-                    }
-                });
-				gtag('event', 'Credit Check', { 'event_category': 'Credit Check', 'event_action': 'button_click', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
-			});
-</script>
+  <script type="text/javascript">
+    $(document)
+      .ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCreditCheckRedirection", new {contractId = Model})'})
+          .done(function(data) {window.location = data;});
+        gtag('event',
+          'Credit Check',
+          {
+            'event_category': 'Credit Check',
+            'event_action': 'button_click',
+            'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString()) ? "Dealer" : "Broker" ) : @User.Identity.Name'
+          });
+      });
+  </script>
 }
