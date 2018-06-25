@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.Domain;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -96,12 +92,12 @@ namespace DealnetPortal.Api.Integration.Utility
                                 AdminFee = contract.Equipment?.IsFeePaidByCutomer == true ? (double)(contract.Equipment?.AdminFee ?? 0) : 0.0,
                                 DownPayment = (double)(contract.Equipment.DownPayment ?? 0),
                                 CustomerRate = (double)(contract.Equipment.CustomerRate ?? 0),
-                                IsClarity = contract.Equipment.IsClarityProgram,
+                                IsClarity = contract.Equipment.IsClarityProgram
 
                             };
                             var loanCalculatorOutput = LoanCalculator.Calculate(loanCalculatorInput);
                             worksheet.Cells[counter, 13].Value = loanCalculatorOutput.PriceOfEquipmentWithHst;
-                            worksheet.Cells[counter, 14].Value = contract.Equipment?.DownPayment ?? null;
+                            worksheet.Cells[counter, 14].Value = contract.Equipment?.DownPayment;
                             worksheet.Cells[counter, 15].Value = loanCalculatorOutput.TotalAmountFinanced;
                             worksheet.Cells[counter, 16].Value = Math.Round(loanCalculatorOutput.TotalMonthlyPayment, 2);
                             worksheet.Cells[counter, 17].Value = loanCalculatorOutput.TotalObligation;

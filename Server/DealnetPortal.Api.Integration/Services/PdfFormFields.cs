@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Integration.Services
+﻿namespace DealnetPortal.Api.Integration.Services
 {
     public static class PdfFormFields
     {
@@ -142,7 +136,7 @@ namespace DealnetPortal.Api.Integration.Services
         public static string AccountNumber = "AccountNumber";
         public static string Bn = "BN";
         public static string Tn = "TN";
-        public static string An = "AN";
+        public static string An = "BankAccNumber";
 
         //Dealer and SalesRep fields
         public static string SalesRep = "SalesRep";

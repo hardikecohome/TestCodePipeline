@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Models.Notification
+﻿namespace DealnetPortal.Api.Models.Notification
 {
     public class MailChimpMember
     {

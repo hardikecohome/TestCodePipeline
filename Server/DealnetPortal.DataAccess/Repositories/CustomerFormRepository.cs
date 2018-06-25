@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using Unity.Interception.Utilities;
@@ -54,7 +53,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         throw new ArgumentNullException(hashLink);
                     }
-                    updatedLink = user.CustomerLink ?? new CustomerLink() {HashLink = hashLink};
+                    updatedLink = user.CustomerLink ?? new CustomerLink {HashLink = hashLink};
                 }
                 user.CustomerLink = updatedLink;
 
@@ -64,7 +63,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     var lang = _dbContext.Languages.Find(el.LanguageId);
                     if (lang != null)
                     {
-                        updatedLink.EnabledLanguages.Add(new DealerLanguage()
+                        updatedLink.EnabledLanguages.Add(new DealerLanguage
                         {
                             CustomerLink = updatedLink,
                             CustomerLinkId = updatedLink.Id,
@@ -94,7 +93,7 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         throw new ArgumentNullException(hashLink);
                     }
-                    updatedLink = user.CustomerLink ?? new CustomerLink() { HashLink = hashLink };
+                    updatedLink = user.CustomerLink ?? new CustomerLink { HashLink = hashLink };
                 }
                 user.CustomerLink = updatedLink;
 

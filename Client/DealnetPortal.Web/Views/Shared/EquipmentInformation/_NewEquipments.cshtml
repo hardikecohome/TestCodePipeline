@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
     var equipment = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
@@ -9,17 +9,15 @@
 {
     bool hasSelectedSub = Model != null && Model.NewEquipment != null && Model.NewEquipment[i].EquipmentSubType != null;
 
-    var subTypes = new List<SelectListItem>
-    {
-        new SelectListItem{ Text="",Value="",Selected=!hasSelectedSub }
-    };
+    var subTypes = new List<SelectListItem>();
     if (Model.NewEquipment[i]?.EquipmentType.SubTypes != null && Model.NewEquipment[i]?.EquipmentType.SubTypes.Count != 0)
     {
+        subTypes.Add(new SelectListItem { Text = "", Value = "", Selected = !hasSelectedSub });
         subTypes.AddRange(Model.NewEquipment[i]?.EquipmentType.SubTypes?.Select(sub => new SelectListItem
         {
             Text = sub.Description,
             Value = sub.Id.ToString(),
-            Selected = Model?.NewEquipment[i]?.EquipmentSubType.Id == sub.Id
+            Selected = Model?.NewEquipment[i]?.EquipmentSubType?.Id == sub.Id
         }));
     }
 
@@ -54,8 +52,8 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubType)
                     @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubType.Id,
-                            subTypes ?? Enumerable.Empty<SelectListItem>(),
-                            new { @class="form-control sub-type-select", required="true " })
+							subTypes ?? Enumerable.Empty<SelectListItem>(),
+							new Dictionary<string, object> { { "class", "form-control sub-type-select" }, { "required", "true " }, { Model.AgreementType == DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication || (Model.NewEquipment[i].EquipmentType.SubTypes?.Any() ?? false) ? "disabled" : "data-notdisabled", "disabled" } })
                     @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubType.Id, "", new { @class = "text-danger" })
                 </div>
             </div>

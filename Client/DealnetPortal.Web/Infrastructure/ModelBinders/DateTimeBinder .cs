@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using DealnetPortal.Api.Core.Helpers;
-using DealnetPortal.Web.Common.Culture;
 
 namespace DealnetPortal.Web.Infrastructure.ModelBinders
 {
@@ -20,7 +15,6 @@ namespace DealnetPortal.Web.Infrastructure.ModelBinders
             bindingContext.ModelState.SetModelValue(bindingContext.ModelName, value);
 
             DateTime dateTime;
-            var currentCulture = CultureHelper.GetCurrentCulture();
 
             var isDate = DateTime.TryParse(value.AttemptedValue, ENDateTimeCulture , DateTimeStyles.None, out dateTime) ||
                 DateTime.TryParse(value.AttemptedValue, FRDateTimeCulture, DateTimeStyles.None, out dateTime);

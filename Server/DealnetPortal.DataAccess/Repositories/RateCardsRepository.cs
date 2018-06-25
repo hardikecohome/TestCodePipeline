@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Objects;
 using System.Linq;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
@@ -14,7 +13,7 @@ namespace DealnetPortal.DataAccess.Repositories
         {
         }
 
-        public Tier GetTierByDealerId(string dealerId, int? beacons, DateTime? validDate )
+        public Tier GetTierByDealerId(string dealerId, int? beacons, DateTime? validDate, string OverrideCustomerRiskGroup)
         {
             var dealer = _dbContext.Users
                 .Include(x => x.Tier)
@@ -26,12 +25,16 @@ namespace DealnetPortal.DataAccess.Repositories
             (x.ValidFrom <= date && x.ValidTo > date) ||
             (x.ValidFrom <= date && x.ValidTo == null) ||
             (x.ValidFrom == null && x.ValidTo > date)).ToList();
-            if (beacons.HasValue)
+            if (string.IsNullOrEmpty(OverrideCustomerRiskGroup) && beacons.HasValue)
             {
                 dealer.Tier.RateCards = dealer.Tier.RateCards.Where(x =>!x.CustomerRiskGroupId.HasValue ||
                 (x.CustomerRiskGroup.BeaconScoreFrom <= beacons && beacons <= x.CustomerRiskGroup.BeaconScoreTo)).ToList();
             }
-
+            if (!string.IsNullOrEmpty(OverrideCustomerRiskGroup))
+            {
+                dealer.Tier.RateCards = dealer.Tier.RateCards.Where(x => !x.CustomerRiskGroupId.HasValue ||
+                (x.CustomerRiskGroup.GroupName == OverrideCustomerRiskGroup)).ToList();
+            }
             return dealer.Tier;
         }
 
@@ -57,7 +60,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<RateReductionCard> GetRateReductionCard()
         {
-            return _dbContext.RateReductionCards.ToList();
+            return _dbContext.RateReductionCards.OrderBy(r => r.CustomerReduction).ToList();
         }
     }
 }

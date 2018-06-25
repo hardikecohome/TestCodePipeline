@@ -1,10 +1,8 @@
 using System;
 using System.Web;
 using DealnetPortal.Api.Core.ApiClient;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Culture;
-using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
@@ -12,7 +10,6 @@ using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
 
 namespace DealnetPortal.Web.App_Start
 {

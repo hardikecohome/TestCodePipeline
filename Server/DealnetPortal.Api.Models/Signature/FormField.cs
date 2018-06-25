@@ -5,7 +5,8 @@
     {
         Text = 0,
         CheckBox = 1
-    };
+    }
+
     public class FormField
     {
         public string Name { get; set; }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
@@ -36,5 +32,7 @@ namespace DealnetPortal.Api.Models.Contract
         public decimal? CreditAmount { get; set; }
 
         public string Notes { get; set; }
+
+        public string OverrideCustomerRiskGroup { get; set; }
     }
 }

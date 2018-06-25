@@ -1,4 +1,3 @@
-using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using DealnetPortal.Api.Areas.HelpPage.ModelDescriptions;
@@ -33,7 +32,7 @@ namespace DealnetPortal.Api.Areas.HelpPage.Controllers
 
         public ActionResult Api(string apiId)
         {
-            if (!String.IsNullOrEmpty(apiId))
+            if (!string.IsNullOrEmpty(apiId))
             {
                 HelpPageApiModel apiModel = Configuration.GetHelpPageApiModel(apiId);
                 if (apiModel != null)
@@ -47,7 +46,7 @@ namespace DealnetPortal.Api.Areas.HelpPage.Controllers
 
         public ActionResult ResourceModel(string modelName)
         {
-            if (!String.IsNullOrEmpty(modelName))
+            if (!string.IsNullOrEmpty(modelName))
             {
                 ModelDescriptionGenerator modelDescriptionGenerator = Configuration.GetModelDescriptionGenerator();
                 ModelDescription modelDescription;

@@ -133,7 +133,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to update a customer link settings for [{dealerId}] dealer", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.FailedToUpdateSettings,
@@ -171,7 +171,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (customerFormData?.ServiceRequests?.Any() != true)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.ContractCreateFailed,
@@ -212,7 +212,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var errorMsg =
                         "Cannot create contract from customer wallet request";
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Warning, //?
                         Code = ErrorCodes.ContractCreateFailed,
@@ -292,7 +292,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var contract = _contractRepository.GetContract(contractId);
                 if (contract != null)
                 {
-                    contractInfo = new CustomerContractInfoDTO()
+                    contractInfo = new CustomerContractInfoDTO
                     {
                         ContractId = contractId,
                         AccountId = contract.PrimaryCustomer?.AccountId,
@@ -317,7 +317,7 @@ namespace DealnetPortal.Api.Integration.Services
                     var contract = _contractRepository.GetContract(contractId, dealerId);
                     if (contract != null)
                     {
-                        contractInfo = new CustomerContractInfoDTO()
+                        contractInfo = new CustomerContractInfoDTO
                         {
                             ContractId = contractId,
                             AccountId = contract.PrimaryCustomer?.AccountId,
@@ -389,7 +389,7 @@ namespace DealnetPortal.Api.Integration.Services
                 _loggingService.LogInfo(
                     $"Created new contract [{contract.Id}] by customer loan form request for {customerFormData.DealerName} dealer");
 
-                var contractData = new ContractDataDTO()
+                var contractData = new ContractDataDTO
                 {
                     PrimaryCustomer = customerFormData.PrimaryCustomer,
                     DealerId = dealerId,
@@ -449,7 +449,7 @@ namespace DealnetPortal.Api.Integration.Services
             else
             {
                 var errorMsg = $"Cannot get dealer {customerFormData.DealerName} from database";
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.CantGetUserFromDb,
@@ -474,7 +474,7 @@ namespace DealnetPortal.Api.Integration.Services
                 bool addedComment = false;
                 if (!string.IsNullOrEmpty(selectedService))
                 {
-                    var serviceComment = new Comment()
+                    var serviceComment = new Comment
                     {
                         ContractId = contract.Id,
                         Contract = contract,
@@ -486,7 +486,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 if (!string.IsNullOrEmpty(customerComment))
                 {
-                    var comment = new Comment()
+                    var comment = new Comment
                     {
                         ContractId = contract.Id,
                         Contract = contract,
@@ -506,7 +506,7 @@ namespace DealnetPortal.Api.Integration.Services
             {
                 var errorMsg =
                     $"Cannot update contract {contract.Id} from customer loan form with customer form data";
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Warning, //?
                     Code = ErrorCodes.ContractCreateFailed,
@@ -596,7 +596,7 @@ namespace DealnetPortal.Api.Integration.Services
                         commentsChanged = true;
                     }
 
-                    var comment = new Comment()
+                    var comment = new Comment
                     {
                         Contract = contract,
                         IsCustomerComment = true,
@@ -609,17 +609,17 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                 }                
 
-                var contractDataDto = new ContractDataDTO()
+                var contractDataDto = new ContractDataDTO
                 {
                     PrimaryCustomer = primaryCustomer,                    
                     DealerId = contractOwnerId,
                     Id = contract.Id,
                     Equipment = !string.IsNullOrEmpty(equipmentType)
-                        ? new EquipmentInfoDTO()
+                        ? new EquipmentInfoDTO
                         {
                             PreferredStartDate = preferredStartDate,
                             NewEquipment =
-                                new List<NewEquipmentDTO> {new NewEquipmentDTO()
+                                new List<NewEquipmentDTO> {new NewEquipmentDTO
                                 {
                                     Type = equipmentType,
                                     Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description

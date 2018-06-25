@@ -26,6 +26,6 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Description("Income verification")]
         IncomeVerification = 10,
         [Description("Credit Application")]
-        CreditApplication= 11,
+        CreditApplication= 11
     }
 }

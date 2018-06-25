@@ -7,9 +7,7 @@ using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using System.Security.Claims;
 
 using DealnetPortal.Utilities.Logging;
-using log4net;
 using DealnetPortal.Web.ServiceAgent;
-using DealnetPortal.Web.Common.Constants;
 using DealnetPortal.Api.Models.UserSettings;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models.Enumeration;
@@ -19,14 +17,14 @@ namespace DealnetPortal.Web.Controllers
     public class SettingsController : Controller
     {
         private readonly ISettingsManager _settingsManager;
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly ICustomerFormServiceAgent _customerFormServiceAgent;
         private readonly ILoggingService _loggingService;
 
-        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService, IDictionaryServiceAgent dictionaryServiceAgent)
+        public SettingsController(ISettingsManager settingsManager, ILoggingService loggingService, ICustomerFormServiceAgent customerFormServiceAgent)
         {
             _settingsManager = settingsManager;
             _loggingService = loggingService;
-            _dictionaryServiceAgent = dictionaryServiceAgent;
+            _customerFormServiceAgent = customerFormServiceAgent;
         }
 
         [OutputCache(NoStore = true, Duration = 0, Location = OutputCacheLocation.None, VaryByParam = "*")]
@@ -40,14 +38,14 @@ namespace DealnetPortal.Web.Controllers
             }
             if (image?.ValueBytes != null)
             {
-                _loggingService.LogInfo($"Got dealer Logo {image?.ValueBytes.Length}bytes settings for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
+                _loggingService.LogInfo($"Got dealer Logo {image.ValueBytes.Length}bytes settings for dealer: {(!string.IsNullOrEmpty(User?.Identity?.Name) ? User.Identity.Name : hashDealerName)}");
                 return File(image.ValueBytes, "image/png");
             }
             //fallback:
             bool IsQuebecDealer = false;
             if (hashDealerName != null)
             {
-                var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, CultureHelper.CurrentCultureType == CultureType.French ? "fr" : "en");
+                var languageOptions = await _customerFormServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, CultureHelper.CurrentCultureType == CultureType.French ? "fr" : "en");
                 IsQuebecDealer = languageOptions.QuebecDealer;
             }
             Stream stream;

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DealnetPortal.Api.Common.Enumeration.Dealer
+﻿namespace DealnetPortal.Api.Common.Enumeration.Dealer
 {
     public enum ProgramServices
     {

@@ -258,11 +258,11 @@ namespace DealnetPortal.Api.Areas.HelpPage
                     return null;
                 }
 
-                bool containsKey = (bool)containsMethod.Invoke(result, new object[] { newKey });
+                bool containsKey = (bool)containsMethod.Invoke(result, new[] { newKey });
                 if (!containsKey)
                 {
                     object newValue = objectGenerator.GenerateObject(typeV, createdObjectReferences);
-                    addMethod.Invoke(result, new object[] { newKey, newValue });
+                    addMethod.Invoke(result, new[] { newKey, newValue });
                 }
             }
 
@@ -318,7 +318,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
             for (int i = 0; i < size; i++)
             {
                 object element = objectGenerator.GenerateObject(type, createdObjectReferences);
-                addMethod.Invoke(result, new object[] { element });
+                addMethod.Invoke(result, new[] { element });
                 areAllElementsNull &= element == null;
             }
 
@@ -339,7 +339,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
 
         private static object GenerateComplexObject(Type type, Dictionary<Type, object> createdObjectReferences)
         {
-            object result = null;
+            object result;
 
             if (createdObjectReferences.TryGetValue(type, out result))
             {
@@ -438,7 +438,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
                         {
                             return new Uri(String.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index));
                         }
-                    },
+                    }
                 };
             }
 

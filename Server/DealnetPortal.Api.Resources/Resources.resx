@@ -482,10 +482,10 @@
     <value>Declined (wo/email notice)</value>
   </data>
   <data name="_26_Pre_Approved15k" xml:space="preserve">
-    <value>Pre-Approved $15k</value>
+    <value>Awaiting Enbridge Approval</value>
   </data>
   <data name="_26_Pre_ApprovedECP" xml:space="preserve">
-    <value>Pre-Approved (ECP)</value>
+    <value>Awaiting Enbridge Approval</value>
   </data>
   <data name="_27_FinalReview_RecommendApproval" xml:space="preserve">
     <value>Final Review-Recommend Approval</value>
@@ -752,7 +752,7 @@
     <value>Customer lead has not been accepted by any dealer for {0}h (type: {1}, postal code: {2})</value>
   </data>
   <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
-    <value>Unfortunately this lead is no longer available</value>
+    <value>Unfortunately this lead is no longer available, please try another one</value>
   </data>
   <data name="AirFiltration" xml:space="preserve">
     <value>Air Filtration</value>
@@ -857,7 +857,7 @@
     <value>Declined Blue Chip</value>
   </data>
   <data name="_26_Pre_Approved" xml:space="preserve">
-    <value>Pre Approved</value>
+    <value>Awaiting Enbridge Approval</value>
   </data>
   <data name="_28_ApprovedBlueChip" xml:space="preserve">
     <value>Approved Blue Chip</value>
@@ -991,6 +991,30 @@
   <data name="StandardRate" xml:space="preserve">
     <value>Standard Rate</value>
   </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Declined</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="NotInitiated" xml:space="preserve">
+    <value>Not Initiated</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="Signed" xml:space="preserve">
+    <value>Signed</value>
+  </data>
   <data name="LeaseApplication" xml:space="preserve">
     <value>Lease</value>
   </data>
@@ -1038,5 +1062,29 @@
   </data>
   <data name="WholeHomeCombo" xml:space="preserve">
     <value>Whole Home Combo</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Dealer Profile Update</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Funded Deals</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Pending Deals</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Portal Inquiries</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Program Inquiries</value>
+  </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Months</value>
+  </data>
+  <data name="RateReduction" xml:space="preserve">
+    <value>Rate Reduction</value>
   </data>
 </root>

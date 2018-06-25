@@ -9,6 +9,7 @@
         public const string IsNewlySubmitted = "IsNewlySubmitted";
 
         public const int MaxAdditionalApplicants = 1;
+        public const int RentalTerm = 120;
 
         public const string DefaultLeadSourceKey = "DefaultLeadSource";
         public const string CustomerFormLeadSourceKey = "CustomerFormLeadSource";
@@ -30,6 +31,7 @@
     public static class ClaimContstants
     {
         public const string QuebecDealer = "QuebecDealer";
+        public const string IsEmcoDealer = "IsEmcoDealer";
         public const string ClarityDealer = "ClarityDealer";
     }
 

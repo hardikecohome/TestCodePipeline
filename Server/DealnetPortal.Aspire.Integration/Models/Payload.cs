@@ -15,7 +15,7 @@ namespace DealnetPortal.Aspire.Integration.Models
     }
 
     [Serializable]
-    [System.Xml.Serialization.XmlRoot(ElementName= "Payload")]
+    [XmlRoot(ElementName= "Payload")]
     public class ResponsePayload
     {
         public string TransactionId { get; set; }
@@ -100,7 +100,7 @@ namespace DealnetPortal.Aspire.Integration.Models
     }
 
     [Serializable]
-    [System.Xml.Serialization.XmlRoot(ElementName = "Asset_Class")]
+    [XmlRoot(ElementName = "Asset_Class")]
     public class AssetClass
     {
         [XmlAttribute("AssetCode")]
@@ -142,7 +142,7 @@ namespace DealnetPortal.Aspire.Integration.Models
     }
 
     [Serializable]
-    [System.Xml.Serialization.XmlRoot(ElementName = "Account")]
+    [XmlRoot(ElementName = "Account")]
     public class AccountResponse
     {
         public string Id { get; set; }

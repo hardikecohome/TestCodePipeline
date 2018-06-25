@@ -2,6 +2,11 @@
 @using System.Security.Claims
 @model DealnetPortal.Web.Models.ContactAndPaymentInfoViewModel
 
+@{ 
+    ViewBag.Title = Resources.NewApplication;
+}
+
+<div class="centred-container">
 <div class="dealnet-large-header">@Resources.ContactAndPaymentInfo</div>
 
 <div id="steps-line"></div>
@@ -255,7 +260,7 @@
                         </div>
                     </div>
                 </div>
-                @if(Model.IsAllPaymentTypesAvailable)
+                @if(!((ClaimsPrincipal)User)?.HasClaim("QuebecDealer", "True") ?? false)
                 {
                     <div class="col-xs-12 col-md-4 pap-payment">
                         <div class="form-group">
@@ -347,7 +352,7 @@
         }
     </div>
 </div>
-
+</div>
 @section Translations
 {
     translations['ProcessingImage'] = "@Resources.ProcessingImage";

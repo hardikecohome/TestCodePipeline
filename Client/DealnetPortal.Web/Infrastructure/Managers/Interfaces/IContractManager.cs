@@ -11,12 +11,12 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
     public interface IContractManager
     {
         //New Version 
-        Task<EquipmentInformationViewModelNew> GetEquipmentInfoAsync(int contractId);
-        Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModelNew equipmnetInfo);
+        Task<EquipmentInformationViewModel> GetEquipmentInfoAsync(int contractId);
+        Task<IList<Alert>> UpdateContractAsyncNew(EquipmentInformationViewModel equipmnetInfo);
 
         Task<BasicInfoViewModel> GetBasicInfoAsync(int contractId);
 
-        Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId);
+        Task<ContactAndPaymentInfoViewModel> GetContactAndPaymentInfoAsync(int contractId, ContractDTO contract = null);
 
         Task<SummaryAndConfirmationViewModel> GetSummaryAndConfirmationAsync(int contractId, ContractDTO contract = null);
 
@@ -30,9 +30,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 
         void MapContactAndPaymentInfo(ContactAndPaymentInfoViewModel contactAndPaymentInfo, ContractDTO contract);
 
-        Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo);
-
-        Task<IList<Alert>> UpdateContractAsync(EquipmentInformationViewModel equipmnetInfo);
+        Task<IList<Alert>> UpdateContractAsync(BasicInfoViewModel basicInfo);             
 
         Task<IList<Alert>> UpdateContractAsync(ContactAndPaymentInfoViewModel contactAndPaymentInfo);
 
@@ -45,7 +43,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
 
 	    Task<StandaloneCalculatorViewModel> GetStandaloneCalculatorInfoAsync();
 
-        Task<bool> CheckRateCard(int contractId, int? rateCardId);
+        Task<bool> CheckRateCard(int contractId, int? rateCardId, ContractDTO contract = null);
         Task<ESignatureViewModel> GetContractSignatureStatus(int contractId);
     }
 }

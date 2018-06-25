@@ -1,27 +1,30 @@
 ﻿@using System.Security.Claims
 @using DealnetPortal.Api.Common.Constants
+@using DealnetPortal.Web.Common.Constants
 @using DealnetPortal.Web.Models.Enumeration
 
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 <div class="row form-group">
-    <div class="col-md-3">
-        <div class="form-group">
-            @Html.LabelFor(m => m.AgreementType)
-            @if(ViewBag.LoanOnly)
-            {
-                @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control loan-only-dropdown-disabled", id = "typeOfAgreementSelect", disabled = "disabled" })
-            }
-            else
-            {
-                @Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
-            }
-        </div>
-    </div>
+	<div class="col-md-3">
+		<div class="form-group">
+			@Html.LabelFor(m => m.AgreementType)
+			@if (ViewBag.LoanOnly)
+			{
+				@Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control loan-only-dropdown-disabled", id = "typeOfAgreementSelect", disabled = "disabled" })
+			}
+			else
+			{
+				@Html.EnumDropDownListFor(m => m.AgreementType, null, new { @class = "form-control", id = "typeOfAgreementSelect" })
+			}
+		</div>
+	</div>
 
-    @{
-        var identity = (ClaimsIdentity)User.Identity;
-        var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value));
-    }
+	@{
+		var identity = (ClaimsIdentity)User.Identity;
+		var isEmcoDealer = identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
+		var hasStandardRentalTier = identity.HasClaim(c => c.Type == ClaimNames.LeaseTier && string.IsNullOrEmpty(c.Value)) || isEmcoDealer;
+
+	}
 
     @if(hasStandardRentalTier)
     {
@@ -34,93 +37,93 @@
            }, "Value", "Text", Model.RentalProgramType ?? AnnualEscalationType.Escalation35), new
            {
                @class = "form-control",
-               id = "rental-program-type",
+               id = "rental-program-type"
            })
             </div>
         </div>
     }
 </div>
 <div id="new-equipments">
-    <h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
-    @if(Model?.NewEquipment != null)
-    {
-        @Html.Partial("EquipmentInformation/_NewEquipments", Model)
-    }
+	<h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>
+	@if (Model?.NewEquipment != null)
+	{
+		@Html.Partial("EquipmentInformation/_NewEquipments", Model)
+	}
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="action-link blue add-equip-link" id="addEquipment">
-            <svg aria-hidden="true" class="icon icon-add-app">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-            </svg>
-            <span>@Resources.AddAdditionalEquipment</span>
-        </div>
-    </div>
+	<div class="col-md-12">
+		<div class="action-link blue add-equip-link" id="addEquipment">
+			<svg aria-hidden="true" class="icon icon-add-app">
+				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+			</svg>
+			<span>@Resources.AddAdditionalEquipment</span>
+		</div>
+	</div>
 </div>
 @Html.Partial("EquipmentInformation/Agreements/_Rental", Model)
 @Html.Partial("EquipmentInformation/Agreements/_Loan", Model)
 <br>
 <div class="row downpayment-row" style="@(Model.AgreementType != AgreementType.LoanApplication || ViewBag.AgreementTypeAccessRights.ToLower() == "lease" ? "display:none":"")">
-    <div class="col-md-3">
-        <div class="form-group">
-            @Html.LabelFor(m => m.DownPayment)
-            <div class="control-group has-addon-left">
-                <div class="control-group-addon">$</div>
-                @Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment" })
-                @Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 afee-group hidden" id="admin-fee-section">
-        <div class="form-group">
-            @Resources.AdminFee
-        </div>
-        <div class="form-group">
-            <label for="" class="align-middle custom-radio">
-                @Html.RadioButtonFor(m => m.Conditions.IsAdminFeePaidByCustomer, false, new { @class = "afee-is-covered", id = "radioNotPay" })
-                <span class="icon custom-radio-icon"></span>
-                <span>@Resources.PassAdminFeeToDealer</span>
-            </label>
-        </div>
-        <div class="form-group">
-            <label for="" class="align-middle custom-radio">
-                @Html.RadioButtonFor(m => m.Conditions.IsAdminFeePaidByCustomer, true, new { @class = "afee-is-covered", id = "radioWillPay" })
-                <span class="icon custom-radio-icon"></span>
-                <span>@Resources.PassAdminFeeToCustomer</span>
-            </label>
-        </div>
-        @Html.ValidationMessageFor(m => m.Conditions.IsAdminFeePaidByCustomer, "", new { @class = "text-danger" })
-    </div>
+	<div class="col-md-3">
+		<div class="form-group">
+			@Html.LabelFor(m => m.DownPayment)
+			<div class="control-group has-addon-left">
+				<div class="control-group-addon">$</div>
+				@Html.TextBoxFor(m => m.DownPayment, new { @class = "form-control", placeholder = Resources.DownPayment, type = "text", id = "downPayment" })
+				@Html.ValidationMessageFor(m => m.DownPayment, "", new { @class = "text-danger" })
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 afee-group hidden" id="admin-fee-section">
+		<div class="form-group">
+			@Resources.AdminFee
+		</div>
+		<div class="form-group">
+			<label for="" class="align-middle custom-radio">
+				@Html.RadioButtonFor(m => m.Conditions.IsAdminFeePaidByCustomer, false, new { @class = "afee-is-covered", id = "radioNotPay" })
+				<span class="icon custom-radio-icon"></span>
+				<span>@Resources.PassAdminFeeToDealer</span>
+			</label>
+		</div>
+		<div class="form-group">
+			<label for="" class="align-middle custom-radio">
+				@Html.RadioButtonFor(m => m.Conditions.IsAdminFeePaidByCustomer, true, new { @class = "afee-is-covered", id = "radioWillPay" })
+				<span class="icon custom-radio-icon"></span>
+				<span>@Resources.PassAdminFeeToCustomer</span>
+			</label>
+		</div>
+		@Html.ValidationMessageFor(m => m.Conditions.IsAdminFeePaidByCustomer, "", new { @class = "text-danger" })
+	</div>
 </div>
 
 <div class="financing-options">
-    <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-6 loan-element" style="@(Model.AgreementType == AgreementType.LoanApplication ? "" : "display:none")">
-            <h3 class="dealnet-middle-header">
-                @Resources.FinancingOptions
-                @if (Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
-                {
-                    <text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
-                }
-                <span class="financing-arrow" id="loanRateCardToggle">
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                </span>
-            </h3>
-        </div>
-        <div class="col-xs-12 col-sm-8 col-md-6 rental-element" style="@(Model.AgreementType == AgreementType.RentalApplication ? "" : "display:none")">
-            <h3 class="dealnet-middle-header">
-                @Resources.FinancingOptions
-                @if (hasStandardRentalTier && Model.DealerTier.CustomerRiskGroup != null)
-                {
-                    <text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
-                }
-                <span class="financing-arrow" id="loanRateCardToggle">
-                    <i class="glyphicon glyphicon-chevron-down"></i>
-                </span>
-            </h3>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-8 col-md-6 loan-element" style="@(Model.AgreementType == AgreementType.LoanApplication ? "" : "display:none")">
+			<h3 class="dealnet-middle-header">
+				@Resources.FinancingOptions
+				@if (Model.DealerTier.CustomerRiskGroup != null && !Model.Conditions.IsSubmittedWithoutCustomerRateCard)
+				{
+					<text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
+				}
+				<span class="financing-arrow" id="loanRateCardToggle">
+					<i class="glyphicon glyphicon-chevron-down"></i>
+				</span>
+			</h3>
+		</div>
+		<div class="col-xs-12 col-sm-8 col-md-6 rental-element" style="@(Model.AgreementType == AgreementType.RentalApplication ? "" : "display:none")">
+			<h3 class="dealnet-middle-header">
+				@Resources.FinancingOptions
+				@if (hasStandardRentalTier && Model.DealerTier.CustomerRiskGroup != null)
+				{
+					<text>&nbsp;-&nbsp; @Model.DealerTier.CustomerRiskGroup.GroupName</text>
+				}
+				<span class="financing-arrow" id="loanRateCardToggle">
+					<i class="glyphicon glyphicon-chevron-down"></i>
+				</span>
+			</h3>
+		</div>
+	</div>
 
-    @Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
-    @Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)
+	@Html.Partial("EquipmentInformation/Agreements/_FinancialRental", Model)
+	@Html.Partial("EquipmentInformation/Agreements/_FinancialLoan", Model)
 </div>

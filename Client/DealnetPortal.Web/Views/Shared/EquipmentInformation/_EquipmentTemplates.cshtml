@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @if(Model.CommonExistingEquipmentInfo == null)
 {
@@ -28,7 +28,7 @@
                                                                                                            Value = x.Type,
                                                                                                            Text = x.Description
                                                                                                    }),
-                                    new { @class = "form-control equipment-select", @Value = 0, required="true" })
+                                    new { @class = "form-control equipment-select", Value = 0, required="true" })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentType.Type, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                 {
                                     @class = "form-control dealnet-input",
                                     placeholder = Resources.Description,
-                                    @Value = ""
+                                    Value = ""
                                 })
                                 @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new
                                 {
@@ -59,7 +59,7 @@
                                     @class = "form-control dealnet-input monthly-cost",
                                     type = "text",
                                     placeholder = Resources.MonthlyCostOfOwnership,
-                                    @Value = ""
+                                    Value = ""
                                 })
                                 @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new
                                 {
@@ -78,7 +78,7 @@
                                     @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                     type = "text",
                                     placeholder = Resources.MCOReducedDownPayment,
-                                    @Value = "",
+                                    Value = ""
                                 })
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                                                        new
                                                                        {
                                                                            @class = "form-control equipment-select",
-                                                                           @Value = 0,
+                                                                           Value = 0,
                                                                            required="true"
                                                                        })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentType.Type, "", new { @class = "text-danger" })
@@ -120,7 +120,7 @@
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentSubType.Id,
                                     Enumerable.Empty<SelectListItem>(), new
                                                                         {
-                                                                                @class = "form-control sub-type-select", @Value = "",
+                                                                                @class = "form-control sub-type-select", Value = "",
                                                                                 required="true"
                                                                         })
                             @Html.ValidationMessageFor(m => m.NewEquipment[0].EquipmentSubType.Id, "", new { @class = "text-danger" })
@@ -134,7 +134,7 @@
                                 {
                                     @class = "form-control dealnet-input",
                                     placeholder = Resources.Description,
-                                    @Value = ""
+                                    Value = ""
                                 })
                                 @Html.ValidationMessageFor(m => m.NewEquipment[0].Description, "", new
                                 {
@@ -153,7 +153,7 @@
                                     @class = "form-control dealnet-input equipment-cost",
                                     type = "text",
                                     placeholder = Resources.CostWithTaxes,
-                                    @Value = ""
+                                    Value = ""
                                 })
                                 @Html.ValidationMessageFor(m => m.NewEquipment[0].Cost, "", new
                                 {
@@ -172,7 +172,7 @@
                                     @class = "form-control dealnet-input monthly-cost",
                                     type = "text",
                                     placeholder = Resources.MonthlyCost,
-                                    @Value = ""
+                                    Value = ""
                                 })
                                 @Html.ValidationMessageFor(m => m.NewEquipment[0].MonthlyCost, "", new
                                 {
@@ -192,7 +192,7 @@
                                     @class = "form-control dealnet-input estimated-retail",
                                     type = "text",
                                     disabled = "disabled",
-                                    @Value = ""
+                                    Value = ""
                                 })
                                 @Html.ValidationMessageFor(m => m.NewEquipment[0].EstimatedRetailCost, "", new
                                 {
@@ -224,12 +224,12 @@
                                  new SelectList(new[]
                                  {
                                                                 new {Value = "true", Text = Resources.Yes, Selected = Model?.ExistingEquipment != null && Model.CommonExistingEquipmentInfo.CustomerOwned},
-                                                                new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.CustomerOwned},
+                                                                new {Value = "false", Text = Resources.No, Selected = Model?.ExistingEquipment != null && !Model.CommonExistingEquipmentInfo.CustomerOwned}
                                   },
-                                  "Value", "Text", Model?.CommonExistingEquipmentInfo.CustomerOwned ?? true), new
+                                  "Value", "Text", Model?.CommonExistingEquipmentInfo.CustomerOwned), new
                                   {
                                       @class = "form-control customer-owned",
-                                      @Value = true
+                                      Value = true
                                   })
                             </div>
                         </div>
@@ -457,7 +457,7 @@
                                 @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                 type = "text",
                                 placeholder = Resources.MCOReducedDownPayment,
-                                @Value = "",
+                                Value = ""
                             })
                         </div>
                     </div>

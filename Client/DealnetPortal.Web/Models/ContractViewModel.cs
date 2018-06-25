@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Helpers;
+﻿using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Common.Types;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Web.Models.EquipmentInformation;

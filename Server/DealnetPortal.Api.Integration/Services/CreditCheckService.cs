@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -13,7 +11,6 @@ using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
@@ -56,7 +53,7 @@ namespace DealnetPortal.Api.Integration.Services
 
             if (contract?.ContractState == null)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.CreditCheckFailed,
@@ -145,10 +142,10 @@ namespace DealnetPortal.Api.Integration.Services
 
                     if (creditAmount.HasValue || scorecardPoints.HasValue)
                     {
-                        _contractRepository.UpdateContractData(new ContractData()
+                        _contractRepository.UpdateContractData(new ContractData
                         {
                             Id = contractId,
-                            Details = new ContractDetails()
+                            Details = new ContractDetails
                             {
                                 CreditAmount = creditAmount,
                                 ScorecardPoints = scorecardPoints,
@@ -178,9 +175,9 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    var useTestAspire = false;
+                    bool useTestAspire;
                     bool.TryParse(_configuration.GetSetting(WebConfigKeys.USE_TEST_ASPIRE), out useTestAspire);
-                    CreditReport dbCreditReport = null;
+                    CreditReport dbCreditReport;
                     if (useTestAspire)
                     {
                         //check user on Aspire
@@ -193,14 +190,14 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     else
                     {
-                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.AccountId.ToString());
+                        dbCreditReport = _aspireStorageReader.GetCustomerCreditReport(contract.PrimaryCustomer.AccountId);
                     }
                     if (dbCreditReport != null)
                     {
-                        var customer = new Customer()
+                        var customer = new Customer
                         {
                             Id = contract.PrimaryCustomer.Id,
-                            CreditReport = new CustomerCreditReport()
+                            CreditReport = new CustomerCreditReport
                             {
                                 Beacon = dbCreditReport.Beacon,
                                 CreditLastUpdateTime = DateTime.UtcNow
@@ -209,7 +206,7 @@ namespace DealnetPortal.Api.Integration.Services
                         _contractRepository.UpdateCustomerData(customer.Id, customer, null, null, null);
                         _unitOfWork.Save();
 
-                        creditReport = new CustomerCreditReportDTO()
+                        creditReport = new CustomerCreditReportDTO
                         {
                             Beacon = dbCreditReport.Beacon,
                             CreditLastUpdateTime = DateTime.UtcNow

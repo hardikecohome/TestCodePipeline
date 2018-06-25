@@ -11,15 +11,28 @@
     }
 
     var optionTemplates = {
-        reductionDropdown: function(totalAmountFinanced) {
+		reductionDropdown: function (totalAmountFinanced, loanTerm, amortizationTerm) {
             return function() {
-                var text;
-                var value = (totalAmountFinanced * (this.InterestRateReduction / 100)).toFixed(2);
+				var text;
+				loanTerm = parseInt(loanTerm);
+				amortizationTerm = parseInt(amortizationTerm);
+				totalAmountFinanced = parseFloat(totalAmountFinanced);
+                var valuetemp = (totalAmountFinanced * (this.InterestRateReduction / 100)).toFixed(2);
+				var rate = this.CustomerReduction / 100 / 12;
+				var pmtWithRate = pmt(rate, amortizationTerm, -1, 0, 0);
+				var pmtWithoutRate = pmt(0, amortizationTerm, -1, 0, 0);
+				var pmtValue = -(pmtWithRate - pmtWithoutRate);
+				var fvValue = -(fv(rate, loanTerm, pmtWithRate, -1, 0)) + (fv(0, loanTerm, pmtWithoutRate, -1, 0));
+				var value = rate > 0 ?
+					((pv(rate,
+						loanTerm,
+						pmtValue,
+						fvValue) + 0.0025) * totalAmountFinanced).toFixed(2) : "0";
+				//value = value;
                 if (this.Id === 0) {
                     text = translations.noReduction;
-                } else
-                {
-                    text = '-' + this.CustomerReduction + '% ' + translations.for + ' ' + '$' + value;
+                } else {
+                    text = '-' + this.CustomerReduction + '% ' + translations.for+' ' + '$' + value;
                 }
                 return {
                     val: this.Id,
@@ -29,13 +42,13 @@
                 }
             }
         },
-        cardProgramDropdown: function() {
+        cardProgramDropdown: function () {
             return {
                 val: this,
                 text: this
             }
         },
-        cardLoanAmortDropdown: function() {
+        cardLoanAmortDropdown: function () {
             return {
                 val: this.split('/')[1].trim(),
                 text: this
@@ -127,7 +140,7 @@
         }
         if (isStandalone) {
             var program = $('#' + selectorName + '-programDropdown').val();
-            items = items.filter(function(item) {
+            items = items.filter(function (item) {
                 if (item.CustomerRiskGroup == null || program === '') {
                     return item.CustomerRiskGroup == null;
                 } else {
@@ -163,7 +176,7 @@
         //}
     }
 
-    var renderProgramDropdownValues = function(dataObject) {
+    var renderProgramDropdownValues = function (dataObject) {
         var resultObj = _getItemsByPrice(dataObject);
         var totalCash = resultObj.totalCash;
         var items = resultObj.items;
@@ -201,7 +214,7 @@
         }
     }
 
-    var renderReductionDropdownValues = function(dataObject) {
+    var renderReductionDropdownValues = function (dataObject) {
         var isStandalone = dataObject.hasOwnProperty('standaloneOption');
 
         var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
@@ -215,17 +228,19 @@
         }
 
         var loanAmortDropdpownValues = $('#' + selectorName + '-amortDropdown option:selected').text();
-        var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
-
+		var totalAmountFinanced = state[dataObject.rateCardPlan].totalAmountFinanced.toFixed(2);
+		var totalEquipmentAmtLessDownPayment = state.eSum - state.downPayment;
         //remove spaces in text
-        loanAmortDropdpownValues = loanAmortDropdpownValues.replace(/\s+/g,'');
-
+		loanAmortDropdpownValues = loanAmortDropdpownValues.replace(/\s+/g, '');
+		
         var reductionValues = state.rateCardReduction.filter(function(reduction) {
             return reduction.LoanAmortizationTerm === loanAmortDropdpownValues && reduction.CustomerReduction <= dataObject.customerRate;
         });
 
-        reductionValues.unshift({ Id: 0, InterestRateReduction: 0, CustomerReduction: 0 });
-        _buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(dataObject.totalAmountFinanced));
+		reductionValues.unshift({ Id: 0, InterestRateReduction: 0, CustomerReduction: 0 });
+		var loanTerm = loanAmortDropdpownValues.split('/')[0].trim();
+		var amortizationTerm = loanAmortDropdpownValues.split('/')[1].trim();
+		_buildDropdownValues(dropdownSelector, dropdown, reductionValues, optionTemplates.reductionDropdown(totalEquipmentAmtLessDownPayment, loanTerm, amortizationTerm));
     }
 
     function _buildDropdownValues(selector, dropdown, items, template) {
@@ -246,10 +261,6 @@
             e.value = values.indexOf(selected) !== -1 ? selected : values[0];
             var $selectedOption = $('#' + selector + ' option[value="' + e.value + '"]');
             $selectedOption.attr("selected", selected);
-
-            if ($('#' + selector).hasClass('not-selected')) {
-                $('#' + selector).removeClass('not-selected');
-            }
         }
     }
 

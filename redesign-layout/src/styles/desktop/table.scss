@@ -1,0 +1,270 @@
+.main-table {
+  font-family: Mukta;
+  width: 1264px;
+  display: flex;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+    flex-wrap: nowrap;
+
+    &__cell {
+
+      justify-content: center;
+      flex-grow: 0;
+      flex-basis: 9%;
+      min-height: 60px;
+
+      word-break: break-word;
+      display: flex;
+
+      font-size: 13px;
+      color: #5f5f5f;
+
+      span,i {
+        text-align: left;
+        align-self: center;
+      }
+
+      &.contract-number {
+      }
+
+      &.deal-status {
+        flex-basis: 18%;
+        justify-content: flex-start;
+        i {
+          margin-right: 6px;
+          margin-left: 6px;
+          flex-basis: 20%;
+        }
+      }
+
+      &.e-sign {
+        flex-basis: 7%;
+      }
+
+      &.days-left {
+        padding: 6px;
+        flex-basis: 5%;
+      }
+
+      &.applicant-name {
+
+      }
+
+      &.loan-amount {
+        flex-basis: 12.5%;
+      }
+
+      &.program-option {
+
+      }
+
+      &.term {
+        flex-basis: 7%;
+      }
+
+      &.amort {
+        flex-basis: 7%;
+      }
+
+      &.payment-amount {
+        flex-basis: 11%;
+      }
+
+      &.funded-amount {
+        flex-basis: 11%;
+      }
+
+      &.address {
+        flex-basis: 14%;
+      }
+
+      &.sales-rep {
+        flex-basis: 8%;
+      }
+
+      &.entered-by {
+        flex-basis: 8%;
+      }
+
+      &.checkbox-cell {
+        justify-content: center;
+        flex-basis: 4%;
+        border: none;
+
+        input[type="checkbox"] {
+          align-self: center;
+          visibility: hidden;
+          margin-bottom: 6px;
+          margin-right: 6px;
+          margin-left: auto;
+
+          &:after {
+            visibility: visible;
+            content: '';
+            border: 1px solid #a4a4a4;
+            border-radius: 2px;
+            // background-image: url('../img/ic-check-pass.svg');
+            // background-size: 21px 21px;
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            cursor: pointer;
+          }
+
+          &:checked {
+            &:after {
+              content: '';
+              border: 1px solid green;
+              border-radius: 2px;
+              // background-image: url('../img/ic-check-box.svg');
+              // background-size: 21px 21px;
+              width: 12px;
+              height: 12px;
+              display: inline-block;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    
+
+    &__cell.icon-cell {
+      flex-basis: 4%;
+    }
+
+    &--header {
+      border-bottom: 1px solid #97c501;
+
+      .main-table__row__cell {
+        min-height: 38px;
+        justify-content: center;
+        border: none;
+        font-size: 11px;
+        font-weight: bold;
+ 
+        line-height: 1.09;
+
+        text-align: left;
+        color: #000000;
+
+        .filter-ico {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        &.deal-status {
+          justify-content: flex-start;
+        }
+
+        &.days-left {
+          padding: 0;
+          font-size: 11px;
+        }
+
+        &.program-option {
+          span {
+            margin-left: 10px;
+          }
+        }
+        
+        &.funded-amount {
+          span {
+            margin-left: 10px;
+          }
+        }
+
+        &.project-desc {
+          span {
+            margin-left: 10px;
+          }
+        }
+
+        &.icon-cell {
+          // padding: 0;
+        }
+      }
+    }
+
+    &--body {
+      &:nth-child(odd) {
+        background-color: #f1f1f1;
+      }
+
+      .main-table__row__cell {
+        &:not(:first-child):not(:last-child) {
+          background-image: linear-gradient(#bcc6d9 14%, rgba(255,255,255,0) 0%);
+          background-position: right;
+          background-size: 1px 9px;
+          background-repeat: repeat-y;
+        }
+
+        &:nth-child(2) {
+          justify-content: flex-start;
+        }
+
+        &.checkbox-cell {
+          margin-bottom: 5px;
+        }
+
+        &.contract-number {
+          justify-content: center;
+        }
+
+        &.e-sign {
+          flex-basis: 7%;
+          font-size: 9px;
+          color: #5f5f5f;
+
+          flex-direction: column;
+        }
+
+        &.applicant-name {
+          span {
+            padding-left: 7px;
+          }
+        }
+
+
+        &.loan-amount {
+          span {
+            text-align: right;
+          }
+        }
+
+        &.program-option {
+          span {
+            padding: 2px;
+            text-align: center;
+          }
+        }
+
+        &.address {
+          span {
+            padding-left: 5px;
+            text-align: left;
+          }
+        }
+
+        &.sales-rep {
+          span {
+            padding: 2px;
+            text-align: center;
+          }
+        }
+
+        &.entered-by {
+          span {
+            padding: 2px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+}

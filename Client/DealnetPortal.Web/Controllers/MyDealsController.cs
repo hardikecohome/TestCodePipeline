@@ -14,6 +14,7 @@ using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
+using System.Security.Claims;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -24,7 +25,6 @@ namespace DealnetPortal.Web.Controllers
         private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IContractManager _contractManager;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
-        private const string InstallCertificateStorageName = "InstallCertificate";
 
         public MyDealsController(IContractServiceAgent contractServiceAgent,
             IDictionaryServiceAgent dictionaryServiceAgent,
@@ -67,7 +67,17 @@ namespace DealnetPortal.Web.Controllers
             {
                 await _contractServiceAgent.NotifyContractEdit(id);
             }
-
+            var identity = (ClaimsIdentity)User.Identity;
+            var isEmcoDealer = identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
+            ViewBag.LeaseProgramDisplayMessage = "";
+            if (contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation35)
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithEscalatedPayments : Resources.Resources.Escalation_35;
+            }
+            else if ((contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation0))
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithoutEscalatedPayments : Resources.Resources.Escalation_0;
+            }
             return View(contract);
         }
 
@@ -89,7 +99,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> RemoveComment(int commentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveComment(commentId);
+            var updateResult = await _contractServiceAgent.RemoveComment(commentId, commentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
@@ -148,7 +158,7 @@ namespace DealnetPortal.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> RemoveDocument(int documentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId);
+            var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId, documentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 

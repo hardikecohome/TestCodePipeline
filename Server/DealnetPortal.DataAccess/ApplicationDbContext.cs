@@ -1,4 +1,3 @@
-using System;
 using System.Data.Entity;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
@@ -93,6 +92,7 @@ namespace DealnetPortal.DataAccess
         public virtual DbSet<LicenseDocument> LicenseDocuments { get; set; }
         public virtual DbSet<ContractSigner> ContractSigners { get; set; }
 
+        public virtual DbSet<FundingDocumentList> FundingDocumentLists { get; set; }
         public virtual DbSet<FundingCheckList> FundingCheckLists { get; set; }
         public virtual DbSet<FundingCheckDocument> FundingCheckDocuments { get; set; }
     }

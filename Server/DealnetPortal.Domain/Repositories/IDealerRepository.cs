@@ -8,6 +8,10 @@ namespace DealnetPortal.Domain.Repositories
 
         string GetUserIdByName(string userName);
 
+        string GetRoleId(string roleName);
+
+        IList<string> GetUserNamesByRole(string roleName);
+
         string GetUserIdByOnboardingLink(string link);
 
         IList<string> GetUserRoles(string dealerId);

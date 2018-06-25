@@ -30,7 +30,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
             SampleObjects = new Dictionary<Type, object>();
             SampleObjectFactories = new List<Func<HelpPageSampleGenerator, Type, object>>
             {
-                DefaultSampleObjectFactory,
+                DefaultSampleObjectFactory
             };
         }
 
@@ -296,7 +296,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
                 throw new ArgumentNullException("mediaType");
             }
 
-            object sample = String.Empty;
+            object sample = string.Empty;
             MemoryStream ms = null;
             HttpContent content = null;
             try
@@ -322,7 +322,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
                 }
                 else
                 {
-                    sample = new InvalidSample(String.Format(
+                    sample = new InvalidSample(string.Format(
                         CultureInfo.CurrentCulture,
                         "Failed to generate the sample for media type '{0}'. Cannot use formatter '{1}' to write type '{2}'.",
                         mediaType,
@@ -332,7 +332,7 @@ namespace DealnetPortal.Api.Areas.HelpPage
             }
             catch (Exception e)
             {
-                sample = new InvalidSample(String.Format(
+                sample = new InvalidSample(string.Format(
                     CultureInfo.CurrentCulture,
                     "An exception has occurred while using the formatter '{0}' to generate sample for media type '{1}'. Exception message: {2}",
                     formatter.GetType().Name,
@@ -420,8 +420,8 @@ namespace DealnetPortal.Api.Areas.HelpPage
             foreach (var sample in ActionSamples)
             {
                 HelpPageSampleKey sampleKey = sample.Key;
-                if (String.Equals(controllerName, sampleKey.ControllerName, StringComparison.OrdinalIgnoreCase) &&
-                    String.Equals(actionName, sampleKey.ActionName, StringComparison.OrdinalIgnoreCase) &&
+                if (string.Equals(controllerName, sampleKey.ControllerName, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(actionName, sampleKey.ActionName, StringComparison.OrdinalIgnoreCase) &&
                     (sampleKey.ParameterNames.SetEquals(new[] { "*" }) || parameterNamesSet.SetEquals(sampleKey.ParameterNames)) &&
                     sampleDirection == sampleKey.SampleDirection)
                 {

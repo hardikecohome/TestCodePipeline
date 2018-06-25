@@ -1,11 +1,10 @@
 ﻿@using System.Globalization
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
     Layout = "~/Views/Shared/_NewLayout.cshtml";
-}
+    ViewBag.Title = Resources.NewApplication;
 
-@{
     if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
     {
         Model.ExistingEquipment = null;
@@ -15,7 +14,7 @@
         Model.InstallationPackages = null;
     }
 }
-
+<div class="centred-container">
 <div class="dealnet-large-header">@Resources.NewEquipment</div>
 @Html.Partial("EquipmentInformation/_StepsNavigation", Model)
 <div class="form-container">
@@ -32,7 +31,7 @@
             <p class="text-semibold preapproved-text">
                 @if (ViewBag.ShowPreapprovalAmount == true)
                 {
-                    if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                    if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt )
                     {
                         <text>
                             @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
@@ -62,15 +61,24 @@
                 </svg>
                 <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
             </p>
-            <p class="text-semibold preapproved-text">
-                @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
-            </p>
+            if (ViewBag.ShowPreapprovalAmount == true)
+            {
+                <p class="text-semibold preapproved-text">
+                    @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
+                </p>
+            }
+            else
+            {
+                <p class="text-semibold preapproved-text">
+                    @Resources.PreApproved
+                </p>
+            }
         }
     </div>
 </div>
 
 @RenderBody()
-
+</div>
 @section Translations
 {
     translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";

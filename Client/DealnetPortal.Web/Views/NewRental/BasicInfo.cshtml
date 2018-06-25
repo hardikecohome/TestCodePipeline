@@ -1,217 +1,2590 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
-@using DealnetPortal.Api.Core.Helpers
+﻿@using DealnetPortal.Api.Core.Helpers
 @using DealnetPortal.Web.Models
-@model DealnetPortal.Web.Models.BasicInfoViewModel
+@model BasicInfoViewModel
 @{
-	if (Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
-	{
-		Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
-	}
+    if(Model?.AdditionalApplicants != null && !Model.AdditionalApplicants.Any())
+    {
+        Model.AdditionalApplicants.Add(new ApplicantPersonalInfo());
+    }
+
+    ViewBag.Title = Resources.NewApplication;
 }
+<div class="centred-container">
 <div class="dealnet-large-header" id="basic-info">@Resources.BasicInfo</div>
 <div id="steps-line"></div>
 <div class="row" id="steps">
-	<div class="col-xs-4">
-		<a href="@Url.Action("BasicInfo")" class="step-item step-active">1</a>
-	</div>
-	<div class="col-xs-4">
-		<div id="step2" class="step-item">2</div>
-		<div id="step3" class="step-item">3</div>
-	</div>
-	<div class="col-xs-4">
-		<div id="step4" class="step-item">4</div>
-	</div>
+    <div class="col-xs-4">
+        <a href="@Url.Action("BasicInfo")" class="step-item step-active">1</a>
+    </div>
+    <div class="col-xs-4">
+        <div id="step2" class="step-item">2</div>
+        <div id="step3" class="step-item">3</div>
+    </div>
+    <div class="col-xs-4">
+        <div id="step4" class="step-item">4</div>
+    </div>
 </div>
 @{
-	var creditCheckError = TempData["CreditCheckErrorMessage"];
+    var creditCheckError = TempData["CreditCheckErrorMessage"];
 
-	if (creditCheckError != null)
-	{
-		<div class="well danger-well position-well clear-border error-descr clear-border">
-			<svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
-			@creditCheckError
-		</div>
-	}
-}
-@if (!ViewBag.IsMobileRequest)
-{
-	<div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<div class="dealnet-middle-header">@Resources.ScanLicense</div>
-					<div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
-					<ul class="nav nav-tabs" role="tablist">
-						<li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
-						<li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
-					</ul>
-					<div class="tab-content">
-						<div role="tabpanel" class="tab-pane fade in active" id="home">
-							<div id="capture-area">
-								<video autoplay class="capture-frame" id="video"></video>
-								<canvas id="capture-canvas" class="capture-frame"></canvas>
-								<canvas id="big-capture-canvas"></canvas>
-								<div id="capture-buttons">
-									<input type="button" class="btn btn-green" id="capture-buttons-1" value="@Resources.Capture" onclick="takePhoto()" />
-									<div id="capture-buttons-2">
-										<input type="button"
-											   class="btn btn-green big-button"
-											   id="upload-capture"
-											   value="@Resources.Save"
-											   onclick="uploadCaptured('@Url.Action("RecognizeDriverLicense", "NewRental")')" />
-										<div id="retake" onclick="retakePhoto()">@Resources.Retake</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div role="tabpanel" class="tab-pane fade" id="profile">
-							<div id="upload-area">
-								<div id="upload-buttons">
-									<div class="file-upload btn btn-green" id="upload-file-button">
-										<svg aria-hidden="true" class="icon icon-cloud-upload"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use></svg>
-										<span>@Resources.UploadPhoto</span>
-										<input type="file" class="upload" id="upload-file" onchange="submitUpload(this, '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")')" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-}
-<div class="form-container basic-info-form">
-    <div class="form-section">
-        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form", autocomplete="new-password" }))
+    if(creditCheckError != null)
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.ContractId)
-        @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
-        <!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->
-        <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
-            @if(Model?.SubDealers?.Any() ?? false)
-        {
-            <div class="dealnet-middle-header">@Resources.SubDealer</div>
-            <div class="row">
-                <div class="col-md-4 col-lg-4">
-                    <div class="form-group">
-                        <label for="">@Resources.ChooseSubDealer</label>
-                        <div class="control-group">
-                            @Html.DropDownListFor(m => m.SubmittingDealerId,
-                                                                                                                                                        Model.SubDealers.Select(x => new SelectListItem { Value = x.Id, Text = x.DisplayName, Selected = Model.SubmittingDealerId == x.Id }),
-                                                                                                                                                        new { @class = "form-control", id = "subdealers" })
+        <div class="well danger-well position-well clear-border error-descr clear-border">
+            <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
+            @creditCheckError
+        </div>
+    }
+}
+@if(!ViewBag.IsMobileRequest)
+{
+    <div class="modal fade" id="camera-modal" role="dialog" data-fnToFill="first-name" data-lnToFill="last-name" data-bdToFill="birth-date" data-dlToFill="dl-number" data-stToFill="street" data-ctToFill="locality" data-prToFill="administrative_area_level_1" data-pcToFill="postal_code">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="dealnet-middle-header">@Resources.ScanLicense</div>
+                    <div class="dealnet-middle-header-2" id="you-want">@Resources.SelectScanningMethod</div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li id="foldit" role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">@Resources.UseCamera</a></li>
+                        <li id="foldit" role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">@Resources.Upload</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div id="capture-area">
+                                <video autoplay class="capture-frame" id="video"></video>
+                                <canvas id="capture-canvas" class="capture-frame"></canvas>
+                                <canvas id="big-capture-canvas"></canvas>
+                                <div id="capture-buttons">
+                                    <input type="button" class="btn btn-green" id="capture-btn" value="@Resources.Capture" />
+                                    <div id="capture-buttons-2">
+                                        <input type="button"
+                                               class="btn btn-green big-button"
+                                               id="upload-capture"
+                                               value="@Resources.Save" />
+                                        <div id="retake">@Resources.Retake</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <div id="upload-area">
+                                <div id="upload-buttons">
+                                    <div class="file-upload btn btn-green" id="upload-file-button">
+                                        <svg aria-hidden="true" class="icon icon-cloud-upload">
+                                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-cloud-upload")"></use>
+                                        </svg>
+                                        <span>@Resources.UploadPhoto</span>
+                                        <input type="file" class="upload" id="upload-file" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-    }
-    else
-    {
-        @*@Html.Hidden("SubmittingDealerId", Model.SubDealers.First().Id)*@
-        @*@Html.Hidden("SubmittingDealerId", "")*@
+        </div>
+    </div>
 }
+<div class="form-container basic-info-form">
+    <div class="form-section">
+        @using(Html.BeginForm("BasicInfo", "NewRental", FormMethod.Post, new { id = "main-form", autocomplete = "new-password" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ContractId)
+            @Html.HiddenFor(m => m.QuebecDealer, new { id = "is-quebec-dealer" })
+            @*<!--If deal is submitted hide info for borrower and additional applicant that is already submitted-->*@
+            <div @* @if (Model.ContractWasDeclined) { <text>class="hidden"</text> } *@>
+                @if(Model?.SubDealers?.Any() ?? false)
+                {
+                    <div class="dealnet-middle-header">@Resources.SubDealer</div>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="">@Resources.ChooseSubDealer</label>
+                                <div class="control-group">
+                                    @Html.DropDownListFor(m => m.SubmittingDealerId,
+                                        Model.SubDealers.Select(x => new SelectListItem {
+                                            Value = x.Id,
+                                            Text = x.DisplayName,
+                                            Selected = Model.SubmittingDealerId == x.Id }),
+                                        new { @class = "form-control", id = "subdealers" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
 
-            <div class="well well-info position-well clear-border">
+                <div class="well well-info position-well clear-border">
+                    <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                    @Resources.BorrowerShouldBeHomeOwner
+                </div>
+                @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
+            </div>
+
+            @*<!--Add Additional Applicant-->*@
+            @Html.Partial("BasicInfo/_AdditionalApplicants")
+            @*<!--END Add Additional Applicant-->*@
+
+
+            <div id="add-additional-applicant" class="action-link blue">
+                <div class="align-middle">
+                    <svg aria-hidden="true" class="icon icon-add-app">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
+                    </svg>
+                    <span>@Resources.AddAdditionalApplicant</span>
+                </div>
+            </div>
+            @*<div class="well well-info position-well collapse" id="age-warning-message">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.AtLeastOne75OrLess
+                </div>
+                <div class="well danger-well position-well  clear-border over-aged-well collapse" id="age-error-message">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.AtLeastOne75OrLess
+                </div>*@
+            <!--Warning Section if isn't chosen homeowner checkbox-->
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-homeowner-errormessage">
                 <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
                 @Resources.BorrowerShouldBeHomeOwner
             </div>
-            @Html.Partial("BasicInfo/_HomeOwnerInfo", Model)
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-error-message">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.AllAplicantsConsents
+            </div>
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-qc-dealer">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.InstallationAddressInQuebec
+            </div>
+            <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-not-qc-dealer">
+                <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
+                @Resources.InstallationAddressCannotInQuebec
+            </div>
+            @*<!--End Warning Section if isn't chosen homeowner checkbox-->*@
+
+            <div class="save-proceed-btn-hold form-group">
+                <button class="btn btn-green btn-form" id="save-and-proceed-button">
+                    @Resources.SaveAndProceed
+                </button>
+            </div>
+        }
+    </div>
+</div>
+</div>
+@*  REDESIGN
+    <div class="new-lead-notification-wp">
+        <div class="new-lead-notification new-lead-notification--success">
+            <span class="new-lead-notification__left-icon-block">
+                <i class="new-lead-notification__notification-ico"></i>
+            </span>
+            <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
         </div>
+    </div>
 
-			<!--Add Additional Applicant-->
-			@Html.Partial("BasicInfo/_AdditionalApplicants")
-			<!--END Add Additional Applicant-->
+    <div class="nw-loan-wp">
+        <div class="nw-loan">
+            <div class="nw-loan__header">
+                <div class="nw-loan__header__title">New loan</div>
+                <div class="nw-loan__header__learn-more icon-link-green"><i class="ic-nw-lamp ic-nw-lamp--grass"></i><a>Learn more about this page</a></div>
+            </div>
+            <div class="nw-loan__steps">
+                <div class="nw-loan__steps__step nw-loan__steps__step--passed">
+                    <div class="nw-loan__steps__step__text"><span>1</span><span>Basic Information, address and consents</span><i class="check-mark-2-ico"></i></div><div class="nw-loan__steps__step__arrow-right"></div>
+                </div>
+                <div class="nw-loan__steps__step nw-loan__steps__step--active">
+                    <div class="nw-loan__steps__step__text"><span>2</span><span>New work category  and financing options</span><i class="check-mark-2-ico"></i></div><div class="nw-loan__steps__step__arrow-right"></div>
+                </div>
+                <div class="nw-loan__steps__step">
+                    <div class="nw-loan__steps__step__text"><span>3</span><span>Contact and payment information</span><i class="check-mark-2-ico"></i></div><div class="nw-loan__steps__step__arrow-right"></div>
+                </div>
+            </div>
+
+            <div class="nw-loan__notification nw-loan__notification--passed">
+                <span class="nw-loan__notification__message">Credit check processed successfully!</span>
+                <span class="nw-loan__notification__info">Consumer is authorized to a maximum amount of <span class="nw-loan__notification__info__sum">$10,000.00</span></span>
+                <span class="nw-loan__notification__icon"></span>
+            </div>
+            <!--step 1-->
+            <div class="nw-step-options">
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">
+                            Sub-dealer
+                        </div>
+
+                        <div class="new-input-group nw-step-options__block__content__sub-dealer">
+                            <div class="custom-select-wrap">
+                                <label for="sub-dealer">Choose a sub-dealer</label>
+                                <select name="sub-dealer" id="sub-dealer" class="custom-select">
+                                    <option value="">Dealer 1</option>
+                                    <option value="">Dealer 2</option>
+                                    <option value="">Dealer 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="nw-step-options__block nw-step-options__block--passed">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">
+                            Borrower information<div class="nw-step-options__block__content__title__info"><i class=" ic-nw-info-letter  ic-nw-info-letter--blue"></i>At least one of the applicants should be a home owner</div>
+                        </div>
+                        <div class="nw-step-options__block__content__license-wp">
+                            <div class="nw-step-options__block__content__license">
+                                <div class="nw-step-options__block__content__license__scan">
+                                    <div class="new-btn-solid-red"><span>Scan license</span></div>
+                                    <span>Scan license: this info will be filled out automatically</span>
+                                </div>
+                                <div class="nw-step-options__block__content__license__example">
+                                    <i class="dw-license-ico"></i>
+                                    <span>Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.<span>Scan license: this info will be filled out automatically</span></span>
+
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__person-info">
+                                <div class="nw-step-options__block__content__person-info__first-name new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="first-name" name="first-name" required>
+                                        <label>First name</label>
+                                    </div>
+                                </div>
+                                <div class="nw-step-options__block__content__person-info__last-name new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="last-name" name="last-name" required>
+                                        <label>Last name</label>
+                                    </div>
+                                </div>
+                                <div class="nw-step-options__block__content__person-info__birth-date">
+                                    <span>Date of birth</span>
+                                    <div class="new-input-group nw-step-options__block__content__person-info__birth-date__month">
+                                        <div class="custom-select-wrap">
+                                            <label for="month">mm</label>
+                                            <select name="month" id="month" class="custom-select">
+                                                <option value="">11</option>
+                                                <option value="">12</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="new-input-group nw-step-options__block__content__person-info__birth-date__day">
+                                        <div class="custom-select-wrap">
+                                            <label for="day">dd</label>
+                                            <select name="day" id="day" class="custom-select">
+                                                <option value="">11</option>
+                                                <option value="">12</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="new-input-group nw-step-options__block__content__person-info__birth-date__year">
+                                        <div class="custom-select-wrap">
+                                            <label for="year">yyyy</label>
+                                            <select name="year" id="year" class="custom-select">
+                                                <option value="">11</option>
+                                                <option value="">12</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="new-input-group nw-step-options__block__content__person-info__id-type">
+                                    <div class="custom-select-wrap">
+                                        <label for="id-type">Type of verification ID</label>
+                                        <select name="id-type" id="id-type" class="custom-select">
+                                            <option value="">Dealer 1</option>
+                                            <option value="">Dealer 2</option>
+                                            <option value="">Dealer 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__person-info__deal-initial new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="deal-initial" name="deal-initial" required>
+                                        <label>Deal initial required</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__block nw-step-options__block--in-action">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">
+                            Installation address
+                        </div>
+                        <div class="nw-step-options__block__content__location">
+                            <div class="nw-step-options__block__content__location__get-location icon-link-green">
+                                <i class="ic-nw-get-location ic-nw-get-location--grass"></i><a>Get my location</a>
+                            </div>
+                            <div class="nw-step-options__block__content__location__street new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="street" name="street" required>
+                                    <label>Street</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__unit new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="unit" name="unit" required>
+                                    <label>Unit #</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__city new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="city" name="city" required>
+                                    <label>City</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__location__province new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="province">Province</label>
+                                    <select name="province" id="province" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__location__postal-code new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="postal-code" name="postal-code" required>
+                                    <label>Postal code</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__clear nw-clear-link">
+                                <i class="clear-address-ico"></i><a>Clear address</a>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Borrower lived at current address less than 6 month</span>
+                        </div>
+                        <div class="nw-step-options__block__content__location">
+                            <div class="nw-step-options__block__content__location__get-location icon-link-green">
+                                <i class="ic-nw-get-location ic-nw-get-location--grass"></i><a>Get my location</a>
+                            </div>
+                            <div class="nw-step-options__block__content__location__street new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="street" name="street" required>
+                                    <label>Street</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__unit new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="unit" name="unit" required>
+                                    <label>Unit #</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__city new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="city" name="city" required>
+                                    <label>City</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__province new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="province">Province</label>
+                                    <select name="province" id="province" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__postal-code new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="postal-code" name="postal-code" required>
+                                    <label>Postal code</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__clear nw-clear-link">
+                                <i class="clear-address-ico"></i><a>Clear address</a>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Mailing address of borrower is not the same as installation address</span>
+                        </div>
+                        <div class="nw-step-options__block__content__location">
+                            <div class="nw-step-options__block__content__location__get-location icon-link-green">
+                                <i class="ic-nw-get-location ic-nw-get-location--grass"></i><a>Get my location</a>
+                            </div>
+                            <div class="nw-step-options__block__content__location__street new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="street" name="street" required>
+                                    <label>Street</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__unit new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="unit" name="unit" required>
+                                    <label>Unit #</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__city new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="city" name="city" required>
+                                    <label>City</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__province new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="province">Province</label>
+                                    <select name="province" id="province" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__postal-code new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="postal-code" name="postal-code" required>
+                                    <label>Postal code</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__clear nw-clear-link">
+                                <i class="clear-address-ico"></i><a>Clear address</a>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Borrower owns this property</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">
+                            Borrower employment information<i class="ic-nw-arrow-bottom ic-nw-arrow-bottom--grass"></i>
+                        </div>
+                        <div class="nw-step-options__block__content__qc-borrower-info">
+                            <div class="new-input-group nw-step-options__block__content__qc-borrower-info__empl-status">
+                                <div class="custom-select-wrap">
+                                    <label for="empl-status">Employment status</label>
+                                    <select name="empl-status" id="empl-status" class="custom-select">
+                                        <option value="">Employed</option>
+                                        <option value="">Employed</option>
+                                        <option value="">Employed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group nw-step-options__block__content__qc-borrower-info__income-type">
+                                <div class="custom-select-wrap">
+                                    <label for="income-type">Income type</label>
+                                    <select name="income-type" id="income-type" class="custom-select">
+                                        <option value="">Annual salary/income</option>
+                                        <option value="">Annual salary/income</option>
+                                        <option value="">Annual salary/income</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group nw-step-options__block__content__qc-borrower-info__salary-income">
+                                <div class="custom-select-wrap">
+                                    <label for="salary-income">Annual salary/income</label>
+                                    <select name="salary-income" id="salary-income" class="custom-select">
+                                        <option value="">$20,000 - $30,000</option>
+                                        <option value="">$20,000 - $30,000</option>
+                                        <option value="">$20,000 - $30,000</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group nw-step-options__block__content__qc-borrower-info__empl-length">
+                                <div class="custom-select-wrap">
+                                    <label for="empl-length">Length of employment</label>
+                                    <select name="empl-length" id="empl-length" class="custom-select">
+                                        <option value="">years / months</option>
+                                        <option value="">years / months</option>
+                                        <option value="">years / months</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group nw-step-options__block__content__qc-borrower-info__empl-type">
+                                <div class="custom-select-wrap">
+                                    <label for="empl-type">Type of employment</label>
+                                    <select name="empl-type" id="empl-type" class="custom-select">
+                                        <option value="">Full time</option>
+                                        <option value="">Full time</option>
+                                        <option value="">Full time</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__company-info">
+                            <div class="new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="job-title" name="job-title" required>
+                                    <label>Job title</label>
+                                </div>
+                            </div>
+                            <div class="new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="company-name" name="company-name" required>
+                                    <label>Company name</label>
+                                </div>
+                            </div>
+                            <div class="new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="company-phone" name="company-phone" required>
+                                    <label>Company phone number</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__title nw-step-options__block__content__title--small">
+                            Company address
+                        </div>
+                        <div class="nw-step-options__block__content__location nw-step-options__block__content__location--borrower-extended">
+                            <div class="nw-step-options__block__content__location__street new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="street" name="street" required>
+                                    <label>Street</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__unit new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="unit" name="unit" required>
+                                    <label>Unit #</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__city new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="city" name="city" required>
+                                    <label>City</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__province new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="province">Province</label>
+                                    <select name="province" id="province" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__postal-code new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="postal-code" name="postal-code" required>
+                                    <label>Postal code</label>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__location__clear nw-clear-link">
+                                <i class="clear-address-ico"></i><a>Clear address</a>
+                            </div>
+                        </div>
 
 
-        <div id="add-additional-applicant" class="action-link blue">
-            <div class="align-middle">
-                <svg aria-hidden="true" class="icon icon-add-app">
-                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use>
-                </svg>
-                <span>@Resources.AddAdditionalApplicant</span>
+
+
+                    </div>
+                </div>
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">
+                            Concent
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this application. You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you. * </span>
+                        </div>
+                        <div class="nw-step-options__block__content__concent-btns">
+                            <div class="new-btn-green"><span>How is my personal data used?</span></div>
+                            <div class="new-btn-green"><span>Privacy policy</span></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+
+                        <div class="nw-step-options__block__content__title">
+                            Additional applicant info<i class="ic-nw-close"></i>
+                        </div>
+                        <div class="nw-step-options__block__content__license-wp nw-step-options__block__content__license-wp--additional">
+                            <div class="nw-step-options__block__content__license">
+                                <div class="nw-step-options__block__content__license__scan">
+                                    <div class="new-btn-solid-red"><span>Scan license</span></div>
+                                    <span>Scan license: this info will be filled out automatically</span>
+                                </div>
+                                <div class="nw-step-options__block__content__license__example">
+                                    <i class="dw-license-ico"></i>
+                                    <span>Turn the license over to scan the barcode on the back of the license. Avoid glare and turn off your flash.<span>Scan license: this info will be filled out automatically</span></span>
+                                </div>
+                            </div>
+                            <div class="nw-step-options__block__content__person-info">
+                                <div class="nw-step-options__block__content__person-info__first-name new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="first-name" name="first-name" required>
+                                        <label>First name</label>
+                                    </div>
+                                </div>
+                                <div class="nw-step-options__block__content__person-info__last-name new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="last-name" name="last-name" required>
+                                        <label>Last name</label>
+                                    </div>
+                                </div>
+                                <div class="nw-step-options__block__content__person-info__birth-date">
+                                    <span>Date of birth</span>
+                                    <div class="new-input-group nw-step-options__block__content__person-info__birth-date__month">
+                                        <div class="custom-select-wrap">
+                                            <label for="month">mm</label>
+                                            <select name="month" id="month" class="custom-select">
+                                                <option value="">11</option>
+                                                <option value="">12</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="new-input-group nw-step-options__block__content__person-info__birth-date__day">
+                                        <div class="custom-select-wrap">
+                                            <label for="day">dd</label>
+                                            <select name="day" id="day" class="custom-select">
+                                                <option value="">11</option>
+                                                <option value="">12</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="new-input-group nw-step-options__block__content__person-info__birth-date__year">
+                                        <div class="custom-select-wrap">
+                                            <label for="year">yyyy</label>
+                                            <select name="year" id="year" class="custom-select">
+                                                <option value="">11</option>
+                                                <option value="">12</option>
+                                                <option value="">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="new-input-group nw-step-options__block__content__person-info__id-type">
+                                    <div class="custom-select-wrap">
+                                        <label for="id-type">Type of verification ID</label>
+                                        <select name="id-type" id="id-type" class="custom-select">
+                                            <option value="">Dealer 1</option>
+                                            <option value="">Dealer 2</option>
+                                            <option value="">Dealer 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__person-info__deal-initial new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="deal-initial" name="deal-initial" required>
+                                        <label>Deal initial required</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Borrower lived at current address less than 6 month</span>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Mailing address of borrower is not the same as installation address</span>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>Borrower owns this property</span>
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>By submitting this application, you acknowledge and agree that EcoHome Financial is authorized to obtain your credit report from one or more consumer credit reporting agencies (e.g. Equifax or TransUnion), to verify the information in your credit report with third parties as necessary, and to periodically update your credit information with credit reporting agencies. You are hereby notified that a consumer report containing credit and/or personal information may be referred to in connection with this application. You consent to accept, receive and use in electronic form any and all agreements, notices, disclosures and other documents or information in relation to this application that EcoHome Financial may deliver to you. * </span>
+                        </div>
+                        <div class="nw-step-options__block__content__concent-btns">
+                            <div class="new-btn-green"><span>How is my personal data used?</span></div>
+                            <div class="new-btn-green"><span>Privacy policy</span></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="nw-step-options__footer">
+                    <div class="nw-step-options__footer__add-applicant"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><span>Add additional applicant</span></div>
+                    <div class="new-btn-solid-red"><span>Save and proceed</span></div>
+                </div>
+            </div>
+            <!-- end step 1-->
+            <!--step 2-->
+            <div class="nw-step-options">
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="new-project-info">
+                        <div class="new-project-info__title">New project info</div>
+                        <div class="new-project-info__number">№1</div>
+                        <div class="new-project-info__project-desc">
+
+
+                            <div class="new-project-info__project-desc__project-type new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="project-type">Project type</label>
+                                    <select name="project-type" id="project-type" class="custom-select">
+                                        <option value="">Air conditioner</option>
+                                        <option value="">Air conditioner</option>
+                                        <option value="">Air conditioner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="new-project-info__project-desc__description new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Description</label>
+                                </div>
+                            </div>
+
+
+                            <div class="new-project-info__project-desc__add-project add-link-blue"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><a>Add project</a></div>
+
+                        </div>
+                        <div class="new-project-info__price">
+                            <div class="table-block">
+                                <div class="table-block__name">Total Monthly Cost of Ownership (TAX excl)</div><div class="table-block__value">$ 22,430.00</div>
+                                <div class="table-block__name">GST+QST</div><div class="table-block__value">$ 22,430.00</div>
+                                <div class="table-block__name">Total Monthly Cost of Ownership (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                <div class="table-block__name">Total Price of Equipment (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                            </div>
+
+
+                            <div class="new-project-info__price__payment new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Down payment</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__fin-options-title">
+                            <div class="new-project-info__fin-options-title__info">Financing options<i class=" ic-nw-info-letter  ic-nw-info-letter--blue"></i></div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <div class="new-project-info__options-wp__info-tables">
+                                <div class="table-block">
+                                    <div class="table-block__name">Total Monthly Cost of Ownership (TAX excl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">GST+QST</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Monthly Cost of Ownership (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Price of Equipment (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Monthly Cost of Ownership (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Price of Equipment (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Monthly Cost of Ownership (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Price of Equipment (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                </div>
+
+                                <div class="table-block">
+                                    <div class="table-block__name">Total Monthly Cost of Ownership (TAX excl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">GST+QST</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Monthly Cost of Ownership (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                    <div class="table-block__name">Total Price of Equipment (TAX incl)</div><div class="table-block__value">$ 22,430.00</div>
+                                </div>
+                                <div class="icon-link-green"><a>View more</a></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="new-project-info">
+                        <div class="new-project-info__title">New project info</div>
+                        <div class="new-project-info__number">№1</div>
+                        <div class="new-project-info__project-desc">
+
+
+                            <div class="new-project-info__project-desc__project-type new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="project-type">Project type</label>
+                                    <select name="project-type" id="project-type" class="custom-select">
+                                        <option value="">Air conditioner</option>
+                                        <option value="">Air conditioner</option>
+                                        <option value="">Air conditioner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="new-project-info__project-desc__description new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Description</label>
+                                </div>
+                            </div>
+
+
+                            <div class="new-project-info__project-desc__cost new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Cost</label>
+                                </div>
+                            </div>
+                            <div class="new-project-info__project-desc__cost new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Estimated retail price</label>
+                                </div>
+                            </div>
+
+                            <div class="new-project-info__project-desc__add-project add-link-blue"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><a>Add project</a></div>
+
+                        </div>
+                        <div class="new-project-info__price">
+                            <div class="new-project-info__price__payment new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Down payment</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__fin-options-title--qb">
+                            <div class="new-project-info__fin-options-title__info">Financing options</div>
+                        </div>
+                        <div class="new-project-info__content-row">
+                            <div class="new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Requested term</label>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="deferral-type">Deferral type</label>
+                                    <select name="deferral-type" id="deferral-type" class="custom-select">
+                                        <option value="">Deferral type</option>
+                                        <option value="">Deferral type</option>
+                                        <option value="">Deferral type</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+                    <div class="new-project-info">
+                        <div class="new-project-info__title">New project info</div>
+                        <div class="new-project-info__number">№1</div>
+                        <div class="new-project-info__project-desc">
+
+
+                            <div class="new-project-info__project-desc__project-type new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="project-type">Project type</label>
+                                    <select name="project-type" id="project-type" class="custom-select">
+                                        <option value="">Air conditioner</option>
+                                        <option value="">Air conditioner</option>
+                                        <option value="">Air conditioner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="new-project-info__project-desc__description new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Description</label>
+                                </div>
+                            </div>
+
+
+                            <div class="new-project-info__project-desc__cost new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Cost</label>
+                                </div>
+                            </div>
+                            <div class="new-project-info__project-desc__cost new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Estimated retail price</label>
+                                </div>
+                            </div>
+
+                            <div class="new-project-info__project-desc__add-project add-link-blue"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><a>Add project</a></div>
+
+                        </div>
+                        <div class="new-project-info__price">
+
+                            <div class="new-project-info__price__info">
+                                Total price of projects<i class=" ic-nw-info-letter  ic-nw-info-letter--blue"></i>
+                            </div>
+                            <div class="new-project-info__price__sum">
+                                $ 12,400.00
+                            </div>
+                            <div class="new-project-info__price__payment new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Down payment</label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="new-project-info__fin-options-title">
+                            <div class="new-project-info__fin-options-title__info">Financing options<i class=" ic-nw-info-letter  ic-nw-info-letter--blue"></i></div>
+                            <div class="new-project-info__fin-options-title__calculator icon-link-green"><i class="ic-nw-calculator-big ic-nw-calculator-big--grass"></i><a>Calculator</a></div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <div class="financing-option">
+
+                                <div class="financing-option__title">
+                                    Promo
+                                </div>
+                                <div class="financing-option__description">
+                                    Check our time limitied promotional offer to get the best option avaliable on the market!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row"></div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option">
+
+                                <div class="financing-option__title">
+                                    Standard rate
+                                </div>
+                                <div class="financing-option__description">
+                                    Our standart program — most flexible options and with no cost for you!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row"></div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option">
+
+                                <div class="financing-option__title">
+                                    0% EQUAL PAYMENTS
+                                </div>
+                                <div class="financing-option__description">
+                                    You can offer equal payments with no interest for whole loan term!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option financing-option--error">
+
+                                <div class="financing-option__title">
+                                    DEFERRAL
+                                </div>
+                                <div class="financing-option__description">
+                                    Let your customer start paying off loan few months later — no payments, no worries for up to 6 months!
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__loan-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Loan term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__amort-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Amort term</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__custom-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Custom. term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__your-cost new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Your cost</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <div class="financing-option financing-option--view-more">
+                                <!--* More/less *-->
+                                <div class="financing-option__title">
+                                    Promodsadasdas
+                                </div>
+                                <div class="financing-option__description">
+                                    Check our time limitied promotional offer to get the best option avaliable on the market!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row"></div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__additional-desc">
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option financing-option--view-more">
+
+                                <div class="financing-option__title">
+                                    Standard rate
+                                </div>
+                                <div class="financing-option__description">
+                                    Our standart program — most flexible options and with no cost for you!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row"></div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__additional-desc">
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                </div>
+
+                                <div class="financing-option__view-more icon-link-green"><a>View less</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option financing-option--view-more">
+
+                                <div class="financing-option__title">
+                                    0% EQUAL PAYMENTS
+                                </div>
+                                <div class="financing-option__description">
+                                    You can offer equal payments with no interest for whole loan term!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__additional-desc">
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option financing-option--view-more financing-option--error">
+
+                                <div class="financing-option__title">
+                                    DEFERRAL
+                                </div>
+                                <div class="financing-option__description">
+                                    Let your customer start paying off loan few months later — no payments, no worries for up to 6 months!
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__loan-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Loan term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__amort-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Amort term</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__custom-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Custom. term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__your-cost new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Your cost</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__additional-desc">
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Your cost</span>
+                                        <span class="financing-option__desc-row__value">$ 825.00</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <!-- Triple -->
+
+                            <div class="financing-option">
+
+                                <div class="financing-option__title">
+                                    Standard rate
+                                </div>
+                                <div class="financing-option__description">
+                                    Our standart program — most flexible options and with no cost for you!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row"></div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option">
+
+                                <div class="financing-option__title">
+                                    0% EQUAL PAYMENTS
+                                </div>
+                                <div class="financing-option__description">
+                                    You can offer equal payments with no interest for whole loan term!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option financing-option--error">
+
+                                <div class="financing-option__title">
+                                    DEFERRAL
+                                </div>
+                                <div class="financing-option__description">
+                                    Let your customer start paying off loan few months later — no payments, no worries for up to 6 months!
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__loan-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Loan term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__amort-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Amort term</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__custom-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Custom. term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__your-cost new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Your cost</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <!--double-->
+                            <div class="financing-option">
+
+                                <div class="financing-option__title">
+                                    0% EQUAL PAYMENTS
+                                </div>
+                                <div class="financing-option__description">
+                                    You can offer equal payments with no interest for whole loan term!
+                                </div>
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="loan-term">Loan/Amortization term</label>
+                                            <select name="loan-term" id="loan-term" class="custom-select">
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                                <option value="">Loan/Amortization term</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Customer rate</span>
+                                    <span class="financing-option__desc-row__value">7.99 %</span>
+                                </div>
+                                <div class="financing-option__desc-row"></div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+
+                            <div class="financing-option financing-option--error">
+
+                                <div class="financing-option__title">
+                                    DEFERRAL
+                                </div>
+                                <div class="financing-option__description">
+                                    Let your customer start paying off loan few months later — no payments, no worries for up to 6 months!
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__loan-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Loan term</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="financing-option__input-row">
+                                    <div class="new-input-group">
+                                        <div class="custom-select-wrap">
+                                            <label for="deferral-period">Deferral period</label>
+                                            <select name="deferral-period" id="deferral-period" class="custom-select">
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                                <option value="">Deferral period</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="financing-option__input-row financing-option__input-row--double">
+                                    <div class="financing-option__input-row__custom-term new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Custom. term</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__input-row__your-cost new-input-group">
+                                        <div class="custom-text-input-group">
+                                            <input type="text" required>
+                                            <label>Your cost</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Your cost</span>
+                                    <span class="financing-option__desc-row__value">$ 825.00</span>
+                                </div>
+                                <div class="financing-option__desc-row">
+                                    <span class="financing-option__desc-row__name">Monthly payment</span>
+                                    <span class="financing-option__desc-row__value">$ 300.89</span>
+                                </div>
+                                <div class="financing-option__view-more icon-link-green"><a>View more</a></div>
+                                <div class="new-btn-solid-green"><span>Select</span></div>
+
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <!--Single var 1 -->
+                            <div class="financing-option financing-option--single">
+                                <div class="financing-option__title-block">
+
+                                    <div class="financing-option__title-block__title">
+                                        Promo
+                                    </div>
+                                    <div class="financing-option__title-block__description">
+                                        Check our time limitied promotional offer to get the best option avaliable on the market!
+                                    </div>
+                                </div>
+                                <div class="financing-option__content-block">
+                                    <div class="financing-option__content-block__input-row">
+                                        <div class="new-input-group big-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="loan-term">Loan/Amortization term</label>
+                                                <select name="loan-term" id="loan-term" class="custom-select">
+                                                    <option value="">Loan/Amortization term</option>
+                                                    <option value="">Loan/Amortization term</option>
+                                                    <option value="">Loan/Amortization term</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="new-input-group big-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="loan-term">Loan/Amortization term</label>
+                                                <select name="loan-term" id="loan-term" class="custom-select">
+                                                    <option value="">Loan/Amortization term</option>
+                                                    <option value="">Loan/Amortization term</option>
+                                                    <option value="">Loan/Amortization term</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="financing-option__desc-row">
+                                            <span class="financing-option__desc-row__name">Monthly payment</span>
+                                            <span class="financing-option__desc-row__value">$ 300.89</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                    <div class="financing-option__content-block__buttons">
+                                        <div class="financing-option__content-block__view-more icon-link-green"><a>View more</a></div>
+                                        <div class="new-btn-solid-green"><span>Select</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="new-project-info__options-wp">
+                            <!-- Single var 2 -->
+                            <div class="financing-option financing-option--single">
+                                <div class="financing-option__title-block">
+
+                                    <div class="financing-option__title-block__title">
+                                        Promo
+                                    </div>
+                                    <div class="financing-option__title-block__description">
+                                        Check our time limitied promotional offer to get the best option avaliable on the market!
+                                    </div>
+                                </div>
+                                <div class="financing-option__content-block">
+                                    <div class="financing-option__content-block__input-row">
+                                        <div class="new-input-group small-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="loan-term">Loan term</label>
+                                                <select name="loan-term" id="loan-term" class="custom-select">
+                                                    <option value="">Loan term</option>
+                                                    <option value="">Loan term</option>
+                                                    <option value="">Loan term</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="new-input-group small-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="amort-term">Amort. term</label>
+                                                <select name="amort-term" id="amort-term" class="custom-select">
+                                                    <option value="">Amort term</option>
+                                                    <option value="">Amort term</option>
+                                                    <option value="">Amort term</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="new-input-group big-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="loan-term">Deferal period</label>
+                                                <select name="loan-term" id="loan-term" class="custom-select">
+                                                    <option value="">Deferal period</option>
+                                                    <option value="">Deferal period</option>
+                                                    <option value="">Deferal period</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="new-input-group small-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="loan-term">Custom. rate</label>
+                                                <select name="loan-term" id="loan-term" class="custom-select">
+                                                    <option value="">Custom. rate</option>
+                                                    <option value="">Custom. rate</option>
+                                                    <option value="">Custom. rate</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="new-input-group small-input">
+                                            <div class="custom-select-wrap">
+                                                <label for="loan-term">Your cost</label>
+                                                <select name="loan-term" id="loan-term" class="custom-select">
+                                                    <option value="">Your cost</option>
+                                                    <option value="">Your cost</option>
+                                                    <option value="">Your cost</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                    <div class="financing-option__desc-row">
+                                        <span class="financing-option__desc-row__name">Monthly payment</span>
+                                        <span class="financing-option__desc-row__value">$ 300.89</span>
+                                    </div>
+                                    <div class="financing-option__content-block__buttons">
+                                        <div class="financing-option__content-block__view-more icon-link-green"><a>View more</a></div>
+                                        <div class="new-btn-solid-green"><span>Select</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__have-project">
+                            <div class="nw-step-options__block__content__have-project__title">Do you have existing project</div>
+
+                            <div class="customized-radio-green">
+                                <label>
+                                    <span>Yes</span>
+                                    <input type="radio" name="radio-group" checked>
+                                    <span class="nw-radio-ico"></span>
+                                </label>
+                                <label>
+                                    <span>No</span>
+                                    <input type="radio" name="radio-group">
+                                    <span class="nw-radio-ico"></span>
+                                </label>
+                            </div>
+
+
+                            <div class="nw-step-options__block__content__have-project__description">
+
+                                <div class="new-input-group nw-step-options__block__content__have-project__description__pr-type">
+                                    <div class="custom-select-wrap">
+                                        <label for="pr-type">Type of project</label>
+                                        <select name="pr-type" id="pr-type" class="custom-select">
+                                            <option value="">Type of project</option>
+                                            <option value="">Type of project</option>
+                                            <option value="">Type of project</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="nw-step-options__block__content__have-project__description__rental-com new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Rental company</label>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__have-project__description__age new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Estimated age</label>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__have-project__description__make new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Make</label>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__have-project__description__model new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Model</label>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__have-project__description__serial new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Serial number</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="nw-step-options__block__content__have-project__description__condition new-input-group">
+                                    <div class="custom-select-wrap">
+                                        <label for="condition">General condition</label>
+                                        <select name="condition" id="condition" class="custom-select">
+                                            <option value="">General condition</option>
+                                            <option value="">General condition</option>
+                                            <option value="">General condition</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__have-project__description__notes new-input-group">
+                                    <div class="custom-text-input-group">
+                                        <input type="text" required>
+                                        <label>Notes</label>
+                                    </div>
+                                </div>
+
+                                <div class="nw-step-options__block__content__have-project__description__add-equip add-link-blue"><i class="ic-nw-plus-circled ic-nw-plus-circled--blue"></i><a>Add additional equipment</a></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                        </div>
+                    </div>
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">Additional information</div>
+
+                        <div class="nw-step-options__block__content__content-row">
+                            <div class="middle-cell new-input-group">
+                                <div class="custom-select-wrap">
+                                    <label for="deferral-type">Deferral type</label>
+                                    <select name="deferral-type" id="deferral-type" class="custom-select">
+                                        <option value="">Deferral type</option>
+                                        <option value="">Deferral type</option>
+                                        <option value="">Deferral type</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="small-cell">Role of the sales rep</div>
+                            <div class="small-cell">
+                                <div class="nw-step-options__block__content__checkbox">
+                                    <label class="customized-checkbox-icon">
+                                        <input id="checkBox" type="checkbox" />
+                                        <span class="customized-checkbox-icon__image"></span>
+                                    </label>
+                                    <span>Initiated contact</span>
+                                </div>
+                            </div>
+                            <div class="small-cell">
+                                <div class="nw-step-options__block__content__checkbox">
+                                    <label class="customized-checkbox-icon">
+                                        <input id="checkBox" type="checkbox" />
+                                        <span class="customized-checkbox-icon__image"></span>
+                                    </label>
+                                    <span>Initiated contact</span>
+                                </div>
+                            </div>
+                            <div class="small-cell">
+                                <div class="nw-step-options__block__content__checkbox">
+                                    <label class="customized-checkbox-icon">
+                                        <input id="checkBox" type="checkbox" />
+                                        <span class="customized-checkbox-icon__image"></span>
+                                    </label>
+                                    <span>Initiated contact</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nw-step-options__block__content__additional-info">
+
+                            <div class="new-input-group nw-step-options__block__content__additional-info__sales-rep">
+                                <div class="custom-select-wrap">
+                                    <label for="sales-rep">Sales rep</label>
+                                    <select name="sales-rep" id="sales-rep" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__additional-info__date new-input-group">
+                                <div class="custom-text-input-group icon">
+                                    <input type="text" required>
+                                    <label>Estimated installation date</label>
+                                    <span class="icon-calendar"></span>
+                                </div>
+                            </div>
+
+                            <div class="new-input-group nw-step-options__block__content__additional-info__house-size">
+                                <div class="custom-select-wrap">
+                                    <label for="house-size">House size (ft square)</label>
+                                    <select name="house-size" id="house-size" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__additional-info__comment new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Comment</label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="nw-step-options__footer">
+                    <div class="new-btn-solid-red"><span>Save and proceed</span></div>
+                </div>
+            </div>
+            <!--end step 2-->
+            <!--Step 3-->
+            <div class="nw-step-options">
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">Borrower contact information</div>
+                        <div class="nw-step-options__block__content__borrower-info">
+
+                            <div class="new-input-group nw-step-options__block__content__borrower-info__home-phone">
+                                <div class="custom-select-wrap">
+                                    <label for="home-phone">Home phone</label>
+                                    <select name="home-phone" id="home-phone" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="new-input-group nw-step-options__block__content__borrower-info__cell-phone">
+                                <div class="custom-select-wrap">
+                                    <label for="cell-phone">Cell phone</label>
+                                    <select name="cell-phone" id="cell-phone" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="new-input-group nw-step-options__block__content__borrower-info__business-phone">
+                                <div class="custom-select-wrap">
+                                    <label for="business-phone">Business phone</label>
+                                    <select name="business-phone" id="business-phone" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="new-input-group nw-step-options__block__content__borrower-info__email">
+                                <div class="custom-select-wrap">
+                                    <label for="email">Email address</label>
+                                    <select name="email" id="email" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1 │www.ecohomefinancial.com.</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+                            <div class="nw-step-options__block__state__circle__dots"></div>
+                        </div>
+                    </div>
+
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">Additional applicant contact information</div>
+                        <div class="nw-step-options__block__content__additional-applicant-info">
+
+                            <div class="new-input-group nw-step-options__block__content__additional-applicant-info__home-phone">
+                                <div class="custom-select-wrap">
+                                    <label for="home-phone">Home phone</label>
+                                    <select name="home-phone" id="home-phone" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="new-input-group nw-step-options__block__content__additional-applicant-info__cell-phone">
+                                <div class="custom-select-wrap">
+                                    <label for="cell-phone">Cell phone</label>
+                                    <select name="cell-phone" id="cell-phone" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="new-input-group nw-step-options__block__content__additional-applicant-info__business-phone">
+                                <div class="custom-select-wrap">
+                                    <label for="business-phone">Business phone</label>
+                                    <select name="business-phone" id="business-phone" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="new-input-group nw-step-options__block__content__additional-applicant-info__email">
+                                <div class="custom-select-wrap">
+                                    <label for="email">Email address</label>
+                                    <select name="email" id="email" class="custom-select">
+                                        <option value="">Dealer 1</option>
+                                        <option value="">Dealer 2</option>
+                                        <option value="">Dealer 3</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="nw-step-options__block__content__checkbox">
+                            <label class="customized-checkbox-icon">
+                                <input id="checkBox" type="checkbox" />
+                                <span class="customized-checkbox-icon__image"></span>
+                            </label>
+                            <span>By checking this box, you consent to receive commercial electronic messages from EcoHome Financial at your email address and telephone number(s) provided by you in this application or from time to time in connection with your account, including electronic communications that market or promote our programs, products, services, offers, events and surveys that may be of interest to you. You may withdraw this consent at any time. You may contact EcoHome Financial Inc. at 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1 │www.ecohomefinancial.com.</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__block">
+                    <div class="nw-step-options__block__state">
+                        <div class="nw-step-options__block__state__circle">
+                            <i class="nw-step-options__block__state__circle__icon"></i>
+
+                        </div>
+                    </div>
+
+                    <div class="nw-step-options__block__content">
+                        <div class="nw-step-options__block__content__title">Payment information</div>
+                        <div class="nw-step-options__block__content__payment-info">
+
+                            <div class="new-input-group nw-step-options__block__content__payment-info__payment-type">
+                                <div class="custom-select-wrap">
+                                    <label for="payment-type">Payment type</label>
+                                    <select name="payment-type" id="payment-type" class="custom-select">
+                                        <option value="">ENBRIDGE</option>
+                                        <option value="">ENBRIDGE</option>
+                                        <option value="">ENBRIDGE</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="nw-step-options__block__content__payment-info__gas-acc new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Enbridge gas distribution account</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__payment-info__meter new-input-group">
+                                <div class="custom-text-input-group">
+                                    <input type="text" required>
+                                    <label>Meter</label>
+                                </div>
+                            </div>
+
+                            <div class="nw-step-options__block__content__payment-info__description">
+                                Enbridge payment option is available at a Dealer Cost of $657.89 (2% of the financed amount)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nw-step-options__footer">
+                    <div class="new-btn-solid-red"><span>Save and proceed</span></div>
+                </div>
+            </div>
+            <!--end step 3-->
+        </div>
+    </div>
+
+    <div class="scan-license-popup">
+        <i class="ic-nw-close"></i>
+        <span class="scan-license-popup__title">Scan license</span>
+        <span class="scan-license-popup__legend">How do you want to do this?</span>
+        <ul class="scan-license-popup__options">
+            <li>Use camera</li>
+            <li>Upload</li>
+        </ul>
+        <div class="scan-license-popup__camera-block scan-license-popup__camera-block--uploaded">
+            <div class="scan-license-popup__camera-block__image">
+                <img />
+                <i class="upload-cloud-ico"></i>
+            </div>
+            <div class="scan-license-popup__buttons">
+                <div class="new-btn-grey"><span>Cancel</span></div>
+                <div class="new-btn-solid-green"><span>Accept lead</span></div>
             </div>
         </div>
-        @*<div class="well well-info position-well collapse" id="age-warning-message">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        @Resources.AtLeastOne75OrLess
+        <div class="scan-license-popup__upload-block scan-license-popup__upload-block">
+            <div class="scan-license-popup__upload-block__image">
+                <img />
+                <i class="upload-cloud-ico"></i>
+            </div>
+            <div class="scan-license-popup__buttons">
+                <div class="new-btn-solid-green"><span>Upload photo</span></div>
+            </div>
+            <div class="new-lead-notification-wp">
+                <div class="new-lead-notification new-lead-notification--error">
+                    <span class="new-lead-notification__left-icon-block">
+                        <i class="new-lead-notification__notification-ico"></i>
+                    </span>
+                    <span class="new-lead-notification__message">Unfortunately this lead is no longer available, please try another one <a>application # 1234</a></span>
+                </div>
+            </div>
         </div>
-        <div class="well danger-well position-well  clear-border over-aged-well collapse" id="age-error-message">
-        <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-        @Resources.AtLeastOne75OrLess
-        </div>*@
-        <!--Warning Section if isn't chosen homeowner checkbox-->
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-homeowner-errormessage">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.BorrowerShouldBeHomeOwner
-        </div>
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-error-message">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.AllAplicantsConsents
-        </div>
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-qc-dealer">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.InstallationAddressInQuebec
-        </div>
-        <div class="well danger-well position-well clear-border over-aged-well collapse" id="proceed-not-qc-dealer">
-            <svg aria-hidden="true" class="icon icon-info-well"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-info-well")"></use></svg>
-            @Resources.InstallationAddressCannotInQuebec
-        </div>
-        <!--End Warning Section if isn't chosen homeowner checkbox-->
 
-			<div class="save-proceed-btn-hold form-group">
-				<button class="btn btn-green btn-form" id="save-and-proceed-button">
-					@Resources.SaveAndProceed
-				</button>
-			</div>
-		}
-	</div>
-</div>
+    </div>
+
+    <div class="download-certificate-popup">
+        <i class="ic-nw-close"></i>
+        <span class="download-certificate-popup__title">Download certificate template</span>
+        <div class="download-certificate-popup__template-block">
+            <div class="download-certificate-popup__template-block__number"><b>№1</b></div>
+            <div class="download-certificate-popup__template-block__name">Type</div>
+            <div class="download-certificate-popup__template-block__value">FURNACE</div>
+            <div class="download-certificate-popup__template-block__name">Description</div>
+            <div class="download-certificate-popup__template-block__value">Goodman 40000 - 36840 - GMSS960402BN</div>
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installed project serial number</label>
+                </div>
+            </div>
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installed project model</label>
+                </div>
+            </div>
+        </div>
+        <div class="download-certificate-popup__template-block">
+            <div class="download-certificate-popup__template-block__number"><b>№2</b></div>
+            <div class="download-certificate-popup__template-block__name">Type</div>
+            <div class="download-certificate-popup__template-block__value"><b>FURNACE</b></div>
+            <div class="download-certificate-popup__template-block__name">Description</div>
+            <div class="download-certificate-popup__template-block__value"><b>Goodman 40000 - 36840 - GMSS960402BN</b></div>
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installed project serial number</label>
+                </div>
+            </div>
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installed project model</label>
+                </div>
+            </div>
+        </div>
+        <div class="download-certificate-popup__install-data">
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installer first name</label>
+                </div>
+            </div>
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installer last name</label>
+                </div>
+            </div>
+            <div class="new-input-group">
+                <div class="custom-text-input-group">
+                    <input type="text" required>
+                    <label>Installation date</label>
+                </div>
+            </div>
+        </div>
+        <div class="download-certificate-popup__footer">
+            <div class="new-btn-grey"><span>Cancel</span></div>
+            <div class="new-btn-solid-green"><span>Download</span></div>
+        </div>
+    </div>
+
+    <div class="leave-page-popup">
+        <i class="ic-nw-close"></i>
+        <span class="leave-page-popup__title"><i class="ic-nw-failed"></i>Are you sure you want to leave this page?</span>
+        <span class="leave-page-popup__legend">The changes you made will be lost if you navigate away.</span>
+        <div class="leave-page-popup__buttons">
+            <div class="new-btn-grey"><span>Leave this page</span></div>
+            <div class="new-btn-solid-green"><span>Stay on this page</span></div>
+        </div>
+    </div>
+*@
 @Html.Partial("_AgreementPersonalData", Model.QuebecDealer)
 @section Translations
 {
-	translations['ProcessingImage'] = "@Resources.ProcessingImage";
-	translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
-	translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
-	translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
-	translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
-	translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
-	translations['EnterValidDate'] = "@Resources.EnterValidDate";
-	translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
-	translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
-	translations['InstallationAddressIncorrectFormat'] ='@Resources.InstallationAddressIncorrectFormat';
-	translations['UnitNumberIncorrectFormat'] = '@Resources.UnitNumberIncorrectFormat';
-	translations['CityIncorrectFormat'] = '@Resources.CityIncorrectFormat';
-	translations['ProvinceIncorrectFormat'] = '@Resources.ProvinceIncorrectFormat';
-	translations['PostalCodeIncorrectFormat'] = '@Resources.PostalCodeIncorrectFormat';
-	translations['CompanyPhoneMustBeLong'] = '@Resources.CompanyPhoneMustBeLong';
-	translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
-	translations['JobTitleIncorrectFormat'] = '@Resources.JobTitleIncorrectFormat';
-	translations['CompanyNameIncorrectFormat'] = '@Resources.CompanyNameIncorrectFormat';
-	translations['InstallationAddressInQuebec'] = '@Html.Raw(Resources.InstallationAddressInQuebec)';
-	translations['InstallationAddressCannotInQuebec'] = '@Html.Raw(Resources.InstallationAddressCannotInQuebec)';
-	translations['AdditionalApplicantAddressInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressInQuebec)";
-	translations['AdditionalApplicantAddressCannotInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressCannotInQuebec)";
+    translations['ProcessingImage'] = "@Resources.ProcessingImage";
+    translations['CannotRecognizeDriverLicense'] = "@Html.Raw(Resources.CannotRecognizeDriverLicense)";
+    translations['BrowserNotSupportFileUpload'] = "@Html.Raw(Resources.BrowserNotSupportFileUpload)";
+    translations['TheDateMustBeInCorrectFormat'] = "@Resources.TheDateMustBeInCorrectFormat";
+    translations['TheDateMustBeOver1900'] = "@Resources.TheDateMustBeOver1900";
+    translations['Over18'] = "@Resources.TheApplicantNeedsToBeOver18";
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
+    translations['ApplicantsShouldBe18']="@Resources.ApplicantsShouldBe18";
+    translations['TheFieldMustBeMinimumAndMaximum'] = '@Resources.TheFieldMustBeMinimumAndMaximum';
+    translations['InstallationAddressIncorrectFormat'] ='@Resources.InstallationAddressIncorrectFormat';
+    translations['UnitNumberIncorrectFormat'] = '@Resources.UnitNumberIncorrectFormat';
+    translations['CityIncorrectFormat'] = '@Resources.CityIncorrectFormat';
+    translations['ProvinceIncorrectFormat'] = '@Resources.ProvinceIncorrectFormat';
+    translations['PostalCodeIncorrectFormat'] = '@Resources.PostalCodeIncorrectFormat';
+    translations['CompanyPhoneMustBeLong'] = '@Resources.CompanyPhoneMustBeLong';
+    translations['CompanyPhoneIncorrectFormat'] = '@Resources.CompanyPhoneIncorrectFormat';
+    translations['JobTitleIncorrectFormat'] = '@Resources.JobTitleIncorrectFormat';
+    translations['CompanyNameIncorrectFormat'] = '@Resources.CompanyNameIncorrectFormat';
+    translations['InstallationAddressInQuebec'] = '@Html.Raw(Resources.InstallationAddressInQuebec)';
+    translations['InstallationAddressCannotInQuebec'] = '@Html.Raw(Resources.InstallationAddressCannotInQuebec)';
+    translations['AdditionalApplicantAddressInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressInQuebec)";
+    translations['AdditionalApplicantAddressCannotInQuebec'] = "@Html.Raw(Resources.AdditionalApplicantAddressCannotInQuebec)";
 }
 @section scripts
 {
-	@Scripts.Render("~/bundles/jqueryval")
-	@Scripts.Render("~/bundles/localization")
-	@Scripts.Render("~/bundles/basic-info")
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
-	<script type="text/javascript">
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/localization")
+    @Scripts.Render("~/bundles/basic-info")
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(System.Configuration.ConfigurationManager.AppSettings["PlacesAutocompleteKey"])&language=@(CultureHelper.CurrentCultureType == CultureType.English ? "en" : "fr")&region=CA&libraries=places&callback=assignAutocompletes" async defer></script>
+    <script type="text/javascript">
         $('<option @(Model.SubmittingDealerId == null ? "selected" : "") value="">- @Resources.NotSelected -</option>').prependTo($('#subdealers'));
 
         var isMobileRequest = @(ViewBag.IsMobileRequest ? "true" : "false");
         var isQuebecDealer = @(Model.QuebecDealer ? "true" : "false");
+        var recognizeDLPhotoUrl = '@Url.Action("RecognizeDriverLicensePhoto", "NewRental")';
+        var uploadCaptureUrl = '@Url.Action("RecognizeDriverLicense", "NewRental")';
 
 @if(Model.SubmittingDealerId == null)
         {
 <text>$('#subdealers').val($('#subdealers > option:first').val());</text>
 }
-	</script>
-	<script type="text/javascript">
+    </script>
+    <script type="text/javascript">
     $(document).ready(function () {
         /**/
         /**/
@@ -221,5 +2594,5 @@
     /**/
     /**/
 });
-	</script>
+    </script>
 }

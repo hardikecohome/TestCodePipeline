@@ -1,0 +1,96 @@
+/* form starting stylings ------------------------------- */
+.custom-text-input-group {
+  padding-top: 7px;
+  position:relative;
+
+  &.icon {
+
+    input {
+      padding-right: 30px;
+    }
+  }
+
+  [class^="icon-"], [class*=" icon-"] {
+    position: absolute;
+    display: block;
+    right: 5px;
+    top: 17px;
+
+    &:before {
+      font-size: 20px;
+      color: #c2c8d0;
+    }
+  }
+
+  input {
+    font-size: 13px;
+    color: #5d5d5d;
+    padding: 9px;
+    display: block;
+    border: none;
+    border: 1px solid #ccdbec;
+    width: 100%;
+
+    &:hover {
+      border: 1px solid #acc3de;
+    }
+
+    &:focus {
+      box-shadow: 0 0 10px 0 rgba(110, 110, 110, 0.18);
+	    border: solid 1px #acc3de;
+    }
+  }
+
+  &.error {
+    input {
+      border: 1px solid #de525e;
+
+      &:hover {
+        border: 1px solid #de525e;
+      }
+
+      &:focus {
+  	    border: 1px solid #de525e;
+      }
+    }
+  }
+
+  input:focus {
+    outline:none;
+  }
+
+  /* LABEL ======================================= */
+  label {
+    color: #5d5d5d;
+    font-size: 13px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 9px;
+    top: 16px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  /* active state */
+  input:focus ~ label, input:valid ~ label {
+    top: 1px;
+    font-size: 12px;
+    line-height: 12px;
+    // color: #5264AE;
+    background: white;
+  }
+
+  .error-message {
+    margin: -9px 0 0 9px;
+    max-width: 90%;
+    line-height: 1.17;
+
+    span {
+      background-color: white;
+      font-size: 12px;
+      color: #de525e;
+    }
+  }
+}

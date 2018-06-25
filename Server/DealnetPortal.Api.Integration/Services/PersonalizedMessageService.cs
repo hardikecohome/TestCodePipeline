@@ -1,11 +1,8 @@
 ﻿using DealnetPortal.Api.Models.Notification;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Integration.Interfaces;
 
@@ -28,16 +25,16 @@ namespace DealnetPortal.Api.Integration.Services
                 client.DefaultRequestHeaders.Add("X-Impact-Fail-Fast", "false");
                 client.DefaultRequestHeaders.Add("X-Impact-Response-Detail", "standard");
                 RequestMessage request = new RequestMessage();
-                request.messages.Add(new Message()
+                request.messages.Add(new Message
                 {
-                    content = new Content() { body = "MyhomeWallet by Ecohome Financial: " + messagebody + " StdMsg&DataRtsAply Txt STOP to stop INFO for info" },
+                    content = new Content { body = "MyhomeWallet by Ecohome Financial: " + messagebody + " StdMsg&DataRtsAply Txt STOP to stop INFO for info" },
                     sendDate = DateTime.Now,
                     validUntil = DateTime.Now.AddMinutes(5),
-                    to = new To() { subscriber = new Subscriber() { phone = phonenumber } },
-                    tracking = new Tracking() { code = "try123" }
+                    to = new To { subscriber = new Subscriber { phone = phonenumber } },
+                    tracking = new Tracking { code = "try123" }
                 });
 
-                return await client.PostAsJsonAsync("media/ws/rest/mbox/v1/reference/"+ System.Configuration.ConfigurationManager.AppSettings["SubscriptionRef"] +"/message", request);
+                return await client.PostAsJsonAsync("media/ws/rest/mbox/v1/reference/"+ ConfigurationManager.AppSettings["SubscriptionRef"] +"/message", request);
 
             }
         }

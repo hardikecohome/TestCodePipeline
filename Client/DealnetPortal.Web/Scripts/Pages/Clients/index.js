@@ -17,6 +17,9 @@
     var dynamicAlertModal = require('alertModal').dynamicAlertModal;
     var panelCollapsed = require('panelCollapsed');
 
+    var cameraModule = require('camera-capture');
+    var dlScanner = require('dl-scanner');
+
     var dispatch = clientStore.dispatch;
 
     // view layer
@@ -41,24 +44,63 @@
     //datepickers
 
     //license-scan
-    $('#capture-buttons-1').on('click', takePhoto);
-    $('#retake').on('click', retakePhoto);
-    $('#retake').on('click', retakePhoto);
-    $('#owner-scan-button').on('click', function (e) {
-        if (!(isMobileRequest.toLowerCase() === 'true')) {
-            e.preventDefault();
-            var modal = document.getElementById('camera-modal');
-            modal.setAttribute('data-fnToFill', 'first-name');
-            modal.setAttribute('data-lnToFill', 'last-name');
-            modal.setAttribute('data-bdToFill', 'birth-date');
-            modal.setAttribute('data-dlToFill', 'dl-number');
-            modal.setAttribute('data-stToFill', 'street');
-            modal.setAttribute('data-ctToFill', 'locality');
-            modal.setAttribute('data-prToFill', "province");
-            modal.setAttribute('data-pcToFill', "postal_code");
-        }
-        return true;
-    });
+    function initScanLicense(store) {
+        if (document.querySelector('video'))
+            cameraModule.init();
+
+        $('#owner-scan-button').on('click', function (e) {
+            function success(data) {
+                $('#first-name').val(data.FirstName).keyup();
+                $('#last-name').val(data.LastName).keyup();
+                var bDate = new Date(data.DateOfBirthStr);
+                $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
+                $('#dl-number').val(data.Id).keyup();
+                $('#locality').val(data.City).keyup();
+                $('#province').val(data.State).keyup();
+                $('#postal_code').val(data.PostalCode).keyup();
+                $('#street').val(data.Street).keyup();
+                $('#camera-modal').modal('hide');
+
+                var obj = {
+                    firstName: data.FirstName,
+                    lastName: data.LastName,
+                    birthDate: (bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear(),
+                    street: data.Street,
+                    locality: data.City,
+                    province: data.State,
+                    postalCode: data.PostalCode
+                };
+
+                store.dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
+            }
+
+            var submitUpload = function (e) {
+                dlScanner.submitUpload(e.target.files, success);
+                e.target.value = '';
+            };
+
+            var capture = function (e) {
+                var data = cameraModule.takePhoto();
+                $('#upload-capture').on('click', function () {
+                    dlScanner.uploadCaptured(data, success);
+                });
+                $('#retake').one(function () {
+                    $('#upload-capture').off();
+                });
+            };
+
+            $('#owner-upload-file').one('change', submitUpload);
+            $('#upload-file').one('change', submitUpload);
+            $('#capture-btn').on('click', capture);
+            $('#camera-modal').one('hidden.bs.modal', function () {
+                $('#capture-btn').off();
+                $('#owner-upload-file').off('change', submitUpload);
+                $('#upload-file').off('change', submitUpload);
+                $('#upload-capture').off();
+                $('#retake').off();
+            });
+        });
+    }
 
     window.initAutocomplete = initAutocomplete;
     $(document).ready(function () {
@@ -75,6 +117,7 @@
         initContactInfo(clientStore);
         initHomeImprovment(clientStore);
         initClientConsents(clientStore);
+        initScanLicense(clientStore);
 
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
@@ -113,7 +156,7 @@
         }
     });
 
-    function trimValues () {
+    function trimValues() {
         $.grep(trimFieldsIds, function (field) {
             var value = $('#' + field).val();
             if (value !== '') {
@@ -233,7 +276,9 @@
         $('#ageErrors').empty();
         if (props.errors.length > 0) {
             props.errors
-                .filter(function (error) { return error.type === 'birthday' })
+                .filter(function (error) {
+                    return error.type === 'birthday'
+                })
                 .forEach(function (error) {
                     $('#ageErrors').append(createError(window.translations[error.messageKey]));
                 });

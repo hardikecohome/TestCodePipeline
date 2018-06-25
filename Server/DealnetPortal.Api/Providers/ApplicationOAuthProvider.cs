@@ -4,22 +4,17 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Api.Models.Contract;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
 using Unity.Interception.Utilities;
@@ -79,7 +74,7 @@ namespace DealnetPortal.Api.Providers
                 if (aspireRes?.Item2?.Any(e => e.Type == AlertType.Error) ?? false)
                 {
                     user = null;
-                    if (aspireRes?.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed) ?? false)
+                    if ((bool) aspireRes.Item2?.Any(e => e.Code == ErrorCodes.AspireConnectionFailed))
                     {
                         context.SetError(ErrorConstants.ServiceFailed, Resources.Resources.ExternalServiceUnavailable);
                         return;
@@ -240,14 +235,14 @@ namespace DealnetPortal.Api.Providers
                     }
                     else
                     {
-                        var newUser = new ApplicationUser()
+                        var newUser = new ApplicationUser
                         {
                             UserName = context.UserName,
                             Email = "",
                             ApplicationId = applicationId,
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
-                            AspireLogin = context.UserName,
+                            AspireLogin = context.UserName
                         };                        
 
                         try

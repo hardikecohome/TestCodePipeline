@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
@@ -12,13 +10,7 @@ namespace DealnetPortal.Api.Providers
 {
     public class OAuthProviderStub : OAuthAuthorizationServerProvider
     {
-        private const string DefaultClientId = "123";
         private const string DefaultClientName = "TestUser";
-
-        public OAuthProviderStub()
-        {
-
-        }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {

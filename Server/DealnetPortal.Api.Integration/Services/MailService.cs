@@ -11,7 +11,6 @@ using System.Web.Hosting;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -202,12 +201,12 @@ namespace DealnetPortal.Api.Integration.Services
             string domain = ConfigurationManager.AppSettings["CustomerWalletClient"];
             string hashLogin = SecurityUtils.Hash(customerEmail);
            
-            MailChimpMember member = new MailChimpMember()
+            MailChimpMember member = new MailChimpMember
             {
                 Email = customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
                 FirstName = customerFormData.PrimaryCustomer.FirstName,
                 LastName = customerFormData.PrimaryCustomer.LastName,
-                address = new MemberAddress()
+                address = new MemberAddress
                 {
                     Street = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Street,
                     Unit = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Unit,
@@ -297,12 +296,12 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendApprovedMailToCustomer(Contract customerFormData)
         {
             var subject = $"{Resources.Resources.Congratulations}, {Resources.Resources.YouHaveBeen} {Resources.Resources.PreApproved.ToLower()} {Resources.Resources.For} ${customerFormData.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}";
-            MailChimpMember member = new MailChimpMember()
+            MailChimpMember member = new MailChimpMember
             {
                 Email = customerFormData.PrimaryCustomer.Emails.FirstOrDefault().EmailAddress,
                 FirstName = customerFormData.PrimaryCustomer.FirstName,
                 LastName = customerFormData.PrimaryCustomer.LastName,
-                address = new MemberAddress()
+                address = new MemberAddress
                 {
                     Street = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Street,
                     Unit = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().Unit,
@@ -311,7 +310,7 @@ namespace DealnetPortal.Api.Integration.Services
                     PostalCode = customerFormData.PrimaryCustomer.Locations.FirstOrDefault().PostalCode
                 },
                 CreditAmount = (decimal)customerFormData.Details.CreditAmount,
-                ApplicationStatus = customerFormData.ContractState.ToString(),
+                ApplicationStatus = customerFormData.ContractState.ToString()
             };
 
             try
@@ -372,7 +371,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public async Task SendNotifyMailNoDealerAcceptLead(Contract contract)
         {
-            string equipment = contract.Equipment.NewEquipment?.FirstOrDefault()?.Description.ToLower() ?? string.Empty;
+            string equipment = contract.Equipment.NewEquipment?.FirstOrDefault()?.EquipmentType?.Description?.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
             string customerEmail = contract.PrimaryCustomer.Emails?.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
@@ -434,7 +433,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public void SendNotifyMailNoDealerAcceptedLead12H(Contract contract)
         {
-            string equipment = contract.Equipment.NewEquipment?.First().Description.ToLower() ?? string.Empty;
+            string equipment = contract.Equipment.NewEquipment?.First().EquipmentType?.Description?.ToLower() ?? string.Empty;
             var location = contract.PrimaryCustomer.Locations?.FirstOrDefault(l => l.AddressType == AddressType.InstallationAddress);
             string customerEmail = contract.PrimaryCustomer.Emails.FirstOrDefault(m => m.EmailType == EmailType.Main)?.EmailAddress ?? string.Empty;
             string mailTo = ConfigurationManager.AppSettings["DealNetEmail"];
@@ -448,7 +447,7 @@ namespace DealnetPortal.Api.Integration.Services
             body.AppendLine($"<u>{string.Format(Resources.Resources.FollowingLeadHasNotBeenAcceptedByAnyDealerFor12h, expireperiod)}.</u>");
             body.AppendLine($"<p>{Resources.Resources.TransactionId}: {contract.Details?.TransactionId ?? contract.Id.ToString()}</p>");
             body.AppendLine($"<p><b>{Resources.Resources.Client}: {contract.PrimaryCustomer.FirstName} {contract.PrimaryCustomer.LastName}</b></p>");
-            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contract.Details.CreditAmount.Value.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
+            body.AppendLine($"<p><b>{Resources.Resources.PreApproved}: ${contract.Details?.CreditAmount?.ToString("N0", CultureInfo.InvariantCulture)}</b></p>");
             body.AppendLine($"<p><b>{Resources.Resources.HomeImprovementType}: {equipment}</b></p>");
             if (!string.IsNullOrEmpty(contract.Details?.Notes))
             {
@@ -528,19 +527,20 @@ namespace DealnetPortal.Api.Integration.Services
             string mailTo = ""; /*ConfigurationManager.AppSettings["DealNetEmail"];*/
             switch (SupportDetails.SupportType)
             {
-                case "creditFunding":
-                    mailTo = dealerProvince=="QC" ?  ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
-                    SupportDetails.SupportType = "Credit Decision";
+                case SupportType.creditDecision:
+
+                    mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDecisionDealNetEmail"] : ConfigurationManager.AppSettings["CreditDecisionDealNetEmail"];
                     break;
-                case "customerService":
+                case SupportType.dealerProfileUpdate:
+                case SupportType.portalInquiries:
+                case SupportType.programInquiries:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecCreditDocsDealNetEmail"] : ConfigurationManager.AppSettings["CreditDocsDealNetEmail"];
-                    SupportDetails.SupportType = "Credit Docs";
                     break;
-                case "dealerSupport":
+                case SupportType.pendingDeals:
+                case SupportType.fundedDeals:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecFundingDocsDealNetEmail"] : ConfigurationManager.AppSettings["FundingDocsDealNetEmail"];
-                    SupportDetails.SupportType = "Funding Docs";
                     break;
-                case "Other":
+                default:
                     mailTo = dealerProvince == "QC" ? ConfigurationManager.AppSettings["QuebecOtherDealNetEmail"] : ConfigurationManager.AppSettings["OtherDealNetEmail"];
                     break;
             }
@@ -604,14 +604,14 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         foreach (var recipient in recipients)
                         {
-                            await _emailService.SendAsync(new List<string>() { recipient }, string.Empty, subject, body);
+                            await _emailService.SendAsync(new List<string> { recipient }, string.Empty, subject, body);
                         }
                     }
                     catch (Exception ex)
                     {
                         var errorMsg = "Can't send notification email";
                         _loggingService.LogError("Can't send notification email", ex);
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Header = errorMsg,
                             Message = ex.ToString(),
@@ -623,7 +623,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     var errorMsg = $"Can't get recipients list for contract [{contract.Id}]";
                     _loggingService.LogError(errorMsg);
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Header = "Can't get recipients list",
                         Message = errorMsg,
@@ -633,7 +633,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             else
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Header = "Can't get contract",
                     Message = $"Can't get contract with id {contract.Id}",

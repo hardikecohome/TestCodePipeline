@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DealnetPortal.Api.Models.DealerOnboarding;
-using DealnetPortal.Web.Infrastructure;
 
 namespace DealnetPortal.Web.Models.Dealer
 {

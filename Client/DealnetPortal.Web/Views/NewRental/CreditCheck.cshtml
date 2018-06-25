@@ -1,5 +1,10 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
-@model int
+﻿@model int
+
+@{ 
+    ViewBag.Title = Resources.NewApplication;
+}
+
+<div class="centred-container">
 
 <div class="dealnet-large-header">@Resources.EquipmentInformation</div>
 <div id="steps-line"></div>
@@ -22,7 +27,7 @@
         @Resources.ProcessingYourApplication
     </p>
 </div>
-
+</div>
 @section scripts
 {
 <script type="text/javascript">
@@ -30,7 +35,7 @@
             .ready(function () {
                 $.ajax({
                     type: "POST",
-                    url: '@Url.Action("GetCreditCheckRedirection", new {@contractId = Model })',
+                    url: '@Url.Action("GetCreditCheckRedirection", new {contractId = Model })',
                     success: function (json) {
 						window.location = json;
 

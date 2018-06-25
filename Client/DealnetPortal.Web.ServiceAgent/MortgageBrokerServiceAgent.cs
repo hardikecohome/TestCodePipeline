@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Types;
@@ -50,5 +49,21 @@ namespace DealnetPortal.Web.ServiceAgent
                 return new List<ContractDTO>();
             }
         }
+
+        public async Task<IList<Alert>> CheckCustomerExisting(string email)
+        {
+            try
+            {
+                return
+                    await
+                        Client.GetAsyncEx<IList<Alert>>($"{_fullUri}/customers/check?email={WebUtility.UrlEncode(email)}", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't remove contract", ex);
+                throw;
+            }
+        }
+
     }
 }

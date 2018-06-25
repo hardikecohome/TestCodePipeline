@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Types;
 
@@ -23,6 +24,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <param name="ownerUserId">user Id</param>
         /// <returns>List of contracts</returns>
         IList<Contract> GetContracts(string ownerUserId);
+
+        IList<Contract> GetContracts(Expression<Func<Contract, bool>> predicate, string ownerUserId);
 
         /// <summary>
         /// Get contract offers for a user (dealer)
@@ -110,6 +113,8 @@ namespace DealnetPortal.Domain.Repositories
         /// <returns>Is customer updated</returns>
         bool UpdateCustomerData(int customerId, Customer customerInfo, IList<Location> locations, IList<Phone> phones, IList<Email> emails);
 
+        bool UpdateInstallationData(EquipmentInfo equipmentInfo, string contractOwnerId);
+
         bool UpdateCustomerEmails(int customerId, IList<Email> emails);        
 
         /// <summary>
@@ -161,6 +166,8 @@ namespace DealnetPortal.Domain.Repositories
         IList<DocumentType> GetStateDocumentTypes(string state);
 
         IList<DocumentType> GetDealerDocumentTypes(string state, string contractOwnerId);
+
+        IDictionary<string, IList<DocumentType>> GetDealerDocumentTypes(string contractOwnerId);
 
         /// <summary>
         /// Get Document Types specified for contract, that can be defined for province and/or dealer

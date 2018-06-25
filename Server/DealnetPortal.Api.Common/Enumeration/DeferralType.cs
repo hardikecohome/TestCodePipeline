@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Api.Common.Attributes;
 
 namespace DealnetPortal.Api.Common.Enumeration
