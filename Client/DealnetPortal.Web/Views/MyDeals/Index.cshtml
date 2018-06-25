@@ -181,7 +181,7 @@
                     <div class="filters-advanced__payment-type new-input-group" data-bind="visible: showFilters" style="display:none;">
                         <div class="custom-select-wrap custom-select-float-label">
                             <label>@Resources.TypeOfPayment</label>
-                            <select id="sales-rep" data-bind="options: paymentTypeOptions, selectric: typeOfPayment"></select>
+                            <select id="payment-type" data-bind="options: paymentTypeOptions, selectric: typeOfPayment"></select>
                         </div>
                     </div>
 
@@ -780,7 +780,7 @@
                             <div class="main-table__block__row__entries-number new-input-group">
                                 <div class="custom-select-wrap custom-select-float-label">
                                     <label for="entries-number">@Resources.NumberOfEntries</label>
-                                    <select data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
+                                    <select id="entries-number" data-bind="options:pager.pageSizes, selectric: pager.pageSize"></select>
                                 </div>
                             </div>
                     </div>
