@@ -815,7 +815,7 @@ body {
 }
 
 .custom-select-wrap .selectric-open {
-  z-index: 999;
+  z-index: 51;
 }
 
 .custom-select-wrap .selectric-open,
