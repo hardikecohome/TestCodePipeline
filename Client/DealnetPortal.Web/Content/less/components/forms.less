@@ -179,9 +179,6 @@ html.ie9{
 }
 .form-container{
   margin: 0 auto;
-  @media @tablet-only {
-    max-width: 728px;
-  }
   @media @mobile{
     max-width: 528px;
   }
@@ -202,8 +199,7 @@ html.ie9{
       }
     }
     @media @tablet-down {
-      max-width: 528px;
-      margin: 0 auto;
+       margin: 0 auto;
       .dealnet-success-button{
         width: 100%;
         display: block;
@@ -1097,7 +1093,7 @@ fieldset[disabled] .form-control{
             font-weight: 400;
             font-size: 13px;
             position: absolute;
-            z-index: 998;
+            z-index: 50;
             top: -10px;
             left: 9px;
             background: white;
@@ -1126,7 +1122,7 @@ fieldset[disabled] .form-control{
             line-height: 12px;
             // color: #5264AE;
             background: white;
-            z-index: 1000;
+            z-index: 50;
           }
         }
         }
@@ -1159,7 +1155,7 @@ fieldset[disabled] .form-control{
         }
 
         .selectric-open {
-            z-index: 999;
+            z-index: 51;
         }
 
         .selectric-open,
@@ -1370,4 +1366,8 @@ input:checked + .nw-switch-checkbox__slider:before {
       top: 17px;
     }
   }
+}
+
+.ie .new-input-group .custom-text-input-group input {
+  padding: 8px 9px;
 }

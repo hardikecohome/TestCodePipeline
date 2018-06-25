@@ -6,6 +6,7 @@ using System.Text;
 using AutoMapper;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
+using DealnetPortal.Api.Core.Helpers;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -805,9 +806,7 @@ namespace DealnetPortal.Web.App_Start
                     src.AgreementType != Api.Common.Enumeration.AgreementType.LoanApplication ? src.DeferralType : 0))
                 .ForMember(x => x.PreferredInstallDate, d => d.MapFrom(src => src.EstimatedInstallationDate))
                 .ForMember(x => x.PreferredInstallTime, d => d.MapFrom(src =>
-                    src.EstimatedInstallationDate.HasValue
-                        ? src.EstimatedInstallationDate.Value.ToString("HHmm")
-                        : null))
+                    src.EstimatedInstallationDate.HasValue ? src.EstimatedInstallationDate.Value.ToShortTimeString() : null))
                 .ForMember(x => x.HouseSize, d => d.Ignore())
                 .ForMember(x => x.CustomerComments, d => d.Ignore())
                 .ForMember(x => x.DealerTier, d => d.Ignore())

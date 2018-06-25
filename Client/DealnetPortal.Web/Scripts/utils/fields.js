@@ -126,7 +126,12 @@ function customDPSelect(elem) {
 
 function customizeSelect() {
     setTimeout(function () {
-        $('select').each(function () {
+        $('select').each(function (index, element) {
+            // don't append to selectic
+            if (this.dataset.bind && this.dataset.bind.toLowerCase().indexOf('selectric') > -1) {
+                return;
+            }
+
             //Added opt group to each select to fix long value inside option for IOS.
             if ($('body').is('.ios-device') && $(this).find('optgroup').length === 0) {
                 $('<optgroup label=""></optgroup>').appendTo($(this));
