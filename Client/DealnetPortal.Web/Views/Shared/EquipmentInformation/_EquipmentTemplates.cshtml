@@ -21,7 +21,9 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             @Html.HiddenFor(m => m.NewEquipment[0].EquipmentType.Id)
-                            @Html.LabelFor(m => m.NewEquipment[0].EquipmentType)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].EquipmentType)
+                            </div>
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentType.Type,
                                     ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
                                                                                                    {
@@ -34,7 +36,9 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].Description)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].Description)
+                            </div>
                             <div class="control-group">
                                 @Html.TextBoxFor(m => m.NewEquipment[0].Description, new
                                 {
@@ -51,7 +55,9 @@
                     </div>
                     <div class="col-md-3 col-xs-12 monthly-cost-col">
                         <div class="form-group">
-                            @Html.Label(Resources.MonthlyCostOfOwnership)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.Label(Resources.MonthlyCostOfOwnership)
+                            </div>
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
                                 @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new
@@ -70,7 +76,9 @@
                     </div>
                     <div class="col-md-3 col-xs-12 monthly-cost-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].MonthlyCostLessDP)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].MonthlyCostLessDP)
+                            </div>
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
                                 @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCostLessDP, new
@@ -101,7 +109,9 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             @Html.HiddenFor(m => m.NewEquipment[0].EquipmentType.Id)
-                            @Html.LabelFor(m => m.NewEquipment[0].EquipmentType)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].EquipmentType)
+                            </div>
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentType.Type,
                                                                        ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes)
                                                                                .Select(x => new SelectListItem { Value = x.Type, Text = x.Description }),
@@ -116,7 +126,9 @@
                     </div>
                     <div class="col-md-2 hidden sub-type-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].EquipmentSubType)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].EquipmentSubType)
+                            </div>
                             @Html.DropDownListFor(m => m.NewEquipment[0].EquipmentSubType.Id,
                                     Enumerable.Empty<SelectListItem>(), new
                                                                         {
@@ -128,7 +140,9 @@
                     </div>
                     <div class="col-xs-12 col-md-6 description-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].Description)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].Description)
+                            </div>
                             <div class="control-group">
                                 @Html.TextBoxFor(m => m.NewEquipment[0].Description, new
                                 {
@@ -145,7 +159,9 @@
                     </div>
                     <div class="col-md-3 col-xs-12 equipment-cost-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].Cost)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].Cost)
+                            </div>
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
                                 @Html.TextBoxFor(m => m.NewEquipment[0].Cost, new
@@ -164,7 +180,9 @@
                     </div>
                     <div class="col-md-3 col-xs-12 monthly-cost-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].MonthlyCost)
+                            </div>
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
                                 @Html.TextBoxFor(m => m.NewEquipment[0].MonthlyCost, new
@@ -184,7 +202,9 @@
                     </div>
                     <div class="col-md-2 col-xs-12 estimated-retail-col">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.NewEquipment[0].EstimatedRetailCost)
+                            <div class="new-equipment-equal-height-label">
+                                @Html.LabelFor(m => m.NewEquipment[0].EstimatedRetailCost)
+                            </div>
                             <div class="control-group has-addon-left">
                                 <div class="control-group-addon">$</div>
                                 @Html.TextBoxFor(m => m.NewEquipment[0].EstimatedRetailCost, new

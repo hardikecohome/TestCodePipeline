@@ -10,7 +10,7 @@
     bool hasSelectedSub = Model != null && Model.NewEquipment != null && Model.NewEquipment[i].EquipmentSubType != null;
 
     var subTypes = new List<SelectListItem>();
-    if (Model.NewEquipment[i]?.EquipmentType.SubTypes != null && Model.NewEquipment[i]?.EquipmentType.SubTypes.Count != 0)
+    if(Model.NewEquipment[i]?.EquipmentType.SubTypes != null && Model.NewEquipment[i]?.EquipmentType.SubTypes.Count != 0)
     {
         subTypes.Add(new SelectListItem { Text = "", Value = "", Selected = !hasSelectedSub });
         subTypes.AddRange(Model.NewEquipment[i]?.EquipmentType.SubTypes?.Select(sub => new SelectListItem
@@ -21,7 +21,7 @@
         }));
     }
 
-  <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+    <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
         @Html.HiddenFor(m => m.NewEquipment[i].Id)
         <div class="dealnet-middle-header equipment-number-header">
             <span class="equipment-number">№@(i + 1)</span>
@@ -36,7 +36,9 @@
             <div class="col-md-3">
                 <div class="form-group">
                     @Html.HiddenFor(m => m.NewEquipment[i].EquipmentType.Id)
-                    @Html.LabelFor(m => m.NewEquipment[i].EquipmentType)
+                    <div class="new-equipment-equal-height-label">
+                        @Html.LabelFor(m => m.NewEquipment[i].EquipmentType)
+                    </div>
                     @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentType.Type,
                             equipment.Select(x => new SelectListItem
                             {
@@ -50,16 +52,20 @@
             </div>
             <div class="col-md-2 hidden sub-type-col">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubType)
+                    <div class="new-equipment-equal-height-label">
+                        @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubType)
+                    </div>
                     @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubType.Id,
-							subTypes ?? Enumerable.Empty<SelectListItem>(),
-							new Dictionary<string, object> { { "class", "form-control sub-type-select" }, { "required", "true " }, { Model.AgreementType == DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication || (Model.NewEquipment[i].EquipmentType.SubTypes?.Any() ?? false) ? "disabled" : "data-notdisabled", "disabled" } })
+                            subTypes ?? Enumerable.Empty<SelectListItem>(),
+                            new Dictionary<string, object> { { "class", "form-control sub-type-select" }, { "required", "true " }, { Model.AgreementType == DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication || (Model.NewEquipment[i].EquipmentType.SubTypes?.Any() ?? false) ? "disabled" : "data-notdisabled", "disabled" } })
                     @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubType.Id, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-xs-12 col-md-6 description-col">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.NewEquipment[i].Description)
+                    <div class="new-equipment-equal-height-label">
+                        @Html.LabelFor(m => m.NewEquipment[i].Description)
+                    </div>
                     <div class="control-group">
                         @Html.TextBoxFor(m => m.NewEquipment[i].Description, new
                         {
@@ -72,7 +78,9 @@
             </div>
             <div class="col-md-3 col-xs-12 equipment-cost-col" style="@(Model.AgreementType!=DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.NewEquipment[i].Cost)
+                    <div class="new-equipment-equal-height-label">
+                        @Html.LabelFor(m => m.NewEquipment[i].Cost)
+                    </div>
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
                         @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new
@@ -87,7 +95,9 @@
             </div>
             <div class="col-md-3 col-xs-12 monthly-cost-col" style="@(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
+                    <div class="new-equipment-equal-height-label">
+                        @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
+                    </div>
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
                         @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new
@@ -103,7 +113,9 @@
             </div>
             <div class="col-md-2 col-xs-12 estimated-retail-col @(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "hidden":"")">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.NewEquipment[i].EstimatedRetailCost)
+                    <div class="new-equipment-equal-height-label">
+                        @Html.LabelFor(m => m.NewEquipment[i].EstimatedRetailCost)
+                    </div>
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
                         @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedRetailCost, new
