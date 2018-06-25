@@ -2,25 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Types;
-using DealnetPortal.Web.Models;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Microsoft.AspNet.Identity;
 
 namespace DealnetPortal.Web.ServiceAgent
@@ -116,7 +109,7 @@ namespace DealnetPortal.Web.ServiceAgent
                             JsonConvert.DeserializeObject<OAuthErrorResponseModel>(responseContent);
                     if (result != null)
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = result.Error,
@@ -127,11 +120,11 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "An error occurred during authentication",
-                    Message = ex.ToString(),                    
+                    Message = ex.ToString()                    
                 });
                 _loggingService.LogError("An error occurred during authentication", ex);                
                 //return null;
@@ -145,8 +138,6 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="principal">user</param>
         public void SetAuthorizationHeader(IPrincipal principal)
         {
-            var token = (principal?.Identity as UserIdentity)?.Token ?? (principal?.Identity as ClaimsIdentity)?.Claims.FirstOrDefault(c => c.Type == "access_token")?.Value;
-
             //Set Authorization header
             //Client.Client.DefaultRequestHeaders.Authorization =
             //   new AuthenticationHeaderValue("Bearer", token ?? string.Empty);

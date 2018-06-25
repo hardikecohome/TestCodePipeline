@@ -3,7 +3,7 @@
 @using DealnetPortal.Web.Common.Constants
 @using DealnetPortal.Web.Models.Enumeration
 
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 <div class="row form-group">
 	<div class="col-md-3">
 		<div class="form-group">
@@ -26,22 +26,22 @@
 
 	}
 
-	@if (hasStandardRentalTier)
-	{
-		<div class="col-md-4 rental-element" style="@(Model.AgreementType==AgreementType.LoanApplication?"display:none":"")">
-			<div class="form-group">
-				@Html.LabelFor(m => m.RentalProgramType)
-				@Html.DropDownListFor(m => m.RentalProgramType, new SelectList(new[] {
-		   new SelectListItem { Value = ((int)AnnualEscalationType.Escalation35).ToString(), Text = isEmcoDealer ? Resources.WithEscalatedPayments : Resources.Escalation_35 },
-		   new SelectListItem{Value=((int)AnnualEscalationType.Escalation0).ToString(), Text= isEmcoDealer ? Resources.WithoutEscalatedPayments : Resources.Escalation_0}
-		   }, "Value", "Text", Model.RentalProgramType ?? AnnualEscalationType.Escalation35), new
-		   {
-			   @class = "form-control",
-			   id = "rental-program-type",
-		   })
-			</div>
-		</div>
-	}
+    @if(hasStandardRentalTier)
+    {
+        <div class="col-md-4 rental-element" style="@(Model.AgreementType==AgreementType.LoanApplication?"display:none":"")">
+            <div class="form-group">
+                @Html.LabelFor(m => m.RentalProgramType)
+                @Html.DropDownListFor(m => m.RentalProgramType, new SelectList(new[] {
+           new SelectListItem { Value = ((int)AnnualEscalationType.Escalation35).ToString(), Text = Resources.Escalation_35 },
+           new SelectListItem{Value=((int)AnnualEscalationType.Escalation0).ToString(), Text=Resources.Escalation_0}
+           }, "Value", "Text", Model.RentalProgramType ?? AnnualEscalationType.Escalation35), new
+           {
+               @class = "form-control",
+               id = "rental-program-type"
+           })
+            </div>
+        </div>
+    }
 </div>
 <div id="new-equipments">
 	<h3 class="dealnet-middle-header">@Resources.NewEquipmentInformation</h3>

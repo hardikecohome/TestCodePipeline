@@ -13,6 +13,6 @@ namespace DealnetPortal.Api.Common.Enumeration
         [Display(ResourceType = typeof (Resources.Resources), Name = "LeaseApplication")]
         RentalApplication = 2,
         [Display(ResourceType = typeof(Resources.Resources), Name = "LeaseApplication")]
-        Rental = RentalApplicationHwt | RentalApplication,
+        Rental = RentalApplicationHwt | RentalApplication
     }
 }

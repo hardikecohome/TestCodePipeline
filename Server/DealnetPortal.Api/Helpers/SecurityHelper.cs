@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Utilities.Configuration;
 
 namespace DealnetPortal.Api.Helpers
 {
-    using System.Configuration;
     using System.Text;
     using System.Threading.Tasks;
 

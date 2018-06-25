@@ -17,16 +17,14 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 {
     public class CustomerManager : ICustomerManager
     {
-        private readonly IContractServiceAgent _contractServiceAgent;
         private readonly IMortgageBrokerServiceAgent _mortgageBrokerServiceAgent;
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
         public CustomerManager(
             IDictionaryServiceAgent dictionaryServiceAgent,
-            IContractServiceAgent contractServiceAgent, IMortgageBrokerServiceAgent mortgageBrokerServiceAgent)
+            IMortgageBrokerServiceAgent mortgageBrokerServiceAgent)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
-            _contractServiceAgent = contractServiceAgent;
             _mortgageBrokerServiceAgent = mortgageBrokerServiceAgent;
         }
 
@@ -107,7 +105,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
         public async Task<bool> CheckCustomerExistingAsync(string email)
         {
-            var result = await _contractServiceAgent.CheckCustomerExisting(email);
+            var result = await _mortgageBrokerServiceAgent.CheckCustomerExisting(email);
 
             return result.Any(x => x.Type == AlertType.Error);
 

@@ -586,7 +586,7 @@
     <value>ID de transaction</value>
   </data>
   <data name="UnfortunatelyThisLeadIsNoLongerAvailable" xml:space="preserve">
-    <value>Malheureusement, cette piste n’est plus disponible</value>
+    <value>Malheureusement, cette piste n'est plus disponible, veuillez en essayer une autre</value>
   </data>
   <data name="UnhappyCurrentFinancing" xml:space="preserve">
     <value>Insatisfait de la solution actuelle</value>
@@ -983,7 +983,7 @@
     <value>Personnaliser</value>
   </data>
   <data name="EqualPayments" xml:space="preserve">
-    <value>0% Egal Payments</value>
+    <value>0% Egal Paiements</value>
   </data>
   <data name="StandardRate" xml:space="preserve">
     <value>Taux Standard</value>
@@ -1068,5 +1068,38 @@
   </data>
   <data name="ProgramInquiries" xml:space="preserve">
     <value>Informations sur le programme</value>
+  </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="RateReduction" xml:space="preserve">
+    <value>Réduction de taux</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Créé</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Refusé</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Supprimé</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Livré</value>
+  </data>
+  <data name="NotInitiated" xml:space="preserve">
+    <value>Non initié</value>
+  </data>
+  <data name="Sent" xml:space="preserve">
+    <value>Envoyé</value>
+  </data>
+  <data name="Signed" xml:space="preserve">
+    <value>Signé</value>
   </data>
 </root>

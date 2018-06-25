@@ -58,10 +58,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 var list = GetListFromQuery(sqlStatement, _databaseService, ReadSubDealerItem);
                 return list;
             }
-            else
-            {
-                _loggingService.LogWarning("Cannot get GetSubDealers query for request");
-            }
+            _loggingService.LogWarning("Cannot get GetSubDealers query for request");
             return new List<GenericSubDealer>();
         }
 
@@ -74,10 +71,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 var list = GetListFromQuery(sqlStatement, _databaseService, ReadSampleDealItem);
                 return list;
             }
-            else
-            {
-                _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
-            }
+            _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
             return new List<Contract>();
         }
 
@@ -92,10 +86,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerAgreementShortInfo);
                 return list;
             }
-            else
-            {
-                _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
-            }
+            _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
             return new List<CustomerAgreementShortInfo>();
         }
 
@@ -290,6 +281,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadDealStatusItem with:{ex.Message}");
                 return null;
             }
         }
@@ -312,6 +304,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadDropDownItem with:{ex.Message}");
                 return null;
             }
         }
@@ -332,6 +325,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadSubDealerItem with:{ex.Message}");
                 return null;
             }
         }
@@ -376,6 +370,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             }
             catch (Exception ex)
             {
+                _loggingService.LogError($"Cannot AspireStorageReader.ReadSampleDealItem with:{ex.Message}");
                 return null;
             }
         }
@@ -384,11 +379,11 @@ namespace DealnetPortal.Aspire.Integration.Storage
         {
             try
             {
-                Entity userEntity = new Entity()
+                Entity userEntity = new Entity
                 {
                     FirstName = ConvertFromDbVal<string>(dr["fname"]),
                     LastName = ConvertFromDbVal<string>(dr["lname"]),
-                    EntityId = ConvertFromDbVal<string>(dr["entt_id"]),
+                    EntityId = ConvertFromDbVal<string>(dr["entt_id"])
                 };
 
                 userEntity.DateOfBirth = ConvertFromDbVal<DateTime>(dr["date_of_birth"]);
@@ -457,7 +452,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             {
                 try
                 {                    
-                    var dealerInfo = new DealerRoleEntity()
+                    var dealerInfo = new DealerRoleEntity
                     {
                         FirstName = dealerEntity.FirstName,
                         LastName = dealerEntity.LastName,
@@ -503,7 +498,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
         {
             try
             {
-                var creditReport = new CreditReport()
+                var creditReport = new CreditReport
                 {
                     FirstName = ConvertFromDbVal<string>(dr["fname"]),
                     LastName = ConvertFromDbVal<string>(dr["lname"]),
@@ -539,7 +534,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
         {
             try
             {
-                var leaseInfo = new CustomerAgreementShortInfo()
+                var leaseInfo = new CustomerAgreementShortInfo
                 {
                     LeaseNum = ConvertFromDbVal<string>(dr["lease_num"]),
                     TransactionId = ConvertFromDbVal<string>(dr["lease_app_num"]),
@@ -586,10 +581,7 @@ namespace DealnetPortal.Aspire.Integration.Storage
             {
                 return default(T); // returns the default value for the type
             }
-            else
-            {
-                return (T)obj;
-            }
+            return (T)obj;
         }
     }
 }

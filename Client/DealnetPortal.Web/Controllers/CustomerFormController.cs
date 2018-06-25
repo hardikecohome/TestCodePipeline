@@ -14,11 +14,13 @@ namespace DealnetPortal.Web.Controllers
     public class CustomerFormController : Controller
     {
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
+        private readonly ICustomerFormServiceAgent _customerFormServiceAgent;
         private readonly ICustomerFormManager _customerFormManager;
 
-        public CustomerFormController(IDictionaryServiceAgent dictionaryServiceAgent, ICustomerFormManager customerFormManager)
+        public CustomerFormController(IDictionaryServiceAgent dictionaryServiceAgent, ICustomerFormServiceAgent customerFormServiceAgent, ICustomerFormManager customerFormManager)
         {
             _dictionaryServiceAgent = dictionaryServiceAgent;
+            _customerFormServiceAgent = customerFormServiceAgent;
             _customerFormManager = customerFormManager;
         }
         
@@ -29,7 +31,7 @@ namespace DealnetPortal.Web.Controllers
                 return RedirectToAction("AnonymousError", "Info");
             }
 
-            var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
+            var languageOptions = await _customerFormServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             if (languageOptions == null || !languageOptions.IsLanguageEnabled)
             {
                 return RedirectToAction("AnonymousError", "Info");
@@ -62,7 +64,7 @@ namespace DealnetPortal.Web.Controllers
             var urlBuilder = new UriBuilder(Request.Url.AbsoluteUri)
             {
                 Path = Url.Action("ContractEdit", "NewRental"),
-                Query = null,
+                Query = null
             };
             var submitResult = await _customerFormManager.SubmitCustomerForm(customerForm, urlBuilder);
 

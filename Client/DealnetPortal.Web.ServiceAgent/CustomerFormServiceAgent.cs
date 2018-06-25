@@ -50,5 +50,47 @@ namespace DealnetPortal.Web.ServiceAgent
                 throw;
             }
         }
+
+        public async Task<CustomerLinkDTO> GetShareableLinkSettings()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<CustomerLinkDTO>(
+                    $"{_fullUri}/Settings", AuthenticationHeader, CurrentCulture).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Customer Link Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink)
+        {
+            try
+            {
+                return await Client.PutAsyncEx<CustomerLinkDTO, IList<Alert>>(
+                    $"{_fullUri}/Settings", customerLink, AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't change Customer Link Settings", ex);
+                throw;
+            }
+        }
+
+        public async Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture)
+        {
+            try
+            {
+                return await Client.GetAsync<CustomerLinkLanguageOptionsDTO>(
+                    $"{_fullUri}/LinkOptions/{hashDealerName}/{culture}").ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Customer Link Language Options", ex);
+                throw;
+            }
+        }
     }
 }

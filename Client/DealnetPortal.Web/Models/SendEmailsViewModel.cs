@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DealnetPortal.Api.Common.Enumeration;
-using DealnetPortal.Web.Infrastructure;
+﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Infrastructure.Attributes;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 

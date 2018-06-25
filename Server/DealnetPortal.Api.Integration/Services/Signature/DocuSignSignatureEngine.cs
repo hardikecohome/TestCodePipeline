@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Api.Models.Storage;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
 using DocuSign.eSign.Api;
@@ -113,7 +110,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         _templateUsed = false;
                         _document = new Document
                         {
-                            DocumentBase64 = System.Convert.ToBase64String(agreementTemplate.TemplateDocument.TemplateBinary),
+                            DocumentBase64 = Convert.ToBase64String(agreementTemplate.TemplateDocument.TemplateBinary),
                             Name = agreementTemplate.TemplateDocument.TemplateName,
                             DocumentId = contract.Id.ToString(),
                             TransformPdfFields = "true"
@@ -142,7 +139,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     {
                         if (ff.FieldType == FieldType.CheckBox)
                         {
-                            _checkboxTabs.Add(new Checkbox()
+                            _checkboxTabs.Add(new Checkbox
                             {
                                 TabLabel = "\\*" + ff.Name,
                                 Selected = ff.Value
@@ -150,7 +147,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         }
                         else //Text
                         {
-                            _textTabs.Add(new Text()
+                            _textTabs.Add(new Text
                             {
                                 TabLabel = "\\*" + ff.Name,
                                 Value = ff.Value
@@ -189,7 +186,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     _copyViewers?.Clear();
                     signatureUsers.Where(s => s.Role == SignatureRole.CopyViewer).ForEach(s =>
                     {
-                        _copyViewers.Add(new CarbonCopy()
+                        _copyViewers.Add(new CarbonCopy
                         {
                             Email = s.EmailAddress,
                             Name = $"{s.FirstName} {s.LastName}",
@@ -208,7 +205,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         public async Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
         {
-            string[] updateStatuses = new string[] { "Created", "Sent", "Delivered", "Correct"};
+            string[] updateStatuses = { "Created", "Sent", "Delivered", "Correct"};
 
             var alerts = new List<Alert>();            
             if (!string.IsNullOrEmpty(TransactionId))
@@ -240,7 +237,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             var errorMsg =
                                 $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId} as current Envelope status is {envelope.Status}";
                             _loggingService.LogError(errorMsg);
-                            alerts.Add(new Alert()
+                            alerts.Add(new Alert
                             {
                                 Type = AlertType.Error,
                                 Header = "Can't update envelope",
@@ -253,7 +250,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         var errorMsg =
                             $"Can't find envelope {TransactionId} in DocuSign";
                         _loggingService.LogError(errorMsg);
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "Can't find envelope",
@@ -266,7 +263,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     var errorMsg =
                         $"Can't update eSignature reciepents in DocuSign for envelope {TransactionId}";
                     _loggingService.LogError(errorMsg, e);
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Header = "eSignature error",
@@ -360,7 +357,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
                 else
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Code = ErrorCodes.CantGetContractFromDb,
@@ -371,11 +368,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Cannot parse DocuSign notification",
-                    Message = $"Error occurred during parsing request from DocuSign: {ex.ToString()}"
+                    Message = $"Error occurred during parsing request from DocuSign: {ex}"
                 });                
             }           
 
@@ -439,7 +436,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "eSignature error",
@@ -499,7 +496,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     }
                     catch (Exception ex)
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "eSignature error",
@@ -515,7 +512,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     var tempSignatures = new List<SignatureUser>
                     {
-                        new SignatureUser()
+                        new SignatureUser
                         {
                             Role = SignatureRole.Signer
                         }
@@ -548,7 +545,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 TemplatesApi templatesApi = new TemplatesApi();
                 var template = await templatesApi.GetAsync(AccountId, _templateId);
                 var tabs = template?.Recipients?.Signers?.First()?.Tabs;
-                var textTabs = tabs?.TextTabs?.Select(t => new FormField()
+                var textTabs = tabs?.TextTabs?.Select(t => new FormField
                 {
                     Name = t.TabLabel,
                     FieldType = FieldType.Text
@@ -557,7 +554,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     formFields.AddRange(textTabs);
                 }
-                var chbTabs = tabs?.CheckboxTabs?.Select(t => new FormField()
+                var chbTabs = tabs?.CheckboxTabs?.Select(t => new FormField
                 {
                     Name = t.TabLabel,
                     FieldType = FieldType.CheckBox
@@ -569,7 +566,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }                       
             catch (Exception e)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Warning,
                     Header = "Cannot get DocuSign template fields",
@@ -596,7 +593,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                     if (docsList.EnvelopeDocuments.Any())
                     {
                         var doc = docsList.EnvelopeDocuments.First();
-                        document = new AgreementDocument()
+                        document = new AgreementDocument
                         {
                             DocumentId = doc.DocumentId,
                             Type = doc.Type,
@@ -636,7 +633,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
                     if (updateEnvelopeRes?.ErrorDetails?.ErrorCode != null)
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "Cannot cancel signature",
@@ -647,11 +644,11 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "Cannot cancel contract",
-                    Message = $"Cannot cancel eSignature {TransactionId} for contract: {ex.ToString()}",
+                    Message = $"Cannot cancel eSignature {TransactionId} for contract: {ex}"
                 });
             }
             return alerts;
@@ -697,7 +694,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     updateRes.RecipientUpdateResults.Where(rr => !string.IsNullOrEmpty(rr.ErrorDetails?.Message)).ForEach(rr =>
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "DocuSign error",
@@ -711,8 +708,8 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {
                 if (envelope.Status == "sent")
                 {
-                    envelope = new Envelope() { };
-                    var updateOptions = new EnvelopesApi.UpdateOptions()
+                    envelope = new Envelope();
+                    var updateOptions = new EnvelopesApi.UpdateOptions
                     {
                         resendEnvelope = "true"
                     };
@@ -721,7 +718,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             updateOptions);
                     if (updateEnvelopeRes?.ErrorDetails?.Message != null)
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "DocuSign error",
@@ -732,7 +729,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
                 if (envelope.Status == "created")
                 {
-                    envelope = new Envelope()
+                    envelope = new Envelope
                     {
                         Status = "sent"
                     };
@@ -740,7 +737,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                        await envelopesApi.UpdateAsync(AccountId, TransactionId, envelope);
                     if (updateEnvelopeRes?.ErrorDetails?.Message != null)
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Type = AlertType.Error,
                             Header = "DocuSign error",
@@ -771,7 +768,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             else
             {
                 _loggingService.LogError("DocuSign document wasn't created");
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "DocuSign error",
@@ -796,16 +793,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             }
             else
             {
-                envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>()
+                envelopeDefinition.CompositeTemplates = new List<CompositeTemplate>
                 {
                     new CompositeTemplate
                     {
-                        InlineTemplates = new List<InlineTemplate>()
+                        InlineTemplates = new List<InlineTemplate>
                         {
-                            new InlineTemplate()
+                            new InlineTemplate
                             {
                                 Sequence = "1",                                
-                                Recipients = new Recipients()
+                                Recipients = new Recipients
                                 {
                                     Signers = _signers,
                                     CarbonCopies = _copyViewers
@@ -813,7 +810,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                             }
                         },
                         Document = _document
-                    },
+                    }
                 };
             }
             envelopeDefinition.Status = statusOnCreation;
@@ -823,7 +820,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         }
 
         private EventNotification GetEventNotification()
-        {            
+        {
             if (!string.IsNullOrEmpty(_notificationsEndpoint))
             {
                 string url = _notificationsEndpoint;
@@ -885,10 +882,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
                 return event_notification;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         private void FillEnvelopeForTemplate(EnvelopeDefinition envelopeDefinition)
@@ -899,7 +893,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             {
                 if (signer.RoleName == "Signer1")
                 {
-                    rolesList.Add(new TemplateRole()
+                    rolesList.Add(new TemplateRole
                     {
                         Name = signer.Name,
                         Email = signer.Email,
@@ -910,7 +904,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 }
                 else
                 {
-                    rolesList.Add(new TemplateRole()
+                    rolesList.Add(new TemplateRole
                     {
                         Name = signer.Name,
                         Email = signer.Email,
@@ -921,7 +915,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
             _copyViewers.ForEach(viewer =>
             {
-                rolesList.Add(new TemplateRole()
+                rolesList.Add(new TemplateRole
                 {
                     Email = viewer.Email,
                     Name = viewer.Name,
@@ -936,7 +930,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private string CreateAuthHeader(string userName, string password, string integratorKey)
         {
-            DocuSignCredentials dsCreds = new DocuSignCredentials()
+            DocuSignCredentials dsCreds = new DocuSignCredentials
             {
                 Username = userName,
                 Password = password,
@@ -980,7 +974,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         private Signer CreateSigner(SignatureUser signatureUser, int routingOrder, bool isDealer = false)
         {
-            var signer = new Signer()
+            var signer = new Signer
             {
                 Email = signatureUser.EmailAddress,
                 Name = $"{signatureUser.FirstName} {signatureUser.LastName}".Trim(),
@@ -988,16 +982,16 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 RoutingOrder = routingOrder.ToString(), //not sure, probably 1
                 RoleName = !isDealer ? $"Signer{routingOrder}" : "SignerD",
                 
-                Tabs = new Tabs()
+                Tabs = new Tabs
                 {
-                    SignHereTabs = new List<SignHere>()
+                    SignHereTabs = new List<SignHere>
                     {
-                        new SignHere()
+                        new SignHere
                         {
                             TabLabel = !isDealer ? $"Signature{routingOrder}" : "SignatureD"
                         },
                         //?? for 2nd signature
-                        new SignHere()
+                        new SignHere
                         {
                             TabLabel = !isDealer ? $"Signature{routingOrder}_2" : "SignatureD_2"
                         }
@@ -1149,7 +1143,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             if (string.IsNullOrEmpty(AccountId))
             {
                 _loggingService.LogError("Can't login to DocuSign service");
-                logAlerts.Add(new Alert()
+                logAlerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = "DocuSign error",

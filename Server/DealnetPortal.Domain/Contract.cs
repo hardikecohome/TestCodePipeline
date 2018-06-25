@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain
@@ -94,6 +91,10 @@ namespace DealnetPortal.Domain
         /// true, if it's a contract created by mortgage broker
         /// </summary>
         public bool? IsCreatedByBroker { get; set; }
+        /// <summary>
+        /// true, if it's a contract was assigned by dealer
+        /// </summary>
+        public bool? IsAssigned { get; set; }
         /// <summary>
         /// true, if it's a new contract created by customer and isn't edited by dealer
         /// </summary>

@@ -22,7 +22,9 @@ namespace DealnetPortal.Api.Controllers
             _dealerService = dealerService;
         }
 
-        [Route("GetDealerProfile")]
+        /// dealer profile endpoints
+                
+        [Route("Profile")]
         [HttpGet]
         public IHttpActionResult GetDealerProfile()
         {
@@ -37,8 +39,9 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-        [Route("UpdateDealerProfile")]
-        [HttpPost]
+
+        [Route("Profile")]
+        [HttpPut]
         public IHttpActionResult UpdateDealerProfile(DealerProfileDTO dealerProfile)
         {
             try
@@ -53,8 +56,43 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("UpdateDealerOnboardingInfo")]
+        [Route("DealerSupportRequestEmail")]
         [HttpPost]
+        public IHttpActionResult DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            try
+            {
+                //dealerProfile.DealerId = LoggedInUser.UserId;
+                var result = _dealerService.DealerSupportRequestEmail(dealerSupportRequest);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        // dealer onboarding endpoints
+        [Route("onboarding/checkLink/{dealerLink}")]
+        [Route("CheckOnboardingLink")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult CheckOnboardingLink(string dealerLink)
+        {
+            try
+            {
+                var result = _dealerService.CheckOnboardingLink(dealerLink);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("onboarding")]
+        [Route("UpdateDealerOnboardingInfo")]
+        [HttpPut]
         [AllowAnonymous]
         public async Task<IHttpActionResult> UpdateDealerOnboardingInfo(DealerInfoDTO dealerInfo)
         {
@@ -69,24 +107,9 @@ namespace DealnetPortal.Api.Controllers
             }            
         }
 
-        [Route("CheckOnboardingLink")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult CheckOnboardingLink(string dealerLink)
-        {
-            try
-            {
-                var result = _dealerService.CheckOnboardingLink(dealerLink);                    
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
+        [Route("onboarding/submit")]
         [Route("SubmitDealerOnboardingInfo")]
-        [HttpPost]
+        [HttpPut]
         [AllowAnonymous]
         public async Task<IHttpActionResult> SubmitDealerOnboardingInfo(DealerInfoDTO dealerInfo)
         {
@@ -101,6 +124,43 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("GetDealerOnboardingInfo")]
+        [Route("onboarding/{dealerInfoId}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerOnboardingInfo(int dealerInfoId)
+        {
+            try
+            {
+                var dealerForm = _dealerService.GetDealerOnboardingForm(dealerInfoId);
+                return Ok(dealerForm);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get dealer onboarding form with Id {dealerInfoId}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("onboarding/key/{accessKey}")]
+        [Route("GetDealerOnboardingInfo")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerOnboardingInfo(string accessKey)
+        {
+            try
+            {
+                var dealerForm = _dealerService.GetDealerOnboardingForm(accessKey);
+                return Ok(dealerForm);
+            }
+            catch (Exception ex)
+            {
+                LoggingService.LogError($"Failed to get dealer onboarding form with access key {accessKey}", ex);
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("onboarding/sendLink")]
         [Route("SendDealerOnboardingDraftLink")]
         [HttpPost]
         [AllowAnonymous]
@@ -117,10 +177,10 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("AddDocumentToDealerOnboarding")]
-        [HttpPut]
+        [Route("Onboarding/{dealerInfoId}/documents")]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> AddDocumentToDealerOnboarding(RequiredDocumentDTO document)
+        public async Task<IHttpActionResult> AddDocumentToDealerOnboarding(int dealerInfoId, RequiredDocumentDTO document)
         {
             try
             {
@@ -133,13 +193,18 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("DeleteDocumentFromOnboardingForm")]
-        [HttpPut]
+        [Route("Onboarding/{dealerInfoId}/documents/{documentId}")]
+        [HttpDelete]
         [AllowAnonymous]
-        public IHttpActionResult DeleteDocumentFromOnboardingForm(RequiredDocumentDTO document)
+        public IHttpActionResult DeleteDocumentFromOnboardingForm(int dealerInfoId, int documentId)
         {
             try
             {
+                var document = new RequiredDocumentDTO()
+                {
+                    DealerInfoId = dealerInfoId,
+                    Id = documentId
+                };
                 var result = _dealerService.DeleteDocumentFromOnboardingForm(document);
 
                 return Ok(result);
@@ -150,68 +215,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetDealerOnboardingInfo")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetDealerOnboardingInfo(int dealerInfoId)
-        {
-            try
-            {
-                var dealerForm = _dealerService.GetDealerOnboardingForm(dealerInfoId);
-                return Ok(dealerForm);
-            }
-            catch (Exception ex)
-            {
-                LoggingService.LogError($"Failed to get dealer onboarding form with Id {dealerInfoId}", ex);
-                return InternalServerError(ex);
-            }
-        }
-        [Route("GetDealerParent")]
-        [HttpGet]
-        public IHttpActionResult GetDealerParent()
-        {
-            try
-            {
-                var dealerParentName = _dealerService.GetDealerParentName(LoggedInUser.UserId);
-                return Ok(dealerParentName);
-            }
-            catch (Exception ex)
-            {
-                LoggingService.LogError($"Failed to get parent for the Dealer {LoggedInUser.UserId}", ex);
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("GetDealerOnboardingInfo")]
-        [HttpGet]
-        [AllowAnonymous]
-        public IHttpActionResult GetDealerOnboardingInfo(string accessKey)
-        {
-            try
-            {
-                var dealerForm = _dealerService.GetDealerOnboardingForm(accessKey);
-                return Ok(dealerForm);
-            }
-            catch (Exception ex)
-            {
-                LoggingService.LogError($"Failed to get dealer onboarding form with access key {accessKey}", ex);
-                return InternalServerError(ex);
-            }
-	}
-        [Route("DealerSupportRequestEmail")]
-        [HttpPost]
-        public IHttpActionResult DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
-        {
-            try
-            {
-                //dealerProfile.DealerId = LoggedInUser.UserId;
-                var result = _dealerService.DealerSupportRequestEmail(dealerSupportRequest);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        
+        
     }
 }

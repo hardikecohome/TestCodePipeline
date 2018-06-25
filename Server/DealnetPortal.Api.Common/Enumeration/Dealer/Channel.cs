@@ -11,6 +11,6 @@ namespace DealnetPortal.Api.Common.Enumeration.Dealer
         [Display(ResourceType =typeof(Resources.Resources), Name ="Distributor")]
         Distributor,
         [Display(ResourceType =typeof(Resources.Resources), Name ="DoorToDoor")]
-        DoorToDoor,
+        DoorToDoor
     }
 }

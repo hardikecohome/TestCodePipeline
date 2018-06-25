@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.UserSettings;
@@ -75,13 +72,16 @@ namespace DealnetPortal.Web.ServiceAgent
         Task<IList<StringSettingDTO>> GetDealerSettings(string dealerName);
 
         Task<BinarySettingDTO> GetDealerBinSetting(SettingType type);
-
-        Task<CustomerLinkDTO> GetShareableLinkSettings();
-
-        Task<IList<Alert>> UpdateShareableLinkSettings(CustomerLinkDTO customerLink);
-
-        Task<CustomerLinkLanguageOptionsDTO> GetCustomerLinkLanguageOptions(string hashDealerName, string culture);
-
+        
         Task<Tuple<IList<RateReductionCardDTO>, IList<Alert>>> GetAllRateReductionCards();
+
+        /// <summary>
+        /// Get dealer tier by Id
+        /// </summary>
+        Task<TierDTO> GetDealerTier();
+        /// <summary>
+        /// Get dealer tier by contract Id
+        /// </summary>
+        Task<TierDTO> GetDealerTier(int contractId);
     }
 }

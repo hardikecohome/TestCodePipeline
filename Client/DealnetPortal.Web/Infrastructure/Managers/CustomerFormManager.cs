@@ -14,12 +14,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
     public class CustomerFormManager : ICustomerFormManager
     {
         private readonly ICustomerFormServiceAgent _customerFormServiceAgent;
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public CustomerFormManager(ICustomerFormServiceAgent customerFormServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent)
+        public CustomerFormManager(ICustomerFormServiceAgent customerFormServiceAgent)
         {
             _customerFormServiceAgent = customerFormServiceAgent;
-            _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
         public async Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormViewModel customerForm, UriBuilder urlBuilder)
@@ -60,7 +58,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
         public async Task<SubmittedCustomerFormViewModel> GetSubmittedCustomerFormSummary(int contractId, string hashDealerName, string culture)
         {
-            var languageOptions = await _dictionaryServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
+            var languageOptions = await _customerFormServiceAgent.GetCustomerLinkLanguageOptions(hashDealerName, culture);
             var submitedData = await _customerFormServiceAgent.GetCustomerContractInfo(contractId, languageOptions.DealerName);
             var viewModel = Mapper.Map<SubmittedCustomerFormViewModel>(submitedData);
             

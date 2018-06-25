@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Security.Policy;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Common.Helpers;
@@ -31,13 +30,13 @@ namespace DealnetPortal.DataAccess.Repositories
             var dealer = GetUserById(contractOwnerId);
             if (dealer != null)
             {
-                contract = new Contract()
+                contract = new Contract
                 {
                     ContractState = ContractState.Started,
                     CreationTime = DateTime.UtcNow,
                     LastUpdateTime = DateTime.UtcNow,
                     Dealer = dealer,
-                    CreateOperator = dealer.UserName,
+                    CreateOperator = dealer.UserName
                 };
                 _dbContext.Contracts.Add(contract);
             }
@@ -56,9 +55,30 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment)
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.RateCard)
                 .Include(c => c.Documents)
                 .Include(c => c.Signers)
                 .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId).ToList();
+            return contracts;
+        }
+
+        public IList<Contract> GetContracts(Expression<Func<Contract, bool>> predicate, string ownerUserId)
+        {
+            var contracts = _dbContext.Contracts
+                .Include(c => c.PrimaryCustomer)
+                .Include(c => c.PrimaryCustomer.Locations)
+                .Include(c => c.SecondaryCustomers)
+                .Include(c => c.SecondaryCustomers.Select(sc => sc.EmploymentInfo))
+                .Include(c => c.HomeOwners)
+                .Include(c => c.InitialCustomers)
+                .Include(c => c.Equipment)
+                .Include(c => c.Equipment.ExistingEquipment)
+                .Include(c => c.Equipment.NewEquipment)
+                .Include(c => c.Equipment.RateCard)
+                .Include(c => c.Documents)
+                .Include(c => c.Signers)
+                .Where(c => c.Dealer.Id == ownerUserId || c.Dealer.ParentDealerId == ownerUserId)
+                .Where(predicate).ToList();
             return contracts;
         }
 
@@ -101,9 +121,7 @@ namespace DealnetPortal.DataAccess.Repositories
             if (pcList!=null && pcList.Any())
             {
                 contracts = contracts.Where(c => pcList.Any(pc => c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Length >= pc.Length &&
-                c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();
-                //contracts = contracts.Where(c => pcList.Any(pc => 
-                //    c.PrimaryCustomer.Locations?.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress)?.PostalCode.Contains(pc) ?? false)).ToList();
+                c.PrimaryCustomer.Locations.FirstOrDefault(x => x.AddressType == AddressType.InstallationAddress).PostalCode.Substring(0, pc.Length) == pc)).ToList();                
             }
              
             return contracts;
@@ -360,12 +378,11 @@ namespace DealnetPortal.DataAccess.Repositories
 
                 var dealer = GetDealer(newContractOwnerId);
 
-                if (dealer != null && (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true))
+                if (dealer != null && (contract.IsCreatedByBroker == true || contract.IsCreatedByCustomer == true) && contract.IsAssigned != true)
                 {
                     contract.DealerId = dealer.Id;
                     contract.IsNewlyCreated = true;
-                    contract.IsCreatedByBroker = false;
-                    //contract.IsCreatedByCustomer = false;
+                    contract.IsAssigned = true;
                     contract.LastUpdateTime = DateTime.UtcNow;
 
                     _dbContext.Entry(contract).State = EntityState.Modified;
@@ -564,6 +581,55 @@ namespace DealnetPortal.DataAccess.Repositories
                 }
             }
             return null;
+        }
+
+        public bool UpdateInstallationData(EquipmentInfo equipmentInfo, string contractOwnerId)
+        {
+            var updated = false;
+
+            if (equipmentInfo != null)
+            {
+                var dbEquipmentInfo = _dbContext.EquipmentInfo
+                    .Include(e => e.NewEquipment)
+                    .FirstOrDefault(e => e.Id == equipmentInfo.Id);
+                if (dbEquipmentInfo != null)
+                {
+                    if (!string.IsNullOrEmpty(equipmentInfo.InstallerFirstName))
+                    {
+                        dbEquipmentInfo.InstallerFirstName = equipmentInfo.InstallerFirstName;
+                    }
+                    if (!string.IsNullOrEmpty(equipmentInfo.InstallerLastName))
+                    {
+                        dbEquipmentInfo.InstallerLastName = equipmentInfo.InstallerLastName;
+                    }
+                    if (equipmentInfo.InstallationDate.HasValue)
+                    {
+                        dbEquipmentInfo.InstallationDate = equipmentInfo.InstallationDate;
+                    }
+                    updated = _dbContext.Entry(dbEquipmentInfo).State != EntityState.Unchanged;
+                    if (equipmentInfo.NewEquipment?.Any() ?? false)
+                    {
+                        equipmentInfo.NewEquipment.ForEach(ie =>
+                        {
+                            var eq = dbEquipmentInfo.NewEquipment.FirstOrDefault(e => e.Id == ie.Id);
+                            if (eq != null)
+                            {
+                                if (!string.IsNullOrEmpty(ie.InstalledModel))
+                                {
+                                    eq.InstalledModel = ie.InstalledModel;
+                                }
+                                if (!string.IsNullOrEmpty(ie.InstalledSerialNumber))
+                                {
+                                    eq.InstalledSerialNumber = ie.InstalledSerialNumber;
+                                }
+                                updated |= _dbContext.Entry(eq).State != EntityState.Unchanged;
+                            }
+                        });
+                    }
+                }
+            }
+
+            return updated;
         }
 
         public Customer UpdateCustomer(Customer customer)
@@ -924,7 +990,7 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public ContractData GetContractData(int contractId, string contractOwnerId)
         {
-            ContractData contractData = new ContractData()
+            ContractData contractData = new ContractData
             {
                 Id = contractId
             };
@@ -1041,7 +1107,7 @@ namespace DealnetPortal.DataAccess.Repositories
                 .Include(c => c.Equipment.ExistingEquipment)
                 .Include(c => c.Equipment.NewEquipment)
                 .Where(c => c.CreationTime <= expiredDate && 
-                (c.IsCreatedByBroker==true || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
+                ((c.IsCreatedByBroker==true && c.IsAssigned != true) || c.Dealer.Roles.Select(r => r.RoleId).Contains(contractCreatorRoleId)) &&
                 c.PrimaryCustomer.Locations.Any(l=>l.AddressType == AddressType.InstallationAddress) &&
                 c.Equipment.NewEquipment.Any()).ToList();
         }
@@ -1262,7 +1328,7 @@ namespace DealnetPortal.DataAccess.Repositories
             return paymentSummary;
         }
 
-        private EquipmentInfo UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
+        private void UpdateEquipmentBaseInfo(EquipmentInfo dbEquipment, EquipmentInfo equipmentInfo)
         {            
             if (!string.IsNullOrEmpty(equipmentInfo.SalesRep))
             {
@@ -1352,8 +1418,6 @@ namespace DealnetPortal.DataAccess.Repositories
             dbEquipment.RateReduction = equipmentInfo.RateReduction;
             dbEquipment.RateReductionCost = equipmentInfo.RateReductionCost;
 		    dbEquipment.RateReductionCardId = equipmentInfo.RateReductionCardId;
-
-            return dbEquipment;
         }
 
         private bool AddOrUpdateNewEquipments(EquipmentInfo dbEquipment, IEnumerable<NewEquipment> newEquipments)
@@ -1418,9 +1482,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         curEquipment.EstimatedRetailCost = ne.EstimatedRetailCost;
                     }
-                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                    
-                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;                    
+                    curEquipment.EquipmentSubTypeId = ne.EquipmentSubTypeId;                                        
                     updated |= _dbContext.Entry(curEquipment).State != EntityState.Unchanged;
+                    // we have to not control this field change due to support old contracts
+                    curEquipment.EquipmentTypeId = ne.EquipmentTypeId;
                 }
             });
             return updated;

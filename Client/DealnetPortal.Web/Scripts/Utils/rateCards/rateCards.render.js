@@ -31,9 +31,8 @@
 				//value = value;
                 if (this.Id === 0) {
                     text = translations.noReduction;
-                } else
-                {
-                    text = '-' + this.CustomerReduction + '% ' + translations.for + ' ' + '$' + value;
+                } else {
+                    text = '-' + this.CustomerReduction + '% ' + translations.for+' ' + '$' + value;
                 }
                 return {
                     val: this.Id,
@@ -43,13 +42,13 @@
                 }
             }
         },
-        cardProgramDropdown: function() {
+        cardProgramDropdown: function () {
             return {
                 val: this,
                 text: this
             }
         },
-        cardLoanAmortDropdown: function() {
+        cardLoanAmortDropdown: function () {
             return {
                 val: this.split('/')[1].trim(),
                 text: this
@@ -141,7 +140,7 @@
         }
         if (isStandalone) {
             var program = $('#' + selectorName + '-programDropdown').val();
-            items = items.filter(function(item) {
+            items = items.filter(function (item) {
                 if (item.CustomerRiskGroup == null || program === '') {
                     return item.CustomerRiskGroup == null;
                 } else {
@@ -177,7 +176,7 @@
         //}
     }
 
-    var renderProgramDropdownValues = function(dataObject) {
+    var renderProgramDropdownValues = function (dataObject) {
         var resultObj = _getItemsByPrice(dataObject);
         var totalCash = resultObj.totalCash;
         var items = resultObj.items;
@@ -215,7 +214,7 @@
         }
     }
 
-    var renderReductionDropdownValues = function(dataObject) {
+    var renderReductionDropdownValues = function (dataObject) {
         var isStandalone = dataObject.hasOwnProperty('standaloneOption');
 
         var selectorName = isStandalone ? dataObject.standaloneOption : dataObject.rateCardPlan;
@@ -262,10 +261,6 @@
             e.value = values.indexOf(selected) !== -1 ? selected : values[0];
             var $selectedOption = $('#' + selector + ' option[value="' + e.value + '"]');
             $selectedOption.attr("selected", selected);
-
-            if ($('#' + selector).hasClass('not-selected')) {
-                $('#' + selector).removeClass('not-selected');
-            }
         }
     }
 

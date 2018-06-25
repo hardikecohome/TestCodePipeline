@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
@@ -9,12 +8,10 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.DealerOnboarding;
 using DealnetPortal.Api.Models.Profile;
 using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Domain.Dealer;
 using DealnetPortal.Utilities.Configuration;
@@ -76,7 +73,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to send Dealer support request for [{dealerSupportRequest.YourName}] dealer with support ID [{dealerSupportRequest.Id}]", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.FailedToUpdateSettings,
@@ -107,7 +104,7 @@ namespace DealnetPortal.Api.Integration.Services
                 else
                 {
                     _loggingService.LogError($"Failed to update a dealer profile for [{dealerProfile.DealerId}] dealer");
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Type = AlertType.Error,
                         Code = ErrorCodes.FailedToUpdateSettings,
@@ -118,7 +115,7 @@ namespace DealnetPortal.Api.Integration.Services
             catch (Exception ex)
             {
                 _loggingService.LogError($"Failed to update a dealer profile for [{dealerProfile.DealerId}] dealer", ex);
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.FailedToUpdateSettings,
@@ -165,7 +162,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 ProcessDocuments(updatedInfo);
 
-                resultKey = new DealerInfoKeyDTO()
+                resultKey = new DealerInfoKeyDTO
                 {
                     AccessKey = updatedInfo.AccessKey,
                     DealerInfoId = updatedInfo.Id
@@ -198,7 +195,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Header = "Cannot update dealer onboarding info",
                     Type = AlertType.Error,
@@ -228,7 +225,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 ProcessDocuments(updatedInfo);
 
-                resultKey = new DealerInfoKeyDTO()
+                resultKey = new DealerInfoKeyDTO
                 {
                     AccessKey = updatedInfo.AccessKey,
                     DealerInfoId = updatedInfo.Id
@@ -281,8 +278,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                var errorMsg = $"Cannot submit dealer onboarding form";
-                alerts.Add(new Alert()
+                var errorMsg = "Cannot submit dealer onboarding form";
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Code = ErrorCodes.FailedToUpdateContract,
@@ -308,8 +305,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                var errorMsg = $"Cannot send draf link by email";
-                alerts.Add(new Alert()
+                var errorMsg = "Cannot send draf link by email";
+                alerts.Add(new Alert
                 {
                     Type = AlertType.Error,
                     Header = ErrorConstants.SubmitFailed,
@@ -334,7 +331,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var mappedDoc = Mapper.Map<RequiredDocument>(document);
                 var updatedDoc = _dealerOnboardingRepository.AddDocumentToDealer(mappedDoc.DealerInfoId, mappedDoc);
                 _unitOfWork.Save();                                
-                resultKey = new DealerInfoKeyDTO()
+                resultKey = new DealerInfoKeyDTO
                 {
                     AccessKey = updatedDoc.DealerInfo?.AccessKey,
                     DealerInfoId = updatedDoc.DealerInfo?.Id ?? 0,
@@ -359,7 +356,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Header = "Cannot add document to a dealer onboarding info",
                     Type = AlertType.Error,
@@ -385,7 +382,7 @@ namespace DealnetPortal.Api.Integration.Services
                     }
                     else
                     {
-                        alerts.Add(new Alert()
+                        alerts.Add(new Alert
                         {
                             Header = "Cannot delete document from a dealer onboarding info",
                             Type = AlertType.Error,
@@ -395,7 +392,7 @@ namespace DealnetPortal.Api.Integration.Services
                 }
                 else
                 {
-                    alerts.Add(new Alert()
+                    alerts.Add(new Alert
                     {
                         Header = "Cannot delete document from a dealer onboarding info",
                         Type = AlertType.Error,
@@ -405,7 +402,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Header = "Cannot delete document from a dealer onboarding info",
                     Type = AlertType.Error,
@@ -428,7 +425,7 @@ namespace DealnetPortal.Api.Integration.Services
             }
             catch (Exception ex)
             {
-                alerts.Add(new Alert()
+                alerts.Add(new Alert
                 {
                     Header = "Cannot delete dealer onboarding info",
                     Type = AlertType.Error,
@@ -464,7 +461,7 @@ namespace DealnetPortal.Api.Integration.Services
                         //    Header = "Cannot update onboarding status in Aspire",
                         //    Message = e.ToString()
                         //});
-                        _loggingService.LogWarning($"Cannot update onboarding form [{dealerInfoId}] status in Aspire:{e.ToString()}");
+                        _loggingService.LogWarning($"Cannot update onboarding form [{dealerInfoId}] status in Aspire:{e}");
                     }
                 });
             }            

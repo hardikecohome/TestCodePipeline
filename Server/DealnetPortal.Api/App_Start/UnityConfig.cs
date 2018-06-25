@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Web.Http;
 using DealnetPortal.Api.BackgroundScheduler;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.ApiClient;
 using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.ServiceAgents;
@@ -99,7 +98,7 @@ namespace DealnetPortal.Api
             {
                 container.RegisterType<IAspireStorageReader, AspireStorageReader>(
                     new InjectionConstructor(new ResolvedParameter<IDatabaseService>(), new ResolvedParameter<IQueriesStorage>(), new ResolvedParameter<ILoggingService>(),
-                    new Dictionary<string,string>()
+                    new Dictionary<string,string>
                     {
                         {"GetDealerDeals", "GetDealerDeals.dev" },
                         {"SearchCustomerAgreements", "SearchCustomerAgreements.dev" }

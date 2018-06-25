@@ -1,0 +1,28 @@
+{
+  "name": "layout-seed",
+  "version": "1.0.0",
+  "description": "Webmastering seed grunt project",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "grunt build && cd dist && http-server -c-1",
+    "watch": "grunt"
+  },
+  "author": "Eugene Petrus",
+  "license": "GNU",
+  "devDependencies": {
+    "compass": "^0.1.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-compass": "^1.1.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-ejs-locals": "^0.1.1",
+    "grunt-include-source": "^0.7.1",
+    "grunt-prettify": "^0.4.0",
+    "grunt-sass-import": "^0.2.0",
+    "http-server": "^0.10.0",
+    "matchdep": "^1.0.1",
+    "sass": "^1.0.0-beta.3"
+  }
+}

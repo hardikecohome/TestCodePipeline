@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;
-using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Integration;
 using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Scanning;
-using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
 namespace DealnetPortal.Api.Controllers
@@ -29,7 +20,7 @@ namespace DealnetPortal.Api.Controllers
             _loggingService = loggingService;
         }
 
-        [Route("PostLicenseScanProcessing")]
+        [Route("DriverLicense")]
         [HttpPost]
         public async Task<IHttpActionResult> PostLicenseScanProcessing(ScanningRequest scanningRequest)
         {
@@ -51,7 +42,7 @@ namespace DealnetPortal.Api.Controllers
             if (result?.Item2?.Any(a => a.Type == AlertType.Warning) ?? false)
             {
                 var warnMsg = string.Format("Scan warnings: {0}",
-                    result?.Item2.Where(a => a.Type == AlertType.Warning).Aggregate(string.Empty, (current, alert) =>
+                    result.Item2.Where(a => a.Type == AlertType.Warning).Aggregate(string.Empty, (current, alert) =>
                         current + $"{alert.Header}: {alert.Message};"));
                 _loggingService.LogWarning(warnMsg);
             }
@@ -73,7 +64,7 @@ namespace DealnetPortal.Api.Controllers
             return Ok(result);
         }
 
-        [Route("PostChequeScanProcessing")]
+        [Route("Cheque")]
         [HttpPost]
         public async Task<IHttpActionResult> PostChequeScanProcessing(ScanningRequest scanningRequest)
         {

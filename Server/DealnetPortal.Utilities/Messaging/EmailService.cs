@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -22,7 +21,7 @@ namespace DealnetPortal.Utilities.Messaging
 
         public async Task SendAsync(IList<string> recipients, string from, string subject, string body)
         {
-            var message = new IdentityMessage()
+            var message = new IdentityMessage
             {
                 Body = body,
                 Subject = subject,

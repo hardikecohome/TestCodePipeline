@@ -1,18 +1,8 @@
-﻿using AutoMapper;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Api.Models.Notify;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Infrastructure.Extensions;
+﻿using DealnetPortal.Api.Models.Notify;
 using DealnetPortal.Web.Models;
 using DealnetPortal.Web.ServiceAgent;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.SessionState;
 
 namespace DealnetPortal.Web.Controllers
 {

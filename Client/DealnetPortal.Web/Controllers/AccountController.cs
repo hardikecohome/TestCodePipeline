@@ -4,7 +4,6 @@ using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Utilities.Logging;
-using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.ServiceAgent;
 
@@ -48,6 +47,11 @@ namespace DealnetPortal.Web.Controllers
         // GET: /Account/Login
         public ActionResult Login(string returnUrl)
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (string.IsNullOrEmpty(returnUrl) && Request.UrlReferrer != null)
                 returnUrl = Server.UrlEncode(Request.UrlReferrer.PathAndQuery);
 
@@ -61,7 +65,7 @@ namespace DealnetPortal.Web.Controllers
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(DealnetPortal.Web.Models.LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(Models.LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -134,7 +138,7 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(DealnetPortal.Web.Models.ForgotPasswordViewModel model)
+        public async Task<ActionResult> ForgotPassword(Models.ForgotPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -155,7 +159,7 @@ namespace DealnetPortal.Web.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(DealnetPortal.Web.Models.RegisterViewModel model)
+        public async Task<ActionResult> Register(Models.RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -195,7 +199,7 @@ namespace DealnetPortal.Web.Controllers
         // POST: /Account/ChangePasswordAfterRegistration
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePasswordAfterRegistration(DealnetPortal.Web.Models.ChangePasswordAnonymouslyViewModel model)
+        public async Task<ActionResult> ChangePasswordAfterRegistration(Models.ChangePasswordAnonymouslyViewModel model)
         {
             if (!ModelState.IsValid)
             {

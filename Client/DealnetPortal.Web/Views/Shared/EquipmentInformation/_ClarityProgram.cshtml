@@ -1,5 +1,5 @@
 ﻿@using DealnetPortal.Api.Models.Contract
-@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModel
 
 @{
     if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
@@ -8,7 +8,7 @@
     }
 }
 
-@Html.HiddenFor(x => x.Conditions.IsClarityProgram, new { @id = "new-clarity-contract" })
+@Html.HiddenFor(x => x.Conditions.IsClarityProgram, new { id = "new-clarity-contract" })
 <div class="clarity">
     <div class="row form-group">
         <div class="col-md-3">
@@ -159,7 +159,7 @@
                                     {
                                         @class = "form-control dealnet-input reduced-monthly-cost dealnet-disabled-input",
                                         type = "text",
-                                        name = "",
+                                        name = ""
                                     })
                                 </div>
                             </div>

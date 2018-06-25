@@ -39,7 +39,15 @@ body{
   font-size: 14px;
   font-weight: 700;
 }
-
+.help-hover {
+    display: none;
+    z-index: 9998;
+    background-color: #12253e;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.65;
+}
 /*
 ** Navbar
 **/
@@ -455,27 +463,31 @@ a:hover, a:focus {
 	/*background-color: #555555;*/
 	z-index: 1000;
 	color: #ffffff;
-	text-align: center;
+  text-align: center;
+  
+  @media @mobile {
+    &.lift {
+      bottom: 88px;
+    }
+  }
 }
 .allrows .row{
 	margin-bottom: 5px;	
 }
 .helpbutton {
 	font: bold 14px @usual-font-family;
-	width: 125px;
-}
-.helpbutton svg{
+  width: 125px;
+  svg{
 	opacity: 0.5;
 	}
+}
 .LabelMiddle{
-	margin-top: 5px;
-	}
-@media(max-width: 1023px){
-	.LabelMiddle {
-		margin-top: 0px;
-		margin-bottom: 0px!important;
-	}
-	}
+  margin-top: 5px;
+  @media(max-width: 1023px){
+    margin-top: 0px;
+		margin-bottom: 0px!important;	
+  }
+}
 .Email-modal-body label {
 	font-size: 11px;
 }
@@ -520,9 +532,6 @@ a:hover, a:focus {
 	margin-top:0px;
 	}
 
-select.form-control.not-selected {
-  color: #dcdcdc;
-}
 .forceLeft{
 	text-align:left!important;
 	}
@@ -535,3 +544,9 @@ select.form-control.not-selected {
     margin-left: 20px;
   }
 }
+
+.centred-container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+

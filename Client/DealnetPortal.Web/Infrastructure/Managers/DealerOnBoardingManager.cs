@@ -31,7 +31,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 
         public async Task<DealerOnboardingViewModel> GetNewDealerOnBoardingForm(string onboardingLink)
         {
-            var linklist = System.Configuration.ConfigurationManager.AppSettings["LinkListTobeForwarded"].Split(',').Select(a => a.Trim().ToLower()).ToList<string>();
+            var linklist = System.Configuration.ConfigurationManager.AppSettings["LinkListTobeForwarded"].Split(',').Select(a => a.Trim().ToLower()).ToList();
             if (linklist.Contains(onboardingLink.ToLower()))
             {
                 onboardingLink = System.Configuration.ConfigurationManager.AppSettings["LinkForwardTo"];
@@ -62,7 +62,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 }
                 if (model.Owners?.Any() == false)
                 {
-                    model.Owners = new List<OwnerViewModel>() { new OwnerViewModel() { Address = new AddressInformation() } };
+                    model.Owners = new List<OwnerViewModel> { new OwnerViewModel { Address = new AddressInformation() } };
                 }
                 model.DictionariesData = new DealerOnboardingDictionariesViewModel
                 {

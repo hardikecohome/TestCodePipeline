@@ -9,6 +9,7 @@
         public const string IsNewlySubmitted = "IsNewlySubmitted";
 
         public const int MaxAdditionalApplicants = 1;
+        public const int RentalTerm = 120;
 
         public const string DefaultLeadSourceKey = "DefaultLeadSource";
         public const string CustomerFormLeadSourceKey = "CustomerFormLeadSource";

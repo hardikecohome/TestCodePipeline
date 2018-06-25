@@ -1,6 +1,5 @@
 ﻿@using System.Globalization
 @using DealnetPortal.Api.Common.Enumeration
-@using DealnetPortal.Web.Common.Helpers
 @model DealnetPortal.Web.Models.ESignatureViewModel
 
 <span class="signed-contract">
@@ -128,3 +127,68 @@
     });
 </script>
 
+@*  REDESIGN
+    <div class="signature-status-popup">
+    <i class="cross-ico"></i>
+    <span class="signature-status-popup__title">Digital signature status</span>
+    <span class="signature-status-popup__legend">Invites for digital signing of the contract were sent successfully - waiting for signatures.</span>
+
+    <div class="signature-status-popup__block signature-status-popup__block--success">
+        <div class="signature-status-popup__block__name">
+            <span>Borrower</span>
+            <span>John Domes</span>
+        </div>
+        <div class="signature-status-popup__block__email new-input-group">
+            <div class="custom-text-input-group">
+                <input type="text" name="email" required>
+                <label>Email</label>
+            </div>
+        </div>
+        <div class="signature-status-popup__block__status"><i class="signature-status-popup__block__status-ico"></i></div>
+        <div class="signature-status-popup__block__signature">
+            <span>Waiting for signature</span>
+            <span>(10/08/2017 10:30 AM)</span>
+        </div>
+        <span class="signature-status-popup__block__link"></span>
+    </div>
+
+    <div class="signature-status-popup__block signature-status-popup__block--wait">
+        <div class="signature-status-popup__block__name">
+            <span>Co-borrower</span>
+            <span>John Domes</span>
+        </div>
+        <div class="signature-status-popup__block__email new-input-group">
+            <div class="custom-text-input-group">
+                <input type="text" name="email" required>
+                <label>Email</label>
+            </div>
+        </div>
+        <div class="signature-status-popup__block__status"><i class="signature-status-popup__block__status-ico"></i></div>
+        <div class="signature-status-popup__block__signature">
+            <span>Waiting for signature</span>
+            <span>(10/08/2017 10:30 AM)</span>
+        </div>
+        <span class="signature-status-popup__block__link"><a>Resend invite</a></span>
+    </div>
+
+    <div class="signature-status-popup__block signature-status-popup__block--wait">
+        <div class="signature-status-popup__block__name">
+            <span>Sales rep</span>
+            <span>John Domes</span>
+        </div>
+        <div class="signature-status-popup__block__email new-input-group">
+            <div class="custom-text-input-group">
+                <input type="text" name="email" required>
+                <label>Email</label>
+            </div>
+        </div>
+        <div class="signature-status-popup__block__status"><i class="signature-status-popup__block__status-ico"></i></div>
+        <div class="signature-status-popup__block__signature">
+            <span>Waiting for signature</span>
+            <span>(10/08/2017 10:30 AM)</span>
+        </div>
+        <span class="signature-status-popup__block__link"><a>Update email</a></span>
+    </div>
+
+    <span class="signature-status-popup__details-link"><a>Go to contract details</a></span>
+</div>*@

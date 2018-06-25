@@ -6,7 +6,6 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Utilities.Logging;
 // ReSharper disable All
@@ -18,13 +17,15 @@ namespace DealnetPortal.Api.Controllers
     public class MortgageBrokerController : BaseApiController
     {
         private IMortgageBrokerService _mortgageBrokerService { get; set; }
+        private ICustomerWalletService _customerWalletService { get; set; }
 
-        public MortgageBrokerController(ILoggingService loggingService, IMortgageBrokerService mortgageBrokerService) : base(loggingService)
+        public MortgageBrokerController(ILoggingService loggingService, IMortgageBrokerService mortgageBrokerService,
+            ICustomerWalletService customerWalletService) : base(loggingService)
         {
             _mortgageBrokerService = mortgageBrokerService;
+            _customerWalletService = customerWalletService;
         }
 
-        //[Route("GetCreatedContracts")]
         // GET: api/MortgageBroker
         [HttpGet]
         public IHttpActionResult GetCreatedContracts()
@@ -41,7 +42,6 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        //[Route("CreateContractForCustomer")]
         // POST: api/MortgageBroker
         [HttpPost]
         public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
@@ -69,5 +69,24 @@ namespace DealnetPortal.Api.Controllers
             }
             return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
         }
+
+        // GET: api/MortgageBroker/customers/check?email={email}
+        [Route("customers/check")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> CheckCustomerExistingAsync([FromUri] string email)
+        {
+            try
+            {
+                var result = await _customerWalletService.CheckCustomerExisting(email);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
     }
 }

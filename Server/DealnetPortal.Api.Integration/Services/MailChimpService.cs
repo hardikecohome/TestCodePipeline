@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Configuration;
-using System.Linq;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Integration.Interfaces;
-using DealnetPortal.Api.Models.CustomerWallet;
 using MailChimp.Net;
 using MailChimp.Net.Core;
 using MailChimp.Net.Models;

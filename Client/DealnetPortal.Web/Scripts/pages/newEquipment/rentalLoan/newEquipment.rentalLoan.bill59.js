@@ -118,7 +118,7 @@
     }
 
     function _isEquipmentInList(id) {
-        return state.bill59Equipment.indexOf(id) > -1;
+        return state.equipmentTypes[id] ? state.equipmentTypes[id].UnderBill59 : false;
     }
 
     function _toggleNewEquipment(row) {

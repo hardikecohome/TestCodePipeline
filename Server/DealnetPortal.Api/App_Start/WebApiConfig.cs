@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using DealnetPortal.Api.Common.Constants;

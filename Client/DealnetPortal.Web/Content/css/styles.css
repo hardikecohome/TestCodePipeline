@@ -733,7 +733,6 @@ body {
 }
 
 .custom-container {
-  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -816,7 +815,7 @@ body {
 }
 
 .custom-select-wrap .selectric-open {
-  z-index: 999;
+  z-index: 51;
 }
 
 .custom-select-wrap .selectric-open,
@@ -829,6 +828,11 @@ body {
   background-color: white;
   color: black;
   font-size: 13px;
+}
+
+:lang(fr) .custom-select-wrap .selectric-items li,
+:lang(fr-CA) .custom-select-wrap .selectric-items li {
+  text-align: left;
 }
 
 .custom-select-wrap .selectric-items li.highlighted,

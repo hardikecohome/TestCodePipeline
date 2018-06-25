@@ -1,10 +1,11 @@
 ﻿@using System.Security.Claims
+@using DealnetPortal.Web.Infrastructure.Managers
 
-@model Dictionary<string, string>
+@model Dictionary<ResourceTypes, List<DealnetPortal.Web.Models.ResourceListModel>>
 
 @{
     ViewBag.Title = Resources.Library;
-    if(User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true))
+    if (User.Identity.IsAuthenticated && ((User as ClaimsPrincipal)?.IsInRole("MortgageBroker") == true))
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
@@ -14,16 +15,28 @@
     }
 }
 
-<div class="dealnet-large-header">@Resources.Library</div>
-
-<div>
-    <ul>
-        @foreach(var doc in @Model)
+<div class="centred-container">
+    <div class="dealnet-large-header">@Resources.Library</div>
+    @if (Model != null && Model.Values.Any())
+    {
+        foreach (var key in Model.Keys.OrderBy(x => x))
         {
-            <li>
-                <a href="@Url.Content(doc.Key)" target="_blank">@doc.Value</a>
-            </li>
+            if (key != ResourceTypes.NoDir)
+            {
+               <h3>@key</h3>
+            }
+            <ul>
+                @foreach (var doc in Model[key])
+                {
+                    <li>
+                        <a href="@Url.Content(doc.FilePath)" target="_blank">@doc.FileName</a>
+                    </li>
+                }
+            </ul>
         }
-    </ul>
+    }
+    else
+    {
+        
+    }
 </div>
-
