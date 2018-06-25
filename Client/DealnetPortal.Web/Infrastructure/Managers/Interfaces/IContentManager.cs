@@ -7,6 +7,6 @@ namespace DealnetPortal.Web.Infrastructure.Managers.Interfaces
     public interface IContentManager
     {
         string GetBannerByCulture(string culture, bool quebecDealer = false, bool isMobile = false);
-	    Dictionary<string, List<ResourceListModel>> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity);
+	    Dictionary<ResourceTypes, List<ResourceListModel>> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity);
     }
 }

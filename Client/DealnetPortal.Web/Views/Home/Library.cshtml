@@ -1,6 +1,7 @@
 ﻿@using System.Security.Claims
+@using DealnetPortal.Web.Infrastructure.Managers
 
-@model Dictionary<string, List<DealnetPortal.Web.Models.ResourceListModel>>
+@model Dictionary<ResourceTypes, List<DealnetPortal.Web.Models.ResourceListModel>>
 
 @{
     ViewBag.Title = Resources.Library;
@@ -14,23 +15,28 @@
     }
 }
 
-<div class="dealnet-large-header">@Resources.Library</div>
-@if (Model != null)
-{
-    foreach (var key in Model.Keys)
+<div class="centred-container">
+    <div class="dealnet-large-header">@Resources.Library</div>
+    @if (Model != null && Model.Values.Any())
     {
-        if (key != "NO_DIR")
+        foreach (var key in Model.Keys.OrderBy(x => x))
         {
-           <h3>@key</h3>
-        }
-        <ul>
-            @foreach (var doc in Model[key])
+            if (key != ResourceTypes.NoDir)
             {
-                <li>
-                    <a href="@Url.Content(doc.FilePath)" target="_blank">@doc.FileName</a>
-                </li>
+               <h3>@key</h3>
             }
-        </ul>
+            <ul>
+                @foreach (var doc in Model[key])
+                {
+                    <li>
+                        <a href="@Url.Content(doc.FilePath)" target="_blank">@doc.FileName</a>
+                    </li>
+                }
+            </ul>
+        }
     }
-}
-
+    else
+    {
+        
+    }
+</div>

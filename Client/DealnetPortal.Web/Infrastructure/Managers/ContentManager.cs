@@ -2,6 +2,7 @@
 using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,15 @@ using WebGrease.Css.Extensions;
 
 namespace DealnetPortal.Web.Infrastructure.Managers
 {
+	public enum ResourceTypes
+	{
+		Bill59 = 0,
+		Lease = 1,
+		Loan = 2,
+		General = 3,
+		NoDir = 4
+	}
+
     public class ContentManager : IContentManager
     {
         private static string BannerFolderName = @"banners";
@@ -25,7 +35,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
         private static string _contentFolderFullPath = Path.Combine(_rootPath, ContentPath);
         private static string MortgageBrokerPrefic = "MortgageBroker";
 	    private static string GeneralFiles = "general";
-	    private static string NoDirectoryFlag = "NO_DIR";
+	    private static string NoDirectoryFlag = "NoDir";
 
 	    private Func<string, ResourceListModel> _resourceSelector = file => new ResourceListModel
 	    {
@@ -45,38 +55,44 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return !Directory.Exists(bannerPath) ? string.Empty : GetRelativeBannerPath(culture, quebecDealer, isMobile);
         }
 
-        public Dictionary<string, List<ResourceListModel>> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity)
+        public Dictionary<ResourceTypes, List<ResourceListModel>> GetResourceFilesByCulture(string culture, ClaimsIdentity userIdentity)
         {
             //identity.HasClaim("QuebecDealer", "True")
             //var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, quebecDealer ? QuebecPrefic : string.Empty);
-            var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, userIdentity.HasClaim(ClaimContstants.QuebecDealer, "True") ? QuebecPrefic :
-                                                                                                                   userIdentity.HasClaim("MortgageBroker", "True") ? MortgageBrokerPrefic : GeneralFiles);
+	        var dealerOriginPrefix = userIdentity.HasClaim(ClaimContstants.QuebecDealer, "True") ? QuebecPrefic :
+		        userIdentity.HasClaim("MortgageBroker", "True") ? MortgageBrokerPrefic : GeneralFiles;
+
+            var resourcesFullPathWithCulture = Path.Combine(_contentFolderFullPath, ResourcesFolderName, culture, dealerOriginPrefix);
+
             if (!Directory.Exists(resourcesFullPathWithCulture)) return null;
 
             return GetResourcecFilesDictionary(resourcesFullPathWithCulture);
         }
 
-        private Dictionary<string, List<ResourceListModel>> GetResourcecFilesDictionary(string fullPath)
+        private Dictionary<ResourceTypes, List<ResourceListModel>> GetResourcecFilesDictionary(string fullPath)
         {
 	        if (Directory.GetDirectories(fullPath).Any())
 	        {
-		        return Directory.GetDirectories(fullPath).Aggregate(new Dictionary<string, List<ResourceListModel>>(), (dict, dir) =>
+		        return Directory.GetDirectories(fullPath).Aggregate(new Dictionary<ResourceTypes, List<ResourceListModel>>(), (dict, dir) =>
 		        {
-			        var dictName = Path.GetFileName(dir) ?? NoDirectoryFlag;
-			        if (!dict.ContainsKey(dictName))
+			        ResourceTypes dirName;
+			        Enum.TryParse(Path.GetFileName(dir) ?? NoDirectoryFlag, out dirName);
+
+			        //var dictName = Resource Path.GetFileName(dir) ?? ResourceTypes.NoDir;
+			        if (!dict.ContainsKey(dirName))
 			        {
-				        dict.Add(dictName, new List<ResourceListModel>());
+				        dict.Add(dirName, new List<ResourceListModel>());
 			        }
 
-			        dict[dictName].AddRange(Directory.GetFiles(dictName == NoDirectoryFlag ? fullPath : dir).Select(_resourceSelector));
+			        dict[dirName].AddRange(Directory.GetFiles(dirName == ResourceTypes.NoDir ? fullPath : dir).Select(_resourceSelector));
 
 			        return dict;
 		        });
 	        }
-	        return new Dictionary<string, List<ResourceListModel>>
+	        return new Dictionary<ResourceTypes, List<ResourceListModel>>
 	        {
 		        {
-			        NoDirectoryFlag, Directory.GetFiles(fullPath).Select(_resourceSelector).ToList()
+			        ResourceTypes.NoDir, Directory.GetFiles(fullPath).Select(_resourceSelector).ToList()
 		        }
 	        };
         }
