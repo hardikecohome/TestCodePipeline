@@ -320,7 +320,7 @@
             var id = $el.data('info');
 
             this.list().forEach(function (item) {
-                if (item.Id != id) {
+                if (item.TransactionId != id) {
                     item.showInfo(false);
                     item.showMobileInfo(false);
                 }
