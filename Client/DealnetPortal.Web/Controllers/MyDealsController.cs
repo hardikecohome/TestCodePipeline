@@ -97,9 +97,9 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> RemoveComment(int commentId)
+        public async Task<JsonResult> RemoveComment(int contractId, int commentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveComment(commentId, commentId);
+            var updateResult = await _contractServiceAgent.RemoveComment(contractId, commentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
@@ -156,9 +156,9 @@ namespace DealnetPortal.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> RemoveDocument(int documentId)
+        public async Task<JsonResult> RemoveDocument(int contractId, int documentId)
         {
-            var updateResult = await _contractServiceAgent.RemoveContractDocument(documentId, documentId);
+            var updateResult = await _contractServiceAgent.RemoveContractDocument(contractId, documentId);
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 

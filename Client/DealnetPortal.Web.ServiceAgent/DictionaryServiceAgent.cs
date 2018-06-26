@@ -183,6 +183,7 @@ namespace DealnetPortal.Web.ServiceAgent
             }
             catch (Exception ex)
             {
+
                 _loggingService.LogError("Can't get sub dealers list", ex);
                 throw;
             }
