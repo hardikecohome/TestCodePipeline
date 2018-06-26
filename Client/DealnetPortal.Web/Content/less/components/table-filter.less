@@ -584,6 +584,13 @@
     .filters {
         &.leads-filters {
             margin: 0 auto;
+
+            .filters-head {
+                &__filter-btn {
+                    margin: 0;
+                }
+            }
+
             .filters-advanced {
                 &.homepage-mod {
                     .filters-advanced__type,
@@ -593,16 +600,19 @@
                         flex-basis: 24%;
                         margin-right: 8px;
                     }
+
                     .filters-advanced__date-to {
                         margin-right: 0;
                     }
+
                     .filters-advanced__apply-btn {
                         flex-basis: 22%;
                     }
                 }
             }
+
             &:lang(fr),
-            &:lang(fr-CA){
+            &:lang(fr-CA) {
                 .filters-head {
                     flex-wrap: wrap;
 
@@ -610,8 +620,8 @@
                         order: 1;
                         flex-basis: 80%;
                     }
-                
-                    &__learn-more{
+
+                    &__learn-more {
                         order: 2;
                         margin-left: 0;
                     }
@@ -625,15 +635,18 @@
 
                     &__clear-btn {
                         order: 4;
-                        margin-top:0;
+                        margin-top: 0;
                     }
+
                     &__sort-btn,
                     &__save-btn {
-                        order:5;
+                        order: 5;
                     }
+
                     &__divider {
                         order: 6;
                     }
+
                     &__filter-btn {
                         order: 7;
                         margin-right: 0;
@@ -672,7 +685,7 @@
                     &:lang(fr),
                     &:lang(fr-CA) {
                         flex-basis: 23%;
-                        margin:16px 0;
+                        margin: 16px 0;
                         justify-content: flex-start;
                     }
                 }
@@ -1218,9 +1231,9 @@
                     margin:0;
                 }
             }
-            @media @tablet-down {
+            /*@media @tablet-down {
                 margin: 0 3%;
-            }
+            }*/
         }
         .filters-advanced {
             margin: 20px 28px;
