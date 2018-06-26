@@ -556,6 +556,10 @@ namespace DealnetPortal.DataAccess.Repositories
                     {
                         var paymentSummary = GetContractPaymentsSummary(contract);
                         contract.Equipment.ValueOfDeal = contract.Equipment.AgreementType == AgreementType.LoanApplication ? paymentSummary.TotalAmountFinanced : paymentSummary.TotalMonthlyPayment;
+                        if (contract.Equipment.ValueOfDeal.HasValue)
+                        {
+                            contract.Equipment.ValueOfDeal = Math.Round(contract.Equipment.ValueOfDeal.Value, 2);
+                        }
 
                         if (!IsBill59Contract(contract.Id))
                         {
