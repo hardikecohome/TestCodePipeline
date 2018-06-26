@@ -53,7 +53,9 @@
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.NewEquipment[i].Description)
+                                <div class="new-equipment-equal-height-label">
+                                    @Html.LabelFor(m => m.NewEquipment[i].Description)
+                                </div>
                                 <div class="control-group">
                                     <div class="new-equipment-equal-height-label">
                                         @Html.TextBoxFor(m => m.NewEquipment[i].Description, new
@@ -62,7 +64,7 @@
                                             placeholder = Resources.Description
                                         })
                                     </div>
-                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new {@class = "text-danger"})
                                 </div>
                             </div>
                         </div>
