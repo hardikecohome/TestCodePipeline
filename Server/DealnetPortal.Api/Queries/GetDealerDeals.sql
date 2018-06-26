@@ -16,7 +16,7 @@
  
                 ISNULL(CTYPE.data_value,'') AS [Contract_Type_Code],
                 ISNULL(ENTTY.entt_id,'') AS [Customer ID],           
-                ContractTerm.Term     as [Term]
+                ISNULL(ContractTerm.Term,0)     as [Term]
 				,cast(Credit_limit.[Value] as decimal(10,2)) as OverrideCreditAmountLimit
                 , Credit_RiskGroup.[Value] as OverrideCustomerRiskGroup                      
                   FROM Contract  (NOLOCK)
