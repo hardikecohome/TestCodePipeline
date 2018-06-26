@@ -139,7 +139,7 @@
                                                                                             Resources.SalesRep)
                                                             @Resources.DeclinedToSignContract</text>
                                                         }
-                                                        else if(Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Created || Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))
+                                                        else if(i > 0 && Model.ESignature.Signers[i].SignatureStatus == ApiEnum.SignatureStatus.Created || Model.ESignature.Signers.Any(s => s.Id != Model.ESignature.Signers[i].Id && s.SignatureStatus == ApiEnum.SignatureStatus.Sent))
                                                         {
                                                             var borrower = Model.ESignature.Signers[i - 1].Role == ApiEnum.SignatureRole.HomeOwner ?
                                                                 Resources.Borrower :
