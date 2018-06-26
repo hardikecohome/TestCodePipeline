@@ -490,8 +490,11 @@ select.dealnet-disabled-input{
         position: absolute;
         top: 13px;
         left: 18px;
-        @media @mobile{
-          top: 22px;
+        @media only screen and (max-width:500px) {
+          &:lang(fr),
+          &:lang(fr-CA){
+            top: 22px;
+          }
         }
       }
     }
@@ -592,11 +595,9 @@ select.dealnet-disabled-input{
     text-transform: uppercase;
     font-weight: 900;
     opacity: 0.85;
-    @media @desktop-up {
       margin: 10px 0;
-    }
-    @media @mobile {
-      margin: 10px 0;
+    @media @tablet-down {
+      margin: 0;
     }
   }
   .dealnet-field-holder{
@@ -604,9 +605,9 @@ select.dealnet-disabled-input{
     font-weight: 700;
     font-size: 18px;
     color: @default-dark-grey-color;
-    @media @tablet-only {
-      text-align: right;
-    }
+    // @media @tablet-only {
+    //   text-align: right;
+    // }
   }
   .dealnet-disabled-input{
     text-align: left;

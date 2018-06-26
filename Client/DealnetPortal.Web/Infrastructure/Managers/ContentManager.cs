@@ -76,9 +76,11 @@ namespace DealnetPortal.Web.Infrastructure.Managers
 		        return Directory.GetDirectories(fullPath).Aggregate(new Dictionary<ResourceTypes, List<ResourceListModel>>(), (dict, dir) =>
 		        {
 			        ResourceTypes dirName;
-			        Enum.TryParse(Path.GetFileName(dir) ?? NoDirectoryFlag, out dirName);
+			        if (!Enum.TryParse(Path.GetFileName(dir) ?? NoDirectoryFlag, out dirName))
+			        {
+				        dirName = ResourceTypes.NoDir;
+			        }
 
-			        //var dictName = Resource Path.GetFileName(dir) ?? ResourceTypes.NoDir;
 			        if (!dict.ContainsKey(dirName))
 			        {
 				        dict.Add(dirName, new List<ResourceListModel>());

@@ -38,7 +38,9 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.NewEquipment[i].Type)
+                                <div class="new-equipment-equal-height-label">
+                                    @Html.LabelFor(m => m.NewEquipment[i].Type)
+                                </div>
                                 @Html.DropDownListFor(m => m.NewEquipment[i].Type,
                                                              ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem
                                                              {
@@ -53,18 +55,22 @@
                             <div class="form-group">
                                 @Html.LabelFor(m => m.NewEquipment[i].Description)
                                 <div class="control-group">
-                                    @Html.TextBoxFor(m => m.NewEquipment[i].Description, new
-                                    {
-                                        @class = "form-control dealnet-input",
-                                        placeholder = Resources.Description
-                                    })
+                                    <div class="new-equipment-equal-height-label">
+                                        @Html.TextBoxFor(m => m.NewEquipment[i].Description, new
+                                        {
+                                            @class = "form-control dealnet-input",
+                                            placeholder = Resources.Description
+                                        })
+                                    </div>
                                     @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.Label(Resources.MonthlyCostOfOwnership)
+                                <div class="new-equipment-equal-height-label">
+                                    @Html.Label(Resources.MonthlyCostOfOwnership)
+                                </div>
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
                                     @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new
@@ -79,7 +85,9 @@
                         </div>
                         <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.NewEquipment[i].MonthlyCostLessDP)
+                                <div class="new-equipment-equal-height-label">
+                                    @Html.LabelFor(m => m.NewEquipment[i].MonthlyCostLessDP)
+                                </div>
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
                                     @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCostLessDP, new
@@ -124,7 +132,9 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.InstallationPackages[i].Description)
+                                <div class="installation-equal-height">
+                                    @Html.LabelFor(m => m.InstallationPackages[i].Description)
+                                </div>
                                 <div class="control-group">
                                     @Html.TextBoxFor(m => m.InstallationPackages[i].Description, new
                                     {
@@ -137,7 +147,9 @@
                         </div>
                         <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
+                                <div class="installation-equal-height">
+                                    @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCost)
+                                </div>
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
                                     @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCost, new
@@ -152,7 +164,9 @@
                         </div>
                         <div class="col-md-3 col-xs-12 monthly-cost-col">
                             <div class="form-group">
-                                @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCostLessDP)
+                                <div class="installation-equal-height">
+                                    @Html.LabelFor(m => m.InstallationPackages[i].MonthlyCostLessDP)
+                                </div>
                                 <div class="control-group has-addon-left">
                                     <div class="control-group-addon">$</div>
                                     @Html.TextBoxFor(m => m.InstallationPackages[i].MonthlyCostLessDP, new

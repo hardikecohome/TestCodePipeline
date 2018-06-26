@@ -50,17 +50,7 @@
 
         $('#owner-scan-button').on('click', function (e) {
             function success(data) {
-                $('#first-name').val(data.FirstName).keyup();
-                $('#last-name').val(data.LastName).keyup();
                 var bDate = new Date(data.DateOfBirthStr);
-                $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
-                $('#dl-number').val(data.Id).keyup();
-                $('#locality').val(data.City).keyup();
-                $('#province').val(data.State).keyup();
-                $('#postal_code').val(data.PostalCode).keyup();
-                $('#street').val(data.Street).keyup();
-                $('#camera-modal').modal('hide');
-
                 var obj = {
                     firstName: data.FirstName,
                     lastName: data.LastName,
@@ -72,6 +62,16 @@
                 };
 
                 store.dispatch(createAction(clientActions.DRIVER_LICENSE_UPLOADED, obj));
+
+                $('#first-name').val(data.FirstName).keyup();
+                $('#last-name').val(data.LastName).keyup();
+                $('#birth-date').val((bDate.getUTCMonth() + 1) + '/' + bDate.getUTCDate() + '/' + bDate.getUTCFullYear()).change();
+                $('#dl-number').val(data.Id).keyup();
+                $('#locality').val(data.City).keyup();
+                $('#province').val(data.State).keyup();
+                $('#postal_code').val(data.PostalCode).keyup();
+                $('#street').val(data.Street).keyup();
+                $('#camera-modal').modal('hide');
             }
 
             var submitUpload = function (e) {

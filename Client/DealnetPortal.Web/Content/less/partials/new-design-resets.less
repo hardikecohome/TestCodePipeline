@@ -107,14 +107,17 @@ body:not(.mobile-device), body:not(.tablet-device) {
     @media @desktop-down {
         line-height: 2.5;
     }
-    @media @tablet-down {
-        line-height: 1.4; 
-    }
     @media @mobile{
+            line-height: 1.4; 
         .icon {
             top:30px !important;
         }     
     }
+    &.position-well{
+    @media only screen and (max-width: 767px) and (orientation: landscape){
+                padding-top: 20px;
+            }
+        }
 }
 .scanlicence-info-text {
     @media @desktop-up {

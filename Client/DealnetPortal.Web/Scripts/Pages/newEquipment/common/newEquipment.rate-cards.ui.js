@@ -104,6 +104,8 @@
         setEqualHeightRows($(".equal-height-row-3"));
         setEqualHeightRows($(".equal-height-row-4"));
         setEqualHeightRows($(".equal-height-row-5"));
+
+        setEqualHeightRows($('.new-equipment-equal-height-label'));
     }
 
     var onAgreemntSelect = function () {
