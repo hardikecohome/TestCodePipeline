@@ -464,6 +464,7 @@
     }
 
     &.leads-filters {
+        margin: 0 20px;
         &:lang(fr),
         &:lang(fr-CA) {
             .filters-advanced { 
@@ -531,6 +532,7 @@
             }
         }
         &.leads-filters {
+            margin:0 auto;
             &:lang(fr),
             &:lang(fr-CA){
                 .filters-head {
@@ -581,6 +583,7 @@
 @media @tablet-only {
     .filters {
         &.leads-filters {
+            margin: 0 auto;
             .filters-advanced {
                 &.homepage-mod {
                     .filters-advanced__type,
@@ -966,6 +969,7 @@
         }
 
         &.leads-filters {
+            margin: 0 auto;
             .filters-head {
                 &__search {
                     display: flex;
@@ -1209,12 +1213,6 @@
     .filters {
         .filters-head {
             margin: 0 16px;
-            @media only screen and (min-width:1025px) and (max-width:1599px) {
-                margin: 0 2.5%;
-                .filters-head__title {
-                    margin:0;
-                }
-            }
             @media @desktop-down {
                 .filters-head__title {
                     margin:0;
@@ -1271,27 +1269,21 @@
         &.saved {
             right: 180px;
         }
-        @media @tablet-only {
-            right: 35px;
-            &.saved {
-                right: 50px;
-            }
-        }
     }
     }
     .leads-page {
         .filters .filters-head__save-btn .save-btn-status {
-            right: 475px;
+            right: auto;
+            margin-left: -80px;
             &.saved {
-                right: 490px;
+                margin-left: -70px; 
             }
-            @media @tablet-down {
-                right: 25%;
+            @media @mobile {
+                margin-left: -100px;
                 &.saved {
-                    right: 27%;
+                    margin-left: -90px;
                 }
             }
-
         }
     }
 }

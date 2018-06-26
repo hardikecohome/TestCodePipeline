@@ -11,10 +11,15 @@
         _initHandlers();
 
         $(window).resize(function () {
-            setEqualHeightRows($('#new-equipments .new-equipment-equal-height-label'));
+            setLabelHeigths();
         });
-        setEqualHeightRows($('#new-equipments .new-equipment-equal-height-label'));
+        setLabelHeigths();
     };
+
+    function setLabelHeigths() {
+        setEqualHeightRows($('#new-equipments .new-equipment-equal-height-label'));
+        setEqualHeightRows($('#installation-packages .installation-equal-height'));
+    }
 
     function _initHandlers() {
         var opened = true;
