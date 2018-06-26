@@ -2557,13 +2557,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (!string.IsNullOrEmpty(Model.EquipmentInfo.PreferredInstallTime))
+                                @if (!string.IsNullOrEmpty(Model.EquipmentInfo.LocalizedPreferredInstallTime))
                                 {
                                     <div class="form-group">
                                         <div class="row">
-                                            @Html.LabelFor(m => m.EquipmentInfo.PreferredInstallTime, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
+                                            @Html.LabelFor(m => m.EquipmentInfo.LocalizedPreferredInstallTime, new { @class = "dealnet-field-caption col-xs-5 col-sm-4 col-md-5" })
                                             <div class="dealnet-field-holder col-xs-7 col-sm-6 col-md-7">
-                                                @Html.TextBoxFor(m => m.EquipmentInfo.PreferredInstallTime, new
+                                                @Html.TextBoxFor(m => m.EquipmentInfo.LocalizedPreferredInstallTime, new
                                                 {
                                                     id = "",
                                                     @readonly = "readonly",
