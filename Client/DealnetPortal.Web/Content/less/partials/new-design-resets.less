@@ -107,8 +107,11 @@ body:not(.mobile-device), body:not(.tablet-device) {
     @media @desktop-down {
         line-height: 2.5;
     }
-    @media @tablet-down {
-        line-height: 1.4; 
+    @media only screen and (max-width:800px) {
+        &:lang(fr),
+        &:lang(fr-CA){
+            line-height: 1.4; 
+        }
     }
     @media @mobile{
         .icon {

@@ -406,8 +406,8 @@ module.exports('table', function (require) {
             var actionId = $el.data('action');
 
             this.list().forEach(function (item) {
-                item.Id != noteId && item.showNotes(false);
-                item.Id != actionId && item.showActions(false);
+                item.TransactionId != noteId && item.showNotes(false);
+                item.TransactionId != actionId && item.showActions(false);
             });
         }).bind(this));
     };
