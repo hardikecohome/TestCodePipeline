@@ -3,11 +3,14 @@
     public static class WebConfigKeys
     {
         //this settings for authentification email service-->
-        public static readonly string ES_FROMEMAIL_CONFIG_KEY = "EmailService.FromEmailAddress";
-        public static readonly string ES_SMTPHOST_CONFIG_KEY = "EmailService.SmtpHost";
-        public static readonly string ES_SMTPPORT_CONFIG_KEY = "EmailService.SmtpPort";
-        public static readonly string ES_SMTPUSER_CONFIG_KEY = "EmailService.SmtpUser";
-        public static readonly string ES_SMTPPASSWORD_CONFIG_KEY = "EmailService.SmtpPassword";
+        /// <summary>
+        /// not longer used
+        /// </summary>
+        //public static readonly string ES_FROMEMAIL_CONFIG_KEY = "EmailService.FromEmailAddress";
+        //public static readonly string ES_SMTPHOST_CONFIG_KEY = "EmailService.SmtpHost";
+        //public static readonly string ES_SMTPPORT_CONFIG_KEY = "EmailService.SmtpPort";
+        //public static readonly string ES_SMTPUSER_CONFIG_KEY = "EmailService.SmtpUser";
+        //public static readonly string ES_SMTPPASSWORD_CONFIG_KEY = "EmailService.SmtpPassword";
         public static readonly string ES_SMTPPASSLENGTH_CONFIG_KEY = "SecurityHelper.RandomPasswordLength";
 
         public const string AUTHPROVIDER_CONFIG_KEY = "AuthProvider";
@@ -15,10 +18,13 @@
         public const string HTTPS_ON_PRODUCTION_CONFIG_KEY = "HttpsOnProduction";
 
         //ENTER HERE Mailgun settings
-        public static readonly string MG_APIURL_CONFIG_KEY = "MailGun.ApiUrl";
-        public static readonly string MG_APIKEY_CONFIG_KEY = "MailGun.ApiKey";
-        public static readonly string MG_DOMAIN_CONFIG_KEY = "MailGun.Domain";
-        public static readonly string MG_FROM_CONFIG_KEY = "MailGun.From";
+        /// <summary>
+        /// not longer used
+        /// </summary>
+        //public static readonly string MG_APIURL_CONFIG_KEY = "MailGun.ApiUrl";
+        //public static readonly string MG_APIKEY_CONFIG_KEY = "MailGun.ApiKey";
+        //public static readonly string MG_DOMAIN_CONFIG_KEY = "MailGun.Domain";
+        //public static readonly string MG_FROM_CONFIG_KEY = "MailGun.From";
 
         //ENTER HERE Aspire settings
         public static readonly string ASPIRE_APIURL_CONFIG_KEY = "AspireApiUrl";

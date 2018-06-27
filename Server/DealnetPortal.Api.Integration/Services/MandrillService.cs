@@ -543,5 +543,54 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
         }
+
+        public async Task SendNotifyMailNoDealerAcceptLead(string email, string subject, string body)
+        {
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "EmailHeader", content = subject });
+            myVariables.Add(new Variable() { name = "EmailBody", content = body });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["SendNotifyMailNoDealerAcceptLead"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Send Notify Mail No Dealer Accept Lead",
+                        content = "Send Notify Mail No Dealer Accept Lead"
+                    }
+                };
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = email,
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = subject,
+                text = subject,
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = email,
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
