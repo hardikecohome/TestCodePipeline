@@ -1087,4 +1087,7 @@
   <data name="RateReduction" xml:space="preserve">
     <value>Rate Reduction</value>
   </data>
+  <data name="CreditDecision" xml:space="preserve">
+    <value>Credit Decision</value>
+  </data>
 </root>
