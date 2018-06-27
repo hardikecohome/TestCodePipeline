@@ -28,7 +28,8 @@
     var initValidators = function () {
         var rateCardNotPresent = !Object.keys(settings).every(function(el) {
             return $(el).length > 0;
-        }) && $(settings.customRateCardBlockId).is('hidden');
+        }) && !$(settings.customRateCardBlockId).length;
+
         if (rateCardNotPresent) return;
 
         $(settings.customYearCostId).rules('add', {
