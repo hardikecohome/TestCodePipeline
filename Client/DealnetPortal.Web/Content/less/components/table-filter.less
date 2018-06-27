@@ -465,6 +465,9 @@
 
     &.leads-filters {
         margin: 0 20px;
+        .filters-head {
+            margin: 0 16px;
+        }
         &:lang(fr),
         &:lang(fr-CA) {
             .filters-advanced { 
@@ -532,7 +535,7 @@
             }
         }
         &.leads-filters {
-            margin:0 auto;
+            margin:0 28px;
             &:lang(fr),
             &:lang(fr-CA){
                 .filters-head {
@@ -575,6 +578,17 @@
                 .filters-advanced__status {
                     flex-basis: 16%;
                 }
+            }
+        }
+    }
+}
+
+@media @large-tablet-down {
+    .filters {
+        &.leads-filters {
+            //margin: 0 auto;
+            .filters-head {
+                margin: 0 28px;
             }
         }
     }
@@ -912,22 +926,6 @@
     }
 }
 
-@media screen and (max-width:1366px) {
-    .filters.leads-filters {
-        .filters-head {
-            margin: 0 36px !important;
-        }
-    }
-}
-
-@media screen and (max-width:1280px) {
-    .filters.leads-filters {
-        .filters-head {
-            margin: 0 20px !important;
-        }
-    }
-}
-
 @media @mobile {
     .filters {
         &.my-deals-page {
@@ -1087,7 +1085,7 @@
         .filters-advanced {
             flex-wrap: wrap;
             padding: 24px;
-            margin: 20px 18px;
+            margin: 20px 17px;
             justify-content: center;
 
             &.homepage-mod {
@@ -1240,9 +1238,9 @@
 .leads-page {
     max-width: 1280px;
     margin: auto;
+    
     .filters {
         .filters-head {
-            margin: 0 16px;
             @media @desktop-down {
                 .filters-head__title {
                     margin:0;
@@ -1258,7 +1256,7 @@
                 margin: 20px 25px;
             }
             @media @tablet-only {
-                margin: 20px 25px;
+                margin: 20px 17px;
                 &__type,
                 &__status,
                 &__date-from,
@@ -1274,6 +1272,9 @@
                 &__date-from {
                     margin-left: unset;
                 }
+            }
+            @media @mobile {
+                margin: 20px 17px;
             }
         }
     }
@@ -1295,11 +1296,11 @@
 
     .my-deals {
         .filters .filters-head__save-btn .save-btn-status {
-        right: 165px;
-        &.saved {
-            right: 180px;
+            right: 165px;
+            &.saved {
+                right: 180px;
+            }
         }
-    }
     }
     .leads-page {
         .filters .filters-head__save-btn .save-btn-status {
@@ -1330,6 +1331,22 @@
                 right: 80px;
             }
         }
+        
+		&:lang(fr),
+		&:lang(fr-CA) {
+			@media @tablet-down {
+				right: 145px;
+				&.saved {
+					right:165px;
+				}
+			}
+			@media @mobile {
+				right:45px;
+				&.saved {
+					right:65px;
+				}
+            }
+        }
     }
 
 	.my-deals .filters .filters-head__save-btn .save-btn-status {
@@ -1344,7 +1361,22 @@
             &.saved {
                 right: 75px;
             }
-		}
+        }
+		&:lang(fr),
+		&:lang(fr-CA) {
+			@media @tablet-down {
+				right: 15px;
+				&.saved {
+					right:35px;
+				}
+			}
+			@media @mobile {
+				right:45px;
+				&.saved {
+					right:60px;
+				}
+            }
+        }
     }
 
 	.leads-page .filters .filters-head__save-btn .save-btn-status {
@@ -1358,12 +1390,28 @@
                 right: 85px;
             } 
         }
-            @media only screen and (max-width: 767px) and (orientation: landscape){
-                right: 215px;
-                &.saved{
-                    right: 230px;
-                }
+        @media only screen and (max-width: 767px) and (orientation: landscape){
+            right: 215px;
+            &.saved{
+                right: 230px;
             }
+        }
+            
+		&:lang(fr),
+		&:lang(fr-CA) {
+			@media @tablet-down {
+				right: 15px;
+				&.saved {
+					right:35px;
+				}
+			}
+			@media @mobile {
+				right:45px;
+				&.saved {
+					right:60px;
+				}
+            }
+        }
     }
 }
 

@@ -511,7 +511,8 @@
                                         <a data-bind="attr:{href:$parent.editUrl($data.Id)}">@Resources.Edit</a>
                                     </span>
                                 </div>
-                                <div class="table-row-settings-popup__export" data-bind="visible: !$data.IsInternal && $data.Id > 0, click: function(){ $parent.exportToExcel($data.Id); }">
+                                <div class="table-row-settings-popup__export" 
+                                     data-bind="visible: !$data.IsInternal && $data.Id > 0, click: function(){ $parent.exportToExcel($data.Id); }">
                                     <i class="excel-ico"></i>
                                     <span>
                                         <a>@Resources.ExportToExcel</a>
