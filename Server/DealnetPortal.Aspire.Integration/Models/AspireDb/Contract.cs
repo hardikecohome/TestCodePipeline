@@ -7,8 +7,8 @@ namespace DealnetPortal.Aspire.Integration.Models.AspireDb
         public long TransactionId { get; set; }
         public string DealStatus { get; set; }
         public string AgreementType { get; set; }        
-        public int Term { get; set; }
-        public decimal AmountFinanced { get; set; }
+        public int? Term { get; set; }
+        public decimal? AmountFinanced { get; set; }
 
         public string EquipmentDescription { get; set; }
         public string EquipmentType { get; set; }
