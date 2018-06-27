@@ -8,7 +8,8 @@
         customYearCostId: '#CustomYCostVal',
         customAdminFeeId: '#CustomAFee',
         amortizationTermId: '#AmortizationTerm',
-        loanTermId: '#LoanTerm'
+        loanTermId: '#LoanTerm',
+        customRateCardBlockId: '#custom-rate-card'
     }
 
     var validateOnSelect = function (reset) {
@@ -27,7 +28,7 @@
     var initValidators = function () {
         var rateCardNotPresent = !Object.keys(settings).every(function(el) {
             return $(el).length > 0;
-        });
+        }) && $(settings.customRateCardBlockId).is('hidden');
         if (rateCardNotPresent) return;
 
         $(settings.customYearCostId).rules('add', {

@@ -210,7 +210,7 @@
                 $('#' + dropdownSelector).attr('disabled', false);
             }
 
-            _buildDropdownValues(dropdownSelector, dropdown, dropdowns.reverse(), optionTemplates.cardProgramDropdown);
+            _buildDropdownValues(dropdownSelector, dropdown, dropdowns.sort().reverse(), optionTemplates.cardProgramDropdown);
         }
     }
 
