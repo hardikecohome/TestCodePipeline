@@ -279,6 +279,7 @@
                 font-size: 10px;
                 color: #aebdc9;
                 font-weight: 500;
+                right: auto;
 
                 .checked-ico {
                     background-image: url(../../images/redesign_icons/check-mark.svg);
@@ -468,6 +469,16 @@
         .filters-head {
             margin: 0 16px;
         }
+        .filters-advanced {
+            margin: 20px 28px;
+            @media @tablet-only {
+                
+            }
+            @media @mobile {
+                margin: 20px 17px;
+            }
+        }
+
         &:lang(fr),
         &:lang(fr-CA) {
             .filters-advanced { 
@@ -478,7 +489,7 @@
                     }
                 }
             }
-        }
+        }        
     }
 }
 
@@ -532,10 +543,33 @@
                         margin-top: 0;
                     }
                 }
+                .filters-advanced {
+                    &__deal-to{
+                        label {
+                            line-height: 14px;
+                            max-width: 80%;
+                            top:14px;
+                        }
+                        input {
+                            &:focus,
+                            &:valid {
+                                & ~ label{
+                                    top: -10px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         &.leads-filters {
             margin:0 28px;
+            .filters-head {
+                margin:0 7px;
+            }
+            .filters-advanced {
+                margin: 20px 22px;
+            }
             &:lang(fr),
             &:lang(fr-CA){
                 .filters-head {
@@ -584,11 +618,60 @@
 }
 
 @media @large-tablet-down {
-    .filters {
+    .filters{
         &.leads-filters {
-            //margin: 0 auto;
+            margin: 0 auto;
+            .filters-advanced,
             .filters-head {
-                margin: 0 28px;
+                margin-left: 16px;
+                margin-right: 16px;
+            }
+        }
+        &.my-deals-page {
+            &:lang(fr),
+            &:lang(fr-CA){
+                .filters-advanced {
+                    &__deal-to,
+                    &__deal-from{
+                         label {
+                            line-height: 14px;
+                            max-width: 70%;
+                            top:14px;
+                        }
+                        input {
+                            &:focus,
+                            &:valid {
+                                & ~ label{
+                                    top: -10px;
+                                }
+                            }
+                        }
+                    }
+                    &__status,
+                    &__created-by,
+                    &__type {
+                        label {
+                            line-height: 14px;
+                            max-width: 70%;
+                            top:7px;
+
+                            &.label-title {
+                                top: -14px;
+                            }
+                        }
+                    }
+                    &__status {
+                        label {
+                            display: flex;
+                            justify-content: flex-start;
+                            
+                            .icon {
+                                bottom: -4px;
+                                flex-basis: 10%;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -606,6 +689,22 @@
             }
 
             .filters-advanced {
+                margin: 20px 17px;
+                &__type,
+                &__status,
+                &__date-from,
+                &__date-to {
+                    flex-basis: 20%;
+                    margin-right: 10px;
+                
+                    .custom-select-wrap {
+                        flex-basis: 90%;
+                    }
+                }
+
+                &__date-from {
+                    margin-left: unset;
+                }
                 &.homepage-mod {
                     .filters-advanced__type,
                     .filters-advanced__status,
@@ -1250,33 +1349,7 @@
                 margin: 0 3%;
             }*/
         }
-        .filters-advanced {
-            margin: 20px 28px;
-            @media only screen and (min-width:1025px) and (max-width:1599px) {
-                margin: 20px 25px;
-            }
-            @media @tablet-only {
-                margin: 20px 17px;
-                &__type,
-                &__status,
-                &__date-from,
-                &__date-to {
-                    flex-basis: 20%;
-                    margin-right: 10px;
-                
-                    .custom-select-wrap {
-                        flex-basis: 90%;
-                    }
-                }
 
-                &__date-from {
-                    margin-left: unset;
-                }
-            }
-            @media @mobile {
-                margin: 20px 17px;
-            }
-        }
     }
 }
 
@@ -1287,18 +1360,45 @@
             right: 180px;
         }
         @media @mobile {
-            right: 25%;
+            right: 85px;
             &.saved {
-                right: 27%;
+                right: 100px;
+            }
+        }
+        &:lang(fr),
+        &:lang(fr-CA) {
+            right: 145px;
+            &.saved{
+                right: 170px;
+            }
+            @media @mobile {
+                right: 65px;
+                &.saved {
+                    right: 80px;
+                }
+            }
+        }
+        @media only screen and (max-width: 767px) and (orientation: landscape){
+            &:lang(fr),
+            &:lang(fr-CA) {
+                right: 250px;
+                &.saved{
+                    right: 270px;
+                }
             }
         }
     }
 
     .my-deals {
         .filters .filters-head__save-btn .save-btn-status {
-            right: 165px;
-            &.saved {
-                right: 180px;
+            @media @tablet-only {
+                &:lang(fr),
+                &:lang(fr-CA){
+                    right: 15px;
+                    &.saved {
+                        right: 35px;
+                    }
+                }
             }
         }
     }
@@ -1320,136 +1420,48 @@
 }
 
 .ios-device {
-    .filters .filters-head__save-btn .save-btn-status {
-        right: 165px;
-        &.saved {
-            right: 180px;
-        }
-        @media @mobile{
-            right: 65px;
+    @media @tablet-only {
+        .filters .filters-head__save-btn .save-btn-status {
+            right: 165px;
             &.saved {
-                right: 80px;
+                right: 180px;
             }
-        }
         
-		&:lang(fr),
-		&:lang(fr-CA) {
-			@media @tablet-down {
-				right: 145px;
-				&.saved {
-					right:165px;
-				}
-			}
-			@media @mobile {
-				right:45px;
-				&.saved {
-					right:65px;
-				}
+            &:lang(fr),
+            &:lang(fr-CA) {
+                right: 145px;
+                &.saved {
+                    right:165px;
+                }
             }
         }
-    }
-
-	.my-deals .filters .filters-head__save-btn .save-btn-status {
-        @media @tablet-down {
+        .my-deals .filters .filters-head__save-btn .save-btn-status {
             right: 35px;
             &.saved {
                 right: 50px;
             }
-        }
-        @media @mobile {
-            right: 65px;
-            &.saved {
-                right: 75px;
-            }
-        }
-		&:lang(fr),
-		&:lang(fr-CA) {
-			@media @tablet-down {
-				right: 15px;
+        
+            &:lang(fr),
+            &:lang(fr-CA) {
+                right: 15px;
 				&.saved {
 					right:35px;
 				}
-			}
-			@media @mobile {
-				right:45px;
-				&.saved {
-					right:60px;
-				}
             }
         }
-    }
 
-	.leads-page .filters .filters-head__save-btn .save-btn-status {
-        right: 175px;
-        &.saved {
-            right: 190px;
-        }
-        @media @mobile {           
-            right: 70px;
+        .leads-page .filters .filters-head__save-btn .save-btn-status {
+            right: 150px;
             &.saved {
-                right: 85px;
-            } 
-        }
-        @media only screen and (max-width: 767px) and (orientation: landscape){
-            right: 215px;
-            &.saved{
-                right: 230px;
+                right: 165px;
             }
-        }
-            
-		&:lang(fr),
-		&:lang(fr-CA) {
-			@media @tablet-down {
-				right: 15px;
-				&.saved {
-					right:35px;
+            &:lang(fr),
+            &:lang(fr-CA) {
+                right: 135px;
+                &.saved {
+                    right:155px;
 				}
 			}
-			@media @mobile {
-				right:45px;
-				&.saved {
-					right:60px;
-				}
-            }
         }
     }
 }
-
-// @media @tablet-only {
-//     .filters {
-//         &:lang(fr),
-//         &:lang(fr-CA){
-//             .filters-advanced {
-//                 &__type,
-//                 &__status,
-//                 &__created-by,
-//                 &__payment-type,
-//                 &__deal-to,
-//                 &__deal-from {
-//                     label {
-//                         line-height: 12px;
-//                         max-width: 70%;
-
-//                         &.label-title {
-//                             top: -14px;
-//                         }
-//                     }
-//                     .new-input-group .custom-text-input-group input:focus ~ label, 
-//                     .new-input-group .custom-text-input-group input:valid ~ label {
-//                         top: -20px;
-//                     }
-//                 }
-
-//                 &__status {
-//                         text-align: right;
-//                     label {
-//                         display: inline-flex;
-//                         .icon {
-//                              top:0;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }

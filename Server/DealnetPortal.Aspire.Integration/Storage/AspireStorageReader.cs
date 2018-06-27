@@ -349,8 +349,8 @@ namespace DealnetPortal.Aspire.Integration.Storage
                 item.DealStatus = ConvertFromDbVal<string>(dr["Deal_Status"]);
                 item.AgreementType = ConvertFromDbVal<string>(dr["Contract_Type_Code"]);
 
-                item.Term = ConvertFromDbVal<int>(dr["Term"]);
-                item.AmountFinanced = ConvertFromDbVal<decimal>(dr["Amount Financed"]);
+                item.Term = ConvertFromDbVal<int?>(dr["Term"]);
+                item.AmountFinanced = ConvertFromDbVal<decimal?>(dr["Amount Financed"]);
                 item.AgreementType = ConvertFromDbVal<string>(dr["Contract_Type_Code"]);
 
                 item.EquipmentDescription = ConvertFromDbVal<string>(dr["Equipment_Description"]);

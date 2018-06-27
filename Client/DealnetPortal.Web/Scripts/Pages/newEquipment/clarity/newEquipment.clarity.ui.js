@@ -2,7 +2,9 @@
     var settings = {
         loanRateCardToggleId: '#loanRateCardToggle',
         loanDetailsClass: '.loan-details',
-        loanBriefClass: '.loan-brief'
+        loanBriefClass: '.loan-brief',
+        addEquipmentId: '#addEquipment',
+        addInstallPackageId: '#addInstallationPackage'
     }
 
     var setEqualHeightRows = require('setEqualHeightRows');
@@ -10,9 +12,6 @@
     var init = function () {
         _initHandlers();
 
-        $(window).resize(function () {
-            setLabelHeigths();
-        });
         setLabelHeigths();
     };
 
@@ -23,10 +22,16 @@
 
     function _initHandlers() {
         var opened = true;
+
         $(settings.loanRateCardToggleId).on('click', function () {
             opened ? _hideLoanDetails() : _showLoanDetails();
             opened = !opened;
         });
+
+        $(settings.addEquipmentId).on('click', setLabelHeigths);
+        $(settings.addInstallPackageId).on('click', setLabelHeigths);
+
+        $(window).resize(setLabelHeigths);
     }
 
     function _showLoanDetails() {

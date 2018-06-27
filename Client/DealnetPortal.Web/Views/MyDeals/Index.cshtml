@@ -120,7 +120,9 @@
                                 <span class="icon">
                                     <i class="info-ico info-ico--grey"></i>
                                 </span>
-                                @Resources.DealStatus
+                                <span>
+                                    @Resources.DealStatus
+                                </span>
                             </label>
                             <select id="status" data-bind="foreach:statusOptions, selectric:status">
                                 <option data-bind="value: $data.text, text: $data.text, attr:{class:$data.icon && 'deal-status-ico deal-status-ico--'+$data.icon}"></option>
