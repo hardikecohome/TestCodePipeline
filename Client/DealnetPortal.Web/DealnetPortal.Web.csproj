@@ -904,6 +904,7 @@
     <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
     <Content Include="Content\files\resources\en\Ecohome Loan Rate Card May 29 2018 to June 20 2018.pdf" />
     <Content Include="Content\files\resources\en\EcoHome Program Quick Tips.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Loan Rate Card July 1 to September 30 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\components\addressInformation.js" />
