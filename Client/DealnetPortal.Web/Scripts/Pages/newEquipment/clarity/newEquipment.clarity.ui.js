@@ -1,17 +1,29 @@
-﻿module.exports('newEquipment.clarity.ui', function() {
+﻿module.exports('newEquipment.clarity.ui', function (require) {
     var settings = {
         loanRateCardToggleId: '#loanRateCardToggle',
         loanDetailsClass: '.loan-details',
         loanBriefClass: '.loan-brief'
     }
 
+    var setEqualHeightRows = require('setEqualHeightRows');
+
     var init = function () {
         _initHandlers();
+
+        $(window).resize(function () {
+            setLabelHeigths();
+        });
+        setLabelHeigths();
     };
+
+    function setLabelHeigths() {
+        setEqualHeightRows($('#new-equipments .new-equipment-equal-height-label'));
+        setEqualHeightRows($('#installation-packages .installation-equal-height'));
+    }
 
     function _initHandlers() {
         var opened = true;
-        $(settings.loanRateCardToggleId).on('click', function() {
+        $(settings.loanRateCardToggleId).on('click', function () {
             opened ? _hideLoanDetails() : _showLoanDetails();
             opened = !opened;
         });

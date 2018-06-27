@@ -1110,6 +1110,10 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             conditions.RentalEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.EscalatedLimit;
             conditions.RentalNonEscalatedMonthlyLimit = contract.PrimaryCustomer?.CreditReport?.NonEscalatedLimit;
             conditions.LoanCreditAmount = contract.Details?.CreditAmount ?? contract.PrimaryCustomer?.CreditReport?.CreditAmount;
+	        conditions.IsAdminFeePaidByCustomer =
+		        contract.Equipment?.IsFeePaidByCutomer == null && !conditions.IsNewContract
+			        ? false
+			        : contract.Equipment?.IsFeePaidByCutomer;
 
             if (contract.Equipment == null ||
                (contract.Equipment?.RateCardId == null

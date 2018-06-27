@@ -607,8 +607,8 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         _unitOfWork.Save();
                     }
-                }                
-
+                }
+                var dbEquipoment = !string.IsNullOrEmpty(equipmentType) ? Mapper.Map<EquipmentTypeDTO>(_contractRepository.GetEquipmentTypeInfo(equipmentType)) : null;
                 var contractDataDto = new ContractDataDTO
                 {
                     PrimaryCustomer = primaryCustomer,                    
@@ -622,7 +622,8 @@ namespace DealnetPortal.Api.Integration.Services
                                 new List<NewEquipmentDTO> {new NewEquipmentDTO
                                 {
                                     Type = equipmentType,
-                                    Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
+                                    EquipmentType = dbEquipoment,
+                                    Description = dbEquipoment?.Description
                                 }}
                         }
                         : null,

@@ -45,6 +45,9 @@ namespace DealnetPortal.Web.Models.EquipmentInformation
         [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
         public string PreferredInstallTime { get; set; }
 
+        [Display(ResourceType = typeof(Resources.Resources), Name = "PreferredInstallTime")]
+        public string LocalizedPreferredInstallTime { get; set; }
+
         public SalesRepInformation SalesRepInformation { get; set; }
 
         [StringLength(500, ErrorMessageResourceType = typeof(Resources.Resources), ErrorMessageResourceName = "TheFieldMustBeMaximum")]

@@ -493,8 +493,8 @@ namespace DealnetPortal.Web.ServiceAgent
 			{
 				return
 					await
-						Client.PostAsyncEx<string, IList<Alert>>(
-							$"{_fullUri}/{contractId}/comments/{commentId}", "", AuthenticationHeader, CurrentCulture);
+						Client.DeleteAsyncEx<IList<Alert>>(
+							$"{_fullUri}/{contractId}/comments/{commentId}", AuthenticationHeader, CurrentCulture);
 			}
 			catch (Exception ex)
 			{
