@@ -341,14 +341,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email)
         {
             string BestWay = string.Empty;
-            if (SupportDetails.BestWay == "Phone")
-            {
-                BestWay = $"<strong>Phone : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
-            }
-            else if (SupportDetails.BestWay == "Email")
-            {
-                BestWay = $"<strong>Email: </strong> { SupportDetails.ContactDetails ?? string.Empty}";
-            }
+            BestWay = $"<strong>{ SupportDetails.BestWay.GetEnumDescription() } : </strong> { SupportDetails.ContactDetails  ?? string.Empty}";
             var supportTypeDescription = SupportDetails.SupportType.GetEnumDescription();
 
             MandrillRequest request = new MandrillRequest();
@@ -387,8 +380,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = $"Support Request - { SupportDetails.SupportType}",
-                text = $"Support Request - { SupportDetails.SupportType}",
+                subject = $"Support Request - { supportTypeDescription }",
+                text = $"Support Request - { supportTypeDescription }",
                 to = new List<MandrillTo>
                 {
                         new MandrillTo
