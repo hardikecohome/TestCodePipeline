@@ -543,6 +543,23 @@
                         margin-top: 0;
                     }
                 }
+                .filters-advanced {
+                    &__deal-to{
+                        label {
+                            line-height: 14px;
+                            max-width: 80%;
+                            top:14px;
+                        }
+                        input {
+                            &:focus,
+                            &:valid {
+                                & ~ label{
+                                    top: -10px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         &.leads-filters {
@@ -600,7 +617,7 @@
     }
 }
 
-@media @desktop-down {
+@media @large-tablet-down {
     .filters{
         &.leads-filters {
             margin: 0 auto;
@@ -608,6 +625,53 @@
             .filters-head {
                 margin-left: 16px;
                 margin-right: 16px;
+            }
+        }
+        &.my-deals-page {
+            &:lang(fr),
+            &:lang(fr-CA){
+                .filters-advanced {
+                    &__deal-to,
+                    &__deal-from{
+                         label {
+                            line-height: 14px;
+                            max-width: 70%;
+                            top:14px;
+                        }
+                        input {
+                            &:focus,
+                            &:valid {
+                                & ~ label{
+                                    top: -10px;
+                                }
+                            }
+                        }
+                    }
+                    &__status,
+                    &__created-by,
+                    &__type {
+                        label {
+                            line-height: 14px;
+                            max-width: 70%;
+                            top:7px;
+
+                            &.label-title {
+                                top: -14px;
+                            }
+                        }
+                    }
+                    &__status {
+                        label {
+                            display: flex;
+                            justify-content: flex-start;
+                            
+                            .icon {
+                                bottom: -4px;
+                                flex-basis: 10%;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
