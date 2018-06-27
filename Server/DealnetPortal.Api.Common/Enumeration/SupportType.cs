@@ -24,7 +24,7 @@ namespace DealnetPortal.Api.Common.Enumeration
         Other = 6
     }
 
-    public enum BestWayEnum
+    public enum PreferredContactType
     {
         [Display(ResourceType = typeof(Resources.Resources), Name = "Phone")]
         Phone = 0,

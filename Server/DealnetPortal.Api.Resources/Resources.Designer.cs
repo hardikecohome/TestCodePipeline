@@ -1231,6 +1231,15 @@ namespace DealnetPortal.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credit Decision.
+        /// </summary>
+        public static string CreditDecision {
+            get {
+                return ResourceManager.GetString("CreditDecision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom.
         /// </summary>
         public static string Custom {

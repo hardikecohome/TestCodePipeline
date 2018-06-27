@@ -1102,4 +1102,7 @@
   <data name="Signed" xml:space="preserve">
     <value>Signé</value>
   </data>
+  <data name="CreditDecision" xml:space="preserve">
+    <value>Décision liée au crédit</value>
+  </data>
 </root>
