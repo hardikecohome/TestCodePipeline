@@ -12,11 +12,11 @@
             /*  ISNULL(EQPTYPE.descr,'')   */ 
 			   ''  as [Equipment_Type], 
  
-                CAST(ISNULL((select dbo.[GetContractAmountFinancedFN](contract.ContractOid)),0) AS numeric(11,2)) as [Amount Financed],
+                CAST((select dbo.[GetContractAmountFinancedFN](contract.ContractOid)) AS numeric(11,2)) as [Amount Financed],
  
                 ISNULL(CTYPE.data_value,'') AS [Contract_Type_Code],
                 ISNULL(ENTTY.entt_id,'') AS [Customer ID],           
-                ISNULL(ContractTerm.Term,0)     as [Term]
+                ContractTerm.Term   as [Term]
 				,cast(Credit_limit.[Value] as decimal(10,2)) as OverrideCreditAmountLimit
                 , Credit_RiskGroup.[Value] as OverrideCustomerRiskGroup                      
                   FROM Contract  (NOLOCK)
