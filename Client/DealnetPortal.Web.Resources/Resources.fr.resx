@@ -2754,7 +2754,7 @@ Veuillez vous assurer que les informations fournies par le client correspondent 
     <value>Le client a-t-il des ententes avec Services Financiers EcoHome?</value>
   </data>
   <data name="CustomerOwned" xml:space="preserve">
-    <value>appartient au client</value>
+    <value>Appartient au client</value>
   </data>
   <data name="MaximumAmountCapingOut" xml:space="preserve">
     <value>Le montant total financé ne peut dépasser le montant  demandé</value>
