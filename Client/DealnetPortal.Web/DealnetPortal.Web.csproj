@@ -841,9 +841,6 @@
     <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="Content\less\slick\fonts\slick.svg" />
     <Content Include="Content\less\slick\ajax-loader.gif" />
-    <Content Include="DeployParameters.Web.Dealnet.xml" />
-    <Content Include="DeployParameters.Web.deaslnet01vm.xml" />
-    <Content Include="DeployParameters.Web.deaslnet02vm.xml" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
