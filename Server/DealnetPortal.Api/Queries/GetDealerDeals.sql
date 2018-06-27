@@ -12,7 +12,7 @@
             /*  ISNULL(EQPTYPE.descr,'')   */ 
 			   ''  as [Equipment_Type], 
  
-                CAST((select dbo.[GetContractAmountFinancedFN](contract.ContractOid)) AS numeric(11,2)) as [Amount Financed],
+                (select dbo.[GetContractAmountFinancedFN](contract.ContractOid)) as [Amount Financed],
  
                 ISNULL(CTYPE.data_value,'') AS [Contract_Type_Code],
                 ISNULL(ENTTY.entt_id,'') AS [Customer ID],           
