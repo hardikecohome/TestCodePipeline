@@ -1,4 +1,4 @@
-﻿SELECT        DISTINCT       
+﻿SELECT        DISTINCT       top 4200
                 ACC.NAME as dealer_name, 
                 Contract.ContractOid AS transaction#,    
                 Contract.ContractId                       as Contract_id, 
