@@ -341,14 +341,7 @@ namespace DealnetPortal.Api.Integration.Services
         public async Task SendSupportRequiredEmail(SupportRequestDTO SupportDetails, string email)
         {
             string BestWay = string.Empty;
-            if (SupportDetails.BestWay == "Phone")
-            {
-                BestWay = $"<strong>Phone : </strong> { SupportDetails.ContactDetails ?? string.Empty}";
-            }
-            else if (SupportDetails.BestWay == "Email")
-            {
-                BestWay = $"<strong>Email: </strong> { SupportDetails.ContactDetails ?? string.Empty}";
-            }
+            BestWay = $"<strong>{ SupportDetails.BestWay.GetEnumDescription() } : </strong> { SupportDetails.ContactDetails  ?? string.Empty}";
             var supportTypeDescription = SupportDetails.SupportType.GetEnumDescription();
 
             MandrillRequest request = new MandrillRequest();
@@ -387,8 +380,8 @@ namespace DealnetPortal.Api.Integration.Services
                         }
                     },
                 send_at = DateTime.Now,
-                subject = $"Support Request - { SupportDetails.SupportType}",
-                text = $"Support Request - { SupportDetails.SupportType}",
+                subject = $"Support Request - { supportTypeDescription }",
+                text = $"Support Request - { supportTypeDescription }",
                 to = new List<MandrillTo>
                 {
                         new MandrillTo
@@ -528,6 +521,55 @@ namespace DealnetPortal.Api.Integration.Services
                         new MandrillTo
                         {
                             email = contractData.DealerEmail,
+                            name = " ",
+                            type = "to"
+                        }
+                    }
+            };
+            try
+            {
+                var result = await SendEmail(request);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task SendNotifyMailNoDealerAcceptLead(string email, string subject, string body)
+        {
+            MandrillRequest request = new MandrillRequest();
+            List<Variable> myVariables = new List<Variable>();
+            myVariables.Add(new Variable() { name = "EmailHeader", content = subject });
+            myVariables.Add(new Variable() { name = "EmailBody", content = body });
+            request.key = _apiKey;
+            request.template_name = ConfigurationManager.AppSettings["SendNotifyMailNoDealerAcceptLead"];
+            request.template_content = new List<templatecontent>() {
+                    new templatecontent(){
+                        name="Send Notify Mail No Dealer Accept Lead",
+                        content = "Send Notify Mail No Dealer Accept Lead"
+                    }
+                };
+            request.message = new MandrillMessage()
+            {
+                from_email = ConfigurationManager.AppSettings["FromEmail"],
+                from_name = "EcoHome Financial",
+                html = null,
+                merge_vars = new List<MergeVariable>() {
+                        new MergeVariable(){
+                            rcpt = email,
+                            vars = myVariables
+
+
+                        }
+                    },
+                send_at = DateTime.Now,
+                subject = subject,
+                text = subject,
+                to = new List<MandrillTo>() {
+                        new MandrillTo(){
+                            email = email,
                             name = " ",
                             type = "to"
                         }
