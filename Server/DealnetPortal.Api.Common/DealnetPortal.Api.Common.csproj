@@ -57,6 +57,7 @@
     <Compile Include="Constants\WebConfigKeys.cs" />
     <Compile Include="Constants\WebConfigSections.cs" />
     <Compile Include="Enumeration\AddressType.cs" />
+    <Compile Include="Enumeration\DealerType.cs" />
     <Compile Include="Enumeration\Dealer\BusinessType.cs" />
     <Compile Include="Enumeration\Dealer\Channel.cs" />
     <Compile Include="Enumeration\Dealer\LeadGenMethod.cs" />
