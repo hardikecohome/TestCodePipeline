@@ -56,6 +56,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
     <OutputPath>bin\Production\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProduction|AnyCPU'">
+    <OutputPath>bin\AWSProduction\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProduction|AnyCPU'">
+    <OutputPath>bin\AWSTestProduction\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CipherCore, Version=2017.12.6571.15015, Culture=neutral, PublicKeyToken=e0287981ec67bb47, processorArchitecture=MSIL">
       <HintPath>..\packages\CipherCore.2017.12.1\lib\net45\CipherCore.dll</HintPath>

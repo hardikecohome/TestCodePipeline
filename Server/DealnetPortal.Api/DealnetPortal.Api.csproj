@@ -382,6 +382,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Web.AWSProduction.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProduction.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Production.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -486,6 +492,12 @@
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProduction|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProduction|AnyCPU'">
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

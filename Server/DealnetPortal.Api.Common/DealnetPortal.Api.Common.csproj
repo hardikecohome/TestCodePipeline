@@ -56,6 +56,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Production|AnyCPU'">
     <OutputPath>bin\Production\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProduction|AnyCPU'">
+    <OutputPath>bin\AWSProduction\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProduction|AnyCPU'">
+    <OutputPath>bin\AWSTestProduction\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
