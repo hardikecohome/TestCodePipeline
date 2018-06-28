@@ -126,7 +126,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                     var dealerRoles = _dealerRepository.GetUserRoles(contract.DealerId);
                     if (contract.Dealer?.Tier?.IsCustomerRisk == true 
-                        || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)
+                        || (contract.Dealer.DealerType == DealerType.Lease.ToString() &&  string.IsNullOrEmpty(contract.Dealer?.LeaseTier))
                         || dealerRoles?.Contains(UserRole.MortgageBroker.ToString()) == true
                         || dealerRoles?.Contains(UserRole.CustomerCreator.ToString()) == true)
                     {

@@ -143,7 +143,7 @@ namespace DealnetPortal.Api.Integration.Services
         {
             var contract = _contractRepository.GetContract(contractId, contractOwnerId);
             //check credit report status and update if needed
-            if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || string.IsNullOrEmpty(contract.Dealer?.LeaseTier)) &&
+            if ( (contract.Dealer?.Tier?.IsCustomerRisk == true || (contract.Dealer.DealerType == DealerType.Lease.ToString() && string.IsNullOrEmpty(contract.Dealer?.LeaseTier))) &&
                 contract.ContractState > ContractState.CustomerInfoInputted &&
                 contract.ContractState < ContractState.Closed &&
                 contract.PrimaryCustomer != null &&                 
