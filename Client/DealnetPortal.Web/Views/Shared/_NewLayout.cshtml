@@ -190,22 +190,26 @@
                             <span class="header__phone">@phone</span>
                         </div>
                         <div class="clearfix visible-lg-block"></div>
-                        <div class="header__support">
-                            <ul class="header__support-links-list">
-                                <li class="credit-funding-contact">
-                                    <span class="icon-support"></span>
-                                    <a href="#">@Resources.Credit</a>
-                                </li>
-                                <li class="dealer-support-contact">
-                                    <span class="icon-dealer-support"></span>
-                                    <a href="#">@Resources.DealerSupport/@Resources.Funding</a>
-                                </li>
-                                <li class="customer-service-contact">
-                                    <span class="icon-customer-service-support"></span>
-                                    <a href="#">@Resources.CustomerService</a>
-                                </li>
-                            </ul>
-                        </div>
+						<div class="header__support">
+							<ul class="header__support-links-list">
+								<li class="credit-funding-contact">
+									<span class="icon-support"></span>
+									<a href="#">@Resources.Credit</a>
+								</li>
+								<li class="funding-contact">
+									<span class="icon-support"></span>
+									<a href="#">@Resources.Funding</a>
+								</li>
+								<li class="dealer-support-contact">
+									<span class="icon-dealer-support"></span>
+									<a href="#">@Resources.DealerSupport</a>
+								</li>
+								<li class="customer-service-contact">
+									<span class="icon-customer-service-support"></span>
+									<a href="#">@Resources.CustomerService</a>
+								</li>
+							</ul>
+						</div>
                     </div>
                     <div class="clearfix visible-md-block visible-sm-block"></div>
                     var hasAbout = (User as ClaimsPrincipal)?.HasClaim("ShowAbout", "True") ?? false;

@@ -1022,6 +1022,8 @@
     <Content Include="Content\files\resources\en\general\Loan\Ecohome Loan Rate Card October 2017 to April 2018.pdf" />
     <Content Include="Content\files\resources\en\general\Loan\Ecohome Loan User Guide.pdf" />
     <Content Include="Content\files\resources\en\general\Loan\Loan-Agreement-Changes-From-August-To-September.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Program Quick Tips.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Loan Rate Card July 1 to September 30 2018.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
     <Content Include="Scripts\common\ko.datepicker.js" />

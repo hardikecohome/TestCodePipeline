@@ -15,7 +15,7 @@ namespace DealnetPortal.Api.Models.Notify
         public string LoanNumber { get; set; }
         public SupportType SupportType { get; set; }
         public string HelpRequested { get; set; }
-        public string BestWay { get; set; }
+        public PreferredContactType BestWay { get; set; }
         public string ContactDetails { get; set; }
     }
 }

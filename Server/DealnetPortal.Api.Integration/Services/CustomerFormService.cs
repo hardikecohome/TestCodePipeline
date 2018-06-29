@@ -537,25 +537,27 @@ namespace DealnetPortal.Api.Integration.Services
                 var errorMsg = "Can't send dealer notification email";
                 _loggingService.LogError(errorMsg, ex);
             }
-            
-            bool customerEmailNotification;
-            bool.TryParse(_configuration.GetSetting(WebConfigKeys.CUSTOMER_EMAIL_NOFIFICATION_ENABLED_CONFIG_KEY),
-                out customerEmailNotification);
-            if (customerEmailNotification)
-            {
-                try
-                {
-                    await
-                        _mailService.SendCustomerLoanFormContractCreationNotification(
-                            customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
-                                m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    var errorMsg = "Can't send customer notification email";
-                    _loggingService.LogError(errorMsg, ex);
-                }
-            }
+            /// <summary>
+            /// not longer used - Deal-4328 - Remove Mailgun Dependancies
+            /// </summary>
+            //bool customerEmailNotification;
+            //bool.TryParse(_configuration.GetSetting(WebConfigKeys.CUSTOMER_EMAIL_NOFIFICATION_ENABLED_CONFIG_KEY),
+            //    out customerEmailNotification);
+            //if (customerEmailNotification)
+            //{
+            //    try
+            //    {
+            //        await
+            //            _mailService.SendCustomerLoanFormContractCreationNotification(
+            //                customerFormData.PrimaryCustomer.Emails.FirstOrDefault(
+            //                    m => m.EmailType == EmailType.Main)?.EmailAddress, contractData, dealerColor?.StringValue, dealerLogo?.BinaryValue).ConfigureAwait(false);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        var errorMsg = "Can't send customer notification email";
+            //        _loggingService.LogError(errorMsg, ex);
+            //    }
+            //}
         }
 
         private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, 
