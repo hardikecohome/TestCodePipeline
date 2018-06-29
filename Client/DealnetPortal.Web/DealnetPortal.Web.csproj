@@ -1278,6 +1278,24 @@
     <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="Views\Shared\_AlertModal.cshtml" />
+    <None Include="Web.AWSProdApplication.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSProdEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSProdMortgageBrokers.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProdApplication.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProdEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProdMortgageBrokers.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.ProductionApplication.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1382,6 +1400,24 @@
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionRealtor|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdEcohome|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdEcohome|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdApplication|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdApplication|AnyCPU'">
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

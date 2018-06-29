@@ -60,6 +60,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionRealtor|AnyCPU'">
     <OutputPath>bin\ProductionRealtor\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdEcohome|AnyCPU'">
+    <OutputPath>bin\AWSProdEcohome\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdEcohome|AnyCPU'">
+    <OutputPath>bin\AWSTestProdEcohome\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\AWSProdMortgageBrokers\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\AWSTestProdMortgageBrokers\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdApplication|AnyCPU'">
+    <OutputPath>bin\AWSProdApplication\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdApplication|AnyCPU'">
+    <OutputPath>bin\AWSTestProdApplication\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DealnetPortal.Api.Common">
       <HintPath>..\..\lib\DealnetPortal.Api.Common.dll</HintPath>
