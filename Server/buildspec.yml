@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Restore started on `date`
+      - pip install --upgrade awscli
+      - dotnet restore DealnetPortal.Api/DealnetPortal.Api.csproj
+      - dotnet restore DealnetPortal.Api.Tests/DealnetPortal.Api.Tests.csproj
+  build:
+    commands:
+      - echo Build started on `date`
+      - dotnet publish -c release -o ./build_output DealnetPortal.Api/DealnetPortal.Api.csproj
+      - dotnet publish -c release -o ./test_output DealnetPortal.Api.Tests/DealnetPortal.Api.Tests.csproj
+artifacts:
+  files:
+    - DealnetPortal.Api/build_output/**/*

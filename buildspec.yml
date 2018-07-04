@@ -14,4 +14,3 @@ phases:
 artifacts:
   files:
     - Server/DealnetPortal.Api/build_output/**/*
-    - appspec.yml
