@@ -9,7 +9,7 @@ env:
 phases:
   build:
     commands:
-      - dotnet publish -c AWSProduction -o ./deployment Server/DealnetPortal.Api.csproj      
+      - dotnet publish -c AWSProduction -o ./deployment Server/DealnetPortal.Api/DealnetPortal.Api.csproj      
 artifacts:
   files:
     - .\Server\deployment\*
