@@ -27,7 +27,7 @@ namespace DealnetPortal.Api
                 _backgroundSchedulerService = new BackgroundSchedulerService();
                 CleanAllJobs();
                 RecurringJob.AddOrUpdate(() =>
-                _backgroundSchedulerService.CheckExpiredLeads(DateTime.Now, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))),
+                _backgroundSchedulerService.CheckExpiredLeads(DateTime.UtcNow, int.Parse(config.GetSetting(WebConfigKeys.LEAD_EXPIREDMINUTES_CONFIG_KEY))),
                     Cron.MinuteInterval(int.Parse(config.GetSetting(WebConfigKeys.LEAD_CHECKPERIODMINUTES_CONFIG_KEY))));
 
                 app.UseHangfireDashboard();
@@ -37,7 +37,6 @@ namespace DealnetPortal.Api
             {
                 
             }
-            
         }
 
         private static void CleanAllJobs()

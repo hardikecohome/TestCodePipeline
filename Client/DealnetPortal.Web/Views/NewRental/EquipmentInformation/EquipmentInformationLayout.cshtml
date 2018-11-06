@@ -1,0 +1,149 @@
+﻿@using System.Globalization
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+@{
+    if(Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
+    {
+        Model.ExistingEquipment = null;
+    }
+    if(Model?.InstallationPackages != null && !Model.InstallationPackages.Any())
+    {
+        Model.InstallationPackages = null;
+    }
+}
+
+<div class="dealnet-large-header">@Resources.NewEquipment</div>
+@Html.Partial("EquipmentInformation/_StepsNavigation", Model)
+<div class="form-container">
+    <div class="form-section">
+        @if((Model.DealerTier.CustomerRiskGroup == null || Model.Conditions.IsCustomerFoundInCreditBureau || Model.Conditions.IsBeaconUpdated) && TempData["MaxCreditAmount"] != null)
+        {
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
+                <span>@Resources.CreditCheckProcessedSuccessfully</span>
+            </p>
+
+            <p class="text-semibold preapproved-text">
+                @if (ViewBag.ShowPreapprovalAmount == true)
+                {
+                    if(Model.DealerTier.CustomerRiskGroup != null && Model.DealerTier.CustomerRiskGroup.GroupCapOutMaxAmt == true)
+                    {
+                        <text>
+                            @Resources.PreApprovedUptoAMaximumOf $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.CreditAmount:0,00}")
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                            @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
+                        </text>
+
+                    }
+                }
+                else
+                {
+                    <text>
+                        @Resources.PreApproved
+                    </text>
+                }
+            </p>
+        }
+        @if(Model.Conditions.IsCustomerFoundInCreditBureau && Model.Conditions.IsBeaconUpdated)
+        {
+            <p class="align-middle equipment-proceed-success">
+                <svg aria-hidden="true" class="icon icon-success">
+                    <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-success")"></use>
+                </svg>
+                <span>@Resources.CustomerCreditUpdated @Resources.YouCanNowReviewFinancingBelow</span>
+            </p>
+            if (ViewBag.ShowPreapprovalAmount == true)
+            {
+                <p class="text-semibold preapproved-text">
+                    @Resources.PreApprovedFor $@(TempData["MaxCreditAmount"] != null ? $"{TempData["MaxCreditAmount"]:0,00}" : $"{Model.Conditions.LoanCreditAmount:0,00}")
+                </p>
+            }
+            else
+            {
+                <p class="text-semibold preapproved-text">
+                    @Resources.PreApproved
+                </p>
+            }
+        }
+    </div>
+</div>
+
+@RenderBody()
+
+@section Translations
+{
+    translations['TotalMonthlyPaymentMustBeGreaterZero'] = "@Html.Raw(Resources.TotalMonthlyPaymentMustBeGreaterZero)";
+    translations['loanTermMax'] = "@Resources.LoanTermMustBe3Max";
+    translations['loanTermFormat'] = "@Resources.LoanTermIncorrectFormat";
+    translations['amortTermMax'] = "@Resources.AmortizationTermMustBe3Max";
+    translations['amortTermFormat'] = "@Resources.AmortizationTermIncorrectFormat";
+    translations['adminFeeFormat'] = "@Resources.AdminFeeIncorrectFormat";
+    translations['customerRateFormat'] = "@Resources.CustomerRateIncorrectFormat";
+    translations['yourCostFormat'] = "@Resources.YourRateIncorrectFormat";
+    translations['customerOrYourCost'] = "@Resources.CustomerOrYourCostRequired";
+    translations['enterZero'] = "@Resources.PleaseEnterAtLeastZero";
+    translations['EnterValidDate'] = "@Resources.EnterValidDate";
+    translations['months'] = "@Resources.Months";
+    translations['theFieldMustBeMaximum'] = "@Resources.TheFieldMustBeMaximum"
+    translations['monthlyCostOfOwnership'] = "@Resources.MonthlyCostOfOwnership";
+    translations['coveredByCustomer'] = "@Resources.CoveredByCustomer";
+    translations['coveredByDealer'] = "@Resources.CoveredByDealer";
+    translations['noReduction'] = "@Html.Raw(Resources.NoReduction)";
+    translations['for'] = '@Html.Raw(Resources.For)';
+    translations['AcknowledgeAndAgree']='@Resources.AcknowledgeAndAgree';
+    translations['MonthlyCostExceedsMaxTitle']='@Resources.MonthlyCostExceedsSoftCapTitle';
+    translations['MonthlyCostExceedsMaxBody']='@Resources.MonthlyCostExceedsSoftCapBody';
+    translations['SoftCapWarning']='@Html.Raw(Resources.SoftCapWarning)';
+    translations['HardCapWarning'] = '@Resources.HardCapWarning';
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/localization")
+@Scripts.Render("~/bundles/equipment-info-layout")
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $.fn.clearErrors = function () {
+                var spans = $(this).find("span.field-validation-error.text-danger");
+
+                $.grep(spans, function (span) {
+                    $(span).empty();
+                });
+
+                var inputs = $(this).find('input');
+
+                $.grep(inputs, function (input) {
+                    $(input).trigger('reset.unobtrusiveValidation');
+                });
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+	  var taxRate = @(Model.ProvinceTaxRate?.Rate.ToString(CultureInfo.InvariantCulture) ?? "0");
+	  var isCalculationValid = false;
+        var customerFee = @ViewBag.AdminFee;
+        var TotalAmtFinancedFor180amortTerm = @ViewBag.totalAmountFinancedFor180amortTerm;
+        var rentalEscalatedLimit = parseFloat(@(Model.Conditions?.RentalEscalatedMonthlyLimit ?? 0));
+	  var rentalNonEscalatedLimit = parseFloat(@(Model.Conditions?.RentalNonEscalatedMonthlyLimit ?? 0));
+	  var isStandardRentalTier = '@ViewBag.IsStandardRentalTier'.toLowerCase() === 'true';
+    </script>
+
+    <script type="text/javascript">
+        configInitialized.then(function () {
+            module.require('newEquipment.index').init();
+        });
+    </script>
+}
+@RenderSection("pageScripts", false)

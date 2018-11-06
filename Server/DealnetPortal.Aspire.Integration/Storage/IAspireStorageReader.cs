@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DealnetPortal.Aspire.Integration.Models.AspireDb;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Aspire.Integration.Storage
 {
     public interface IAspireStorageReader
     {
@@ -25,5 +25,10 @@ namespace DealnetPortal.Api.Integration.Services
         DealerRoleEntity GetDealerRoleInfo(string dealerUserName);
 
         string GetDealStatus(string transactionId);
+
+        CreditReport GetCustomerCreditReport(string customerId);
+        CreditReport GetCustomerCreditReport(string firstName, string lastName, DateTime dateOfBirth, string postalCode);
+
+        IList<CustomerAgreementShortInfo> SearchCustomerAgreements(string firstName, string lastName, DateTime dateOfBirth);
     }
 }

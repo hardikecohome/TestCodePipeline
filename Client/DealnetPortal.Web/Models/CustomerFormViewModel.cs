@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using DealnetPortal.Web.Models.Validation;
 
 namespace DealnetPortal.Web.Models
 {
     public class CustomerFormViewModel
     {
-        [CheckCustomersAge("AdditionalApplicants", 76)]
         [CheckHomeOwner("AdditionalApplicants")]
         public ApplicantPersonalInfo HomeOwner { get; set; }
         public CustomerContactInfoViewModel HomeOwnerContactInfo { get; set; }
@@ -23,5 +17,7 @@ namespace DealnetPortal.Web.Models
         public string DealerName { get; set; }
 
         public string HashDealerName { get; set; }
+
+        public bool IsQuebecDealer { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿.dealnet-page-button {
-    .dealnet-success-button;
     display: block;
     font: bold 14px/89px @usual-font-family;
     color: @white-color;
@@ -8,27 +7,24 @@
     width: 100%;
     height: 89px;
     text-decoration: none;
-    &:hover{
-        color: @white-color;
-    }
-    .icon{
+    .icon {
         margin-right: 20px;
         width: 30px;
         height: 30px;
         opacity: 0.5;
-        &+span{
+        &+span {
             margin-left: 0;
         }
     }
-    &:not(.new-rental){
-        @media @mobile{
+    &:not(.new-rental) {
+        @media @mobile {
             line-height: 1.3;
             display: table;
-            .button-inner{
+            .button-inner {
                 display: table-cell;
                 vertical-align: middle;
             }
-            .icon{
+            .icon {
                 display: block;
                 margin: 0 auto 5px;
             }
@@ -36,12 +32,12 @@
     }
     &.new-rental {
         margin-bottom: 20px;
-        @media @mobile{
+        @media @mobile {
             height: 50px;
             line-height: 50px;
             margin-bottom: 20px;
         }
-        .icon{
+        .icon {
             @media @mobile {
                 width: 20px;
                 height: 20px;
@@ -49,7 +45,8 @@
         }
     }
 }
-.scroll-more-horizontal{
+
+.scroll-more-horizontal {
     @media @mobile {
         content: '';
         position: absolute;
@@ -59,58 +56,75 @@
         width: 150px;
         background: #fff;
         pointer-events: none;
-
-        background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+        background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        /* FF3.6-15 */
+        background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
+        /* IE6-9 */
     }
 }
-.data-flow-container{
-
+.help-popup-sent {
+    left: 34%;
+    @media @mobile {
+        left: 0% !important;
+    }
+}
+.data-flow-container {
     position: relative;
     padding: 30px 0px 0 0;
-    &.data-loaded{
-.graph-label{
-    display: block;
-}
+
+    &.data-loaded {
+        .graph-label {
+            display: block;
+        }
     }
-    &:after{
+
+    &:after {
         .scroll-more-horizontal;
     }
-    .scrollable-container{
+
+    .scrollable-container {
         overflow-x: auto;
         padding-bottom: 20px;
-        .scrollable-content{
+
+        .scrollable-content {
             @media @mobile {
                 min-width: 800px;
             }
         }
     }
-    .graph-label{
+
+    .graph-label {
         font-weight: 600;
         display: none;
     }
-    .graph-label-x{
+
+    .graph-label-x {
         position: absolute;
         left: 0;
         top: 0;
     }
-    .graph-label-y{
+
+    .graph-label-y {
         position: absolute;
         left: 0;
         bottom: 0;
     }
 }
-body.body-scrolled{
+
+body.body-scrolled {
     overflow-y: scroll;
 }
-#data-flow-overview{
+
+#data-flow-overview {
     width: 100%;
-    height: 200px
+    height: 200px;
 }
 
-#work-items-table{
+#work-items-table {
     //table-layout: auto;
     //width: 100% !important;
     /*td{
@@ -118,29 +132,30 @@ body.body-scrolled{
     }*/
 }
 
-
-.dealnet-chart-switch-button-hold{
+.dealnet-chart-switch-button-hold {
     height: auto;
     line-height: 70px;
     margin: 10px 0;
 }
+
 .dealnet-chart-switch-button {
     width: 120px;
     height: 50px;
     line-height: 50px;
     display: inline-block;
-    font-family: Lato;
+    font-family: @usual-font-family;
     font-size: 18px;
     text-align: center;
     color: @default-dark-grey-color;
     margin: 0 5px 0 0;
     cursor: pointer;
 }
-@media @mobile{
-    .dealnet-chart-switch-button-hold{
+
+@media @mobile {
+    .dealnet-chart-switch-button-hold {
         text-align: center;
     }
-    .dealnet-chart-switch-button{
+    .dealnet-chart-switch-button {
         width: 80px;
         margin: 0 5px;
         height: 44px;
@@ -149,10 +164,10 @@ body.body-scrolled{
     }
 }
 
-    .dealnet-chart-switch-button:hover {
-        border: solid 1px #f0f0f0;
-        border-radius: 4px;
-    }
+.dealnet-chart-switch-button:hover {
+    border: solid 1px #f0f0f0;
+    border-radius: 4px;
+}
 
 .dealnet-chart-switch-button-selected {
     border-radius: 4px;
@@ -161,45 +176,42 @@ body.body-scrolled{
 }
 
 .dealnet-home-page .row {
-   /* margin-top: 21px;*/
+    /* margin-top: 21px;*/
 }
 
-
-
-.contact-info-list{
+.contact-info-list {
     margin: 0;
     padding: 0;
     list-style: none;
-    li+li{
+    li+li {
         margin-top: 5px;
     }
-    .icon{
+    .icon {
         margin-right: 10px;
         color: #989897;
-        &.icon-phone{
+        &.icon-phone {
             color: #9D9D9C;
         }
     }
 }
 
-a[href^=tel]{
-    color:inherit;
-    text-decoration:inherit;
-    font-size:inherit;
-    font-style:inherit;
-    font-weight:inherit;
+a[href^=tel] {
+    color: inherit;
+    text-decoration: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
     @media @desktop-up {
         cursor: default;
         pointer-events: none;
     }
 }
 
-.about-page{
-    max-width: 590px;
+.about-page {
     @media @tablet-down {
         margin: 0 auto;
     }
-    .promo-section{
+    .promo-section {
         @media @desktop-up {
             font-size: 16px;
         }
@@ -207,25 +219,50 @@ a[href^=tel]{
             font-size: 14px;
         }
     }
-    .page-section{
-        &+.page-section{
+    .page-section {
+        &+.page-section {
             margin-top: 20px;
         }
     }
 }
-.page-container{
+
+.page-container {
     @media @tablet-down {
         max-width: 590px;
         margin: 0 auto;
     }
-    .dealnet-success-button{
+    .dealnet-success-button {
         width: 100%;
         display: block;
         max-width: 355px;
         margin: 0 auto;
-/*        @media @tablet-down {
+        /*        @media @tablet-down {
             height: 49px;
             line-height: 36px;
         }*/
+    }
+}
+
+.banner-container {
+    margin: -16px -15px 15px;
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+}
+
+.dealnet-large-header {
+    #export-all-to-excel {
+        .dealnet-button {
+            margin-bottom: 3px;
+        }
+        @media @mobile {
+            display: block;
+            .dealnet-button {
+                padding-left: 0;
+                margin-bottom: 2px;
+            }
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace DealnetPortal.Api.Models.Contract
         public List<PhoneDTO> Phones { get; set; }
 
         public List<EmailDTO> Emails { get; set; }
+        // Lead source of a client web-portal (DP, MB, OB, CW)
+        public string LeadSource { get; set; }
     }
 }

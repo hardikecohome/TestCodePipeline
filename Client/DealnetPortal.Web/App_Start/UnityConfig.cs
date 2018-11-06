@@ -8,6 +8,7 @@ using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Common.Services;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Owin.Security;
 using Microsoft.Practices.Unity;
@@ -56,6 +57,8 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ISecurityServiceAgent, SecurityServiceAgent>();
             container.RegisterType<IUserManagementServiceAgent, UserManagementServiceAgent>();
             container.RegisterType<IContractServiceAgent, ContractServiceAgent>();
+            container.RegisterType<ICustomerFormServiceAgent, CustomerFormServiceAgent>();
+            container.RegisterType<ICustomerFormManager, CustomerFormManager>();
             container.RegisterType<IDealerServiceAgent, DealerServiceAgent>();
             container.RegisterType<ICultureManager, CultureManager>();
             container.RegisterType<CultureSetterManager>();
@@ -69,6 +72,8 @@ namespace DealnetPortal.Web.App_Start
             container.RegisterType<ICustomerManager, CustomerManager>();
             container.RegisterType<IProfileManager, ProfileManager>();
             container.RegisterType<IDealerOnBoardingManager, DealerOnBoardingManager>();
+            container.RegisterType<IMortgageBrokerServiceAgent, MortgageBrokerServiceAgent>();
+            container.RegisterType<IContentManager, ContentManager>();
 
             container.RegisterType<IAuthenticationManager>(
                 new InjectionFactory(o => HttpContext.Current?.Request.GetOwinContext().Authentication));

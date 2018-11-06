@@ -33,5 +33,7 @@ namespace DealnetPortal.Api.Models.DealerOnboarding
         public List<RequiredDocumentDTO> RequiredDocuments { get; set; }
         public List<AdditionalDocumentDTO> AdditionalDocuments { get; set; }
 
+        // Lead source of a client web-portal (DP, MB, OB, CW)
+        public string LeadSource { get; set; }
     }
 }

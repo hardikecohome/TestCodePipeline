@@ -17,7 +17,9 @@ using textField = DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOrigin
 
 namespace DealnetPortal.Api.Tests.ESignature
 {
+    [Ignore]
     [TestClass]
+    //Currently eCore signature is not used in app
     public class ESignatureServiceAgentTest
     {
         private IHttpApiClient _client;

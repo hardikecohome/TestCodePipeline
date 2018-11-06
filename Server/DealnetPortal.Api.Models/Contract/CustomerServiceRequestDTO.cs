@@ -13,5 +13,9 @@ namespace DealnetPortal.Api.Models.Contract
         public string CustomerComment { get; set; }
         public DateTime StartProjectDate { get; set; }
         public IList<ServiceRequestDTO> ServiceRequests { get; set; }
+        // Lead source of a client web-portal (DP, MB, OB, CW)
+        public string LeadSource { get; set; }
+        //If customer have own contractor
+        public ContractorDTO ContractorInfo { get; set; }
     }
 }

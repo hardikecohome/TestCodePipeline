@@ -1,22 +1,23 @@
-﻿@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+﻿@using DealnetPortal.Web.Models.Enumeration
+@model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-<div class="row loan-element">
+<div class="row loan-element @(Model.AgreementType == AgreementType.LoanApplication ? "" : "hidden")">
   <div class="col-md-6">
     <div class="row form-group">
-      <div class="col-sm-6">@Resources.DealerInvoiceAmount</div>
-      <div class="col-sm-6 text-right text-stronger">
+      <div class="col-xs-6">@Resources.DealerInvoiceAmount</div>
+      <div class="col-xs-6 text-right text-stronger">
         $ <span id="totalEquipmentPrice">-</span>
       </div>
     </div>
     <div class="row form-group hidden">
-      <div class="col-sm-6">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
-      <div class="col-sm-6 text-right text-stronger">
+      <div class="col-xs-6">@(Model.ProvinceTaxRate?.Description ?? Resources.Tax)</div>
+      <div class="col-xs-6 text-right text-stronger">
         $ <span id="tax">-</span>
       </div>
     </div>
     <div class="row form-group hidden">
-      <div class="col-sm-6">@Resources.TotalCashPrice</div>
-      <div class="col-sm-6 text-right text-stronger">
+      <div class="col-xs-6">@Resources.TotalCashPrice</div>
+      <div class="col-xs-6 text-right text-stronger">
         $ <span id="totalPrice">-</span>
       </div>
     </div>

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Domain.Dealer
 {
@@ -26,6 +27,8 @@ namespace DealnetPortal.Domain.Dealer
         /// </summary>
         public bool Uploaded { get; set; }
         public DateTime? UploadDate { get; set; }
+
+        public DocumentStatus? Status { get; set; }
 
         public int DealerInfoId { get; set; }
         [ForeignKey(nameof(DealerInfoId))]

@@ -1,32 +1,43 @@
-body:not(.tablet-device):not(.mobile-device){
-  .dataTable.home-page-table {
-    td, th {
-      &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell) {
-        width: 24% !important;
-        @media @tablet-only {
-          width: 38% !important;
+body:not(.tablet-device):not(.mobile-device) {
+    .dataTable.home-page-table {
+        td,
+        th {
+            &:not(.contract-cell):not(.type-cell):not(.phone-cell):not(.date-cell):not(.edit-cell) {
+                width: 24% !important;
+                @media @tablet-only {
+                    width: 38% !important;
+                }
+                @media @mobile {
+                    width: 55% !important;
+                }
+            }
         }
-        @media @mobile {
-          width: 55% !important;
-        }
-      }
     }
-  }
 }
-.dataTable.home-page-table {
-  td, th {
 
-    @media @mobile {
-      &.customer-cell,
-      &.status-cell,
-      &.action-cell {
-        width: 30%;
-      }
+#work-items-table.dataTable.home-page-table {
+    td,
+    th {
+        @media @mobile {
+            &.status-cell {
+                width: 30%;
+            }
 
-      &.customer-cell {
-        min-width: 90px;
-      }
+            &.customer-cell {
+                width: 29%;
+                min-width: 60px;
+            }
+        }
+        @media @tablet-down {
+            &.action-cell {
+                width: 35%;
+            }
+        }
 
+        @media (max-device-width: 1280px) and (orientation: landscape) {
+            &.contract-cell {
+                width: 15%
+            }
+        }
     }
-  }
 }

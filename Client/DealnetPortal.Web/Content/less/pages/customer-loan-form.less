@@ -236,3 +236,45 @@
   width: 990px;
   max-width: 100%;
 }
+
+.length-of-employ {
+    padding-left:10px;
+    padding-right:10px;
+    .select-hold {
+        float:left;
+        &.years {
+            width: 45%;
+            margin-right: 4%;
+            }
+        &.months {
+            width: 51%;
+            }
+        @media @tablet-down {
+            &.years, &.months {
+                width:50%;
+                margin-right:0;
+            }
+            &.years {
+                padding-right:10px;
+            }
+            &.months {
+                padding-left:10px;
+            }
+        }
+        }
+    .form-control {
+        padding-left: 8px;
+        padding-right: 10px;
+    }
+}
+
+.ie .length-of-employ {
+    .form-control {
+        padding-left: 5px;
+        padding-right: 3px;
+    }
+}
+
+.input-custom-err {
+    border-color: #de525e !important;
+}

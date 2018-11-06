@@ -11,6 +11,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Controllers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -26,20 +27,31 @@ namespace DealnetPortal.Api.Tests.Controllers
     {
         private ContractController _contractController;
         private Mock<IContractService> _contractServiceMock;
+        private Mock<ICreditCheckService> _creditCheckServiceMock;
         private Mock<ICustomerFormService> _customerFormServiceMock;
         private Mock<IRateCardsService> _rateCardsServiceMock;
         private Mock<ILoggingService> _loggingServiceMock;
+        private Mock<IDocumentService> _signatureServiceMock;
+        private Mock<ICustomerWalletService> _customerWalletServiceMock;
+
+        public ContractControllerTest()
+        {            
+        }
 
         [TestInitialize]
         public void Intialize()
         {
             DealnetPortal.Api.App_Start.AutoMapperConfig.Configure();
             _contractServiceMock = new Mock<IContractService>();
+            _creditCheckServiceMock = new Mock<ICreditCheckService>();
             _customerFormServiceMock = new Mock<ICustomerFormService>();
             _rateCardsServiceMock = new Mock<IRateCardsService>();
             _loggingServiceMock = new Mock<ILoggingService>();
+            _signatureServiceMock = new Mock<IDocumentService>();
+            _customerWalletServiceMock = new Mock<ICustomerWalletService>();
 
-            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object);
+            _contractController = new ContractController(_loggingServiceMock.Object, _contractServiceMock.Object, _customerFormServiceMock.Object, _rateCardsServiceMock.Object,
+                _signatureServiceMock.Object, _creditCheckServiceMock.Object, _customerWalletServiceMock.Object);
             _contractController.Request = new HttpRequestMessage();
             _contractController.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
         }
@@ -92,7 +104,7 @@ namespace DealnetPortal.Api.Tests.Controllers
         {            
             _contractServiceMock.Setup(
                 s =>
-                    s.UpdateContractData(It.IsAny<ContractDataDTO>(), It.IsAny<string>()))
+                    s.UpdateContractData(It.IsAny<ContractDataDTO>(), It.IsAny<string>(), null))
                 .Returns(new List<Alert>() { new Alert() });
 
             ContractDataDTO contract = new ContractDataDTO()
@@ -112,9 +124,9 @@ namespace DealnetPortal.Api.Tests.Controllers
         [TestMethod]
         public void TestGetCreditCheckResult()
         {
-            _contractServiceMock.Setup(
+            _creditCheckServiceMock.Setup(
                 s =>
-                    s.GetCreditCheckResult(It.IsAny<int>(), It.IsAny<string>())
+                    s.ContractCreditCheck(It.IsAny<int>(), It.IsAny<string>())
                     ).Returns(new Tuple<CreditCheckDTO, IList<Alert>>(new CreditCheckDTO(), new List<Alert>() {new Alert()}));
             var responseRes = _contractController.GetCreditCheckResult(1);
             var response = responseRes.ExecuteAsync(new CancellationToken()).GetAwaiter().GetResult();

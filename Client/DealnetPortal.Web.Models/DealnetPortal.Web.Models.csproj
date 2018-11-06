@@ -29,7 +29,58 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnitTesting|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\UnitTesting\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <OutputPath>bin\Staging\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Training|AnyCPU'">
+    <OutputPath>bin\Training\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TrainingClarity|AnyCPU'">
+    <OutputPath>bin\TrainingClarity\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionEcohome|AnyCPU'">
+    <OutputPath>bin\ProductionEcohome\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionApplication|AnyCPU'">
+    <OutputPath>bin\ProductionApplication\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\ProductionMortgageBrokers\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionRealtor|AnyCPU'">
+    <OutputPath>bin\ProductionRealtor\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdEcohome|AnyCPU'">
+    <OutputPath>bin\AWSProdEcohome\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdEcohome|AnyCPU'">
+    <OutputPath>bin\AWSTestProdEcohome\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\AWSProdMortgageBrokers\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\AWSTestProdMortgageBrokers\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdApplication|AnyCPU'">
+    <OutputPath>bin\AWSProdApplication\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdApplication|AnyCPU'">
+    <OutputPath>bin\AWSTestProdApplication\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -44,21 +95,40 @@
     <Compile Include="DealItemOverviewViewModel.cs" />
     <Compile Include="DriverLicenseViewModel.cs" />
     <Compile Include="Enumeration\AgreementType.cs" />
+    <Compile Include="Enumeration\BusinessType.cs" />
+    <Compile Include="Enumeration\ContractProvince.cs" />
     <Compile Include="Enumeration\ContractState.cs" />
+    <Compile Include="Enumeration\EmploymentStatus.cs" />
+    <Compile Include="Enumeration\EmploymentType.cs" />
+    <Compile Include="Enumeration\IncomeType.cs" />
     <Compile Include="Enumeration\LoanDeferralType.cs" />
+    <Compile Include="Enumeration\MonthsOfEmployment.cs" />
+    <Compile Include="Enumeration\NumberOfPeople.cs" />
     <Compile Include="Enumeration\PaymentType.cs" />
     <Compile Include="Enumeration\PortalType.cs" />
+    <Compile Include="Enumeration\AnnualEscalationType.cs" />
     <Compile Include="Enumeration\RateCardType.cs" />
+    <Compile Include="Enumeration\ReasonForInterest.cs" />
+    <Compile Include="Enumeration\RelationshipStructure.cs" />
     <Compile Include="Enumeration\RentalDeferralType.cs" />
     <Compile Include="Enumeration\ResidenceType.cs" />
+    <Compile Include="Enumeration\ResponsibleForRemoval.cs" />
+    <Compile Include="Enumeration\SupportTypeEnum.cs" />
     <Compile Include="Enumeration\WithdrawalDateType.cs" />
+    <Compile Include="Enumeration\YearsInBusiness.cs" />
+    <Compile Include="Enumeration\YearsOfEmployment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecaptchaResponseModel.cs" />
+    <Compile Include="RecaptchaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DealnetPortal.Web.Resources\DealnetPortal.Web.Resources.csproj">
       <Project>{E996DF6C-67CD-4178-A6AD-3DF9C1583677}</Project>
       <Name>DealnetPortal.Web.Resources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

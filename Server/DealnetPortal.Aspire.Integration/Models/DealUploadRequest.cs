@@ -8,6 +8,7 @@ namespace DealnetPortal.Aspire.Integration.Models
     /// </summary>
     [Serializable]
     [XmlRoot(ElementName = "LeaseXML")]
+    [XmlInclude(typeof(DocumentUploadRequest))]
     public class DealUploadRequest
     {
         [XmlAttribute("version")]
@@ -20,6 +21,6 @@ namespace DealnetPortal.Aspire.Integration.Models
         public string Timestamp { get; set; }
 
         public RequestHeader Header { set; get; }
-        public Payload Payload { set; get; }
+        public virtual Payload Payload { set; get; }
     }
 }

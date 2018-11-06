@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Signature;
 
 namespace DealnetPortal.Api.Models.Contract
 {
@@ -18,6 +19,8 @@ namespace DealnetPortal.Api.Models.Contract
         public int Id { get; set; }               
 
         public string DealerId { get; set; }
+
+        public string DealerName { get; set; }
 
         public ContractState ContractState { get; set; }       
 
@@ -39,6 +42,8 @@ namespace DealnetPortal.Api.Models.Contract
 
         public EquipmentInfoDTO Equipment { get; set; }
 
+        public ContractSalesRepInfoDTO SalesRepInfo { get; set; }
+
         public List<CommentDTO> Comments { get; set; }
         
         public List<ContractDocumentDTO> Documents { get; set; }
@@ -50,5 +55,7 @@ namespace DealnetPortal.Api.Models.Contract
         public bool? IsNewlyCreated { get; set; }
 
         public bool? OnCreditReview { get; set; }
+
+        public List<ContractSignerDTO> Signers { get; set; }
     }
 }

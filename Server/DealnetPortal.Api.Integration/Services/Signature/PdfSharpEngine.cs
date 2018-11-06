@@ -10,10 +10,10 @@ using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Signature;
 using DocuSign.eSign.Model;
-using Microsoft.Practices.ObjectBuilder2;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.AcroForms;
 using PdfSharp.Pdf.IO;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -48,23 +48,25 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                         {
                             if (ff.FieldType == FieldType.CheckBox && (field is PdfCheckBoxField))
                             {
+                                (field as PdfCheckBoxField).ReadOnly = false;
                                 var bVal = false;
                                 bool.TryParse(ff.Value, out bVal);
                                 (field as PdfCheckBoxField).Checked = bVal;
-                                //(field as PdfCheckBoxField).ReadOnly = true;
+                                (field as PdfCheckBoxField).ReadOnly = true;
                             }
                             else //Text
                             {
                                 if (field is PdfTextField)
                                 {
+                                    (field as PdfTextField).ReadOnly = false;
                                     (field as PdfTextField).Value = new PdfString(ff.Value);
-                                    //(field as PdfTextField).ReadOnly = true;
-                                }                                
+                                    (field as PdfTextField).ReadOnly = true;
+                                }
                             }
                         }
+                        //field.ReadOnly = true;
                     });
                 }
-
                 outStream = new MemoryStream();
                 document.Save(outStream);               
             }
@@ -78,6 +80,34 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 });
             }
             return new Tuple<Stream, IList<Alert>>(outStream, alerts);
+        }
+
+        public Tuple<IList<FormField>, IList<Alert>> GetFormfFields(Stream inFormStream)
+        {
+            var alerts = new List<Alert>();
+            IList<FormField> ffields = null;
+            try
+            {
+                PdfDocument document = PdfReader.Open(inFormStream, PdfDocumentOpenMode.Modify);
+                // Get the root object of all interactive form fields
+                PdfAcroForm form = document.AcroForm;                
+                // Get all form fields of the whole document
+                PdfAcroField.PdfAcroFieldCollection fields = form.Fields;
+                ffields = fields.Names?.Select(f => new FormField()
+                {
+                    Name = f,
+                }).ToList();                
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "PDF Sharp error",
+                    Message = ex.ToString()
+                });
+            }
+            return new Tuple<IList<FormField>, IList<Alert>>(ffields, alerts);
         }
     }
 }

@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DealnetPortal.Web.Models.Dealer;
-using DealnetPortal.Web.ServiceAgent;
 using System.Threading.Tasks;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Scanning;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Extensions;
 using DealnetPortal.Web.Models;
 using System.Reflection;
 using System.Collections;
-using System.Globalization;
+using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -21,12 +17,10 @@ namespace DealnetPortal.Web.Controllers
     public class DealerController : UpdateController
     {
         private readonly IDealerOnBoardingManager _dealerOnBoardingManager;
-        private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
 
-        public DealerController(IDealerOnBoardingManager dealerOnBoardingManager, IDictionaryServiceAgent dictionaryServiceAgent)
+        public DealerController(IDealerOnBoardingManager dealerOnBoardingManager)
         {
             _dealerOnBoardingManager = dealerOnBoardingManager;
-            _dictionaryServiceAgent = dictionaryServiceAgent;
         }
 
         [HttpGet]
@@ -34,6 +28,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _dealerOnBoardingManager.GetNewDealerOnBoardingForm(key);
 
+            TempData["LangSwitcherAvailable"] = true;
             if (result == null)
             {
                 return RedirectToAction("OnBoardingError");
@@ -47,6 +42,7 @@ namespace DealnetPortal.Web.Controllers
         {
             var result = await _dealerOnBoardingManager.GetDealerOnBoardingFormAsync(key);
 
+            TempData["LangSwitcherAvailable"] = true;
             if (result == null)
             {
                 return RedirectToAction("OnBoardingError");
@@ -62,24 +58,40 @@ namespace DealnetPortal.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.GetModelErrors();
-                model.DictionariesData = new DealerOnboardingDictionariesViewModel
-                {
-                    ProvinceTaxRates = (await _dictionaryServiceAgent.GetAllProvinceTaxRates()).Item1,
-                    EquipmentTypes = (await _dictionaryServiceAgent.GetAllEquipmentTypes()).Item1?.OrderBy(x => x.Description).ToList(),
-                    LicenseDocuments = (await _dictionaryServiceAgent.GetAllLicenseDocuments()).Item1
-                };
+                model.DictionariesData = await _dealerOnBoardingManager.GetDictionariesData();
 
                 return View(model);
             }
 
             var result = await _dealerOnBoardingManager.SubmitOnBoarding(model);
 
-            if(result != null && result.Any(x => x.Type == AlertType.Error))
+            if (!result.Success)
             {
                 return RedirectToAction("AnonymousError", "Info");
             }
 
+            if (!model.IsDocumentsUploaded)
+            {
+                return View("SuccessWithoutDocuments", result);
+            }
+          
             return RedirectToAction("OnBoardingSuccess");
+        }
+
+        [HttpGet]
+        public ActionResult SuccessWithoutDocuments()
+        {
+            return View(new SaveAndResumeViewModel
+            {
+                
+                AccessKey = "SS",
+                Alerts = new List<Alert>(),
+                AllowCommunicate = true,
+                Email = "ss@ss.com",
+                Id = 12,
+                InvalidFields = true,
+                Success = true
+            });
         }
 
         [HttpPost]

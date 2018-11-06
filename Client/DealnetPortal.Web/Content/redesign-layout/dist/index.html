@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DealNet home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Description of the page">
+    <meta name="Keywords" content="Keywords of the page">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Mukta:300,400,500,700,800" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="librarys/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="librarys/jquery.selectric/selectric.css" />
+    <script src="librarys/bootstrap/js/bootstrap.min.js"></script>
+    <script src="librarys/jquery.selectric/jquery.selectric.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles-tablet.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles-mobile.css" />
+  </head>
+  <body>
+    <div class="body-dark-overlay"></div>
+    <header>
+      <div class="header__background">
+        <div class="container">
+          <div class="header__logo">
+            <a href="home/">
+              <img class="header__logo-img" src="img/logos/logo-eco-home@2x.png" />
+            </a>
+          </div>
+          <div class="header__right-panel hidden-xs">
+            <div class="visible-lg-block">
+              <div class="header__language pull-right">
+                <div class="dropdown dropdown-custom">
+                  <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
+                    En
+                  </div>
+                  <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <li>
+                      <a href="#">En</a>
+                    </li>
+                    <li>
+                      <a href="#">Fr</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="header__language pull-right">
+                <div class="dropdown dropdown-custom">
+                  <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
+                    John Domes
+                  </div>
+                  <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <li>
+                      <a href="#">Settings</a>
+                    </li>
+                    <li>
+                      <a href="#">Log Out</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="header__help">
+              How can we help?
+              <div class="clearfix"></div>
+              <span class="header__phone">1-866-382-7468</span>
+            </div>
+            <div class="clearfix visible-lg-block"></div>
+            <div class="header__support">
+              <ul class="header__support-links-list">
+                <li>
+                  <span class="icon-support"></span>
+                  <a href="#">
+                                Credit
+                            </a>
+                </li>
+                <li>
+                  <span class="icon-dealer-support"></span>
+                  <a href="#">
+                                Dealer Support
+                            </a>
+                </li>
+                <li>
+                  <span class="icon-customer-service-support"></span>
+                  <a href="#">
+                                Customer Service/Funding
+                            </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="header__actions-tablet visible-md-block visible-sm-block">
+            <div class="header__language pull-right">
+              <div class="dropdown dropdown-custom">
+                <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="true">
+                  En
+                </div>
+                <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                  <li>
+                    <a href="#">En</a>
+                  </li>
+                  <li>
+                    <a href="#">Fr</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="header__language pull-right">
+              <div class="dropdown dropdown-custom">
+                <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="true">
+                  John Domes
+                </div>
+                <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                  <li>
+                    <a href="#">Settings</a>
+                  </li>
+                  <li>
+                    <a href="#">Log Out</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix visible-md-block visible-sm-block"></div>
+          <nav class="header__navigation hidden-xs">
+            <ul>
+              <li>
+                <a class="active">
+                  <span class="header__nav-icon icon-home"></span>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-new_document"></span>
+                  <span>New Loan</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-new_document"></span>
+                  <span>New Rental</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-calculator"></span>
+                  <span>Calculator</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-customer-link"></span>
+                  <span>Customer Link</span>
+                </a>
+              </li>
+              <li>
+                <a class="active">
+                  <span class="header__nav-icon icon-deals"></span>
+                  <span>My Deals</span>
+                  <div class="notification">
+                    <div>5 new</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-cart"></span>
+                  <span>Leads</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-library"></span>
+                  <span>Library</span>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <span class="header__nav-icon icon-profile"></span>
+                  <span>My Profile</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="mobile-help hidden-sm-up" id="mobile-navigation-help">
+            <span class="icon-how-can-we-help"></span>
+            <div name="select-help" id="" class="mobile-help__toggle">
+              How can we help?
+            </div>
+            <div class="mobile-navigation__dropdown">
+              <ul>
+                <li>
+                  <span class="icon-support"></span>
+                  <a href="#">
+                                Credit
+                            </a>
+                </li>
+                <li>
+                  <span class="icon-dealer-support"></span>
+                  <a href="#">
+                                Dealer Support
+                            </a>
+                </li>
+                <li>
+                  <span class="icon-customer-service-support"></span>
+                  <a href="#">
+                                Customer Service/Funding
+                            </a>
+                </li>
+              </ul>
+              <div class="mobile-help__phone">
+                1-866-382-7468
+              </div>
+            </div>
+          </div>
+          <nav class="mobile-navigation hidden-sm-up" id="mobile-navigation">
+            <div class="mobile-navigation__active-item">
+              <span class="mobile-navigation__nav-icon icon-home"></span>
+              <span>Home</span>
+            </div>
+            <div class="mobile-navigation__dropdown">
+              <ul>
+                <li>
+                  <a href="#">
+                    <span class="mobile-navigation__nav-icon icon-home"></span>
+                    <span>Home</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                    <span>New Loan</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-new_document"></span>
+                    <span>New Rental</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-calculator"></span>
+                    <span>Calculator</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-customer-link"></span>
+                    <span>Customer Link</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-deals"></span>
+                    <span>My Deals</span>
+                    <div class="notification">5 new</div>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-cart"></span>
+                    <span>Leads</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-library"></span>
+                    <span>Library</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="mobile-navigation__nav-icon icon-profile"></span>
+                    <span>My Profile</span>
+                  </a>
+                </li>
+              </ul>
+              <div class="mobile-navigation__action-block">
+                <div class="dropdown dropdown-custom">
+                  <div class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
+                    En
+                  </div>
+                  <ul class="dropdown-menu custom-dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+                    <li>
+                      <a href="#">En</a>
+                    </li>
+                    <li>
+                      <a href="#">Fr</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="mobile-navigation__user">
+                John Domes
+                <a class="mobile-navigation__logout">Log Out</a>
+              </div>
+            </div>
+          </nav>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </header>
+    <div class="clearfix"></div>
+    <div class="custom-container">
+      <a class="main-banner" href="#" style="background-image: url('../img/banner.png');"></a>
+    </div>
+    <div class="container-fluid custom-container">
+      <div class="margin-block">
+        <button type="button" class="btn btn-empty-grey min-w-100">Clear</button>
+        <button type="button" class="btn btn-empty-green min-w-100">Save</button>
+        <button type="button" class="btn btn-empty-red min-w-100">Filter</button>
+        <button type="button" class="btn btn-red">Apply</button>
+        <button type="button" class="btn btn-green min-w-60">Next</button>
+      </div>
+      <div class="margin-block">
+        <button type="button" class="btn btn-empty-grey min-w-100 disabled">Clear</button>
+        <button type="button" class="btn btn-empty-green min-w-100 disabled">Save</button>
+        <button type="button" class="btn btn-empty-red min-w-100 disabled">Filter</button>
+        <button type="button" class="btn btn-red disabled">Apply</button>
+        <button type="button" class="btn btn-green min-w-60 disabled">Next</button>
+      </div>
+      <div class="margin-block">
+        <div class="row">
+          <div class="col-xs-2">
+            <form action="#">
+              <div class="custom-text-input-group">
+                <input type="text" required value="$ 12,400.00">
+                <label>Cost</label>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-3">
+            <div class="custom-text-input-group">
+              <input type="text" required>
+              <label>Email</label>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="custom-text-input-group">
+              <input type="text" required>
+              <label>Email</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="margin-block">
+        <div class="row">
+          <div class="col-xs-2">
+            <form action="#">
+              <div class="custom-text-input-group error">
+                <input type="text" required>
+                <label>Name</label>
+                <div class="error-message">
+                  <span>Cost is in incorrect format</span>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-xs-3">
+            <div class="custom-text-input-group error">
+              <input type="text" required>
+              <label>Description</label>
+              <div class="error-message">
+                <span>This field can’t be empty</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="custom-text-input-group error">
+              <input type="text" required>
+              <label>Dealer's Initial</label>
+              <div class="error-message">
+                <span>The field Dealer's Initial must be a string with a minimum length of 1 and
+                  a maximum length of 2.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="margin-block">
+        <div class="action-link blue">
+          <span class="icon-add-app"></span>
+          Add additional applicant
+        </div>
+        <div class="action-link grey">
+          <span class="icon-delete-name"></span>
+          Clear Address
+        </div>
+        <div class="clearfix"></div>
+        <div class="action-link blue disabled">
+          <span class="icon-add-app"></span>
+          Add additional applicant
+        </div>
+        <div class="action-link grey disabled">
+          <span class="icon-delete-name"></span>
+          Clear Address
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="margin-block">
+        <label class="checkbox-container">Borrower lived at current address less than 6 month
+          <input type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="margin-block">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="custom-select-wrap">
+              <label for="project-type">Type of project</label>
+              <select name="project-type" id="project-type" class="custom-select">
+                <option value="">Air conditioner</option>
+                <option value="">Air filtration</option>
+                <option value="">Air handler</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="margin-block">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="custom-text-input-group icon">
+              <input type="text" required>
+              <label>Date from</label>
+              <span class="icon-calendar"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pagination custom-pagination">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true" class="icon-pagination-left"></span>
+              </a>
+            </li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">...</a></li>
+            <li><a href="#">12</a></li>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true" class="icon-pagination-right"></span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="help-cloud">
+      <span class="icon-help-button"></span>
+      Help
+    </div>
+    <footer>
+    </footer>
+    <!-- include: "type": "js", "files": "js/*.js" -->
+    <script src="js/main.js"></script>
+    <!-- /include -->
+    <script src="http://localhost:35729/livereload.js"></script>
+  </body>
+</html>

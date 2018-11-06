@@ -11,6 +11,7 @@ using DealnetPortal.Web.Common.Culture;
 using DealnetPortal.Web.Controllers;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.ServiceAgent;
 using Moq;
 
@@ -25,6 +26,8 @@ namespace DealnetPortal.Web.Tests.Controllers
         private Mock<IHttpApiClient> _httpApiClientMock;
         private Mock<ILoggingService> _loggingServiceMock;
         private Mock<ISettingsManager> _settingsManagerMock;
+        private Mock<IDealerServiceAgent> _dealerServiceAgent;
+        private Mock<IContentManager> _contentManagerMock;
         private CultureSetterManager _cultureSetterManager;
 
         [TestInitialize]
@@ -36,6 +39,8 @@ namespace DealnetPortal.Web.Tests.Controllers
             _httpApiClientMock = new Mock<IHttpApiClient>();
             _loggingServiceMock = new Mock<ILoggingService>();
             _settingsManagerMock = new Mock<ISettingsManager>();
+            _dealerServiceAgent = new Mock<IDealerServiceAgent>();
+            _contentManagerMock = new Mock<IContentManager>();
             _cultureSetterManager = new CultureSetterManager(_cultureManagerMock.Object, _httpApiClientMock.Object, _dictionaryServiceAgentMock.Object, _loggingServiceMock.Object);
         }
 
@@ -43,7 +48,7 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureSetterManager, _settingsManagerMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureSetterManager, _settingsManagerMock.Object, _dealerServiceAgent.Object, _contentManagerMock.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -56,26 +61,13 @@ namespace DealnetPortal.Web.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureSetterManager, _settingsManagerMock.Object);
+            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureSetterManager, _settingsManagerMock.Object, _dealerServiceAgent.Object, _contentManagerMock.Object);
 
             // Act
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
             //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
-        }
-
-        [TestMethod]
-        public void Contact()
-        {
-            // Arrange
-            HomeController controller = new HomeController(_contractServiceAgentMock.Object, _dictionaryServiceAgentMock.Object, _cultureSetterManager, _settingsManagerMock.Object);
-
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
         }
     }
 }

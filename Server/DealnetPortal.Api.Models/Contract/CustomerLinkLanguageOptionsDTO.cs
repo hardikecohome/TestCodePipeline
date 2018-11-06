@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DealnetPortal.Api.Common.Enumeration;
 
 namespace DealnetPortal.Api.Models.Contract
@@ -28,5 +24,7 @@ namespace DealnetPortal.Api.Models.Contract
         /// Services for selected language
         /// </summary>
         public string DealerName { get; set; }
+
+        public bool QuebecDealer { get; set; }
     }
 }

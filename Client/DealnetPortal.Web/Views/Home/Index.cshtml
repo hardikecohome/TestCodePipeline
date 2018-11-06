@@ -1,53 +1,47 @@
 ﻿@using System.Configuration;
-@{
-	ViewBag.Title = Resources.HomePage;
+
+@{ 
+    ViewBag.Title = Resources.HomePage;
 }
-@if (ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
+
+@if(ConfigurationManager.AppSettings["SwitchPopUpOnOff"] == "true")
 {
-	<div class="row" id="alertLine">
-
-		<div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
-			<div class="pull-right hidden" id="alertCloseButton">
-				<button type="button" class="btn btn-small btn-warning btn-circle"
-						style="width: 20px; height: 20px; text-align: center; padding: 1px 0; font-size: 12px; line-height: 1.428571429; border-radius: 10px;"
-						onclick="$('#alertLine').hide(); sessionStorage['Alert'] = 'closed';">
-					<i class="glyphicon glyphicon-remove"></i>
-				</button>
-			</div>
-			<p><strong style="color:red;">@ConfigurationManager.AppSettings["PopUpHeader"]</strong> <br />@Html.Raw(ConfigurationManager.AppSettings["PopUpMessage"])</p>
-		</div>
-
-	</div>
+    @Html.Action("GetMaintanenceBanner")
 }
+
 <div class="dealnet-home-page">
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-            <a class="dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
+            <a class="btn btn-green dealnet-page-button new-rental" href="@Url.Action("BasicInfo", "NewRental")">
                 <span class="button-inner">
-                    <svg aria-hidden="true" class="icon icon-new-rental"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-new-rental")"></use></svg><span>@Resources.NewApplication</span>
+                    <svg aria-hidden="true" class="icon icon-new-rental">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-application")"></use>
+                    </svg>
+                    <span>@Resources.NewApplication</span>
                 </span>
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <a class="dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
+            <a class="btn btn-green dealnet-page-button" href="@Url.Action("Index", "MyDeals")">
                 <span class="button-inner">
-                    <svg class="icon icon-my-deals"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use></svg><span>@Resources.MyDeals</span>
+                    <svg class="icon icon-my-deals">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-my-deals")"></use>
+                    </svg>
+                    <span>@Resources.MyDeals</span>
                 </span>
             </a>
         </div>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <a class="dealnet-page-button" href="@Url.Action("Index", "Reports")">
+            <a class="btn btn-green dealnet-page-button" href="@Url.Action("Index", "Calculator")">
                 <span class="button-inner">
-                  <svg aria-hidden="true" class="icon icon-reports-big"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-reports-big")"></use></svg><span>@Resources.Reports</span>
+                    <svg aria-hidden="true" class="icon icon-reports-big">
+                        <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-calculator-btn")"></use>
+                    </svg>
+                    <span>@Resources.Calculator</span>
                 </span>
             </a>
         </div>
     </div>
-    <!--<div class="row">
-        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-            <span class="dealnet-caption">My Work Items</span>
-        </div>
-    </div>-->
 
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
@@ -61,41 +55,46 @@
                         <th class="min-desktop email-cell">@Resources.Email</th>
                         <th class="min-desktop phone-cell">@Resources.Phone</th>
                         <th class="min-desktop date-cell">@Resources.Date</th>
-                        <th class="hidden">RemainingDescription</th>
-                        <th class="all controls-cell"></th>
-                        <th class="id-cell hidden">@Resources.Id</th>
+                        <th class="hidden never">RemainingDescription</th>
+                        <th class="all control controls-cell"></th>
+                        <th class="id-cell hidden never">@Resources.Id</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
-    <div class="dealnet-caption">@Resources.DealFlowOverview</div>
-    <div class="dealnet-chart-switch-button-hold">
-        <div class="dealnet-chart-switch-button dealnet-chart-switch-button-selected" data-type="Week">@Resources.Week</div>
-        <div class="dealnet-chart-switch-button" data-type="Month">@Resources.Month</div>
-        <div class="dealnet-chart-switch-button" data-type="Year">@Resources.Year</div>
-    </div>
-    <div class="data-flow-container">
-        <span class="graph-label graph-label-x">$</span>
-        <span class="graph-label graph-label-y">@Resources.Time</span>
-        <div class="scrollable-container">
-            <div class="scrollable-content">
-                <canvas id="data-flow-overview"></canvas>
+</div>
+
+@using(Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+{
+    <input type="hidden" name="contractId" id="remove-contract" />
+}
+
+<div id="contract-signature-modal" class="modal fade modal-wide">
+    <div class="modal-dialog esig-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title pull-left">@Resources.DigitalSignatureStatus</h4>
+            </div>
+            <div class="modal-body" id="signature-body">
             </div>
         </div>
     </div>
 </div>
 
-@using (Html.BeginForm("ContractRemove", "NewRental", FormMethod.Post, new { id = "remove-contract-form" }))
+@section Scripts
 {
-    <input type="hidden" name="contractId" id="remove-contract" />
-}
-
-<script type="text/javascript">
+    <script type="text/javascript">
     var chartUrl = '@Url.Action("GetDealFlowOverview", "Home")';
     var itemsUrl = '@Url.Action("GetWorkItems", "Home")';
-    var editItemUrl = '@Url.Action("ContractEdit", "NewRental")';
-</script>
+    var editContractUrl = '@Url.Action("ContractEdit", "NewRental")';
+    var contractSignatureStatusUrl = '@Url.Action("GetEsignatureStatus", "MyDeals")';
+    </script>
+
+    @Scripts.Render("~/bundles/data-tables-scripts")
+    @Scripts.Render("~/bundles/home-page")
+}
 
 @section Translations
 {
@@ -116,8 +115,3 @@
 {
     @Styles.Render("~/bundles/data-tables-content")
 }
-
-@Scripts.Render("~/bundles/data-tables-scripts")
-@Scripts.Render("~/bundles/home-page")
-
-

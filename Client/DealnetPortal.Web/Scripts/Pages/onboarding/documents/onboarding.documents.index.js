@@ -5,6 +5,7 @@
     };
     var setters = require('onboarding.documents.setters');
     var state = require('onboarding.state').state;
+    var assignDatepicker = require('datepicker').assignDatepicker;
 
     function _setInputHandlersForExistedLicense (licenseId) {
         $('#' + licenseId + '-license-number').on('change', setters.setLicenseRegistraionNumber(licenseId));
@@ -42,12 +43,12 @@
         existedDocuments.forEach(function (doc) {
             if (doc.DocumentTypeId === 4) {
                 $('#voidChequeUploaded').removeClass('hidden');
-                $('#cheque-upload-title').text('Upload another file');
+                $('#cheque-upload-title').text(translations['UploadAnotherFile']);
                 $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('voidChequeUploaded', 'cheque-upload-title', 'void-cheque-files', doc.Name));
                 state.documents['void-cheque-files'].push(doc.Name);
             } else {
                 $('#insurenceUploaded').removeClass('hidden');
-                $('#insurence-upload-title').text('Upload another file');
+                $('#insurence-upload-title').text(translations['UploadAnotherFile']);
                 $('#' + doc.Id + '-file-remove').on('click', setters.removeFile('insurenceUploaded', 'insurence-upload-title', 'insurence-files', doc.Name));
                 state.documents['insurence-files'].push(doc.Name)
             }

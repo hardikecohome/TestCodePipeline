@@ -1,4 +1,5 @@
 ﻿using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Models.Notify;
 using DealnetPortal.Web.Infrastructure;
 using DealnetPortal.Web.Infrastructure.Managers;
 using DealnetPortal.Web.Models;
@@ -7,10 +8,19 @@ using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Practices.ObjectBuilder2;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Common.Helpers;
+using DealnetPortal.Web.Infrastructure.Extensions;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
+using DealnetPortal.Web.Models.Enumeration;
+using ContractState = DealnetPortal.Api.Common.Enumeration.ContractState;
+using AutoMapper;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -21,33 +31,50 @@ namespace DealnetPortal.Web.Controllers
         private readonly IDictionaryServiceAgent _dictionaryServiceAgent;
         private readonly CultureSetterManager _cultureManager;
         private readonly ISettingsManager _settingsManager;
-
-        public HomeController(IContractServiceAgent contractServiceAgent, IDictionaryServiceAgent dictionaryServiceAgent, CultureSetterManager cultureManager, 
-            ISettingsManager settingsManager)
+        private readonly IDealerServiceAgent _dealerServiceAgent;
+        private readonly IContentManager _contentManager;
+        public HomeController(
+            IContractServiceAgent contractServiceAgent, 
+            IDictionaryServiceAgent dictionaryServiceAgent, 
+            CultureSetterManager cultureManager, 
+            ISettingsManager settingsManager, 
+            IDealerServiceAgent dealerServiceAgent, 
+            IContentManager contentManager)
         {
             _contractServiceAgent = contractServiceAgent;
             _dictionaryServiceAgent = dictionaryServiceAgent;
             _cultureManager = cultureManager;
             _settingsManager = settingsManager;
+            _dealerServiceAgent = dealerServiceAgent;
+            _contentManager = contentManager;
         }
 
         public ActionResult Index()
         {
             TempData["LangSwitcherAvailable"] = true;
-            if (User.IsInRole("MortgageBroker"))
+            if (User.IsInRole(RoleContstants.MortgageBroker))
             {
                 //just change only for MB release 1.0.6
                 TempData["LangSwitcherAvailable"] = false;
 
                 return RedirectToAction("MyClients", "MortgageBroker");
             }
+            var identity = (ClaimsIdentity)User.Identity;
+
+            ViewBag.Banner = _contentManager.GetBannerByCulture(CultureInfo.CurrentCulture.Name, identity.HasClaim(ClaimContstants.QuebecDealer, "True"), Request.IsMobileBrowser());
+
             return View();
         }
         
-        public async Task<ActionResult> ChangeCulture(string culture)
+        [AllowAnonymous]
+        public async Task<ActionResult> ChangeCulture(string culture, string redirectUrl = "")
         {
             await _cultureManager.ChangeCulture(culture);
-            return RedirectToAction("Index");
+            if (string.IsNullOrEmpty(redirectUrl))
+            {
+                return RedirectToAction("Index");
+            }
+            return Redirect(redirectUrl);
         }
 
         public async Task<JsonResult> LayoutSettings()
@@ -69,18 +96,14 @@ namespace DealnetPortal.Web.Controllers
         }
         public ActionResult Library()
         {
-            return View();
+            var identity = (ClaimsIdentity)User.Identity;
+
+            return View(_contentManager.GetResourceFilesByCulture(CultureInfo.CurrentCulture.Name, identity));
         }
+
         public ActionResult Help()
         {
             return File("~/Content/files/Help.pdf", "application/pdf");
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         [HttpGet]
@@ -106,24 +129,32 @@ namespace DealnetPortal.Web.Controllers
                     .ToList();
 
             var contractsVms = AutoMapper.Mapper.Map<IList<DealItemOverviewViewModel>>(contracts);
-            var docTypes = await _dictionaryServiceAgent.GetDocumentTypes();
+            var provincesDocTypes = await _dictionaryServiceAgent.GetAllStateDocumentTypes();
 
-            if (docTypes?.Item1 != null)
+            if (provincesDocTypes?.Item1 != null)
             {
                 contracts.Where(c => c.ContractState == ContractState.Completed).ForEach(c =>
                 {
-                    var absentDocs =
-                        docTypes.Item1.Where(
-                            dt => c.Documents.All(d => dt.Id != d.DocumentTypeId) && !string.IsNullOrEmpty(dt.Prefix))
-                            .ToList();
-                    if (absentDocs.Any())
+                    var cProvince = c.PrimaryCustomer?.Locations
+                                       .FirstOrDefault(l => l.AddressType == AddressType.MainAddress)?.State
+                                   ?? c.PrimaryCustomer?.Locations.FirstOrDefault()?.State;
+                    if (!string.IsNullOrEmpty(cProvince))
                     {
-                        var actList = new StringBuilder();
-                        absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
-                        var cntrc = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
-                        if (cntrc != null)
+                        var docTypes = provincesDocTypes.Item1[cProvince];
+                        var absentDocs =
+                            docTypes?.Where(
+                                    dt => dt.IsMandatory && c.Documents.All(d => dt.Id != d.DocumentTypeId) &&
+                                          (dt.Id != 1 || c.Details?.SignatureStatus != SignatureStatus.Completed))
+                                .ToList();
+                        if (absentDocs?.Any() ?? false)
                         {
-                            cntrc.Action = actList.ToString();
+                            var actList = new StringBuilder();
+                            absentDocs.ForEach(dt => actList.AppendLine($"{dt.Description};"));
+                            var cntrc = contractsVms.FirstOrDefault(cvm => cvm.Id == c.Id);
+                            if (cntrc != null)
+                            {
+                                cntrc.Action = actList.ToString();
+                            }
                         }
                     }
                 });
@@ -149,15 +180,44 @@ namespace DealnetPortal.Web.Controllers
                     }                    
                 });
             return Json(contractsVms, JsonRequestBehavior.AllowGet);
+        }      
+
+        [HttpGet]
+        public ActionResult GetMaintanenceBanner()
+        {
+            var identity = (ClaimsIdentity) User.Identity;
+            var quebecPrefix = identity.HasClaim(ClaimContstants.QuebecDealer, "True") ? "qc" : string.Empty;
+
+            var pathToView = $@"Maintenance/{CultureInfo.CurrentCulture.Name}/{quebecPrefix}/Banner";
+
+            var viewResult = ViewEngines.Engines.FindView(ControllerContext, pathToView, null);
+
+            if (viewResult.View != null)
+            {
+                return View(pathToView);
+            }
+            return Content(string.Empty);
         }
 
-        public ActionResult OnBoard()
+        [HttpGet]
+        public PartialViewResult DealerSupportRequestEmail(string contractId)
         {
-            return View();
+            var viewModel = new HelpPopUpViewModal();
+            if (contractId != "")
+            {
+                viewModel.LoanNumber = contractId;
+            }
+            viewModel.DealerName = User.Identity.Name;
+            viewModel.YourName = User.Identity.Name;
+            
+            return PartialView("_HelpPopUp", viewModel);
         }
-        public ActionResult OnBoardSuccess()
+        [HttpPost]
+        public async Task<string> DealerSupportRequestEmail(HelpPopUpViewModal dealerSupportRequest)
         {
-            return View();
+            var dealerSupport = Mapper.Map<SupportRequestDTO>(dealerSupportRequest);
+            var result = await _dealerServiceAgent.DealerSupportRequestEmail(dealerSupport);
+            return "ok";
         }
     }
 }

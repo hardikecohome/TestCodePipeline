@@ -1,3 +1,27 @@
+.form-section {
+  .message-header {
+    font-size: 20px;
+    margin: 15px 0;
+    .action-link {
+      display: inline;
+      font-size: 20px;
+      line-height: inherit;
+      margin:0;
+      white-space: initial;
+    }
+  }
+}
+.contract-edit {
+  .doc-tab-content {
+    @media @desktop-up {
+      padding: 0 0 0 20px !important;
+    }    
+  }
+  .document-pane-header {
+    margin-bottom: 15px
+  }
+}
+
 .documents-container{
   .no-documents{
     font-size: 20px;
@@ -8,9 +32,9 @@
     @media @desktop-up {
       float: right;
     }
-    @media @tablet-down {
-      margin: 20px auto !important
-    }
+    // @media @tablet-down {
+    //   margin: 20px auto !important
+    // }
   }
 }
 .comments-widget{
@@ -165,4 +189,270 @@
   .dealnet-middle-header{
     margin-bottom: 10px;
   }
+}
+
+.e-signature-container {
+  padding: 20px 0 0 0;
+    @media @tablet-only {
+      margin: 0 30% 10px;
+      padding: 20px 0 0;
+    }
+}
+
+.esignature-modal {
+
+
+  @media @tablet-only {
+    .applicant-col {
+      .form-group {
+        margin-bottom: 0;
+        margin-top: 15px;
+      }
+      .dealnet-label,
+      .text-middle-group {
+        display: inline-block;
+      }
+    }
+  }
+  @media @mobile {
+    .applicant-col{
+      margin-bottom: 10px;
+      .dealnet-label{
+        margin-bottom: 0;
+      }
+    }
+    .dealnet-success-button {
+      width: auto;
+    }
+  }
+}
+
+.mb-25 {
+    margin-bottom: 25px !important;
+}
+
+.mb-10 {
+    margin-bottom: 10px !important;
+}
+
+.signed-contract {
+  .nav-tabs {
+    text-align: left;
+    li {
+      width: 190px;
+      @media @mobile {
+        width: 160px;
+      }
+    }
+  }
+  .signature-notification {
+    margin:5px 0 10px;
+    font-size: 13px;
+  }
+  .signer-row {
+    @media @tablet-down {
+      &.bordered {
+        border-bottom: 1px solid #ededed;
+        padding-bottom: 15px;
+      }
+    }
+    .applicant-col {
+      @media @tablet-down {
+        div {
+          display: inline-block;
+        }
+        div + div {
+          margin-left: 20px;
+        }
+      }
+      .text-middle-group .text-hold {
+        margin-top: 15px;
+        @media @mobile {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  .sent-contract-secton {
+    margin: 5px 0;
+    .signer-status-hold {
+      line-height: 1.2;
+      display: none;
+      padding-left: 20px; 
+      &.created{
+        display: block;
+        .signature-hold {
+          padding-top: 5px;
+        }
+      }
+      &.sent,
+      &.delivered  {
+        display: block;
+        .signature-hold {
+          padding-top: 18px; 
+        }
+      }
+      &.waitingsignature {
+        display: block;
+        .signature-hold {
+          padding-top: 15px;
+        }
+      }
+      &.signed,
+      &.completed {
+        display: block;
+        padding-top: 30px;
+        @media @tablet-down {
+          padding-top: 15px;
+        }
+        .icon-front {
+          bottom: 6px;
+          margin-bottom: 10px;
+        }
+        .action-link {
+          display: none;
+        }
+      }
+      &.declined { 
+        display: block;
+        .action-link {
+          display: none;
+        }
+        padding-top: 20px; 
+        @media @tablet-down {
+          padding-top: 15px;
+        }
+      }         
+    }
+    .signature-status {
+      .comment-btn {
+          cursor: pointer;
+      }
+      .icon {
+        &.icon-front {
+          height: 24px;
+          width: 24px;
+          position: relative;
+          bottom:10px;
+          right: 10px;
+        }
+        &.icon-error {
+          color: rgb(218, 46, 0);
+        }
+        &.icon-comment {
+          margin-left: 5px;
+          margin-top: -25px; 
+        }
+      }
+      .signature-hold {
+        display: inline-block;
+        max-width: 160px;
+        @media @large-tablet-only{
+          max-width:140px;
+        }
+      }
+      .signature-header {
+        font-size: 12px;
+        font-weight: bold;
+        word-wrap: break-word;
+      }
+      .signature-date {
+        font-size: 11px;
+      }
+      .signer-btn-hold{
+        .icon {
+          height: 13px;
+          width: 13px;
+        }
+        .action-link {
+          font-size: 13px;
+          margin: 0;
+          padding-bottom: 0;
+          padding-left: 12px;
+          padding-top: 0;
+          font-weight: 500;
+        }
+        .icon:not(.hidden) + .action-link {
+          padding-left: 0;
+        }
+      }
+    }
+    #contact-before-resend {
+      display: inline-flex;
+      margin: 5px 0 10px;
+      .icon-hold {
+        margin: 10px 10px 0 0;
+      }
+    }
+    .info-text-success {
+      .icon-info-well {
+        position: static;
+        margin-right: 10px;
+      }
+      @media @tablet-down {
+        margin-top: 10px;
+      }
+      @media @mobile {
+        margin-left: 20%;
+      }
+    }
+    .dealnet-success-button {
+      width: 100%;
+    }
+    .comment-row {
+      label {
+        margin-bottom: 0;
+      }
+      .text-middle-group {
+        padding: 20px 0;
+        border-bottom: 1px solid #dcdcdc;
+      }
+    }
+  }
+  .form-control[disabled] {
+    background: #eeeeee;
+  }
+}
+
+.esig-modal {
+  .signed-contract .sent-contract-secton {
+    .signature-status .signature-hold {
+      max-width: 140px;
+    }
+    .signer-status-hold {
+      margin-top: 15px;
+
+      &.declined,
+      &.signed,
+      &.completed {
+        margin-top: 0; 
+      }
+      &.declined {
+        .icon-comment {
+          margin-top:-20px;
+        }
+      }
+      &.signed,
+      &.completed {
+        .icon-front {
+          top: -10px;
+        }
+      }
+    }
+    .icon.icon-comment {
+      margin-top:-15px;
+      margin-left: 10px;
+    }
+    .dealnet-link-button {
+      @media @desktop-up{
+        color:#338f11;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.ie .signed-contract .sent-contract-secton .comment-btn {
+  height: 50px;
+  width: 50px;
 }

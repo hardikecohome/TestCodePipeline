@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Web.Infrastructure;
+using DealnetPortal.Web.Infrastructure.Attributes;
 using AgreementType = DealnetPortal.Web.Models.Enumeration.AgreementType;
 
 namespace DealnetPortal.Web.Models
@@ -14,7 +15,7 @@ namespace DealnetPortal.Web.Models
     {
         public int CustomerId { get; set; }
 
-        //[CustomRequired]
+        [CustomRequired]
         [Display(ResourceType = typeof (Resources.Resources), Name = "AdditionalApplicantEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof (Resources.Resources), ErrorMessageResourceName = "InvalidEmailAddress")]
         public string Email { get; set; }

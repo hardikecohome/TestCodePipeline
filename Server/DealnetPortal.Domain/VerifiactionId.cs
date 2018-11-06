@@ -12,5 +12,6 @@ namespace DealnetPortal.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string VerificationIdName { get; set; }
+        public string VerificationIdNameResource { get; set; }
     }
 }

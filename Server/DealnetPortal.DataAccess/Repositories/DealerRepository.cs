@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -35,8 +36,8 @@ namespace DealnetPortal.DataAccess.Repositories
 
         public IList<string> GetUserRoles(string dealerId)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_dbContext));
-            return userManager.GetRoles(dealerId);
+            var userRoles = _dbContext.Users.Find(dealerId)?.Roles.Select(r => _dbContext.Roles.Find(r.RoleId)?.Name).ToList();
+            return userRoles;            
         }
 
         public string GetDealerNameByCustomerLinkId(int customerLinkId)
@@ -63,9 +64,45 @@ namespace DealnetPortal.DataAccess.Repositories
                 return profile;
             }
             profile.Id = dbProfile.Id;
-            UpdateProfileEquipments(profile, dbProfile.Equipments.ToList());
-            UpdateProfileArears(profile, dbProfile.Areas.ToList());
 
+            if (profile.Culture != null)
+            {
+                dbProfile.Culture = profile.Culture;
+            }
+            if (profile.EmailAddress != null)
+            {
+                dbProfile.EmailAddress = profile.EmailAddress;
+            }
+            if (profile.Phone != null)
+            {
+                dbProfile.Phone = profile.Phone;
+            }
+            if (profile.Address != null)
+            {
+                if (dbProfile.Address.City != profile.Address.City)
+                {
+                    dbProfile.Address.City = profile.Address.City;
+                }
+                if (dbProfile.Address.PostalCode != profile.Address.PostalCode)
+                {
+                    dbProfile.Address.PostalCode = profile.Address.PostalCode;
+                }
+                if (dbProfile.Address.State != profile.Address.State)
+                {
+                    dbProfile.Address.State = profile.Address.State;
+                }
+                if (dbProfile.Address.Street != profile.Address.Street)
+                {
+                    dbProfile.Address.Street = profile.Address.Street;
+                }
+                if (dbProfile.Address.Unit != profile.Address.Unit)
+                {
+                    dbProfile.Address.Unit = profile.Address.Unit;
+                }
+            }
+
+            UpdateProfileEquipments(profile, dbProfile.Equipments?.ToList());
+            UpdateProfileArears(profile, dbProfile.Areas?.ToList());
             return dbProfile;
         }
 

@@ -17,6 +17,7 @@ namespace DealnetPortal.Api.Models.Contract
         public string TransactionId { get; set; }        
 
         public string Status { get; set; }
+        public string LocalizedStatus { get; set; }
 
         public string SignatureTransactionId { get; set; }
 
@@ -26,12 +27,16 @@ namespace DealnetPortal.Api.Models.Contract
 
         public SignatureStatus? SignatureStatus { get; set; }
 
-        public DateTime? SignatureTime { get; set; }
+        public string SignatureStatusQualifier { get; set; }
+
+        public DateTime? SignatureLastUpdateTime { get; set; }
 
         public int? ScorecardPoints { get; set; }
 
         public decimal? CreditAmount { get; set; }
 
         public string Notes { get; set; }
+
+        public string OverrideCustomerRiskGroup { get; set; }
     }
 }

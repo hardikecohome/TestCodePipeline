@@ -6,6 +6,7 @@ using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common;
 using DealnetPortal.Web.Common.Security;
 using DealnetPortal.Web.Infrastructure.Managers;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.Owin.Security;
@@ -47,7 +48,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
             Mock<ILoggingService> loggingService = new Mock<ILoggingService>();
             ISecurityManager securityManager = new SecurityManager(serviceAgent, userManagementService, loggingService.Object, PortalType.Ecohome);
 
-            var result = securityManager.Login(DefUserName, DefUserPassword, DefPortalId).GetAwaiter().GetResult();
+            var result = securityManager.Login(DefUserName, DefUserPassword, DefPortalId, false).GetAwaiter().GetResult();
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count, 0);
             securityManager.Logout();
@@ -60,7 +61,7 @@ namespace DealnetPortal.Web.IntegrationTests.Security
             IUserManagementServiceAgent userManagementService = new UserManagementServiceAgent(_client, _authenticationManagerMock.Object);
             Mock<ILoggingService> loggingService = new Mock<ILoggingService>();
             ISecurityManager securityManager = new SecurityManager(serviceAgent, userManagementService, loggingService.Object, PortalType.Ecohome);
-            var result = securityManager.Login("admin", "notadmin", "notexistingportal").GetAwaiter().GetResult();
+            var result = securityManager.Login("admin", "notadmin", "notexistingportal",false).GetAwaiter().GetResult();
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count, 1);
             Assert.AreEqual(result[0].Type, AlertType.Error);

@@ -7,18 +7,28 @@ using DealnetPortal.Aspire.Integration.Models.AspireDb;
 using DealnetPortal.Utilities.DataAccess;
 using DealnetPortal.Utilities.Logging;
 
-namespace DealnetPortal.Api.Integration.Services
+namespace DealnetPortal.Aspire.Integration.Storage
 {
     public class AspireStorageReader : IAspireStorageReader
     {
         private readonly IDatabaseService _databaseService;
         private readonly IQueriesStorage _queriesStorage;
-        private readonly ILoggingService _loggingService;        
-        public AspireStorageReader(IDatabaseService databaseService, IQueriesStorage queriesStorage, ILoggingService loggingService)
+        private readonly ILoggingService _loggingService;
+        private Dictionary<string, string> _queryNames;
+
+        public AspireStorageReader(IDatabaseService databaseService, IQueriesStorage queriesStorage, ILoggingService loggingService, Dictionary<string, string> queryNames = null)
         {
             _databaseService = databaseService;
             _queriesStorage = queriesStorage;
             _loggingService = loggingService;
+            SetupDefaulQueryNames();
+            if (queryNames?.Any() == true)
+            {
+                foreach (var qn in queryNames)
+                {
+                    _queryNames[qn.Key] = qn.Value;
+                }
+            }
         }
 
         public IList<DropDownItem> GetGenericFieldValues()
@@ -41,7 +51,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<GenericSubDealer> GetSubDealersList(string dealerUserName)
         {           
-            string sqlStatement = _queriesStorage.GetQuery("GetSubDealers");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetSubDealersList)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 sqlStatement = string.Format(sqlStatement, dealerUserName);
@@ -57,7 +67,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public IList<Contract> GetDealerDeals(string dealerUserName)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetDealerDeals");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerDeals)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 sqlStatement = string.Format(sqlStatement, dealerUserName);
@@ -71,9 +81,27 @@ namespace DealnetPortal.Api.Integration.Services
             return new List<Contract>();
         }
 
+        public IList<CustomerAgreementShortInfo> SearchCustomerAgreements(string firstName, string lastName,
+            DateTime dateOfBirth)
+        {
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(SearchCustomerAgreements)]);
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                var dob = dateOfBirth.ToString("MM/dd/yyyy");
+                sqlStatement = string.Format(sqlStatement, firstName, lastName, dob);
+                var list = GetListFromQuery(sqlStatement, _databaseService, ReadCustomerAgreementShortInfo);
+                return list;
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetDealerDeals query for request");
+            }
+            return new List<CustomerAgreementShortInfo>();
+        }
+
         public Entity GetDealerInfo(string dealerUserName)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetDealerInfoByUserId");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerInfo)]);
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
@@ -93,7 +121,7 @@ namespace DealnetPortal.Api.Integration.Services
         
         public Entity GetCustomerById(string customerId)
         {           
-            string sqlStatement = _queriesStorage.GetQuery("GetCustomerById");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetCustomerById)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
 
@@ -113,7 +141,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public Entity FindCustomer(string firstName, string lastName, DateTime dateOfBirth, string postalCode)
         {            
-            string sqlStatement = _queriesStorage.GetQuery("FindCustomer");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(FindCustomer)]);
             if (!string.IsNullOrEmpty(sqlStatement))
             {
                 var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);
@@ -133,7 +161,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public DealerRoleEntity GetDealerRoleInfo(string dealerUserName)
         {
-            string sqlStatement = _queriesStorage.GetQuery("DealerRoleInformation");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealerRoleInfo)]);
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
@@ -153,7 +181,7 @@ namespace DealnetPortal.Api.Integration.Services
 
         public string GetDealStatus(string transactionId)
         {
-            string sqlStatement = _queriesStorage.GetQuery("GetDealStatus");
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetDealStatus)]);
 
             if (!string.IsNullOrEmpty(sqlStatement))
             {
@@ -178,6 +206,60 @@ namespace DealnetPortal.Api.Integration.Services
             return null;
         }
 
+        public CreditReport GetCustomerCreditReport(string customerId)
+        {
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames[nameof(GetCustomerCreditReport)]);
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                try
+                {
+                    sqlStatement = string.Format(sqlStatement, customerId);
+                    var list = GetListFromQuery(sqlStatement, _databaseService, ReadCreditReportItem);
+                    if (list?.Any() ?? false)
+                    {
+                        return list[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError("Cannot get GetCustomerBeaconById query", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetCustomerBeaconById query for request");
+            }
+            return null;
+        }
+
+        public CreditReport GetCustomerCreditReport(string firstName, string lastName, DateTime dateOfBirth,
+            string postalCode)
+        {
+            string sqlStatement = _queriesStorage.GetQuery(_queryNames["GetCustomerCreditReport.dev"]);
+            if (!string.IsNullOrEmpty(sqlStatement))
+            {
+                try
+                {
+                    var dob = dateOfBirth.ToString(CultureInfo.InvariantCulture);
+                    sqlStatement = string.Format(sqlStatement, firstName, lastName, dob, postalCode?.Replace(" ", ""));
+                    var list = GetListFromQuery(sqlStatement, _databaseService, ReadCreditReportItem);
+                    if (list?.Any() ?? false)
+                    {
+                        return list[0];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.LogError("Cannot get GetCustomerBeacon query", ex);
+                }
+            }
+            else
+            {
+                _loggingService.LogWarning("Cannot get GetCustomerBeacon query for request");
+            }
+            return null;
+        }
+
         private List<T> GetListFromQuery<T>(string query, IDatabaseService ds, Func<IDataReader, T> func)
         {
             //Define list
@@ -188,7 +270,11 @@ namespace DealnetPortal.Api.Integration.Services
             {                
                 while (reader.Read())
                 {
-                    resultList.Add(func(reader));
+                    var row = func(reader);
+                    if (row != null)
+                    {
+                        resultList.Add(row);
+                    }
                 }
             }
 
@@ -259,7 +345,7 @@ namespace DealnetPortal.Api.Integration.Services
                 var date = ConvertFromDbVal<string>(dr["Last_Update_Date"]);
                 var time = ConvertFromDbVal<string>(dr["Last_Update_Time"]);
                 DateTime updateTime;
-                DateTime.TryParse($"{date} {time}", out updateTime);
+                DateTime.TryParse($"{date} {time}",CultureInfo.InvariantCulture,DateTimeStyles.None, out updateTime);
 
                 item.LastUpdateTime = time;
                 item.LastUpdateDate = date;
@@ -282,7 +368,10 @@ namespace DealnetPortal.Api.Integration.Services
 
                 item.CustomerAccountId = ConvertFromDbVal<string>(dr["Customer ID"]);
                 item.CustomerFirstName = fstName;
-                item.CustomerLastName = lstName;                
+                item.CustomerLastName = lstName;
+                item.OverrideCreditAmountLimit = ConvertFromDbVal<decimal?>(dr["OverrideCreditAmountLimit"]);
+                item.OverrideCustomerRiskGroup = ConvertFromDbVal<string>(dr["OverrideCustomerRiskGroup"]);
+
                 return item;
             }
             catch (Exception ex)
@@ -319,6 +408,15 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     userEntity.PhoneNum = phoneNum;                    
                 }
+
+                try
+                {
+                    userEntity.LeaseSource = ConvertFromDbVal<string>(dr["leaseSource"]);
+                }
+                catch (Exception)
+                {
+                    userEntity.LeaseSource = null;
+                }
                
                 return userEntity;
             }
@@ -341,13 +439,7 @@ namespace DealnetPortal.Api.Integration.Services
                     if (!string.IsNullOrEmpty(name))
                     {
                         dealerCustomerInfo.Name = name;
-                    }
-
-                    var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
-                    if (!string.IsNullOrEmpty(pname))
-                    {
-                        dealerCustomerInfo.ParentUserName = pname;
-                    }
+                    }                    
                 }
                 catch (Exception ex)
                 {       
@@ -384,8 +476,17 @@ namespace DealnetPortal.Api.Integration.Services
                     dealerInfo.ProductType = ConvertFromDbVal<string>(dr["Product_Type"]);
                     dealerInfo.ChannelType = ConvertFromDbVal<string>(dr["Channel_Type"]);
                     dealerInfo.Ratecard = ConvertFromDbVal<string>(dr["ratecard"]);
+                    dealerInfo.LeaseRatecard = ConvertFromDbVal<string>(dr["lease_ratecard"]);
                     dealerInfo.Role = ConvertFromDbVal<string>(dr["Role"]);
                     dealerInfo.UserId = ConvertFromDbVal<string>(dr["user_id"]);
+                    if (dr["parent_uname"] != null)
+                    {
+                        var pname = ConvertFromDbVal<string>(dr["parent_uname"]);
+                        if (!string.IsNullOrEmpty(pname))
+                        {
+                            dealerInfo.ParentUserName = pname;
+                        }
+                    }
 
                     return dealerInfo;
                 }
@@ -396,6 +497,87 @@ namespace DealnetPortal.Api.Integration.Services
                 }
             }
             return null;
+        }
+
+        private CreditReport ReadCreditReportItem(IDataReader dr)
+        {
+            try
+            {
+                var creditReport = new CreditReport()
+                {
+                    FirstName = ConvertFromDbVal<string>(dr["fname"]),
+                    LastName = ConvertFromDbVal<string>(dr["lname"]),
+                    CustomerId = ConvertFromDbVal<string>(dr["customer_id"]),
+                    ContractId = ConvertFromDbVal<string>(dr["contractoid"])
+                };
+
+                creditReport.DateOfBirth = ConvertFromDbVal<DateTime?>(dr["date_of_birth"]);
+                creditReport.CreatedTime = ConvertFromDbVal<DateTime?>(dr["crtd_datetime"]);
+
+                creditReport.LastUpdatedTime = ConvertFromDbVal<DateTime?>(dr["lupd_datetime"]);
+                creditReport.LastUpdateUser = ConvertFromDbVal<string>(dr["lupd_user"]);
+
+                creditReport.CreditId = ConvertFromDbVal<string>(dr["creditoid"]);
+                var strBeacon = ConvertFromDbVal<string>(dr["Beacon"]);
+                if (string.IsNullOrEmpty(strBeacon))
+                {
+                    return null;
+                }
+                int beacon = 0;
+                int.TryParse(strBeacon, out beacon);
+                creditReport.Beacon = beacon;
+                return creditReport;
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot read credit report record from Aspire DB", ex);
+                return null;
+            }
+        }
+
+        private CustomerAgreementShortInfo ReadCustomerAgreementShortInfo(IDataReader dr)
+        {
+            try
+            {
+                var leaseInfo = new CustomerAgreementShortInfo()
+                {
+                    LeaseNum = ConvertFromDbVal<string>(dr["lease_num"]),
+                    TransactionId = ConvertFromDbVal<string>(dr["lease_app_num"]),
+                    BookType = ConvertFromDbVal<string>(dr["lease_book_type"]),
+                    BookedPostDate = ConvertFromDbVal<DateTime>(dr["lease_booked_post_date"]),
+                    SignDate = ConvertFromDbVal<DateTime>(dr["lease_sign_date"]),
+                    StartDate = ConvertFromDbVal<DateTime>(dr["lease_start_date"]),
+                    MaturityDate = ConvertFromDbVal<DateTime>(dr["lease_maturity_date"]),
+                    Term = ConvertFromDbVal<string>(dr["lease_term"]),
+                    TypeDesc = ConvertFromDbVal<string>(dr["lease_type_desc"]),
+                    Type = ConvertFromDbVal<string>(dr["lease_type"]),
+                    CustomerId = ConvertFromDbVal<string>(dr["lease_cust_id_num"]),
+                    EquipType = ConvertFromDbVal<string>(dr["equip_type"]),
+                    EquipTypeDesc = ConvertFromDbVal<string>(dr["equip_type_desc"]),
+                    EquipActiveFlag = ConvertFromDbVal<string>(dr["equip_active_flag"])
+                };
+                return leaseInfo;
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Cannot read credit report record from Aspire DB", ex);
+                return null;
+            }
+        }
+
+        private void SetupDefaulQueryNames()
+        {
+            _queryNames = new Dictionary<string, string>();
+            _queryNames.Add(nameof(GetSubDealersList), "GetSubDealers");
+            _queryNames.Add(nameof(GetDealerDeals), "GetDealerDeals");
+            _queryNames.Add(nameof(GetDealerInfo), "GetDealerInfoByUserId");
+            _queryNames.Add(nameof(GetCustomerById), "GetCustomerById");
+            _queryNames.Add(nameof(FindCustomer), "FindCustomer");
+            _queryNames.Add(nameof(GetDealerRoleInfo), "DealerRoleInformation");
+            _queryNames.Add(nameof(GetDealStatus), "GetDealStatus");
+            _queryNames.Add(nameof(GetCustomerCreditReport), "GetCustomerBeaconById");
+            _queryNames.Add("GetCustomerCreditReport.dev", "GetCustomerBeacon.dev");
+            _queryNames.Add(nameof(SearchCustomerAgreements), "SearchCustomerAgreements");
         }
 
         public static T ConvertFromDbVal<T>(object obj)

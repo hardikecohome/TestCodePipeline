@@ -22,6 +22,7 @@ using DealnetPortal.Api.Providers;
 using DealnetPortal.Api.Results;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 
@@ -48,18 +49,6 @@ namespace DealnetPortal.Api.Controllers
                     GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof (ILoggingService));
             InitController();
         }
-
-        //public AccountController(IApplicationRepository applicationRepository, ApplicationUserManager userManager,
-        //    ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
-        //    ILoggingService loggingService)
-        //{
-        //    _applicationRepository = applicationRepository;
-        //    //TODO: add role manager
-        //    UserManager = userManager;
-        //    AccessTokenFormat = accessTokenFormat;
-        //    _loggingService = loggingService;
-        //    InitController();            
-        //}
 
         private void InitController()
         {

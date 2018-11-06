@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -18,7 +19,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -27,6 +28,7 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <Use64BitIISExpress />
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -118,6 +120,9 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -145,6 +150,9 @@
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization.Less, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9b7581e0240fe480, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Optimization.Less.1.3.4\lib\net40\System.Web.Optimization.Less.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Windows.Forms" />
@@ -202,11 +210,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App_GlobalResources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -240,47 +243,60 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\ShareableLinkController.cs" />
     <Compile Include="Controllers\StubController.cs" />
+    <Compile Include="Controllers\SupportRequestController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controllers\UpdateDataController.cs" />
+    <Compile Include="Controllers\VerifyRecaptchaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ApplicationSettingsManager.cs" />
-    <Compile Include="Infrastructure\AuthenticationHttpModule.cs" />
-    <Compile Include="Infrastructure\AuthFromContextAttribute.cs" />
-    <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
-    <Compile Include="Infrastructure\ClaimsProvider.cs" />
-    <Compile Include="Infrastructure\ContractManager.cs" />
-    <Compile Include="Infrastructure\CultureSetterManager.cs" />
-    <Compile Include="Infrastructure\CustomerManager.cs" />
-    <Compile Include="Infrastructure\DealerOnBoardingManager.cs" />
+    <Compile Include="Infrastructure\Managers\ContentManager.cs" />
+    <Compile Include="Infrastructure\Managers\CustomerFormManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IContentManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ICustomerFormManager.cs" />
+    <Compile Include="Infrastructure\Managers\ApplicationSettingsManager.cs" />
+    <Compile Include="Infrastructure\Attributes\TimezoneAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\AuthFromContextAttribute.cs" />
+    <Compile Include="Infrastructure\Managers\ContractManager.cs" />
+    <Compile Include="Infrastructure\Managers\CultureSetterManager.cs" />
+    <Compile Include="Infrastructure\Managers\CustomerManager.cs" />
+    <Compile Include="Infrastructure\Managers\DealerOnBoardingManager.cs" />
     <Compile Include="Infrastructure\Extensions\ModelStateErrorHandler.cs" />
     <Compile Include="Infrastructure\Extensions\MvcHelpersExtensions.cs" />
-    <Compile Include="Infrastructure\ICustomerManager.cs" />
-    <Compile Include="Infrastructure\IDealerOnBoardingManager.cs" />
-    <Compile Include="Infrastructure\IProfileManager.cs" />
-    <Compile Include="Infrastructure\Managers\ISecurityManager.cs" />
-    <Compile Include="Infrastructure\Managers\ISettingsManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ICustomerManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IDealerOnBoardingManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IProfileManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ISecurityManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\ISettingsManager.cs" />
     <Compile Include="Infrastructure\Managers\OwinSecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SecurityManager.cs" />
     <Compile Include="Infrastructure\Managers\SettingsManager.cs" />
-    <Compile Include="Infrastructure\MinListCountAttribute.cs" />
-    <Compile Include="Infrastructure\MinMaxListCountAttribute.cs" />
-    <Compile Include="Infrastructure\ProfileManager.cs" />
-    <Compile Include="Infrastructure\CustomRequiredAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\MinListCountAttribute.cs" />
+    <Compile Include="Infrastructure\Attributes\MinMaxListCountAttribute.cs" />
+    <Compile Include="Infrastructure\Managers\ProfileManager.cs" />
+    <Compile Include="Infrastructure\Attributes\CustomRequiredAttribute.cs" />
     <Compile Include="Infrastructure\DynamicLessHandler.cs" />
     <Compile Include="Infrastructure\Extensions\BundleExtentions.cs" />
     <Compile Include="Infrastructure\Extensions\RequestExtensions.cs" />
-    <Compile Include="Infrastructure\IContractManager.cs" />
+    <Compile Include="Infrastructure\Managers\Interfaces\IContractManager.cs" />
     <Compile Include="Infrastructure\LocalizedControllerActivator.cs" />
     <Compile Include="Infrastructure\ModelBinders\DateTimeBinder .cs" />
-    <Compile Include="Infrastructure\RequreSecureConnectionFilter .cs" />
+    <Compile Include="Infrastructure\RequreSecureConnectionFilter.cs" />
     <Compile Include="Infrastructure\ViewPageWithUserIdentity.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdditionalInfoViewModel.cs" />
+    <Compile Include="Models\AddressInfomation.cs" />
+    <Compile Include="Models\ApplicantsViewModel.cs" />
+    <Compile Include="Models\BasicInfoViewModel.cs" />
     <Compile Include="Models\CertificateEquipmentInfoViewModel.cs" />
     <Compile Include="Models\CertificateInformationViewModel.cs" />
     <Compile Include="Models\ClientsInformationViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
+    <Compile Include="Models\ContactAndPaymentInfoViewModel.cs" />
+    <Compile Include="Models\ContactInfoViewModel.cs" />
+    <Compile Include="Models\CustomerRiskGroupViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\CommonExistingEquipmentInfo.cs" />
+    <Compile Include="Models\EquipmentInformation\ContactAndPaymentInfoViewModelNew.cs" />
     <Compile Include="Models\ContractEditViewModel.cs" />
     <Compile Include="Models\ContractViewModel.cs" />
     <Compile Include="Models\CreditRejectedViewModel.cs" />
@@ -295,29 +311,53 @@
     <Compile Include="Models\Dealer\RequiredDocumentViewModel.cs" />
     <Compile Include="Models\Dealer\SaveAndResumeViewModel.cs" />
     <Compile Include="Models\Dealer\TradeReferenceViewModel.cs" />
+    <Compile Include="Models\EmploymentInformationViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\ContractConditions.cs" />
+    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModelNew.cs" />
+    <Compile Include="Models\EquipmentInformation\SalesRepInformation.cs" />
+    <Compile Include="Models\ESignatureViewModel.cs" />
+    <Compile Include="Models\HelpPopUpViewModal.cs" />
+    <Compile Include="Models\InstallationPackageInformation.cs" />
     <Compile Include="Models\MyProfile\DealerAreaViewModel.cs" />
     <Compile Include="Models\MyProfile\ProfileViewModel.cs" />
     <Compile Include="Models\NewCustomerViewModel.cs" />
+    <Compile Include="Models\PaymentInfoViewModel.cs" />
+    <Compile Include="Models\ReductionCardViewModel.cs" />
+    <Compile Include="Models\RateCardViewModel.cs" />
+    <Compile Include="Models\SignerViewModel.cs" />
     <Compile Include="Models\StandaloneCalculatorViewModel.cs" />
+    <Compile Include="Models\SubDealer.cs" />
     <Compile Include="Models\SubmittedCustomerFormViewModel.cs" />
     <Compile Include="Models\CustomerFormViewModel.cs" />
-    <Compile Include="Models\EquipmentInformationViewModel.cs" />
-    <Compile Include="Models\ExistingEquipmentInformation.cs" />
+    <Compile Include="Models\EquipmentInformation\EquipmentInformationViewModel.cs" />
+    <Compile Include="Models\EquipmentInformation\ExistingEquipmentInformation.cs" />
     <Compile Include="Models\LoanCalculatorViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\NewEquipmentInformation.cs" />
-    <Compile Include="Models\NewRentalViewModels.cs" />
+    <Compile Include="Models\EquipmentInformation\NewEquipmentInformation.cs" />
+    <Compile Include="Models\ApplicantPersonalInfo.cs" />
     <Compile Include="Models\SendEmailsViewModel.cs" />
     <Compile Include="Models\ShareableLinkViewModel.cs" />
+    <Compile Include="Models\SummaryAndConfirmationViewModel.cs" />
+    <Compile Include="Models\TierViewModel.cs" />
     <Compile Include="Models\UploadDocumentsViewModel.cs" />
     <Compile Include="Models\Validation\CheckCustomersAgeAttribute.cs" />
+    <Compile Include="Models\Validation\CheckEquipmentsCostAttribute.cs" />
     <Compile Include="Models\Validation\CheckHomeOwnerAttribute.cs" />
+    <Compile Include="Models\Validation\EligibleAgeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\jquery-ui.css" />
     <Content Include="Content\css\jquery-ui.theme.css" />
+    <Content Include="Content\css\selectric.css" />
+    <Content Include="Content\css\styles-mobile.css" />
+    <Content Include="Content\css\styles-tablet.css" />
+    <Content Include="Content\css\styles.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -465,7 +505,24 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\email\email.html" />
     <Content Include="Content\email\images\icon-success.png" />
+    <Content Include="Content\files\banners\en\Bill-59-Banner-mobile.jpg" />
+    <Content Include="Content\files\banners\en\Bill-59-Banner.jpg" />
+    <Content Include="Content\files\banners\en\home-banner-mobile.jpg" />
+    <Content Include="Content\files\banners\en\home-banner.jpg" />
+    <Content Include="Content\files\HTML\en\AgreementPersonalData.html" />
+    <Content Include="Content\files\HTML\en\PrivacyPolicyText.html" />
+    <Content Include="Content\files\HTML\en\qc\AgreementPersonalDataQC.html" />
+    <Content Include="Content\files\HTML\en\qc\PrivacyPolicyTextQC.html" />
+    <Content Include="Content\files\HTML\fr\AgreementPersonalDataFR.html" />
+    <Content Include="Content\files\HTML\fr\PrivacyPolicyTextFR.html" />
+    <Content Include="Content\files\HTML\fr\qc\AgreementPersonalDataQCFR.html" />
+    <Content Include="Content\files\HTML\fr\qc\PrivacyPolicyTextQCFR.html" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Video Link.htm" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\icomoon.svg" />
+    <Content Include="Content\images\bubble-help-red.svg" />
+    <Content Include="Content\images\bubble-help-w.svg" />
     <Content Include="Content\images\dataTables\details_close.png" />
     <Content Include="Content\images\dataTables\details_open.png" />
     <Content Include="Content\images\dataTables\sort_asc.png" />
@@ -473,6 +530,10 @@
     <Content Include="Content\images\dataTables\sort_both.png" />
     <Content Include="Content\images\dataTables\sort_desc.png" />
     <Content Include="Content\images\dataTables\sort_desc_disabled.png" />
+    <Content Include="Content\images\forms\selectArrow.svg" />
+    <Content Include="Content\images\forms\selectArrowBlack.svg" />
+    <Content Include="Content\images\home-banner-mobile.jpg" />
+    <Content Include="Content\images\home-banner.jpg" />
     <Content Include="Content\images\icon-english%402x.png" />
     <Content Include="Content\images\icon-english%403x.png" />
     <Content Include="Content\images\icon-english.png" />
@@ -483,6 +544,9 @@
     <Content Include="Content\images\logos\logo-eco-energy-w%402x.png" />
     <Content Include="Content\images\logos\logo-eco-energy-w%403x.png" />
     <Content Include="Content\images\logos\logo-eco-energy-w.png" />
+    <Content Include="Content\images\logos\logo-eco-home-fr%402x.png" />
+    <Content Include="Content\images\logos\logo-eco-home-fr%403x.png" />
+    <Content Include="Content\images\logos\logo-eco-home-fr.png" />
     <Content Include="Content\images\logos\logo-life-time-w%402x.png" />
     <Content Include="Content\images\logos\logo-life-time-w%403x.png" />
     <Content Include="Content\images\logos\logo-life-time-w.png" />
@@ -502,18 +566,26 @@
     <Content Include="Content\images\sprite\icon-accept-lead.svg" />
     <Content Include="Content\images\sprite\icon-add-app.svg" />
     <Content Include="Content\images\sprite\icon-audio.svg" />
+    <Content Include="Content\images\sprite\icon-calculator-btn.svg" />
     <Content Include="Content\images\sprite\icon-calculator.svg" />
     <Content Include="Content\images\sprite\icon-calendar.svg" />
+    <Content Include="Content\images\sprite\icon-comment.svg" />
+    <Content Include="Content\images\sprite\icon-customer-support.svg" />
+    <Content Include="Content\images\sprite\icon-dealer-support.svg" />
     <Content Include="Content\images\sprite\icon-decline-circle.svg" />
+    <Content Include="Content\images\sprite\icon-download.svg" />
     <Content Include="Content\images\sprite\icon-edit.svg" />
     <Content Include="Content\images\sprite\icon-email.svg" />
     <Content Include="Content\images\sprite\icon-email2.svg" />
     <Content Include="Content\images\sprite\icon-error-upload.svg" />
     <Content Include="Content\images\sprite\icon-error.svg" />
+    <Content Include="Content\images\sprite\icon-esignature.svg" />
     <Content Include="Content\images\sprite\icon-excel.svg" />
     <Content Include="Content\images\sprite\icon-eye.svg" />
     <Content Include="Content\images\sprite\icon-fax.svg" />
     <Content Include="Content\images\sprite\icon-filter.svg" />
+    <Content Include="Content\images\sprite\icon-funding.svg" />
+    <Content Include="Content\images\sprite\icon-help-chat.svg" />
     <Content Include="Content\images\sprite\icon-help-page.svg" />
     <Content Include="Content\images\sprite\icon-home.svg" />
     <Content Include="Content\images\sprite\icon-info-grey.svg" />
@@ -548,6 +620,8 @@
     <Content Include="Content\images\sprite\icon-upload.svg" />
     <Content Include="Content\images\sprite\icon-user-small.svg" />
     <Content Include="Content\images\sprite\icon-user.svg" />
+    <Content Include="Content\images\sprite\icon-waiting.svg" />
+    <Content Include="Content\images\sprite\new-application.svg" />
     <Content Include="Content\images\sprite\new-rental.svg" />
     <Content Include="Content\images\sprite\sprite.svg" />
     <Content Include="Content\images\add-app%402x.png" />
@@ -701,17 +775,15 @@
     <Content Include="Content\less\settings\variables.less" />
     <Content Include="Content\less\slick\ajax-loader.gif" />
     <Content Include="Content\less\slick\fonts\slick.svg" />
+    <Content Include="Content\less\slick\ajax-loader.gif" />
+    <Content Include="DeployParameters.Web.deaslnet01vm.xml" />
+    <Content Include="DeployParameters.Web.deaslnet02vm.xml" />
     <Content Include="favicon-dealer.ico" />
     <Content Include="favicon.ico" />
     <Content Include="Favicon_Eco_Energy.ico" />
     <Content Include="favicon_Life_Time.ico" />
     <Content Include="favicon_Smart_Home.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\Actions\customer.js" />
-    <Content Include="Scripts\Actions\new-client-actions.js" />
-    <Content Include="Scripts\agreement-submit-success.js" />
-    <Content Include="Scripts\BasicInfo\address-autocomplete.js" />
-    <Content Include="Scripts\BasicInfo\basic-info.js" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
@@ -785,247 +857,320 @@
     <Content Include="Content\less\slick\slick.less" />
     <Content Include="Content\less\components\carousel.less" />
     <Content Include="Content\less\pages\onboard.less" />
-    <Content Include="Content\files\About-EcoHome-Financial.pdf" />
-    <Content Include="Content\files\Consumer-Loan-Agreement.pdf" />
-    <Content Include="Content\files\Loan-Agreement-Changes-From-August-To-September.pdf" />
-    <Content Include="Content\files\Myhome-Wallet-Detailed-Description.pdf" />
-    <Content Include="Content\files\Myhome-Wallet-Short-Description.pdf" />
-    <Content Include="Content\files\Portal-User-Guide.pdf" />
-    <Content Include="Content\files\Summer-Fall-2017-Promotion.pdf" />
+    <Content Include="Content\files\resources\en\About-EcoHome-Financial.pdf" />
+    <Content Include="Content\files\resources\en\Consumer-Loan-Agreement.pdf" />
+    <Content Include="Content\files\resources\en\Loan-Agreement-Changes-From-August-To-September.pdf" />
+    <Content Include="Content\files\resources\en\Myhome-Wallet-Detailed-Description.pdf" />
+    <Content Include="Content\files\resources\en\Myhome-Wallet-Short-Description.pdf" />
+    <Content Include="Content\less\components\status-colors.less" />
+    <Content Include="Content\less\components\dob-control.less" />
+    <Content Include="Content\files\Dealer Portal Update Oct 2017.pdf" />
+    <Content Include="Content\files\EcoHome Rate Card %28Oct 11th, 2017%29.pdf" />
+    <Content Include="Content\files\EcoHome-rate-card-%28Oct 3th, 2017%29.pdf" />
+    <Content Include="Content\files\How to Use Rates Approved Pre Approved Pre Oct 3, 2017.pdf" />
+    <Content Include="Content\css\styles-mobile.css.map" />
+    <Content Include="Content\css\styles-tablet.css.map" />
+    <Content Include="Content\css\styles.css.map" />
+    <Content Include="Content\fonts\icomoon.eot" />
+    <Content Include="Content\fonts\icomoon.ttf" />
+    <Content Include="Content\fonts\icomoon.woff" />
+    <Content Include="Content\less\partials\new-design-resets.less" />
+    <Content Include="Content\less\main-new.less" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\less\bootstrap\bootstrap.new.less" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card October 2017 to April 2018.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-customer-info-sheet.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-mortgage-info-deck.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker FAQs.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Mortgage Broker Portal User Guide February 2018.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\Consumer FAQs for Mortgage-Real Estate Channel.pdf" />
+    <Content Include="Content\files\resources\en\Bill 59 Readiness Assessment.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Ontario Bill 59 Cover Page.pdf" />
+    <Content Include="Content\files\resources\en\Consumer Loan Agreement Ontario.pdf" />
+    <Content Include="Content\files\resources\en\MortgageBroker\myhome-wallet-info-deck Dealer.pdf" />
+    <Content Include="Content\files\resources\en\Supplemental Information Sheet.pdf" />
+    <Content Include="Content\files\resources\fr\qc\Portail d entrepreneur pour la signature electronique fevrier 2018.pdf" />
+    <Content Include="Content\files\resources\en\qc\Credit Application.pdf" />
+    <Content Include="Content\files\resources\fr\qc\demande de crédit.pdf" />
+    <Content Include="Content\files\resources\fr\qc\Portail de lentrepreneur guide de demarrage Mars 2018.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card April 2018 to May 28 2018.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease Rate Card May 2018.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 Quick Reference.pdf" />
+    <Content Include="Content\files\resources\en\Rates Approved Pre April 17 2018 User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Lease User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan User Guide.pdf" />
+    <Content Include="Content\files\resources\en\Ecohome Loan Rate Card May 29 2018 to June 20 2018.pdf" />
+    <Content Include="Content\files\resources\en\EcoHome Program Quick Tips.pdf" />
     <None Include="Properties\PublishProfiles\Dealnet 2 test server web deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\PackagePublish.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\camera-capturing.js" />
-    <Content Include="Scripts\contact-and-payment-management.js" />
-    <Content Include="Scripts\contract-edit.js" />
-    <Content Include="Scripts\custom-validation.js" />
-    <Content Include="Scripts\customer-form.js" />
-    <Content Include="Scripts\jquery.jcarousel.min.js" />
-    <Content Include="Scripts\jquery.tmpl.min.js" />
-    <Content Include="Scripts\jquery.touchSwipe.min.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-conversion.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-index.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-init.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-jcarousel.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-option.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-ui.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-value-setters.js" />
-    <Content Include="Scripts\Pages\calculator\calculator-state.js" />
-    <Content Include="Scripts\Pages\Clients\index.js" />
-    <Content Include="Scripts\Pages\Clients\new-client-autocomplete.js" />
-    <Content Include="Scripts\Pages\Clients\new-client-flow.js" />
-    <Content Include="Scripts\Pages\Clients\new-client-store.js" />
-    <Content Include="Scripts\Pages\customer-form.js" />
-    <Content Include="Scripts\customer-validation.js" />
-    <Content Include="Scripts\datejs.js" />
-    <Content Include="Scripts\credit-check.js" />
-    <Content Include="Scripts\editable-in-modal.js" />
-    <Content Include="Scripts\equipment-information.js" />
-    <Content Include="Scripts\financial-functions.js" />
-    <Content Include="Scripts\general-address-autocomplete.js" />
-    <Content Include="Scripts\jquery-3.1.0.min.map" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
-    <Content Include="Scripts\jquery-validation-messages.js" />
-    <Content Include="Scripts\jquery.form.js" />
-    <Content Include="Scripts\jquery.form.min.js" />
-    <Content Include="Scripts\jquery.form.min.js.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\Chart.js" />
-    <Content Include="Scripts\Chart.min.js" />
-    <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
-    <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
-    <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\autoFill.bootstrap4.min.js" />
-    <Content Include="Scripts\DataTables\autoFill.foundation.js" />
-    <Content Include="Scripts\DataTables\autoFill.foundation.min.js" />
-    <Content Include="Scripts\DataTables\autoFill.jqueryui.js" />
-    <Content Include="Scripts\DataTables\autoFill.jqueryui.min.js" />
-    <Content Include="Scripts\DataTables\autoFill.semanticui.js" />
-    <Content Include="Scripts\DataTables\autoFill.semanticui.min.js" />
-    <Content Include="Scripts\DataTables\buttons.bootstrap.js" />
-    <Content Include="Scripts\DataTables\buttons.bootstrap.min.js" />
-    <Content Include="Scripts\DataTables\buttons.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\buttons.bootstrap4.min.js" />
-    <Content Include="Scripts\DataTables\buttons.colVis.js" />
-    <Content Include="Scripts\DataTables\buttons.colVis.min.js" />
-    <Content Include="Scripts\DataTables\buttons.flash.js" />
-    <Content Include="Scripts\DataTables\buttons.flash.min.js" />
-    <Content Include="Scripts\DataTables\buttons.foundation.js" />
-    <Content Include="Scripts\DataTables\buttons.foundation.min.js" />
-    <Content Include="Scripts\DataTables\buttons.html5.js" />
-    <Content Include="Scripts\DataTables\buttons.html5.min.js" />
-    <Content Include="Scripts\DataTables\buttons.jqueryui.js" />
-    <Content Include="Scripts\DataTables\buttons.jqueryui.min.js" />
-    <Content Include="Scripts\DataTables\buttons.print.js" />
-    <Content Include="Scripts\DataTables\buttons.print.min.js" />
-    <Content Include="Scripts\DataTables\buttons.semanticui.js" />
-    <Content Include="Scripts\DataTables\buttons.semanticui.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.autoFill.js" />
-    <Content Include="Scripts\DataTables\dataTables.autoFill.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.bootstrap.js" />
-    <Content Include="Scripts\DataTables\dataTables.bootstrap.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\dataTables.bootstrap4.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.buttons.js" />
-    <Content Include="Scripts\DataTables\dataTables.buttons.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.colReorder.js" />
-    <Content Include="Scripts\DataTables\dataTables.colReorder.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.fixedColumns.js" />
-    <Content Include="Scripts\DataTables\dataTables.fixedColumns.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.fixedHeader.js" />
-    <Content Include="Scripts\DataTables\dataTables.fixedHeader.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.foundation.js" />
-    <Content Include="Scripts\DataTables\dataTables.foundation.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.jqueryui.js" />
-    <Content Include="Scripts\DataTables\dataTables.jqueryui.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.keyTable.js" />
-    <Content Include="Scripts\DataTables\dataTables.keyTable.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.material.js" />
-    <Content Include="Scripts\DataTables\dataTables.material.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.responsive.js" />
-    <Content Include="Scripts\DataTables\dataTables.responsive.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.rowReorder.js" />
-    <Content Include="Scripts\DataTables\dataTables.rowReorder.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.scroller.js" />
-    <Content Include="Scripts\DataTables\dataTables.scroller.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.select.js" />
-    <Content Include="Scripts\DataTables\dataTables.select.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.semanticui.js" />
-    <Content Include="Scripts\DataTables\dataTables.semanticui.min.js" />
-    <Content Include="Scripts\DataTables\dataTables.uikit.js" />
-    <Content Include="Scripts\DataTables\dataTables.uikit.min.js" />
-    <Content Include="Scripts\DataTables\jquery.dataTables.js" />
-    <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
-    <Content Include="Scripts\DataTables\responsive.bootstrap.js" />
-    <Content Include="Scripts\DataTables\responsive.bootstrap.min.js" />
-    <Content Include="Scripts\DataTables\responsive.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\responsive.bootstrap4.min.js" />
-    <Content Include="Scripts\DataTables\responsive.foundation.js" />
-    <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
-    <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
-    <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
-    <Content Include="Scripts\DataTables\responsive.semanticui.js" />
-    <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
-    <None Include="Scripts\jquery-3.1.0.intellisense.js" />
-    <Content Include="Scripts\jquery-3.1.0.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.js" />
-    <Content Include="Scripts\jquery.dataTables.js" />
-    <Content Include="Scripts\home-page.js" />
-    <Content Include="Scripts\BasicInfo\DlScanning\dl-scanning.js" />
-    <Content Include="Scripts\jquery.loader.js" />
-    <Content Include="Scripts\jquery.placeholder.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\layout.js" />
-    <Content Include="Scripts\leads.js" />
-    <Content Include="Scripts\loan-calculator.js" />
-    <Content Include="Scripts\Logger\logdebug.js" />
-    <Content Include="Scripts\Logger\log.js" />
-    <Content Include="Scripts\my-customers.js" />
-    <Content Include="Scripts\Pages\MyProfile\form-handlers.js" />
-    <Content Include="Scripts\Pages\MyProfile\index.js" />
-    <Content Include="Scripts\Pages\MyProfile\category-handlers.js" />
-    <Content Include="Scripts\Pages\MyProfile\category-template.js" />
-    <Content Include="Scripts\Pages\MyProfile\my-profile-state.js" />
-    <Content Include="Scripts\Pages\MyProfile\postalCode-template.js" />
-    <Content Include="Scripts\Pages\MyProfile\postalCode-handlers.js" />
-    <Content Include="Scripts\Pages\Clients\new-client.js" />
-    <Content Include="Scripts\Pages\newEquipment\rate-cards-init.js" />
-    <Content Include="Scripts\Pages\newEquipment\validation.js" />
-    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
-    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
-    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.province.js" />
-    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.index.js" />
-    <Content Include="Scripts\Pages\onboarding\consent\onboarding.consent.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.index.js" />
-    <Content Include="Scripts\Pages\onboarding\documents\onboarding.documents.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.common.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.form.handlers.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.index.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.polyfill.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\onboarding.state.js" />
-    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
-    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.index.js" />
-    <Content Include="Scripts\Pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
-    <Content Include="Scripts\Pages\onboarding\company\onboarding.company.index.js" />
-    <Content Include="Scripts\Pages\onboarding\owner-info\onbobarding.owner-info.additional.js" />
-    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.brand.js" />
-    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.equipment.js" />
-    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.index.js" />
-    <Content Include="Scripts\Pages\onboarding\product\onboarding.product.setters.js" />
-    <Content Include="Scripts\Reducers\customer.js" />
-    <Content Include="Scripts\Reducers\new-client-reducer.js" />
-    <Content Include="Scripts\Selectors\customer.js" />
-    <Content Include="Scripts\Selectors\new-client-selectors.js" />
-    <Content Include="Scripts\Pages\additionalContractInfo\contract-information.js" />
-    <Content Include="Scripts\Pages\newEquipment\custom-rate-card.js" />
-    <Content Include="Scripts\Pages\newEquipment\equipment.js" />
-    <Content Include="Scripts\Pages\newEquipment\index.js" />
-    <Content Include="Scripts\Pages\newEquipment\rate-cards-ui.js" />
-    <Content Include="Scripts\Pages\newEquipment\rate-cards.js" />
-    <Content Include="Scripts\Pages\newEquipment\state.js" />
-    <Content Include="Scripts\Pages\newEquipment\template.js" />
-    <Content Include="Scripts\Pages\newEquipment\value-setters.js" />
-    <Content Include="Scripts\standalone-calculator.js" />
-    <Content Include="Scripts\Utils\financial-functions.js" />
-    <Content Include="Scripts\Utils\localization-init.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\my-deals.js" />
-    <Content Include="Scripts\navigation-with-warning.js" />
-    <Content Include="Scripts\print-contract.js" />
-    <Content Include="Scripts\province-codes-helper.js" />
-    <Content Include="Scripts\reports.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\shareable-link.js" />
-    <Content Include="Scripts\standalone-loan-calculator.js" />
-    <Content Include="Scripts\svgxuse.min.js" />
-    <Content Include="Scripts\summary-and-confirmation.js" />
-    <Content Include="Scripts\Utils\functionUtils.js" />
-    <Content Include="Scripts\Modules\index.js" />
-    <Content Include="Scripts\Utils\logMiddleware.js" />
-    <Content Include="Scripts\Utils\numberUtils.js" />
-    <Content Include="Scripts\Utils\objectUtils.js" />
-    <Content Include="Scripts\Utils\redux.js" />
-    <Content Include="Scripts\vc-scanning.js" />
-    <Content Include="Scripts\Vendor\angular\angular-touch.js" />
-    <Content Include="Scripts\Vendor\angular\angular.js" />
-    <Content Include="Scripts\Vendor\angular\angular-animate.js" />
-    <Content Include="Scripts\Vendor\angular\ui-bootstrap-csp.css" />
-    <Content Include="Scripts\Vendor\angular\ui-bootstrap-tpls.js" />
-    <Content Include="Scripts\Vendor\angular\ui-bootstrap.js" />
-    <Content Include="Scripts\Vendor\cldr\cldr.js" />
-    <Content Include="Scripts\Vendor\cldr\cldr\event.js" />
-    <Content Include="Scripts\Vendor\cldr\cldr\supplemental.js" />
-    <Content Include="Scripts\Vendor\cldr\cldr\unresolved.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\currency.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\date.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\message.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\number.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\plural.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\relative-time.js" />
-    <Content Include="Scripts\Vendor\globalize\globalize\unit.js" />
-    <Content Include="Scripts\Views\agreement.js" />
-    <Content Include="Scripts\Views\Clients\address-information.js" />
-    <Content Include="Scripts\Views\Clients\basic-information.js" />
-    <Content Include="Scripts\Views\Clients\client-consents.js" />
-    <Content Include="Scripts\Views\Clients\contact-information.js" />
-    <Content Include="Scripts\Views\Clients\home-improvments.js" />
-    <Content Include="Scripts\Views\contact-info.js" />
-    <Content Include="Scripts\Views\installation-address.js" />
-    <Content Include="Scripts\Views\your-info.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\components\addressInformation.js" />
+    <Content Include="Scripts\components\employmentInformation.js" />
+    <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\pages\basicInfo\additionalApplicants\employment.js" />
+    <Content Include="Scripts\pages\basicInfo\homeOwner\employment.js" />
+    <Content Include="Scripts\pages\customerForm\views\employment-info.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.calculation.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.index.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.packages.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.conversion.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.index.js" />
+    <Content Include="Scripts\pages\newEquipment\clarity\newEquipment.clarity.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.bill59.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.index.js" />
+    <Content Include="Scripts\utils\financial-functions.clarity.module.js" />
+    <Content Include="Scripts\utils\idToValue.js" />
+    <Content Include="Scripts\utils\polyfills.js" />
+    <Content Include="Scripts\vendor\jquery.selectric.min.js" />
+    <Content Include="Scripts\vendor\knockout.validation.js" />
+    <Content Include="Scripts\pages\basicInfo\address-autocomplete.js" />
+    <Content Include="Scripts\pages\calculator\calculator.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.management.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rental.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.state.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.template.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.validation.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.value-setters.js" />
+    <Content Include="Scripts\pages\basicInfo\basicInfo.index.js" />
+    <Content Include="Scripts\pages\basicInfo\components\basicInfo.component.js" />
+    <Content Include="Scripts\pages\reportContracts\index.js" />
+    <Content Include="Scripts\utils\alertModal.js" />
+    <Content Include="Scripts\utils\backToTop.js" />
+    <Content Include="Scripts\utils\clearAddress.js" />
+    <Content Include="Scripts\utils\common.langSwitcher.js" />
+    <Content Include="Scripts\utils\datepicker.js" />
+    <Content Include="Scripts\utils\detectIE.js" />
+    <Content Include="Scripts\utils\fields.js" />
+    <Content Include="Scripts\utils\helpPopup.js" />
+    <Content Include="Scripts\common\init-responsive-tabs.js" />
+    <Content Include="Scripts\utils\loader.js" />
+    <Content Include="Scripts\utils\logger\log.js" />
+    <Content Include="Scripts\utils\logger\logdebug.js" />
+    <Content Include="Scripts\pages\additionalContractInfo\contract-information.js" />
+    <Content Include="Scripts\pages\agrementSubmitSuccess\agreement-submit-success.js" />
+    <Content Include="Scripts\pages\calculator\calculator.conversion.js" />
+    <Content Include="Scripts\pages\calculator\calculator.init.js" />
+    <Content Include="Scripts\pages\calculator\calculator.jcarousel.js" />
+    <Content Include="Scripts\pages\calculator\calculator.option.js" />
+    <Content Include="Scripts\pages\calculator\calculator.state.js" />
+    <Content Include="Scripts\pages\calculator\calculator.ui.js" />
+    <Content Include="Scripts\pages\calculator\calculator.value-setters.js" />
+    <Content Include="Scripts\pages\Clients\actions\new-client-actions.js" />
+    <Content Include="Scripts\pages\Clients\index.js" />
+    <Content Include="Scripts\pages\Clients\new-client-autocomplete.js" />
+    <Content Include="Scripts\pages\Clients\new-client-flow.js" />
+    <Content Include="Scripts\pages\Clients\new-client-store.js" />
+    <Content Include="Scripts\pages\Clients\new-client.js" />
+    <Content Include="Scripts\pages\Clients\reducers\new-client-reducer.js" />
+    <Content Include="Scripts\pages\Clients\selectors\new-client-selectors.js" />
+    <Content Include="Scripts\pages\Clients\views\address-information.js" />
+    <Content Include="Scripts\pages\Clients\views\basic-information.js" />
+    <Content Include="Scripts\pages\Clients\views\client-consents.js" />
+    <Content Include="Scripts\pages\Clients\views\contact-information.js" />
+    <Content Include="Scripts\pages\Clients\views\home-improvments.js" />
+    <Content Include="Scripts\pages\contractEdit\contract-edit.js" />
+    <Content Include="Scripts\pages\contractEdit\contractEdit.index.js" />
+    <Content Include="Scripts\pages\contractEdit\eSignature\contractEdit.eSignature.index.js" />
+    <Content Include="Scripts\pages\creditCheck\credit-check.js" />
+    <Content Include="Scripts\pages\customerForm\actions\customer.js" />
+    <Content Include="Scripts\pages\customerForm\customer-form.js" />
+    <Content Include="Scripts\pages\customerForm\reducers\customer.js" />
+    <Content Include="Scripts\pages\customerForm\selectors\customer.js" />
+    <Content Include="Scripts\pages\customerForm\views\agreement.js" />
+    <Content Include="Scripts\pages\customerForm\views\contact-info.js" />
+    <Content Include="Scripts\pages\customerForm\views\installation-address.js" />
+    <Content Include="Scripts\pages\customerForm\views\your-info.js" />
+    <Content Include="Scripts\pages\homePage\home-page.js" />
+    <Content Include="Scripts\pages\leads\leads.js" />
+    <Content Include="Scripts\pages\myCustomers\my-customers.js" />
+    <Content Include="Scripts\pages\myDeals\my-deals.js" />
+    <Content Include="Scripts\pages\MyProfile\category-handlers.js" />
+    <Content Include="Scripts\pages\MyProfile\category-template.js" />
+    <Content Include="Scripts\pages\MyProfile\form-handlers.js" />
+    <Content Include="Scripts\pages\MyProfile\index.js" />
+    <Content Include="Scripts\pages\MyProfile\my-profile-state.js" />
+    <Content Include="Scripts\pages\MyProfile\postalCode-handlers.js" />
+    <Content Include="Scripts\pages\MyProfile\postalCode-template.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.custom-rate-card.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.init.js" />
+    <Content Include="Scripts\pages\newEquipment\common\newEquipment.rate-cards.ui.js" />
+    <Content Include="Scripts\pages\newEquipment\rentalLoan\newEquipment.rentalLoan.rate-cards.js" />
+    <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.index.js" />
+    <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.owners.js" />
+    <Content Include="Scripts\pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
+    <Content Include="Scripts\pages\onboarding\company\onboarding.company.index.js" />
+    <Content Include="Scripts\pages\onboarding\company\onboarding.company.province.js" />
+    <Content Include="Scripts\pages\onboarding\company\onboarding.company.setters.js" />
+    <Content Include="Scripts\pages\onboarding\consent\onboarding.consent.index.js" />
+    <Content Include="Scripts\pages\onboarding\consent\onboarding.consent.setters.js" />
+    <Content Include="Scripts\pages\onboarding\documents\onboarding.documents.index.js" />
+    <Content Include="Scripts\pages\onboarding\documents\onboarding.documents.setters.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.common.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.form.handlers.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.index.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.polyfill.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.setters.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.state.js" />
+    <Content Include="Scripts\pages\onboarding\onboarding.success.js" />
+    <Content Include="Scripts\pages\onboarding\owner-info\onboarding.owner-info.conversion.js" />
+    <Content Include="Scripts\pages\onboarding\owner-info\onboarding.owner-info.index.js" />
+    <Content Include="Scripts\pages\onboarding\owner-info\onboarding.owner-info.setters.js" />
+    <Content Include="Scripts\pages\onboarding\owner-info\onbobarding.owner-info.additional.js" />
+    <Content Include="Scripts\pages\onboarding\product\onboarding.product.brand.js" />
+    <Content Include="Scripts\pages\onboarding\product\onboarding.product.equipment.js" />
+    <Content Include="Scripts\pages\onboarding\product\onboarding.product.index.js" />
+    <Content Include="Scripts\pages\onboarding\product\onboarding.product.setters.js" />
+    <Content Include="Scripts\pages\reports\reports.js" />
+    <Content Include="Scripts\pages\sharableLink\shareable-link.js" />
+    <Content Include="Scripts\pages\summaryAndConfirmation\summary-and-confirmation.js" />
+    <Content Include="Scripts\utils\camera-capturing.js" />
+    <Content Include="Scripts\utils\common.timezone.js" />
+    <Content Include="Scripts\utils\contact-and-payment-management.js" />
+    <Content Include="Scripts\utils\custom-validation.js" />
+    <Content Include="Scripts\utils\customer-validation.js" />
+    <Content Include="Scripts\utils\dl-scanning.js" />
+    <Content Include="Scripts\utils\dob-selecter.js" />
+    <Content Include="Scripts\utils\editable-in-modal.js" />
+    <Content Include="Scripts\utils\financial-functions.js" />
+    <Content Include="Scripts\utils\financial-functions.module.js" />
+    <Content Include="Scripts\utils\functionUtils.js" />
+    <Content Include="Scripts\utils\general-address-autocomplete.js" />
+    <Content Include="Scripts\utils\myDeals.counter.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.index.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.render.js" />
+    <Content Include="Scripts\utils\rateCards\rateCards.state.js" />
+    <Content Include="Scripts\utils\modals.js" />
+    <Content Include="Scripts\utils\navigateToStep.js" />
+    <Content Include="Scripts\utils\panelCollapsed.js" />
+    <Content Include="Scripts\utils\resetPlaceholder.js" />
+    <Content Include="Scripts\utils\scrollPageTo.js" />
+    <Content Include="Scripts\utils\scrollPosition.js" />
+    <Content Include="Scripts\utils\setEqualHeightRows.js" />
+    <Content Include="Scripts\utils\tables.js" />
+    <Content Include="Scripts\vendor\js.cookie.js" />
+    <Content Include="Scripts\utils\loan-calculator.js" />
+    <Content Include="Scripts\utils\localization-init.js" />
+    <Content Include="Scripts\utils\logMiddleware.js" />
+    <Content Include="Scripts\utils\Modules\index.js" />
+    <Content Include="Scripts\utils\numberUtils.js" />
+    <Content Include="Scripts\utils\objectUtils.js" />
+    <Content Include="Scripts\utils\print-contract.js" />
+    <Content Include="Scripts\utils\province-codes-helper.js" />
+    <Content Include="Scripts\utils\redux.js" />
+    <Content Include="Scripts\vendor\bootstrap.js" />
+    <Content Include="Scripts\vendor\bootstrap.min.js" />
+    <Content Include="Scripts\vendor\Chart.js" />
+    <Content Include="Scripts\vendor\Chart.min.js" />
+    <Content Include="Scripts\vendor\cldr\cldr.js" />
+    <Content Include="Scripts\vendor\cldr\cldr\event.js" />
+    <Content Include="Scripts\vendor\cldr\cldr\supplemental.js" />
+    <Content Include="Scripts\vendor\cldr\cldr\unresolved.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.bootstrap.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.bootstrap.min.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.bootstrap4.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.bootstrap4.min.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.foundation.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.foundation.min.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.jqueryui.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.jqueryui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.semanticui.js" />
+    <Content Include="Scripts\vendor\DataTables\autoFill.semanticui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.bootstrap.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.bootstrap.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.bootstrap4.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.colVis.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.colVis.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.flash.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.flash.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.foundation.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.foundation.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.html5.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.html5.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.jqueryui.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.jqueryui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.print.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.print.min.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.semanticui.js" />
+    <Content Include="Scripts\vendor\DataTables\buttons.semanticui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.autoFill.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.autoFill.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.bootstrap.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.buttons.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.buttons.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.colReorder.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.colReorder.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.fixedColumns.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.fixedColumns.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.fixedHeader.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.fixedHeader.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.foundation.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.foundation.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.jqueryui.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.keyTable.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.keyTable.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.material.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.material.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.responsive.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.responsive.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.rowReorder.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.rowReorder.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.scroller.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.scroller.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.select.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.select.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.semanticui.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.uikit.js" />
+    <Content Include="Scripts\vendor\DataTables\dataTables.uikit.min.js" />
+    <Content Include="Scripts\vendor\DataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\vendor\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.bootstrap.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.bootstrap.min.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.bootstrap4.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.bootstrap4.min.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.foundation.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.foundation.min.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.jqueryui.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.jqueryui.min.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.semanticui.js" />
+    <Content Include="Scripts\vendor\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\vendor\datejs.js" />
+    <Content Include="Scripts\vendor\globalize\globalize.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\currency.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\date.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\message.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\number.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\plural.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\relative-time.js" />
+    <Content Include="Scripts\vendor\globalize\globalize\unit.js" />
+    <Content Include="Scripts\vendor\jquery-3.1.0.js" />
+    <Content Include="Scripts\vendor\jquery-ui-1.12.0.js" />
+    <Content Include="Scripts\vendor\jquery-validation-messages.js" />
+    <Content Include="Scripts\vendor\jquery.dataTables.js" />
+    <Content Include="Scripts\vendor\jquery.form.js" />
+    <Content Include="Scripts\vendor\jquery.jcarousel.min.js" />
+    <Content Include="Scripts\vendor\jquery.loader.js" />
+    <Content Include="Scripts\vendor\jquery.placeholder.min.js" />
+    <Content Include="Scripts\vendor\jquery.tmpl.min.js" />
+    <Content Include="Scripts\vendor\jquery.touchSwipe.min.js" />
+    <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\vendor\knockout-3.4.2.debug.js" />
+    <Content Include="Scripts\vendor\knockout-3.4.2.js" />
+    <Content Include="Scripts\vendor\modernizr-2.8.3.js" />
+    <Content Include="Scripts\vendor\respond.js" />
+    <Content Include="Scripts\vendor\svgxuse.min.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Views\Dealer\OnBoarding.cshtml" />
     <Content Include="Views\Dealer\OnBoardingLayout.cshtml" />
     <Content Include="Web.config">
@@ -1043,12 +1188,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\ConfirmSuccessfullRegistration.cshtml" />
@@ -1085,12 +1227,11 @@
     <Content Include="Views\Shared\Profile\_DealerEquipment.cshtml" />
     <Content Include="Views\MortgageBroker\CustomerCreationDecline.cshtml" />
     <Content Include="Views\NewRental\RateCard.cshtml" />
-    <Content Include="Views\NewRental\EquipmentInformation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_EquipmentTemplates.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_FixedRate.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_NoInterest.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_Deferral.cshtml" />
-    <Content Include="Views\Shared\EquipmentInformation\_CustomRateCard.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_Custom.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\_StepsNavigation.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Rental.cshtml" />
     <Content Include="Views\Shared\EquipmentInformation\Agreements\_Loan.cshtml" />
@@ -1109,26 +1250,84 @@
     <Content Include="Views\Shared\OnBoarding\_ClientConsent.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_OwnerInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_ProductInformation.cshtml" />
-    <Content Include="Views\Shared\OnBoarding\_TradeReferences.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_RequiredDocuments.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_Acknowledgment.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_CompanyInformation.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AddressInfo.cshtml" />
     <Content Include="Views\Shared\OnBoarding\_AdditionalOwnerTemplate.cshtml" />
-    <Content Include="Scripts\Pages\onboarding\acknowledgment\onboarding.ackonwledgment.setters.js" />
     <Content Include="Views\Shared\OnBoarding\_SaveAndResumeModal.cshtml" />
     <Content Include="Views\Dealer\OnBoardingError.cshtml" />
     <Content Include="Views\Home\Library.cshtml" />
+    <Content Include="Views\Dealer\SuccessWithoutDocuments.cshtml" />
+    <Content Include="Views\MyDeals\Esignature.cshtml" />
+    <Content Include="Views\MyDeals\_ContractSignatureStatus.cshtml" />
+    <None Include="Scripts\vendor\jquery-3.1.0.intellisense.js" />
+    <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\AboutUs\_EcoHome.cshtml" />
+    <Content Include="Views\Shared\AboutUs\_Odi.cshtml" />
+    <Content Include="Views\Shared\BasicInfo\_HomeOwnerInfo.cshtml" />
+    <Content Include="Views\Shared\BasicInfo\_AdditionalApplicants.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_AdditionalApplicants.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_EquipmentInformation.cshtml" />
+    <Content Include="Views\Shared\Maintenance\en\Banner.cshtml" />
+    <Content Include="Views\Shared\_HelpPopUp.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_ClarityProgram.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformationLayout.cshtml" />
+    <Content Include="Views\NewRental\EquipmentInformation\EquipmentInformation.cshtml" />
+    <Content Include="Views\Shared\EquipmentInformation\_LoanRentalPrograms.cshtml" />
+    <Content Include="Views\Shared\SummaryAndConfirmation\_ClarityDetailedPaymentInfo.cshtml" />
+    <Content Include="Views\Shared\_NewLayout.cshtml" />
+    <Content Include="Views\Shared\_AlertModal.cshtml" />
+    <None Include="Web.AWSProdApplication.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSProdEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSProdMortgageBrokers.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProdApplication.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProdEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AWSTestProdMortgageBrokers.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ProductionApplication.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ProductionEcohome.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ProductionMortgageBrokers.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.ProductionRealtor.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Staging.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Training.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.TrainingClarity.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.UnitTesting.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Upload\" />
+    <Folder Include="Content\files\banners\en\qc\" />
+    <Folder Include="Content\files\banners\fr\qc\" />
     <Folder Include="Content\themes\" />
-    <Folder Include="Resources\" />
-    <Folder Include="Views\AsyncCancellation\" />
-    <Folder Include="Views\Credits\" />
-    <Folder Include="Views\Deals\" />
-    <Folder Include="Views\UpdateData\" />
-    <Folder Include="Views\Update\" />
+    <Folder Include="Views\Shared\Maintenance\en\qc\" />
+    <Folder Include="Views\Shared\Maintenance\fr\qc\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -1166,11 +1365,63 @@
       <LastGenOutput>Messages.fr.designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'UnitTesting|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Training|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TrainingClarity|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionEcohome|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionApplication|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ProductionRealtor|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdEcohome|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdEcohome|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdMortgageBrokers|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSProdApplication|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWSTestProdApplication|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

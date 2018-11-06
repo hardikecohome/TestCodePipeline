@@ -13,6 +13,10 @@ select{
   appearance: none;
   box-shadow: none !important;
 }
+option:disabled{
+  background: #eeeeee;
+  color:#999999;
+}
 
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
@@ -123,6 +127,14 @@ input[type="password"]::-webkit-search-results-decoration { display: none; }
     color: #dcdcdc;
   }
 }
+.ie .custom-select {
+    .form-control {
+        padding-right: 10px;
+    }
+    .caret {
+        display:none;
+    }
+}
 .custom-select-disabled{
   position: relative;
   select{
@@ -203,6 +215,11 @@ html.ie9{
       .scanlicence-notify{
         text-align: center;
       }
+    }
+  }
+  .verify-section {
+    .well {
+      padding: 0;
     }
   }
 }
@@ -366,6 +383,15 @@ html.ie9{
     text-align: center;
   }
 }
+.text-warning {
+  display: block;
+  text-align: left;
+  font: 11px @usual-font-family;
+  color: @warning-color;
+  &:not(:empty){
+    margin-top: 5px;
+  }
+}
 
 .input-validation-error,
 .input-has-error{
@@ -383,13 +409,6 @@ html.ie9{
 .clear-address{
   line-height: 38px !important;
   margin-bottom: 10px;
-}
-.basic-info-form{
-  .clear-address{
-    @media @tablet-down {
-      float: right;
-    }
-  }
 }
 .control-group{
   position: relative;
@@ -416,7 +435,7 @@ html.ie9{
       left: 0;
       top: 0;
       height: 40px;
-      line-height: 42px;
+      line-height: 41px;
       width: 24px;
       padding: 0;
       text-align: center;
@@ -464,7 +483,7 @@ html.ie9{
     display: none;
     position: absolute;
     right: 5px;
-    top: 10px;
+    top: 6px;
     cursor: pointer;
     width: 20px;
     height: 20px;
@@ -560,7 +579,7 @@ div.dataTables_wrapper div.dataTables_filter{
     .icon-search{
       position: absolute;
       right: 6px;
-      top: 12px;
+      top: 16px !important;
       display: inline-block;
       padding: 2px;
       font-size: 16px;
@@ -697,7 +716,7 @@ textarea.form-control{
 
 .filter-controls{
   position: absolute;
-  right: 10px;
+  right: 13px;
   top: -2px;
   @media @tablet-down {
     display: block !important;
@@ -912,7 +931,7 @@ textarea.form-control{
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control{
-  background-color: #fff;
+  //background-color: #fff;
   box-shadow: none;
   pointer-events: none;
 }

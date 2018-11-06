@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DealnetPortal.Domain;
-using Microsoft.Practices.ObjectBuilder2;
+using DealnetPortal.Domain.Repositories;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -49,7 +50,11 @@ namespace DealnetPortal.DataAccess.Repositories
                              _dbContext.CustomerLinks.FirstOrDefault(l => l.HashLink.Equals(hashLink)) : user.CustomerLink;
                 if (updatedLink == null)
                 {
-                    updatedLink = user.CustomerLink ?? new CustomerLink();
+                    if (string.IsNullOrEmpty(hashLink))
+                    {
+                        throw new ArgumentNullException(hashLink);
+                    }
+                    updatedLink = user.CustomerLink ?? new CustomerLink() {HashLink = hashLink};
                 }
                 user.CustomerLink = updatedLink;
 
@@ -85,7 +90,11 @@ namespace DealnetPortal.DataAccess.Repositories
                              _dbContext.CustomerLinks.FirstOrDefault(l => l.HashLink.Equals(hashLink)) : user.CustomerLink;
                 if (updatedLink == null)
                 {
-                    updatedLink = user.CustomerLink ?? new CustomerLink();
+                    if (string.IsNullOrEmpty(hashLink))
+                    {
+                        throw new ArgumentNullException(hashLink);
+                    }
+                    updatedLink = user.CustomerLink ?? new CustomerLink() { HashLink = hashLink };
                 }
                 user.CustomerLink = updatedLink;
 

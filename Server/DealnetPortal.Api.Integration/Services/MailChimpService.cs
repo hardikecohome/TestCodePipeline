@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.CustomerWallet;
 using MailChimp.Net;
 using MailChimp.Net.Core;
@@ -10,7 +11,7 @@ using DealnetPortal.Api.Models.Notification;
 
 namespace DealnetPortal.Api.Integration.Services
 {
-    public class MailChimpService : IMailСhimpService
+    public class MailChimpService : IMailChimpService
     {
         private readonly MailChimpManager _manager = new MailChimpManager(ConfigurationManager.AppSettings["MailChimpApiKey"]); 
 
@@ -21,9 +22,6 @@ namespace DealnetPortal.Api.Integration.Services
             subscriber.MergeFields["FNAME"] = member.FirstName;
             subscriber.MergeFields["LNAME"] = member.LastName;
             subscriber.EmailType = "HTML";
-            //if (await isSubscriber(ConfigurationManager.AppSettings["RegistrationListID"],member.Email))
-            //    subscriber.StatusIfNew = Status.Subscribed;
-            //else
             subscriber.StatusIfNew = Status.Pending;
             subscriber.ListId = listid;
             subscriber.MergeFields["ADDRESS"] = new

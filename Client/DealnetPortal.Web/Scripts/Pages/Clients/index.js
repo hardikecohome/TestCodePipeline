@@ -14,12 +14,17 @@
 
     var configGetErrors = require('new-client-selectors').getErrors;
 
+    var dynamicAlertModal = require('alertModal').dynamicAlertModal;
+    var panelCollapsed = require('panelCollapsed');
+
     var dispatch = clientStore.dispatch;
 
     // view layer
     var observeClientFormStore = observe(clientStore);
 
     var initAutocomplete = require('new-client-autocomplete').initAutocomplete;
+
+    var validateDob = require('dob-selecters').validate;
 
     var basicInfoRequiredFields = ['name', 'lastName', 'birthday'];
     var currentAddressRequiredFields = ['street', 'city', 'province', 'postalCode'];
@@ -40,7 +45,7 @@
     $('#retake').on('click', retakePhoto);
     $('#retake').on('click', retakePhoto);
     $('#owner-scan-button').on('click', function (e) {
-        if (!(isMobileRequest || typeof isMobileRequest === 'string' && isMobileRequest.toLowerCase() === 'true')) {
+        if (!(isMobileRequest.toLowerCase() === 'true')) {
             e.preventDefault();
             var modal = document.getElementById('camera-modal');
             modal.setAttribute('data-fnToFill', 'first-name');
@@ -52,7 +57,6 @@
             modal.setAttribute('data-prToFill', "province");
             modal.setAttribute('data-pcToFill', "postal_code");
         }
-        //ga('send', 'event', 'Scan License', 'button_click', 'From Mortgage Portal', '100');
         return true;
     });
 
@@ -65,7 +69,6 @@
             }
         });
 
-
         // init views
         initBasicInfo(clientStore);
         initAddressInfo(clientStore);
@@ -73,9 +76,26 @@
         initHomeImprovment(clientStore);
         initClientConsents(clientStore);
 
-
         $('#home-phone').rules('add', 'required');
         $('#cell-phone').rules('add', 'required');
+
+        //mobile adds required to DL upload input, why???
+        if ($('#owner-upload-file').length) {
+            $('#owner-upload-file').rules('remove');
+        }
+
+        $('.j-personal-data-used-modal').on('click', function (e) {
+            var data = {
+                message: $('#personal-data-used').html(),
+                class: "consents-modal",
+                cancelBtnText: "OK"
+            };
+            dynamicAlertModal(data);
+            e.preventDefault();
+        });
+        $('.accordion-panels-hold .panel-heading').on('click', function () {
+            panelCollapsed($(this));
+        });
     });
 
     var form = $('#main-form');
@@ -87,6 +107,9 @@
             $('#submit').prop('disabled', false);
         } else {
             trimValues();
+            $('.dob-input').each(function (index, el) {
+                validateDob(el);
+            });
         }
     });
 

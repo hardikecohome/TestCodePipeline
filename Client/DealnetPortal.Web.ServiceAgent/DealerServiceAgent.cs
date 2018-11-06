@@ -12,6 +12,7 @@ using DealnetPortal.Web.Common;
 namespace DealnetPortal.Web.ServiceAgent
 {
     using Api.Models.Profile;
+    using DealnetPortal.Api.Models.Notify;
     using Microsoft.Owin.Security;
 
     public class DealerServiceAgent : ApiBase, IDealerServiceAgent
@@ -86,7 +87,7 @@ namespace DealnetPortal.Web.ServiceAgent
                 return
                     await
                         Client.PostAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
-                            $"{_fullUri}/UpdateDealerOnboardingInfo", dealerInfo, null, CurrentCulture);
+                            $"{_fullUri}/UpdateDealerOnboardingInfo", dealerInfo, null, null);
             }
             catch (Exception ex)
             {
@@ -95,14 +96,14 @@ namespace DealnetPortal.Web.ServiceAgent
             }
         }
 
-        public async Task<IList<Alert>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
+        public async Task<Tuple<DealerInfoKeyDTO, IList<Alert>>> SubmitDealerOnboardingForm(DealerInfoDTO dealerInfo)
         {
             try
             {
                 return
                     await
-                        Client.PostAsyncEx<DealerInfoDTO, IList<Alert>>(
-                            $"{_fullUri}/SubmitDealerOnboardingInfo", dealerInfo, null, CurrentCulture);
+                        Client.PostAsyncEx<DealerInfoDTO, Tuple<DealerInfoKeyDTO, IList<Alert>>>(
+                            $"{_fullUri}/SubmitDealerOnboardingInfo", dealerInfo, null, null);
             }
             catch (Exception ex)
             {
@@ -186,6 +187,23 @@ namespace DealnetPortal.Web.ServiceAgent
                 return null;               
             }
         }
+
+        public async Task<IList<Alert>> DealerSupportRequestEmail(SupportRequestDTO dealerSupportRequest)
+        {
+            try
+            {
+                return
+                    await
+                        Client.PostAsyncEx<SupportRequestDTO, IList<Alert>>(
+                            $"{_fullUri}/DealerSupportRequestEmail", dealerSupportRequest, AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't update dealer profile for an user", ex);
+                throw;
+            }
+        }
+
 
     }
 }

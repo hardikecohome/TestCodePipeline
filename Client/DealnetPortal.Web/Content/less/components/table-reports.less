@@ -4,7 +4,6 @@
 
     &.controls-cell{
       padding: 0 !important;
-      text-align: center;
       white-space: nowrap;
       width: 80px;
       @media @mobile {
@@ -13,8 +12,12 @@
 
       .controls-hold{
         width: 80px;
+        .icon-link {
+          padding:0;
+          //margin: 0 3px;
+        }
         @media @mobile {
-          width: 60px;
+          width: 75px;
         }
       }
     }
@@ -28,6 +31,7 @@
         padding: 10px;
         width: 38px !important;
         margin: 0;
+        margin-top: 5px;
         @media @mobile {
           width: 28px !important;
           padding: 5px !important;
@@ -38,9 +42,13 @@
       }
       .checkbox-icon{
         margin: 0;
+        background:#FFFFFF;
       }
     }
 
+  }
+  th.checkbox-cell {
+    padding-left: 1px;
   }
 }
 body:not(.tablet-device):not(.mobile-device){
@@ -58,19 +66,60 @@ body:not(.tablet-device):not(.mobile-device){
     }
   }
 }
-.dataTable.table-reports{
-    th, td{
 
-      @media @mobile{
-        &.customer-cell,
-        &.status-cell,
-        &.action-cell{
-          width: 40%;
+td.contract-cell:after {
+    @media @tablet-only {
+        margin-top: -15px;
+    }
+
+    @media @tablet-up {
+        margin-top: -15px;
+    }
+
+    @media all and (max-width: 667px) {
+        margin-top: -15px;
+    }
+
+    @media all and (max-width: 375px) {
+        margin-top: -1px;
+    }
+}
+
+.dataTable.table-reports {
+
+    tbody {
+
+        td.status-cell {
+            padding: 1px 8px;
         }
-        &.customer-cell{
-          min-width: 60px;
+
+        td.contract-cell {
+            padding: 5px 2px 5px 0;
         }
-      }
-  }
+    }
+
+    th, td {
+
+        @media @mobile {
+            &.status-cell,
+            &.action-cell {
+                width: 33%;
+            }
+
+            &.customer-cell {
+                width: 29%;
+                min-width: 60px;
+            }
+        }
+
+        @media @tablet-up {
+            &.status-cell {
+                width: 46%
+            }
+            &.customer-cell {
+                width: 29%
+            }
+        }
+    }
 }
 

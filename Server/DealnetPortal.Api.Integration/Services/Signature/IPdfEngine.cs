@@ -13,5 +13,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
     public interface IPdfEngine
     {
         Tuple<Stream, IList<Alert>> InsertFormFields(Stream inFormStream, IList<FormField> formFields);
+
+        Tuple<IList<FormField>, IList<Alert>> GetFormfFields(Stream inFormStream);
     }
 }

@@ -30,13 +30,17 @@ namespace DealnetPortal.Domain
         public DateTime? SignatureInitiatedTime { get; set; }
 
         public SignatureStatus? SignatureStatus { get; set; }
+        
+        public string SignatureStatusQualifier { get; set; }
 
-        public DateTime? SignatureTime { get; set; }
+        public DateTime? SignatureLastUpdateTime { get; set; }
 
         public int? ScorecardPoints { get; set; }
 
         public decimal? CreditAmount { get; set; }
 
         public string Notes { get; set; }
+
+        public string OverrideCustomerRiskGroup { get; set; }
     }
 }

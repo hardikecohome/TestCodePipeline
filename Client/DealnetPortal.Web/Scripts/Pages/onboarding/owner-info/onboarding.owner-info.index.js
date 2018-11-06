@@ -9,6 +9,8 @@
     var enableSubmit = require('onboarding.setters').enableSubmit;
     var ownersMoveToNextSection = require('onboarding.owner-info.setters').moveToNextSection;
 
+    var initDob = require('dob-selecters').initDobGroup;
+
     function _setInputHandlers (ownerNumber) {
         $('#' + ownerNumber + '-firstname')
             .on('change', setters.setFirstName(ownerNumber));
@@ -16,6 +18,8 @@
             .on('change', aknwoledgmentSetters.setFirstName(ownerNumber));
         $('#' + ownerNumber + '-lastname')
             .on('change', setters.setLastName(ownerNumber));
+        $('#' + ownerNumber + '-birthdate')
+            .on('change', setters.setBirthDate(ownerNumber));
         $('#' + ownerNumber + '-lastname')
             .on('change', aknwoledgmentSetters.setLastName(ownerNumber));
         $('#' + ownerNumber + '-homephone')
@@ -45,9 +49,7 @@
             .on('keyup', setLengthLimitedField(3));
         $('#' + ownerNumber + '-agreement').on('change', aknwoledgmentSetters.setAgreement(ownerNumber));
 
-        var input = assignOwnerDatepicker('#' + ownerNumber + '-birthdate', ownerNumber);
-
-        setDatepickerDate('#' + ownerNumber + '-birthdate', state['owner-info'].owners[ownerNumber].birthdate);
+        initDob($('#' + ownerNumber + '-birthdate').parents('.dob-group'));
 
         if (ownerNumber !== 'owner0') {
             initGoogleServices(ownerNumber + '-street',
@@ -62,7 +64,7 @@
             additionalOwner.remove(ownerNumber);
             aknwoledgmentOwner.remove(ownerNumber);
             if (ownerNumber !== 'owner0') {
-                for (var i = ownerNumber.substr(-1);i < state['owner-info']['nextOwnerIndex'];i++) {
+                for (var i = ownerNumber.substr(-1); i < state['owner-info']['nextOwnerIndex']; i++) {
                     _setInputHandlers('owner' + i);
                 }
                 setters.recalculateTotalPercentage();
@@ -73,7 +75,7 @@
     }
 
     function _initEventHandlers (numberOfOwners) {
-        for (var i = 0;i < numberOfOwners;i++) {
+        for (var i = 0; i < numberOfOwners; i++) {
             _setInputHandlers('owner' + i);
             state['owner-info']['nextOwnerIndex']++;
         }
@@ -87,7 +89,7 @@
     }
 
     function _setLoadedData (owners) {
-        for (var i = 0;i < owners.length;i++) {
+        for (var i = 0; i < owners.length; i++) {
             var owner = 'owner' + i;
             var newOwnerState = {};
             newOwnerState[owner] = { requiredFields: constants.requiredFields.slice() };
@@ -96,8 +98,9 @@
             $.grep(constants.requiredFields, function (field) {
 
                 if (field === 'birthdate' && owners[i]['BirthDate'] !== null) {
-                    setters.setBirthDate(owner, owners[i]['BirthDate']);
+                    setters.setBirthDate(owner, new Date(parseInt(owners[i]['BirthDate'].substr(6))));
                 }
+
                 var $item = $('#' + owner + '-' + field);
                 if ($item.val())
                     $item.change();
@@ -114,20 +117,20 @@
     }
 
     function initAutocomplete () {
-        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++) {
+        for (var i = 0; Object.keys(state['owner-info'].owners).length > i; i++) {
             initGoogleServices('owner' + i + '-street',
                 'owner' + i + '-city',
                 'owner' + i + '-province',
                 'owner' + i + '-postalcode');
         }
-        for (var i = 0;Object.keys(state['owner-info'].owners).length > i;i++) {
-            $('#owner' + i + '-street').attr('placeholder', '');
-            $('#owner' + i + '-city').attr('placeholder', '');
+        for (var j = 0; Object.keys(state['owner-info'].owners).length > j; j++) {
+            $('#owner' + j + '-street').attr('placeholder', '');
+            $('#owner' + j + '-city').attr('placeholder', '');
         }
     }
 
     return {
         init: init,
         initAutocomplete: initAutocomplete
-    }
-})
+    };
+});

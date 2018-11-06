@@ -17,6 +17,7 @@ namespace DealnetPortal.Domain
             InitialCustomers = new HashSet<Customer>();
             Details = new ContractDetails();
             Documents = new HashSet<ContractDocument>();
+            Signers = new HashSet<ContractSigner>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
@@ -34,6 +35,8 @@ namespace DealnetPortal.Domain
         public DateTime CreationTime { get; set; }
 
         public DateTime? LastUpdateTime { get; set; }
+
+        public DateTime? DateOfSubmit { get; set; }
 
         /// <summary>
         /// User name that was created a contract (NULL/empty if created by customer)
@@ -72,6 +75,8 @@ namespace DealnetPortal.Domain
 
         public ContractDetails Details { get; set; }
 
+        public ContractSalesRepInfo SalesRepInfo { get; set; }
+
         public virtual ICollection<Comment> Comments { get; set; }
         
         public ICollection<ContractDocument> Documents { get; set; }
@@ -93,5 +98,7 @@ namespace DealnetPortal.Domain
         /// true, if it's a new contract created by customer and isn't edited by dealer
         /// </summary>
         public bool? IsNewlyCreated { get; set; }
+
+        public ICollection<ContractSigner> Signers { get; set; }
     }
 }

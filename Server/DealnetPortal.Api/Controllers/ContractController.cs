@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
-using DealnetPortal.Api.Integration.Utility;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Signature;
 using DealnetPortal.Utilities.Logging;
@@ -25,16 +19,23 @@ namespace DealnetPortal.Api.Controllers
     [RoutePrefix("api/Contract")]
     public class ContractController : BaseApiController
     {
-        private IContractService ContractService { get; set; }
-        private ICustomerFormService CustomerFormService { get; set; }
-        private IRateCardsService RateCardsService { get; set; }
+        private IContractService _contractService { get; set; }
+        private ICustomerFormService _customerFormService { get; set; }
+        private IRateCardsService _rateCardsService { get; set; }
+        private IDocumentService _documentService { get; set; }
+        private ICreditCheckService _creditCheckService { get; set; }
+        private ICustomerWalletService _customerWalletService { get; set; }
 
-        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService)
+        public ContractController(ILoggingService loggingService, IContractService contractService, ICustomerFormService customerFormService, IRateCardsService rateCardsService,
+            IDocumentService documentService, ICreditCheckService creditCheckService, ICustomerWalletService customerWalletService)
             : base(loggingService)
         {
-            ContractService = contractService;
-            CustomerFormService = customerFormService;
-            RateCardsService = rateCardsService;
+            _contractService = contractService;
+            _customerFormService = customerFormService;
+            _rateCardsService = rateCardsService;
+            _documentService = documentService;
+            _creditCheckService = creditCheckService;
+            _customerWalletService = customerWalletService;
         }
 
         // GET: api/Contract
@@ -43,7 +44,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {            
-                var contracts = ContractService.GetContracts(LoggedInUser.UserId);
+                var contracts = _contractService.GetContracts(LoggedInUser.UserId);
                 return Ok(contracts);
             }
             catch (Exception ex)
@@ -59,7 +60,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var contracts = ContractService.GetCustomersContractsCount(LoggedInUser.UserId);
+                var contracts = _contractService.GetCustomersContractsCount(LoggedInUser.UserId);
                 return Ok(contracts);
             }
             catch (Exception ex)
@@ -73,7 +74,7 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetCompletedContracts()
         {
-            var contracts = ContractService.GetContracts(LoggedInUser.UserId);
+            var contracts = _contractService.GetContracts(LoggedInUser.UserId);
             return Ok(contracts.Where(c => c.ContractState >= ContractState.Completed));
         }
 
@@ -82,11 +83,12 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetContract(int contractId)
         {
-            var contract = ContractService.GetContract(contractId, LoggedInUser?.UserId);
+            var contract = _contractService.GetContract(contractId, LoggedInUser?.UserId);
             if (contract != null)
             {
                 return Ok(contract);
             }
+
             return NotFound();
         }
 
@@ -96,7 +98,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var contracts = ContractService.GetContracts(ids, LoggedInUser?.UserId);
+                var contracts = _contractService.GetContracts(ids, LoggedInUser?.UserId);
                 return Ok(contracts);                
             }
             catch (Exception ex)
@@ -111,28 +113,12 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var contractsOffers = ContractService.GetDealerLeads(LoggedInUser.UserId);
+                var contractsOffers = _contractService.GetDealerLeads(LoggedInUser.UserId);
                 return Ok(contractsOffers);
             }
             catch (Exception ex)
             {
                 LoggingService.LogError($"Failed to get contracts offers for the User {LoggedInUser.UserId}", ex);
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("GetCreatedContracts")]
-        [HttpGet]
-        public IHttpActionResult GetCreatedContracts()
-        {
-            try
-            {
-                var contractsOffers = ContractService.GetCreatedContracts(LoggedInUser.UserId);
-                return Ok(contractsOffers);
-            }
-            catch (Exception ex)
-            {
-                LoggingService.LogError($"Failed to get contracts created by User {LoggedInUser.UserId}", ex);
                 return InternalServerError(ex);
             }
         }
@@ -144,7 +130,7 @@ namespace DealnetPortal.Api.Controllers
             var alerts = new List<Alert>();
             try
             {
-                var contract = ContractService.CreateContract(LoggedInUser?.UserId);
+                var contract = _contractService.CreateContract(LoggedInUser?.UserId);
                 if (contract == null)
                 {
                     alerts.Add(new Alert()
@@ -174,7 +160,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateContractData(contractData, LoggedInUser?.UserId);
+                var alerts = _contractService.UpdateContractData(contractData, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -183,13 +169,13 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("NotifyContractEdit")]
+        [Route("{contractId}/NotifyEdit")]
         [HttpPut]
         public IHttpActionResult NotifyContractEdit(int contractId)
         {
             try
             {
-                var alerts = ContractService.NotifyContractEdit(contractId, LoggedInUser?.UserId);
+                var alerts = _contractService.NotifyContractEdit(contractId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -204,7 +190,9 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                //TODO: remove after CW review
+                //var alerts = _creditCheckService.InitiateCreditCheck(contractId, LoggedInUser?.UserId);
+                var alerts = new List<Alert>();
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -215,11 +203,26 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("InitiateDigitalSignature")]
         [HttpPut]
-        public IHttpActionResult InitiateDigitalSignature(SignatureUsersDTO users)
+        public async Task<IHttpActionResult> InitiateDigitalSignature(SignatureUsersDTO users)
         {
             try
             {
-                var alerts = ContractService.InitiateDigitalSignature(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                var summary = await _documentService.StartSignatureProcess(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
+                return Ok(summary);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("UpdateContractSigners")]
+        [HttpPut]
+        public async Task<IHttpActionResult> UpdateContractSigners(SignatureUsersDTO users)
+        {
+            try
+            {
+                var alerts = await _documentService.UpdateSignatureUsers(users.ContractId, LoggedInUser?.UserId, users.Users?.ToArray());
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -228,13 +231,28 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
+        [Route("CancelDigitalSignature")]
+        [HttpPost]
+        public async Task<IHttpActionResult> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                var result = await _documentService.CancelSignatureProcess(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }        
+
         [Route("AddDocument")]
         [HttpPut]
         public IHttpActionResult AddDocumentToContract(ContractDocumentDTO document)
         {
             try
             {
-                var result = ContractService.AddDocumentToContract(document, LoggedInUser?.UserId);
+                var result = _contractService.AddDocumentToContract(document, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -249,7 +267,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.RemoveContractDocument(documentId, LoggedInUser?.UserId);
+                var result = _contractService.RemoveContractDocument(documentId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -264,7 +282,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await ContractService.SubmitAllDocumentsUploaded(contractId, LoggedInUser?.UserId);
+                var result = await _contractService.SubmitAllDocumentsUploaded(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -273,13 +291,28 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("GetCreditCheckResult")]
+        [Route("{contractId}/creditcheck")]
         [HttpGet]
         public IHttpActionResult GetCreditCheckResult(int contractId)
         {
             try
             {
-                var result = ContractService.GetCreditCheckResult(contractId, LoggedInUser?.UserId);
+                var result = _creditCheckService.ContractCreditCheck(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("{contractId}/DocumentTypes")]
+        [HttpGet]
+        public IHttpActionResult GetContractDocumentTypes(int contractId)
+        {
+            try
+            {
+                var result = _contractService.GetContractDocumentTypes(contractId, LoggedInUser?.UserId);                    
                 return Ok(result);
             }
             catch (Exception ex)
@@ -290,12 +323,26 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("GetContractAgreement")]
         [HttpGet]
-        public IHttpActionResult GetContractAgreement(int contractId)
+        public async Task<IHttpActionResult> GetContractAgreement(int contractId)
         {
             try
             {
-                var result = ContractService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+                var result = await _documentService.GetPrintAgreement(contractId, LoggedInUser?.UserId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
+        [Route("GetSignedAgreement")]
+        [HttpGet]
+        public async Task<IHttpActionResult> GetSignedAgreement(int contractId)
+        {
+            try
+            {                
+                var result = await _documentService.GetSignedAgreement(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -306,12 +353,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CheckContractAgreementAvailable")]
         [HttpGet]
-        public IHttpActionResult CheckContractAgreementAvailable(int contractId)
+        public async Task<IHttpActionResult> CheckContractAgreementAvailable(int contractId)
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
-
+                var result = await _documentService.CheckPrintAgreementAvailable(contractId, (int) DocumentTemplateType.SignedContract, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -322,11 +368,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("GetInstallationCertificate")]
         [HttpGet]
-        public IHttpActionResult GetInstallationCertificate(int contractId)
+        public async Task<IHttpActionResult> GetInstallationCertificate(int contractId)
         {
             try
             {                
-                var result = ContractService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
+                var result = await _documentService.GetInstallCertificate(contractId, LoggedInUser?.UserId);
 
                 return Ok(result);
             }
@@ -338,11 +384,11 @@ namespace DealnetPortal.Api.Controllers
 
         [Route("CheckInstallationCertificateAvailable")]
         [HttpGet]
-        public IHttpActionResult CheckInstallationCertificateAvailable(int contractId)
+        public async Task<IHttpActionResult> CheckInstallationCertificateAvailable(int contractId)
         {
             try
             {
-                var result = ContractService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
+                var result = await _documentService.CheckPrintAgreementAvailable(contractId, (int)DocumentTemplateType.SignedInstallationCertificate, LoggedInUser?.UserId);
 
                 return Ok(result);
             }
@@ -359,17 +405,17 @@ namespace DealnetPortal.Api.Controllers
             FlowingSummaryType type;
             Enum.TryParse(summaryType, out type);
 
-            var result = ContractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
+            var result = _contractService.GetDealsFlowingSummary(LoggedInUser?.UserId, type);
             return Ok(result);
         }        
 
         [Route("CreateXlsxReport")]
         [HttpPost]
-        public IHttpActionResult CreateXlsxReport(IEnumerable<int> ids)
+        public IHttpActionResult CreateXlsxReport(Tuple<IEnumerable<int>, int?> reportData)
         {
             try
             {
-                var report = ContractService.GetContractsFileReport(ids, LoggedInUser.UserId);
+                var report = _contractService.GetContractsFileReport(reportData.Item1, LoggedInUser.UserId, reportData.Item2);
                 return Ok(report);
             }
             catch (Exception ex)
@@ -382,7 +428,7 @@ namespace DealnetPortal.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetCustomer(int customerId)
         {
-            var customer = ContractService.GetCustomer(customerId);
+            var customer = _contractService.GetCustomer(customerId);
             if (customer != null)
             {
                 return Ok(customer);
@@ -396,7 +442,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateCustomers(customers, LoggedInUser?.UserId);
+                var alerts = _contractService.UpdateCustomers(customers, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -411,7 +457,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.UpdateInstallationData(installationCertificateData, LoggedInUser?.UserId);
+                var alerts = _contractService.UpdateInstallationData(installationCertificateData, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -426,7 +472,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = ContractService.SubmitContract(contractId, LoggedInUser?.UserId);
+                var submitResult = _contractService.SubmitContract(contractId, LoggedInUser?.UserId);
                 return Ok(submitResult);
             }
             catch (Exception ex)
@@ -441,7 +487,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.AddComment(comment, LoggedInUser?.UserId);
+                var alerts = _contractService.AddComment(comment, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -456,7 +502,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var alerts = ContractService.RemoveComment(commentId, LoggedInUser?.UserId);
+                var alerts = _contractService.RemoveComment(commentId, LoggedInUser?.UserId);
                 return Ok(alerts);
             }
             catch (Exception ex)
@@ -465,21 +511,7 @@ namespace DealnetPortal.Api.Controllers
             }
         }
 
-        [Route("SubmitCustomerForm")]
-        [HttpPost]
-        [AllowAnonymous]
-        public IHttpActionResult SubmitCustomerForm(CustomerFormDTO customerFormData)
-        {
-            try
-            {
-                var submitResult = CustomerFormService.SubmitCustomerFormData(customerFormData);
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        
 
         [Route("SubmitCustomerServiceRequest")]
         [HttpPost]
@@ -488,7 +520,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = await CustomerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
+                var submitResult = await _customerFormService.CustomerServiceRequest(customerServiceRequest).ConfigureAwait(false);
                 return Ok(submitResult);
             }
             catch (Exception ex)
@@ -496,51 +528,6 @@ namespace DealnetPortal.Api.Controllers
                 return InternalServerError(ex);
             }
         }
-
-        [Route("GetCustomerContractInfo")]
-        [HttpGet]
-        // GET api//Contract/GetCustomerContractInfo?contractId={contractId}&dealerName={dealerName}
-        [AllowAnonymous]
-        public IHttpActionResult GetCustomerContractInfo(int contractId, string dealerName)
-        {
-            try
-            {
-                var submitResult = CustomerFormService.GetCustomerContractInfo(contractId, dealerName);
-                return Ok(submitResult);
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
-
-        [Route("CreateContractForCustomer")]
-        [HttpPost]
-        public async Task<IHttpActionResult> CreateContractForCustomer(NewCustomerDTO customerFormData)
-        {
-            var alerts = new List<Alert>();
-            try
-            {
-                var creationResult = await ContractService.CreateContractForCustomer(LoggedInUser?.UserId, customerFormData);
-
-                if (creationResult.Item1 == null)
-                {
-                    alerts.AddRange(creationResult.Item2);
-                }
-                return Ok(creationResult);
-            }
-            catch (Exception ex)
-            {
-                alerts.Add(new Alert()
-                {
-                    Type = AlertType.Error,
-                    Header = ErrorConstants.ContractCreateFailed,
-                    Message = ex.ToString()
-                });
-                LoggingService.LogError(ErrorConstants.ContractCreateFailed, ex);
-            }
-            return Ok(new Tuple<ContractDTO, IList<Alert>>(null, alerts));
-        }                
 
         [Route("RemoveContract")]
         [HttpPost]
@@ -548,7 +535,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = ContractService.RemoveContract(contractId, LoggedInUser?.UserId);
+                var result = _contractService.RemoveContract(contractId, LoggedInUser?.UserId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -563,7 +550,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await ContractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
+                var result = await _contractService.AssignContract(contractId, LoggedInUser?.UserId).ConfigureAwait(false);
 
                 return Ok(result);
             }
@@ -580,7 +567,24 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var submitResult = RateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+                var submitResult = _rateCardsService.GetRateCardsByDealerId(LoggedInUser?.UserId);
+
+                return Ok(submitResult);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("GetDealerTier")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IHttpActionResult GetDealerTier(int contractId)
+        {
+            try
+            {
+                var submitResult = _rateCardsService.GetRateCardsForContract(contractId, LoggedInUser?.UserId);
 
                 return Ok(submitResult);
             }
@@ -597,7 +601,7 @@ namespace DealnetPortal.Api.Controllers
         {
             try
             {
-                var result = await ContractService.CheckCustomerExistingAsync(email);
+                var result = await _customerWalletService.CheckCustomerExisting(email);
 
                 return Ok(result);
             }

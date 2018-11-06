@@ -49,6 +49,13 @@ body{
 
 }
 
+a {
+    color: #38aaee;
+}
+a:hover, a:focus {
+    color: #38aaee;
+}
+
 .navbar-header {
   /*
   background-color: @navbar-header;
@@ -288,6 +295,10 @@ body{
     background-color: @nav-item-active-bg;
     box-shadow: @nav-item-active-box-shadow;
   }
+  @media @tablet-down {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
 }
 
 .dealnet-sidebar-item-selected {
@@ -425,3 +436,102 @@ body{
 	margin-top: 15px;
 	margin-right: -10px;
 	}
+
+@media (min-width: 1024px) {
+
+	.justify-content-between {
+		display: -webkit-flex; /* Safari */
+		-webkit-justify-content: space-between; /* Safari 6.1+ */
+		display: flex;
+		justify-content: space-between;
+	}
+	}
+
+.floatingHelpBtn {
+	height: 40px;
+	position: fixed;
+	bottom: 20px;
+	right: 15px;
+	/*background-color: #555555;*/
+	z-index: 1000;
+	color: #ffffff;
+	text-align: center;
+}
+.allrows .row{
+	margin-bottom: 5px;	
+}
+.helpbutton {
+	font: bold 14px @usual-font-family;
+	width: 125px;
+}
+.helpbutton svg{
+	opacity: 0.5;
+	}
+.LabelMiddle{
+	margin-top: 5px;
+	}
+@media(max-width: 1023px){
+	.LabelMiddle {
+		margin-top: 0px;
+		margin-bottom: 0px!important;
+	}
+	}
+.Email-modal-body label {
+	font-size: 11px;
+}
+.Email-modal-body h5 {
+	margin-left: 10px;
+}
+.Email-modal-body textarea {
+	font: 500 11px @usual-font-family;
+}
+.Email-modal-body .dealnet-input {
+	height: 30px;
+	font: 500 11px @usual-font-family;
+}
+.Email-modal-body .dealnet-disabled-input {
+	//height: 30px;
+	font: 500 11px @usual-font-family!important;
+}
+@media (min-width: 1024px) {
+	.Move-right-for-desktop {
+		float: right !important;
+	}
+	}
+
+@media (max-width: 1023px) {
+	.Move-right-for-desktop {
+		float: left !important;
+		text-align:left;
+	}
+}
+.margin-bottom-zero {
+	margin-bottom:0px !important;
+}
+
+.Email-modal-body .custom-select .caret{
+	margin-top: 8px;
+	}
+
+.Email-modal-body .form-group{
+	margin-bottom:0px;
+	}
+.Email-modal-body .text-danger{
+	margin-top:0px;
+	}
+
+select.form-control.not-selected {
+  color: #dcdcdc;
+}
+.forceLeft{
+	text-align:left!important;
+	}
+.controlDisabledGrey{
+	background-color:#eeeeee!important;
+  }
+  
+.customer-loan-page, .onboard-page {
+  .dealnet-image-ecologo {
+    margin-left: 20px;
+  }
+}

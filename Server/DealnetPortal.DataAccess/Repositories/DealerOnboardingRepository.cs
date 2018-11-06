@@ -5,8 +5,10 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Domain.Dealer;
-using Microsoft.Practices.ObjectBuilder2;
+using DealnetPortal.Domain.Repositories;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.DataAccess.Repositories
 {
@@ -44,8 +46,8 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealer == null)
             {
                 //add new
-                dealerInfo.CreationTime = DateTime.Now;
-                dealerInfo.LastUpdateTime = DateTime.Now;
+                dealerInfo.CreationTime = DateTime.UtcNow;
+                dealerInfo.LastUpdateTime = DateTime.UtcNow;
                 //dealerInfo.ProductInfo?.Services?.ForEach(s => 
                 //    s.Equipment = _dbContext.EquipmentTypes.Find(s.EquipmentId));
                 dealerInfo.AccessKey = GenerateDealerAccessCode();
@@ -95,6 +97,16 @@ namespace DealnetPortal.DataAccess.Repositories
             return true;
         }
 
+        public RequiredDocument SetDocumentStatus(int documentId, DocumentStatus newStatus)
+        {
+            var dbDoc = _dbContext.RequiredDocuments.Find(documentId);
+            if (dbDoc != null)
+            {
+                dbDoc.Status = newStatus;
+            }
+            return dbDoc;
+        }
+
         public RequiredDocument AddDocumentToDealer(string accessCode, RequiredDocument document)
         {
             var dealerInfo = string.IsNullOrEmpty(accessCode) ? GetDealerInfoByAccessKey(accessCode) : CreateDealerInfo();
@@ -107,8 +119,8 @@ namespace DealnetPortal.DataAccess.Repositories
         {
             var dealerInfo = new DealerInfo()
             {
-                CreationTime = DateTime.Now,
-                LastUpdateTime = DateTime.Now,
+                CreationTime = DateTime.UtcNow,
+                LastUpdateTime = DateTime.UtcNow,
                 AccessKey = GenerateDealerAccessCode()
             };
             _dbContext.DealerInfos.Add(dealerInfo);
@@ -126,13 +138,14 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDoc?.DealerInfo?.Id != dbDealerInfo.Id)
             {
                 requiredDocument.Id = 0;
-                requiredDocument.CreationDate = DateTime.Now;
+                requiredDocument.CreationDate = DateTime.UtcNow;
+                requiredDocument.Status = DocumentStatus.Adding;
                 dbDealerInfo.RequiredDocuments.Add(requiredDocument);
                 dbDoc = requiredDocument;
             }
             else
             {
-                requiredDocument.CreationDate = DateTime.Now;
+                requiredDocument.CreationDate = DateTime.UtcNow;
                 if (requiredDocument.DocumentBytes != null)
                 {
                     dbDoc.DocumentBytes = requiredDocument.DocumentBytes;
@@ -157,7 +170,7 @@ namespace DealnetPortal.DataAccess.Repositories
             UpdateDealerProductInfo(dbDealerInfo, updateDealerInfo);
             UpdateDealerOwners(dbDealerInfo, updateDealerInfo.Owners);
             UpdateDealerAdditionalDocument(dbDealerInfo, updateDealerInfo.AdditionalDocuments);
-            dbDealerInfo.LastUpdateTime = DateTime.Now;
+            dbDealerInfo.LastUpdateTime = DateTime.UtcNow;
         }
 
         private void UpdateDealerAdditionalDocument(DealerInfo dbDealerInfo, ICollection<AdditionalDocument> documents)
@@ -181,13 +194,14 @@ namespace DealnetPortal.DataAccess.Repositories
                     else
                     {
                         doc.License = _dbContext.LicenseTypes.Find(doc.LicenseTypeId);
+                        doc.DealerInfoId = dbDealerInfo.Id;
                         newEntities.Add(doc);
                         dbDealerInfo.AdditionalDocuments.Add(doc);
                     }
                 });
                 var existingEntities = dbDealerInfo.AdditionalDocuments.Where(a => documents.Any(ee => ee.LicenseTypeId == a.LicenseTypeId)).ToList();
                 var entriesForDelete = dbDealerInfo.AdditionalDocuments.Except(existingEntities).Except(newEntities).ToList();
-                entriesForDelete.ForEach(e => dbDealerInfo.AdditionalDocuments.Remove(e));
+                entriesForDelete.ForEach(e => _dbContext.AdditionalDocuments.Remove(e));
             }
         }
 
@@ -196,6 +210,10 @@ namespace DealnetPortal.DataAccess.Repositories
             if (dbDealerInfo.AccessKey != updateDealerInfo.AccessKey)
             {
                 dbDealerInfo.AccessKey = updateDealerInfo.AccessKey;
+            }
+            if (string.IsNullOrEmpty(dbDealerInfo.AccessKey))
+            {
+                dbDealerInfo.AccessKey = GenerateDealerAccessCode();
             }
             if (dbDealerInfo.CreditCheckConsent != updateDealerInfo.CreditCheckConsent)
             {

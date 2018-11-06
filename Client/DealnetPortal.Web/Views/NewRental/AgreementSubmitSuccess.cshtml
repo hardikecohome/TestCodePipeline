@@ -9,12 +9,11 @@
                 <a href="@Url.Action("ContractEdit", "MyDeals", new {@id = Model.ContractId})" class="dealnet-info-link">
                     @Resources.SeeContractDetails
                 </a>
-                @*<a href="@Url.Action("PrintContract", "NewRental", new {@contractId = Model.ContractId})" class="dealnet-info-link">*@
-                <a href="#" id="print-button" class="dealnet-info-link disabled">
+                <a href="#" id="print-button" class="action-link blue disabled">
                     <svg aria-hidden="true" class="icon icon-printer"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-printer")"></use></svg>@Resources.PrintTheContract
                 </a>
 
-                <div class="well danger-well error-descr collapse" id="print-error-message">
+                <div class="well danger-well position-well clear-border error-descr collapse" id="print-error-message">
                     <svg aria-hidden="true" class="icon icon-error"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-error")"></use></svg>
                     @Resources.CannotGetAgreementForPrint
                 </div>
@@ -129,9 +128,9 @@
     var checkUrl = '@Url.Action("CheckContractAgreement", "NewRental", new {contractId = Model.ContractId})';
     var downloadUrl = '@Url.Action("PrintContract", "NewRental", new { contractId = Model.ContractId})';
   </script>
-<script type="text/javascript">
+  <script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'Agreement Submit Success', 'Success Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+			gtag('event', 'Agreement Submit Success', { 'event_category': 'Agreement Submit Success', 'event_action': 'Success Message Displayed', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
 		});
-</script>
+  </script>
 }

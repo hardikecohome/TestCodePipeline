@@ -202,7 +202,7 @@
     <value>Le nom d’un document ne peut être vide</value>
   </data>
   <data name="EcoHomeAbout1" xml:space="preserve">
-    <value>EcoHome Financial est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+    <value>EcoHome Financement est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
   </data>
   <data name="EcoHomeAbout2" xml:space="preserve">
     <value>Nous collaborons avec les principaux distributeurs et fabricants afin d’offrir ce qu’il faut pour réussir dans l’environnement concurrentiel, grâce à des programmes de financement sans problèmes pour les courtiers et leurs clients.</value>
@@ -217,7 +217,7 @@
     <value>Modification</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Adresse électronique</value>
+    <value>Adresse Courriel</value>
   </data>
   <data name="Entries" xml:space="preserve">
     <value>entrées</value>
@@ -316,7 +316,7 @@
     <value>Mes transactions</value>
   </data>
   <data name="MyWorkItems" xml:space="preserve">
-    <value>Mes tâches</value>
+    <value>Listes des travaux</value>
   </data>
   <data name="NavigateToStep" xml:space="preserve">
     <value>Aller à l’étape</value>
@@ -400,7 +400,7 @@
     <value>État</value>
   </data>
   <data name="SubDealer" xml:space="preserve">
-    <value>Sous-courtier</value>
+    <value>Sous-marchand</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Heure</value>
@@ -702,7 +702,7 @@
   <data name="AgreesToSendPersonalDataToCreditCheck" xml:space="preserve">
     <value>Accepte d’envoyer ses renseignements personnels pour la vérification du crédit</value>
   </data>
-  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+  <data name="BalanceOwingEndOfPaymentsRes" xml:space="preserve">
     <value>Solde à la fin des paiements mensuels (solde résiduel)</value>
   </data>
   <data name="BasicInfo" xml:space="preserve">
@@ -721,7 +721,7 @@
     <value>Vérifier le crédit</value>
   </data>
   <data name="ChooseSubDealer" xml:space="preserve">
-    <value>Choisir un sous-courtier</value>
+    <value>Choisir un sous-marchand</value>
   </data>
   <data name="ClearAddress" xml:space="preserve">
     <value>Effacer l’adresse</value>
@@ -793,7 +793,7 @@
     <value>NAS</value>
   </data>
   <data name="StreetPlaceholder" xml:space="preserve">
-    <value>rue</value>
+    <value>Adresse</value>
   </data>
   <data name="TermAndRep" xml:space="preserve">
     <value>Modalité et représentant</value>
@@ -954,7 +954,7 @@
     <value>Le compte de Enbridge Gas Distribution doit compter 12 chiffres</value>
   </data>
   <data name="HomePhoneMustBeLong" xml:space="preserve">
-    <value>Le champ du téléphone résidentiel doit compter 10 chiffres</value>
+    <value>Le numéro de téléphone résidentiel doit compter 10 chiffres</value>
   </data>
   <data name="CellPhoneMustBeLong" xml:space="preserve">
     <value>Le champ du téléphone cellulaire doit compter 10 chiffres</value>
@@ -1025,8 +1025,8 @@
   <data name="EnbridgeCapital" xml:space="preserve">
     <value>ENBRIDGE</value>
   </data>
-  <data name="PapCapital" xml:space="preserve">
-    <value>PAP</value>
+  <data name="PadCapital" xml:space="preserve">
+    <value>PPA</value>
   </data>
   <data name="Own" xml:space="preserve">
     <value>Possède</value>
@@ -1147,13 +1147,13 @@
     <value>Retirer</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>Rue</value>
+    <value>Adresse</value>
   </data>
   <data name="YouCantEditBecauseSubmittedYouCanAddAdditional" xml:space="preserve">
     <value>Impossible de modifier les renseignements sur l’emprunteur et sur les demandeurs additionnels, car cette transaction a déjà été soumise. Vous pouvez ajouter des demandeurs additionnels</value>
   </data>
   <data name="LivedAtCurrentLessThan" xml:space="preserve">
-    <value>A habité à l’adresse actuelle pendant moins de six mois</value>
+    <value>A habité à l’adresse actuelle pendant moins de 2 ans</value>
   </data>
   <data name="AdditionalApplicantPreviousAddressInformation" xml:space="preserve">
     <value>Renseignement sur l’adresse antérieure du demandeur additionnel</value>
@@ -1220,7 +1220,7 @@
     <value>Votre formulaire a été correctement mis à jour, mais il est pour l’instant désactivé et les clients ne seront pas en mesure de l’utiliser.</value>
   </data>
   <data name="ApplyForFinancing" xml:space="preserve">
-    <value>Faire une demande de financement</value>
+    <value>Demande de financement / location</value>
   </data>
   <data name="YourInformation" xml:space="preserve">
     <value>Vos renseignements</value>
@@ -1235,7 +1235,7 @@
     <value>J’accepte de transmettre les renseignements pour la vérification de crédit</value>
   </data>
   <data name="IAgreeDealerOrRepresentativesMayContact" xml:space="preserve">
-    <value>J’accepte que le courtier ou ses représentants communiquent avec moi par courriel ou par téléphone</value>
+    <value>J’accepte que le marchand ou ses représentants communiquent avec moi par courriel ou par téléphone</value>
   </data>
   <data name="SubmitApplication" xml:space="preserve">
     <value>Soumettre la demande</value>
@@ -1286,7 +1286,7 @@
     <value>Créé par</value>
   </data>
   <data name="Dealer" xml:space="preserve">
-    <value>Courtier</value>
+    <value>Marchand</value>
   </data>
   <data name="CreatedByCustomer" xml:space="preserve">
     <value>Créé par le client</value>
@@ -1298,7 +1298,7 @@
     <value>Vous devez remplir tous les champs obligatoires</value>
   </data>
   <data name="ToProceedYouNeedToBe75LessPleaseContact" xml:space="preserve">
-    <value>Afin de pouvoir poursuivre, vous devez être âgé de 75 ans ou moins. Veuillez communiquer directement avec le courtier.</value>
+    <value>Afin de pouvoir poursuivre, vous devez être âgé de 75 ans ou moins. Veuillez communiquer directement avec le marchand.</value>
   </data>
   <data name="CongratulationsYouBeenPreApprovedFor" xml:space="preserve">
     <value>Félicitations, vous avez été pré-approuvé pour un montant de {0} $.</value>
@@ -1314,7 +1314,7 @@
     <value>Nous vérifions l’information. Habituellement, cela prend environ deux minutes.</value>
   </data>
   <data name="DealerSalesAgent" xml:space="preserve">
-    <value>Courtier ou agent de vente</value>
+    <value>Marchand ou agent de vente</value>
   </data>
   <data name="ShowLessInfo" xml:space="preserve">
     <value>Afficher moins de renseignements</value>
@@ -1395,7 +1395,7 @@
     <value>Programme de report</value>
   </data>
   <data name="DealerCost" xml:space="preserve">
-    <value>Coût du courtier</value>
+    <value>Coût du marchand</value>
   </data>
   <data name="Period" xml:space="preserve">
     <value>Période</value>
@@ -1522,12 +1522,1355 @@
     <value>Durée du prêt / amortissement</value>
   </data>
   <data name="Month180AmortOnlyOver5000" xml:space="preserve">
-    <value>180 month amortization is available only on loans over $5,000</value>
+    <value>L’amortissement de 180 mois est disponible seulement pour les prêts supérieurs à 5,000 $</value>
   </data>
   <data name="PromoCustom" xml:space="preserve">
     <value>PROMO/CUSTOM</value>
   </data>
   <data name="StandardRate" xml:space="preserve">
     <value>TAUX STANDARD</value>
+  </data>
+  <data name="AcceptanceOfLeadFeeAppliedToYourAccount" xml:space="preserve">
+    <value>À l’acceptation de la piste, des frais de {0} seront facturés à votre compte à titre de frais pour les pistes.</value>
+  </data>
+  <data name="AcceptLead" xml:space="preserve">
+    <value>Accepter la piste</value>
+  </data>
+  <data name="AcknowledgeAndAgree" xml:space="preserve">
+    <value>Je reconnais et j’accepte</value>
+  </data>
+  <data name="Acknowledgment" xml:space="preserve">
+    <value>Reconnaissance</value>
+  </data>
+  <data name="AddAdditionalOwner" xml:space="preserve">
+    <value>Ajouter un propriétaire supplémentaire</value>
+  </data>
+  <data name="AddAnotherBrand" xml:space="preserve">
+    <value>Ajouter une autre marque</value>
+  </data>
+  <data name="AddAnotherClient" xml:space="preserve">
+    <value>Ajouter un autre client</value>
+  </data>
+  <data name="AddAnotherOption" xml:space="preserve">
+    <value>Ajouter une autre options aux fins de comparaison</value>
+  </data>
+  <data name="AddClient" xml:space="preserve">
+    <value>Ajouter un client</value>
+  </data>
+  <data name="AddCustomer" xml:space="preserve">
+    <value>Ajouter un client</value>
+  </data>
+  <data name="AddedOn" xml:space="preserve">
+    <value>Ajouté sur</value>
+  </data>
+  <data name="AdditionalIsOwnerOfProperty" xml:space="preserve">
+    <value>Le demandeur supplémentaire est propriétaire de la propriété</value>
+  </data>
+  <data name="AdditionalOwnerInformation" xml:space="preserve">
+    <value>Renseignements du propriétaire supplémentaire</value>
+  </data>
+  <data name="AddPostalCode" xml:space="preserve">
+    <value>Ajouter un code postal</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="AddressDetermined" xml:space="preserve">
+    <value>Adresse à déterminer</value>
+  </data>
+  <data name="AddressUnknownClientShoppingOtherProperty" xml:space="preserve">
+    <value>Adresse inconnue. Le client cherche à acheter d’autres biens.</value>
+  </data>
+  <data name="AllAplicantsConsents" xml:space="preserve">
+    <value>Vous ne pouvez pas continuer avant que tous les demandeurs n’aient donné leur consentement.</value>
+  </data>
+  <data name="AnnualSalesIncorrectFormat" xml:space="preserve">
+    <value>Le format des ventes annuelles estimatives est incorrect</value>
+  </data>
+  <data name="AnnualSalesVolume" xml:space="preserve">
+    <value>Estimation du volume de ventes annuel</value>
+  </data>
+  <data name="ApplicationCreatedBy" xml:space="preserve">
+    <value>Demande crée par</value>
+  </data>
+  <data name="ApplicationNumber" xml:space="preserve">
+    <value>Numéro de la demande</value>
+  </data>
+  <data name="ApplicationSuccessfullySubmitted" xml:space="preserve">
+    <value>Merci. Votre demande a été soumise avec succès.</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Soumettre une demande</value>
+  </data>
+  <data name="AreaOfMyService" xml:space="preserve">
+    <value>Région de mon service</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Êtes-vous certain?</value>
+  </data>
+  <data name="AreYouSureYouWantToRemoveThisApplication" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir supprimer cette demande?</value>
+  </data>
+  <data name="AreYouWithProvider" xml:space="preserve">
+    <value>Avez-vous un fournisseur de financement actuellement?</value>
+  </data>
+  <data name="AtCurrentAddress" xml:space="preserve">
+    <value>À l’adresse actuelle</value>
+  </data>
+  <data name="AtNewHomeAddress" xml:space="preserve">
+    <value>À la nouvelle adresse du domicile</value>
+  </data>
+  <data name="AverageTransactionSize" xml:space="preserve">
+    <value>Prix de transaction moyen</value>
+  </data>
+  <data name="AverageTransactionSizeIncorrectFormat" xml:space="preserve">
+    <value>Le format de la prix de transaction moyen est incorrect</value>
+  </data>
+  <data name="BorrowerIsOwnerOfProperty" xml:space="preserve">
+    <value>L’emprunteur est propriétaire de la propriété</value>
+  </data>
+  <data name="BorrowerLivedAtCurrentLessThan" xml:space="preserve">
+    <value>L’emprunteur habite à l’adresse actuelle depuis moins de 6 mois</value>
+  </data>
+  <data name="BorrowerMailingAddressNotSameAsInstallation" xml:space="preserve">
+    <value>Adresse postale de l’emprunteur, si différente de l’adresse d’installation</value>
+  </data>
+  <data name="Both" xml:space="preserve">
+    <value>Les deux</value>
+  </data>
+  <data name="Brands" xml:space="preserve">
+    <value>Marques</value>
+  </data>
+  <data name="Broker" xml:space="preserve">
+    <value>Marchand</value>
+  </data>
+  <data name="BusinessNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de l’entreprise est incorrect</value>
+  </data>
+  <data name="Capture" xml:space="preserve">
+    <value>Saisir</value>
+  </data>
+  <data name="CertifyDealerInfo" xml:space="preserve">
+    <value>En signant ci-dessous, la partie principale en sa capacité personnelle (« je », « moi ») et la société (« nous ») attestent que tous les renseignements contenus dans la présente demande de marchand sont véridiques et complets.</value>
+  </data>
+  <data name="Channel" xml:space="preserve">
+    <value>Circuit</value>
+  </data>
+  <data name="CheckAllThatApply" xml:space="preserve">
+    <value>(cochez toutes les réponses applicables)</value>
+  </data>
+  <data name="CheckApplicableItemsFromList" xml:space="preserve">
+    <value>Cochez tous les éléments pertinents dans notre liste</value>
+  </data>
+  <data name="CheckYourLink" xml:space="preserve">
+    <value>Veuillez vérifier votre lien et réessayer</value>
+  </data>
+  <data name="ChooseProducts" xml:space="preserve">
+    <value>Sélectionner les produits</value>
+  </data>
+  <data name="ChooseProvinces" xml:space="preserve">
+    <value>Sélectionner les provinces</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ClientAgreesSendPersonalDataToCreditCheck" xml:space="preserve">
+    <value>Le client accepte d’envoyer ses données personnelles pour la vérification du crédit</value>
+  </data>
+  <data name="ClientAuthorizesReleaseToDealnetCapital" xml:space="preserve">
+    <value>Le client autorise la divulgation de renseignements personnels à DealNet Capital et à ses représentants. En outre, le client autorise DealNet Capital ou ses représentants à communiquer avec lui.</value>
+  </data>
+  <data name="ClientConsent" xml:space="preserve">
+    <value>Consentement du client</value>
+  </data>
+  <data name="ClientEmail" xml:space="preserve">
+    <value>Courriel du client</value>
+  </data>
+  <data name="ClientInformation" xml:space="preserve">
+    <value>Renseignements sur le client</value>
+  </data>
+  <data name="ClientLivedCurrentAddressLessThenSixMonth" xml:space="preserve">
+    <value>Le client a vécu à l’adresse actuelle pendant moins de 2 ans</value>
+  </data>
+  <data name="ClientProvidesExpressConsentToCreditCheck" xml:space="preserve">
+    <value>Le client donne son consentement explicite pour une vérification de crédit</value>
+  </data>
+  <data name="ClientsComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CompanyInformation" xml:space="preserve">
+    <value>Renseignements sur l’entreprise</value>
+  </data>
+  <data name="ConnectWithDealerSupport" xml:space="preserve">
+    <value>Communiquez avec le soutien {0} aux courtiers pour obtenir de l’assistance :</value>
+  </data>
+  <data name="Consent" xml:space="preserve">
+    <value>Consentement</value>
+  </data>
+  <data name="Consents" xml:space="preserve">
+    <value>Consentements</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages" xml:space="preserve">
+    <value>Lorsque vous cochez cette case, vous consentez à recevoir des messages électroniques commerciaux de Services financiers EcoHome à l’adresse électronique et aux numéros de téléphone que vous avez indiqués dans cette demande ou à l’occasion relativement à votre compte, y compris des communications électroniques qui ont pour but de commercialiser ou promouvoir nos programmes, produits, services, offres, événements ou sondages qui peuvent vous intéresser. Vous pouvez retirer votre consentement à tout moment. Vous pouvez communiquer avec Services financiers EcoHome au 4055 Rue Saint Catherine Ouest, Bureau 196, Westmount, Quebec H3Z 3J8</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessages1" xml:space="preserve">
+    <value> Vous vous engagez à accepter, à recevoir et à utiliser sous forme électronique les ententes, avis et autres documents ou communications liés à la présente demande que Services financiers EcoHome peut vous transmettre. </value>
+  </data>
+  <data name="ConsumerDirect" xml:space="preserve">
+    <value>Directement au consommateur</value>
+  </data>
+  <data name="ContactNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de la personne-ressource est incorrect</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>CONTACT</value>
+  </data>
+  <data name="CopyLinkResumeLater" xml:space="preserve">
+    <value>Veuillez copier le lien ci-dessous et enregistrer votre demande pour y revenir plus tard.</value>
+  </data>
+  <data name="CostWithTaxes" xml:space="preserve">
+    <value>Coût (y compris les taxes)</value>
+  </data>
+  <data name="CurrentAddress" xml:space="preserve">
+    <value>Adresse actuelle</value>
+  </data>
+  <data name="CustomerComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="CustomersComment" xml:space="preserve">
+    <value>Commentaire du client</value>
+  </data>
+  <data name="DealerInitial" xml:space="preserve">
+    <value>Initial du  Représentant</value>
+  </data>
+  <data name="DealerInvoiceAmount" xml:space="preserve">
+    <value>Montant de la facture</value>
+  </data>
+  <data name="Defferal" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="DescribeYourHomeImprovementProject" xml:space="preserve">
+    <value>Veuillez décrire votre projet de rénovation résidentielle (veuillez ne pas fournir de coordonnées ou d’adresse dans ce champ)</value>
+  </data>
+  <data name="DescriptionWithMakeModel" xml:space="preserve">
+    <value>Description (y compris la marque et le modèle)</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Distributeur</value>
+  </data>
+  <data name="DoorToDoor" xml:space="preserve">
+    <value>Ventes de porte-à-porte</value>
+  </data>
+  <data name="EcohomeMustBeListed" xml:space="preserve">
+    <value>Services financiers Ecohome Inc. doit être désignée comme assuré supplémentaire</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>L’adresse de courriel que vous avez saisie est déjà enregistrée</value>
+  </data>
+  <data name="EquipmentTypeLength" xml:space="preserve">
+    <value>Sélectionnez au moins un produit</value>
+  </data>
+  <data name="EstimatedMoveInDate" xml:space="preserve">
+    <value>Date d’aménagement estimative</value>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>Date d’expiration</value>
+  </data>
+  <data name="FinanceProviderIncorrectFormat" xml:space="preserve">
+    <value>Le format du fournisseur de financement est incorrect</value>
+  </data>
+  <data name="FinanceProviderName" xml:space="preserve">
+    <value>Nom du fournisseur de financement</value>
+  </data>
+  <data name="FullLegalName" xml:space="preserve">
+    <value>Nom légal complet</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="HomeImprovement" xml:space="preserve">
+    <value>Rénovation résidentielle</value>
+  </data>
+  <data name="HomeImprovements" xml:space="preserve">
+    <value>Rénovations résidentielles</value>
+  </data>
+  <data name="HomeImprovementType" xml:space="preserve">
+    <value>Type d’amélioration de maison</value>
+  </data>
+  <data name="HouseSize" xml:space="preserve">
+    <value>Taille de la maison</value>
+  </data>
+  <data name="HowIsMyPersonalDataUsed" xml:space="preserve">
+    <value>De quelle façon mes données personnelles sont-elles utilisées?</value>
+  </data>
+  <data name="InCaseQuestionsContactSupport" xml:space="preserve">
+    <value>Si vous avez des questions, veuillez communiquer avec le service de soutien d’EcoHome Financial :</value>
+  </data>
+  <data name="InvalidFieldsWerentSaved" xml:space="preserve">
+    <value>Prenez note que les champs invalides n’ont pas été enregistrés</value>
+  </data>
+  <data name="JoinOurNetwork" xml:space="preserve">
+    <value>Inscrivez-vous au réseau d’entrepreneurs de Services financiers Ecohome!</value>
+  </data>
+  <data name="Leads" xml:space="preserve">
+    <value>Génération des prospects</value>
+  </data>
+  <data name="LeadsGenMethod" xml:space="preserve">
+    <value>Méthode de génération de ventes</value>
+  </data>
+  <data name="LeadsNoMatchingRecordsFound" xml:space="preserve">
+    <value>Veuillez configurer votre profil afin d’afficher les pistes</value>
+  </data>
+  <data name="LeadWasAcceptedYouCanFind" xml:space="preserve">
+    <value>La piste choisie a été acceptée par vous. Vous la trouverez à la page {0} (nº de demande {1}).</value>
+  </data>
+  <data name="Legal" xml:space="preserve">
+    <value>Renseignements juridiques</value>
+  </data>
+  <data name="LegalNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom légal est incorrect</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Lien</value>
+  </data>
+  <data name="LivedAtInstallationAddressLessThan" xml:space="preserve">
+    <value>A habité à l’adresse d’installation pendant moins de 2 ans</value>
+  </data>
+  <data name="LocalAds" xml:space="preserve">
+    <value>Publicité locale</value>
+  </data>
+  <data name="MailSent" xml:space="preserve">
+    <value>Courriel envoyé</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Téléphone cellulaire</value>
+  </data>
+  <data name="MobilePhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone cellulaire est incorrect</value>
+  </data>
+  <data name="MobilePhoneMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone cellulaire doit être une chaîne de 10 chiffres</value>
+  </data>
+  <data name="MonthlyDefferedPercentRange" xml:space="preserve">
+    <value>Le nombre d’affaires mensuelles reportées doit être entre 0 et 100</value>
+  </data>
+  <data name="MonthlyFinancedValue" xml:space="preserve">
+    <value>Valeur de capital mensuelle des affaires financées</value>
+  </data>
+  <data name="MonthlyFinancedValueIncorrectFormat" xml:space="preserve">
+    <value>Le format de la valeur de financement mensuelle est incorrect</value>
+  </data>
+  <data name="MyClients" xml:space="preserve">
+    <value>Mes clients</value>
+  </data>
+  <data name="MyCustomers" xml:space="preserve">
+    <value>Mes clients</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>Mon profil</value>
+  </data>
+  <data name="NewClient" xml:space="preserve">
+    <value>Nouveau client</value>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>Nouveau client</value>
+  </data>
+  <data name="NewHomeAddress" xml:space="preserve">
+    <value>Nouvelle adresse du domicile</value>
+  </data>
+  <data name="NoExpiry" xml:space="preserve">
+    <value>Aucune expiration</value>
+  </data>
+  <data name="NumInstallers" xml:space="preserve">
+    <value>Nombre d’installateurs</value>
+  </data>
+  <data name="NumInstallersIncorrectFormat" xml:space="preserve">
+    <value>Le format du nombre d’installateurs est incorrect</value>
+  </data>
+  <data name="NumInstallersMax3" xml:space="preserve">
+    <value>Le nombre d’installateurs ne doit pas dépasser 3 chiffres</value>
+  </data>
+  <data name="NumSales" xml:space="preserve">
+    <value>Nombre de vendeurs</value>
+  </data>
+  <data name="NumSalesIncorrectFormat" xml:space="preserve">
+    <value>Le format du chiffre de ventes est incorrect</value>
+  </data>
+  <data name="NumSalesMax3" xml:space="preserve">
+    <value>Le chiffre de ventes ne doit pas dépasser 3 chiffres</value>
+  </data>
+  <data name="OEMName" xml:space="preserve">
+    <value>Nom du fabricant d’équipement d’origine</value>
+  </data>
+  <data name="OfferedService" xml:space="preserve">
+    <value>Service offert</value>
+  </data>
+  <data name="OfferMonthlyDeferrals" xml:space="preserve">
+    <value>Désirez-vous d’offrir des paiements différé</value>
+  </data>
+  <data name="Onboarding" xml:space="preserve">
+    <value>Intégration</value>
+  </data>
+  <data name="OperatingName" xml:space="preserve">
+    <value>Nom commercial</value>
+  </data>
+  <data name="OperatingNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom commercial est incorrect</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="OrderProceedClientAged75OrLess" xml:space="preserve">
+    <value>Afin de pouvoir continuer, le client doit être âgé de 75 ans ou moins.</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Propriétaire</value>
+  </data>
+  <data name="Ownership" xml:space="preserve">
+    <value>Propriété</value>
+  </data>
+  <data name="OwnershipPercentage" xml:space="preserve">
+    <value>Le pourcentage de propriété indiqué dans cette demande doit être de 50 % ou plus</value>
+  </data>
+  <data name="OwnershipSubmit" xml:space="preserve">
+    <value>Afin de soumettre la demande, vous devez ajouter un propriétaire supplémentaire</value>
+  </data>
+  <data name="PercentageOfOwnership" xml:space="preserve">
+    <value>Pourcentage de propriété</value>
+  </data>
+  <data name="PercentMonthDeferredIncorrectFormat" xml:space="preserve">
+    <value>Le format du % de report mensuel est incorrect</value>
+  </data>
+  <data name="PercentMonthlyDealsDeferred" xml:space="preserve">
+    <value>Affaires mensuelles à reporter</value>
+  </data>
+  <data name="PercentOwnership" xml:space="preserve">
+    <value>Pourcentage de propriété</value>
+  </data>
+  <data name="PercentOwnershipIncorrectFormat" xml:space="preserve">
+    <value>Le format du % de propriété est incorrect</value>
+  </data>
+  <data name="PercentOwnershipRange" xml:space="preserve">
+    <value>Le pourcentage de propriété doit être de {1} à {2}</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Numéro de téléphone</value>
+  </data>
+  <data name="PhoneNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone est incorrect</value>
+  </data>
+  <data name="PhoneNumberMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone doit être une chaîne de 10 chiffres</value>
+  </data>
+  <data name="Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="PleaseCheckContactAgreementToContinue" xml:space="preserve">
+    <value>Veuillez cocher le champ d’acceptation pour la communication afin de poursuivre la demande.</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Veuillez sélectionner</value>
+  </data>
+  <data name="PleaseUploadInFormat" xml:space="preserve">
+    <value>Veuillez téléverser le fichier dans le format</value>
+  </data>
+  <data name="PreApprovedLoanValueFee" xml:space="preserve">
+    <value>1 % de la valeur du prêt préautorisé</value>
+  </data>
+  <data name="PreApprovedLoanValueFeeWillBeApplied" xml:space="preserve">
+    <value>1 % de la valeur du prêt préautorisé sera facturé à votre compte à titre de frais pour les pistes</value>
+  </data>
+  <data name="PreferredContactMethod" xml:space="preserve">
+    <value>Mode de communication privilégié</value>
+  </data>
+  <data name="PreferredFinancingProductsRequired" xml:space="preserve">
+    <value>Produits financiers privilégiés requis</value>
+  </data>
+  <data name="PreviousAddress" xml:space="preserve">
+    <value>Ancienne adresse</value>
+  </data>
+  <data name="PrimaryBrand" xml:space="preserve">
+    <value>Marque principale</value>
+  </data>
+  <data name="PrimaryBrandIncorrectFormat" xml:space="preserve">
+    <value>Le format de la marque principale est incorrect</value>
+  </data>
+  <data name="PrimaryManufacturerBrandSold" xml:space="preserve">
+    <value>Marque principale du fabricant vendue</value>
+  </data>
+  <data name="PrincipalOwnerInformation" xml:space="preserve">
+    <value>Renseignements sur les Directeur /Propriétaire</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Politique de confidentialité</value>
+  </data>
+  <data name="ProductAndSalesInformation" xml:space="preserve">
+    <value>Renseignements sur les produits et les ventes</value>
+  </data>
+  <data name="ProductsForFinancing" xml:space="preserve">
+    <value>Produits pour le programme de financement</value>
+  </data>
+  <data name="ProgramServiceRequired" xml:space="preserve">
+    <value>Services de programme requis</value>
+  </data>
+  <data name="ProjectType" xml:space="preserve">
+    <value>Type de projet</value>
+  </data>
+  <data name="ProofOfInsurance" xml:space="preserve">
+    <value>Preuve d'assurance et états financiers de l'entreprise - État des profits et pertes pour l’année fiscale précédent.</value>
+  </data>
+  <data name="Provinces" xml:space="preserve">
+    <value>Provinces</value>
+  </data>
+  <data name="ProvincesMinLength" xml:space="preserve">
+    <value>Il doit y avoir au moins {0} province</value>
+  </data>
+  <data name="ProvincialSafetyStandardLicensing" xml:space="preserve">
+    <value>Permis relatif aux normes de sécurité provinciales</value>
+  </data>
+  <data name="Questions" xml:space="preserve">
+    <value>Questions?</value>
+  </data>
+  <data name="QuestionsContactDealerSupport" xml:space="preserve">
+    <value>Si vous avez des questions, veuillez communiquer avec le soutien aux courtiers :</value>
+  </data>
+  <data name="ReasonForInterest" xml:space="preserve">
+    <value>Raison de l’intérêt</value>
+  </data>
+  <data name="ReasonForInterestWithEcohome" xml:space="preserve">
+    <value>Raison de l’intérêt envers Ecohome</value>
+  </data>
+  <data name="Referrals" xml:space="preserve">
+    <value>Recommandations</value>
+  </data>
+  <data name="RegistrationNumber" xml:space="preserve">
+    <value>Numéro d’enregistrement</value>
+  </data>
+  <data name="RelationshipStructure" xml:space="preserve">
+    <value>Structure de relation</value>
+  </data>
+  <data name="RelationshipTo" xml:space="preserve">
+    <value>Lien avec</value>
+  </data>
+  <data name="RequestedEquipmentService" xml:space="preserve">
+    <value>Équipement ou service requis</value>
+  </data>
+  <data name="RequestedTermMustBe3Max" xml:space="preserve">
+    <value>La durée demandée doit avoir un maximum de 3 chiffres</value>
+  </data>
+  <data name="RequiredDocuments" xml:space="preserve">
+    <value>Documents requis</value>
+  </data>
+  <data name="SalesAgent" xml:space="preserve">
+    <value>Agent de vente</value>
+  </data>
+  <data name="SalesApproach" xml:space="preserve">
+    <value>Approche de ventes</value>
+  </data>
+  <data name="SaveAndResumeLater" xml:space="preserve">
+    <value>Enregistrer et continuer plus tard</value>
+  </data>
+  <data name="SaveEntireAppAndResumeLater" xml:space="preserve">
+    <value>Sauvegarder l’application et reprendre plus tard</value>
+  </data>
+  <data name="SecondaryBrand" xml:space="preserve">
+    <value>Marque secondaire</value>
+  </data>
+  <data name="SecondaryBrandIncorrectFormat" xml:space="preserve">
+    <value>Le format de la marque secondaire est incorrect</value>
+  </data>
+  <data name="SecondaryManufacturerBrandSold" xml:space="preserve">
+    <value>Marque secondaire du fabricant vendue</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Sélectionnez la catégorie</value>
+  </data>
+  <data name="SelectOneProduct" xml:space="preserve">
+    <value>Afin de soumettre la demande, vous devez ajouter au moins un produit</value>
+  </data>
+  <data name="SelectOneProvince" xml:space="preserve">
+    <value>Afin de soumettre la demande, vous devez ajouter au moins une province</value>
+  </data>
+  <data name="SendMeLink" xml:space="preserve">
+    <value>Envoyez-moi le lien</value>
+  </data>
+  <data name="Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="SiteInvalidFormat" xml:space="preserve">
+    <value>Le format du lien URL du site Web est incorrect</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Une erreur est survenue.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Réussite</value>
+  </data>
+  <data name="SuchPostalCodeAlreadyExist" xml:space="preserve">
+    <value>Le code postal existe déjà</value>
+  </data>
+  <data name="TheFieldIsRequired" xml:space="preserve">
+    <value>Le champ {0} est obligatoire.</value>
+  </data>
+  <data name="TheRangeFieldMustBeMinimumAndMaximum" xml:space="preserve">
+    <value>Le champ {0} doit être une chaîne d’une longueur minimale de {1} et d’une longueur maximale de {2}.</value>
+  </data>
+  <data name="ToSubmitAppProvideOwnerInfo" xml:space="preserve">
+    <value>Afin de soumettre la demande, veuillez fournir des renseignements au sujet des propriétaires dont la propriété totale est supérieure à 50 %.</value>
+  </data>
+  <data name="TotalOwnershipNotExceed100" xml:space="preserve">
+    <value>Le pourcentage de propriété total ne doit pas dépasser 100 %. Veuillez vérifier les champs.</value>
+  </data>
+  <data name="TradeReferences" xml:space="preserve">
+    <value>Références commerciales</value>
+  </data>
+  <data name="TradeShows" xml:space="preserve">
+    <value>Salons commerciaux</value>
+  </data>
+  <data name="TypeOfBusiness" xml:space="preserve">
+    <value>Type d’entreprise</value>
+  </data>
+  <data name="UnableToProcessApplicationAutomatically" xml:space="preserve">
+    <value>Malheureusement, nous ne sommes pas en mesure de traiter cette demande par voie automatique.</value>
+  </data>
+  <data name="VerificationId" xml:space="preserve">
+    <value>ID de vérification du client</value>
+  </data>
+  <data name="VoidCheque" xml:space="preserve">
+    <value>Chèque d’entreprise annulé – compte pour recevoir les versement d’Ecohome</value>
+  </data>
+  <data name="WantToSendLink" xml:space="preserve">
+    <value>Vous souhaitez que le lien vous soit envoyé? Saisissez votre adresse de courriel ci-dessous et cliquez sur « Envoyez-moi le lien ».</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Site Web</value>
+  </data>
+  <data name="WebsiteMustBeLong" xml:space="preserve">
+    <value>Le site Web doit être de {1} à {2}</value>
+  </data>
+  <data name="WellContactSoon" xml:space="preserve">
+    <value>Nous communiquerons avec vous prochainement.</value>
+  </data>
+  <data name="WhatProvincesDoBusiness" xml:space="preserve">
+    <value>Quelles provinces pouvez-vous faire affaires?</value>
+  </data>
+  <data name="WhereHomeImprovementProjectTakePlace" xml:space="preserve">
+    <value>À quel endroit ce projet de rénovation résidentielle aura-t-il lieu?</value>
+  </data>
+  <data name="WithoutLinkDataLost" xml:space="preserve">
+    <value>Sans le lien, il sera impossible de récupérer les données que vous avez saisies, et vous devrez recommencer à remplir la demande depuis le début.</value>
+  </data>
+  <data name="YearsInBusiness" xml:space="preserve">
+    <value>Années en affaires</value>
+  </data>
+  <data name="YearsInBusinessIncorrectFormat" xml:space="preserve">
+    <value>Le format des années en affaires est incorrect</value>
+  </data>
+  <data name="YearsInBusinessMax3" xml:space="preserve">
+    <value>Le nombre d’années en affaires ne doit pas dépasser 3 chiffres</value>
+  </data>
+  <data name="YourConfigurationWasSuccessfullyUpdated" xml:space="preserve">
+    <value>Votre configuration a été mise à jour avec succès</value>
+  </data>
+  <data name="YourFileTypeIsNotSupported" xml:space="preserve">
+    <value>Votre type de fichier n’est pas pris en charge</value>
+  </data>
+  <data name="YouSureYouWantToAcceptLeadThenYouPay" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir accepter cette piste? Si c’est le cas, vous paierez des frais de {0} $.</value>
+  </data>
+  <data name="Incorporated" xml:space="preserve">
+    <value>Constitué</value>
+  </data>
+  <data name="Independent" xml:space="preserve">
+    <value>Indépendant</value>
+  </data>
+  <data name="LessThanOneYear" xml:space="preserve">
+    <value>Moins d’un an</value>
+  </data>
+  <data name="Limited" xml:space="preserve">
+    <value>Limité</value>
+  </data>
+  <data name="LookingForSecond" xml:space="preserve">
+    <value>Recherche pour secondaire</value>
+  </data>
+  <data name="MoreThanTwoYears" xml:space="preserve">
+    <value>Plus de 2 ans</value>
+  </data>
+  <data name="NoCurrentFinancing" xml:space="preserve">
+    <value>Aucune solution de financement actuelle</value>
+  </data>
+  <data name="OEM" xml:space="preserve">
+    <value>Fabricant d’équipement d’origine</value>
+  </data>
+  <data name="OnboardSuccessWithoutDocumentsTitle" xml:space="preserve">
+    <value>Merci, votre candidature a été soumise avec succès et nous y travaillons.</value>
+  </data>
+  <data name="OneToTwoYears" xml:space="preserve">
+    <value>1 à 2 ans</value>
+  </data>
+  <data name="Partnership" xml:space="preserve">
+    <value>Société de personnes</value>
+  </data>
+  <data name="ProvideDocuments" xml:space="preserve">
+    <value>N'oubliez pas de fournir tous les documents requis.
+Vous pouvez le faire à tout moment en utilisant le lien suivant:</value>
+  </data>
+  <data name="SecondBrandLengthIncorrect" xml:space="preserve">
+    <value>Le champ Marque secondaire doit être une chaîne d'une longueur minimale de 2 et d'une longueur maximale de 50.</value>
+  </data>
+  <data name="SoleProp" xml:space="preserve">
+    <value>Propriétaire unique</value>
+  </data>
+  <data name="TenOrMore" xml:space="preserve">
+    <value>10 ou plus</value>
+  </data>
+  <data name="UnhappyCurrentFinancing" xml:space="preserve">
+    <value>Insatisfait de la solution actuelle</value>
+  </data>
+  <data name="UploadAnotherFile" xml:space="preserve">
+    <value>Téléverser un autre fichier</value>
+  </data>
+  <data name="Month180AmortOnlyOver4000" xml:space="preserve">
+    <value>L’amortissement de 180 mois est disponible seulement pour les prêts supérieurs à 4,000 $</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Commentaire</value>
+  </data>
+  <data name="DealerSupportInfoEmail" xml:space="preserve">
+    <value>marchands@servicesfinanciersecohome.com</value>
+  </data>
+  <data name="DealerSupportPhoneNumber" xml:space="preserve">
+    <value>1-888-859-0059</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Facture</value>
+  </data>
+  <data name="SignedContract" xml:space="preserve">
+    <value>Contrat signé</value>
+  </data>
+  <data name="SignedInstallationCertificate" xml:space="preserve">
+    <value>Certificat d’installation signé</value>
+  </data>
+  <data name="ExtendedWarrantyForm" xml:space="preserve">
+    <value>Formulaire de prolongation de la garantie</value>
+  </data>
+  <data name="ThirdPartyVerificationCall" xml:space="preserve">
+    <value>Visite de vérification par un tiers</value>
+  </data>
+  <data name="ContractSigned" xml:space="preserve">
+    <value>Contrat signé</value>
+  </data>
+  <data name="DigitalContract" xml:space="preserve">
+    <value>Contrat numérique</value>
+  </data>
+  <data name="CreateAnotherApplicationForHomeOwner" xml:space="preserve">
+    <value>Créer une autre demande pour ce propriétaire</value>
+  </data>
+  <data name="BorrowerDeclinedSignature" xml:space="preserve">
+    <value>L’emprunteur a refusé de signer le contrat</value>
+  </data>
+  <data name="CancelDigitalSignature" xml:space="preserve">
+    <value>Annuler la signature numérique</value>
+  </data>
+  <data name="ContactPersonWhoDeclinedSignature" xml:space="preserve">
+    <value>Avant de renvoyer les invitations, veuillez communiquer avec la personne ayant refusé de signer. Songez à modifier les conditions du contrat ou signer le contrat sur papier.</value>
+  </data>
+  <data name="InvitesSentWaitingSignatures" xml:space="preserve">
+    <value>Les invitations pour la signature numérique du contrat ont été envoyées avec succès – attente des signatures.</value>
+  </data>
+  <data name="OneSignerDeclinedRemainingCanceled" xml:space="preserve">
+    <value>L’un des signataires a refusé de signer. Les invitations restantes ont été annulées.</value>
+  </data>
+  <data name="PaperContract" xml:space="preserve">
+    <value>Contrat papier</value>
+  </data>
+  <data name="PleaseSignContractOr" xml:space="preserve">
+    <value>Veuillez signer le contrat {0} ou </value>
+  </data>
+  <data name="ResendInvite" xml:space="preserve">
+    <value>Renvoyer l’invitation</value>
+  </data>
+  <data name="ResendInvites" xml:space="preserve">
+    <value>Renvoyer les invitations</value>
+  </data>
+  <data name="SendInvites" xml:space="preserve">
+    <value>Envoyer les invitations</value>
+  </data>
+  <data name="ToDigitalySignContract" xml:space="preserve">
+    <value>Signer numériquement le contrat</value>
+  </data>
+  <data name="UpdateEmail" xml:space="preserve">
+    <value>Courriel de mise à jour</value>
+  </data>
+  <data name="WaitingSignature" xml:space="preserve">
+    <value>Attente de signature</value>
+  </data>
+  <data name="Coborrower" xml:space="preserve">
+    <value>Coemprunteur</value>
+  </data>
+  <data name="InviteSentWhenSigns" xml:space="preserve">
+    <value>L’invitation sera envoyée lorsque {0} signe</value>
+  </data>
+  <data name="AreYouSureCancelEsignature" xml:space="preserve">
+    <value>Êtes-vous sûr que vous voulez annuler la signature électronique pour ce contrat?</value>
+  </data>
+  <data name="InvitesCanceled" xml:space="preserve">
+    <value>Invitations numériques annulées</value>
+  </data>
+  <data name="PleaseEnterAllEmails" xml:space="preserve">
+    <value>Veuillez entrer les adresses de courriel pour l’envoi des invitations</value>
+  </data>
+  <data name="DownloadSignedContract" xml:space="preserve">
+    <value>Télécharger le contrat signé</value>
+  </data>
+  <data name="DigitalSignatureStatus" xml:space="preserve">
+    <value>État de la signature numérique</value>
+  </data>
+  <data name="GoToContractDetails" xml:space="preserve">
+    <value>Aller aux précisions sur le contrat</value>
+  </data>
+  <data name="RequestedServiceCustomerComment" xml:space="preserve">
+    <value>Service demandé, commentaire du client</value>
+  </data>
+  <data name="VoidPersonalChequeCopy" xml:space="preserve">
+    <value>Copie du chèque personnel annulé</value>
+  </data>
+  <data name="HowCanWeHelp" xml:space="preserve">
+    <value>Comment pouvons-nous vous aider?</value>
+  </data>
+  <data name="DealerSupport" xml:space="preserve">
+    <value>Soutien aux marchands</value>
+  </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Service à la clientèle</value>
+  </data>
+  <data name="CreditFunding" xml:space="preserve">
+    <value>Crédit et financement</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Ressources</value>
+  </data>
+  <data name="DeferralPromo" xml:space="preserve">
+    <value>Report et promotion</value>
+  </data>
+  <data name="FinProgramUnavailable" xml:space="preserve">
+    <value>Le programme de financement précédemment sélectionné n’est plus offert. Afin de pouvoir continuer, veuillez sélectionner un programme valide.</value>
+  </data>
+  <data name="Quebec" xml:space="preserve">
+    <value>Québec</value>
+  </data>
+  <data name="AdditionalInformation" xml:space="preserve">
+    <value>Renseignements supplémentaires</value>
+  </data>
+  <data name="AllOtherProvinces" xml:space="preserve">
+    <value>Toutes les autres provinces</value>
+  </data>
+  <data name="AlternativeEmail" xml:space="preserve">
+    <value>Autre adresse de courriel</value>
+  </data>
+  <data name="Annual" xml:space="preserve">
+    <value>Annuel</value>
+  </data>
+  <data name="AnnualSalaryIncome" xml:space="preserve">
+    <value>Salaire annuel</value>
+  </data>
+  <data name="ApplicantsShouldBe18" xml:space="preserve">
+    <value>Les demandeurs devraient être âgés d’au moins 18 ans.</value>
+  </data>
+  <data name="BestWayToGetBackToYou" xml:space="preserve">
+    <value>Meilleure façon de communiquer avec vous</value>
+  </data>
+  <data name="BorrowerEmploymentInformation" xml:space="preserve">
+    <value>Information sur l'hypothèque et l'emploi de l'emprunteur</value>
+  </data>
+  <data name="ByidCard" xml:space="preserve">
+    <value>Carte BYID</value>
+  </data>
+  <data name="CanadianBlindIdentificationCard" xml:space="preserve">
+    <value>Carte d’identité de l’Institut national canadien pour les aveugles</value>
+  </data>
+  <data name="CanadianCitizenshipCard" xml:space="preserve">
+    <value>Carte de citoyenneté canadienne</value>
+  </data>
+  <data name="CanadianFamilyMilitaryCard" xml:space="preserve">
+    <value>Carte d’identité pour les familles des militaires canadiens</value>
+  </data>
+  <data name="CanadianMilitaryCard" xml:space="preserve">
+    <value>Carte d’emploi pour les militaires canadiens</value>
+  </data>
+  <data name="CanadianPassport" xml:space="preserve">
+    <value>Passeport canadien ou étranger</value>
+  </data>
+  <data name="CertificateInidanStatus" xml:space="preserve">
+    <value>Certificat du statut d’Indien</value>
+  </data>
+  <data name="CompanyAddress" xml:space="preserve">
+    <value>Adresse de la companie</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Nom de la companie</value>
+  </data>
+  <data name="CompanyNameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom de la companie est incorrect</value>
+  </data>
+  <data name="CompanyPhone" xml:space="preserve">
+    <value>Téléphone de la companie</value>
+  </data>
+  <data name="CompanyPhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone de la companie est incorrect</value>
+  </data>
+  <data name="CompanyPhoneMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone de la companie doit compter 10 chiffres</value>
+  </data>
+  <data name="CompanyPhoneNumber" xml:space="preserve">
+    <value>Numéro de téléphone de la companie</value>
+  </data>
+  <data name="ContractNumber" xml:space="preserve">
+    <value>Numéro de contrat</value>
+  </data>
+  <data name="ContractSignedSuccessfullyCopiesSent" xml:space="preserve">
+    <value>Le contrat a été signé avec succès grâce aux signatures électronique; une copie du contrat signé a été envoyée à tous les signataires</value>
+  </data>
+  <data name="CreditDecision" xml:space="preserve">
+    <value>Décision liée au crédit</value>
+  </data>
+  <data name="CreditDocs" xml:space="preserve">
+    <value>Documents liés au crédit</value>
+  </data>
+  <data name="DealerCancelledEsign" xml:space="preserve">
+    <value>L'entrepreneur a annulé le processus lié à la signature électronique</value>
+  </data>
+  <data name="DeclinedToSignContract" xml:space="preserve">
+    <value>a refusé de signer le contrat</value>
+  </data>
+  <data name="DigitalInvitesWillBeSentToEmails" xml:space="preserve">
+    <value>Les invitations pour la signature électronique du contrat seront envoyées aux adresses de courriel suivantes</value>
+  </data>
+  <data name="DriverLicense" xml:space="preserve">
+    <value>Permis de conduire</value>
+  </data>
+  <data name="Employed" xml:space="preserve">
+    <value>Employé</value>
+  </data>
+  <data name="EmploymentInformation" xml:space="preserve">
+    <value>Renseignements sur l’emploi</value>
+  </data>
+  <data name="EmploymentStatus" xml:space="preserve">
+    <value>Statut d'emploi</value>
+  </data>
+  <data name="FullTime" xml:space="preserve">
+    <value>Temps plein</value>
+  </data>
+  <data name="FundingDocs" xml:space="preserve">
+    <value>Documents liés au financement</value>
+  </data>
+  <data name="Hourly" xml:space="preserve">
+    <value>Horaire</value>
+  </data>
+  <data name="HourlyRate" xml:space="preserve">
+    <value>Taux horaire</value>
+  </data>
+  <data name="IHaveAnotherName" xml:space="preserve">
+    <value>J’ai un autre nom</value>
+  </data>
+  <data name="IncomeType" xml:space="preserve">
+    <value>Type de revenus</value>
+  </data>
+  <data name="InstallationAddressCannotInQuebec" xml:space="preserve">
+    <value>L’adresse d’installation ne peut pas être au Québec</value>
+  </data>
+  <data name="InstallationAddressInQuebec" xml:space="preserve">
+    <value>L’adresse d’installation devrait être au Québec</value>
+  </data>
+  <data name="JobTitle" xml:space="preserve">
+    <value>Titre de poste</value>
+  </data>
+  <data name="JobTitleIncorrectFormat" xml:space="preserve">
+    <value>Le format du titre de poste est incorrect</value>
+  </data>
+  <data name="LengthOfEmployment" xml:space="preserve">
+    <value>Durée d’emploi</value>
+  </data>
+  <data name="LessThan" xml:space="preserve">
+    <value>moins de </value>
+  </data>
+  <data name="Month_s_" xml:space="preserve">
+    <value>mois</value>
+  </data>
+  <data name="PalCard" xml:space="preserve">
+    <value>Permis de possession et d’acquisition</value>
+  </data>
+  <data name="PartTime" xml:space="preserve">
+    <value>Temps partiel</value>
+  </data>
+  <data name="PermanentResidencyCard" xml:space="preserve">
+    <value>Carte de résident permanent</value>
+  </data>
+  <data name="PleaseFillThisForm" xml:space="preserve">
+    <value>Veuillez remplir ce formulaire et nous vous informerons de la meilleure solution.</value>
+  </data>
+  <data name="PleaseProvideAlternativeEmail" xml:space="preserve">
+    <value>Veuillez fournir une autre adresse de courriel</value>
+  </data>
+  <data name="PleaseProvideDetails" xml:space="preserve">
+    <value>Veuillez fournir les détails</value>
+  </data>
+  <data name="PleaseProvideShortDescription" xml:space="preserve">
+    <value>Veuillez fournir une brève description </value>
+  </data>
+  <data name="PreferredContactPerson" xml:space="preserve">
+    <value>Contact principal</value>
+  </data>
+  <data name="RatesApproved" xml:space="preserve">
+    <value>Taux approuvés</value>
+  </data>
+  <data name="Retired" xml:space="preserve">
+    <value>À la retraite</value>
+  </data>
+  <data name="SalaryIncome" xml:space="preserve">
+    <value>Salaire</value>
+  </data>
+  <data name="SameEmail" xml:space="preserve">
+    <value>Même adresse de courriel</value>
+  </data>
+  <data name="SelfEmployed" xml:space="preserve">
+    <value>travailleur autonome</value>
+  </data>
+  <data name="SuccessfullyUploadedToAspire" xml:space="preserve">
+    <value>Contrat téléversé avec succès à EcoHome</value>
+  </data>
+  <data name="Suite" xml:space="preserve">
+    <value>Bureau</value>
+  </data>
+  <data name="ToProceedMustBe18" xml:space="preserve">
+    <value>Afin de poursuivre, vous devrez être âgé d’au moins 18 ans. Veuillez communiquer directement avec l'entrepreneur.</value>
+  </data>
+  <data name="TypeOfEmployment" xml:space="preserve">
+    <value>Type d’emplois</value>
+  </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value>Sans emploi</value>
+  </data>
+  <data name="WhatCanWeAssistYouWith" xml:space="preserve">
+    <value>En quoi pouvons-nous vous aider?</value>
+  </data>
+  <data name="Year_s_" xml:space="preserve">
+    <value>année(s)</value>
+  </data>
+  <data name="YourName" xml:space="preserve">
+    <value>Votre nom</value>
+  </data>
+  <data name="PhoneIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de téléphone est incorrect</value>
+  </data>
+  <data name="PhoneMustBeLong" xml:space="preserve">
+    <value>Le numéro de téléphone doit être une chaîne de 10 chiffres</value>
+  </data>
+  <data name="DealerInitialIncorrectFormat" xml:space="preserve">
+    <value>Le format de Initial du  Représentant est incorrect</value>
+  </data>
+  <data name="ContractNumberIncorrectFormat" xml:space="preserve">
+    <value>Le format du numéro de contrat est incorrect</value>
+  </data>
+  <data name="NameIncorrectFormat" xml:space="preserve">
+    <value>Le format du nom est incorrect</value>
+  </data>
+  <data name="TheFieldMustBe" xml:space="preserve">
+    <value>Le champ {0} doit être une chaîne d’une longueur de {1} caractère(s).</value>
+  </data>
+  <data name="EcoHomeAbout1QC" xml:space="preserve">
+    <value>Services financiers Ecohome est une entreprise financière canadienne qui offre des produits de financement et des prêts à la mesure des besoins des consommateurs des marchés CVC et de rénovation résidentielle. Nous gérons l’ensemble de nos affaires à l’interne.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReport" xml:space="preserve">
+    <value>Lorsque vous cochez cette case et soumettez cette demande, vous reconnaissez que Services financiers EcoHome est autorisée à recueillir les renseignements personnels que vous fournissez aux présentes et à les utiliser pour obtenir votre rapport de solvabilité auprès d’une ou de plusieurs agences d'évaluation du crédit des consommateurs ( p. ex. Equifax ou TransUnion), à valider les renseignements paraissant dans votre rapport de solvabilité auprès de tiers, au besoin, et à mettre à jour périodiquement vos renseignements de solvabilité auprès de ces agences. Vous êtes par les présentes avisé que nous pouvons consulter un rapport sur le consommateur contenant des renseignements de solvabilité ou des renseignements personnels dans le cadre de cette demande. Le dossier qui contient vos renseignements personnels sera conservé à nos bureaux ou sur nos serveurs et ceux de nos fournisseurs de services et il sera mis à la disposition des employés qui doivent le consulter pour s’acquitter de leurs fonctions. Dans la mesure prévue par la loi, vous pouvez demander d’avoir accès au dossier qui contient vos renseignements personnels et les corriger ou obtenir des renseignements sur la façon d’accéder aux rapports de solvabilité en communiquant avec nous à l’adresse indiquée ci-dessous.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReportDP" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Ecohome Financial inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Ecohome Financial inc. peut vous envoyez.</value>
+  </data>
+  <data name="AcknowledgeAndAgreementObtainCreditReportDPQC" xml:space="preserve">
+    <value>En soumettant cette demande, vous reconnaissez et acceptez que la compagnie de Services financiers Ecohome inc. est autorisée à obtenir votre dossier de crédit d’une ou plusieurs agences d’évaluation du crédit des consommateurs (par exemple, Equifax ou trans Union), afin de vérifier les renseignements de votre dossier de crédit auprès de tiers au besoin, et de mettre à jour, de manière périodique, les renseignements de votre dossier de crédit auprès des agences d’évaluation du crédit. Vous êtes avisé par les présentes qu’un rapport de consommation renfermant de l’information sur le crédit ou des renseignements personnels, peut-être consulté relativement à cette demande. Vous consentez à, de recevoir et d’utiliser en format électronique toutes les ententes et tous les avis, divulgations et autres documents ou renseignements liés à la présente demande que la compagnie de Services financiers Ecohome inc. peut vous envoyez.</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessagesDP" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie EcoHome Financial à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de EcoHome Financial inc. au 325 Milner Avenue, Suite 300, Toronto, Ontario M1B 5N1</value>
+  </data>
+  <data name="ConsentToReceiveCommercialElectronicMessagesDPQC" xml:space="preserve">
+    <value>En cochant cette case, vous consentez à recevoir des messages électroniques commerciales de la compagnie  Services financiers Ecohome à l'adresse du courriel et aux numéros de téléphone que vous avez fournis dans la demande ou de temps à autre relativement à votre compte, y compris des communications électroniques portant sur la commercialisation ou la promotion de nos programmes, nos produits, nos services, nos offres, nos événements et nos sondages qui pourraient vous intéresser. Vous pouvez retirer ce consentement en tout temps. Vous pouvez communiquer avec la compagnie de Services financiers Ecohome inc. au 4055 Rue Saint Catherine Ouest, Bureau 196, Westmount, Quebec H3Z 3J8</value>
+  </data>
+  <data name="Pre" xml:space="preserve">
+    <value>Pré</value>
+  </data>
+  <data name="MonthlyCostOfOwnership" xml:space="preserve">
+    <value>Le coût de Propriété  mensuel</value>
+  </data>
+  <data name="AddInstallationPackage" xml:space="preserve">
+    <value>Ajouter l'ensemble d'installation</value>
+  </data>
+  <data name="BalanceOwingEndOfPayments" xml:space="preserve">
+    <value>Solde dû à la fin de paiements mensuels</value>
+  </data>
+  <data name="InstallationPackage" xml:space="preserve">
+    <value>Ensemble d'installation</value>
+  </data>
+  <data name="TaxExcl" xml:space="preserve">
+    <value>Taxes Exclus</value>
+  </data>
+  <data name="TaxIncl" xml:space="preserve">
+    <value>Taxes Inclus</value>
+  </data>
+  <data name="TotalMonthlyCostOfOwnership" xml:space="preserve">
+    <value>Le coût de Propriété  mensuel total</value>
+  </data>
+  <data name="ClarityProgram" xml:space="preserve">
+    <value>Clarity Program</value>
+  </data>
+  <data name="ConditionalApprovalFor" xml:space="preserve">
+    <value>Approbation conditionnelle pour</value>
+  </data>
+  <data name="Funding" xml:space="preserve">
+    <value>Financement</value>
+  </data>
+  <data name="SomeSpecialCharactersAreRestricted" xml:space="preserve">
+    <value>Certains caractères spéciaux comme ', &lt;,&gt;, &amp; ne sont pas autorisés</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Crédit</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Page d’accueil</value>
+  </data>
+  <data name="AnnualSalaryIncomeIncorrectFormat" xml:space="preserve">
+    <value>Le format du salaire annuel/revenue est incorrect</value>
+  </data>
+  <data name="HourlyRateIncorrectFormat" xml:space="preserve">
+    <value>Le format du Salaire Horaire est incorrect</value>
+  </data>
+  <data name="MonthlyMortgagePayment" xml:space="preserve">
+    <value>Paiement Hypothécaire Mensuel (montant initial &amp; intérêts)</value>
+  </data>
+  <data name="MonthlyMortgagePaymentIncorrectFormat" xml:space="preserve">
+    <value>Le format du Paiement Hypothécaire Mensuel est incorrect</value>
+  </data>
+  <data name="AdditionalApplicantEmploymentInformation" xml:space="preserve">
+    <value>Renseignements supplémentaires sur l'hypothèque et l'emploi du demandeur</value>
+  </data>
+  <data name="ConcludedAgreement" xml:space="preserve">
+    <value>Accord conclu</value>
+  </data>
+  <data name="CoveredByCustomer" xml:space="preserve">
+    <value>Couvert par le client</value>
+  </data>
+  <data name="CoveredByDealer" xml:space="preserve">
+    <value>Couvert par le Marchand</value>
+  </data>
+  <data name="CustomerCoveredByBureauLoan" xml:space="preserve">
+    <value>Les informations de crédit du client sont actuellement indisponibles, les taux par défaut du programme Principale s'appliquent.Des options de programme supplémentaires peuvent être disponibles lorsque les informations de crédit du client sont obtenues / mises à jour.</value>
+  </data>
+  <data name="CustomerCreditUpdated" xml:space="preserve">
+    <value>Les informations de crédit du client ont été mises à jour.</value>
+  </data>
+  <data name="CustomerFee" xml:space="preserve">
+    <value>Frais de client</value>
+  </data>
+  <data name="CustomerNotFoundInBureau" xml:space="preserve">
+    <value>Nous n'avons pas été en mesure de faire correspondre les détails de crédit du client.
+Veuillez vous assurer que les informations fournies par le client correspondent à la pièce d'identité émise par le gouvernement (par exemple, permis de conduire).</value>
+  </data>
+  <data name="EditCustomerInformation" xml:space="preserve">
+    <value>Modifier les informations client</value>
+  </data>
+  <data name="EnbrideFeeNotification" xml:space="preserve">
+    <value>L'option de paiement d'Enbridge est disponible moyennant des frais  100 $</value>
+  </data>
+  <data name="EstimatedCostIncorrectFormat" xml:space="preserve">
+    <value>Le coût de détail estimé est dans un format incorrect</value>
+  </data>
+  <data name="EstimatedRetailCost" xml:space="preserve">
+    <value>Coût de détail estimé</value>
+  </data>
+  <data name="ExistingSupplier" xml:space="preserve">
+    <value>Fournisseur existant</value>
+  </data>
+  <data name="InitiatedContract" xml:space="preserve">
+    <value>Contrat initié</value>
+  </data>
+  <data name="MCOReducedDownPayment" xml:space="preserve">
+    <value>Coût mensuel de propriété est reduit par l'acompte</value>
+  </data>
+  <data name="NegotiatedAgreement" xml:space="preserve">
+    <value>Accord négocié</value>
+  </data>
+  <data name="N_A" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="PassAdminFeeToCustomer" xml:space="preserve">
+    <value>Transmettre les frais d'administration au client</value>
+  </data>
+  <data name="PassAdminFeeToDealer" xml:space="preserve">
+    <value>Je paierai les frais d'administration</value>
+  </data>
+  <data name="PreferredInstallDate" xml:space="preserve">
+    <value>Date d'installation préférée</value>
+  </data>
+  <data name="PreferredInstallTime" xml:space="preserve">
+    <value>Heure d'installation préféré</value>
+  </data>
+  <data name="Program" xml:space="preserve">
+    <value>Programme</value>
+  </data>
+  <data name="RelationshipToMainBorrower" xml:space="preserve">
+    <value>Relation avec l'emprunteur principal</value>
+  </data>
+  <data name="RelationshipToMainBorrowerIncorrectFormat" xml:space="preserve">
+    <value>La relation avec l'emprunteur principal est dans un format incorrect</value>
+  </data>
+  <data name="ResponsibleForCostRemoval" xml:space="preserve">
+    <value>Responsable des frais pour la desinstallation</value>
+  </data>
+  <data name="RoleOfSalesRep" xml:space="preserve">
+    <value>Rôle du représentant des ventes</value>
+  </data>
+  <data name="ServiceAreaInQc" xml:space="preserve">
+    <value>Votre zone de service devrait être au Québec</value>
+  </data>
+  <data name="ServiceAreaNotInQc" xml:space="preserve">
+    <value>Votre zone de service ne peut pas être au Québec</value>
+  </data>
+  <data name="TotalMCOReducedDownPayment" xml:space="preserve">
+    <value>le total du Coût mensuel de propriété est reduit par l'acompte</value>
+  </data>
+  <data name="VoidChequeBankPADAuthorizationLetter" xml:space="preserve">
+    <value>Spécimen de chèque, lettre d'autorisation de prélèvement automatique</value>
+  </data>
+  <data name="YouCanNowReviewFinancingBelow" xml:space="preserve">
+    <value>Vous pouvez maintenant examiner les options de financement ci-dessous.</value>
+  </data>
+  <data name="YouCanNowReviewFinancingHere" xml:space="preserve">
+    <value>Vous pouvez maintenant consulter les options de financement {0} ici {1}.</value>
+  </data>
+  <data name="BeforeProceedingVerifyCustId" xml:space="preserve">
+    <value>Avant de poursuivre, veuillez vérifier l'identité du client</value>
+  </data>
+  <data name="ContractChangedCancelledEsign" xml:space="preserve">
+    <value>Le contrat a été modifié</value>
+  </data>
+  <data name="CustomerHaveAgreementsWithEcoHome" xml:space="preserve">
+    <value>Le client a-t-il des ententes avec Services Financiers EcoHome?</value>
+  </data>
+  <data name="CustomerOwned" xml:space="preserve">
+    <value>appartient au client</value>
+  </data>
+  <data name="MaximumAmountCapingOut" xml:space="preserve">
+    <value>Le montant total financé ne peut dépasser le montant  demandé</value>
+  </data>
+  <data name="NameOfExistingSupplier" xml:space="preserve">
+    <value>Nom du fournisseur actuel</value>
+  </data>
+  <data name="PreApprovedUptoAMaximumOf" xml:space="preserve">
+    <value>Préapprouvé jusqu'à un maximum de</value>
+  </data>
+  <data name="Prime" xml:space="preserve">
+    <value>A risque élevé</value>
+  </data>
+  <data name="PrimePlus" xml:space="preserve">
+    <value>A risque normal</value>
+  </data>
+  <data name="SuperPrime" xml:space="preserve">
+    <value>A faible risque</value>
+  </data>
+  <data name="VerifyCustomerID" xml:space="preserve">
+    <value>Vérifier l'identifiant du client</value>
+  </data>
+  <data name="Escalation_0" xml:space="preserve">
+    <value>Taux de location de 13,99% et rajustement annuel de 0%</value>
+  </data>
+  <data name="Escalation_35" xml:space="preserve">
+    <value>Taux de location de 10,99% et rajustement annuel de 3,5%</value>
+  </data>
+  <data name="LeaseApplication" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LeaseApplicationHwt" xml:space="preserve">
+    <value>Location (Réservoir  d'eau chaude)</value>
+  </data>
+  <data name="ProgramType" xml:space="preserve">
+    <value>Type de program</value>
+  </data>
+  <data name="TotalMonthlyPaymentWithoutTaxes" xml:space="preserve">
+    <value>PAIEMENT MENSUEL TOTAL</value>
+  </data>
+  <data name="CustomerRateReduction" xml:space="preserve">
+    <value>Réduction du tarif client</value>
+  </data>
+  <data name="NoReduction" xml:space="preserve">
+    <value>Pas de Réduction</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>pour</value>
+  </data>
+  <data name="TotalMonthlyPaymentExceedPreApprovedAmount" xml:space="preserve">
+    <value>Le paiement mensuel total dépasse le montant pré-approuvé</value>
+  </data>
+  <data name="AdditionalApplicantAddressCannotInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel ne peut pas être au Québec</value>
+  </data>
+  <data name="AdditionalApplicantAddressInQuebec" xml:space="preserve">
+    <value>L'adresse du demandeur additionnel devrait être au Québec</value>
+  </data>
+  <data name="TotalMonthlyPaymentCannotExceedTheAmountOf" xml:space="preserve">
+    <value>Le paiement mensuel total ne peut pas dépasser le montant de</value>
+  </data>
+  <data name="PreApproved" xml:space="preserve">
+    <value>Préautorisé</value>
+  </data>
+  <data name="CongratulationsYouBeenPreApproved" xml:space="preserve">
+    <value>Félicitations, vous avez été pré-approuvé</value>
+  </data>
+  <data name="BorrowerShouldBeHomeOwner" xml:space="preserve">
+    <value>L'emprunteur devrait être un propriétaire de la maison.</value>
+  </data>
+  <data name="HardCapWarning" xml:space="preserve">
+    <value>La valeur dépasse le coût mensuel maximum autorisé pour le type d'équipement donné</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapBody" xml:space="preserve">
+    <value>Le coût mensuel de l'équipement dépasse la valeur maximale autorisée. La demande ne sera acceptée que dans des exceptions admissibles, par exemple: l'installation d'un chauffe-eau nécessite le passage de l'huile au gaz ou l'installation du four nécessite un remplacement du conduit. Vous devrez fournir une raison appropriée pour dépasser le coût mensuel autorisé.</value>
+  </data>
+  <data name="MonthlyCostExceedsSoftCapTitle" xml:space="preserve">
+    <value>Le coût mensuel dépasse la valeur maximale autorisée</value>
+  </data>
+  <data name="SoftCapWarning" xml:space="preserve">
+    <value>La valeur dépasse le coût maximal autorisé. Seules les exceptions éligibles seront acceptées</value>
+  </data>
+  <data name="SubType" xml:space="preserve">
+    <value>Sous-type</value>
+  </data>
+  <data name="DealerProfileUpdate" xml:space="preserve">
+    <value>Mise à jour du profil du marchand</value>
+  </data>
+  <data name="FundedDeals" xml:space="preserve">
+    <value>Demandes financées</value>
+  </data>
+  <data name="PendingDeals" xml:space="preserve">
+    <value>Demandes en attente</value>
+  </data>
+  <data name="PortalInquiries" xml:space="preserve">
+    <value>Informations sur le portail</value>
+  </data>
+  <data name="ProgramInquiries" xml:space="preserve">
+    <value>Informations sur le programme</value>
+  </data>
+  <data name="WithEscalatedPayments" xml:space="preserve">
+    <value>Avec des paiements échelonnés</value>
+  </data>
+  <data name="WithoutEscalatedPayments" xml:space="preserve">
+    <value>Sans paiements échelonnés</value>
   </data>
 </root>

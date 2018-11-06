@@ -38,8 +38,6 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<ContractDTO>> GetLeads();
 
-        Task<IList<ContractDTO>> GetCreatedContracts();
-
         Task<Tuple<IList<ContractDTO>, IList<Alert>>> GetContracts(IEnumerable<int> ids);
 
         Task<IList<Alert>> NotifyContractEdit(int contractId);
@@ -53,21 +51,33 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> UpdateCustomerData(CustomerDataDTO[] customers);
 
-        //Task<IList<Alert>> UpdateEquipmentInformation(EquipmentInformationDTO equipmentInfo);
-
         /// <summary>
         /// Initiate credit check for contract
         /// </summary>
         /// <param name="contractId">Contract Id</param>
         /// <returns>List of alerts (warnings, errors)</returns>
-        Task<IList<Alert>> InitiateCreditCheck(int contractId);
+        //Task<IList<Alert>> InitiateCreditCheck(int contractId);
 
         /// <summary>
         /// Initiate a process of digital signature of contract
         /// </summary>
         /// <param name="signatureUsers"></param>
         /// <returns></returns>
-        Task<IList<Alert>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> InitiateDigitalSignature(SignatureUsersDTO signatureUsers);
+
+        /// <summary>
+        /// Update signers (recipients) information
+        /// </summary>
+        /// <param name="signatureUsers"></param>
+        /// <returns></returns>
+        Task<IList<Alert>> UpdateContractSigners(SignatureUsersDTO signatureUsers);
+
+        /// <summary>
+        /// Cancel eSignature process for contract
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <returns>List of alerts (warnings, errors)</returns>
+        Task<Tuple<SignatureSummaryDTO, IList<Alert>>> CancelDigitalSignature(int contractId);
 
         /// <summary>
         /// Get credit check results for contract
@@ -82,6 +92,13 @@ namespace DealnetPortal.Web.ServiceAgent
         /// <param name="contractId">Contract Id</param>
         /// <returns></returns>
         Task<Tuple<AgreementDocument, IList<Alert>>> GetContractAgreement(int contractId);
+
+        /// <summary>
+        /// Get funding checklist docs for contract
+        /// </summary>
+        /// <param name="contractId"></param>
+        /// <returns></returns>
+        Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetContractDocumentTypes(int contractId);
 
         Task<IList<Alert>> UpdateInstallationData(InstallationCertificateDataDTO installationCertificateData);
 
@@ -124,8 +141,9 @@ namespace DealnetPortal.Web.ServiceAgent
         /// Get xlsx report
         /// </summary>
         /// <param name="ids">List od Ids</param>
+        /// <param name="timeZoneOffset">client timezone for converting utc time to local</param>
         /// <returns>xlsx report in byte array</returns>
-        Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids);
+        Task<AgreementDocument> GetXlsxReport(IEnumerable<int> ids, int? timeZoneOffset = null);
 
         Task<Tuple<int?, IList<Alert>>> AddComment(CommentDTO comment);
 
@@ -137,11 +155,7 @@ namespace DealnetPortal.Web.ServiceAgent
 
         Task<IList<Alert>> SubmitAllDocumentsUploaded(int contractId);
 
-        Task<Tuple<CustomerContractInfoDTO, IList<Alert>>> SubmitCustomerForm(CustomerFormDTO customerForm);
-
-        Task<CustomerContractInfoDTO> GetCustomerContractInfo(int contractId, string dealerName);
-
-        Task<Tuple<ContractDTO, IList<Alert>>> CreateContractForCustomer(NewCustomerDTO customerForm);
+        
 
         Task<IList<Alert>> RemoveContract(int contractId);
 
@@ -149,8 +163,11 @@ namespace DealnetPortal.Web.ServiceAgent
         /// Get Rates Card by Dealer
         /// </summary>
         Task<TierDTO> GetDealerTier();
+        Task<TierDTO> GetDealerTier(int contractId);
 
         Task<IList<Alert>> AssignContract(int contractId);
         Task<IList<Alert>> CheckCustomerExisting(string email);
+
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetSignedAgreement(int contractId);
     }
 }

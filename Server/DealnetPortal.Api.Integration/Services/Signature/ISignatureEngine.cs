@@ -26,11 +26,19 @@ namespace DealnetPortal.Api.Integration.Services.Signature
 
         Task<IList<Alert>> InsertSignatures(IList<SignatureUser> signatureUsers);
 
+        Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers);
+
         Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers);
 
-        //Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers);
+        Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract);
 
-        Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion);
+        Task<Tuple<bool,IList<Alert>>> UpdateContractStatus(Contract contract);
+
+        Task<Tuple<IList<FormField>, IList<Alert>>> GetFormfFields();
+
+        Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument();
+
+        Task<IList<Alert>> CancelSignature(string cancelReason = null);
 
         string TransactionId { get; set; }
 

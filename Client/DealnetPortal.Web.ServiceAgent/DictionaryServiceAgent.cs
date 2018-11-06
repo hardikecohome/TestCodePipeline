@@ -119,8 +119,8 @@ namespace DealnetPortal.Web.ServiceAgent
         {
             try
             {
-                return await Client.GetAsync<Tuple<IList<VarificationIdsDTO>, IList<Alert>>>(
-                            $"{_fullUri}/AllVerificationIds");
+                return await Client.GetAsyncEx<Tuple<IList<VarificationIdsDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllVerificationIds", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
@@ -131,19 +131,50 @@ namespace DealnetPortal.Web.ServiceAgent
 
 
         /// <summary>
-        /// Get Equipment Types list
+        /// Get all document types (funding checklist)
         /// </summary>
-        /// <returns>List of Equipment Type</returns>
+        /// <returns>List of Document Type</returns>
         public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetDocumentTypes()
         {
             try
             {
-                return await Client.GetAsync<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
-                            $"{_fullUri}/DocumentTypes");
+                return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            $"{_fullUri}/DocumentTypes", AuthenticationHeader, CurrentCulture);
             }
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get Province Tax Rate", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<DocumentTypeDTO>, IList<Alert>>> GetStateDocumentTypes(string state)
+        {
+            try
+            {
+                var endPoint = AuthenticationHeader != null
+                    ? $"{_fullUri}/DealerDocumentTypes/{state}"
+                    : $"{_fullUri}/DocumentTypes/{state}";
+                return await Client.GetAsyncEx<Tuple<IList<DocumentTypeDTO>, IList<Alert>>>(
+                            endPoint, AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get document types list for province", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>> GetAllStateDocumentTypes()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IDictionary<string, IList<DocumentTypeDTO>>, IList<Alert>>>(
+                    $"{_fullUri}/DealerDocumentTypes", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get document types list for dealer", ex);
                 throw;
             }
         }
@@ -284,6 +315,20 @@ namespace DealnetPortal.Web.ServiceAgent
             catch (Exception ex)
             {
                 _loggingService.LogError("Can't get Customer Link Language Options", ex);
+                throw;
+            }
+        }
+
+        public async Task<Tuple<IList<RateReductionCardDTO>, IList<Alert>>> GetAllRateReductionCards()
+        {
+            try
+            {
+                return await Client.GetAsyncEx<Tuple<IList<RateReductionCardDTO>, IList<Alert>>>(
+                            $"{_fullUri}/AllRateReductionCards", AuthenticationHeader, CurrentCulture);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.LogError("Can't get Rate Reduction Cards", ex);
                 throw;
             }
         }

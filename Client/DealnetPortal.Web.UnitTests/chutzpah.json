@@ -1,0 +1,48 @@
+﻿{
+  "Framework": "jasmine",
+  "References": [
+    {
+      "Path": "../dealnetportal.web/scripts/utils/modules/index.js"
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/utils/financial-functions.js"
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/utils/financial-functions.clarity.module.js"
+    }, 
+    {
+      "Path": "../dealnetportal.web/scripts/vendor/knockout-3.4.2.js"
+    },
+    {
+      "Path": "../dealnetportal.web/scripts/components/addressInformation.js"
+    },
+    //{
+    //  "Path": "../dealnetportal.web/scripts/vendor/jquery-ui-1.12.0.js"
+    //},
+    //{
+    //  "Path": "../dealnetportal.web/scripts/vendor/jquery.validate.js"
+    //},
+  
+    //{
+    //  "Path": "../dealnetportal.web/scripts/utils",
+    //  "Includes": [ "*.js" ]
+    //},
+    //{
+    //  "Path": "../dealnetportal.web/scripts/common",
+    //  "Includes": [ "*.js" ]
+    //},
+    //{
+    //  "Path": "../dealnetportal.web/scripts/components",
+    //  "Includes": [ "*.js" ]
+    //},
+    //{
+    //  "Path": "../dealnetportal.web/scripts/pages",
+    //  "Includes": [ "*.js" ]
+    //}
+  ],
+  "Tests": [
+    {
+      "Path": "JsTests"
+    }
+  ]
+}

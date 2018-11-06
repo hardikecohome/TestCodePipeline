@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Hosting;
-using System.Web.UI.WebControls;
 using AutoMapper;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Models;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
 using DealnetPortal.Api.Models.Contract.EquipmentInformation;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
-using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
-using DealnetPortal.Utilities;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.AspNet.Identity;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {
@@ -33,13 +25,13 @@ namespace DealnetPortal.Api.Integration.Services
     {
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerFormRepository _customerFormRepository;
-        private readonly IAspireService _aspireService;
         private readonly IAspireStorageReader _aspireStorageReader;
         private readonly IMailService _mailService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDealerRepository _dealerRepository;
         private readonly IContractService _contractService;
+        private readonly ICreditCheckService _creditCheckService;
         private readonly ILoggingService _loggingService;
         private readonly IAppConfiguration _configuration;
 
@@ -47,13 +39,12 @@ namespace DealnetPortal.Api.Integration.Services
             ICustomerFormRepository customerFormRepository,
             IDealerRepository dealerRepository, ISettingsRepository settingsRepository, IUnitOfWork unitOfWork,
             IContractService contractService,
-            ILoggingService loggingService, IMailService mailService, IAspireService aspireService,
-            IAspireStorageReader aspireStorageReader, IAppConfiguration configuration)
+            ILoggingService loggingService, IMailService mailService,
+            IAspireStorageReader aspireStorageReader, IAppConfiguration configuration, ICreditCheckService creditCheckService)
         {
             _contractRepository = contractRepository;
             _customerFormRepository = customerFormRepository;
             _dealerRepository = dealerRepository;
-            _aspireService = aspireService;
             _aspireStorageReader = aspireStorageReader;
             _settingsRepository = settingsRepository;
             _mailService = mailService;
@@ -61,6 +52,7 @@ namespace DealnetPortal.Api.Integration.Services
             _contractService = contractService;
             _loggingService = loggingService;
             _configuration = configuration;
+            _creditCheckService = creditCheckService;
         }
 
         public CustomerLinkDTO GetCustomerLinkSettings(string dealerId)
@@ -105,6 +97,13 @@ namespace DealnetPortal.Api.Integration.Services
                 langSettings.EnabledLanguages =
                     linkSettings.EnabledLanguages.Select(l => (LanguageCode) l.LanguageId).ToList();
                 langSettings.DealerName = _dealerRepository.GetDealerNameByCustomerLinkId(linkSettings.Id);
+                var dealerId = _dealerRepository.GetUserIdByName(langSettings.DealerName);
+                if (!string.IsNullOrEmpty(dealerId))
+                {
+                    var dealer = _dealerRepository.GetDealerProfile(dealerId);
+                    var province=dealer.Address.State?.ToProvinceCode();
+                    langSettings.QuebecDealer = province != null && province == "QC";
+                }
                 return langSettings;
             }
             return null;
@@ -156,7 +155,7 @@ namespace DealnetPortal.Api.Integration.Services
             if (contractCreationRes?.Item1 != null &&
                 (contractCreationRes.Item2?.All(a => a.Type != AlertType.Error) ?? true))
             {
-                Task.Run(async () => await SendCustomerContractCreationNotifications(customerFormData,
+                Task.Run(async () => await SendCustomerFormContractCreationNotifications(customerFormData,
                     contractCreationRes.Item1));
             }
 
@@ -196,7 +195,7 @@ namespace DealnetPortal.Api.Integration.Services
                                     var c = InitialyzeContract(dealerId, customerFormData.PrimaryCustomer,
                                         customerFormData.StartProjectDate,
                                         sRequest.PrecreatedContractId, sRequest.ServiceType,
-                                        customerFormData.CustomerComment);
+                                        customerFormData.CustomerComment, customerFormData.LeadSource, customerFormData.ContractorInfo);
                                     // mark as created by customer
                                     c.IsCreatedByCustomer = true;
                                     //check role of a dealer
@@ -212,7 +211,7 @@ namespace DealnetPortal.Api.Integration.Services
                 catch (Exception ex)
                 {
                     var errorMsg =
-                        $"Cannot create contract from customer wallet request";
+                        "Cannot create contract from customer wallet request";
                     alerts.Add(new Alert()
                     {
                         Type = AlertType.Warning, //?
@@ -232,13 +231,8 @@ namespace DealnetPortal.Api.Integration.Services
                     if (c.ContractState < ContractState.CreditConfirmed)
                     {
                         //Start credit check for this contract                            
-                        var creditCheckAlerts = new List<Alert>();
-                        var initAlerts = _contractService.InitiateCreditCheck(c.Id, c.DealerId);
-                        if (initAlerts?.Any() ?? false)
-                        {
-                            creditCheckAlerts.AddRange(initAlerts);
-                        }
-                        var checkResult = _contractService.GetCreditCheckResult(c.Id, c.DealerId);
+                        var creditCheckAlerts = new List<Alert>();                        
+                        var checkResult = _creditCheckService.ContractCreditCheck(c.Id, c.DealerId);
                         if (checkResult != null)
                         {
                             creditCheckAlerts.AddRange(checkResult.Item2);
@@ -256,6 +250,11 @@ namespace DealnetPortal.Api.Integration.Services
                     {
                         c.IsNewlyCreated = true;
                         c.IsCreatedByCustomer = true;
+                        if (customerFormData.ContractorInfo != null)
+                        {
+                            c.Dealer = null;
+                            c.DealerId = null;
+                        }
                     });
                     _unitOfWork.Save();
 
@@ -287,10 +286,10 @@ namespace DealnetPortal.Api.Integration.Services
         public CustomerContractInfoDTO GetCustomerContractInfo(int contractId, string dealerName)
         {
             CustomerContractInfoDTO contractInfo = null;
-            var dealerId = _dealerRepository.GetUserIdByName(dealerName);
-            if (!string.IsNullOrEmpty(dealerId))
+            var creditReviewStates = _configuration.GetSetting(WebConfigKeys.CREDIT_REVIEW_STATUS_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+            if (string.IsNullOrEmpty(dealerName))
             {
-                var contract = _contractRepository.GetContract(contractId, dealerId);
+                var contract = _contractRepository.GetContract(contractId);
                 if (contract != null)
                 {
                     contractInfo = new CustomerContractInfoDTO()
@@ -305,38 +304,72 @@ namespace DealnetPortal.Api.Integration.Services
                         ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
                         CreationTime = contract.CreationTime,
                         LastUpdateTime = contract.LastUpdateTime,
-                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList()
+                        EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList(),
+                        IsPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status)
                     };
-
-                    try
+                }
+            }
+            else
+            {
+                var dealerId = _dealerRepository.GetUserIdByName(dealerName);
+                if (!string.IsNullOrEmpty(dealerId))
+                {
+                    var contract = _contractRepository.GetContract(contractId, dealerId);
+                    if (contract != null)
                     {
-                        //get dealer info
-                        var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(dealerName));
-                        if (dealer != null)
+                        contractInfo = new CustomerContractInfoDTO()
                         {
-                            contractInfo.DealerName = dealer.FirstName;
-                            var dealerAddress = dealer.Locations?.FirstOrDefault();
-                            if (dealerAddress != null)
-                            {
-                                contractInfo.DealerAdress = dealerAddress;
-                            }
-                            if (dealer.Phones?.Any() ?? false)
-                            {
-                                contractInfo.DealerPhone = dealer.Phones.First().PhoneNum;
-                            }
-                            if (dealer.Emails?.Any() ?? false)
-                            {
-                                contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
-                            }
+                            ContractId = contractId,
+                            AccountId = contract.PrimaryCustomer?.AccountId,
+                            DealerName = contract.LastUpdateOperator,
+                            TransactionId = contract.Details?.TransactionId,
+                            ContractState = contract.ContractState,
+                            Status = contract.Details?.Status,
+                            CreditAmount = contract.Details?.CreditAmount ?? 0,
+                            ScorecardPoints = contract.Details?.ScorecardPoints ?? 0,
+                            CreationTime = contract.CreationTime,
+                            LastUpdateTime = contract.LastUpdateTime,
+                            EquipmentTypes = contract.Equipment?.NewEquipment?.Select(e => e.Type).ToList(),
+                            IsPreApproved = contract.ContractState == ContractState.CreditConfirmed && !creditReviewStates.Contains(contract.Details?.Status),
+                            DealerType =  contract.Dealer?.DealerType
+                        };
 
+                        if (contract.Dealer?.Tier?.IsCustomerRisk == true &&
+                            contract.ContractState > ContractState.CustomerInfoInputted)
+                        {
+                            contractInfo.CustomerBeacon = contract.PrimaryCustomer?.CreditReport?.Beacon ?? 0;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        var errorMsg = "Can't retrieve dealer info";
-                        _loggingService.LogError(errorMsg, ex);
-                    }
 
+                        try
+                        {
+                            //get dealer info
+                            var dealer = Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerInfo(dealerName));
+                            if (dealer != null)
+                            {
+                                contractInfo.DealerName = dealer.FirstName;
+                                var dealerAddress = dealer.Locations?.FirstOrDefault();
+                                if (dealerAddress != null)
+                                {
+                                    contractInfo.DealerAdress = dealerAddress;
+                                }
+                                if (dealer.Phones?.Any() ?? false)
+                                {
+                                    contractInfo.DealerPhone = dealer.Phones.First().PhoneNum;
+                                }
+                                if (dealer.Emails?.Any() ?? false)
+                                {
+                                    contractInfo.DealerEmail = dealer.Emails.First().EmailAddress;
+                                }
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            var errorMsg = "Can't retrieve dealer info";
+                            _loggingService.LogError(errorMsg, ex);
+                        }
+
+                    }
                 }
             }
             return contractInfo;
@@ -359,9 +392,9 @@ namespace DealnetPortal.Api.Integration.Services
                 var contractData = new ContractDataDTO()
                 {
                     PrimaryCustomer = customerFormData.PrimaryCustomer,
-                    //HomeOwners = new List<Customer> { customer },
                     DealerId = dealerId,
-                    Id = contract.Id
+                    Id = contract.Id,
+                    LeadSource = customerFormData.LeadSource
                 };
                 _contractService.UpdateContractData(contractData, dealerId);
 
@@ -370,12 +403,7 @@ namespace DealnetPortal.Api.Integration.Services
                 {
                     _loggingService.LogInfo($"Start credit check for contract [{contract.Id}]");
                     var creditCheckAlerts = new List<Alert>();
-                    var initAlerts = _contractService.InitiateCreditCheck(contract.Id, dealerId);
-                    if (initAlerts?.Any() ?? false)
-                    {
-                        creditCheckAlerts.AddRange(initAlerts);
-                    }
-                    var checkResult = _contractService.GetCreditCheckResult(contract.Id, dealerId);
+                    var checkResult = _creditCheckService.ContractCreditCheck(contract.Id, dealerId);
                     if (checkResult != null)
                     {
                         creditCheckAlerts.AddRange(checkResult.Item2);
@@ -492,7 +520,7 @@ namespace DealnetPortal.Api.Integration.Services
         }
 
 
-        private async Task SendCustomerContractCreationNotifications(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
+        private async Task SendCustomerFormContractCreationNotifications(CustomerFormDTO customerFormData, CustomerContractInfoDTO contractData)
         {
             var dealerColor = _settingsRepository.GetUserStringSettings(customerFormData.DealerName)
                                     .FirstOrDefault(s => s.Item.Name == "@navbar-header");
@@ -501,8 +529,8 @@ namespace DealnetPortal.Api.Integration.Services
 
             try
             {
-                await
-                    _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData).ConfigureAwait(false); 
+                var dealerProvince = _aspireStorageReader.GetDealerInfo(customerFormData.DealerName).State;
+                await _mailService.SendDealerLoanFormContractCreationNotification(customerFormData, contractData, dealerProvince).ConfigureAwait(false); 
             }
             catch (Exception ex)
             {
@@ -530,7 +558,8 @@ namespace DealnetPortal.Api.Integration.Services
             }
         }
 
-        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, string customerComment = null)
+        private Contract InitialyzeContract(string contractOwnerId, CustomerDTO primaryCustomer, DateTime? preferredStartDate, int? contractId = null, string equipmentType = null, 
+            string customerComment = null, string leadSource = null, ContractorDTO contractor = null)
         {
             Contract contract = null;
             //update or create a brand new contract
@@ -582,8 +611,7 @@ namespace DealnetPortal.Api.Integration.Services
 
                 var contractDataDto = new ContractDataDTO()
                 {
-                    PrimaryCustomer = primaryCustomer,
-                    //HomeOwners = new List<Customer> { customer },
+                    PrimaryCustomer = primaryCustomer,                    
                     DealerId = contractOwnerId,
                     Id = contract.Id,
                     Equipment = !string.IsNullOrEmpty(equipmentType)
@@ -597,9 +625,10 @@ namespace DealnetPortal.Api.Integration.Services
                                     Description = _contractRepository.GetEquipmentTypeInfo(equipmentType)?.Description
                                 }}
                         }
-                        : null,                    
+                        : null,
+                    LeadSource = leadSource
                 };
-                _contractService.UpdateContractData(contractDataDto, contractOwnerId);
+                _contractService.UpdateContractData(contractDataDto, contractOwnerId, contractor);
             }
 
             return contract;

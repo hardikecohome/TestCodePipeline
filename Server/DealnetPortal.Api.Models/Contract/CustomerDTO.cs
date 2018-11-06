@@ -40,5 +40,11 @@ namespace DealnetPortal.Api.Models.Contract
         public string VerificationIdName { get; set; }
 
         public string DealerInitial { get; set; }
+
+        public EmploymentInfoDTO EmploymentInfo { get; set; }
+
+        public CustomerCreditReportDTO CreditReport { get; set; }
+
+        public string RelationshipToMainBorrower { get; set; }
     }
 }

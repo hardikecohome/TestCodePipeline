@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DealnetPortal.Api.Common.Constants
+﻿namespace DealnetPortal.Api.Common.Constants
 {
     public static class ClaimNames
     {
@@ -14,5 +8,11 @@ namespace DealnetPortal.Api.Common.Constants
         public const string ShowMyCustomers = "ShowMyCustomers";
         public const string ShowAbout = "ShowAbout";
         public const string HasSkin = "HasSkin";
+        public const string QuebecDealer = "QuebecDealer";
+        public const string ClarityDealer = "ClarityDealer";
+        public const string MortgageBroker = "MortgageBroker";
+        public const string LeaseTier = "LeaseTier";
+        public const string AgreementType = "AgreementType";
+        public const string IsEmcoDealer = "IsEmcoDealer";
     }
 }

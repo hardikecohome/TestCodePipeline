@@ -1,7 +1,8 @@
-﻿@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
+﻿@using DealnetPortal.Api.Core.Helpers
+@model DealnetPortal.Web.Models.Dealer.DealerOnboardingViewModel
 
 @{
-    ViewBag.Title = "On Boarding";
+    ViewBag.Title = Resources.Onboarding;
     Layout = "OnBoardingLayout.cshtml";
 }
 
@@ -9,7 +10,45 @@
     <div class="navbar onboard-navbar navbar-fixed-side">
         <div class="navbar-header customer-navbar-header">
             <div class="dealnet-image-ecologo"></div>
+            <div class="lang-switcher pull-right">
+                <div class="chosen-language">
+                    <div class="lang-item">
+                        <a href="#" class="chosen-language-link">
+                            @switch(CultureHelper.CurrentCultureType)
+                            {
+                                case CultureType.English:
+                                    @:English
+                                    break;
+                                case CultureType.French:
+                                    @:Français
+                                    break;
+                            }
+                            <span class="caret"></span>
+                        </a>
+                    </div>
+                </div>
+                <ul class="lang-list">
+                    @{
+                        var isResuming = !string.IsNullOrEmpty(Model.AccessKey);
+                        var action = isResuming ? "ResumeOnboarding" : "Onboarding";
+                        var key = isResuming ? Model.AccessKey : Model.OnBoardingLink;
+                    }
+                    @if(CultureHelper.CurrentCultureType != CultureType.English)
+                    {
+                        <li class="lang-item active">
+                            @Html.ActionLink(Resources.English, action, "Dealer", new { culture = "en", key }, new { @class = "lang-link" })
+                        </li>
+                    }
+                    @if(CultureHelper.CurrentCultureType != CultureType.French)
+                    {
+                        <li class="lang-item">
+                            @Html.ActionLink(Resources.French, action, "Dealer", new { culture = "fr", key }, new { @class = "lang-link" })
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
+
     </div>
     <div class="onboard-heading">
         <div class="onboard-headers-container">
@@ -22,18 +61,21 @@
             </span>
 
             @Resources.Questions <br class="hidden-xs" />
-            @Resources.ConnectWithDealerSupport <br />
-            <a href="tel:+@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]" class="tel" rel="nofollow">@System.Configuration.ConfigurationManager.AppSettings["DealerSupportPhone"]</a><br />
-            <a href="mailto: @System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]">@System.Configuration.ConfigurationManager.AppSettings["InfoEmail"]</a>
+            @Html.Raw(string.Format(Resources.ConnectWithDealerSupport, "<br/>")) <br />
+            <a href="tel:+@Resources.DealerSupportPhoneNumber" class="tel" rel="nofollow">@Resources.DealerSupportPhoneNumber</a><br />
+            <a href="mailto: @Resources.DealerSupportInfoEmail">@Resources.DealerSupportInfoEmail</a>
+
         </div>
     </div>
 
-    @using (Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new { id = "onboard-form", onkeydown = "return event.keyCode!=13" }))
+    @using(Html.BeginForm("OnBoarding", "Dealer", null, FormMethod.Post, new { id = "onboard-form", onkeydown = "return event.keyCode!=13" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.AccessKey)
         @Html.HiddenFor(m => m.OnBoardingLink)
+        @Html.HiddenFor(m => m.IsDocumentsUploaded)
+
         <div class="onboard-steps" id="onboard-accordion">
             @Html.Partial("OnBoarding/_CompanyInformation", Model)
             @Html.Partial("OnBoarding/_OwnerInformation", Model)
@@ -44,11 +86,8 @@
         </div>
         <div class="clearfix">
             <span class="btn-proceed-inline-hold btn-form-common" data-toggle="popover" data-placement="top" data-container="body" data-trigger="hover" data-content="@Resources.YouShouldFillAllMandatoryFields">
-                <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submit">@Resources.SubmitApplication</button>
+                <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submitBtn">@Resources.SubmitApplication</button>
             </span>
         </div>
-        <!--<div class="clearfix">
-            <button type="submit" class="btn dealnet-success-button btn-proceed btn-form-common" id="submit">@Resources.SubmitApplication</button>
-        </div>-->
     }
 </div>

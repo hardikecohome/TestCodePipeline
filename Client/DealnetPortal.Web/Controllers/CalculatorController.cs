@@ -1,7 +1,11 @@
-﻿using DealnetPortal.Web.Infrastructure;
+﻿using System.Security.Claims;
+using DealnetPortal.Web.Infrastructure;
 
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Api.Common.Constants;
+using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -17,6 +21,12 @@ namespace DealnetPortal.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
+	        var identity = (ClaimsIdentity) User.Identity;
+	        var quebecDealer = identity.HasClaim(ClaimContstants.QuebecDealer, "True");
+	        var clarityDealer = identity.HasClaim(ClaimContstants.ClarityDealer, "True");
+	        ViewBag.ReducationAvailable = !quebecDealer && !clarityDealer;
+	        ViewBag.IsQuebecDealer = quebecDealer;
+
             return View(await _contractManager.GetStandaloneCalculatorInfoAsync());
         }
     }

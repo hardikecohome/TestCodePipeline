@@ -1,13 +1,33 @@
 ﻿@using DealnetPortal.Api.Models.Contract
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
 
-@for (var i = 0; i < Model.NewEquipment.Count; i++)
+@{
+    var equipment = (IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes;
+}
+
+@for(var i = 0; i < Model.NewEquipment.Count; i++)
 {
-    <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
+    bool hasSelectedSub = Model != null && Model.NewEquipment != null && Model.NewEquipment[i].EquipmentSubType != null;
+
+    var subTypes = new List<SelectListItem>
+    {
+        new SelectListItem{ Text="",Value="",Selected=!hasSelectedSub }
+    };
+    if (Model.NewEquipment[i]?.EquipmentType.SubTypes != null && Model.NewEquipment[i]?.EquipmentType.SubTypes.Count != 0)
+    {
+        subTypes.AddRange(Model.NewEquipment[i]?.EquipmentType.SubTypes?.Select(sub => new SelectListItem
+        {
+            Text = sub.Description,
+            Value = sub.Id.ToString(),
+            Selected = Model?.NewEquipment[i]?.EquipmentSubType?.Id == sub.Id
+        }));
+    }
+
+  <div id="new-equipment-@(i)" class="new-equipment new-equipment-wrap">
         @Html.HiddenFor(m => m.NewEquipment[i].Id)
         <div class="dealnet-middle-header equipment-number-header">
             <span class="equipment-number">№@(i + 1)</span>
-            @if (i > 0)
+            @if(i > 0)
             {
                 <div class="additional-remove" id="addequipment-remove-@(i)">
                     <i class="glyphicon glyphicon-remove"></i>
@@ -17,38 +37,84 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.NewEquipment[i].Type)
-                    @Html.DropDownListFor(m => m.NewEquipment[i].Type,
-                    ((IList<EquipmentTypeDTO>)ViewBag.EquipmentTypes).Select(x => new SelectListItem { Value = x.Type, Text = x.Description, Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.Type == x.Type }),
-                    new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.NewEquipment[i].EquipmentType.Id)
+                    @Html.LabelFor(m => m.NewEquipment[i].EquipmentType)
+                    @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentType.Type,
+                            equipment.Select(x => new SelectListItem
+                            {
+                                Value = x.Type,
+                                Text = x.Description,
+                                Selected = Model?.NewEquipment != null && Model.NewEquipment[i]?.EquipmentType.Id == x.Id
+                            }),
+                            new {@class = "form-control equipment-select",required="true"})
+                    @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentType.Type, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-xs-12 col-md-6">
+            <div class="col-md-2 hidden sub-type-col">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].EquipmentSubType)
+                    @Html.DropDownListFor(m => m.NewEquipment[i].EquipmentSubType.Id,
+							subTypes ?? Enumerable.Empty<SelectListItem>(),
+							new Dictionary<string, object> { { "class", "form-control sub-type-select" }, { "required", "true " }, { Model.AgreementType == DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication || (Model.NewEquipment[i].EquipmentType.SubTypes?.Any() ?? false) ? "disabled" : "data-notdisabled", "disabled" } })
+                    @Html.ValidationMessageFor(m => m.NewEquipment[i].EquipmentSubType.Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6 description-col">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].Description)
                     <div class="control-group">
-                        @Html.TextBoxFor(m => m.NewEquipment[i].Description, new { @class = "form-control dealnet-input", placeholder = Resources.DescriptionWithMakeModel })
+                        @Html.TextBoxFor(m => m.NewEquipment[i].Description, new
+                        {
+                            @class = "form-control dealnet-input",
+                            placeholder = Resources.DescriptionWithMakeModel
+                        })
                         @Html.ValidationMessageFor(m => m.NewEquipment[i].Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 equipment-cost-col">
+            <div class="col-md-3 col-xs-12 equipment-cost-col" style="@(Model.AgreementType!=DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].Cost)
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new { @class = "form-control dealnet-input equipment-cost", type = "text", placeholder = Resources.CostWithTaxes })
+                        @Html.TextBoxFor(m => m.NewEquipment[i].Cost, new
+                        {
+                            @class = "form-control dealnet-input equipment-cost",
+                            type = "text",
+                            placeholder = Resources.CostWithTaxes
+                        })
                         @Html.ValidationMessageFor(m => m.NewEquipment[i].Cost, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-xs-12 monthly-cost-col">
+            <div class="col-md-3 col-xs-12 monthly-cost-col" style="@(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "display:none":"")">
                 <div class="form-group">
                     @Html.LabelFor(m => m.NewEquipment[i].MonthlyCost)
                     <div class="control-group has-addon-left">
                         <div class="control-group-addon">$</div>
-                        @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new { @class = "form-control dealnet-input monthly-cost", type = "text", placeholder = Resources.MonthlyCost })
+                        @Html.TextBoxFor(m => m.NewEquipment[i].MonthlyCost, new
+                        {
+                            placeholder = Resources.MonthlyCost,
+                            type = "text",
+                            @class = "form-control dealnet-input monthly-cost"
+                        })
                         @Html.ValidationMessageFor(m => m.NewEquipment[i].MonthlyCost, "", new { @class = "text-danger" })
+                        <span class="text-warning"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-12 estimated-retail-col @(Model.AgreementType==DealnetPortal.Web.Models.Enumeration.AgreementType.LoanApplication? "hidden":"")">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewEquipment[i].EstimatedRetailCost)
+                    <div class="control-group has-addon-left">
+                        <div class="control-group-addon">$</div>
+                        @Html.TextBoxFor(m => m.NewEquipment[i].EstimatedRetailCost, new
+                        {
+                            type = "text",
+                            disabled = "disabled",
+                            @class = "form-control dealnet-input estimated-retail"
+                        })
+                        @Html.ValidationMessageFor(m => m.NewEquipment[i].EstimatedRetailCost, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

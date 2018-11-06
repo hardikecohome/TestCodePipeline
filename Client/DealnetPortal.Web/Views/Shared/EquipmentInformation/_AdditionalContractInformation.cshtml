@@ -1,71 +1,178 @@
-﻿@using System.Globalization
-@using DealnetPortal.Api.Common.Enumeration
+﻿
+@using DealnetPortal.Web.Common.Constants
 @model DealnetPortal.Web.Models.EquipmentInformation.EquipmentInformationViewModelNew
+
 @{
-  if (Model?.ExistingEquipment != null && !Model.ExistingEquipment.Any())
-  {
-    Model.ExistingEquipment = null;
-  }
+    var enSelectList = new[] { "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM" };
+    var frSelectList = new[] { "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00" };
+    var culture = Request.Cookies[PortalConstants.CultureCookieName]?.Value;
+    var options = new List<SelectListItem>();
+    for(int i = 0; i < frSelectList.Length; i++)
+    {
+        options.Add(new SelectListItem { Value = frSelectList[i].Replace(":", ""), Text = culture == "en" ? enSelectList[i] : frSelectList[i] });
+    }
+
 }
-<hr/>
+<hr />
 <div class="row"></div>
 <div class="form-section">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="form-group">
-        @Html.LabelFor(m => m.SalesRep)
-        <div class="control-group">
-          @Html.TextBoxFor(m => m.SalesRep, new {@class = "form-control dealnet-input", placeholder = Resources.SalesRep})
-          @Html.ValidationMessageFor(m => m.SalesRep, "", new {@class = "text-danger"})
+    <div class="row label-row hidden-sm  hidden-xs">
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.SalesRepInformation.SalesRep)
         </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="form-group">
-        @Html.LabelFor(m => m.EstimatedInstallationDate)
-        <div class="control-group date-group">
-          @Html.TextBoxFor(m => m.EstimatedInstallationDate, @"{0:MM'/'dd'/'yyyy}", new {@class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = ""})
-          @Html.ValidationMessageFor(m => m.EstimatedInstallationDate, "", new {@class = "text-danger"})
+        <div class="col-md-4 hidden" id="sales-rep-title">
+            @Html.Label(Resources.RoleOfSalesRep)
         </div>
-      </div>
     </div>
-    <div class="col-md-2">
-      <div class="form-group">
-        @Html.LabelFor(m => m.HouseSize)
-        <div class="control-group">
-          @Html.TextBoxFor(m => m.HouseSize, new {@class = "form-control dealnet-input", placeholder = Resources.HouseSize})
-          @Html.ValidationMessageFor(m => m.HouseSize, "", new {@class = "text-danger"})
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.SalesRepInformation.SalesRep, new { @class = "visible-sm visible-xs" })
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.SalesRepInformation.SalesRep, new { @class = "form-control dealnet-input", placeholder = Resources.SalesRep })
+                    @Html.ValidationMessageFor(m => m.SalesRepInformation.SalesRep, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="col-md-6 hidden sales-rep-container" id="sales-rep-types">
+            @*@Html.Label(Resources.RoleOfSalesRep, new { @class = "visible-sm visible-xs" })*@
+            <div class="form-group">
+                <label class="align-middle custom-checkbox">
+                    @Html.CheckBox("initiated-contract-checkbox", @Model.SalesRepInformation.IniatedContract ?
+                                            (object)new { id = "initiated-contract-checkbox", @checked = "true", value = true } :
+                                            new { id = "initiated-contract-checkbox", value = false })
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span>@Resources.InitiatedContract</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="align-middle custom-checkbox">
+                    @Html.CheckBox("negotiated-agreement-checkbox", Model.SalesRepInformation.NegotiatedAgreement ?
+                                            (object)new { id = "negotiated-agreement-checkbox", @checked = "true", value = true } :
+                                            new { id = "negotiated-agreement-checkbox", value = false })
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span>@Resources.NegotiatedAgreement</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="align-middle custom-checkbox">
+                    @Html.CheckBox("concluded-agreement-checkbox", Model.SalesRepInformation.ConcludedAgreement ?
+                                            (object)new { id = "concluded-agreement-checkbox", @checked = "true", value = true } :
+                                            new { id = "concluded-agreement-checkbox", value = false })
+                    <span class="checkbox-icon">
+                        <svg aria-hidden="true" class="icon icon-checked">
+                            <use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-checked")"></use>
+                        </svg>
+                    </span>
+                    <span>@Resources.ConcludedAgreement</span>
+                </label>
+            </div>
+            <div id="error-message" class="text-danger field-validation-error hidden">@Resources.ThisFieldIsRequired</div>
+        </div>
     </div>
-  </div>
-  
-  <div class="equipment-editable-section">
-    <div id="existing-equipments">
-      <h3 class="dealnet-middle-header">@Resources.ExistingEquipmentInformation</h3>
-      @if (Model?.ExistingEquipment != null)
-      {
-        @Html.Partial("EquipmentInformation/_ExistingEquipments", Model)
-      }
+    <div class="row label-row hidden-sm  hidden-xs">
+        @if(!Model.Conditions.IsClarityDealer)
+        {
+            <div class="col-md-4" id="agreement-title">
+                @Html.Label(@Resources.CustomerHaveAgreementsWithEcoHome)
+            </div>
+        }
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.PrefferedInstallDate)
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.PrefferedInstallTime)
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.HouseSize)
+        </div>
+    </div>
+    <div class="row">
+        @if(!Model.Conditions.IsClarityDealer)
+        {
+            <div class="col-md-4 afee-group" id="agreement-types">
+                <div class="form-group visible-sm visible-xs">
+                    @Resources.CustomerHaveAgreementsWithEcoHome
+                </div>
+                <div class="form-group">
+                    <label for="" class="align-middle custom-radio">
+                        @Html.RadioButtonFor(m => m.Conditions.HasExistingAgreements, true, new { @class = "afee-is-covered", id = "radioHasAgreement" })
+                        <span class="icon custom-radio-icon"></span>
+                        <span>@Resources.Yes</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="" class="align-middle custom-radio">
+                        @Html.RadioButtonFor(m => m.Conditions.HasExistingAgreements, false, new { @class = "afee-is-covered", id = "radioHasNotAgreement" })
+                        <span class="icon custom-radio-icon"></span>
+                        <span>@Resources.No</span>
+                    </label>
+                </div>
+                <div id="agreement-error-message" class="text-danger field-validation-error hidden">@Resources.ThisFieldIsRequired</div>
+            </div>
+        }
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.PrefferedInstallDate, new { @class = "visible-sm visible-xs" })
+                <div class="control-group date-group">
+                    @Html.TextBoxFor(m => m.PrefferedInstallDate, @"{0:MM'/'dd'/'yyyy}", new { @class = "form-control dealnet-input date-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
+                    @Html.ValidationMessageFor(m => m.PrefferedInstallDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.Label(Resources.PreferredInstallTime, new { @class = "visible-sm visible-xs" })
+                <div class="control-group date-group">
+                    @Html.DropDownListFor(m => m.PrefferedInstallTime, new SelectList(options, "Value", "Text", !string.IsNullOrEmpty(Model.PrefferedInstallTime) ? Model.PrefferedInstallTime : "0900"), new { @class = "form-control dealnet-input", id = "estimated-installation-date", placeholder = Resources.InstallationDate, data_val_date = "" })
+                    @Html.ValidationMessageFor(m => m.PrefferedInstallTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(m => m.HouseSize, new { @class = "visible-sm visible-xs" })
+                <div class="control-group">
+                    @Html.TextBoxFor(m => m.HouseSize, new { @class = "form-control dealnet-input", placeholder = Resources.HouseSize })
+                    @Html.ValidationMessageFor(m => m.HouseSize, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="equipment-editable-section">
+        <div id="existing-equipments">
+            <h3 class="dealnet-middle-header">@Resources.ExistingEquipmentInformation</h3>
+            @if(Model?.ExistingEquipment != null)
+            {
+                @Html.Partial("EquipmentInformation/_ExistingEquipments", Model)
+            }
+        </div>
+
+        <div class="action-link blue" id="addExistingEqipment">
+            <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
+            <span>@Resources.AddAdditionalEquipment</span>
+        </div>
     </div>
 
-    <div class="align-middle dealnet-info-link" id="addExistingEqipment">
-      <svg aria-hidden="true" class="icon icon-add-app"><use xlink:href="@Url.Content("~/Content/images/sprite/sprite.svg#icon-add-app")"></use></svg>
-      <span>@Resources.AddAdditionalEquipment</span>
+    <div class="row">
     </div>
-  </div>
-
-  <div class="row">
-  </div>
-  <h3 class="dealnet-middle-header">@Resources.ContractNotes</h3>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <div class="control-group">
-          @Html.TextAreaFor(m => m.Notes, new {@class = "form-control", placeholder = Resources.Notes})
-          @Html.ValidationMessageFor(m => m.Notes, "", new {@class = "text-danger"})
+    <h3 class="dealnet-middle-header">@Resources.ContractNotes</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="control-group">
+                    @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", placeholder = Resources.Notes })
+                    @Html.ValidationMessageFor(m => m.Notes, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

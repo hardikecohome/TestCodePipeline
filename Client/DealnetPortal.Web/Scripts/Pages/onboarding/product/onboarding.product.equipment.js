@@ -6,7 +6,7 @@ module.exports('onboarding.product.equipment', function (require) {
     function equipmentTemplate (index, id, description) {
         var template = $('#equipment-template').tmpl({ index: index, id: id, description: description });
         return template;
-    };
+    }
 
 
     function addEquipment (e) {
@@ -28,28 +28,28 @@ module.exports('onboarding.product.equipment', function (require) {
         var id = $(this).attr('id');
         var value = id.substr(id.indexOf('-') + 1);
         if (equipmentRemoved(value)) {
-            var substrIndex = Number(liId.substr(liId.indexOf('-') + liId.lastIndexOf('-')));
+            var substrIndex = Number(liId.split('-')[1]);
             $('li#' + liId).remove();
             $(document).trigger('equipmentRemoved');
             rebuildIndex(substrIndex);
         }
-    };
+    }
 
     function rebuildIndex (id) {
-        while (true) {
+        for(;;) {
             id++;
             var li = $('li#equipment-' + id + '-index');
             if (!li.length) { break; }
 
             li.attr('id', 'equipment-' + (id - 1) + '-index');
 
-            var input = li.find('#EquipmentTypes_' + id + '__Id');
-            input.attr('id', 'EquipmentTypes_' + (id - 1) + '__Id');
-            input.attr('name', 'EquipmentTypes[' + (id - 1) + '].Id');
+            var input = li.find('#ProductInfo_EquipmentTypes_' + id + '__Id');
+            input.attr('id', 'ProductInfo_EquipmentTypes_' + (id - 1) + '__Id');
+            input.attr('name', 'ProductInfo.EquipmentTypes[' + (id - 1) + '].Id');
 
-            var description = li.find('#EquipmentTypes_' + id + '__Description');
-            description.attr('id', 'EquipmentTypes_' + (id - 1) + '__Description');
-            description.attr('name', 'EquipmentTypes[' + (id - 1) + '].Description');
+            var description = li.find('#ProductInfo_EquipmentTypes_' + id + '__Description');
+            description.attr('id', 'ProductInfo_EquipmentTypes_' + (id - 1) + '__Description');
+            description.attr('name', 'ProductInfo.EquipmentTypes[' + (id - 1) + '].Description');
 
             var span = $('#equipment-' + id + '-display');
             span.attr('id', 'equipment-' + (id - 1) + '-display');
@@ -58,9 +58,9 @@ module.exports('onboarding.product.equipment', function (require) {
 
     function setRemoveClick (id) {
         $('#equipment-' + id).on('click', removeEquipment);
-    };
+    }
 
     return {
         addEquipment: addEquipment
-    }
+    };
 });

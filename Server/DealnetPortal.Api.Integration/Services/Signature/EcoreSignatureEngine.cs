@@ -19,7 +19,7 @@ using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services.Signature
 {
@@ -38,7 +38,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
         private List<string> _signatureFields = new List<string>() { "Signature1", "Signature2", "Signature3"};
         private List<string> _signatureRoles = new List<string>();
 
-        public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument(DocumentVersion documentVersion)
+        public Task<Tuple<AgreementDocument, IList<Alert>>> GetDocument()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Alert>> CancelSignature(string cancelReason = null)
         {
             throw new NotImplementedException();
         }
@@ -54,12 +59,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             _signatureServiceAgent = signatureServiceAgent;
             _loggingService = loggingService;
 
-            _eCoreLogin = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_USER_CONFIG_KEY];
-            _eCorePassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_PASSWORD_CONFIG_KEY];
-            _eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_ORGANIZATION_CONFIG_KEY];
-            _eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
-            _eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
-            _eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
+            //_eCoreLogin = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_USER_CONFIG_KEY];
+            //_eCorePassword = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_PASSWORD_CONFIG_KEY];
+            //_eCoreOrganisation = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_ORGANIZATION_CONFIG_KEY];
+            //_eCoreSignatureRole = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_SIGNATUREROLE_CONFIG_KEY];
+            //_eCoreAgreementTemplate = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_AGREEMENTTEMPLATE_CONFIG_KEY];
+            //_eCoreCustomerSecurityCode = System.Configuration.ConfigurationManager.AppSettings[WebConfigKeys.ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY];
 
             _signatureRoles.Add(_eCoreSignatureRole);
             _signatureRoles.Add($"{_eCoreSignatureRole}2");
@@ -94,7 +99,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 _loggingService.LogInfo($"eSignature transaction [{transId}] was created successefully");
                 TransactionId = transId.ToString();
 
-                var docRes = await CreateAgreementProfile(contract, agreementTemplate, transId);
+                var docRes = await CreateAgreementProfile(agreementTemplate, transId);
                 if (docRes.Item2?.Any() ?? false)
                 {
                     alerts.AddRange(docRes.Item2);
@@ -196,6 +201,21 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
+        public Task<IList<Alert>> UpdateSigners(IList<SignatureUser> signatureUsers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Tuple<bool, IList<Alert>>> ParseStatusEvent(string eventNotification, Contract contract)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Tuple<bool, IList<Alert>>> UpdateContractStatus(Contract contract)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IList<Alert>> SubmitDocument(IList<SignatureUser> signatureUsers)
         {
             var alerts = new List<Alert>();
@@ -277,10 +297,10 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return alerts;
         }
 
-        //public Task<IList<Alert>> CreateDraftDocument(IList<SignatureUser> signatureUsers)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public Task<Tuple<IList<Models.Signature.FormField>, IList<Alert>>> GetFormfFields()
+        {
+            throw new NotImplementedException();
+        }
 
         private async Task<Tuple<long, IList<Alert>>> CreateTransaction(Contract contract)
         {
@@ -302,12 +322,12 @@ namespace DealnetPortal.Api.Integration.Services.Signature
             return new Tuple<long, IList<Alert>>(transId, alerts);
         }
 
-        private async Task<Tuple<long, IList<Alert>>> CreateAgreementProfile(Contract contract, AgreementTemplate agreementTemplate, long transId)
+        private async Task<Tuple<long, IList<Alert>>> CreateAgreementProfile(AgreementTemplate agreementTemplate, long transId)
         {
             long dpId = 0;
             List<Alert> alerts = new List<Alert>();            
 
-            if (agreementTemplate?.AgreementForm != null)
+            if (agreementTemplate?.TemplateDocument != null)
             {
                 var resPr = await _signatureServiceAgent.CreateDocumentProfile(transId, _eCoreAgreementTemplate, null).ConfigureAwait(false);
                 if (resPr.Item2?.Any() ?? false)
@@ -318,7 +338,7 @@ namespace DealnetPortal.Api.Integration.Services.Signature
                 {
                     dpId = resPr.Item1.sid;
 
-                    var resDv = await _signatureServiceAgent.UploadDocument(dpId, agreementTemplate.AgreementForm, agreementTemplate.TemplateName).ConfigureAwait(false);
+                    var resDv = await _signatureServiceAgent.UploadDocument(dpId, agreementTemplate.TemplateDocument.TemplateBinary, agreementTemplate.TemplateDocument.TemplateName).ConfigureAwait(false);
                     if (resDv.Item2?.Any() ?? false)
                     {
                         alerts.AddRange(resDv.Item2);

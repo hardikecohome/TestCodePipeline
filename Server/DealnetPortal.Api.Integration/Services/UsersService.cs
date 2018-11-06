@@ -9,50 +9,69 @@ using System.Threading.Tasks;
 using System.Web;
 using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Common.Helpers;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
-using DealnetPortal.Api.Integration.ServiceAgents.ESignature.EOriginalTypes;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Aspire.Integration.Storage;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using DealnetPortal.Utilities.Logging;
+using DocuSign.eSign.Model;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Integration.Services
 {
     public class UsersService : IUsersService
     {
         private readonly IAspireStorageReader _aspireStorageReader;
-        private readonly IDatabaseFactory _databaseFactory;
         private readonly ILoggingService _loggingService;
         private readonly ISettingsRepository _settingsRepository;
         private readonly IRateCardsRepository _rateCardsRepository;
+        private readonly IDealerRepository _dealerRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAppConfiguration _сonfiguration;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UsersService(IAspireStorageReader aspireStorageReader, IDatabaseFactory databaseFactory, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
-            ISettingsRepository settingsRepository, IUnitOfWork unitOfWork, IAppConfiguration appConfiguration)
+        public UsersService(IAspireStorageReader aspireStorageReader, ILoggingService loggingService, IRateCardsRepository rateCardsRepository,
+            ISettingsRepository settingsRepository, IDealerRepository dealerRepository, IUnitOfWork unitOfWork, IAppConfiguration appConfiguration)
         {
             _aspireStorageReader = aspireStorageReader;
-            _databaseFactory = databaseFactory;
             _loggingService = loggingService;
             _settingsRepository = settingsRepository;
             _rateCardsRepository = rateCardsRepository;
+            _dealerRepository = dealerRepository;
             _unitOfWork = unitOfWork;
             _сonfiguration = appConfiguration;
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_databaseFactory.Get()));
         }        
 
-        public IList<Claim> GetUserClaims(string userId)
+        public IList<Claim> GetUserClaims(ApplicationUser user)
         {
-            var settings = _settingsRepository.GetUserSettings(userId);
+            var settings = _settingsRepository.GetUserSettings(user.Id);
+
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+
+            var aspireUserInfo = AutoMapper.Mapper.Map<DealerDTO>(_aspireStorageReader.GetDealerRoleInfo(user.UserName));
+            var mbConfigRoles = _сonfiguration.GetSetting(WebConfigKeys.MB_ROLE_CONFIG_KEY).Split(',').Select(s => s.Trim()).ToArray();
+            if (aspireUserInfo != null)
+            {
+                var dealerProvinceCode = aspireUserInfo.Locations?.FirstOrDefault(x => x.AddressType == AddressType.MainAddress)?.State?.ToProvinceCode();
+                claims.Add(new Claim(ClaimNames.QuebecDealer, (dealerProvinceCode != null && dealerProvinceCode == "QC").ToString()));
+                claims.Add(new Claim(ClaimNames.ClarityDealer, (!string.IsNullOrEmpty(aspireUserInfo.Ratecard) && aspireUserInfo.Ratecard == _сonfiguration.GetSetting(WebConfigKeys.CLARITY_TIER_NAME)).ToString()));
+                claims.Add(new Claim(ClaimNames.MortgageBroker, (aspireUserInfo.Role != null && mbConfigRoles.Contains(aspireUserInfo.Role)).ToString()));
+                claims.Add(new Claim(ClaimNames.LeaseTier, user.LeaseTier));
+                claims.Add(new Claim(ClaimNames.IsEmcoDealer, (!string.IsNullOrEmpty(user.LeaseTier) && user.LeaseTier.ToLower() == _сonfiguration.GetSetting(WebConfigKeys.EMCO_LEASE_TIER_NAME).ToString().ToLower()).ToString()));
+            }
+            if (!string.IsNullOrEmpty(user.DealerType))
+            {
+                claims.Add(new Claim(ClaimNames.AgreementType, user.DealerType));
+            }
 
             if (settings?.SettingValues != null)
             {
@@ -75,8 +94,13 @@ namespace DealnetPortal.Api.Integration.Services
             return claims;
         }
 
-        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user)
+        public async Task<IList<Alert>> SyncAspireUser(ApplicationUser user, UserManager<ApplicationUser> userManager = null)
         {
+            if (userManager == null)
+            {
+                throw new ArgumentNullException(nameof(userManager));
+            }
+
             var alerts = new List<Alert>();
 
             //get user info from aspire DB
@@ -88,32 +112,31 @@ namespace DealnetPortal.Api.Integration.Services
 
                 if (aspireDealerInfo != null)
                 {
-                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, _userManager);
+                    var parentAlerts = await UpdateUserParent(user.Id, aspireDealerInfo, userManager);
                     if (parentAlerts.Any())
                     {
                         alerts.AddRange(parentAlerts);
                     }
-                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, _userManager);
+                    var rolesAlerts = await UpdateUserRoles(user.Id, aspireDealerInfo, userManager);
                     if (rolesAlerts.Any())
                     {
                         alerts.AddRange(rolesAlerts);
                     }
-                    if (user.Tier?.Name != aspireDealerInfo.Ratecard)
+                    if (user.Tier?.Name != aspireDealerInfo.Ratecard ||
+                        user.LeaseTier != aspireDealerInfo.LeaseRatecard ||
+                        user.DealerType != aspireDealerInfo.ProductType)
                     {
-                        var tierAlerts = UpdateUserTier(user.Id, aspireDealerInfo, _userManager);
+                        var tierAlerts = await UpdateUserTier(user.Id, aspireDealerInfo, userManager);
                         if (tierAlerts.Any())
                         {
                             alerts.AddRange(tierAlerts);
                         }
                     }
-                    //currently email update isn't work correctly
-                    //var dealerEmail = aspireDealerInfo.Emails?.FirstOrDefault()?.EmailAddress;
-                    //if (!string.IsNullOrEmpty(dealerEmail) && dealerEmail != user.Email)
-                    //{
-                    //    await _userManager.SetEmailAsync(user.Id, dealerEmail);
-                    //    user.EmailConfirmed = true;
-                    //    await _userManager.UpdateAsync(user);
-                    //}
+                    var profileAlerts = await UpdateDealerProfile(user.Id, aspireDealerInfo);
+                    if (profileAlerts.Any())
+                    {
+                        alerts.AddRange(profileAlerts);
+                    }                    
                 }                
             }
             catch (Exception ex)
@@ -131,6 +154,46 @@ namespace DealnetPortal.Api.Integration.Services
             }
 
             return alerts;
+        }
+
+        public string GetUserPassword(string userId)
+        {
+            string aspirePassword = null;
+            using (var secContext = new SecureDbContext())
+            {
+                try
+                {                
+                    var user = secContext.Users.Find(userId);
+                    aspirePassword = user?.Secure_AspirePassword;
+                }
+                catch (Exception e)
+                {
+                    _loggingService?.LogError($"Cannot recieve password for user {userId}", e);
+                }
+            }
+            return aspirePassword;
+        }
+
+        public void UpdateUserPassword(string userId, string newPassword)
+        {
+            using (var secContext = new SecureDbContext())
+            {
+                try
+                {
+                    var user = secContext.Users.Find(userId);
+                    if (user.Secure_AspirePassword != newPassword)
+                    {
+                        user.Secure_AspirePassword = newPassword;
+                        secContext.SaveChanges();
+                        _loggingService?.LogInfo(
+                            $"Password for Aspire user [{userId}] was updated successefully");
+                    }
+                }
+                catch (Exception e)
+                {
+                    _loggingService?.LogError($"Cannot update password for user {userId}", e);
+                }
+            }
         }
 
         #region private
@@ -239,22 +302,43 @@ namespace DealnetPortal.Api.Integration.Services
             return alerts;
         }
 
-        private IList<Alert> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
+        private async Task<IList<Alert>> UpdateUserTier(string userId, DealerDTO aspireUser, UserManager<ApplicationUser> userManager)
         {
             var alerts = new List<Alert>();
-
             try
             {
-                var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);
-                var user = userManager.Users.Include(u => u.Tier).FirstOrDefault(u => u.Id == userId);
-                if (user != null)
+                var tier = _rateCardsRepository.GetTierByName(aspireUser.Ratecard);               
+
+                var updateUser = await userManager.FindByIdAsync(userId);
+                if (updateUser != null)
                 {
-                    user.Tier = tier;
-                    _unitOfWork.Save();
-                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{userId}]");
+                    updateUser.LeaseTier = aspireUser.LeaseRatecard;
+                    if (tier != null)
+                    {
+                        updateUser.TierId = tier.Id;
+                    }
+                    if (!string.IsNullOrEmpty(aspireUser.ProductType))
+                    {                        
+                        if (updateUser.DealerType != aspireUser.ProductType)
+                        {
+                            updateUser.DealerType = aspireUser.ProductType;
+                        }
+                    }
+                    var updateRes = await userManager.UpdateAsync(updateUser);
+                    if (updateRes.Succeeded)
+                    {
+                        {
+                            _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] was set to an user [{updateUser.Id}]");
+                            _loggingService.LogInfo($"Lease Tier [{aspireUser.LeaseRatecard}] was set to an user [{updateUser.Id}]");
+                        }
+                    }
+                }
+                else
+                {
+                    _loggingService.LogInfo($"Tier [{aspireUser.Ratecard}] tier is not available. Rate card is not configured for user  [{updateUser?.Id}]");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 alerts.Add(new Alert()
                 {
@@ -264,9 +348,45 @@ namespace DealnetPortal.Api.Integration.Services
                 });
                 _loggingService.LogError($"Error during update user tier for an user {userId}", ex);
             }
-
             return alerts;
         }
+
+        private async Task<IList<Alert>> UpdateDealerProfile(string userId, DealerDTO aspireUser)
+        {
+            var alerts = new List<Alert>();
+            try
+            {
+                var dealerProfile = _dealerRepository.GetDealerProfile(userId) ?? new DealerProfile { DealerId = userId };
+                dealerProfile.EmailAddress = aspireUser.Emails?.FirstOrDefault(e => !string.IsNullOrEmpty(e.EmailAddress))?.EmailAddress.Split(';').FirstOrDefault();// Hot fix, should be removed later
+                dealerProfile.Phone = aspireUser.Phones?.FirstOrDefault(p => !string.IsNullOrEmpty(p.PhoneNum))?.PhoneNum;
+                if (aspireUser.Locations?.Any() == true)
+                {
+                    var address = aspireUser.Locations.FirstOrDefault();
+                    dealerProfile.Address = new Address()
+                    {
+                        City = address.City,
+                        State = address.State,
+                        PostalCode = address.PostalCode,
+                        Street = address.Street,
+                        Unit = address.Unit
+                    };
+                }
+                _dealerRepository.UpdateDealerProfile(dealerProfile);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                alerts.Add(new Alert()
+                {
+                    Type = AlertType.Error,
+                    Header = "Error during update dealer profile",
+                    Message = $"Error during update dealer profile for an user {userId}"
+                });
+                _loggingService.LogError($"Error during update dealer profile for an user {userId}", ex);
+            }
+            return await Task.FromResult(alerts);
+        }
+
         #endregion
     }
 }

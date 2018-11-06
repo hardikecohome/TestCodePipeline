@@ -10,6 +10,7 @@ using DealnetPortal.Api.Common.Constants;
 using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.Api.Core.Enums;
 using DealnetPortal.Api.Core.Types;
+using DealnetPortal.Api.Integration.Interfaces;
 using DealnetPortal.Api.Integration.Services;
 using DealnetPortal.Api.Models;
 using DealnetPortal.Api.Models.Contract;
@@ -21,23 +22,21 @@ using DealnetPortal.Domain;
 using DealnetPortal.Utilities;
 using DealnetPortal.Utilities.Logging;
 using Microsoft.AspNet.Identity;
-using Microsoft.Practices.ObjectBuilder2;
+using Unity.Interception.Utilities;
 
 namespace DealnetPortal.Api.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
-        private readonly IAspireService _aspireService;
-        private readonly IAspireStorageReader _aspireStorageReader;
-        private readonly IUsersService _usersService;
-        private readonly ILoggingService _loggingService;
+        private IAspireService _aspireService;
+        private IUsersService _usersService;
+        private ILoggingService _loggingService;
         private readonly string _publicClientId;
         private AuthType _authType;
 
         public ApplicationOAuthProvider(string publicClientId)
         {
             _aspireService = (IAspireService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
-            _aspireStorageReader = (IAspireStorageReader)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireStorageReader));
             _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
             _loggingService = (ILoggingService) GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
 
@@ -57,6 +56,11 @@ namespace DealnetPortal.Api.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+
+            _aspireService = (IAspireService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IAspireService));
+            _usersService = (IUsersService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUsersService));
+            _loggingService = (ILoggingService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ILoggingService));
+
             ApplicationUser user = null;
             try
             {            
@@ -116,8 +120,8 @@ namespace DealnetPortal.Api.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-            var claims = _usersService.GetUserClaims(user.Id);            
-
+            var claims = _usersService.GetUserClaims(user);            
+            
             if (claims?.Any() ?? false)
             {
                 oAuthIdentity.AddClaims(claims);
@@ -223,7 +227,7 @@ namespace DealnetPortal.Api.Providers
                 {
                     outAlerts.AddRange(alerts);
                 }
-
+                
                 if (alerts?.All(a => a.Type != AlertType.Error) ?? false)
                 {                    
                     var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
@@ -244,7 +248,6 @@ namespace DealnetPortal.Api.Providers
                             EmailConfirmed = true,
                             TwoFactorEnabled = false,
                             AspireLogin = context.UserName,
-                            Secure_AspirePassword = context.Password
                         };                        
 
                         try
@@ -259,35 +262,22 @@ namespace DealnetPortal.Api.Providers
                         }
                         catch (Exception ex)
                         {
+                            _loggingService?.LogError(
+                                    $"Error during create new user [{context.UserName}]:{ex.Message} ");
                             user = null;
                         }
                     }
 
                     if (user != null)
                     {
-                        var syncAlerts = await _usersService.SyncAspireUser(user);
+                        var syncAlerts = await _usersService.SyncAspireUser(user, userManager);
                         if (syncAlerts?.Any() ?? false)
                         {
                             outAlerts.AddRange(syncAlerts);
                         }
 
                         //check and update password
-                        if (user.Secure_AspirePassword != context.Password)
-                        {
-                            //update password for existing aspire user
-                            var resetToken = await userManager.GeneratePasswordResetTokenAsync(user.Id);
-                            var updateRes = await userManager.ResetPasswordAsync(user.Id, resetToken, context.Password);
-                            if (updateRes.Succeeded)
-                            {
-                                user.Secure_AspirePassword = context.Password;
-                                updateRes = await userManager.UpdateAsync(user);
-                                if (updateRes.Succeeded)
-                                {
-                                    _loggingService?.LogInfo(
-                                        $"Password for Aspire user [{context.UserName}] was updated successefully");
-                                }
-                            }
-                        }
+                        _usersService.UpdateUserPassword(user.Id, context.Password);
                     }
                 }
                 else

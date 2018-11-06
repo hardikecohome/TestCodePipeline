@@ -8,6 +8,7 @@ using DealnetPortal.Api.Common.Enumeration;
 using DealnetPortal.DataAccess;
 using DealnetPortal.DataAccess.Repositories;
 using DealnetPortal.Domain;
+using DealnetPortal.Domain.Repositories;
 using DealnetPortal.Utilities.Configuration;
 using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -226,6 +227,51 @@ namespace DealnetPortal.Api.Tests.Repositories
         }
 
         [TestMethod]
+        public void TestUpdateContractInstallationPackages()
+        {
+            var contract = _contractRepository.CreateContract(_user.Id);
+            _unitOfWork.Save();
+            Assert.IsNotNull(contract);
+
+            var contractData = new ContractData()
+            {
+                Id = contract.Id
+            };
+
+            var equipmentInfo = new EquipmentInfo
+            {
+                Notes = "Equipment Notes",
+                RequestedTerm = 60,
+                AmortizationTerm = 60,
+                SalesRep = "Sales Rep",                
+                InstallationPackages = new List<InstallationPackage>()
+            };
+            equipmentInfo.InstallationPackages.Add(new InstallationPackage()
+            {
+                Description = "Package 1",
+                MonthlyCost = 100
+            });
+
+            contractData.Equipment = equipmentInfo;
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+            Assert.IsNotNull(contract.Equipment);
+            Assert.AreEqual(contract.Equipment.InstallationPackages.Count, 1);
+
+            equipmentInfo.InstallationPackages.First().Description = "Package 1 updated";
+            _contractRepository.UpdateContractData(contractData, _user.Id);
+            _unitOfWork.Save();
+            contract = _contractRepository.GetContractAsUntracked(contract.Id, _user.Id);
+            Assert.IsNotNull(contract.Equipment);
+            Assert.AreEqual(contract.Equipment.InstallationPackages.First().Description, "Package 1 updated");
+
+            var isDeleted = _contractRepository.DeleteContract(_user.Id, contract.Id);
+            _unitOfWork.Save();
+            Assert.IsTrue(isDeleted);
+        }
+
+        [TestMethod]
         public void TestAddApplicants()
         {
             var contract = _contractRepository.CreateContract(_user.Id);
@@ -315,6 +361,49 @@ namespace DealnetPortal.Api.Tests.Repositories
             }
             dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
 
+        }
+
+        [TestMethod]
+        public void TestAddAndUpdateEmploymentInfo()
+        {
+            Customer customer = new Customer()
+            {
+                FirstName = "First",
+                LastName = "Last",
+                DateOfBirth = DateTime.Today,
+                EmploymentInfo = new EmploymentInfo()
+                {
+                    AnnualSalary = "10",
+                    CompanyAddress = new Address()
+                    {
+                        State = "QC"
+                    }
+                }
+            };
+
+            var dbCustomer = _contractRepository.UpdateCustomer(customer);
+            _unitOfWork.Save();
+            dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
+            Assert.IsNotNull(dbCustomer?.EmploymentInfo);
+            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSalary,"10");
+
+            customer = new Customer()
+            {
+                Id = dbCustomer.Id,
+                FirstName = "First",
+                LastName = "Last",
+                DateOfBirth = DateTime.Today,
+                EmploymentInfo = new EmploymentInfo()
+                {
+                    AnnualSalary = "20"
+                }
+            };
+
+            dbCustomer = _contractRepository.UpdateCustomer(customer);
+            _unitOfWork.Save();
+            dbCustomer = _contractRepository.GetCustomer(dbCustomer.Id);
+            Assert.IsNotNull(dbCustomer?.EmploymentInfo);
+            Assert.AreEqual(dbCustomer.EmploymentInfo.AnnualSalary, "20");
         }
 
         [TestMethod]

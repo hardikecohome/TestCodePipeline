@@ -82,10 +82,10 @@ module.exports('onboarding.setters', function (require) {
         }
 
         if (valid) {
-            $('#submit').prop('disabled', false);
+            $('#submitBtn').prop('disabled', false);
             removeTooltip();
         } else {
-            $('#submit').prop('disabled', true);
+            $('#submitBtn').prop('disabled', true);
             initTooltip();
         }
     }

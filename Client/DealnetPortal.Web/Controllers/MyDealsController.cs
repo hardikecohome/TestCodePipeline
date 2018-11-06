@@ -1,10 +1,4 @@
 ﻿using AutoMapper;
-using DealnetPortal.Api.Core.Enums;
-using DealnetPortal.Api.Models.Contract;
-using DealnetPortal.Web.Infrastructure;
-using DealnetPortal.Web.Infrastructure.Extensions;
-using DealnetPortal.Web.Models;
-using DealnetPortal.Web.ServiceAgent;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using DealnetPortal.Api.Common.Enumeration;
+using DealnetPortal.Api.Core.Enums;
+using DealnetPortal.Api.Models.Contract;
+using DealnetPortal.Web.Common.Constants;
+using DealnetPortal.Web.Infrastructure.Extensions;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
+using DealnetPortal.Web.Models;
+using DealnetPortal.Web.ServiceAgent;
+using System.Security.Claims;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -42,22 +45,55 @@ namespace DealnetPortal.Web.Controllers
         public async Task<ActionResult> ContractEdit(int id)
         {
             ViewBag.IsMobileRequest = HttpContext.Request.IsMobileBrowser();
-            ViewBag.EquipmentTypes = (await _dictionaryServiceAgent.GetEquipmentTypes()).Item1;
-            return View(await _contractManager.GetContractEditAsync(id));
+
+            var dealer = await _dictionaryServiceAgent.GetDealerInfo();
+            var isNewlySubmitted = (bool?)TempData[PortalConstants.IsNewlySubmitted];
+            if(isNewlySubmitted.HasValue)
+            {
+                TempData[PortalConstants.IsNewlySubmitted] = null;
+            }
+            ViewBag.IsNewlySubmitted = isNewlySubmitted ?? false;
+
+            var contract = await _contractManager.GetContractEditAsync(id);
+            ViewBag.IsNotEditable = contract.BasicInfo.ContractState == ContractState.Closed || contract.BasicInfo.ContractState == ContractState.CreditCheckDeclined;
+
+            var printAvailable = await _contractServiceAgent.CheckContractAgreementAvailable(id);
+            ViewBag.IsEsignatureEnabled = ((dealer?.EsignatureEnabled ?? false) && !ViewBag.IsNotEditable ||
+                contract.ESignature?.Status == SignatureStatus.Completed) && printAvailable?.Item1 == true;
+            if(!string.IsNullOrEmpty(dealer?.Email))
+            {
+                contract.SendEmails.SalesRepEmail = dealer.Email;
+            }
+            if(contract.IsBeaconUpdated)
+            {
+                await _contractServiceAgent.NotifyContractEdit(id);
+            }
+            var identity = (ClaimsIdentity)User.Identity;
+            var isEmcoDealer = identity.HasClaim(ClaimContstants.IsEmcoDealer, "True");
+            ViewBag.LeaseProgramDisplayMessage = "";
+            if (contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation35)
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithEscalatedPayments : Resources.Resources.Escalation_35;
+            }
+            else if ((contract.EquipmentInfo?.RentalProgramType != null && contract.EquipmentInfo?.RentalProgramType == Models.Enumeration.AnnualEscalationType.Escalation0))
+            {
+                ViewBag.LeaseProgramDisplayMessage = isEmcoDealer ? Resources.Resources.WithoutEscalatedPayments : Resources.Resources.Escalation_0;
+            }
+            return View(contract);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> AddComment(CommentViewModel comment)
         {
-            if (!ModelState.IsValid || comment.ContractId == null && comment.ParentCommentId == null)
+            if(!ModelState.IsValid || comment.ContractId == null && comment.ParentCommentId == null)
             {
                 return GetErrorJson();
             }
             var updateResult = await _contractServiceAgent.AddComment(Mapper.Map<CommentDTO>(comment));
             return updateResult.Item2.Any(r => r.Type == AlertType.Error)
                 ? GetErrorJson()
-                : Json(new {updatedCommentId = updateResult.Item1});
+                : Json(new { updatedCommentId = updateResult.Item1 });
         }
 
         [HttpPost]
@@ -68,21 +104,29 @@ namespace DealnetPortal.Web.Controllers
             return updateResult.Any(r => r.Type == AlertType.Error) ? GetErrorJson() : GetSuccessJson();
         }
 
+        [HttpGet]
+        public async Task<PartialViewResult> GetEsignatureStatus(int contractId)
+        {
+            var model = await _contractManager.GetContractSignatureStatus(contractId);
+
+            return PartialView("_ContractSignatureStatus", model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UploadDocument(DocumentForUpload documentForUpload)
         {
-            if (documentForUpload?.File?.ContentLength > 0)
+            if(documentForUpload?.File?.ContentLength > 0)
             {
                 byte[] documentBytes;
-                using (var reader = new BinaryReader(documentForUpload.File.InputStream))
+                using(var reader = new BinaryReader(documentForUpload.File.InputStream))
                 {
                     documentBytes = reader.ReadBytes(documentForUpload.File.ContentLength);
                 }
                 var document = new ContractDocumentDTO
                 {
                     Id = documentForUpload.Id ?? 0,
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     DocumentTypeId = documentForUpload.DocumentTypeId != 0 ? documentForUpload.DocumentTypeId : 7,
                     DocumentBytes = documentBytes,
                     DocumentName =
@@ -92,10 +136,10 @@ namespace DealnetPortal.Web.Controllers
                     ContractId = documentForUpload.ContractId
                 };
                 //document.DocumentName = document.DocumentName.Replace('-', '_');
-                if (Session["CancelledUploadOperations"] != null &&
-                    ((HashSet<string>) Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
+                if(Session["CancelledUploadOperations"] != null &&
+                    ((HashSet<string>)Session["CancelledUploadOperations"]).Contains(documentForUpload.OperationGuid))
                 {
-                    return Json(new {wasCancelled = true});
+                    return Json(new { wasCancelled = true });
                 }
                 var updateResult = await _contractServiceAgent.AddDocumentToContract(document);
                 var errors = updateResult.Item2.Where(r => r.Type == AlertType.Error).ToArray();
@@ -106,7 +150,7 @@ namespace DealnetPortal.Web.Controllers
                             isError = true,
                             errorMessage = errors.Select(x => x.Message).Aggregate((x, y) => x + " " + y)
                         })
-                    : Json(new {updatedDocumentId = updateResult.Item1, isSuccess = true});
+                    : Json(new { updatedDocumentId = updateResult.Item1, isSuccess = true });
             }
             return GetErrorJson();
         }
@@ -138,16 +182,16 @@ namespace DealnetPortal.Web.Controllers
         public async Task<JsonResult> PrepareInstallationCertificate(
             [Bind(Prefix = "InstallCertificateInformation")] CertificateInformationViewModel informationViewModel)
         {
-            if (informationViewModel == null)
+            if(informationViewModel == null)
             {
                 throw new ArgumentNullException(nameof(informationViewModel));
             }
             var certificateData = Mapper.Map<InstallationCertificateDataDTO>(informationViewModel);
             var updateResult = await _contractServiceAgent.UpdateInstallationData(certificateData);
-            if (updateResult?.All(r => r.Type != AlertType.Error) ?? false)
+            if(updateResult?.All(r => r.Type != AlertType.Error) ?? false)
             {
                 return Json(Url.Action("GetInstallationCertificate",
-                    new {@contractId = informationViewModel.ContractId}));
+                    new { @contractId = informationViewModel.ContractId }));
             }
             return Json(null);
         }
@@ -155,13 +199,13 @@ namespace DealnetPortal.Web.Controllers
         public async Task<FileResult> GetInstallationCertificate(int contractId)
         {
             var result = await _contractServiceAgent.GetInstallationCertificate(contractId);
-            if (result.Item1 != null)
+            if(result.Item1 != null)
             {
                 var response = new FileContentResult(result.Item1.DocumentRaw, "application/pdf")
                 {
                     FileDownloadName = result.Item1.Name
                 };
-                if (!string.IsNullOrEmpty(response.FileDownloadName) &&
+                if(!string.IsNullOrEmpty(response.FileDownloadName) &&
                     !response.FileDownloadName.ToLowerInvariant().EndsWith(".pdf"))
                 {
                     response.FileDownloadName += ".pdf";
@@ -169,6 +213,25 @@ namespace DealnetPortal.Web.Controllers
                 return response;
             }
             return new FileContentResult(new byte[] { }, "application/pdf");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CancelDigitalSignature(int contractId)
+        {
+            try
+            {
+                var cancelResult = await _contractServiceAgent.CancelDigitalSignature(contractId);
+                if(cancelResult?.Item2?.Any(a => a.Type == AlertType.Error) == true)
+                {
+                    var first = cancelResult.Item2.FirstOrDefault(a => a.Type == AlertType.Error);
+                    return Json(new { isError = true, message = first.Message });
+                }
+                return GetSuccessJson();
+            }
+            catch(Exception)
+            {
+                return GetErrorJson();
+            }
         }
     }
 }

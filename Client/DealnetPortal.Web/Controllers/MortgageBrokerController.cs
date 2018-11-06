@@ -10,10 +10,11 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {
-    [Authorize(Roles = "MortgageBroker")]
+    [Authorize(Roles = RoleContstants.MortgageBroker)]
     public class MortgageBrokerController : Controller
     {
         private readonly ICustomerManager _customerManager;
@@ -43,7 +44,8 @@ namespace DealnetPortal.Web.Controllers
                 return View("CustomerCreationDecline");
             }
 
-            if (result?.Item1 == null || result.Item1.ContractState == ContractState.CreditCheckDeclined || result.Item1.OnCreditReview == true)
+            if (result?.Item1 == null || result.Item1.ContractState == ContractState.CreditCheckDeclined || result.Item1.OnCreditReview == true
+                || result.Item1?.PrimaryCustomer?.CreditReport == null)
             {
                 return View("CustomerCreationDecline");
             }

@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 
 namespace DealnetPortal.Web.Controllers
 {
@@ -71,7 +72,7 @@ namespace DealnetPortal.Web.Controllers
                 decodedUrl = Server.UrlDecode(returnUrl);
 
             _loggingService.LogInfo(string.Format("Attemtp to login user: {0}", model.UserName));
-            var result = await _securityManager.Login(model.UserName, model.Password, ApplicationSettingsManager.PortalId);
+            var result = await _securityManager.Login(model.UserName, model.Password, ApplicationSettingsManager.PortalId, model.RememberMe);
             if (result.Any(item => item.Type == AlertType.Error && item.Header == ErrorConstants.ResetPasswordRequired))
             {
                 _loggingService.LogInfo(string.Format("Attemtp to login user: {0}; needs change password", model.UserName));
@@ -87,7 +88,7 @@ namespace DealnetPortal.Web.Controllers
             try
             {
                 var culture = await _dictionaryServiceAgent.GetDealerCulture(model.UserName);
-                _loggingService.LogInfo($"Setting culture {culture} for user {model.UserName}");
+                _loggingService.LogInfo($"Setting culture {culture} with decodedUrl: {decodedUrl} for user {model.UserName}");
                 _cultureManager.SetCulture(culture);
             }
             catch (Exception ex)

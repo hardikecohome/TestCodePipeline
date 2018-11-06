@@ -8,6 +8,7 @@ using System.Web;
 using DealnetPortal.Api.Core.Types;
 using DealnetPortal.Utilities.Logging;
 using DealnetPortal.Web.Common.Security;
+using DealnetPortal.Web.Infrastructure.Managers.Interfaces;
 using DealnetPortal.Web.Models.Enumeration;
 using DealnetPortal.Web.ServiceAgent;
 using Microsoft.AspNet.Identity;
@@ -15,7 +16,7 @@ using Microsoft.Owin.Security;
 
 namespace DealnetPortal.Web.Infrastructure.Managers
 {
-    public class OwinSecurityManager : SecurityManager, ISecurityManager
+    public class OwinSecurityManager : SecurityManager
     {
         public OwinSecurityManager(ISecurityServiceAgent securityService,
             IUserManagementServiceAgent userManagementService,
@@ -30,7 +31,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
             return user;
         }
 
-        public override void SetUser(IPrincipal user)
+        public override void SetUser(IPrincipal user, bool rememberMe)
         {
             AuthenticationProperties properties = null;
             var dict = new Dictionary<string, string>();
@@ -42,7 +43,7 @@ namespace DealnetPortal.Web.Infrastructure.Managers
                 dict.Add("Token", uidentity.Token);
                 properties = new AuthenticationProperties(dict)
                 {
-                    IsPersistent = true
+                    IsPersistent = rememberMe
                 };
             }
 

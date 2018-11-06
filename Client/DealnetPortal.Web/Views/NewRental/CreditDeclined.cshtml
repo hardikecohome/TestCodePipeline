@@ -1,5 +1,4 @@
-﻿@using DealnetPortal.Api.Common.Enumeration
-@model DealnetPortal.Web.Models.CreditRejectedViewModel
+﻿@model DealnetPortal.Web.Models.CreditRejectedViewModel
 
 <div class="row">
   <div class="col-lg-3 col-md-2 col-sm-3"></div>
@@ -13,13 +12,13 @@
       <h3 class="text-center">@Resources.Declined</h3>
       <p class="text-center">@Resources.UnableToProcessApplication</p>
       <div class="button-container">
-        <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text @if (!Model.CanAddAdditionalApplicants)
+        <a href="@Url.Action("BasicInfo", new {contractId = Model.ContractId})" class="btn btn-green col-md-12 @if (!Model.CanAddAdditionalApplicants)
                                                                                                                                  {
                                                                                                                                    <text>disabled</text>
                                                                                                                                  } ">
           <span>@Resources.AddAdditionalApplicant</span>
         </a>
-        <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn dealnet-button-declined btn-long-text">
+        <a href="@Url.Action("CreateNewApplication", new {contractId = Model.ContractId})" class="btn btn-green col-md-12">
           <span>@Resources.CreateAnotherApplicationForThis</span>
         </a>
       </div>
@@ -29,9 +28,9 @@
 </div>
 @section scripts
 {
-	<script type="text/javascript">
+<script type="text/javascript">
 		$(document).ready(function () {
-			ga('send', 'event', 'Decline/Credit Review', 'Error Message Displayed', '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name');
+			gtag('event', 'Decline/Credit Review', { 'event_category': 'Decline/Credit Review', 'event_action': 'Error Message Displayed', 'event_label': '@(User.IsInRole(DealnetPortal.Api.Common.Enumeration.UserRole.Dealer.ToString())? "Dealer" : "Broker" ) : @User.Identity.Name' });
 		});
-	</script>
+</script>
 }

@@ -5,9 +5,11 @@ using System.Xml.Serialization;
 namespace DealnetPortal.Aspire.Integration.Models
 {
     [Serializable]
+    [XmlInclude(typeof(DocumentUploadPayload))]
     public class Payload
     {
         public string TransactionId { get; set; }
+        public string ContractStatus { get; set; }
         public Lease Lease { get; set; }
         //public LeaseDecision LeaseDecision { get; set; }
     }
@@ -26,7 +28,8 @@ namespace DealnetPortal.Aspire.Integration.Models
 
         public string DocumentName { get; set; }
 
-        public Asset Asset { get; set; }
+        [XmlElement("Asset")]
+        public List<Asset> Asset { get; set; }
         [XmlElement("Account")]
         public List<AccountResponse> Accounts { get; set; }
         //public string EntityId { get; set; }    

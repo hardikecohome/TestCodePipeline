@@ -28,20 +28,25 @@
         public const string MB_ROLE_CONFIG_KEY = "AspireMortgageBrokerRole";
 
         //ENTER HERE eCore digital signature settings
-        public static readonly string ECORE_APIURL_CONFIG_KEY = "eCoreApiUrl";
-        public static readonly string ECORE_USER_CONFIG_KEY = "eCoreUser";
-        public static readonly string ECORE_PASSWORD_CONFIG_KEY = "eCorePassword";
-        public static readonly string ECORE_ORGANIZATION_CONFIG_KEY = "eCoreOrganization";
-        public static readonly string ECORE_SIGNATUREROLE_CONFIG_KEY = "eCoreSignatureRole";
-        public static readonly string ECORE_AGREEMENTTEMPLATE_CONFIG_KEY = "eCoreAgreementTemplate";
-        public static readonly string ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY = "eCoreCustomerSecurityCode";
+        /// <summary>
+        /// not longer used
+        /// </summary>
+        //public static readonly string ECORE_APIURL_CONFIG_KEY = "eCoreApiUrl";
+        //public static readonly string ECORE_USER_CONFIG_KEY = "eCoreUser";
+        //public static readonly string ECORE_PASSWORD_CONFIG_KEY = "eCorePassword";
+        //public static readonly string ECORE_ORGANIZATION_CONFIG_KEY = "eCoreOrganization";
+        //public static readonly string ECORE_SIGNATUREROLE_CONFIG_KEY = "eCoreSignatureRole";
+        //public static readonly string ECORE_AGREEMENTTEMPLATE_CONFIG_KEY = "eCoreAgreementTemplate";
+        //public static readonly string ECORE_CUSTOMERSECURITYCODE_CONFIG_KEY = "eCoreCustomerSecurityCode";
 
         //ENTER HERE DocuSign digital signature settings
         public static readonly string DOCUSIGN_APIURL_CONFIG_KEY = "DocuSignApiUrl";
         public static readonly string DOCUSIGN_USER_CONFIG_KEY = "DocuSignUser";
         public static readonly string DOCUSIGN_PASSWORD_CONFIG_KEY = "DocuSignPassword";
         public static readonly string DOCUSIGN_INTEGRATORKEY_CONFIG_KEY = "DocuSignIntegratorKey";
-        public static readonly string SERVER_BASE_ADDRESS_CONFIG_KEY = "ServerBaseAddress";
+        public static readonly string DOCUSIGN_BRAND_ID = "DocuSignBrandId";
+        public static readonly string QUEBEC_DOCUDIGN_BRAND_ID = "QuebecDocuSignBrandId";
+        public static readonly string DOCUSIGN_NOTIFICATIONS_URL = "DocuSignNotificationsUrl";
         public static readonly string DEALER_PORTAL_DRAFTURL_KEY = "DealerPortalDraftUrl";
 
         //Aspire statuses
@@ -51,6 +56,10 @@
         public static readonly string ALL_DOCUMENTS_UPLOAD_STATUS_CONFIG_KEY = "AllDocumentsUploadedStatus";
         public static readonly string CREDIT_REVIEW_STATUS_CONFIG_KEY = "CreditReviewStatus";
         public static readonly string ONBOARDING_INIT_STATUS_KEY = "OnboardingInitStatus";
+        public static readonly string ONBOARDING_DRAFT_STATUS_KEY = "OnboardingDraftStatus";
+        public static readonly string RISK_BASED_STATUS_KEY = "RiskBasedStatus";
+
+        public static readonly string HIDE_PREAPPROVAL_AMOUNT_FOR_LEASEDEALERS_KEY = "HidePreApprovalAmountsForLeaseDealers";        
 
         //Describing portal constants
         //Ecohome
@@ -58,7 +67,9 @@
         //ODI
         public static readonly string PORTAL_DESCRIBER_ODI_CONFIG_KEY = "PortalDescriber.606cfa8b-0e2c-47ef-b646-66c5f639aebd";
 
-        public static readonly string ONBOARDING_LEAD_SOURCE_KEY = "OnboardingLeadSource";      
+        public static readonly string DEFAULT_LEAD_SOURCE_KEY = "DefaultLeadSource";
+        public static readonly string ONBOARDING_LEAD_SOURCE_KEY = "OnboardingLeadSource";
+        public static readonly string ONBOARDING_LEAD_SOURCE_FRENCH_KEY = "OnboardingLeadSourceFrench";
 
         public static readonly string INITIAL_DATA_SEED_ENABLED_CONFIG_KEY = "InitialDataSeedEnabled";
         public static readonly string AGREEMENT_TEMPLATE_FOLDER_CONFIG_KEY = "AgreementTemplatesFolder";
@@ -81,5 +92,17 @@
         //Scheduler configuration-->
         public static readonly string LEAD_EXPIREDMINUTES_CONFIG_KEY = "LeadExpiredMinutes";
         public static readonly string LEAD_CHECKPERIODMINUTES_CONFIG_KEY = "CheckPeriodMinutes";
+
+        //Listener URL
+        public static readonly string LISTENER_END_POINT_CONFIG_KEY = "ListenerEndPoint";
+
+        public static readonly string CLARITY_TIER_NAME = "ClarityTierName";
+
+        public static readonly string EMCO_LEASE_TIER_NAME = "EmcoLeaseTierName";
+
+        public static readonly string QUEBEC_POSTAL_CODES = "QuebecPostalCodes";
+
+        //
+        public static readonly string USE_TEST_ASPIRE = "UseTestAspire";
     }
 }
